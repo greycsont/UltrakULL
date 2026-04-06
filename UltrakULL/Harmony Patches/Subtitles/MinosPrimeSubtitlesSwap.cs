@@ -68,6 +68,15 @@ namespace UltrakULL.Harmony_Patches.Subtitles
 			return list;
 		}
 
+		[HarmonyTranspiler]
+		[HarmonyPatch(typeof(MinosPrime), "Enrage")]
+		private static IEnumerable<CodeInstruction> MinosPrime_Enrage(IEnumerable<CodeInstruction> instructions)
+		{
+			List<CodeInstruction> list = instructions.ToList();
+			TraverseCodeAndReplaceSubtitles("subtitles_minosPrime_phaseChange", list);
+			return list;
+		}
+
 		private static void TraverseCodeAndReplaceSubtitles(string subtitles, List<CodeInstruction> instructions)
 		{
 			for (int i = 0; i < instructions.Count; i++)
