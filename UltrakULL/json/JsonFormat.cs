@@ -2187,6 +2187,7 @@ namespace UltrakULL.json
         public string controls_redrawNext;
         public string controls_redrawFirst;
         public string controls_redrawSame;
+        public string controls_invertRocketControls;
         public string controls_bindings;
         public string controls_movement;
         public string controls_move;
@@ -2293,6 +2294,7 @@ namespace UltrakULL.json
         public string hud_backgroundOpacityMaximum;
         public string hud_alwaysOnTop;
         public string hud_icons;
+        public string hud_reduceHudMotion;
         public string hud_weaponIcon;
         public string hud_armIcon;
         public string hud_railcannonMeter;
@@ -2451,15 +2453,21 @@ namespace UltrakULL.json
         public string advanced_cybergrindResetConfirm;
         public string advanced_cybergrindLocalHighScore;
         public string advanced_cybergrindResetButton;
+        public string advanced_steam;
+        public string advanced_steamLeaderboardManage;
+        public string advanced_steamLeaderboardManageButton;
         public string advanced_level52;
         public string advanced_level71;
         public string advanced_level73;
+        public string advanced_level84;
         public string advanced_level7S;
         public string advanced_levelP2;
         public string advanced_52WaterScrolling;
         public string advanced_52WaterWaves;
         public string advanced_71Dark;
         public string advanced_73Grass;
+        public string advanced_84DisableArenaScrolling;
+        public string advanced_84DisableArenaRotation;
         public string advanced_7SHard;
         public string advanced_P2DisableTunnelScrolling;
 
@@ -2919,7 +2927,11 @@ namespace UltrakULL.json
         public string museum_bookMaximilianOvesson1;
         public string museum_bookMaximilianOvesson2;
         public string museum_bookMaximilianOvesson3;
-        
+
+        public string museum_bookRhiannonMitchell1;
+        public string museum_bookRhiannonMitchell2;
+        public string museum_bookRhiannonMitchell3;
+
         public string museum_bookVictoriaHolland1;
         public string museum_bookVictoriaHolland2;
         public string museum_bookVictoriaHolland3;
@@ -3163,7 +3175,10 @@ namespace UltrakULL.json
         
         public string museum_plaquesMaxOvesson1;
         public string museum_plaquesMaxOvesson2;
-        
+
+        public string museum_plaquesRhiannonMitchell1;
+        public string museum_plaquesRhiannonMitchell2;
+
         public string museum_plaquesVictoriaHolland1;
         public string museum_plaquesVictoriaHolland2;
         

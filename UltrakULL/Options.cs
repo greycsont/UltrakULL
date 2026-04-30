@@ -563,7 +563,7 @@ namespace UltrakULL
             iconsText.text = LanguageManager.CurrentLanguage.options.hud_icons;
 
             TextMeshProUGUI reduceHudMotion = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(hudContent, "REDUCE HUD MOTION"), "Text"));
-            reduceHudMotion.text = LanguageManager.CurrentLanguage.options.hud_alwaysOnTop;
+            reduceHudMotion.text = LanguageManager.CurrentLanguage.options.hud_reduceHudMotion;
 
             TMP_Dropdown iconsDropdown = iconsObject.GetComponentInChildren<TMP_Dropdown>();
             List<TMP_Dropdown.OptionData> iconsDropdownListText = iconsDropdown.options;
@@ -854,7 +854,7 @@ namespace UltrakULL
             advancedCybergrindResetButton.text = LanguageManager.CurrentLanguage.options.advanced_cybergrindResetButton;
 
             TextMeshProUGUI advancedSteam = GetTextMeshProUGUI(GetGameObjectChild(advancedOptionsSub, "Steam Category"));
-            advancedSteam.text = LanguageManager.CurrentLanguage.levelNames.advanced_steam;
+            advancedSteam.text = LanguageManager.CurrentLanguage.options.advanced_steam;
 
             TextMeshProUGUI advancedSteamManage = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(advancedOptionsSub, "Leaderboards"), "Leaderboards"), "Text"));
             TextMeshProUGUI advancedSteamManageButton = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(advancedOptionsSub, "Leaderboards"), "Leaderboards"), "Manage Button"), "Text"));
@@ -879,7 +879,7 @@ namespace UltrakULL
             advancedCurrent71.text = LanguageManager.CurrentLanguage.options.advanced_currentLevel;
             advancedTitle71.text = LanguageManager.CurrentLanguage.options.advanced_level71;
             advancedCurrent73.text = LanguageManager.CurrentLanguage.options.advanced_currentLevel;
-            advancedTitle73.text = LanguageManager.CurrentLanguage.options.advanced_level73
+            advancedTitle73.text = LanguageManager.CurrentLanguage.options.advanced_level73;
             advancedCurrent84.text = LanguageManager.CurrentLanguage.options.advanced_currentLevel;
             advancedTitle84.text = LanguageManager.CurrentLanguage.options.advanced_level84;
             advancedCurrent7S.text = LanguageManager.CurrentLanguage.options.advanced_currentLevel;
