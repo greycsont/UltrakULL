@@ -471,6 +471,9 @@ namespace UltrakULL.json
         public string style_whitewins;
         public string style_lostinspace;
         public string style_starstruck;
+        public string style_goneswimming;
+        public string style_stomped;
+        public string style_raIsondetre;
 
         public string style_d;
         public string style_c;

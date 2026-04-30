@@ -51,7 +51,7 @@ namespace UltrakULL
             GameObject lastResult = GetGameObjectChild(resultsPanel, "Panel");
             GameObject bestResult = GetGameObjectChild(GetGameObjectChild(resultsPanel, "Panel (1)"),"Filler");
             GameObject pointsPanel = GetGameObjectChild(resultsPanel, "Total Points");
-            GameObject leaderboardsPanel = GetGameObjectChild(resultsPanel, "Leaderboards");
+            GameObject leaderboardsPanel = GetGameObjectChild(resultsPanel, "Cyber Grind Leaderboards");
 
             //Both result panels use the same strings, so declare them here to avoid redundancy.
             string wave = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_wave;
