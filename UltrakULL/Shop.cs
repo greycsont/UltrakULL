@@ -361,7 +361,7 @@ namespace UltrakULL
                 TextMeshProUGUI pumpChargeWindowTitle = GetTextMeshProUGUI(GetGameObjectChild(pumpChargeWindow.transform.parent.gameObject, "Title"));
                 pumpChargeWindowTitle.text = LanguageManager.CurrentLanguage.shop.shop_shotgunPumpCharge;
                 TextMeshProUGUI pumpChargeWindowName = GetTextMeshProUGUI(GetGameObjectChild(pumpChargeWindow, "Name"));
-                pumpChargeWindowName.text = LanguageManager.CurrentLanguage.shop.shop_nailgunJumpStart;
+                pumpChargeWindowName.text = LanguageManager.CurrentLanguage.shop.shop_shotgunPumpCharge;
 
                 TextMeshProUGUI pumpChargeWindowDescription = GetTextMeshProUGUI(GetGameObjectChild(pumpChargeWindow, "Description"));
                 pumpChargeWindowDescription.text = LanguageManager.CurrentLanguage.shop.shop_shotgunPumpChargeDescription1 + "\n\n"

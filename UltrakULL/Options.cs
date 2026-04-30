@@ -142,14 +142,17 @@ namespace UltrakULL
             redrawBehaviourDropdownText[1].text = LanguageManager.CurrentLanguage.options.controls_redrawFirst;
             redrawBehaviourDropdownText[2].text = LanguageManager.CurrentLanguage.options.controls_redrawSame;
 
+            TextMeshProUGUI invertRocketControls = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(controlContent, "Invert Rocket Controls"), "Text"));
+            invertRocketControls.text = LanguageManager.CurrentLanguage.options.controls_invertRocketControls;
+
             //unused after patch 16
             //TextMeshProUGUI bindsTitle = GetTextMeshProUGUI(GetGameObjectChild(controlContent.transform.GetChild(10).gameObject, "Text"));
             //bindsTitle.text = "-- " + LanguageManager.CurrentLanguage.options.controls_bindings + " --";
-            
-            
+
+
             //Tried to use a foreach loop but it just wouldn't work, that'll do for now, just have to add things manually once they get added
             //Commented this out for now due to it causing out of bound issues. Will investigate later
-           
+
             /*TextMeshProUGUI bindMove = GetTextMeshProUGUI(controlContent.transform.GetChild(8).gameObject);
             TextMeshProUGUI bindDodge = GetTextMeshProUGUI(controlContent.transform.GetChild(9).gameObject);
             TextMeshProUGUI bindSlide = GetTextMeshProUGUI(controlContent.transform.GetChild(10).gameObject);
@@ -559,13 +562,16 @@ namespace UltrakULL
             TextMeshProUGUI iconsText = GetTextMeshProUGUI(GetGameObjectChild(iconsObject, "Text"));
             iconsText.text = LanguageManager.CurrentLanguage.options.hud_icons;
 
+            TextMeshProUGUI reduceHudMotion = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(hudContent, "REDUCE HUD MOTION"), "Text"));
+            reduceHudMotion.text = LanguageManager.CurrentLanguage.options.hud_alwaysOnTop;
+
             TMP_Dropdown iconsDropdown = iconsObject.GetComponentInChildren<TMP_Dropdown>();
             List<TMP_Dropdown.OptionData> iconsDropdownListText = iconsDropdown.options;
 
             iconsDropdownListText[0].text = LanguageManager.CurrentLanguage.sandbox.sandbox_shop_default;
             iconsDropdownListText[1].text = LanguageManager.CurrentLanguage.sandbox.sandbox_shop_pitr;
 
-            TextMeshProUGUI hudElements = GetTextMeshProUGUI(GetGameObjectChild(hudContent.transform.GetChild(5).gameObject, "Text"));
+            TextMeshProUGUI hudElements = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(hudContent, "-- Elements --"), "Text"));
             hudElements.text = "--" + LanguageManager.CurrentLanguage.options.hud_hudElements + "--";
 
             TextMeshProUGUI weaponIconText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(hudContent, "Weapon Icon"), "Text"));
@@ -847,6 +853,14 @@ namespace UltrakULL
             advancedCybergrindReset.text = LanguageManager.CurrentLanguage.options.advanced_cybergrindLocalHighScore;
             advancedCybergrindResetButton.text = LanguageManager.CurrentLanguage.options.advanced_cybergrindResetButton;
 
+            TextMeshProUGUI advancedSteam = GetTextMeshProUGUI(GetGameObjectChild(advancedOptionsSub, "Steam Category"));
+            advancedSteam.text = LanguageManager.CurrentLanguage.levelNames.advanced_steam;
+
+            TextMeshProUGUI advancedSteamManage = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(advancedOptionsSub, "Leaderboards"), "Leaderboards"), "Text"));
+            TextMeshProUGUI advancedSteamManageButton = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(advancedOptionsSub, "Leaderboards"), "Leaderboards"), "Manage Button"), "Text"));
+            advancedSteamManage.text = LanguageManager.CurrentLanguage.options.advanced_steamLeaderboardManage;
+            advancedSteamManageButton.text = LanguageManager.CurrentLanguage.options.advanced_steamLeaderboardManageButton;
+
             //"Current" thingy and the level titles
             TextMeshProUGUI advancedCurrent52 = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(advancedOptionsSub, "5-2 Options"), "Level 5-2 Category"), "Current Level Indicator"));
             TextMeshProUGUI advancedTitle52 = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(advancedOptionsSub, "5-2 Options"), "Level 5-2 Category"));
@@ -855,6 +869,8 @@ namespace UltrakULL
             TextMeshProUGUI advancedCurrent73 = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(advancedOptionsSub, "7-3 Options"), "Level 7-3 Category"), "Current Level Indicator"));
             TextMeshProUGUI advancedTitle73 = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(advancedOptionsSub, "7-3 Options"), "Level 7-3 Category"));
             TextMeshProUGUI advancedCurrent7S = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(advancedOptionsSub, "7-S Options"), "Level 7-S Category"), "Current Level Indicator"));
+            TextMeshProUGUI advancedTitle84 = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(advancedOptionsSub, "8-4 Options"), "Level 8-4 Category"));
+            TextMeshProUGUI advancedCurrent84 = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(advancedOptionsSub, "8-4 Options"), "Level 8-4 Category"), "Current Level Indicator"));
             TextMeshProUGUI advancedTitle7S = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(advancedOptionsSub, "7-S Options"), "Level 7-S Category"));
             TextMeshProUGUI advancedCurrentP2 = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(advancedOptionsSub, "P-2 Options"), "Level P-2 Category"), "Current Level Indicator"));
             TextMeshProUGUI advancedTitleP2 = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(advancedOptionsSub, "P-2 Options"), "Level P-2 Category"));
@@ -863,7 +879,9 @@ namespace UltrakULL
             advancedCurrent71.text = LanguageManager.CurrentLanguage.options.advanced_currentLevel;
             advancedTitle71.text = LanguageManager.CurrentLanguage.options.advanced_level71;
             advancedCurrent73.text = LanguageManager.CurrentLanguage.options.advanced_currentLevel;
-            advancedTitle73.text = LanguageManager.CurrentLanguage.options.advanced_level73;
+            advancedTitle73.text = LanguageManager.CurrentLanguage.options.advanced_level73
+            advancedCurrent84.text = LanguageManager.CurrentLanguage.options.advanced_currentLevel;
+            advancedTitle84.text = LanguageManager.CurrentLanguage.options.advanced_level84;
             advancedCurrent7S.text = LanguageManager.CurrentLanguage.options.advanced_currentLevel;
             advancedTitle7S.text = LanguageManager.CurrentLanguage.options.advanced_level7S;
             advancedCurrentP2.text = LanguageManager.CurrentLanguage.options.advanced_currentLevel;
@@ -880,6 +898,11 @@ namespace UltrakULL
 
             TextMeshProUGUI advanced73Grass = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(advancedOptionsSub, "7-3 Options"), "Local High Scores"), "Text"));
             advanced73Grass.text = LanguageManager.CurrentLanguage.options.advanced_73Grass;
+
+            TextMeshProUGUI advanced84DisableArenaScrolling = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(advancedOptionsSub, "8-4 Options"), "Local High Scores (1)"), "Text"));
+            TextMeshProUGUI advanced84DisableArenaRotation = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(advancedOptionsSub, "8-4 Options"), "Local High Scores"), "Text"));
+            advanced84DisableArenaScrolling.text = LanguageManager.CurrentLanguage.options.advanced_84DisableArenaScrolling;
+            advanced84DisableArenaRotation.text = LanguageManager.CurrentLanguage.options.advanced_84DisableArenaRotation;
 
             TextMeshProUGUI advanced7SHard = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(advancedOptionsSub, "7-S Options"), "Local High Scores"), "Text"));
             advanced7SHard.text = LanguageManager.CurrentLanguage.options.advanced_7SHard;

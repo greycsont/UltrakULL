@@ -53,7 +53,11 @@ namespace UltrakULL
 			{
 				return LanguageManager.CurrentLanguage.devMuseum.museum_bookMaximilianOvesson1 + "\n\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookMaximilianOvesson2 + "\n\n<i><color=#8f65da>" + LanguageManager.CurrentLanguage.devMuseum.museum_bookMaximilianOvesson3 + "</color></i>\n\n";
 			}
-			if (originalText.Contains("VICTORIA HOLLAND</color> - LEAD 3D ARTIST AND GRAPHICS PROGRAMMER</b>"))
+            if (originalText.Contains("RHIANNON MITCHELL</color> - UI ARTIST</b>"))
+            {
+                return LanguageManager.CurrentLanguage.devMuseum.museum_bookRhiannonMitchell1 + "\n\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookRhiannonMitchell2 + "\n\n<i><color=#dabfff>" + LanguageManager.CurrentLanguage.devMuseum.museum_bookRhiannonMitchell3 + "</color></i>\n\n";
+            }
+            if (originalText.Contains("VICTORIA HOLLAND</color> - LEAD 3D ARTIST AND GRAPHICS PROGRAMMER</b>"))
 			{
 				return LanguageManager.CurrentLanguage.devMuseum.museum_bookVictoriaHolland1 + "\n\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookVictoriaHolland2 + "\n\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookVictoriaHolland3 + "\n\n<size=18>" + LanguageManager.CurrentLanguage.devMuseum.museum_bookVictoriaHolland4 + "\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookVictoriaHolland5 + "\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookVictoriaHolland6 + "\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookVictoriaHolland7 + "</size>\n\n<i><color=#F5ABB9>" + LanguageManager.CurrentLanguage.devMuseum.museum_bookVictoriaHolland8 + "</color></i>\n\n";
 			}
@@ -373,11 +377,11 @@ namespace UltrakULL
 					textComponent.text = LanguageManager.CurrentLanguage.devMuseum.museum_plaquesMaxOvesson1;
 					text1Component.text = LanguageManager.CurrentLanguage.devMuseum.museum_plaquesMaxOvesson2;
 				}
-				else if (initialText.Contains("RHIANNON MITCHELL"))
-				{
-					textComponent.text = LanguageManager.CurrentLanguage.devMuseum.museum_plaquesVictoriaHolland1;
-					text1Component.text = LanguageManager.CurrentLanguage.devMuseum.museum_plaquesVictoriaHolland2;
-				}
+                else if (initialText.Contains("RHIANNON MITCHELL"))
+                {
+                    textComponent.text = LanguageManager.CurrentLanguage.devMuseum.museum_plaquesRhiannonMitchell1;
+                    text1Component.text = LanguageManager.CurrentLanguage.devMuseum.museum_plaquesRhiannonMitchell2;
+                }
 				else if (initialText.Contains("BigRockBMP"))
 				{
 					textComponent.text = LanguageManager.CurrentLanguage.devMuseum.museum_plaquesBigRockBMP1;
