@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using TMPro;
+using UltrakULL.Harmony_Patches;
+using UltrakULL.json;
 using UnityEngine;
+using UnityEngine.InputSystem.HID;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
-using UltrakULL.json;
 using static UltrakULL.CommonFunctions;
-using UltrakULL.Harmony_Patches;
 
 namespace UltrakULL
 {
@@ -853,13 +853,13 @@ namespace UltrakULL
             advancedCybergrindReset.text = LanguageManager.CurrentLanguage.options.advanced_cybergrindLocalHighScore;
             advancedCybergrindResetButton.text = LanguageManager.CurrentLanguage.options.advanced_cybergrindResetButton;
 
-            TextMeshProUGUI advancedSteam = GetTextMeshProUGUI(GetGameObjectChild(advancedOptionsSub, "Steam Category"));
-            advancedSteam.text = LanguageManager.CurrentLanguage.options.advanced_steam;
+            TextMeshProUGUI advancedSteamTitle = GetTextMeshProUGUI(GetGameObjectChild(advancedOptionsSub, "Steam Category"));
+            advancedSteamTitle.text = LanguageManager.CurrentLanguage.options.advanced_steam;
 
-            TextMeshProUGUI advancedSteamManage = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(advancedOptionsSub, "Leaderboards"), "Leaderboards"), "Text"));
-            TextMeshProUGUI advancedSteamManageButton = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(advancedOptionsSub, "Leaderboards"), "Leaderboards"), "Manage Button"), "Text"));
-            advancedSteamManage.text = LanguageManager.CurrentLanguage.options.advanced_steamLeaderboardManage;
-            advancedSteamManageButton.text = LanguageManager.CurrentLanguage.options.advanced_steamLeaderboardManageButton;
+            TextMeshProUGUI advancedSteamLeaderboardManage = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(advancedOptionsSub, "Leaderboards"), "Leaderboards"), "Text"));
+            TextMeshProUGUI advancedSteamLeaderboardManageButton = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(advancedOptionsSub, "Leaderboards"), "Leaderboards"), "Manage Button"), "Text"));
+            advancedSteamLeaderboardManage.text = LanguageManager.CurrentLanguage.options.advanced_steamLeaderboardManage;
+            advancedSteamLeaderboardManageButton.text = LanguageManager.CurrentLanguage.options.advanced_steamLeaderboardManageButton;
 
             //"Current" thingy and the level titles
             TextMeshProUGUI advancedCurrent52 = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(advancedOptionsSub, "5-2 Options"), "Level 5-2 Category"), "Current Level Indicator"));

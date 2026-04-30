@@ -377,11 +377,11 @@ namespace UltrakULL
 					textComponent.text = LanguageManager.CurrentLanguage.devMuseum.museum_plaquesMaxOvesson1;
 					text1Component.text = LanguageManager.CurrentLanguage.devMuseum.museum_plaquesMaxOvesson2;
 				}
-                else if (initialText.Contains("RHIANNON MITCHELL"))
-                {
-                    textComponent.text = LanguageManager.CurrentLanguage.devMuseum.museum_plaquesRhiannonMitchell1;
-                    text1Component.text = LanguageManager.CurrentLanguage.devMuseum.museum_plaquesRhiannonMitchell2;
-                }
+				else if (initialText.Contains("RHIANNON MITCHELL"))
+				{
+					textComponent.text = LanguageManager.CurrentLanguage.devMuseum.museum_plaquesRhiannonMitchell1;
+					text1Component.text = LanguageManager.CurrentLanguage.devMuseum.museum_plaquesRhiannonMitchell2;
+				}
 				else if (initialText.Contains("BigRockBMP"))
 				{
 					textComponent.text = LanguageManager.CurrentLanguage.devMuseum.museum_plaquesBigRockBMP1;
