@@ -165,14 +165,16 @@ namespace UltrakULL
 			case "ultrakill.triplekill":
 				return "<color=orange>" + LanguageManager.CurrentLanguage.style.style_triplekill + "</color>";
 			case "ultrakill.rocketreturn":
-				return "<color=aqua>" + LanguageManager.CurrentLanguage.style.style_rocketreturn + "</color>";
+				return "<color=#00ffff>" + LanguageManager.CurrentLanguage.style.style_rocketreturn + "</color>";
 			case "ultrakill.roundtrip":
 				return "<color=green>" + LanguageManager.CurrentLanguage.style.style_roundtrip + "</color>";
 			case "ultrakill.terminalvelocity":
 				return "<color=green>" + LanguageManager.CurrentLanguage.style.style_terminalvelocity;
 			case "ultrakill.heartbreak":
 				return "<color=green>" + LanguageManager.CurrentLanguage.style.style_heartbreak;
-			case "ultrakill.drillhit":
+            case "ultrakill.insurrstomp":
+                return LanguageManager.CurrentLanguage.style.style_stomped;
+            case "ultrakill.drillhit":
 				return "";
 			case "ultrakill.hammerhit":
 				return "";
@@ -301,7 +303,11 @@ namespace UltrakULL
 				return LanguageManager.CurrentLanguage.style.style_lostinspace;
 			case "STARSTRUCK":
 				return LanguageManager.CurrentLanguage.style.style_starstruck;
-			case "":
+			case "GONE SWIMMING":
+				return LanguageManager.CurrentLanguage.style.style_goneswimming;
+            case "RAISON D'ETRE":
+                return LanguageManager.CurrentLanguage.style.style_raIsondetre;
+            case "":
 				return "";
 			default:
 				Logging.Warn("Missing style translation: " + text);
