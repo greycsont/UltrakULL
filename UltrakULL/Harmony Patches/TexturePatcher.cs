@@ -112,6 +112,113 @@ namespace UltrakULL.Harmony_Patches
             new Dictionary<string, Dictionary<string, Dictionary<string, string>>>
         {
             {
+                "Tutorial",
+                new Dictionary<string, Dictionary<string, string>>
+                {
+                    {
+                        "",  // Atlas/batch texture name
+                        new Dictionary<string, string>
+                        {
+                            { "wood tex2_2", "wood tex2_2" }  // template -> replacement file
+                        }
+                    }
+                }
+            },
+            {
+                "Level 2-2",
+                new Dictionary<string, Dictionary<string, string>>
+                {
+                    {
+                        "",  // Atlas/batch texture name
+                        new Dictionary<string, string>
+                        {
+                            { "electricitybox", "electricitybox" }  // template -> replacement file
+                        }
+                    }
+                }
+            },
+            {
+                "Level 2-3",
+                new Dictionary<string, Dictionary<string, string>>
+                {
+                    {
+                        "",  // Atlas/batch texture name
+                        new Dictionary<string, string>
+                        {
+                            { "electricitybox", "electricitybox" },  // template -> replacement file
+                            { "watercontrol3", "watercontrol3" }
+                        }
+                    }
+                }
+            },
+            {
+                "Level 4-3",
+                new Dictionary<string, Dictionary<string, string>>
+                {
+                    {
+                        "",  // Atlas/batch texture name
+                        new Dictionary<string, string>
+                        {
+                            { "wood tex2_2", "wood tex2_2" }  // template -> replacement file
+                        }
+                    }
+                }
+            },
+            {
+                "Level 5-1",
+                new Dictionary<string, Dictionary<string, string>>
+                {
+                    {
+                        "",  // Atlas/batch texture name
+                        new Dictionary<string, string>
+                        {
+                            { "WaterProcessingPlant", "WaterProcessingPlant" }  // template -> replacement file
+                        }
+                    }
+                }
+            },
+            {
+                "Level 5-S",
+                new Dictionary<string, Dictionary<string, string>>
+                {
+                    {
+                        "",  // Atlas/batch texture name
+                        new Dictionary<string, string>
+                        {
+                            { "graph2", "graph2" },  // template -> replacement file
+                            { "graph3", "graph3" },
+                            { "size_2_fish_poster", "size_2_fish_poster" }
+                        }
+                    }
+                }
+            },
+            {
+                "Level 7-2",
+                new Dictionary<string, Dictionary<string, string>>
+                {
+                    {
+                        "",  // Atlas/batch texture name
+                        new Dictionary<string, string>
+                        {
+                            { "warning", "warning" }  // template -> replacement file
+                        }
+                    }
+                }
+            },
+            {
+                "Level 7-S",
+                new Dictionary<string, Dictionary<string, string>>
+                {
+                    {
+                        "",  // Atlas/batch texture name
+                        new Dictionary<string, string>
+                        {
+                            { "T_TrailSign", "T_TrailSign" }  // template -> replacement file
+                        }
+                    }
+                }
+            },
+            {
                 "Level 8-1",
                 new Dictionary<string, Dictionary<string, string>>
                 {
