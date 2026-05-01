@@ -120,7 +120,7 @@ namespace UltrakULL.Harmony_Patches
                         new Dictionary<string, string>
                         {
                             { "VendingMachine", "VendingMachine" },  // шаблон -> файл замены
-                            { "GOD", "GOD" }
+                            { "GodStatue_Stand", "GodStatue_Stand" }
                             // Добавляйте другие регионы в этом атласе
                         }
                     }
@@ -134,14 +134,14 @@ namespace UltrakULL.Harmony_Patches
                         "",  // Название атласа/batch-текстуры
                         new Dictionary<string, string>
                         {
-                            { "UnderConstruction", "UnderConstruction" },
+                            { "constructionsign", "constructionsign" },
                             { "VendingMachine", "VendingMachine" },  // шаблон -> файл замены
-                            { "Presentation", "Presentation" },
+                            { "presentation", "presentation" },
                             { "electricitybox", "electricitybox" },
-                            { "PortalMines", "PortalMines" },
-                            { "PartyChicken", "PartyChicken" },
+                            { "portalmines", "portalmines" },
+                            { "ad_wing 1", "ad_wing 1" },
                             { "ad_fox 1", "ad_fox 1" },
-                            { "TryFixFirst", "TryFixFirst" }
+                            { "ad_clothes 1", "ad_clothes 1" }
                             // Добавляйте другие регионы в атласе
                         }
                     }
@@ -156,9 +156,9 @@ namespace UltrakULL.Harmony_Patches
                         new Dictionary<string, string>
                         {
                             { "VendingMachine", "VendingMachine" },  // шаблон -> файл замены
-                            { "PartyChicken", "PartyChicken" },
+                            { "ad_wing 1", "ad_wing 1" },
                             { "ad_fox 1", "ad_fox 1" },
-                            { "TryFixFirst", "TryFixFirst" }
+                            { "ad_clothes 1", "ad_clothes 1" }
                             // Добавляйте другие регионы в атласе
                         }
                     }
