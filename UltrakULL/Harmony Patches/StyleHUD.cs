@@ -106,13 +106,23 @@ namespace UltrakULL.Harmony_Patches
         public static void Postfix(StyleHUD __instance)
         {
             if (isUsingEnglish()) return;
-            if (LanguageManager.CurrentLanguage.metadata.langName != "ko-KR") return;
 
-            TMP_Text styleInfo = Traverse.Create(__instance).Field("styleInfo").GetValue<TMP_Text>();
+            string lang = LanguageManager.CurrentLanguage.metadata.langName;
+
+            float spacing;
+            if (lang == "ko-KR" || lang == "vi-VI")
+                spacing = -10f;
+            else
+                return;
+
+            TMP_Text styleInfo = Traverse.Create(__instance)
+                .Field("styleInfo")
+                .GetValue<TMP_Text>();
+
             if (styleInfo != null)
             {
-                styleInfo.lineSpacing = -10f;
-                Logging.Message("Korean StyleHUD Patched");
+                styleInfo.lineSpacing = spacing;
+                Logging.Message($"StyleHUD Patched ({lang})");
             }
         }
     }
