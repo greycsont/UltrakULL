@@ -208,6 +208,16 @@
     <Copy SourceFiles="@(_IntroViolenceScreenPack)" DestinationFolder="$(TargetDir)plugins/UltrakULL/IntroViolenceScreen">
     </Copy>
   </Target>
+  <!-- Copy BatchTexturesOrigins folder with all subfolders to config/ultrakull -->
+  <Target Name="MoveBatchTexturesToFolder" AfterTargets="AfterBuild">
+    <Message Text="Moving BatchTexturesOrigins to config/ultrakull..." Importance="High" />
+    <ItemGroup>
+      <_BatchTexturesPack Include="$(TargetDir)/../../BatchTexturesOrigins/**/*.*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(_BatchTexturesPack)" DestinationFolder="$(TargetDir)plugins/UltrakULL/BatchTexturesOrigins/%(RecursiveDir)">
+    </Copy>
+    <Message Text="BatchTexturesOrigins moved." Importance="High" />
+  </Target>
   <ItemGroup>
     <Compile Include="Act1.cs" />
     <Compile Include="EncoreStrings.cs" />
@@ -289,10 +299,6 @@
     <Compile Include="Harmony Patches\TextGetControlPatch.cs" />
     <Compile Include="Harmony Patches\VariationInfo.cs" />
     <Compile Include="Harmony Patches\Level84ImageReplacementPatch.cs" />
-    <Compile Include="TextureSystem\BatchTextureLoader.cs" />
-    <Compile Include="TextureSystem\RegionFinder.cs" />
-    <Compile Include="TextureSystem\TextureRegionCache.cs" />
-    <Compile Include="TextureSystem\TextureSystemTests.cs" />
     <Compile Include="json\LanguageManager.cs" />
     <Compile Include="Harmony Patches\LanguageOptions.cs" />
     <Compile Include="json\UpdateInfo.cs" />
