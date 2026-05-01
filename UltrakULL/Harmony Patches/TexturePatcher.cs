@@ -3,449 +3,1157 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using BepInEx;
+using Emgu.CV;
+using Emgu.CV.CvEnum;
 using HarmonyLib;
+using UltrakULL.json;
 using UnityEngine;
 using UnityEngine.UI;
+using static UltrakULL.CommonFunctions;
 using Object = UnityEngine.Object;
+using Rect = UnityEngine.Rect;
 
 namespace UltrakULL.Harmony_Patches
 {
-    /// <summary>
-    /// Patches textures and sprites for language-dependent replacements.
-    /// </summary>
     [HarmonyPatch]
     public static class TexturePatcher
     {
-        // ======================== Constants ========================
-        private const int MaxPropertyChangesBeforeYield = 8;
-        private const int RenderersScanBatchSize = 60;
-        private const float DefaultBackgroundCheckDelay = 0.5f;
-        private const float Level4SBackgroundCheckDelay = 3f;
-        private const int MinRankCount = 8;
+        private static string texturesFolder => Path.Combine(Paths.ConfigPath, "ultrakull", "textures", LanguageManager.CurrentLanguage.metadata.langName) + Path.DirectorySeparatorChar;
+        private static string batchOriginsFolder => Path.Combine(Paths.PluginPath, "UltrakULL", "BatchTexturesOrigins") + Path.DirectorySeparatorChar;
+        
+        private static bool initialized = false;
+        private static Dictionary<string, Dictionary<string, (string filename, string type)>> levelTextureMappings;
+        private static Dictionary<string, Texture2D> textureCache = new Dictionary<string, Texture2D>();
+        private static Dictionary<string, Texture2D> batchOriginCache = new Dictionary<string, Texture2D>();
+        private static MonoBehaviour coroutineStarter;
+        private static Dictionary<string, Texture2D> currentReplacements;
+        private static string currentLevel = string.Empty;
+        private static Coroutine backgroundCheckCoroutine;
+        private static bool isProcessing = false;
+        private static CancellationTokenSource cancellationTokenSource;
+        private static Dictionary<string, Sprite> rankSprites = new Dictionary<string, Sprite>();
+        private static readonly HashSet<int> processedObjectIds = new HashSet<int>();
+        private static readonly HashSet<int> processedRawImages = new HashSet<int>();
+        private static Coroutine backgroundChecker;
+        
+        // Emgu CV: при ошибках загрузки типов/нативных DLL отключаем fallback
+        private static bool emguCvAvailable = true;
+        private static bool emguNativeLoadAttempted;
 
-        // ======================== Static fields ========================
-        private static bool _initialized;
-        private static Dictionary<string, Dictionary<string, (string filename, string type)>> _levelTextureMappings;
-        private static readonly Dictionary<string, Texture2D> _textureCache = new Dictionary<string, Texture2D>();
-        private static CoroutineRunner _coroutineRunner;
-        private static Dictionary<string, Texture2D> _currentReplacements;
-        private static string _currentLevel = string.Empty;
-        private static Coroutine _backgroundCheckCoroutine;
-        private static bool _isProcessing;
-        private static CancellationTokenSource _currentCts;
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        private static extern IntPtr LoadLibrary(string lpFileName);
 
-        private static readonly HashSet<int> _processedRendererIds = new HashSet<int>();
-        private static readonly HashSet<int> _processedRawImageIds = new HashSet<int>();
-        private static readonly Dictionary<string, Sprite> _rankSprites = new Dictionary<string, Sprite>();
-
-        private static readonly List<string> IgnoredPathPatterns = new List<string> { "Leaderboard/Container/Entry Template" };
-
-        // Global replacements (scene-independent)
-        private static readonly Dictionary<string, (string filename, string type)> GlobalTextureReplacements =
-            new Dictionary<string, (string, string)>
-            {
-                { "checkpoint", ("Checkpoint", "texture") },
-                { "T_ShopTerminal", ("T_ShopTerminal", "texture") },
-                { "T_ShopTerminal_Emission", ("T_ShopTerminal_Emission", "texture") },
-                { "RankD", ("RankD", "sprite") },
-                { "RankC", ("RankC", "sprite") },
-                { "RankB", ("RankB", "sprite") },
-                { "RankA", ("RankA", "sprite") },
-                { "RankS", ("RankS", "sprite") },
-                { "RankSS", ("RankSS", "sprite") },
-                { "RankSSS", ("RankSSS", "sprite") },
-                { "RankU", ("RankU", "sprite") }
-            };
-
-        private static readonly HashSet<string> IgnoredScenes = new HashSet<string> { "Bootstrap", "Intro", "Loading" };
-
-        private static readonly string[] TextureProps =
+        /// <summary>Размеры атласа и PNG-шаблона для batch MatchTemplate (защита от неразумных запросов).</summary>
+        private static bool BatchTemplateSupportedForEmgu(int sourceW, int sourceH, int templateW, int templateH)
         {
-            "_MainTex", "_BaseMap", "_DetailAlbedoMap", "_Texture", "_MainTexture", "_EmissiveTex"
+            if (templateW <= 0 || templateH <= 0 || sourceW <= 0 || sourceH <= 0)
+                return false;
+            if (templateW > sourceW || templateH > sourceH)
+                return false;
+            const int maxTemplateSide = 2048;
+            if (templateW > maxTemplateSide || templateH > maxTemplateSide)
+                return false;
+            if ((long)templateW * templateH > 2_000_000L)
+                return false;
+            return true;
+        }
+
+        /// <summary>P/Invoke ищет cvextern рядом с процессом; подгружаем из папки плагина.</summary>
+        private static void TryLoadEmguNativeFromPluginDir()
+        {
+            if (emguNativeLoadAttempted)
+                return;
+            emguNativeLoadAttempted = true;
+            try
+            {
+                string dir = Path.GetDirectoryName(typeof(TexturePatcher).Assembly.Location);
+                if (string.IsNullOrEmpty(dir))
+                    return;
+                string cvextern = Path.Combine(dir, "cvextern.dll");
+                if (File.Exists(cvextern))
+                    LoadLibrary(cvextern);
+            }
+            catch
+            {
+                /* ignore */
+            }
+        }
+        
+        // Кэш для найденных batch-текстур: уровень -> имя batch -> текстура
+        private static readonly Dictionary<string, Dictionary<string, Texture2D>> batchTextureCache =
+            new Dictionary<string, Dictionary<string, Texture2D>>();
+        
+        // Кэш для найденных регионов: хэш текстуры+шаблон -> регион
+        private static readonly Dictionary<string, Rect> regionCache =
+            new Dictionary<string, Rect>();
+        
+        // Ручные координаты регионов из manual_regions.json
+        private static Dictionary<string, Dictionary<string, Rect>> manualRegions =
+            new Dictionary<string, Dictionary<string, Rect>>();
+        
+        // Флаг для отключения отладочного вывода всех текстур (очень дорогая операция)
+        private const bool EnableDebugTextureListing = false;
+        
+        // Оптимизация: предварительное масштабирование для быстрого поиска
+        private const bool UseScaledPreSearch = true;  // Быстрый поиск на уменьшенной текстуре
+        private const int PreSearchScale = 2;           // Уменьшаем в 2 раза для скорости
+        private const float PreSearchThreshold = 0.6f;  // Чуть ниже для предварительного поиска
+        
+        // Параллельная обработка: макс потоков для Emgu CV
+        // Оставляем 2 для совместимости с минимальными требованиями (2-ядерный CPU).
+        // На системах с 4+ ядрами можно увеличить до 3-4 для лучшей скорости.
+        private const int MaxConcurrentEmguTasks = 2;
+
+        // Маппинги для batch-текстур: уровень -> атлас -> регионы (шаблон -> замена)
+        private static readonly Dictionary<string, Dictionary<string, Dictionary<string, string>>> batchTextureMappings = 
+            new Dictionary<string, Dictionary<string, Dictionary<string, string>>>
+        {
+            {
+                "Level 8-1",
+                new Dictionary<string, Dictionary<string, string>>
+                {
+                    {
+                        "",  // Название атласа/batch-текстуры
+                        new Dictionary<string, string>
+                        {
+                            { "VendingMachine", "VendingMachine" },  // шаблон -> файл замены
+                            { "GOD", "GOD" }
+                            // Добавляйте другие регионы в этом атласе
+                        }
+                    }
+                }
+            },
+            {
+                "Level 8-2",
+                new Dictionary<string, Dictionary<string, string>>
+                {
+                    {
+                        "",  // Название атласа/batch-текстуры
+                        new Dictionary<string, string>
+                        {
+                            { "UnderConstruction", "UnderConstruction" },
+                            { "VendingMachine", "VendingMachine" },  // шаблон -> файл замены
+                            { "Presentation", "Presentation" },
+                            { "electricitybox", "electricitybox" },
+                            { "PortalMines", "PortalMines" },
+                            { "PartyChicken", "PartyChicken" },
+                            { "ad_fox 1", "ad_fox 1" },
+                            { "TryFixFirst", "TryFixFirst" }
+                            // Добавляйте другие регионы в атласе
+                        }
+                    }
+                }
+            },
+            {
+                "Level 8-3",
+                new Dictionary<string, Dictionary<string, string>>
+                {
+                    {
+                        "",  // Название атласа/batch-текстуры
+                        new Dictionary<string, string>
+                        {
+                            { "VendingMachine", "VendingMachine" },  // шаблон -> файл замены
+                            { "PartyChicken", "PartyChicken" },
+                            { "ad_fox 1", "ad_fox 1" },
+                            { "TryFixFirst", "TryFixFirst" }
+                            // Добавляйте другие регионы в атласе
+                        }
+                    }
+                }
+            },
+            {
+                "Level 8-4",
+                new Dictionary<string, Dictionary<string, string>>
+                {
+                    {
+                        "",  // Название атласа/batch-текстуры
+                        new Dictionary<string, string>
+                        {
+                            { "VendingMachine", "VendingMachine" }
+                            // Добавляйте другие регионы в атласе
+                        }
+                    }
+                }
+            }
         };
 
-        private static readonly int[] TexturePropIDs = TextureProps.Select(Shader.PropertyToID).ToArray();
+        private static readonly List<string> IgnoredPathPatterns = new List<string>
+        {
+            "Leaderboard/Container/Entry Template",
+        };
 
-        private static readonly string[] RankNames = { "RankD", "RankC", "RankB", "RankA", "RankS", "RankSS", "RankSSS", "RankU" };
+        private static readonly Dictionary<string, (string filename, string type)> globalTextureReplacements = new Dictionary<string, (string, string)>
+        {
+            { "checkpoint", ("Checkpoint", "texture") },
+            { "T_ShopTerminal", ("T_ShopTerminal", "texture") },
+            { "T_ShopTerminal_Emission", ("T_ShopTerminal_Emission", "texture") },
+            { "RankD", ("RankD", "sprite") },
+            { "RankC", ("RankC", "sprite") },
+            { "RankB", ("RankB", "sprite") },
+            { "RankA", ("RankA", "sprite") },
+            { "RankS", ("RankS", "sprite") },
+            { "RankSS", ("RankSS", "sprite") },
+            { "RankSSS", ("RankSSS", "sprite") },
+            { "RankU", ("RankU", "sprite") }
+        };
 
-        private static string TexturesFolder => Path.Combine(Paths.ConfigPath, "ultrakull", "textures", UltrakULL.json.LanguageManager.CurrentLanguage.metadata.langName) + Path.DirectorySeparatorChar;
+        private static readonly HashSet<string> ignoredScenes = new HashSet<string>
+        {
+            "Bootstrap", "Intro", "Loading"
+        };
 
-        // ======================== Initialization ========================
+        private static void EnsureTexturesFolderExists()
+        {
+            if (!Directory.Exists(texturesFolder))
+            {
+                Directory.CreateDirectory(texturesFolder);
+                Logging.Message($"[TexturePatcher] Created texture folder: {texturesFolder}");
+            }
+        }
+
         [HarmonyPrepare]
         private static void Prepare()
         {
+            cancellationTokenSource = new CancellationTokenSource();
             EnsureTexturesFolderExists();
             InitializeTextureMappings();
             Logging.Message("[TexturePatcher] Module initialized");
         }
 
-        private static void EnsureTexturesFolderExists()
-        {
-            if (!Directory.Exists(TexturesFolder))
-            {
-                Directory.CreateDirectory(TexturesFolder);
-                Logging.Message("[TexturePatcher] Created texture folder: " + TexturesFolder);
-            }
-        }
-
         private static void InitializeTextureMappings()
         {
-            if (_initialized) return;
+            if (initialized) return;
 
-            _levelTextureMappings = new Dictionary<string, Dictionary<string, (string, string)>>
+            levelTextureMappings = new Dictionary<string, Dictionary<string, (string filename, string type)>>
             {
-                {
-                    "Main Menu",
-                    new Dictionary<string, (string, string)>
-                    {
-                        { "TextmodeLogo", ("TextmodeLogo", "sprite") },
-                        { "TextmodeCircuit", ("TextmodeCircuit", "texture") }
-                    }
-                },
-                {
-                    "Tutorial",
-                    new Dictionary<string, (string, string)> { { "", ("Batch Tutorial", "texture") } }
-                },
-                {
-                    "Level 0-1",
-                    new Dictionary<string, (string, string)>
-                    {
-                        { "logowideborderless", ("logowideborderless", "sprite") },
-                        { "SignSecurityInstructions", ("SignSecurityInstructions", "texture") },
-                        { "SignWarning", ("SignWarning", "texture") },
-                        { "SignCoolingChamber", ("SignCoolingChamber", "texture") },
-                        { "SignSecurityLockdown", ("SignSecurityLockdown", "texture") },
-                        { "SignSecurityCheckpoint", ("SignSecurityCheckpoint", "texture") }
-                    }
-                },
-                {
-                    "Level 0-2",
-                    new Dictionary<string, (string, string)>
-                    {
-                        { "SignSecurityInstructions", ("SignSecurityInstructions", "texture") },
-                        { "SignWarning", ("SignWarning", "texture") },
-                        { "SignCoolingChamber", ("SignCoolingChamber", "texture") },
-                        { "SignSecurityLockdown", ("SignSecurityLockdown", "texture") },
-                        { "SignSecurityCheckpoint", ("SignSecurityCheckpoint", "texture") }
-                    }
-                },
-                {
-                    "Level 0-3",
-                    new Dictionary<string, (string, string)>
-                    {
-                        { "SignSecurityInstructions", ("SignSecurityInstructions", "texture") },
-                        { "SignWarning", ("SignWarning", "texture") },
-                        { "SignCoolingChamber", ("SignCoolingChamber", "texture") },
-                        { "SignSecurityLockdown", ("SignSecurityLockdown", "texture") },
-                        { "SignSecurityCheckpoint", ("SignSecurityCheckpoint", "texture") }
-                    }
-                },
-                {
-                    "Level 0-4",
-                    new Dictionary<string, (string, string)>
-                    {
-                        { "SignSecurityInstructions", ("SignSecurityInstructions", "texture") },
-                        { "SignWarning", ("SignWarning", "texture") },
-                        { "SignCoolingChamber", ("SignCoolingChamber", "texture") },
-                        { "SignSecurityLockdown", ("SignSecurityLockdown", "texture") },
-                        { "SignSecurityCheckpoint", ("SignSecurityCheckpoint", "texture") }
-                    }
-                },
-                {
-                    "Level 0-5",
-                    new Dictionary<string, (string, string)>
-                    {
-                        { "abandonhope2", ("abandonhope2", "texture") },
-                        { "SignSecurityInstructions", ("SignSecurityInstructions", "texture") },
-                        { "SignWarning", ("SignWarning", "texture") },
-                        { "SignCoolingChamber", ("SignCoolingChamber", "texture") },
-                        { "SignSecurityLockdown", ("SignSecurityLockdown", "texture") },
-                        { "SignSecurityCheckpoint", ("SignSecurityCheckpoint", "texture") }
-                    }
-                },
-                {
-                    "Level 1-4",
-                    new Dictionary<string, (string, string)> { { "forgiveme", ("forgiveme", "texture") } }
-                },
-                {
-                    "Level 2-2",
-                    new Dictionary<string, (string, string)>
-                    {
-                        { "electricitybox", ("electricitybox", "texture") },
-                        { "", ("Batch 2-2", "texture") }
-                    }
-                },
-                {
-                    "Level 2-3",
-                    new Dictionary<string, (string, string)>
-                    {
-                        { "", ("Batch 2-3", "texture") },
-                        { "watercontrol1", ("watercontrol1", "texture") },
-                        { "watercontrol2", ("watercontrol2", "texture") }
-                    }
-                },
-                {
-                    "Level 4-3",
-                    new Dictionary<string, (string, string)>
-                    {
-                        { "traitor", ("traitor", "texture") },
-                        { "", ("Batch 4-3", "texture") }
-                    }
-                },
-                {
-                    "Level 5-1",
-                    new Dictionary<string, (string, string)>
-                    {
-                        { "WaterProcessingAttention", ("WaterProcessingAttention", "texture") },
-                        { "", ("Batch 5-1", "texture") }
-                    }
-                },
-                {
-                    "Level 5-S",
-                    new Dictionary<string, (string, string)> { { "", ("Batch 5-S", "texture") } }
-                },
-                {
-                    "Level 7-2",
-                    new Dictionary<string, (string, string)>
-                    {
-                        { "", ("Batch 7-2", "texture") },
-                        { "exit", ("exit", "texture") }
-                    }
-                },
-                {
-                    "Level 7-3",
-                    new Dictionary<string, (string, string)> { { "marble_inverted 3", ("marble_inverted 3", "texture") } }
-                },
-                {
-                    "Level 7-4",
-                    new Dictionary<string, (string, string)>
-                    {
-                        { "HotPipeSign", ("HotPipeSign", "texture") },
-                        { "T_Cent_PlantRoom", ("T_Cent_PlantRoom", "texture") }
-                    }
-                },
-                {
-                    "Level 7-S",
-                    new Dictionary<string, (string, string)> { { "T_Placard", ("T_Placard", "texture") } }
-                },
-				{
-                    "Level 8-1",
-                    new Dictionary<string, (string, string)> { 
-						{ "", ("Batch 8-1", "texture") },
-						{ "ArchangelNamePlateRaphael", ("ArchangelNamePlateRaphael", "texture") },
-						{ "ArchangelNamePlatePhanuel", ("ArchangelNamePlatePhanuel", "texture") },
-						{ "ArchangelNamePlateMichael", ("ArchangelNamePlateMichael", "texture") },
-						{ "ArchangelNamePlateGabriel", ("ArchangelNamePlateGabriel", "texture") },
-						{ "T_LionPlaque", ("T_LionPlaque", "texture") },
-						{ "wecamein", ("wecamein", "texture") },
-						{ "wecamein2", ("wecamein2", "texture") }
-						}
-                },
-				{
-                    "Level 8-2",
-                    new Dictionary<string, (string, string)> { 
-						{ "", ("Batch 8-2", "texture") },
-						{ "ad_fox 1", ("ad_fox 1", "texture") },
-						{ "big_hakita", ("big_hakita", "texture") },
-						{ "inthemirror", ("inthemirror", "texture") },
-						{ "OfficeMaintenance", ("OfficeMaintenance", "texture") },
-						{ "presentation2", ("presentation2", "texture") },
-						{ "VendingMachine", ("VendingMachine", "texture") },
-						{ "StatsBoard", ("StatsBoard", "texture") },
-						{ "OfficeArchive", ("OfficeArchive", "texture") }
-						}
-                },
-                {
-                    "Level 8-3",
-                    new Dictionary<string, (string, string)> { 
-						{ "", ("Batch 8-3", "texture") },
-                        { "SignWarning", ("SignWarning", "texture") },
-                        //Additional paths, just in case
-						{ "ad_fox 1", ("ad_fox 1", "texture") },
-						{ "big_hakita", ("big_hakita", "texture") },
-						{ "VendingMachine", ("VendingMachine", "texture") },
-						{ "StatsBoard", ("StatsBoard", "texture") },
-						{ "OfficeArchive", ("OfficeArchive", "texture") }
-						}
-                },
-                {
-                    "Level 8-4",
-                    new Dictionary<string, (string, string)> { 
-						{ "", ("Batch 8-4", "texture") },
-                        { "SignWarning", ("SignWarning", "texture") },
-                        { "CityoftheDeadSunPoster", ("CityoftheDeadSunPoster", "texture") }
-						}
-                },
-                {
-                    "Level 0-E",
-                    new Dictionary<string, (string, string)>
-                    {
-                        { "exit", ("exit", "texture") },
-                        { "abandonhope2", ("abandonhope2", "texture") },
-                        { "SignSecurityInstructions", ("SignSecurityInstructions", "texture") },
-                        { "SignWarning", ("SignWarning", "texture") },
-                        { "SignCoolingChamber", ("SignCoolingChamber", "texture") },
-                        { "SignSecurityLockdown", ("SignSecurityLockdown", "texture") },
-                        { "SignSecurityCheckpoint", ("SignSecurityCheckpoint", "texture") }
-                    }
-                },
-                {
-                    "uk_construct",
-                    new Dictionary<string, (string, string)> { { "garry", ("garry", "sprite") } }
-                },
-                {
-                    "CreditsMuseum2",
-                    new Dictionary<string, (string, string)>
-                    {
-                        { "sign_map_Texture_2", ("sign_map_Texture_К2", "texture") },
-                        { "poster", ("poster", "texture") },
-                        { "Staff only sign_texture", ("Staff only sign_texture", "texture") }
-                    }
-                }
+                    { "Main Menu", new Dictionary<string, (string, string)> { { "TextmodeLogo", ("TextmodeLogo", "sprite") }, { "TextmodeCircuit", ("TextmodeCircuit", "texture") } } },
+                    { "Tutorial", new Dictionary<string, (string, string)> { { "", ("Batch Tutorial", "texture") } } },
+                    { "Level 0-1", new Dictionary<string, (string, string)> { { "logowideborderless", ("logowideborderless", "sprite") }, { "SignSecurityInstructions", ("SignSecurityInstructions", "texture") }, { "SignWarning", ("SignWarning", "texture") }, { "SignCoolingChamber", ("SignCoolingChamber", "texture") }, { "SignSecurityLockdown", ("SignSecurityLockdown", "texture") }, { "SignSecurityCheckpoint", ("SignSecurityCheckpoint", "texture") } } },
+                    { "Level 0-2", new Dictionary<string, (string, string)> { { "SignSecurityInstructions", ("SignSecurityInstructions", "texture") }, { "SignWarning", ("SignWarning", "texture") }, { "SignCoolingChamber", ("SignCoolingChamber", "texture") }, { "SignSecurityLockdown", ("SignSecurityLockdown", "texture") }, { "SignSecurityCheckpoint", ("SignSecurityCheckpoint", "texture") } } },
+                    { "Level 0-3", new Dictionary<string, (string, string)> { { "SignSecurityInstructions", ("SignSecurityInstructions", "texture") }, { "SignWarning", ("SignWarning", "texture") }, { "SignCoolingChamber", ("SignCoolingChamber", "texture") }, { "SignSecurityLockdown", ("SignSecurityLockdown", "texture") }, { "SignSecurityCheckpoint", ("SignSecurityCheckpoint", "texture") } } },
+                    { "Level 0-4", new Dictionary<string, (string, string)> { { "SignSecurityInstructions", ("SignSecurityInstructions", "texture") }, { "SignWarning", ("SignWarning", "texture") }, { "SignCoolingChamber", ("SignCoolingChamber", "texture") }, { "SignSecurityLockdown", ("SignSecurityLockdown", "texture") }, { "SignSecurityCheckpoint", ("SignSecurityCheckpoint", "texture") } } },
+                    { "Level 0-5", new Dictionary<string, (string, string)> { { "abandonhope2", ("abandonhope2", "texture") }, { "SignSecurityInstructions", ("SignSecurityInstructions", "texture") }, { "SignWarning", ("SignWarning", "texture") }, { "SignCoolingChamber", ("SignCoolingChamber", "texture") }, { "SignSecurityLockdown", ("SignSecurityLockdown", "texture") }, { "SignSecurityCheckpoint", ("SignSecurityCheckpoint", "texture") } } },
+                    { "Level 1-4", new Dictionary<string, (string, string)> { { "forgiveme", ("forgiveme", "texture") } } },
+                    { "Level 2-2", new Dictionary<string, (string, string)> { { "electricitybox", ("electricitybox", "texture") }, { "", ("Batch 2-2", "texture") } } },
+                    { "Level 2-3", new Dictionary<string, (string, string)> { { "", ("Batch 2-3", "texture") }, { "watercontrol1", ("watercontrol1", "texture") }, { "watercontrol2", ("watercontrol2", "texture") } } },
+                    { "Level 4-3", new Dictionary<string, (string, string)> { { "traitor", ("traitor", "texture") }, { "", ("Batch 4-3", "texture") } } },
+                    { "Level 5-1", new Dictionary<string, (string, string)> { { "WaterProcessingAttention", ("WaterProcessingAttention", "texture") }, { "", ("Batch 5-1", "texture") } } },
+                    { "Level 5-S", new Dictionary<string, (string, string)> { { "", ("Batch 5-S", "texture") } } },
+                    { "Level 7-2", new Dictionary<string, (string, string)> { { "", ("Batch 7-2", "texture") }, { "exit", ("exit", "texture") } } },
+                    { "Level 7-3", new Dictionary<string, (string, string)> { { "marble_inverted 3", ("marble_inverted 3", "texture") } } },
+                    { "Level 7-4", new Dictionary<string, (string, string)> { { "HotPipeSign", ("HotPipeSign", "texture") }, { "T_Cent_PlantRoom", ("T_Cent_PlantRoom", "texture") } } },
+                    { "Level 7-S", new Dictionary<string, (string, string)> { { "T_Placard", ("T_Placard", "texture") } } },
+                    { "Level 8-1", new Dictionary<string, (string, string)> { { "ArchangelNamePlateRaphael", ("ArchangelNamePlateRaphael", "texture") }, { "ArchangelNamePlatePhanuel", ("ArchangelNamePlatePhanuel", "texture") }, { "ArchangelNamePlateMichael", ("ArchangelNamePlateMichael", "texture") }, { "ArchangelNamePlateGabriel", ("ArchangelNamePlateGabriel", "texture") }, { "T_LionPlaque", ("T_LionPlaque", "texture") }, { "wecamein", ("wecamein", "texture") }, { "wecamein2", ("wecamein2", "texture") } } },
+                    { "Level 8-2", new Dictionary<string, (string, string)> { { "ad_fox 1", ("ad_fox 1", "texture") }, { "big_hakita", ("big_hakita", "texture") }, { "inthemirror", ("inthemirror", "texture") }, { "OfficeMaintenance", ("OfficeMaintenance", "texture") }, { "presentation2", ("presentation2", "texture") }, { "VendingMachine", ("VendingMachine", "texture") }, { "StatsBoard", ("StatsBoard", "texture") }, { "OfficeArchive", ("OfficeArchive", "texture") } } },
+                    { "Level 8-3", new Dictionary<string, (string, string)> { { "SignWarning", ("SignWarning", "texture") }, { "ad_fox 1", ("ad_fox 1", "texture") }, { "big_hakita", ("big_hakita", "texture") }, { "VendingMachine", ("VendingMachine", "texture") }, { "StatsBoard", ("StatsBoard", "texture") }, { "OfficeArchive", ("OfficeArchive", "texture") } } },
+                    { "Level 8-4", new Dictionary<string, (string, string)> { { "SignWarning", ("SignWarning", "texture") }, { "CityoftheDeadSunPoster", ("CityoftheDeadSunPoster", "texture") } } },
+                    { "Level 0-E", new Dictionary<string, (string, string)> { { "exit", ("exit", "texture") }, { "abandonhope2", ("abandonhope2", "texture") }, { "SignSecurityInstructions", ("SignSecurityInstructions", "texture") }, { "SignWarning", ("SignWarning", "texture") }, { "SignCoolingChamber", ("SignCoolingChamber", "texture") }, { "SignSecurityLockdown", ("SignSecurityLockdown", "texture") }, { "SignSecurityCheckpoint", ("SignSecurityCheckpoint", "texture") } } },
+                    { "uk_construct", new Dictionary<string, (string, string)> { { "garry", ("garry", "sprite") } } },
+                    { "CreditsMuseum2", new Dictionary<string, (string, string)> { { "sign_map_Texture_2", ("sign_map_Texture_К2", "texture") }, { "poster", ("poster", "texture") }, { "Staff only sign_texture", ("Staff only sign_texture", "texture") } } }
             };
 
-            _initialized = true;
-            Logging.Message($"[TexturePatcher] Loaded {GlobalTextureReplacements.Count} global and {_levelTextureMappings.Count} level-specific mappings");
-        }
-
-        // ======================== Harmony patches ========================
-        [HarmonyPatch(typeof(StyleHUD), "Start")]
-        private static class StyleHUD_Start_Patch
-        {
-            private static void Postfix(StyleHUD __instance)
-            {
-                if (__instance == null || _rankSprites.Count == 0) return;
-
-                string rankName = GetRankNameByIndex(__instance.rankIndex);
-                if (_rankSprites.TryGetValue(rankName, out var sprite))
-                    __instance.rankImage.sprite = sprite;
-                else
-                    Logging.Warn($"[TexturePatcher] Missing sprite for rank at start: {rankName}");
-            }
+            initialized = true;
+            Logging.Message($"[TexturePatcher] Loaded {globalTextureReplacements.Count} global and {levelTextureMappings.Count} level-specific mappings");
         }
 
         [HarmonyPatch(typeof(SceneHelper), "OnSceneLoaded")]
         [HarmonyPostfix]
         private static void OnSceneLoaded()
         {
-            // Safely cancel previous operation
-            _currentCts?.Cancel();
-            _currentCts?.Dispose();
-            _currentCts = new CancellationTokenSource();
+            cancellationTokenSource?.Cancel();
+            cancellationTokenSource?.Dispose();
+            cancellationTokenSource = new CancellationTokenSource();
 
-            if (_coroutineRunner == null)
-                _coroutineRunner = CoroutineRunner.Instance;
+            if (coroutineStarter == null)
+            {
+                var go = new GameObject("TexturePatcher_CoroutineStarter");
+                coroutineStarter = go.AddComponent<DummyMonoBehaviour>();
+            }
 
-            _coroutineRunner.StartCoroutine(ProcessSceneChange(_currentCts.Token));
+            coroutineStarter.StartCoroutine(ProcessSceneChange());
         }
 
-        // ======================== Core logic ========================
-        private static IEnumerator ProcessSceneChange(CancellationToken token)
+        private static IEnumerator ProcessSceneChange()
         {
-            if (_isProcessing)
+            if (isProcessing) yield break;
+            isProcessing = true;
+
+            string sceneName = GetCurrentSceneName();
+
+            if (string.IsNullOrEmpty(sceneName) || cancellationTokenSource.IsCancellationRequested)
             {
-                Logging.Debug("[TexturePatcher] Already processing a scene change, skipping.");
+                Logging.Message("[TexturePatcher] Scene loading aborted");
+                ResetInternalState();
                 yield break;
             }
 
-            _isProcessing = true;
+            if (ShouldIgnoreScene(sceneName))
+            {
+                Logging.Message($"[TexturePatcher] Ignoring scene: {sceneName}");
+                ResetInternalState();
+                yield break;
+            }
+
+            if (!initialized)
+            {
+                Logging.Warn("[TexturePatcher] Not initialized");
+                ResetInternalState();
+                yield break;
+            }
+
+            Logging.Message($"[TexturePatcher] Processing scene: {sceneName}");
+            yield return null;
+
+            if (currentLevel != sceneName)
+            {
+                ResetInternalState();
+                currentLevel = sceneName;
+            }
+
+            currentReplacements = new Dictionary<string, Texture2D>();
+            yield return LoadTextures(globalTextureReplacements);
+
+            var levelSpecific = GetLevelSpecificTextures(sceneName);
+            if (levelSpecific?.Count > 0)
+                yield return LoadTextures(levelSpecific);
+
+            // Обработка batch-текстур для текущего уровня
+            if (batchTextureMappings.TryGetValue(sceneName, out var batchMappings))
+            {
+                yield return ProcessBatchTextures(sceneName, batchMappings);
+            }
+
+            if (currentReplacements.Count == 0 && rankSprites.Count == 0)
+            {
+                Logging.Warn("[TexturePatcher] No textures or rank sprites were loaded, skipping patching");
+                isProcessing = false;
+                yield break;
+            }
+
+            yield return ReplaceTexturesInScene(true);
+            yield return UpdateStyleHUD();
+            ReplaceUISprites();
+
+            if (backgroundChecker != null)
+                coroutineStarter.StopCoroutine(backgroundChecker);
+
+            backgroundChecker = coroutineStarter.StartCoroutine(BackgroundTextureCheck());
+            isProcessing = false;
+        }
+
+        private static IEnumerator ProcessBatchTextures(string sceneName, Dictionary<string, Dictionary<string, string>> batchMappings)
+        {
+            foreach (var atlasMapping in batchMappings)
+            {
+                string batchTextureName = atlasMapping.Key;  // "Batch 8-1" или пустая строка
+                var regionsToReplace = atlasMapping.Value;   // { "VendingMachine" -> "VendingMachine", ... }
+
+                if (regionsToReplace == null || regionsToReplace.Count == 0)
+                {
+                    Logging.Warn($"[TexturePatcher] No regions defined for batch texture: '{batchTextureName}'");
+                    continue;
+                }
+
+                Logging.Message($"[TexturePatcher] Processing batch texture: '{batchTextureName}' with {regionsToReplace.Count} regions");
+
+                // Ищем batch-текстуру (с кэшированием)
+                Texture2D batchTexture = FindBatchTexture(sceneName, batchTextureName);
+                if (batchTexture == null)
+                {
+                    Logging.Warn($"[TexturePatcher] Batch texture not found: '{batchTextureName}'");
+                    continue;
+                }
+
+                // Создаем копию атласа один раз для всех замен
+                Texture2D modifiedTexture = Object.Instantiate(batchTexture);
+                modifiedTexture.name = batchTextureName + "_modified";
+
+                bool anyRegionFound = false;
+                var regionTasks = new List<System.Collections.IEnumerator>();
+                var regionResults = new Dictionary<string, (Rect rect, Texture2D replacement)>();
+
+                // ОПТИМИЗАЦИЯ: Загружаем все шаблоны и замены параллельно
+                var textureLoadTasks = new List<(string regionName, string templatePath, string replacementFileName)>();
+                var loadedTextures = new Dictionary<string, (Texture2D template, Texture2D replacement)>();
+
+                foreach (var regionMapping in regionsToReplace)
+                {
+                    string regionName = regionMapping.Key;
+                    string replacementFileName = regionMapping.Value;
+                    string levelFolder = sceneName.Replace("Level ", "").Replace("-", "_");
+                    string templatePath = Path.Combine(batchOriginsFolder, levelFolder, regionName + ".png");
+
+                    if (!File.Exists(templatePath))
+                    {
+                        Logging.Warn($"[TexturePatcher] Template file not found: {templatePath} - skipping region '{regionName}'");
+                        continue;
+                    }
+
+                    textureLoadTasks.Add((regionName, templatePath, replacementFileName));
+                }
+
+                // Загружаем все текстуры параллельно
+                foreach (var (regionName, templatePath, replacementFileName) in textureLoadTasks)
+                {
+                    yield return coroutineStarter.StartCoroutine(LoadRegionTexturesAsync(templatePath, replacementFileName,
+                        (template, replacement) =>
+                        {
+                            loadedTextures[regionName] = (template, replacement);
+                        }
+                    ));
+                }
+
+                // ОПТИМИЗАЦИЯ: Ищем регионы в фоновых потоках (параллельно)
+                int searchTasksRunning = 0;
+                foreach (var regionName in loadedTextures.Keys)
+                {
+                    if (cancellationTokenSource.IsCancellationRequested)
+                        break;
+
+                    var (templateTexture, replacementTexture) = loadedTextures[regionName];
+
+                    if (templateTexture == null || replacementTexture == null)
+                        continue;
+
+                    Logging.Message($"[TexturePatcher] Searching for region '{regionName}' in atlas '{batchTexture.name}' ({modifiedTexture.width}x{modifiedTexture.height})");
+                    Logging.Message($"[TexturePatcher] Template size: {templateTexture.width}x{templateTexture.height}");
+
+                    // Запускаем поиск в фоновом потоке
+                    searchTasksRunning++;
+                    yield return coroutineStarter.StartCoroutine(
+                        FindTemplateInTextureAsync(modifiedTexture, templateTexture,
+                            region =>
+                            {
+                                if (region != Rect.zero)
+                                {
+                                    regionResults[regionName] = (region, replacementTexture);
+                                    Logging.Message($"[TexturePatcher] ✓ Found region '{regionName}' at {region}");
+                                }
+                                else
+                                {
+                                    Logging.Warn($"[TexturePatcher] Region template not found: {regionName}");
+                                }
+                            }
+                        )
+                    );
+
+                    // Ограничиваем одновременные поиски, чтобы не блокировать игру
+                    if (searchTasksRunning >= MaxConcurrentEmguTasks)
+                    {
+                        searchTasksRunning = 0;
+                        yield return null;  // Даём кадр игре
+                    }
+                }
+
+                // Применяем все найденные регионы
+                foreach (var kvp in regionResults)
+                {
+                    string regionName = kvp.Key;
+                    var (region, replacementTexture) = kvp.Value;
+                    
+                    ReplaceTextureRegion(modifiedTexture, region, replacementTexture);
+                    anyRegionFound = true;
+                    Logging.Message($"[TexturePatcher] Replaced region '{regionName}' in atlas '{batchTextureName}'");
+                }
+
+                // Если хотя бы один регион был заменен, добавляем модифицированный атлас
+                if (anyRegionFound)
+                {
+                    currentReplacements[batchTextureName] = modifiedTexture;
+                    Logging.Message($"[TexturePatcher] Batch texture '{batchTextureName}' processed with {regionResults.Count} regions");
+                }
+                else
+                {
+                    Object.Destroy(modifiedTexture);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Быстрый предварительный поиск на уменьшенной копии (опционально).
+        /// </summary>
+        private static Rect FindTemplateWithEmguCvScaled(Texture2D sourceTexture, Texture2D templateTexture, int scale)
+        {
+            if (scale <= 1 || sourceTexture.width < 512 || sourceTexture.height < 512)
+                return Rect.zero;  // Слишком мало выигрыша
+
             try
             {
-                string sceneName = CommonFunctions.GetCurrentSceneName();
-                if (string.IsNullOrEmpty(sceneName) || token.IsCancellationRequested)
+                Texture2D scaledSource = new Texture2D(sourceTexture.width / scale, sourceTexture.height / scale, TextureFormat.RGBA32, false);
+                Texture2D scaledTemplate = new Texture2D(templateTexture.width / scale, templateTexture.height / scale, TextureFormat.RGBA32, false);
+
+                Graphics.ConvertTexture(sourceTexture, scaledSource);
+                Graphics.ConvertTexture(templateTexture, scaledTemplate);
+
+                Rect result = FindTemplateWithEmguCv(scaledSource, scaledTemplate);
+
+                Object.Destroy(scaledSource);
+                Object.Destroy(scaledTemplate);
+
+                // Масштабируем результат обратно
+                if (result != Rect.zero)
+                    return new Rect(result.x * scale, result.y * scale, result.width * scale, result.height * scale);
+
+                return Rect.zero;
+            }
+            catch (Exception ex)
+            {
+                Logging.Warn($"[TexturePatcher] Scaled pre-search failed: {ex.Message}");
+                return Rect.zero;
+            }
+        }
+
+        /// <summary>
+        /// Поиск региона батч-атласа: Emgu CV MatchTemplate (CcoeffNormed).
+        /// Управляемая и нативная части — BepInEx/plugins/UltrakULL/ (см. CopyEmguToPluginFolder в csproj).
+        /// </summary>
+        private static Rect FindTemplateWithEmguCv(Texture2D sourceTexture, Texture2D templateTexture)
+        {
+            if (sourceTexture == null || templateTexture == null)
+                return Rect.zero;
+
+            if (!BatchTemplateSupportedForEmgu(sourceTexture.width, sourceTexture.height, templateTexture.width, templateTexture.height))
+            {
+                Logging.Warn($"[TexturePatcher] Emgu CV: unsupported batch template {templateTexture.width}x{templateTexture.height} in atlas {sourceTexture.width}x{sourceTexture.height}");
+                return Rect.zero;
+            }
+
+            if (!emguCvAvailable)
+            {
+                Logging.Message("[TexturePatcher] Emgu CV disabled due to previous load error");
+                return Rect.zero;
+            }
+
+            TryLoadEmguNativeFromPluginDir();
+
+            Mat sourceMat = null;
+            Mat templateMat = null;
+            Mat result = null;
+
+            try
+            {
+                Logging.Message($"[TexturePatcher] Emgu CV: grayscale (source: {sourceTexture.width}x{sourceTexture.height}, template: {templateTexture.width}x{templateTexture.height})");
+
+                Color32[] sourcePixels = sourceTexture.GetPixels32();
+                Color32[] templatePixels = templateTexture.GetPixels32();
+
+                byte[] sourceBytes = new byte[sourcePixels.Length];
+                byte[] templateBytes = new byte[templatePixels.Length];
+
+                for (int i = 0; i < sourcePixels.Length; i++)
+                    sourceBytes[i] = (byte)((sourcePixels[i].r + sourcePixels[i].g + sourcePixels[i].b) / 3);
+
+                for (int i = 0; i < templatePixels.Length; i++)
+                    templateBytes[i] = (byte)((templatePixels[i].r + templatePixels[i].g + templatePixels[i].b) / 3);
+
+                Logging.Message("[TexturePatcher] Emgu CV: creating Mat...");
+                sourceMat = new Mat(sourceTexture.height, sourceTexture.width, DepthType.Cv8U, 1);
+                Marshal.Copy(sourceBytes, 0, sourceMat.DataPointer, sourceBytes.Length);
+
+                templateMat = new Mat(templateTexture.height, templateTexture.width, DepthType.Cv8U, 1);
+                Marshal.Copy(templateBytes, 0, templateMat.DataPointer, templateBytes.Length);
+
+                Logging.Message("[TexturePatcher] Emgu CV: MatchTemplate CcoeffNormed...");
+                result = new Mat();
+                CvInvoke.MatchTemplate(sourceMat, templateMat, result, TemplateMatchingType.CcoeffNormed, null);
+
+                double minVal = 0, maxVal = 0;
+                System.Drawing.Point minLoc = default;
+                System.Drawing.Point maxLoc = default;
+                CvInvoke.MinMaxLoc(result, ref minVal, ref maxVal, ref minLoc, ref maxLoc, null);
+
+                Logging.Message($"[TexturePatcher] Emgu CV: score={maxVal:F4} at ({maxLoc.X},{maxLoc.Y})");
+
+                if (maxVal > 0.7)
                 {
-                    Logging.Message("[TexturePatcher] Scene loading aborted");
-                    ResetInternalState();
-                    yield break;
+                    Logging.Message($"[TexturePatcher] ✓ Emgu CV match at ({maxLoc.X},{maxLoc.Y}) score={maxVal:F3}");
+                    return new Rect(maxLoc.X, maxLoc.Y, templateTexture.width, templateTexture.height);
                 }
 
-                if (ShouldIgnoreScene(sceneName))
-                {
-                    Logging.Message($"[TexturePatcher] Ignoring scene: {sceneName}");
-                    ResetInternalState();
-                    yield break;
-                }
-
-                if (!_initialized)
-                {
-                    Logging.Warn("[TexturePatcher] Not initialized");
-                    ResetInternalState();
-                    yield break;
-                }
-
-                Logging.Message($"[TexturePatcher] Processing scene: {sceneName}");
-
-                yield return null; // Wait one frame for stability
-
-                if (_currentLevel != sceneName)
-                {
-                    ResetInternalState();
-                    _currentLevel = sceneName;
-                }
-
-                _currentReplacements = new Dictionary<string, Texture2D>(StringComparer.OrdinalIgnoreCase);
-                yield return LoadTextures(GlobalTextureReplacements, token);
-
-                var levelSpecific = GetLevelSpecificTextures(sceneName);
-                if (levelSpecific != null && levelSpecific.Count > 0)
-                    yield return LoadTextures(levelSpecific, token);
-
-                if (_currentReplacements.Count == 0 && _rankSprites.Count == 0)
-                {
-                    Logging.Warn("[TexturePatcher] No textures or rank sprites were loaded, skipping patching");
-                    yield break;
-                }
-
-                yield return ReplaceTexturesInScene(isInitialPass: true, token);
-                yield return UpdateStyleHUD();
-                ReplaceUISprites();
-
-                // Start background checker if not already running
-                if (_backgroundCheckCoroutine != null)
-                    _coroutineRunner.StopCoroutine(_backgroundCheckCoroutine);
-                _backgroundCheckCoroutine = _coroutineRunner.StartCoroutine(BackgroundTextureCheck(token));
+                Logging.Warn($"[TexturePatcher] Emgu CV below threshold. Best score={maxVal:F3} at ({maxLoc.X},{maxLoc.Y}) (need >0.7)");
+                return Rect.zero;
+            }
+            catch (DllNotFoundException dllEx)
+            {
+                Logging.Error($"[TexturePatcher] ✗ Emgu CV native DLL not loaded: {dllEx.Message}");
+                Logging.Error("[TexturePatcher] Скопируйте в BepInEx/plugins/UltrakULL/: cvextern.dll, opencv_videoio_ffmpeg460_64.dll, Emgu.CV.dll и MSVC runtime из пакета Emgu.CV.runtime.windows (см. csproj CopyEmguToPluginFolder).");
+                return Rect.zero;
+            }
+            catch (EntryPointNotFoundException epEx)
+            {
+                Logging.Error($"[TexturePatcher] ✗ Emgu CV entry point not found: {epEx.Message}");
+                return Rect.zero;
+            }
+            catch (TypeLoadException tlEx)
+            {
+                Logging.Error($"[TexturePatcher] ✗ Emgu CV TypeLoadException: {tlEx.Message}");
+                emguCvAvailable = false;
+                return Rect.zero;
+            }
+            catch (Exception ex)
+            {
+                Logging.Error($"[TexturePatcher] ✗ Emgu CV ({ex.GetType().Name}): {ex.Message}");
+                if (!string.IsNullOrEmpty(ex.StackTrace))
+                    Logging.Error($"[TexturePatcher] Stack trace: {ex.StackTrace}");
+                return Rect.zero;
             }
             finally
             {
-                _isProcessing = false;
-            }
-        }
-
-        private static IEnumerator BackgroundTextureCheck(CancellationToken token)
-        {
-            while (!token.IsCancellationRequested && !string.IsNullOrEmpty(_currentLevel))
-            {
-                float delay = _currentLevel.IndexOf("4-S", StringComparison.OrdinalIgnoreCase) >= 0
-                    ? Level4SBackgroundCheckDelay
-                    : DefaultBackgroundCheckDelay;
-                yield return new WaitForSeconds(delay);
-
-                if ((_currentReplacements != null && _currentReplacements.Count > 0) || _rankSprites.Count > 0)
+                try
                 {
-                    yield return ReplaceTexturesInScene(isInitialPass: false, token);
-                    yield return UpdateStyleHUD();
+                    sourceMat?.Dispose();
+                    templateMat?.Dispose();
+                    result?.Dispose();
+                }
+                catch
+                {
+                    /* ignore */
                 }
             }
-            Logging.Debug("[TexturePatcher] Background texture check ended.");
         }
 
-        private static IEnumerator LoadTextures(Dictionary<string, (string filename, string type)> textureMap, CancellationToken token)
+        private static Rect FindTemplateInTexture(Texture2D sourceTexture, Texture2D templateTexture)
         {
-            foreach (var pair in textureMap)
+            return FindTemplateWithEmguCv(sourceTexture, templateTexture);
+        }
+
+        /// <summary>
+        /// Поиск шаблона на готовых byte[] данных (для фонового потока).
+        /// Вызывается из ThreadPool — безопасно, так как не трогает Unity объекты.
+        /// </summary>
+        private static Rect FindTemplateWithEmguCvRaw(byte[] sourceBytes, byte[] templateBytes, int sourceWidth, int sourceHeight, int templateWidth, int templateHeight)
+        {
+            if (sourceBytes == null || templateBytes == null)
+                return Rect.zero;
+
+            if (!BatchTemplateSupportedForEmgu(sourceWidth, sourceHeight, templateWidth, templateHeight))
             {
-                if (token.IsCancellationRequested) yield break;
+                Logging.Warn($"[TexturePatcher] Emgu CV: unsupported batch template {templateWidth}x{templateHeight} in atlas {sourceWidth}x{sourceHeight}");
+                return Rect.zero;
+            }
 
-                string key = pair.Key;
-                string filename = pair.Value.filename;
-                string type = pair.Value.type;
+            if (!emguCvAvailable)
+            {
+                Logging.Message("[TexturePatcher] Emgu CV disabled due to previous load error");
+                return Rect.zero;
+            }
 
-                if (_currentReplacements.ContainsKey(key) || _rankSprites.ContainsKey(key))
+            TryLoadEmguNativeFromPluginDir();
+
+            Mat sourceMat = null;
+            Mat templateMat = null;
+            Mat result = null;
+
+            try
+            {
+                Logging.Message($"[TexturePatcher] Emgu CV: MatchTemplate (source: {sourceWidth}x{sourceHeight}, template: {templateWidth}x{templateHeight})");
+
+                sourceMat = new Mat(sourceHeight, sourceWidth, DepthType.Cv8U, 1);
+                Marshal.Copy(sourceBytes, 0, sourceMat.DataPointer, sourceBytes.Length);
+
+                templateMat = new Mat(templateHeight, templateWidth, DepthType.Cv8U, 1);
+                Marshal.Copy(templateBytes, 0, templateMat.DataPointer, templateBytes.Length);
+
+                result = new Mat();
+                CvInvoke.MatchTemplate(sourceMat, templateMat, result, TemplateMatchingType.CcoeffNormed, null);
+
+                double minVal = 0, maxVal = 0;
+                System.Drawing.Point minLoc = default;
+                System.Drawing.Point maxLoc = default;
+                CvInvoke.MinMaxLoc(result, ref minVal, ref maxVal, ref minLoc, ref maxLoc, null);
+
+                Logging.Message($"[TexturePatcher] Emgu CV: score={maxVal:F4} at ({maxLoc.X},{maxLoc.Y})");
+
+                if (maxVal > 0.7)
+                {
+                    Logging.Message($"[TexturePatcher] ✓ Emgu CV match at ({maxLoc.X},{maxLoc.Y}) score={maxVal:F3}");
+                    return new Rect(maxLoc.X, maxLoc.Y, templateWidth, templateHeight);
+                }
+
+                Logging.Warn($"[TexturePatcher] Emgu CV below threshold. Best score={maxVal:F3} at ({maxLoc.X},{maxLoc.Y}) (need >0.7)");
+                return Rect.zero;
+            }
+            catch (DllNotFoundException dllEx)
+            {
+                Logging.Error($"[TexturePatcher] ✗ Emgu CV native DLL not loaded: {dllEx.Message}");
+                return Rect.zero;
+            }
+            catch (EntryPointNotFoundException epEx)
+            {
+                Logging.Error($"[TexturePatcher] ✗ Emgu CV entry point not found: {epEx.Message}");
+                return Rect.zero;
+            }
+            catch (TypeLoadException tlEx)
+            {
+                Logging.Error($"[TexturePatcher] ✗ Emgu CV TypeLoadException: {tlEx.Message}");
+                emguCvAvailable = false;
+                return Rect.zero;
+            }
+            catch (Exception ex)
+            {
+                Logging.Error($"[TexturePatcher] ✗ Emgu CV ({ex.GetType().Name}): {ex.Message}");
+                return Rect.zero;
+            }
+            finally
+            {
+                try
+                {
+                    sourceMat?.Dispose();
+                    templateMat?.Dispose();
+                    result?.Dispose();
+                }
+                catch
+                {
+                    /* ignore */
+                }
+            }
+        }
+
+        private static IEnumerator FindTemplateInTextureAsync(Texture2D sourceTexture, Texture2D templateTexture, System.Action<Rect> callback)
+        {
+            if (sourceTexture == null || templateTexture == null)
+            {
+                Logging.Warn("[TexturePatcher] Batch region search (Emgu): source or template is null");
+                callback(Rect.zero);
+                yield break;
+            }
+
+            if (!BatchTemplateSupportedForEmgu(sourceTexture.width, sourceTexture.height, templateTexture.width, templateTexture.height))
+            {
+                Logging.Warn($"[TexturePatcher] Batch region search (Emgu): unsupported template {templateTexture.width}x{templateTexture.height} in {sourceTexture.width}x{sourceTexture.height}");
+                callback(Rect.zero);
+                yield break;
+            }
+
+            // КРИТИЧНО: GetPixels32() ДОЛЖЕН быть в главном потоке (Unity не потокобезопасна)
+            Color32[] sourcePixels = null;
+            Color32[] templatePixels = null;
+            
+            try
+            {
+                sourcePixels = sourceTexture.GetPixels32();
+                templatePixels = templateTexture.GetPixels32();
+            }
+            catch (Exception ex)
+            {
+                Logging.Error($"[TexturePatcher] Failed to read texture pixels: {ex.Message}");
+                callback(Rect.zero);
+                yield break;
+            }
+
+            // Теперь можно безопасно запустить обработку в фоне
+            bool isDone = false;
+            Rect result = Rect.zero;
+
+            ThreadPool.QueueUserWorkItem(_ =>
+            {
+                try
+                {
+                    // Конвертируем в grayscale в фоне
+                    byte[] sourceBytes = new byte[sourcePixels.Length];
+                    byte[] templateBytes = new byte[templatePixels.Length];
+
+                    for (int i = 0; i < sourcePixels.Length; i++)
+                        sourceBytes[i] = (byte)((sourcePixels[i].r + sourcePixels[i].g + sourcePixels[i].b) / 3);
+
+                    for (int i = 0; i < templatePixels.Length; i++)
+                        templateBytes[i] = (byte)((templatePixels[i].r + templatePixels[i].g + templatePixels[i].b) / 3);
+
+                    // Выполняем Emgu CV в фоне
+                    result = FindTemplateWithEmguCvRaw(sourceBytes, templateBytes, sourceTexture.width, sourceTexture.height, templateTexture.width, templateTexture.height);
+                }
+                catch (Exception ex)
+                {
+                    Logging.Error($"[TexturePatcher] Background search error: {ex.Message}");
+                    result = Rect.zero;
+                }
+                finally
+                {
+                    isDone = true;
+                }
+            });
+
+            // Ждем результат в фоне (не блокируем кадры)
+            float timeout = 5f;
+            float elapsed = 0f;
+            while (!isDone && elapsed < timeout)
+            {
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            if (!isDone)
+            {
+                Logging.Warn("[TexturePatcher] Template search timed out");
+            }
+
+            callback(result);
+        }
+
+        private static IEnumerator LoadRegionTexturesAsync(string templatePath, string replacementFileName, System.Action<Texture2D, Texture2D> callback)
+        {
+            Texture2D template = null;
+            Texture2D replacement = null;
+
+            yield return coroutineStarter.StartCoroutine(LoadTextureFromPath(templatePath, tex => template = tex));
+            yield return coroutineStarter.StartCoroutine(LoadTexture(replacementFileName, tex => replacement = tex));
+
+            callback(template, replacement);
+        }
+
+        private static void ReplaceTextureRegion(Texture2D targetTexture, Rect region, Texture2D replacementTexture)
+        {
+            int startX = (int)region.x;
+            int startY = (int)region.y;
+            int width = (int)region.width;
+            int height = (int)region.height;
+
+            // Используем Color32 для большей эффективности
+            Color32[] replacementPixels = replacementTexture.GetPixels32();
+
+            // Устанавливаем пиксели в целевой текстуре
+            targetTexture.SetPixels32(startX, startY, width, height, replacementPixels);
+            targetTexture.Apply();
+        }
+
+        private static IEnumerator LoadTextureFromPath(string filePath, Action<Texture2D> callback)
+        {
+            if (cancellationTokenSource.IsCancellationRequested)
+            {
+                callback(null);
+                yield break;
+            }
+
+            if (batchOriginCache.TryGetValue(filePath, out var cached))
+            {
+                callback(cached);
+                yield break;
+            }
+
+            byte[] fileData = null;
+            Exception error = null;
+            bool isDone = false;
+
+            ThreadPool.QueueUserWorkItem(_ =>
+            {
+                try
+                {
+                    if (!cancellationTokenSource.IsCancellationRequested)
+                        fileData = File.ReadAllBytes(filePath);
+                }
+                catch (Exception ex)
+                {
+                    error = ex;
+                }
+                finally
+                {
+                    isDone = true;
+                }
+            });
+
+            while (!isDone && !cancellationTokenSource.IsCancellationRequested)
+                yield return null;
+
+            if (cancellationTokenSource.IsCancellationRequested)
+            {
+                callback(null);
+                yield break;
+            }
+
+            if (error != null)
+            {
+                Logging.Warn($"[TexturePatcher] Error loading '{filePath}': {error.Message}");
+                callback(null);
+                yield break;
+            }
+
+            if (fileData == null || fileData.Length == 0)
+            {
+                Logging.Warn($"[TexturePatcher] Empty or unreadable file: {filePath}");
+                callback(null);
+                yield break;
+            }
+
+            var tex = new Texture2D(2, 2, TextureFormat.RGBA32, false)
+            {
+                name = Path.GetFileNameWithoutExtension(filePath),
+                filterMode = FilterMode.Point,
+                anisoLevel = 0
+            };
+
+            if (!tex.LoadImage(fileData))
+            {
+                Logging.Warn($"[TexturePatcher] Failed to decode image: {filePath}");
+                callback(null);
+                yield break;
+            }
+
+            batchOriginCache[filePath] = tex;
+            callback(tex);
+        }
+
+        private static void ResetInternalState()
+        {
+            ClearTextureCache();
+            ClearRankSprites();
+            processedObjectIds.Clear();
+            processedRawImages.Clear();
+            currentReplacements = null;
+            currentLevel = null;
+            isProcessing = false;
+            
+            // Очищаем кэши при смене уровня
+            batchTextureCache.Clear();
+            regionCache.Clear();
+        }
+        
+        /// <summary>
+        /// Находит batch-текстуру с кэшированием результатов.
+        /// </summary>
+        private static Texture2D FindBatchTexture(string sceneName, string batchTextureName)
+        {
+            // Проверяем кэш
+            if (batchTextureCache.TryGetValue(sceneName, out var sceneCache) &&
+                sceneCache.TryGetValue(batchTextureName, out var cachedTexture))
+            {
+                Logging.Debug($"[TexturePatcher] Using cached batch texture: '{batchTextureName}' for scene '{sceneName}'");
+                return cachedTexture;
+            }
+
+            Logging.Message($"[TexturePatcher] === Searching for batch texture '{batchTextureName}' in scene '{sceneName}'");
+            
+            // Ищем текстуру
+            Texture2D foundTexture = null;
+
+            // ПРИОРИТЕТ 1: Сначала ищем материал "Batch Material Environment (Instance)"
+            Logging.Message($"[TexturePatcher] PRIORITY 1: Looking for 'Batch Material Environment (Instance)' material...");
+            foundTexture = FindBatchTextureFromBatchMaterialEnvironment();
+            if (foundTexture != null)
+            {
+                Logging.Message($"[TexturePatcher] ✓ Found batch texture from 'Batch Material Environment (Instance)' ({foundTexture.width}x{foundTexture.height})");
+                if (!batchTextureCache.ContainsKey(sceneName))
+                    batchTextureCache[sceneName] = new Dictionary<string, Texture2D>();
+                batchTextureCache[sceneName][batchTextureName] = foundTexture;
+                return foundTexture;
+            }
+            Logging.Message($"[TexturePatcher] ✗ 'Batch Material Environment (Instance)' material not found or has no texture");
+
+            // ПРИОРИТЕТ 2: Для пустого имени - ищем текстуры с пустым именем и большим размером
+            if (string.IsNullOrEmpty(batchTextureName))
+            {
+                Logging.Message($"[TexturePatcher] PRIORITY 2: Looking for empty-named batch textures (512x512+)...");
+                var allTextures = Object.FindObjectsOfTypeAll(typeof(Texture2D)).Cast<Texture2D>();
+                
+                int totalTextures = 0;
+                int potentialBatchTextures = 0;
+                
+                foreach (var tex in allTextures)
+                {
+                    totalTextures++;
+                    if (string.IsNullOrEmpty(tex.name) && tex.width >= 512 && tex.height >= 512)
+                    {
+                        potentialBatchTextures++;
+                        if (foundTexture == null)
+                        {
+                            foundTexture = tex;
+                            Logging.Message($"[TexturePatcher] Found empty-named texture: {foundTexture.width}x{foundTexture.height}");
+                        }
+                    }
+                }
+                
+                Logging.Message($"[TexturePatcher] Searched {totalTextures} textures, found {potentialBatchTextures} potential batch textures");
+                
+                if (foundTexture != null)
+                {
+                    Logging.Message($"[TexturePatcher] ✓ Selected empty-named batch texture ({foundTexture.width}x{foundTexture.height})");
+                    if (!batchTextureCache.ContainsKey(sceneName))
+                        batchTextureCache[sceneName] = new Dictionary<string, Texture2D>();
+                    batchTextureCache[sceneName][batchTextureName] = foundTexture;
+                    return foundTexture;
+                }
+            }
+
+            // ПРИОРИТЕТ 3: По точному имени
+            if (!string.IsNullOrEmpty(batchTextureName))
+            {
+                Logging.Message($"[TexturePatcher] PRIORITY 3: Looking for texture by exact name '{batchTextureName}'...");
+                var allTextures = Object.FindObjectsOfTypeAll(typeof(Texture2D)).Cast<Texture2D>();
+                foundTexture = allTextures.FirstOrDefault(t => string.Equals(t.name, batchTextureName, StringComparison.OrdinalIgnoreCase));
+                
+                if (foundTexture != null)
+                {
+                    Logging.Message($"[TexturePatcher] ✓ Found by exact name");
+                    if (!batchTextureCache.ContainsKey(sceneName))
+                        batchTextureCache[sceneName] = new Dictionary<string, Texture2D>();
+                    batchTextureCache[sceneName][batchTextureName] = foundTexture;
+                    return foundTexture;
+                }
+                Logging.Message($"[TexturePatcher] ✗ Not found by exact name");
+
+                // ПРИОРИТЕТ 4: По вхождению имени
+                Logging.Message($"[TexturePatcher] PRIORITY 4: Looking for texture by name substring...");
+                foundTexture = allTextures.FirstOrDefault(t => !string.IsNullOrEmpty(t.name) &&
+                                                              t.name.IndexOf(batchTextureName, StringComparison.OrdinalIgnoreCase) >= 0);
+                if (foundTexture != null)
+                {
+                    Logging.Message($"[TexturePatcher] ✓ Found by substring match: '{foundTexture.name}'");
+                    if (!batchTextureCache.ContainsKey(sceneName))
+                        batchTextureCache[sceneName] = new Dictionary<string, Texture2D>();
+                    batchTextureCache[sceneName][batchTextureName] = foundTexture;
+                    return foundTexture;
+                }
+                Logging.Message($"[TexturePatcher] ✗ Not found by substring");
+
+                // ПРИОРИТЕТ 5: Через материалы по имени
+                Logging.Message($"[TexturePatcher] PRIORITY 5: Looking through materials by name...");
+                foundTexture = FindBatchTextureInMaterials(batchTextureName);
+                if (foundTexture != null)
+                {
+                    Logging.Message($"[TexturePatcher] ✓ Found through material");
+                    if (!batchTextureCache.ContainsKey(sceneName))
+                        batchTextureCache[sceneName] = new Dictionary<string, Texture2D>();
+                    batchTextureCache[sceneName][batchTextureName] = foundTexture;
+                    return foundTexture;
+                }
+            }
+
+            Logging.Warn($"[TexturePatcher] ✗ Batch texture '{batchTextureName}' not found");
+            return null;
+        }
+
+
+        private static Texture2D FindBatchTextureInMaterials(string batchTextureName)
+        {
+            var allMaterials = Object.FindObjectsOfTypeAll(typeof(Material)).Cast<Material>();
+            foreach (var mat in allMaterials)
+            {
+                if (mat == null)
+                    continue;
+
+                if (!string.IsNullOrEmpty(batchTextureName) &&
+                    mat.name.IndexOf(batchTextureName, StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    var tex = GetMaterialTexture(mat);
+                    if (tex != null)
+                    {
+                        Logging.Debug($"[TexturePatcher] Found batch texture via material name '{mat.name}'");
+                        return tex;
+                    }
+                }
+
+                var candidate = GetMaterialTexture(mat);
+                if (candidate != null && string.Equals(candidate.name, batchTextureName, StringComparison.OrdinalIgnoreCase))
+                {
+                    Logging.Debug($"[TexturePatcher] Found batch texture via material property in '{mat.name}'");
+                    return candidate;
+                }
+            }
+
+            return null;
+        }
+
+        private static Texture2D FindBatchTextureFromBatchMaterialEnvironment()
+        {
+            var allMaterials = Object.FindObjectsOfTypeAll(typeof(Material)).Cast<Material>();
+            int materialCount = 0;
+            int batchMaterialsCount = 0;
+
+            Logging.Message($"[TexturePatcher] Starting search through materials...");
+
+            foreach (var mat in allMaterials)
+            {
+                if (mat == null)
+                    continue;
+
+                materialCount++;
+
+                // Ищем материалы содержащие "Batch Material Environment"
+                if (mat.name.IndexOf("Batch Material Environment", StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    batchMaterialsCount++;
+                    Logging.Message($"[TexturePatcher] Found 'Batch Material Environment' material: '{mat.name}' - checking texture");
+                    
+                    var candidate = GetMaterialTexture(mat);
+                    if (candidate != null)
+                    {
+                        Logging.Message($"[TexturePatcher] ✓✓✓ SUCCESS: Extracted texture from '{mat.name}': {candidate.width}x{candidate.height}, name='{candidate.name}'");
+                        return candidate;
+                    }
+                    else
+                    {
+                        Logging.Warn($"[TexturePatcher] Material '{mat.name}' found but has no valid texture");
+                    }
+                }
+            }
+
+            Logging.Message($"[TexturePatcher] Scanned {materialCount} materials, found {batchMaterialsCount} 'Batch Material Environment' materials");
+            return null;
+        }
+
+
+        private static Texture2D GetMaterialTexture(Material mat)
+        {
+            if (mat == null)
+                return null;
+
+            foreach (var propName in TextureProps)
+            {
+                int propId = Shader.PropertyToID(propName);
+                if (!mat.HasProperty(propId))
+                    continue;
+
+                var curTex = mat.GetTexture(propId) as Texture2D;
+                if (curTex != null)
+                {
+                    Logging.Debug($"[TexturePatcher] Material '{mat.name}' has texture in property '{propName}': {curTex.width}x{curTex.height}");
+                    return curTex;
+                }
+            }
+
+            return null;
+        }
+
+        private static void ClearTextureCache()
+        {
+            foreach (var tex in textureCache.Values)
+                Object.Destroy(tex);
+            textureCache.Clear();
+        }
+
+        private static void ClearRankSprites()
+        {
+            foreach (var sprite in rankSprites.Values)
+                Object.Destroy(sprite);
+            rankSprites.Clear();
+        }
+
+        private static Dictionary<string, (string filename, string type)> GetLevelSpecificTextures(string sceneName)
+        {
+            foreach (var kv in levelTextureMappings)
+                if (sceneName.Contains(kv.Key))
+                    return kv.Value;
+            return null;
+        }
+
+        private static IEnumerator LoadTextures(Dictionary<string, (string filename, string type)> textureMap)
+        {
+            foreach (var entry in textureMap)
+            {
+                if (cancellationTokenSource.IsCancellationRequested)
+                    yield break;
+
+                string key = entry.Key;
+                string filename = entry.Value.filename;
+                string type = entry.Value.type;
+
+                if (currentReplacements.ContainsKey(key) || rankSprites.ContainsKey(key))
                     continue;
 
                 Texture2D loaded = null;
-                yield return LoadTextureAsync(filename, tex => loaded = tex, token);
+                yield return coroutineStarter.StartCoroutine(LoadTexture(filename, tex => loaded = tex));
 
                 if (loaded == null)
                 {
@@ -454,33 +1162,264 @@ namespace UltrakULL.Harmony_Patches
                 }
 
                 loaded.filterMode = FilterMode.Point;
-                loaded.name = Path.GetFileNameWithoutExtension(filename);
 
                 if (type == "sprite")
                 {
-                    float pixelsPerUnit = loaded.height;
-                    var sprite = Sprite.Create(loaded, new Rect(0, 0, loaded.width, loaded.height),
-                        new Vector2(0.5f, 0.5f), pixelsPerUnit);
-                    _rankSprites[key] = sprite;
+                    float ppu = loaded.height;
+                    var sprite = Sprite.Create(
+                        loaded,
+                        new Rect(0, 0, loaded.width, loaded.height),
+                        new Vector2(0.5f, 0.5f),
+                        ppu
+                    );
+
+                    rankSprites[key] = sprite;
                     Logging.Message($"[TexturePatcher] Loaded sprite '{filename}' as '{key}'");
                 }
                 else
                 {
-                    _currentReplacements[key] = loaded;
+                    currentReplacements[key] = loaded;
                     Logging.Message($"[TexturePatcher] Loaded texture '{filename}' as '{key}'");
                 }
             }
         }
 
-        private static IEnumerator LoadTextureAsync(string filename, Action<Texture2D> callback, CancellationToken token)
+
+        private static void StartBackgroundCheck()
         {
-            if (token.IsCancellationRequested)
+            if (backgroundChecker != null)
+                coroutineStarter.StopCoroutine(backgroundChecker);
+
+            backgroundChecker = coroutineStarter.StartCoroutine(BackgroundTextureCheck());
+        }
+        private static IEnumerator BackgroundTextureCheck()
+        {
+            while (!cancellationTokenSource.IsCancellationRequested && !string.IsNullOrEmpty(currentLevel))
+            {
+                float waitTime = GetSceneCheckDelay(currentLevel);
+                yield return new WaitForSeconds(waitTime);
+
+                if ((currentReplacements != null && currentReplacements.Count > 0) || rankSprites.Count > 0)
+                {
+                    yield return ReplaceTexturesInScene(false);
+                    yield return UpdateStyleHUD();
+                }
+            }
+
+            Logging.Debug("[TexturePatcher] Background texture check ended.");
+        }
+
+        private static float GetSceneCheckDelay(string sceneName)
+        {
+            if (sceneName.IndexOf("4-S", StringComparison.OrdinalIgnoreCase) >= 0)
+                return 3f;
+
+            return 0.5f;
+        }
+
+
+        private static bool ShouldCancel() =>
+            cancellationTokenSource?.IsCancellationRequested ?? false;
+        private static readonly string[] TextureProps = { "_MainTex", "_BaseMap", "_DetailAlbedoMap", "_Texture", "_MainTexture", "_EmissiveTex" };
+        private static readonly int[] TexturePropIDs = TextureProps.Select(Shader.PropertyToID).ToArray();
+
+        private static IEnumerator ReplaceTexturesInScene(bool isInitialPass)
+        {
+            if (currentReplacements == null || cancellationTokenSource.IsCancellationRequested)
+                yield break;
+
+            Camera mainCam = Camera.main;
+            int processedChanges = 0;
+            int scannedRenderers = 0;
+            int scannedRawImages = 0;
+            const int maxChangesPerFrame = 8;
+            const int maxScansPerFrame = 60;
+
+            var renderers = Object.FindObjectsOfType<Renderer>();
+            foreach (var rend in renderers)
+            {
+                if (!IsValidRenderer(rend, mainCam))
+                    continue;
+
+                if (IsInIgnoredPath(rend.gameObject))
+                    continue;
+
+                int id = rend.GetInstanceID();
+                if (!processedObjectIds.Add(id))
+                    continue;
+
+                var sharedMaterials = rend.sharedMaterials;
+                var propertyBlock = new MaterialPropertyBlock();
+
+                for (int m = 0; m < sharedMaterials.Length; m++)
+                {
+                    var mat = sharedMaterials[m];
+                    if (mat == null) continue;
+
+                    bool modified = false;
+                    propertyBlock.Clear();
+                    rend.GetPropertyBlock(propertyBlock, m);
+
+                    for (int p = 0; p < TexturePropIDs.Length; p++)
+                    {
+                        int propId = TexturePropIDs[p];
+                        if (!mat.HasProperty(propId)) continue;
+
+                        var curTex = mat.GetTexture(propId) as Texture2D;
+                        if (curTex == null) continue;
+
+                        if (TryGetReplacement(curTex.name, out var replacement))
+                        {
+                            propertyBlock.SetTexture(propId, replacement);
+                            modified = true;
+                            processedChanges++;
+                        }
+
+                        if (processedChanges >= maxChangesPerFrame)
+                        {
+                            processedChanges = 0;
+                            yield return null;
+                        }
+                    }
+
+                    if (modified)
+                    {
+                        rend.SetPropertyBlock(propertyBlock, m);
+                    }
+                }
+
+                scannedRenderers++;
+                if ((scannedRenderers % maxScansPerFrame) == 0)
+                {
+                    yield return null;
+                }
+            }
+
+            foreach (var raw in Object.FindObjectsOfType<RawImage>())
+            {
+                if (!IsValidRawImage(raw)) continue;
+
+                if (IsInIgnoredPath(raw.gameObject))
+                    continue;
+
+                int id = raw.GetInstanceID();
+                if (!processedRawImages.Add(id)) continue;
+
+                Texture2D curTex = raw.texture as Texture2D;
+                if (curTex == null) continue;
+
+                if (TryGetReplacement(curTex.name, out var replacement))
+                {
+                    raw.texture = replacement;
+                    processedChanges++;
+                }
+
+                scannedRawImages++;
+                if (processedChanges >= maxChangesPerFrame || (scannedRawImages % maxScansPerFrame) == 0)
+                {
+                    processedChanges = 0;
+                    yield return null;
+                }
+            }
+        }
+
+        private static bool TryGetReplacement(string textureName, out Texture2D replacement)
+        {
+            return currentReplacements.TryGetValue(textureName, out replacement)
+                || currentReplacements.TryGetValue(textureName.ToLower(), out replacement);
+        }
+
+        private static bool IsValidRenderer(Renderer rend, Camera mainCam)
+        {
+            if (rend == null || rend.gameObject == null || !rend.gameObject.activeInHierarchy)
+                return false;
+
+                if (mainCam && (rend.gameObject == mainCam.gameObject || rend.GetComponentInParent<Camera>(true) != null))
+                    return false;
+
+            return true;
+        }
+
+        private static bool IsValidRawImage(RawImage raw)
+        {
+            return raw != null && raw.gameObject.activeInHierarchy;
+        }
+
+        private static IEnumerator UpdateStyleHUD()
+        {
+            var hud = MonoSingleton<StyleHUD>.Instance;
+            if (hud == null || rankSprites.Count == 0)
+                yield break;
+
+            int max = Math.Min(hud.ranks.Count, 8);
+
+            for (int i = 0; i < max; i++)
+            {
+                string rankName = GetRankNameByIndex(i);
+                if (rankSprites.TryGetValue(rankName, out var sprite))
+                {
+                    hud.ranks[i].sprite = sprite;
+                }
+                else
+                {
+                    Logging.Warn($"[TexturePatcher] Missing sprite for rank: {rankName}");
+                }
+            }
+
+            string currentRank = GetRankNameByIndex(hud.rankIndex);
+            if (rankSprites.TryGetValue(currentRank, out var currentSprite))
+            {
+                hud.rankImage.sprite = currentSprite;
+            }
+            else
+            {
+                Logging.Warn($"[TexturePatcher] Missing sprite for current rank: {currentRank}");
+            }
+
+            yield return null;
+        }
+
+
+        private static readonly string[] RankNames = { "RankD", "RankC", "RankB", "RankA", "RankS", "RankSS", "RankSSS", "RankU" };
+
+        private static string GetRankNameByIndex(int i)
+        {
+            if (i >= 0 && i < RankNames.Length)
+                return RankNames[i];
+
+            return "RankD";
+        }
+
+        [HarmonyPatch(typeof(StyleHUD), "Start")]
+        private static class StyleHUD_Start_Patch
+        {
+            private static void Postfix(StyleHUD __instance)
+            {
+                if (__instance == null || rankSprites.Count == 0)
+                    return;
+
+                string rankName = GetRankNameByIndex(__instance.rankIndex);
+                if (rankSprites.TryGetValue(rankName, out var sprite))
+                {
+                    __instance.rankImage.sprite = sprite;
+                }
+                else
+                {
+                    Logging.Warn($"[TexturePatcher] Missing sprite for rank at start: {rankName}");
+                }
+            }
+        }
+
+
+        private static IEnumerator LoadTexture(string filename, Action<Texture2D> callback)
+        {
+            if (cancellationTokenSource.IsCancellationRequested)
             {
                 callback(null);
                 yield break;
             }
 
-            if (_textureCache.TryGetValue(filename, out var cached))
+            if (textureCache.TryGetValue(filename, out var cached))
             {
                 callback(cached);
                 yield break;
@@ -502,7 +1441,7 @@ namespace UltrakULL.Harmony_Patches
             {
                 try
                 {
-                    if (!token.IsCancellationRequested)
+                    if (!cancellationTokenSource.IsCancellationRequested)
                         fileData = File.ReadAllBytes(fullPath);
                 }
                 catch (Exception ex)
@@ -515,10 +1454,10 @@ namespace UltrakULL.Harmony_Patches
                 }
             });
 
-            while (!isDone && !token.IsCancellationRequested)
+            while (!isDone && !cancellationTokenSource.IsCancellationRequested)
                 yield return null;
 
-            if (token.IsCancellationRequested)
+            if (cancellationTokenSource.IsCancellationRequested)
             {
                 callback(null);
                 yield break;
@@ -526,7 +1465,7 @@ namespace UltrakULL.Harmony_Patches
 
             if (error != null)
             {
-                Logging.Error($"[TexturePatcher] Error loading '{filename}': {error}");
+                Logging.Warn($"[TexturePatcher] Error loading '{filename}': {error.Message}");
                 callback(null);
                 yield break;
             }
@@ -538,274 +1477,102 @@ namespace UltrakULL.Harmony_Patches
                 yield break;
             }
 
-            var texture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
-            if (!ImageConversion.LoadImage(texture, fileData))
+            var tex = new Texture2D(2, 2, TextureFormat.RGBA32, false)
+            {
+                name = Path.GetFileNameWithoutExtension(fullPath),
+                filterMode = FilterMode.Point,
+                anisoLevel = 0
+            };
+
+            if (!tex.LoadImage(fileData))
             {
                 Logging.Warn($"[TexturePatcher] Failed to decode image: {filename}");
-                Object.Destroy(texture);
                 callback(null);
                 yield break;
             }
 
-            _textureCache[filename] = texture;
-            callback(texture);
-        }
-
-        private static IEnumerator ReplaceTexturesInScene(bool isInitialPass, CancellationToken token)
-        {
-            if (_currentReplacements == null || token.IsCancellationRequested)
-                yield break;
-
-            Camera mainCam = Camera.main;
-            int changesSinceYield = 0;
-            int renderersScanned = 0;
-
-            // Replace in Renderers
-            foreach (var renderer in Object.FindObjectsOfType<Renderer>())
-            {
-                if (!IsValidRenderer(renderer, mainCam) || IsInIgnoredPath(renderer.gameObject))
-                    continue;
-
-                int id = renderer.GetInstanceID();
-                if (!_processedRendererIds.Add(id))
-                    continue;
-
-                var materials = renderer.sharedMaterials;
-                var propertyBlock = new MaterialPropertyBlock();
-
-                for (int m = 0; m < materials.Length; m++)
-                {
-                    var mat = materials[m];
-                    if (mat == null) continue;
-
-                    bool modified = false;
-                    propertyBlock.Clear();
-                    renderer.GetPropertyBlock(propertyBlock, m);
-
-                    for (int p = 0; p < TexturePropIDs.Length; p++)
-                    {
-                        int propId = TexturePropIDs[p];
-                        if (!mat.HasProperty(propId)) continue;
-
-                        var texture = mat.GetTexture(propId) as Texture2D;
-                        if (texture == null) continue;
-
-                        if (TryGetReplacement(texture.name, out var replacement))
-                        {
-                            propertyBlock.SetTexture(propId, replacement);
-                            modified = true;
-                            changesSinceYield++;
-                        }
-                    }
-
-                    if (modified)
-                        renderer.SetPropertyBlock(propertyBlock, m);
-
-                    if (changesSinceYield >= MaxPropertyChangesBeforeYield)
-                    {
-                        changesSinceYield = 0;
-                        yield return null;
-                        if (token.IsCancellationRequested) yield break;
-                    }
-                }
-
-                renderersScanned++;
-                if (renderersScanned % RenderersScanBatchSize == 0)
-                    yield return null;
-            }
-
-            // Replace in RawImages
-            int rawImagesScanned = 0;
-            foreach (var rawImage in Object.FindObjectsOfType<RawImage>())
-            {
-                if (!IsValidRawImage(rawImage) || IsInIgnoredPath(rawImage.gameObject))
-                    continue;
-
-                int id = rawImage.GetInstanceID();
-                if (!_processedRawImageIds.Add(id))
-                    continue;
-
-                var texture = rawImage.texture as Texture2D;
-                if (texture != null && TryGetReplacement(texture.name, out var replacement))
-                {
-                    rawImage.texture = replacement;
-                    changesSinceYield++;
-                }
-
-                rawImagesScanned++;
-                if (changesSinceYield >= MaxPropertyChangesBeforeYield || rawImagesScanned % RenderersScanBatchSize == 0)
-                {
-                    changesSinceYield = 0;
-                    yield return null;
-                    if (token.IsCancellationRequested) yield break;
-                }
-            }
-        }
-
-        private static IEnumerator UpdateStyleHUD()
-        {
-            var instance = MonoSingleton<StyleHUD>.Instance;
-            if (instance == null || _rankSprites.Count == 0)
-                yield break;
-
-            int count = Math.Min(instance.ranks.Count, MinRankCount);
-            for (int i = 0; i < count; i++)
-            {
-                string rankName = GetRankNameByIndex(i);
-                if (_rankSprites.TryGetValue(rankName, out var sprite))
-                    instance.ranks[i].sprite = sprite;
-                else
-                    Logging.Warn($"[TexturePatcher] Missing sprite for rank: {rankName}");
-            }
-
-            string currentRank = GetRankNameByIndex(instance.rankIndex);
-            if (_rankSprites.TryGetValue(currentRank, out var currentSprite))
-                instance.rankImage.sprite = currentSprite;
-            else
-                Logging.Warn($"[TexturePatcher] Missing sprite for current rank: {currentRank}");
-
-            yield return null;
-        }
-
-        private static void ReplaceUISprites()
-        {
-            int replaced = 0;
-            foreach (var image in Object.FindObjectsOfType<Image>(true))
-            {
-                if (image?.sprite == null) continue;
-                string spriteName = image.sprite.name;
-                if (_rankSprites.TryGetValue(spriteName, out var newSprite))
-                {
-                    image.sprite = newSprite;
-                    replaced++;
-                }
-            }
-            if (replaced > 0)
-                Logging.Message($"[TexturePatcher] Replaced {replaced} UI sprites");
-        }
-
-        // ======================== Helper methods ========================
-        private static bool TryGetReplacement(string textureName, out Texture2D replacement)
-        {
-            if (_currentReplacements != null && _currentReplacements.TryGetValue(textureName, out replacement))
-                return true;
-            replacement = null;
-            return false;
-        }
-
-        private static string GetRankNameByIndex(int index)
-        {
-            return (index >= 0 && index < RankNames.Length) ? RankNames[index] : "RankD";
-        }
-
-        private static Dictionary<string, (string filename, string type)> GetLevelSpecificTextures(string sceneName)
-        {
-            foreach (var kvp in _levelTextureMappings)
-            {
-                if (sceneName.Contains(kvp.Key))
-                    return kvp.Value;
-            }
-            return null;
+            textureCache[filename] = tex;
+            callback(tex);
         }
 
         private static string FindTextureFile(string filename)
         {
             string[] extensions = { ".png", ".jpg", ".jpeg", ".tga" };
-            foreach (string ext in extensions)
+
+            foreach (var ext in extensions)
             {
-                string path = Path.Combine(TexturesFolder, filename + ext);
-                if (File.Exists(path)) return path;
+                string full = Path.Combine(texturesFolder, filename + ext);
+                if (File.Exists(full))
+                    return full;
             }
-            string noExtPath = Path.Combine(TexturesFolder, filename);
-            return File.Exists(noExtPath) ? noExtPath : null;
+
+            string raw = Path.Combine(texturesFolder, filename);
+            return File.Exists(raw) ? raw : null;
         }
 
-        private static bool IsValidRenderer(Renderer rend, Camera mainCam)
+        private static void ReplaceUISprites()
         {
-            if (rend == null || rend.gameObject == null || !rend.gameObject.activeInHierarchy)
-                return false;
-            if (mainCam != null && (rend.gameObject == mainCam.gameObject || rend.GetComponentInParent<Camera>(true) != null))
-                return false;
-            return true;
+            var images = GameObject.FindObjectsOfType<Image>(true);
+            int replaced = 0;
+
+            foreach (var img in images)
+            {
+                if (img == null || img.sprite == null)
+                    continue;
+
+                string spriteName = img.sprite.name;
+
+                if (rankSprites.TryGetValue(spriteName, out var replacement))
+                {
+                    img.sprite = replacement;
+                    replaced++;
+                }
+            }
+
+            if (replaced > 0)
+                Logging.Message($"[TexturePatcher] Replaced {replaced} UI sprites");
         }
 
-        private static bool IsValidRawImage(RawImage raw)
+        private static string GetHierarchyPath(Transform transform)
         {
-            return raw != null && raw.gameObject.activeInHierarchy;
+            var names = new List<string>();
+            while (transform != null)
+            {
+                names.Insert(0, transform.name);
+                transform = transform.parent;
+            }
+            return string.Join("/", names);
         }
+
 
         private static bool IsInIgnoredPath(GameObject obj)
         {
             string path = GetHierarchyPath(obj.transform);
-            return IgnoredPathPatterns.Any(pattern => path.Contains(pattern));
-        }
 
-        private static string GetHierarchyPath(Transform t)
-        {
-            var parts = new List<string>();
-            while (t != null)
+            foreach (var pattern in IgnoredPathPatterns)
             {
-                parts.Add(t.name);
-                t = t.parent;
+                if (path.Contains(pattern))
+                    return true;
             }
-            parts.Reverse();
-            return string.Join("/", parts);
+
+            return false;
         }
 
         private static bool ShouldIgnoreScene(string sceneName)
-        {
-            return IgnoredScenes.Contains(sceneName);
-        }
+            => ignoredScenes.Any(i => sceneName.Equals(i, StringComparison.OrdinalIgnoreCase));
 
-        private static void ResetInternalState()
+        private class DummyMonoBehaviour : MonoBehaviour
         {
-            ClearTextureCache();
-            ClearRankSprites();
-            _processedRendererIds.Clear();
-            _processedRawImageIds.Clear();
-            _currentReplacements = null;
-            _currentLevel = null;
-            _isProcessing = false;
-        }
-
-        private static void ClearTextureCache()
-        {
-            foreach (var tex in _textureCache.Values)
-                Object.Destroy(tex);
-            _textureCache.Clear();
-        }
-
-        private static void ClearRankSprites()
-        {
-            foreach (var spr in _rankSprites.Values)
-                Object.Destroy(spr);
-            _rankSprites.Clear();
-        }
-    }
-
-    /// <summary>
-    /// Helper MonoBehaviour to run coroutines without scene dependency.
-    /// </summary>
-    internal class CoroutineRunner : MonoBehaviour
-    {
-        private static CoroutineRunner _instance;
-        public static CoroutineRunner Instance
-        {
-            get
+            private void OnDestroy()
             {
-                if (_instance == null)
-                {
-                    var go = new GameObject("TexturePatcher_CoroutineRunner");
-                    DontDestroyOnLoad(go);
-                    _instance = go.AddComponent<CoroutineRunner>();
-                }
-                return _instance;
+                cancellationTokenSource?.Cancel();
+                currentLevel = null;
+                currentReplacements = null;
+                rankSprites.Clear();
+                textureCache.Clear();
+                batchOriginCache.Clear();
+                Logging.Message("[TexturePatcher] Coroutine destroyed and cache cleared");
             }
-        }
-
-        private void OnDestroy()
-        {
-            _instance = null;
         }
     }
 }
