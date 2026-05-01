@@ -39,14 +39,14 @@ namespace UltrakULL.Harmony_Patches
         private static readonly HashSet<int> processedRawImages = new HashSet<int>();
         private static Coroutine backgroundChecker;
         
-        // Emgu CV: при ошибках загрузки типов/нативных DLL отключаем fallback
+        // Emgu CV: disable fallback on type/native DLL load errors
         private static bool emguCvAvailable = true;
         private static bool emguNativeLoadAttempted;
 
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         private static extern IntPtr LoadLibrary(string lpFileName);
 
-        /// <summary>Размеры атласа и PNG-шаблона для batch MatchTemplate (защита от неразумных запросов).</summary>
+        /// <summary>Atlas and PNG template dimensions for batch MatchTemplate (protection against unreasonable requests).</summary>
         private static bool BatchTemplateSupportedForEmgu(int sourceW, int sourceH, int templateW, int templateH)
         {
             if (templateW <= 0 || templateH <= 0 || sourceW <= 0 || sourceH <= 0)
@@ -61,7 +61,7 @@ namespace UltrakULL.Harmony_Patches
             return true;
         }
 
-        /// <summary>P/Invoke ищет cvextern рядом с процессом; подгружаем из папки плагина.</summary>
+        /// <summary>P/Invoke looks for cvextern near the process; load from plugin folder.</summary>
         private static void TryLoadEmguNativeFromPluginDir()
         {
             if (emguNativeLoadAttempted)
@@ -82,32 +82,32 @@ namespace UltrakULL.Harmony_Patches
             }
         }
         
-        // Кэш для найденных batch-текстур: уровень -> имя batch -> текстура
+        // Cache for found batch textures: level -> batch name -> texture
         private static readonly Dictionary<string, Dictionary<string, Texture2D>> batchTextureCache =
             new Dictionary<string, Dictionary<string, Texture2D>>();
         
-        // Кэш для найденных регионов: хэш текстуры+шаблон -> регион
+        // Cache for found regions: texture+template hash -> region
         private static readonly Dictionary<string, Rect> regionCache =
             new Dictionary<string, Rect>();
         
-        // Ручные координаты регионов из manual_regions.json
+        // Manual region coordinates from manual_regions.json
         private static Dictionary<string, Dictionary<string, Rect>> manualRegions =
             new Dictionary<string, Dictionary<string, Rect>>();
         
-        // Флаг для отключения отладочного вывода всех текстур (очень дорогая операция)
+        // Flag to disable debug output of all textures (very expensive operation)
         private const bool EnableDebugTextureListing = false;
         
-        // Оптимизация: предварительное масштабирование для быстрого поиска
-        private const bool UseScaledPreSearch = true;  // Быстрый поиск на уменьшенной текстуре
-        private const int PreSearchScale = 2;           // Уменьшаем в 2 раза для скорости
-        private const float PreSearchThreshold = 0.6f;  // Чуть ниже для предварительного поиска
+        // Optimization: pre-scaling for fast search
+        private const bool UseScaledPreSearch = true;  // Fast search on downscaled texture
+        private const int PreSearchScale = 2;           // Downscale by 2 for speed
+        private const float PreSearchThreshold = 0.6f;  // Slightly lower for pre-search
         
-        // Параллельная обработка: макс потоков для Emgu CV
-        // Оставляем 2 для совместимости с минимальными требованиями (2-ядерный CPU).
-        // На системах с 4+ ядрами можно увеличить до 3-4 для лучшей скорости.
+        // Parallel processing: max threads for Emgu CV
+        // Keep 2 for compatibility with minimum requirements (2-core CPU).
+        // On systems with 4+ cores can increase to 3-4 for better speed.
         private const int MaxConcurrentEmguTasks = 2;
 
-        // Маппинги для batch-текстур: уровень -> атлас -> регионы (шаблон -> замена)
+        // Mappings for batch textures: level -> atlas -> regions (template -> replacement)
         private static readonly Dictionary<string, Dictionary<string, Dictionary<string, string>>> batchTextureMappings = 
             new Dictionary<string, Dictionary<string, Dictionary<string, string>>>
         {
@@ -116,12 +116,12 @@ namespace UltrakULL.Harmony_Patches
                 new Dictionary<string, Dictionary<string, string>>
                 {
                     {
-                        "",  // Название атласа/batch-текстуры
+                        "",  // Atlas/batch texture name
                         new Dictionary<string, string>
                         {
-                            { "VendingMachine", "VendingMachine" },  // шаблон -> файл замены
+                            { "VendingMachine", "VendingMachine" },  // template -> replacement file
                             { "GodStatue_Stand", "GodStatue_Stand" }
-                            // Добавляйте другие регионы в этом атласе
+                            // Add other regions in this atlas
                         }
                     }
                 }
@@ -131,18 +131,18 @@ namespace UltrakULL.Harmony_Patches
                 new Dictionary<string, Dictionary<string, string>>
                 {
                     {
-                        "",  // Название атласа/batch-текстуры
+                        "",  // Atlas/batch texture name
                         new Dictionary<string, string>
                         {
                             { "constructionsign", "constructionsign" },
-                            { "VendingMachine", "VendingMachine" },  // шаблон -> файл замены
+                            { "VendingMachine", "VendingMachine" },  // template -> replacement file
                             { "presentation", "presentation" },
                             { "electricitybox", "electricitybox" },
                             { "portalmines", "portalmines" },
                             { "ad_wing 1", "ad_wing 1" },
                             { "ad_fox 1", "ad_fox 1" },
                             { "ad_clothes 1", "ad_clothes 1" }
-                            // Добавляйте другие регионы в атласе
+                            // Add other regions in the atlas
                         }
                     }
                 }
@@ -152,14 +152,14 @@ namespace UltrakULL.Harmony_Patches
                 new Dictionary<string, Dictionary<string, string>>
                 {
                     {
-                        "",  // Название атласа/batch-текстуры
+                        "",  // Atlas/batch texture name
                         new Dictionary<string, string>
                         {
-                            { "VendingMachine", "VendingMachine" },  // шаблон -> файл замены
+                            { "VendingMachine", "VendingMachine" },  // template -> replacement file
                             { "ad_wing 1", "ad_wing 1" },
                             { "ad_fox 1", "ad_fox 1" },
                             { "ad_clothes 1", "ad_clothes 1" }
-                            // Добавляйте другие регионы в атласе
+                            // Add other regions in the atlas
                         }
                     }
                 }
@@ -169,11 +169,11 @@ namespace UltrakULL.Harmony_Patches
                 new Dictionary<string, Dictionary<string, string>>
                 {
                     {
-                        "",  // Название атласа/batch-текстуры
+                        "",  // Atlas/batch texture name
                         new Dictionary<string, string>
                         {
                             { "VendingMachine", "VendingMachine" }
-                            // Добавляйте другие регионы в атласе
+                            // Add other regions in the atlas
                         }
                     }
                 }
@@ -320,7 +320,7 @@ namespace UltrakULL.Harmony_Patches
             if (levelSpecific?.Count > 0)
                 yield return LoadTextures(levelSpecific);
 
-            // Обработка batch-текстур для текущего уровня
+            // Processing batch textures for current level
             if (batchTextureMappings.TryGetValue(sceneName, out var batchMappings))
             {
                 yield return ProcessBatchTextures(sceneName, batchMappings);
@@ -348,7 +348,7 @@ namespace UltrakULL.Harmony_Patches
         {
             foreach (var atlasMapping in batchMappings)
             {
-                string batchTextureName = atlasMapping.Key;  // "Batch 8-1" или пустая строка
+                string batchTextureName = atlasMapping.Key;  // "Batch 8-1" or empty string
                 var regionsToReplace = atlasMapping.Value;   // { "VendingMachine" -> "VendingMachine", ... }
 
                 if (regionsToReplace == null || regionsToReplace.Count == 0)
@@ -359,7 +359,7 @@ namespace UltrakULL.Harmony_Patches
 
                 Logging.Message($"[TexturePatcher] Processing batch texture: '{batchTextureName}' with {regionsToReplace.Count} regions");
 
-                // Ищем batch-текстуру (с кэшированием)
+                // Find batch texture (with caching)
                 Texture2D batchTexture = FindBatchTexture(sceneName, batchTextureName);
                 if (batchTexture == null)
                 {
@@ -367,7 +367,7 @@ namespace UltrakULL.Harmony_Patches
                     continue;
                 }
 
-                // Создаем копию атласа один раз для всех замен
+                // Create atlas copy once for all replacements
                 Texture2D modifiedTexture = Object.Instantiate(batchTexture);
                 modifiedTexture.name = batchTextureName + "_modified";
 
@@ -375,7 +375,7 @@ namespace UltrakULL.Harmony_Patches
                 var regionTasks = new List<System.Collections.IEnumerator>();
                 var regionResults = new Dictionary<string, (Rect rect, Texture2D replacement)>();
 
-                // ОПТИМИЗАЦИЯ: Загружаем все шаблоны и замены параллельно
+                // OPTIMIZATION: Load all templates and replacements in parallel
                 var textureLoadTasks = new List<(string regionName, string templatePath, string replacementFileName)>();
                 var loadedTextures = new Dictionary<string, (Texture2D template, Texture2D replacement)>();
 
@@ -395,7 +395,7 @@ namespace UltrakULL.Harmony_Patches
                     textureLoadTasks.Add((regionName, templatePath, replacementFileName));
                 }
 
-                // Загружаем все текстуры параллельно
+                // Load all textures in parallel
                 foreach (var (regionName, templatePath, replacementFileName) in textureLoadTasks)
                 {
                     yield return coroutineStarter.StartCoroutine(LoadRegionTexturesAsync(templatePath, replacementFileName,
@@ -406,7 +406,7 @@ namespace UltrakULL.Harmony_Patches
                     ));
                 }
 
-                // ОПТИМИЗАЦИЯ: Ищем регионы в фоновых потоках (параллельно)
+                // OPTIMIZATION: Search regions in background threads (parallel)
                 int searchTasksRunning = 0;
                 foreach (var regionName in loadedTextures.Keys)
                 {
@@ -421,7 +421,7 @@ namespace UltrakULL.Harmony_Patches
                     Logging.Message($"[TexturePatcher] Searching for region '{regionName}' in atlas '{batchTexture.name}' ({modifiedTexture.width}x{modifiedTexture.height})");
                     Logging.Message($"[TexturePatcher] Template size: {templateTexture.width}x{templateTexture.height}");
 
-                    // Запускаем поиск в фоновом потоке
+                    // Start search in background thread
                     searchTasksRunning++;
                     yield return coroutineStarter.StartCoroutine(
                         FindTemplateInTextureAsync(modifiedTexture, templateTexture,
@@ -440,15 +440,15 @@ namespace UltrakULL.Harmony_Patches
                         )
                     );
 
-                    // Ограничиваем одновременные поиски, чтобы не блокировать игру
+                    // Limit concurrent searches to avoid blocking the game
                     if (searchTasksRunning >= MaxConcurrentEmguTasks)
                     {
                         searchTasksRunning = 0;
-                        yield return null;  // Даём кадр игре
+                        yield return null;  // Give frame to game
                     }
                 }
 
-                // Применяем все найденные регионы
+                // Apply all found regions
                 foreach (var kvp in regionResults)
                 {
                     string regionName = kvp.Key;
@@ -459,7 +459,7 @@ namespace UltrakULL.Harmony_Patches
                     Logging.Message($"[TexturePatcher] Replaced region '{regionName}' in atlas '{batchTextureName}'");
                 }
 
-                // Если хотя бы один регион был заменен, добавляем модифицированный атлас
+                // If at least one region was replaced, add modified atlas
                 if (anyRegionFound)
                 {
                     currentReplacements[batchTextureName] = modifiedTexture;
@@ -473,12 +473,12 @@ namespace UltrakULL.Harmony_Patches
         }
 
         /// <summary>
-        /// Быстрый предварительный поиск на уменьшенной копии (опционально).
+        /// Fast pre-search on downscaled copy (optional).
         /// </summary>
         private static Rect FindTemplateWithEmguCvScaled(Texture2D sourceTexture, Texture2D templateTexture, int scale)
         {
             if (scale <= 1 || sourceTexture.width < 512 || sourceTexture.height < 512)
-                return Rect.zero;  // Слишком мало выигрыша
+                return Rect.zero;  // Too little benefit
 
             try
             {
@@ -493,7 +493,7 @@ namespace UltrakULL.Harmony_Patches
                 Object.Destroy(scaledSource);
                 Object.Destroy(scaledTemplate);
 
-                // Масштабируем результат обратно
+                // Scale result back
                 if (result != Rect.zero)
                     return new Rect(result.x * scale, result.y * scale, result.width * scale, result.height * scale);
 
@@ -507,8 +507,8 @@ namespace UltrakULL.Harmony_Patches
         }
 
         /// <summary>
-        /// Поиск региона батч-атласа: Emgu CV MatchTemplate (CcoeffNormed).
-        /// Управляемая и нативная части — BepInEx/plugins/UltrakULL/ (см. CopyEmguToPluginFolder в csproj).
+        /// Batch atlas region search: Emgu CV MatchTemplate (CcoeffNormed).
+        /// Managed and native parts are in BepInEx/plugins/UltrakULL/ (see CopyEmguToPluginFolder in csproj).
         /// </summary>
         private static Rect FindTemplateWithEmguCv(Texture2D sourceTexture, Texture2D templateTexture)
         {
@@ -579,7 +579,7 @@ namespace UltrakULL.Harmony_Patches
             catch (DllNotFoundException dllEx)
             {
                 Logging.Error($"[TexturePatcher] ✗ Emgu CV native DLL not loaded: {dllEx.Message}");
-                Logging.Error("[TexturePatcher] Скопируйте в BepInEx/plugins/UltrakULL/: cvextern.dll, opencv_videoio_ffmpeg460_64.dll, Emgu.CV.dll и MSVC runtime из пакета Emgu.CV.runtime.windows (см. csproj CopyEmguToPluginFolder).");
+                Logging.Error("[TexturePatcher] Copy to BepInEx/plugins/UltrakULL/: cvextern.dll, opencv_videoio_ffmpeg460_64.dll, Emgu.CV.dll and MSVC runtime from Emgu.CV.runtime.windows package (see csproj CopyEmguToPluginFolder).");
                 return Rect.zero;
             }
             catch (EntryPointNotFoundException epEx)
@@ -621,8 +621,8 @@ namespace UltrakULL.Harmony_Patches
         }
 
         /// <summary>
-        /// Поиск шаблона на готовых byte[] данных (для фонового потока).
-        /// Вызывается из ThreadPool — безопасно, так как не трогает Unity объекты.
+        /// Template search on ready byte[] data (for background thread).
+        /// Called from ThreadPool — safe because it doesn't touch Unity objects.
         /// </summary>
         private static Rect FindTemplateWithEmguCvRaw(byte[] sourceBytes, byte[] templateBytes, int sourceWidth, int sourceHeight, int templateWidth, int templateHeight)
         {
@@ -728,7 +728,7 @@ namespace UltrakULL.Harmony_Patches
                 yield break;
             }
 
-            // КРИТИЧНО: GetPixels32() ДОЛЖЕН быть в главном потоке (Unity не потокобезопасна)
+            // CRITICAL: GetPixels32() MUST be in main thread (Unity is not thread-safe)
             Color32[] sourcePixels = null;
             Color32[] templatePixels = null;
             
@@ -744,7 +744,7 @@ namespace UltrakULL.Harmony_Patches
                 yield break;
             }
 
-            // Теперь можно безопасно запустить обработку в фоне
+            // Now can safely start processing in background
             bool isDone = false;
             Rect result = Rect.zero;
 
@@ -752,7 +752,7 @@ namespace UltrakULL.Harmony_Patches
             {
                 try
                 {
-                    // Конвертируем в grayscale в фоне
+                    // Convert to grayscale in background
                     byte[] sourceBytes = new byte[sourcePixels.Length];
                     byte[] templateBytes = new byte[templatePixels.Length];
 
@@ -762,7 +762,7 @@ namespace UltrakULL.Harmony_Patches
                     for (int i = 0; i < templatePixels.Length; i++)
                         templateBytes[i] = (byte)((templatePixels[i].r + templatePixels[i].g + templatePixels[i].b) / 3);
 
-                    // Выполняем Emgu CV в фоне
+                    // Execute Emgu CV in background
                     result = FindTemplateWithEmguCvRaw(sourceBytes, templateBytes, sourceTexture.width, sourceTexture.height, templateTexture.width, templateTexture.height);
                 }
                 catch (Exception ex)
@@ -776,7 +776,7 @@ namespace UltrakULL.Harmony_Patches
                 }
             });
 
-            // Ждем результат в фоне (не блокируем кадры)
+            // Wait for result in background (don't block frames)
             float timeout = 5f;
             float elapsed = 0f;
             while (!isDone && elapsed < timeout)
@@ -811,10 +811,10 @@ namespace UltrakULL.Harmony_Patches
             int width = (int)region.width;
             int height = (int)region.height;
 
-            // Используем Color32 для большей эффективности
+            // Use Color32 for better efficiency
             Color32[] replacementPixels = replacementTexture.GetPixels32();
 
-            // Устанавливаем пиксели в целевой текстуре
+            // Set pixels in target texture
             targetTexture.SetPixels32(startX, startY, width, height, replacementPixels);
             targetTexture.Apply();
         }
@@ -905,17 +905,17 @@ namespace UltrakULL.Harmony_Patches
             currentLevel = null;
             isProcessing = false;
             
-            // Очищаем кэши при смене уровня
+            // Clear caches on level change
             batchTextureCache.Clear();
             regionCache.Clear();
         }
         
         /// <summary>
-        /// Находит batch-текстуру с кэшированием результатов.
+        /// Finds batch texture with result caching.
         /// </summary>
         private static Texture2D FindBatchTexture(string sceneName, string batchTextureName)
         {
-            // Проверяем кэш
+            // Check cache
             if (batchTextureCache.TryGetValue(sceneName, out var sceneCache) &&
                 sceneCache.TryGetValue(batchTextureName, out var cachedTexture))
             {
@@ -925,10 +925,10 @@ namespace UltrakULL.Harmony_Patches
 
             Logging.Message($"[TexturePatcher] === Searching for batch texture '{batchTextureName}' in scene '{sceneName}'");
             
-            // Ищем текстуру
+            // Search for texture
             Texture2D foundTexture = null;
 
-            // ПРИОРИТЕТ 1: Сначала ищем материал "Batch Material Environment (Instance)"
+            // PRIORITY 1: First look for "Batch Material Environment (Instance)" material
             Logging.Message($"[TexturePatcher] PRIORITY 1: Looking for 'Batch Material Environment (Instance)' material...");
             foundTexture = FindBatchTextureFromBatchMaterialEnvironment();
             if (foundTexture != null)
@@ -941,7 +941,7 @@ namespace UltrakULL.Harmony_Patches
             }
             Logging.Message($"[TexturePatcher] ✗ 'Batch Material Environment (Instance)' material not found or has no texture");
 
-            // ПРИОРИТЕТ 2: Для пустого имени - ищем текстуры с пустым именем и большим размером
+            // PRIORITY 2: For empty name - search for textures with empty name and large size
             if (string.IsNullOrEmpty(batchTextureName))
             {
                 Logging.Message($"[TexturePatcher] PRIORITY 2: Looking for empty-named batch textures (512x512+)...");
@@ -976,7 +976,7 @@ namespace UltrakULL.Harmony_Patches
                 }
             }
 
-            // ПРИОРИТЕТ 3: По точному имени
+            // PRIORITY 3: By exact name
             if (!string.IsNullOrEmpty(batchTextureName))
             {
                 Logging.Message($"[TexturePatcher] PRIORITY 3: Looking for texture by exact name '{batchTextureName}'...");
@@ -993,7 +993,7 @@ namespace UltrakULL.Harmony_Patches
                 }
                 Logging.Message($"[TexturePatcher] ✗ Not found by exact name");
 
-                // ПРИОРИТЕТ 4: По вхождению имени
+                // PRIORITY 4: By name substring
                 Logging.Message($"[TexturePatcher] PRIORITY 4: Looking for texture by name substring...");
                 foundTexture = allTextures.FirstOrDefault(t => !string.IsNullOrEmpty(t.name) &&
                                                               t.name.IndexOf(batchTextureName, StringComparison.OrdinalIgnoreCase) >= 0);
@@ -1007,7 +1007,7 @@ namespace UltrakULL.Harmony_Patches
                 }
                 Logging.Message($"[TexturePatcher] ✗ Not found by substring");
 
-                // ПРИОРИТЕТ 5: Через материалы по имени
+                // PRIORITY 5: Through materials by name
                 Logging.Message($"[TexturePatcher] PRIORITY 5: Looking through materials by name...");
                 foundTexture = FindBatchTextureInMaterials(batchTextureName);
                 if (foundTexture != null)
@@ -1070,7 +1070,7 @@ namespace UltrakULL.Harmony_Patches
 
                 materialCount++;
 
-                // Ищем материалы содержащие "Batch Material Environment"
+                // Search for materials containing "Batch Material Environment"
                 if (mat.name.IndexOf("Batch Material Environment", StringComparison.OrdinalIgnoreCase) >= 0)
                 {
                     batchMaterialsCount++;
