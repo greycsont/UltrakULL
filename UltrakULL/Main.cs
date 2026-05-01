@@ -175,7 +175,7 @@ namespace UltrakULL
 				Logging.Warn("--- Initializing language manager ---");
 				LanguageManager.InitializeManager(InternalVersion);
 
-                Core.AddKoreanGlyphs();
+                Core.AddGlyphs();
 
                 Logging.Warn("--- Patching vanilla game functions ---");
 				Harmony harmony = new Harmony(InternalName);
