@@ -1279,7 +1279,7 @@ namespace UltrakULL.json
         public bool langRTL;
         public string minimumModVersion;
         public bool langHinduNumbers;
-
+        public string addchar;
     }
 
     public class IntermissionStrings
