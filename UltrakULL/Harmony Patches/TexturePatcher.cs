@@ -206,19 +206,6 @@ namespace UltrakULL.Harmony_Patches
                 }
             },
             {
-                "Level 7-S",
-                new Dictionary<string, Dictionary<string, string>>
-                {
-                    {
-                        "",  // Atlas/batch texture name
-                        new Dictionary<string, string>
-                        {
-                            { "T_TrailSign", "T_TrailSign" }  // template -> replacement file
-                        }
-                    }
-                }
-            },
-            {
                 "Level 8-1",
                 new Dictionary<string, Dictionary<string, string>>
                 {
@@ -350,7 +337,7 @@ namespace UltrakULL.Harmony_Patches
                     { "Level 7-2", new Dictionary<string, (string, string)> { { "exit", ("exit", "texture") } } },
                     { "Level 7-3", new Dictionary<string, (string, string)> { { "marble_inverted 3", ("marble_inverted 3", "texture") } } },
                     { "Level 7-4", new Dictionary<string, (string, string)> { { "HotPipeSign", ("HotPipeSign", "texture") }, { "T_Cent_PlantRoom", ("T_Cent_PlantRoom", "texture") } } },
-                    { "Level 7-S", new Dictionary<string, (string, string)> { { "T_Placard", ("T_Placard", "texture") } } },
+                    { "Level 7-S", new Dictionary<string, (string, string)> { { "T_Placard", ("T_Placard", "texture") }, { "T_TrailSign", ("T_TrailSign", "texture") } } },
                     { "Level 8-1", new Dictionary<string, (string, string)> { { "ArchangelNamePlateRaphael", ("ArchangelNamePlateRaphael", "texture") }, { "ArchangelNamePlatePhanuel", ("ArchangelNamePlatePhanuel", "texture") }, { "ArchangelNamePlateMichael", ("ArchangelNamePlateMichael", "texture") }, { "ArchangelNamePlateGabriel", ("ArchangelNamePlateGabriel", "texture") }, { "T_LionPlaque", ("T_LionPlaque", "texture") }, { "wecamein", ("wecamein", "texture") }, { "wecamein2", ("wecamein2", "texture") } } },
                     { "Level 8-2", new Dictionary<string, (string, string)> { { "ad_fox 1", ("ad_fox 1", "texture") }, { "big_hakita", ("big_hakita", "texture") }, { "inthemirror", ("inthemirror", "texture") }, { "OfficeMaintenance", ("OfficeMaintenance", "texture") }, { "presentation2", ("presentation2", "texture") }, { "VendingMachine", ("VendingMachine", "texture") }, { "StatsBoard", ("StatsBoard", "texture") }, { "OfficeArchive", ("OfficeArchive", "texture") } } },
                     { "Level 8-3", new Dictionary<string, (string, string)> { { "SignWarning", ("SignWarning", "texture") }, { "ad_fox 1", ("ad_fox 1", "texture") }, { "big_hakita", ("big_hakita", "texture") }, { "VendingMachine", ("VendingMachine", "texture") }, { "StatsBoard", ("StatsBoard", "texture") }, { "OfficeArchive", ("OfficeArchive", "texture") } } },
