@@ -1,0 +1,9 @@
+{
+  "github.copilot.chat.localeOverride": "en",
+  "[git-commit]": {
+    "editor.rulers": [50, 72],
+    "editor.wordWrap": "wordWrapColumn",
+    "editor.wordWrapColumn": 72
+  },
+  "scm.inputFontFamily": "monospace"
+}

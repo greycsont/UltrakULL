@@ -926,6 +926,7 @@ namespace UltrakULL.json
         public string subtitles_minosPrime_defeated2;
         public string subtitles_minosPrime_defeated3;
         public string subtitles_minosPrime_defeated4;
+        public string subtitles_minosPrime_deathScream;
 
         public string subtitles_sisyphusPrime_preIntro1;
         public string subtitles_sisyphusPrime_preIntro2;

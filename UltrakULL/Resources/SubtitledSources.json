@@ -448,7 +448,12 @@
 			{
 				"objects": ["3 - Fuckatorium/3 Stuff(Clone)/MinosPrimeWave/MinosPrime/DeathScream"],
 				"audio": "minosPrime\\minosPrimeDeathScream",
-				"lines": []
+				"lines": [
+					{
+						"line": "subtitles_minosPrime_deathScream",
+						"delay": 0
+					}
+				]
 			}
 		],
 		"Level P-2": [
