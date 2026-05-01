@@ -38,7 +38,7 @@ namespace UltrakULL.Harmony_Patches
 
             ___enemyPageTitle.text = enemyName;
             ___enemyEntryTitle.text = enemyName;
-            string text = "</s><color=orange>" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_type + enemyType + "\n\n" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_data + "</color>\n";
+            string text = "</s><color=#FF4343>" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_type + "</color>" + enemyType + "\n\n<color=#FF4343>" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_data + "</color>\n";
             if (MonoSingleton<BestiaryData>.Instance.GetEnemy(source.enemyType) > 1)
             {
                 text += enemyDescription;
@@ -47,7 +47,7 @@ namespace UltrakULL.Harmony_Patches
             {
                 text += "???";
             }
-            text = text + "\n\n</s><color=orange>" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_strategy + "</color>\n" + enemyStrategy;
+            text = text + "\n\n</s><color=#FF4343>" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_strategy + "</color>\n" + enemyStrategy;
             ___enemyPageContent.text = text;
         }
     }
