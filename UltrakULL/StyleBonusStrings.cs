@@ -9,39 +9,43 @@ namespace UltrakULL
 		{
 			if (inputBonus.Contains("blue"))
 			{
-				return "<color=#00ffff>";
-			}
-			if (inputBonus.Contains("cyan"))
-			{
-				return "<color=#00ffff>";
-			}
-			if (inputBonus.Contains("green"))
-			{
-				return "<color=green>";
-			}
-			if (inputBonus.Contains("lime"))
-			{
-				return "<color=green>";
-			}
-			if (inputBonus.Contains("yellow"))
-			{
-				return "<color=yellow>";
-			}
-			if (inputBonus.Contains("red"))
-			{
-				return "<color=red>";
-			}
-			if (inputBonus.Contains("orange"))
-			{
-				return "<color=orange>";
-			}
-			if (inputBonus.Contains("grey"))
-			{
-				return "<color=grey>";
-			}
-			return "";
+			return "<color=#0000FF>";
 		}
-
+		if (inputBonus.Contains("cyan"))
+		{
+			return "<color=#00FFFF>";
+		}
+		if (inputBonus.Contains("green"))
+		{
+			return "<color=#00FF00>";
+		}
+		if (inputBonus.Contains("lime"))
+		{
+			return "<color=#32CD32>";
+		}
+		if (inputBonus.Contains("yellow"))
+		{
+			return "<color=#FFFF00>";
+		}
+		if (inputBonus.Contains("red"))
+		{
+			return "<color=#FF0000>";
+		}
+		if (inputBonus.Contains("orange"))
+		{
+			return "<color=#FFA500>";
+		}
+		if (inputBonus.Contains("grey"))
+		{
+			return "<color=#808080>";
+		}
+		if (inputBonus.Contains("aqua"))
+		{
+			return "<color=#00FFFF>";
+		}
+		return "";
+		}
+		
 		public static string GetStyleBonusDictionary(string inputBonus)
 		{
 			switch (inputBonus)
@@ -169,9 +173,9 @@ namespace UltrakULL
 			case "ultrakill.roundtrip":
 				return "<color=green>" + LanguageManager.CurrentLanguage.style.style_roundtrip + "</color>";
 			case "ultrakill.terminalvelocity":
-				return "<color=green>" + LanguageManager.CurrentLanguage.style.style_terminalvelocity;
+				return "<color=green>" + LanguageManager.CurrentLanguage.style.style_terminalvelocity + "</color>";
 			case "ultrakill.heartbreak":
-				return "<color=green>" + LanguageManager.CurrentLanguage.style.style_heartbreak;
+				return "<color=green>" + LanguageManager.CurrentLanguage.style.style_heartbreak + "</color>";
             case "ultrakill.insurrstomp":
                 return LanguageManager.CurrentLanguage.style.style_stomped;
             case "ultrakill.drillhit":
