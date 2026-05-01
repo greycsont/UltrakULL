@@ -72,6 +72,11 @@
       <HintPath>$(ManagedDir)\UnityEngine.AssetBundleModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Emgu.CV, Version=4.6.0.5131, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
+      <HintPath>$(EmguNuGetRoot)\emgu.cv\$(EmguCvVersion)\lib\netstandard2.0\Emgu.CV.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="UnityEngine.AudioModule">
       <HintPath>$(ManagedDir)\UnityEngine.AudioModule.dll</HintPath>
       <Private>False</Private>
@@ -126,6 +131,10 @@
     <BepInExRootDir>$(ULTRAKILLPath)\BepInEx\</BepInExRootDir>
     <BepInExCoreDir>$(BepInExRootDir)\core\</BepInExCoreDir>
     <BepInExPluginsDir>$(BepInExRootDir)\plugins\</BepInExPluginsDir>
+    <!-- NuGet cache (run: dotnet restore / nuget restore, or install Emgu.CV / Emgu.CV.runtime.windows 4.6.0.5131) -->
+    <EmguNuGetRoot Condition="'$(EmguNuGetRoot)' == ''">$(UserProfile)\.nuget\packages</EmguNuGetRoot>
+    <EmguCvVersion>4.6.0.5131</EmguCvVersion>
+    <EmguMsvcRtX64Version>19.33.31630</EmguMsvcRtX64Version>
   </PropertyGroup>
   <PropertyGroup>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
@@ -159,6 +168,17 @@
     <Move SourceFiles="$(TargetDir)UltrakULL.dll" DestinationFolder="$(TargetDir)plugins/UltrakULL">
     </Move>
     <Message Text="DLL moved." Importance="High" />
+  </Target>
+  <!-- Emgu CV: managed + native рядом с UltrakULL.dll (без копирования в ULTRAKILL_Data\Managed) -->
+  <Target Name="CopyEmguToPluginFolder" AfterTargets="MoveDLLToFolder">
+    <ItemGroup>
+      <_EmguManaged Include="$(TargetDir)Emgu.CV.dll" />
+      <_EmguNative Include="$(EmguNuGetRoot)\emgu.cv.runtime.windows\$(EmguCvVersion)\runtimes\win-x64\native\*.*" />
+      <_EmguMsvc Include="$(EmguNuGetRoot)\emgu.runtime.windows.msvc.rt.x64\$(EmguMsvcRtX64Version)\runtimes\win-x64\native\*.*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(_EmguManaged)" DestinationFolder="$(TargetDir)plugins\UltrakULL" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(_EmguNative)" DestinationFolder="$(TargetDir)plugins\UltrakULL" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(_EmguMsvc)" DestinationFolder="$(TargetDir)plugins\UltrakULL" SkipUnchangedFiles="true" />
   </Target>
   <!-- Copy the font resource pack to plugins/ultrakull. -->
   <Target Name="MoveFontBundleToFolder" AfterTargets="AfterBuild">
@@ -269,6 +289,10 @@
     <Compile Include="Harmony Patches\TextGetControlPatch.cs" />
     <Compile Include="Harmony Patches\VariationInfo.cs" />
     <Compile Include="Harmony Patches\Level84ImageReplacementPatch.cs" />
+    <Compile Include="TextureSystem\BatchTextureLoader.cs" />
+    <Compile Include="TextureSystem\RegionFinder.cs" />
+    <Compile Include="TextureSystem\TextureRegionCache.cs" />
+    <Compile Include="TextureSystem\TextureSystemTests.cs" />
     <Compile Include="json\LanguageManager.cs" />
     <Compile Include="Harmony Patches\LanguageOptions.cs" />
     <Compile Include="json\UpdateInfo.cs" />
