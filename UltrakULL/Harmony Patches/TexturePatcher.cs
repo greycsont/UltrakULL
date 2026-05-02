@@ -22,8 +22,8 @@ namespace UltrakULL.Harmony_Patches
     public static class TexturePatcher
     {
         private static string texturesFolder => Path.Combine(Paths.ConfigPath, "ultrakull", "textures", LanguageManager.CurrentLanguage.metadata.langName) + Path.DirectorySeparatorChar;
-        private static string batchOriginsFolder => Path.Combine(Paths.PluginPath, "UltrakULL-UltrakULL", "UltrakULL", "BatchTexturesOrigins") + Path.DirectorySeparatorChar;
-        
+        private static string batchOriginsFolder => Path.Combine(Path.GetDirectoryName(typeof(TexturePatcher).Assembly.Location), "BatchTexturesOrigins") + Path.DirectorySeparatorChar;
+
         private static bool initialized = false;
         private static Dictionary<string, Dictionary<string, (string filename, string type)>> levelTextureMappings;
         private static Dictionary<string, Texture2D> textureCache = new Dictionary<string, Texture2D>();
