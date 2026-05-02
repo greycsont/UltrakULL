@@ -1763,7 +1763,6 @@ namespace UltrakULL.json
         public string shop_rocketLauncherFreeze;
         public string shop_rocketLauncherFreezeDescription1;
         public string shop_rocketLauncherFreezeDescription2;
-        public string shop_rocketLauncherFreezeDescription3;
 
         public string shop_rocketLauncherSrsCannon;
         public string shop_rocketLauncherSrsCannonDescription1;

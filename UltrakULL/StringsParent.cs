@@ -358,7 +358,7 @@ namespace UltrakULL
 					Logging.Warn($"[StringsParent] Translation missing or empty for uk_construct, falling back to original: '{tipDescriptionText}'");
 					return tipDescriptionText;
 				}
-				return part1 + "\n<color=orange>↑ ↑ ↓ ↓ ← → ← → B A</color>\n" + part2;
+				return part1 + "\n\n<color=#FF4343>↑ ↑ ↓ ↓ ← → ← → B A</color>\n\n" + part2;
 			}
 			if (currentSceneName.Contains("0-E"))
 			{

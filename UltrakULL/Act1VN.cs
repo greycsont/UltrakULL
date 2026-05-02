@@ -222,7 +222,7 @@ namespace UltrakULL
                     + LanguageManager.CurrentLanguage.visualnovel.visualnovel_introFirst4
                     + "▼\n\n"
                     + LanguageManager.CurrentLanguage.visualnovel.visualnovel_introFirst5 + "▼\n"
-                    + LanguageManager.CurrentLanguage.visualnovel.visualnovel_introFirst6 + "▼\n\n"
+                    + LanguageManager.CurrentLanguage.visualnovel.visualnovel_introFirst6 + "▼\n\n\n\n"
                     + LanguageManager.CurrentLanguage.visualnovel.visualnovel_introFirst7 + "▼\n";
             }
             if(inputString.Contains("I bit down"))

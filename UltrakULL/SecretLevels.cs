@@ -314,7 +314,7 @@ namespace UltrakULL
                 //Faxeexittext
                 GameObject fakeexitCanvas = GetGameObjectChild(GetGameObjectChild(GetInactiveRootObject("Fake Exit"), "PuzzleScreen"), "Canvas"); 
                 TextMeshProUGUI fakeexittext = GetTextMeshProUGUI(GetGameObjectChild(fakeexitCanvas, "Cleaning Prompt Text"));
-                fakeexittext.text = "<size=12><color=red><u><b>" + LanguageManager.CurrentLanguage.washing.wash_fakeexittext1 + "</u></b></color></size>\n\n"
+                fakeexittext.text = "<size=12><color=#7f0000><u><b>" + LanguageManager.CurrentLanguage.washing.wash_fakeexittext1 + "</u></b></color></size>\n\n"
                 + LanguageManager.CurrentLanguage.washing.wash_fakeexittext2 + "\n"
                 + LanguageManager.CurrentLanguage.washing.wash_fakeexittext3 + "\n"
                 + LanguageManager.CurrentLanguage.washing.wash_fakeexittext4 + "\n"
@@ -322,8 +322,8 @@ namespace UltrakULL
                 + LanguageManager.CurrentLanguage.washing.wash_fakeexittext6;
 
                 TextMeshProUGUI thxtext = GetTextMeshProUGUI(GetGameObjectChild(fakeexitCanvas, "Thank You Text"));
-                thxtext.text = "<size=12><color=green><u><b>" + LanguageManager.CurrentLanguage.washing.wash_exitOpenText1 + "</u></b></color></size>\n\n"
-                + LanguageManager.CurrentLanguage.washing.wash_exitOpenText2 + "\n"
+                thxtext.text = "<size=12><color=#7f0000><u><b>" + LanguageManager.CurrentLanguage.washing.wash_exitOpenText1 + "</u></b></color></size>\n\n"
+                + LanguageManager.CurrentLanguage.washing.wash_exitOpenText2 + "\n\n"
                 + LanguageManager.CurrentLanguage.washing.wash_exitOpenText3;
 
             }

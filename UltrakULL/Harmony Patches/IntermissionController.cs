@@ -65,13 +65,13 @@ namespace UltrakULL.Harmony_Patches
                 switch (mirageName)
                 {
                     case "JUST SOMEONE:":
-                        ___preText = $"{openingTag}{LanguageManager.CurrentLanguage.visualnovel.visualnovel_mirageName1}{closingTag}:";
+                        ___preText = $"{LanguageManager.CurrentLanguage.visualnovel.visualnovel_mirageName1}:";
                         break;
                     case "THE PRETTIEST GIRL IN TOWN:":
-                        ___preText = $"{openingTag}{LanguageManager.CurrentLanguage.visualnovel.visualnovel_mirageName2}{closingTag}:";
+                        ___preText = $"{LanguageManager.CurrentLanguage.visualnovel.visualnovel_mirageName2}:";
                         break;
                     case "MIRAGE:":
-                        ___preText = $"{openingTag}{LanguageManager.CurrentLanguage.visualnovel.visualnovel_mirageName3}{closingTag}:";
+                        ___preText = $"{LanguageManager.CurrentLanguage.visualnovel.visualnovel_mirageName3}:";
                         break;
                 }
             }
