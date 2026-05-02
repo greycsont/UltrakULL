@@ -247,7 +247,7 @@ namespace UltrakULL
 			}
 			if (currentSceneName.Contains("2-2"))
 			{
-				return EnsureTranslation(LanguageManager.CurrentLanguage.levelTips.leveltips_lustSecond1, LanguageManager.CurrentLanguage.levelTips.leveltips_lustSecond2, LanguageManager.CurrentLanguage.levelTips.leveltips_lustSecond3, "\n\n", "\n\n", tipDescriptionText);
+				return EnsureTranslation(LanguageManager.CurrentLanguage.levelTips.leveltips_lustSecond1, LanguageManager.CurrentLanguage.levelTips.leveltips_lustSecond2, LanguageManager.CurrentLanguage.levelTips.leveltips_lustSecond3, " ", "\n\n", tipDescriptionText);
 			}
 			if (currentSceneName.Contains("2-3"))
 			{
