@@ -2474,6 +2474,13 @@ namespace UltrakULL.json
         public string advanced_7SHard;
         public string advanced_P2DisableTunnelScrolling;
 
+        public string steamLeaderboard_title;
+        public string steamLeaderboard_refreshButton;
+        public string steamLeaderboard_returnButton;
+        public string steamLeaderboard_anyLabel;
+        public string steamLeaderboard_pLabel;
+        public string steamLeaderboard_reset;
+
         public string language_title;
         public string language_languages;
         public string language_openLanguageFolder;

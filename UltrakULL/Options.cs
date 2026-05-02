@@ -968,6 +968,8 @@ namespace UltrakULL
                     try { PatchRumbleOptions(rumbleOptions); } catch (Exception e) { Logging.Error("Failed to patch rumble options."); Logging.Error(e.ToString()); }
                     GameObject advancedOptions = GetGameObjectChild(optionsMenu, "Advanced Options");
                     try { PatchAdvancedOptions(advancedOptions); } catch (Exception e) { Logging.Error("Failed to patch advanced options."); Logging.Error(e.ToString()); }
+                    GameObject steamOptions = GetGameObjectChild(optionsMenu, "Leaderboard Manager");
+                    try { PatchSteamLeaderboard(steamOptions); } catch (Exception e) { Logging.Error("Failed to patch steam leaderboard."); Logging.Error(e.ToString()); }
                 }
                 catch (Exception e)
                 {
@@ -982,7 +984,47 @@ namespace UltrakULL
             }
 
         }
-        
+
+        private void PatchSteamLeaderboard(GameObject optionMenu)
+        {
+            TextMeshProUGUI steamLeaderboardTitle = GetTextMeshProUGUI(GetGameObjectChild(optionMenu, "Title"));
+            steamLeaderboardTitle.text = LanguageManager.CurrentLanguage.options.steamLeaderboard_title;
+
+            TextMeshProUGUI steamLeaderboardRefreshButton = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(optionMenu, "Refresh Button"), "Text"));
+            steamLeaderboardRefreshButton.text = LanguageManager.CurrentLanguage.options.steamLeaderboard_refreshButton;
+
+            TextMeshProUGUI steamLeaderboardReturnButton = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(optionMenu, "Close"), "Text"));
+            steamLeaderboardReturnButton.text = LanguageManager.CurrentLanguage.options.steamLeaderboard_returnButton;
+
+            //Loop through each entry
+            GameObject SteamEntryList = GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(optionMenu, "Scroll View"), "Viewport"), "Content");
+            try
+            {
+                for (int x = 0; x < 35; x++) //Hardcoded, amount may increase in future updates
+                {
+                    GameObject entry = SteamEntryList.transform.GetChild(x).gameObject;
+
+                    TextMeshProUGUI entryAnyLabel = GetTextMeshProUGUI(GetGameObjectChild(entry, "Any Label"));
+                    entryAnyLabel.text = LanguageManager.CurrentLanguage.options.steamLeaderboard_anyLabel;
+
+                    TextMeshProUGUI entryPLabel = GetTextMeshProUGUI(GetGameObjectChild(entry, "P Label"));
+                    entryPLabel.text = LanguageManager.CurrentLanguage.options.steamLeaderboard_pLabel;
+
+                    TextMeshProUGUI entryAnyReset = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(entry, "Any Reset"), "Text"));
+                    entryAnyReset.text = LanguageManager.CurrentLanguage.options.steamLeaderboard_reset;
+
+                    TextMeshProUGUI entryPReset = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(entry, "P Reset Button"), "Text"));
+                    entryPReset.text = LanguageManager.CurrentLanguage.options.steamLeaderboard_reset;
+                }
+            }
+            catch (Exception e)
+            {
+                Logging.Error("Something went wrong while patching Steam Leaderboard.");
+                Logging.Error(e.ToString());
+            }
+
+        }
+
         public Options(ref GameObject game)
         {
             //Options are in two different locations.
