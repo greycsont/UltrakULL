@@ -374,12 +374,12 @@ namespace UltrakULL
         {
             switch(this.currentLevel)
             {
-                case ("Level 0-S"): { return "0-S:" + LanguageManager.CurrentLanguage.levelNames.levelName_preludeSecret; }
-                case ("Level 1-S"): { return "1-S:" + LanguageManager.CurrentLanguage.levelNames.levelName_limboSecret; }
-                case ("Level 2-S"): { return "2-S:" + LanguageManager.CurrentLanguage.levelNames.levelName_lustSecret; }
-                case ("Level 4-S"): { return "4-S:" + LanguageManager.CurrentLanguage.levelNames.levelName_greedSecret;}
-                case ("Level 5-S"): { return "5-S:" + LanguageManager.CurrentLanguage.levelNames.levelName_wrathSecret;}
-                case ("Level 7-S"): { return "7-S:" + LanguageManager.CurrentLanguage.levelNames.levelName_violenceSecret; }
+                case ("Level 0-S"): { return "0-S: " + LanguageManager.CurrentLanguage.levelNames.levelName_preludeSecret; }
+                case ("Level 1-S"): { return "1-S: " + LanguageManager.CurrentLanguage.levelNames.levelName_limboSecret; }
+                case ("Level 2-S"): { return "2-S: " + LanguageManager.CurrentLanguage.levelNames.levelName_lustSecret; }
+                case ("Level 4-S"): { return "4-S: " + LanguageManager.CurrentLanguage.levelNames.levelName_greedSecret;}
+                case ("Level 5-S"): { return "5-S: " + LanguageManager.CurrentLanguage.levelNames.levelName_wrathSecret;}
+                case ("Level 7-S"): { return "7-S: " + LanguageManager.CurrentLanguage.levelNames.levelName_violenceSecret; }
                 default: { return "UNKNOWN"; }
             }
         }

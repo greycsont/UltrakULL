@@ -20,8 +20,8 @@ namespace UltrakULL
 
             switch (currentLevel)
             {
-                case "Level 0-E": { return "0-E - " + LanguageManager.CurrentLanguage.levelNames.levelName_encorePrelude; }
-                case "Level 1-E": { return "1-E - " + LanguageManager.CurrentLanguage.levelNames.levelName_encoreLimbo; }
+                case "Level 0-E": { return "0-E: " + LanguageManager.CurrentLanguage.levelNames.levelName_encorePrelude; }
+                case "Level 1-E": { return "1-E: " + LanguageManager.CurrentLanguage.levelNames.levelName_encoreLimbo; }
 
                 default: 
                     {
