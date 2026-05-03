@@ -259,6 +259,7 @@ namespace UltrakULL.json
         public string cybergrind_patternsRefresh;
         public string cybergrind_patternsLaunchExternalEditor;
         public string cybergrind_patternsSwitchButton;
+        public string cybergrind_patternsSwitchButtonNot;
 
         public string cybergrind_wavesTitle;
         public string cybergrind_wavesDescription1;

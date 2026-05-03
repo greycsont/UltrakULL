@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using TMPro;
+using UltrakULL.json;
 using UnityEngine;
 using UnityEngine.UI;
-
 using static UltrakULL.CommonFunctions;
-using UltrakULL.json;
-using System.Threading.Tasks;
-using System.Text.RegularExpressions;
 
 namespace UltrakULL
 {
@@ -323,8 +323,11 @@ namespace UltrakULL
             TextMeshProUGUI cgPatternsWarning = GetTextMeshProUGUI(GetGameObjectChild(cgTerminalPatterns,"Warning Text"));
             cgPatternsWarning.text = "<color=red>" + LanguageManager.CurrentLanguage.cyberGrind.cybergrind_patternsWarning + "</color>";
 
-            TextMeshProUGUI cgPatternsSwitchButton = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(cgTerminalPatterns, "Enable/Disable Button"), "Text"));
-            cgPatternsSwitchButton.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_patternsSwitchButton;
+            bool customPatternMode = MonoSingleton<EndlessGrid>.Instance.customPatternMode;
+            TextMeshProUGUI cgPatternsSwitchButton = cgTerminalPatterns.transform.Cast<Transform>().FirstOrDefault(t => t.name == "Enable/Disable Button")?.Find("Text")?.GetComponent<TextMeshProUGUI>();
+            cgPatternsSwitchButton.text = customPatternMode
+                ? LanguageManager.CurrentLanguage.cyberGrind.cybergrind_patternsSwitchButtonNot
+                : LanguageManager.CurrentLanguage.cyberGrind.cybergrind_patternsSwitchButton;
 
             TextMeshProUGUI cgPatternsBack = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(cgTerminalMainPanel, "Patterns"), "Back Button"), "Text"));
             cgPatternsBack.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomBack;
