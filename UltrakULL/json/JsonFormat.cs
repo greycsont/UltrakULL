@@ -2083,6 +2083,7 @@ namespace UltrakULL.json
         public string enemyname_earthmoverMortar;
         public string enemyname_earthmoverRocketLauncher;
         public string enemyname_earthmoverTower;
+        public string enemyname_geryon;
 
         public string enemyname_radiant_swordsmachine;
         public string enemyname_radiant_cerberus;

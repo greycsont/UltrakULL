@@ -182,7 +182,9 @@ namespace UltrakULL
 				return LanguageManager.CurrentLanguage.enemyNames.enemyname_earthmoverRocketLauncher;
 			case "EARTHMOVER TOWER":
 				return LanguageManager.CurrentLanguage.enemyNames.enemyname_earthmoverTower;
-			case "PROVIDENCE":
+            case "GERYON":
+                return LanguageManager.CurrentLanguage.enemyNames.enemyname_geryon;
+            case "PROVIDENCE":
 				return GetEnemyNameWithFallback(LanguageManager.CurrentLanguage.enemyNames.enemyname_boss_providence, originalName);
 			case "DEATHCATCHER":
 				return GetEnemyNameWithFallback(LanguageManager.CurrentLanguage.enemyNames.enemyname_deathcatcher, originalName);
@@ -199,7 +201,6 @@ namespace UltrakULL
 			case "POWER CHAUAKIAH":
 			case "POWER \"CHAUAKIAH\"":
 				return GetEnemyNameWithFallback(LanguageManager.CurrentLanguage.enemyNames.enemyname_boss_powerChauakiah, originalName);
-			case "GERYON":
 			case "GERYON, WATCHER OF THE SKIES":
 				return GetEnemyNameWithFallback(LanguageManager.CurrentLanguage.enemyNames.enemyname_boss_geryon, originalName);
 			default:
