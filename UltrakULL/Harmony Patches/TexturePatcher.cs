@@ -277,6 +277,7 @@ namespace UltrakULL.Harmony_Patches
         private static readonly List<string> IgnoredPathPatterns = new List<string>
         {
             "Leaderboard/Container/Entry Template",
+            "Level Finish Leaderboard",
         };
 
         private static readonly Dictionary<string, (string filename, string type)> globalTextureReplacements = new Dictionary<string, (string, string)>
@@ -1417,12 +1418,6 @@ namespace UltrakULL.Harmony_Patches
 
         private static bool TryGetReplacement(string textureName, out Texture2D replacement)
         {
-
-            replacement = null;
-
-            if (string.IsNullOrEmpty(textureName))
-                return false;
-
             return currentReplacements.TryGetValue(textureName, out replacement)
                 || currentReplacements.TryGetValue(textureName.ToLower(), out replacement);
         }

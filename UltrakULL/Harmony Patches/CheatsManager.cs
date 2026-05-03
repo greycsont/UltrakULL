@@ -14,11 +14,11 @@ namespace UltrakULL.Harmony_Patches
     [HarmonyPatch(typeof(CheatsManager))]
     public static class CheatsManagerPatch
     {
-        /*[HarmonyPatch("StartRebind"), HarmonyPostfix]
+        [HarmonyPatch("StartRebind"), HarmonyPostfix]
         public static void StartRebind_Postfix(Dictionary<ICheat, CheatMenuItem> ___menuItems, ref ICheat cheat) 
         {
             ___menuItems[cheat].bindButtonText.text = LanguageManager.CurrentLanguage.cheats.cheats_pressAnyKey;//Press any key
-        }*/
+        }
 
         [HarmonyPatch("RebuildMenu"), HarmonyPostfix]
         public static void RebuildMenu_Postfix()

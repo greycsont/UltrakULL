@@ -324,6 +324,7 @@ namespace UltrakULL.json
 
         public string cheats_pressToBind;
         public string cheats_delete;
+        public string cheats_pressAnyKey;
 
         public string cheats_navmeshOutdated1;
         public string cheats_navmeshOutdated2;
