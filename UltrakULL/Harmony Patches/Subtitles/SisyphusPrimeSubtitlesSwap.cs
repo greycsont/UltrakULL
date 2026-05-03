@@ -15,7 +15,7 @@ namespace UltrakULL.Harmony_Patches.Subtitles
 		private const int LdstrInstructionOffset = 3;
 
 		[HarmonyTranspiler]
-		[HarmonyPatch(typeof(SisyphusPrime), "Update")]
+		[HarmonyPatch(typeof(SisyphusPrime), "Enrage")]
 		private static IEnumerable<CodeInstruction> SisyphusPrime_Update(IEnumerable<CodeInstruction> instructions)
 		{
 			List<CodeInstruction> list = instructions.ToList();
