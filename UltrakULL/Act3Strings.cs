@@ -213,25 +213,25 @@ namespace UltrakULL
 			switch (CommonFunctions.GetCurrentSceneName())
 			{
 			case "Level 7-1":
-				return "7-1 - " + LanguageManager.CurrentLanguage.levelNames.levelName_violenceFirst;
+				return "7-1: " + LanguageManager.CurrentLanguage.levelNames.levelName_violenceFirst;
 			case "Level 7-2":
-				return "7-2 - " + LanguageManager.CurrentLanguage.levelNames.levelName_violenceSecond;
+				return "7-2: " + LanguageManager.CurrentLanguage.levelNames.levelName_violenceSecond;
 			case "Level 7-3":
-				return "7-3 - " + LanguageManager.CurrentLanguage.levelNames.levelName_violenceThird;
+				return "7-3: " + LanguageManager.CurrentLanguage.levelNames.levelName_violenceThird;
 			case "Level 7-4":
-				return "7-4 - " + LanguageManager.CurrentLanguage.levelNames.levelName_violenceFourth;
+				return "7-4: " + LanguageManager.CurrentLanguage.levelNames.levelName_violenceFourth;
 			case "Level 8-1":
-				return "8-1 - " + LanguageManager.CurrentLanguage.levelNames.levelName_fraudFirst;
+				return "8-1: " + LanguageManager.CurrentLanguage.levelNames.levelName_fraudFirst;
 			case "Level 8-2":
-				return "8-2 - " + LanguageManager.CurrentLanguage.levelNames.levelName_fraudSecond;
+				return "8-2: " + LanguageManager.CurrentLanguage.levelNames.levelName_fraudSecond;
 			case "Level 8-3":
-				return "8-3 - " + LanguageManager.CurrentLanguage.levelNames.levelName_fraudThird;
+				return "8-3: " + LanguageManager.CurrentLanguage.levelNames.levelName_fraudThird;
 			case "Level 8-4":
-				return "8-4 - " + LanguageManager.CurrentLanguage.levelNames.levelName_fraudFourth;
+				return "8-4: " + LanguageManager.CurrentLanguage.levelNames.levelName_fraudFourth;
 			case "Level 9-1":
-				return "9-1 - " + LanguageManager.CurrentLanguage.levelNames.levelName_treacheryFirst;
+				return "9-1: " + LanguageManager.CurrentLanguage.levelNames.levelName_treacheryFirst;
 			case "Level 9-2":
-				return "9-2 - " + LanguageManager.CurrentLanguage.levelNames.levelName_treacherySecond;
+				return "9-2: " + LanguageManager.CurrentLanguage.levelNames.levelName_treacherySecond;
 			default:
 				return "Unknown level name";
 			}

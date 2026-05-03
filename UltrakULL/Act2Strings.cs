@@ -327,19 +327,18 @@ namespace UltrakULL
 
             switch (currentLevel)
             {
-                case "Level 4-1": { return "4-1 - " + LanguageManager.CurrentLanguage.levelNames.levelName_greedFirst; }
-                case "Level 4-2": { return "4-2 - " + LanguageManager.CurrentLanguage.levelNames.levelName_greedSecond; }
-                case "Level 4-3": { return "4-3 - " + LanguageManager.CurrentLanguage.levelNames.levelName_greedThird; }
-                case "Level 4-4": { return "4-4 - " + LanguageManager.CurrentLanguage.levelNames.levelName_greedFourth; }
+                case "Level 4-1": { return "4-1: " + LanguageManager.CurrentLanguage.levelNames.levelName_greedFirst; }
+                case "Level 4-2": { return "4-2: " + LanguageManager.CurrentLanguage.levelNames.levelName_greedSecond; }
+                case "Level 4-3": { return "4-3: " + LanguageManager.CurrentLanguage.levelNames.levelName_greedThird; }
+                case "Level 4-4": { return "4-4: " + LanguageManager.CurrentLanguage.levelNames.levelName_greedFourth; }
 
-                case "Level 5-1": { return "5-1 - " + LanguageManager.CurrentLanguage.levelNames.levelName_wrathFirst; }
-                case "Level 5-2": { return "5-2 - " + LanguageManager.CurrentLanguage.levelNames.levelName_wrathSecond; }
-                case "Level 5-3": { return "5-3 - " + LanguageManager.CurrentLanguage.levelNames.levelName_wrathThird; }
-                case "Level 5-4": { return "5-4 - " + LanguageManager.CurrentLanguage.levelNames.levelName_wrathFourth; }
+                case "Level 5-1": { return "5-1: " + LanguageManager.CurrentLanguage.levelNames.levelName_wrathFirst; }
+                case "Level 5-2": { return "5-2: " + LanguageManager.CurrentLanguage.levelNames.levelName_wrathSecond; }
+                case "Level 5-3": { return "5-3: " + LanguageManager.CurrentLanguage.levelNames.levelName_wrathThird; }
+                case "Level 5-4": { return "5-4: " + LanguageManager.CurrentLanguage.levelNames.levelName_wrathFourth; }
 
-                case "Level 6-1": { return "6-1 - " + LanguageManager.CurrentLanguage.levelNames.levelName_heresyFirst; }
-                case "Level 6-2": { return "6-2 - " + LanguageManager.CurrentLanguage.levelNames.levelName_heresySecond; }
-
+                case "Level 6-1": { return "6-1: " + LanguageManager.CurrentLanguage.levelNames.levelName_heresyFirst; }
+                case "Level 6-2": { return "6-2: " + LanguageManager.CurrentLanguage.levelNames.levelName_heresySecond; }
                 default: { return "Unknown level name"; }
             }
         }
