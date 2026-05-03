@@ -42,8 +42,8 @@ namespace UltrakULL
 				}
 				return "<i>" + LanguageManager.CurrentLanguage.books.books_violenceSecondAmbush1 + "\n\n\n\n" + LanguageManager.CurrentLanguage.books.books_violenceSecondAmbush2 + "\n\n\n\n\n" + LanguageManager.CurrentLanguage.books.books_violenceSecondAmbush1 + "\n\n\n\n" + LanguageManager.CurrentLanguage.books.books_violenceSecondAmbush3 + "\n\n\n\n\n" + LanguageManager.CurrentLanguage.books.books_violenceSecondAmbush1 + "\n\n\n\n" + LanguageManager.CurrentLanguage.books.books_violenceSecondAmbush4 + "</i>";
 			case "Level 7-4":
-				return "<size=20><color=red>" + LanguageManager.CurrentLanguage.books.books_violenceFourth1 + "</color></size>\n\n\n<size=20><color=red>" + LanguageManager.CurrentLanguage.books.books_violenceFourth2 + "</color></size>\n\n\n<size=20><color=red>" + LanguageManager.CurrentLanguage.books.books_violenceFourth3 + "</color></size>\n\n\n<size=20><color=red>" + LanguageManager.CurrentLanguage.books.books_violenceFourth4 + "</color></size>\n\n<size=20>" + LanguageManager.CurrentLanguage.books.books_violenceFourth5 + "</size>";
-			case "Level 7-S":
+                    return "<size=23><color=red>" + LanguageManager.CurrentLanguage.books.books_violenceFourth1 + "\n\n\n" + LanguageManager.CurrentLanguage.books.books_violenceFourth2 + "\n\n\n" + LanguageManager.CurrentLanguage.books.books_violenceFourth3 + "\n\n\n" + LanguageManager.CurrentLanguage.books.books_violenceFourth4 + "\n\n\n<size=20><color=white>" + LanguageManager.CurrentLanguage.books.books_violenceFourth5 + "</color></size>";
+                case "Level 7-S":
 				return LanguageManager.CurrentLanguage.books.books_violenceSecret_Slate1 + "\n\n" + LanguageManager.CurrentLanguage.books.books_violenceSecret_Slate2;
 			case "Level 8-2":
 				if (originalText.Contains("Layer 8: Fraud has become exactly what I had dreamed it would be"))

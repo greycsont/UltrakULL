@@ -204,7 +204,7 @@ namespace UltrakULL
 
 				//Difficulty header text (note: this can't fit much without reducing the default font size.)
 				TextMeshProUGUI difficultyText = GetTextMeshProUGUI(difficultyObject.transform.Find("Title").gameObject);
-				difficultyText.text = LanguageManager.CurrentLanguage.frontend.difficulty_title;
+				difficultyText.text = "--" + LanguageManager.CurrentLanguage.frontend.difficulty_title + "--";
 
 				//Easy header text
 				GameObject easyObject = difficultyObject.transform.Find("Easy").gameObject;
@@ -232,7 +232,7 @@ namespace UltrakULL
 				//Standard header
 				GameObject standardTextObject = GetGameObjectChild(difficultyObject, "Standard");
                 TextMeshProUGUI standardText = GetTextMeshProUGUI(standardTextObject.transform.Find("Name").gameObject);
-				standardText.text = LanguageManager.CurrentLanguage.frontend.difficulty_standard;
+				standardText.text = LanguageManager.CurrentLanguage.frontend.difficulty_standard + " <color=orange>*</color>";
 
 				//Violent header
 				GameObject violentTextObject = GetGameObjectChild(difficultyObject, "Violent");
