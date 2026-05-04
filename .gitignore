@@ -384,3 +384,4 @@ Directory.Build.props
 
 # Decompiled game files
 .Decompiled/
+nuget.exe

@@ -1,372 +1,239 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A4A60EEF-E5F3-4A77-B125-236FBF44CCA4}</ProjectGuid>
+    <TargetFramework>net472</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>UltrakULL</RootNamespace>
     <AssemblyName>UltrakULL</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
+    <LangVersion>7.3</LangVersion>
+    <NoWarn>0169,0219,0618,4014,1998,0649,0414,0168</NoWarn>
+
+    <!-- CRITICAL: otherwise duplicates of AssemblyInfo -->
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
+
+  <!-- Debug / Release -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>0</WarningLevel>
   </PropertyGroup>
+
+<!-- Dependencies from NuGet  -->
   <ItemGroup>
-    <Reference Include="0Harmony">
-      <HintPath>$(BepInExCoreDir)\0Harmony.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>$(ManagedDir)\Assembly-CSharp.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="BepInEx">
-      <HintPath>$(BepInExCoreDir)\BepInEx.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(ManagedDir)\netstandard.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+    <PackageReference Include="Emgu.CV" Version="4.6.0.5131" />
+    <PackageReference Include="Emgu.CV.runtime.windows" Version="4.6.0.5131" />
+  </ItemGroup>
+
+<!-- local DLL's (lib) -->
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
       <HintPath>lib\Newtonsoft.Json.dll</HintPath>
-      <Private>False</Private>
+      <Private>true</Private>
     </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+
     <Reference Include="UMM">
       <HintPath>lib\UMM.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine">
-      <HintPath>$(ManagedDir)\UnityEngine.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.AssetBundleModule">
-      <HintPath>$(ManagedDir)\UnityEngine.AssetBundleModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Emgu.CV, Version=4.6.0.5131, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
-      <HintPath>$(EmguNuGetRoot)\emgu.cv\$(EmguCvVersion)\lib\netstandard2.0\Emgu.CV.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Drawing" />
-    <Reference Include="UnityEngine.AudioModule">
-      <HintPath>$(ManagedDir)\UnityEngine.AudioModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.CoreModule">
-      <HintPath>$(ManagedDir)\UnityEngine.CoreModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.ImageConversionModule">
-      <HintPath>$(ManagedDir)\UnityEngine.ImageConversionModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.InputLegacyModule">
-      <HintPath>$(ManagedDir)\UnityEngine.InputLegacyModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.PhysicsModule">
-      <HintPath>$(ManagedDir)\UnityEngine.PhysicsModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.TextRenderingModule">
-      <HintPath>$(ManagedDir)\UnityEngine.TextRenderingModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>$(ManagedDir)\UnityEngine.UI.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.UIModule">
-      <HintPath>$(ManagedDir)\UnityEngine.UIModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.UnityWebRequestModule">
-      <HintPath>$(ManagedDir)\UnityEngine.UnityWebRequestModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.UnityWebRequestAudioModule">
-      <HintPath>$(ManagedDir)\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.TextMeshPro">
-      <HintPath>$(ManagedDir)\Unity.TextMeshPro.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.InputSystem">
-      <HintPath>$(ManagedDir)\Unity.InputSystem.dll</HintPath>
-      <Private>False</Private>
+      <Private>true</Private>
     </Reference>
   </ItemGroup>
+
+<!-- Unity + BepInEx -->
+  <ItemGroup>
+
+    <Reference Include="0Harmony">
+      <HintPath>$(BepInExCoreDir)\0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+
+    <Reference Include="BepInEx">
+      <HintPath>$(BepInExCoreDir)\BepInEx.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(ManagedDir)\Assembly-CSharp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+
+    <!-- Unity base -->
+    <Reference Include="UnityEngine">
+      <HintPath>$(ManagedDir)\UnityEngine.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(ManagedDir)\UnityEngine.CoreModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+
+    <Reference Include="UnityEngine.AssetBundleModule">
+      <HintPath>$(ManagedDir)\UnityEngine.AssetBundleModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+
+    <Reference Include="UnityEngine.AudioModule">
+      <HintPath>$(ManagedDir)\UnityEngine.AudioModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>$(ManagedDir)\UnityEngine.TextRenderingModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>$(ManagedDir)\UnityEngine.UIModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+
+    <Reference Include="UnityEngine.UI">
+      <HintPath>$(ManagedDir)\UnityEngine.UI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+
+    <Reference Include="UnityEngine.ImageConversionModule">
+      <HintPath>$(ManagedDir)\UnityEngine.ImageConversionModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>$(ManagedDir)\UnityEngine.InputLegacyModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>$(ManagedDir)\UnityEngine.PhysicsModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+
+    <Reference Include="UnityEngine.UnityWebRequestModule">
+      <HintPath>$(ManagedDir)\UnityEngine.UnityWebRequestModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+
+    <Reference Include="UnityEngine.UnityWebRequestAudioModule">
+      <HintPath>$(ManagedDir)\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>$(ManagedDir)\Unity.TextMeshPro.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+
+    <Reference Include="Unity.InputSystem">
+      <HintPath>$(ManagedDir)\Unity.InputSystem.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+
+    <!-- System -->
+    <Reference Include="System.Net.Http" />
+
+  </ItemGroup>
+
+<!-- Path -->
   <PropertyGroup>
     <ManagedDir>$(ULTRAKILLPath)\ULTRAKILL_Data\Managed\</ManagedDir>
     <BepInExRootDir>$(ULTRAKILLPath)\BepInEx\</BepInExRootDir>
     <BepInExCoreDir>$(BepInExRootDir)\core\</BepInExCoreDir>
-    <BepInExPluginsDir>$(BepInExRootDir)\plugins\</BepInExPluginsDir>
-    <!-- NuGet cache (run: dotnet restore / nuget restore, or install Emgu.CV / Emgu.CV.runtime.windows 4.6.0.5131) -->
-    <EmguNuGetRoot Condition="'$(EmguNuGetRoot)' == ''">$(UserProfile)\.nuget\packages</EmguNuGetRoot>
-    <EmguCvVersion>4.6.0.5131</EmguCvVersion>
-    <EmguMsvcRtX64Version>19.33.31630</EmguMsvcRtX64Version>
   </PropertyGroup>
-  <PropertyGroup>
-    <RunPostBuildEvent>Always</RunPostBuildEvent>
-  </PropertyGroup>
-  <ItemGroup>
-    <ModDlls Include="$(OutDir)/$(AssemblyName).dll" />
-  </ItemGroup>
+
+<!-- Path validation -->
   <Target Name="WarnBeforeBuild" BeforeTargets="BeforeBuild">
-    <Error Condition="!Exists($(ULTRAKILLPath))" Text="ULTRAKILLPath not set, create a UltrakUll.csproj.user file that sets this property to compile" />
+    <Error Condition="!Exists('$(ULTRAKILLPath)')" Text="ULTRAKILLPath not set" />
   </Target>
-  <!-- Building to local build folder -->
-  <!-- Create config+plugins folder for BepInEx -->
-  <Target Name="MakeMyDir" AfterTargets="BeforeBuild">
-    <Message Text="Creating folders..." Importance="High" />
-    <MakeDir Directories="$(TargetDir)plugins/UltrakULL" Condition="!Exists('$(TargetDir)plugins/UltrakULL')" />
-    <MakeDir Directories="$(TargetDir)config/ultrakull" Condition="!Exists('$(TargetDir)config/ultrakull')" />
-    <Message Text="Folders created." Importance="High" />
+
+<!-- Folders -->
+  <Target Name="MakeDirs" BeforeTargets="Build">
+    <MakeDir Directories="$(OutDir)plugins\UltrakULL" />
+    <MakeDir Directories="$(OutDir)config\ultrakull" />
   </Target>
-  <!-- Copy any .json files in the solution to config/ultrakull - normally should just be English and template -->
-  <Target Name="CopyJSONToFolder" AfterTargets="AfterBuild">
+
+<!-- Main DLL -->
+  <Target Name="MoveDLL" AfterTargets="Build">
+    <Move SourceFiles="$(TargetDir)UltrakULL.dll"
+          DestinationFolder="$(TargetDir)plugins\UltrakULL" />
+  </Target>
+
+<!-- Emgu native -->
+  <Target Name="CopyEmguNative" AfterTargets="MoveDLL">
     <ItemGroup>
-      <_CopyItems Include="$(TargetDir)/../../json/templates/*.json" />
+      <_Native Include="$(UserProfile)\.nuget\packages\emgu.cv.runtime.windows\4.6.0.5131\runtimes\win-x64\native\*.*" />
     </ItemGroup>
-    <Message Text="Copying all JSONs to config/ultrakull..." Importance="High" />
-    <Copy SourceFiles="@(_CopyItems)" DestinationFolder="$(TargetDir)config/ultrakull" />
-    <Message Text="JSONs copied." Importance="High" />
+
+    <Copy SourceFiles="@(_Native)"
+          DestinationFolder="$(TargetDir)plugins\UltrakULL"
+          SkipUnchangedFiles="true" />
   </Target>
-  <!-- Copy the compiled .dll to plugins folder. -->
-  <Target Name="MoveDLLToFolder" AfterTargets="AfterBuild">
-    <Message Text="Moving DLL to plugins/ultrakULL..." Importance="High" />
-    <Move SourceFiles="$(TargetDir)UltrakULL.dll" DestinationFolder="$(TargetDir)plugins/UltrakULL">
-    </Move>
-    <Message Text="DLL moved." Importance="High" />
+
+<!-- Emgu managed -->
+  <Target Name="CopyEmguManaged" AfterTargets="CopyEmguNative">
+    <Copy SourceFiles="$(ProjectDir)..\packages\Emgu.CV.4.6.0.5131\lib\netstandard2.0\Emgu.CV.dll"
+          DestinationFolder="$(TargetDir)plugins\UltrakULL"
+          SkipUnchangedFiles="true" />
   </Target>
-  <!-- Emgu CV: managed + native рядом с UltrakULL.dll (без копирования в ULTRAKILL_Data\Managed) -->
-  <Target Name="CopyEmguToPluginFolder" AfterTargets="MoveDLLToFolder">
+
+<!-- JSON templates -->
+  <Target Name="CopyJSON" AfterTargets="Build">
     <ItemGroup>
-      <_EmguManaged Include="$(TargetDir)Emgu.CV.dll" />
-      <_EmguNative Include="$(EmguNuGetRoot)\emgu.cv.runtime.windows\$(EmguCvVersion)\runtimes\win-x64\native\*.*" />
-      <_EmguMsvc Include="$(EmguNuGetRoot)\emgu.runtime.windows.msvc.rt.x64\$(EmguMsvcRtX64Version)\runtimes\win-x64\native\*.*" />
+      <_Json Include="$(ProjectDir)json\templates\*.json" />
     </ItemGroup>
-    <Copy SourceFiles="@(_EmguManaged)" DestinationFolder="$(TargetDir)plugins\UltrakULL" SkipUnchangedFiles="true" />
-    <Copy SourceFiles="@(_EmguNative)" DestinationFolder="$(TargetDir)plugins\UltrakULL" SkipUnchangedFiles="true" />
-    <Copy SourceFiles="@(_EmguMsvc)" DestinationFolder="$(TargetDir)plugins\UltrakULL" SkipUnchangedFiles="true" />
+
+    <Copy SourceFiles="@(_Json)"
+          DestinationFolder="$(TargetDir)config\ultrakull" />
   </Target>
-  <!-- Copy the font resource pack to plugins/ultrakull. -->
-  <Target Name="MoveFontBundleToFolder" AfterTargets="AfterBuild">
-    <Message Text="Moving ullfont.resource to plugins/ultrakULL..." Importance="High" />
+
+  <!-- Audio templates -->
+  <Target Name="CopyAudio" AfterTargets="Build">
     <ItemGroup>
-      <_FontPack Include="$(TargetDir)/../../fonts/ullfont.resource" />
-      <_FontPack Include="$(TargetDir)/../../fonts/arabfonts" />
+      <_Audio Include="$(ProjectDir)audio\templates\**\*.*" />
     </ItemGroup>
-    <Copy SourceFiles="@(_FontPack)" DestinationFolder="$(TargetDir)plugins/UltrakULL">
-    </Copy>
+
+    <Copy SourceFiles="@(_Audio)"
+          DestinationFolder="$(TargetDir)config\ultrakull\audio\%(RecursiveDir)" />
   </Target>
-  <!-- Attempt to copy audio files from the templates to config/ultrakull/audio. Skip if fail. -->
-  <Target Name="MoveAudioFiles" AfterTargets="AfterBuild">
+
+  <!--IntroViolenceScreen -->
+  <Target Name="CopyIntroViolenceScreen" AfterTargets="Build">
     <ItemGroup>
-      <_CopyAudio Include="$(TargetDir)/../../audio/templates/**/*.*" />
+      <_IntroViolence Include="$(ProjectDir)IntroViolenceScreen\violence1.png" />
+      <_IntroViolence Include="$(ProjectDir)IntroViolenceScreen\violence2.png" />
     </ItemGroup>
-    <Message Text="Moving audio files/folders to config/ultrakull/audio..." Importance="High" />
-    <Copy SourceFiles="@(_CopyAudio)" DestinationFolder="$(TargetDir)config/ultrakull/audio/%(RecursiveDir)" />
-    <Message Text="Audio files/folders moved." Importance="High" />
+
+    <Copy SourceFiles="@(_IntroViolence)"
+          DestinationFolder="$(TargetDir)plugins\UltrakULL\IntroViolenceScreen" />
   </Target>
-  <Target Name="MoveIntroViolenceScreenToFolder" AfterTargets="AfterBuild">
-    <Message Text="Moving IntroViolenceScreen resources to plugins/ultrakULL..." Importance="High" />
+
+  <!-- BatchTexturesOrigins -->
+  <Target Name="CopyBatchTexturesOrigins" AfterTargets="Build">
     <ItemGroup>
-      <_IntroViolenceScreenPack Include="$(TargetDir)/../../IntroViolenceScreen/violence1.png" />
-      <_IntroViolenceScreenPack Include="$(TargetDir)/../../IntroViolenceScreen/violence2.png" />
+      <_BatchTextures Include="$(ProjectDir)BatchTexturesOrigins\**\*.*" />
     </ItemGroup>
-    <Copy SourceFiles="@(_IntroViolenceScreenPack)" DestinationFolder="$(TargetDir)plugins/UltrakULL/IntroViolenceScreen">
-    </Copy>
+
+    <Copy SourceFiles="@(_BatchTextures)"
+          DestinationFolder="$(TargetDir)plugins\UltrakULL\BatchTexturesOrigins\%(RecursiveDir)"
+          SkipUnchangedFiles="true" />
   </Target>
-  <!-- Copy BatchTexturesOrigins folder with all subfolders to config/ultrakull -->
-  <Target Name="MoveBatchTexturesToFolder" AfterTargets="AfterBuild">
-    <Message Text="Moving BatchTexturesOrigins to config/ultrakull..." Importance="High" />
+
+  <!-- Fonts -->
+  <Target Name="CopyFonts" AfterTargets="Build">
     <ItemGroup>
-      <_BatchTexturesPack Include="$(TargetDir)/../../BatchTexturesOrigins/**/*.*" />
+      <_FontPack Include="$(ProjectDir)fonts\ullfont.resource" />
+      <_FontPack Include="$(ProjectDir)fonts\arabfonts\**\*.*" />
     </ItemGroup>
-    <Copy SourceFiles="@(_BatchTexturesPack)" DestinationFolder="$(TargetDir)plugins/UltrakULL/BatchTexturesOrigins/%(RecursiveDir)">
-    </Copy>
-    <Message Text="BatchTexturesOrigins moved." Importance="High" />
+
+    <Copy
+      SourceFiles="@(_FontPack)"
+      DestinationFolder="$(TargetDir)plugins\UltrakULL\%(RecursiveDir)"
+      SkipUnchangedFiles="true" />
   </Target>
-  <ItemGroup>
-    <Compile Include="Act1.cs" />
-    <Compile Include="EncoreStrings.cs" />
-    <Compile Include="Act1Strings.cs" />
-    <Compile Include="Act1VN.cs" />
-    <Compile Include="Act2.cs" />
-    <Compile Include="Act2Strings.cs" />
-    <Compile Include="Act3.cs" />
-    <Compile Include="Act3Strings.cs" />
-    <Compile Include="audio\AudioSwapper.cs" />
-    <Compile Include="Books.cs" />
-    <Compile Include="BossStrings.cs" />
-    <Compile Include="Cheats.cs" />
-    <Compile Include="CommonFunctions.cs" />
-    <Compile Include="Core.cs" />
-    <Compile Include="CyberGrind.cs" />
-    <Compile Include="DevMuseum.cs" />
-    <Compile Include="Encore.cs" />
-    <Compile Include="EnemyBios.cs" />
-    <Compile Include="Harmony Patches\7Secretpatch.cs" />
-    <Compile Include="Harmony Patches\AudioDubSlider.cs" />
-    <Compile Include="Harmony Patches\AudioSwaps\BigJohninatorAudioSwap.cs" />
-    <Compile Include="Harmony Patches\AudioSwaps\GabrielAudioSwap.cs" />
-    <Compile Include="Harmony Patches\AudioSwaps\GabrielSecondAudioSwap.cs" />
-    <Compile Include="Harmony Patches\AudioSwaps\GabrielBoatRandomPitchAudioSwap.cs" />
-    <Compile Include="Harmony Patches\AudioSwaps\MandaloreAudioSwap.cs" />
-    <Compile Include="Harmony Patches\AudioSwaps\MinosPrimeAudioSwap.cs" />
-    <Compile Include="Harmony Patches\AudioSwaps\AudioFixes.cs" />
-    <Compile Include="Harmony Patches\AudioSwaps\SisyphusPrimeAudioSwap.cs" />
-    <Compile Include="Harmony Patches\AudioSwaps\PowerAudioSwap.cs" />
-    <Compile Include="Harmony Patches\BossBarManager.cs" />
-    <Compile Include="Harmony Patches\CheatsManager.cs" />
-    <Compile Include="Harmony Patches\GetMissionName.cs" />
-    <Compile Include="Harmony Patches\HellMap.cs" />
-    <Compile Include="Harmony Patches\IntroViolenceScreenPatch.cs" />
-    <Compile Include="Harmony Patches\MoneyTextPatch.cs" />
-    <Compile Include="Harmony Patches\Nailgun.cs" />
-    <Compile Include="Harmony Patches\OptionsPatch.cs" />
-    <Compile Include="Harmony Patches\RankHelperPatch.cs" />
-    <Compile Include="Harmony Patches\Coin.cs" />
-    <Compile Include="Harmony Patches\ControlBindNames.cs" />
-    <Compile Include="Harmony Patches\CrateCounter.cs" />
-    <Compile Include="Harmony Patches\CustomPatterns.cs" />
-    <Compile Include="Harmony Patches\CybergrindJukebox.cs" />
-    <Compile Include="Harmony Patches\DifficultyTitle.cs" />
-    <Compile Include="Harmony Patches\DiscordController.cs" />
-    <Compile Include="Harmony Patches\EnemyInfoPage.cs" />
-    <Compile Include="Harmony Patches\FinalRank.cs" />
-    <Compile Include="Harmony Patches\FishingPatch.cs" />
-    <Compile Include="Harmony Patches\LevelLeaderboards.cs" />
-    <Compile Include="Harmony Patches\LevelNameFinder.cs" />
-    <Compile Include="Harmony Patches\LevelSelectPanel.cs" />
-    <Compile Include="Harmony Patches\GunColorTypeGetter.cs" />
-    <Compile Include="Harmony Patches\HudMessage.cs" />
-    <Compile Include="Harmony Patches\IntermissionController.cs" />
-    <Compile Include="Harmony Patches\IntroText.cs" />
-    <Compile Include="Harmony Patches\LevelNamePopup.cs" />
-    <Compile Include="Harmony Patches\LevelStats.cs" />
-    <Compile Include="Harmony Patches\LoadingTextPatch.cs" />
-    <Compile Include="Harmony Patches\RumbleOptions.cs" />
-    <Compile Include="Harmony Patches\SandboxPatches.cs" />
-    <Compile Include="Harmony Patches\SaveSlotMenu.cs" />
-    <Compile Include="Harmony Patches\ScanningStuff.cs" />
-    <Compile Include="Harmony Patches\ShopPatch.cs" />
-    <Compile Include="Harmony Patches\SpawnMenu.cs" />
-    <Compile Include="Harmony Patches\Rank.cs" />
-    <Compile Include="Harmony Patches\Speedometer.cs" />
-    <Compile Include="Harmony Patches\StatsPatch.cs" />
-    <Compile Include="Harmony Patches\StyleHUD.cs" />
-    <Compile Include="Harmony Patches\Subtitles\GabrielSubtitlesSwap.cs" />
-    <Compile Include="Harmony Patches\Subtitles\MandaloreSubtitlesSwap.cs" />
-    <Compile Include="Harmony Patches\Subtitles\MinosPrimeSubtitlesSwap.cs" />
-    <Compile Include="Harmony Patches\Subtitles\SisyphusPrimeSubtitlesSwap.cs" />
-    <Compile Include="Harmony Patches\Subtitles\PowerSubtitlesSwap.cs" />
-    <Compile Include="Harmony Patches\TextFontSwap.cs" />
-    <Compile Include="Harmony Patches\TextMeshProFontSwap.cs" />
-    <Compile Include="Harmony Patches\TMPFontUtils.cs" />
-    <Compile Include="Harmony Patches\TexturePatcher.cs" />
-    <Compile Include="Harmony Patches\TextGetControlPatch.cs" />
-    <Compile Include="Harmony Patches\VariationInfo.cs" />
-    <Compile Include="Harmony Patches\Level84ImageReplacementPatch.cs" />
-    <Compile Include="json\LanguageManager.cs" />
-    <Compile Include="Harmony Patches\LanguageOptions.cs" />
-    <Compile Include="json\UpdateInfo.cs" />
-    <Compile Include="libs\ArabicSupportUnity\ArabicSupportUnity.cs" />
-    <Compile Include="Logging.cs" />
-    <Compile Include="MainMenu.cs" />
-    <Compile Include="HUDMessages.cs" />
-    <Compile Include="Intermission.cs" />
-    <Compile Include="IntermissionStrings.cs" />
-    <Compile Include="json\JsonFormat.cs" />
-    <Compile Include="LevelNames.cs" />
-    <Compile Include="LevelStatWindow.cs" />
-    <Compile Include="Options.cs" />
-    <Compile Include="Prelude.cs" />
-    <Compile Include="Main.cs" />
-    <Compile Include="PreludeStrings.cs" />
-    <Compile Include="PrimeSanctum.cs" />
-    <Compile Include="PrimeSanctumStrings.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReflectionUtils.cs" />
-    <Compile Include="Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Sandbox.cs" />
-    <Compile Include="SecretLevels.cs" />
-    <Compile Include="Shop.cs" />
-    <Compile Include="StringsParent.cs" />
-    <Compile Include="StyleBonusStrings.cs" />
-    <Compile Include="SubtitledAudioSourcesReplacer.cs" />
-    <Compile Include="SubtitledSourcesConfig.cs" />
-    <Compile Include="TitleManager.cs" />
-    <Compile Include="TutorialStrings.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="json\templates\FR-fr.json" />
-    <None Include="json\templates\en-GB.json" />
-    <None Include="json\templates\template.json" />
-    <None Include="LICENCE.md" />
-    <None Include="packages.config" />
-    <None Include="README.md" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="CREDITS.md" />
-    <Content Include="docs\Dubbing.md" />
-    <Content Include="fonts\ullfont.resource" />
-    <Content Include="fonts\arabfonts" />
-    <Content Include="fonts\VCR_OSD_MONO.ttf" />
-    <Content Include="IntroViolenceScreen\violence1.png" />
-    <Content Include="IntroViolenceScreen\violence2.png" />
-    <Content Include="json\templates\TemplateChangelog.txt" />
-    <Content Include="ChangeLog.txt" />
-    <Content Include="Resources\SubtitledSources.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="img\" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
+
 </Project>
