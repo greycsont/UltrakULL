@@ -247,7 +247,10 @@ namespace UltrakULL
 			//Total points
 			TextMeshProUGUI totalPointsText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(resultsPanel, "Total Points"),"Text (1)"));
 			totalPointsText.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_total + ":";
-		}
+
+            TextMeshProUGUI totalPoints = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(resultsPanel, "Total Points"), "Text"));
+            totalPoints.text = "+0" + "<color=orange>" + LanguageManager.CurrentLanguage.shop.shop_moneyCount + "</color>";
+        }
 
 
         public static GameObject GetGameObjectChild(GameObject parent, string childName)

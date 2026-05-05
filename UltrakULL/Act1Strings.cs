@@ -12,7 +12,7 @@ namespace UltrakULL
             if (fullMessage.Contains("ITEMS"))
             {
                 PreviousHudMessage = LanguageManager.CurrentLanguage.act1.act1_limboFirst_items1 + " '<color=orange>" + input + "</color>' " + LanguageManager.CurrentLanguage.act1.act1_limboFirst_items2;
-                return LanguageManager.CurrentLanguage.act1.act1_limboFirst_items1 + " '<color=orange>" + input + "</color>' " + LanguageManager.CurrentLanguage.act1.act1_limboFirst_items2;
+                return LanguageManager.CurrentLanguage.act1.act1_limboFirst_items1 + " \"<color=orange>" + input + "</color>\" " + LanguageManager.CurrentLanguage.act1.act1_limboFirst_items2;
             }
             if (fullMessage.Contains("NAILGUN"))
             {
@@ -68,7 +68,7 @@ namespace UltrakULL
 
             if (fullMessage.Contains("EQUIPPED"))
             {
-                return LanguageManager.CurrentLanguage.act1.act1_limboFourth_newArm + " '<color=orange>" + input + "'</color>.";
+                return LanguageManager.CurrentLanguage.act1.act1_limboFourth_newArm + " '<color=orange>" + input + "</color>'";
             }
 
             return ("Unimplemented string");

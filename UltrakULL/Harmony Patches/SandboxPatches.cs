@@ -65,7 +65,7 @@ namespace UltrakULL.Harmony_Patches
             }
             switch (name)
             {
-                case "enemy": case "ENEMY": { name = LanguageManager.CurrentLanguage.misc.enemyAlter_boss_title; break;}
+                case "enemy": case "Enemy": case "ENEMY": { name = LanguageManager.CurrentLanguage.misc.enemyAlter_boss_title; break;}
                 case "Jump Pad": { name = LanguageManager.CurrentLanguage.misc.enemyAlter_jumpPadTitle; break;}
                 case "Hook Point": { name = LanguageManager.CurrentLanguage.misc.enemyAlter_hookPointTitle; break;}
                 case "Breakable": { name = LanguageManager.CurrentLanguage.misc.enemyAlter_metaBreakable; break;}
@@ -86,12 +86,10 @@ namespace UltrakULL.Harmony_Patches
         }
 
         [HarmonyPatch("CreateBoolRow"), HarmonyPrefix]
-        public static bool sandboxAlterBoolOptions_Prefix(ref string name, bool initialState, Action<bool> callback, AlterMenuElements __instance)
+        public static void sandboxAlterBoolOptions_Prefix(ref string name, bool initialState, Action<bool> callback, ref string tooltipMessage)
         {
-            if(isUsingEnglish())
-            {
-                return true;
-            }
+            if (isUsingEnglish())
+                return;
             switch (name)
             {
                 case "Boss Health Bar": { name = LanguageManager.CurrentLanguage.misc.enemyAlter_boss_description; break;}
@@ -106,11 +104,19 @@ namespace UltrakULL.Harmony_Patches
                 case "Has Skull": { name = LanguageManager.CurrentLanguage.misc.enemyAlter_hasSkull; break; }
                 //Dual Wield Pickup
                 case "Infinite Uses": { name = LanguageManager.CurrentLanguage.misc.enemyAlter_infiniteUses; break; }
-
-                default:{break;}
-                    
+                case "This enemy cannot be un-puppeteered ": { name = LanguageManager.CurrentLanguage.misc.enemyAlter_unpuppet; break; }
+                default:{break;} 
             }
-            return true;
+            switch (tooltipMessage)
+            {
+                case "This enemy cannot be un-puppeteered ":
+                    tooltipMessage = LanguageManager.CurrentLanguage.misc.enemyAlter_unpuppet;
+                    break;
+
+                case "Un-puppeteering is not supported for non-sandbox enemies":
+                    tooltipMessage = LanguageManager.CurrentLanguage.misc.enemyAlter_unpuppetNon;
+                    break;
+            }
         }
 
         [HarmonyPatch("CreateFloatRow"), HarmonyPrefix]
@@ -132,7 +138,6 @@ namespace UltrakULL.Harmony_Patches
                 //Health
                 case "Health": case "heatlh": case "HEALTH": { name = LanguageManager.CurrentLanguage.misc.enemyAlter_radianceHealth_tier; break; }
                 //Why not a separate key for health? Why would you need that if the values are the same?
-
                 default: { break; }
             }
             return true;

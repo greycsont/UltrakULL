@@ -79,9 +79,10 @@ namespace UltrakULL
             this.act1IntermissionSecond =
                 LanguageManager.CurrentLanguage.intermission.act1_intermission_second1 + " ▼\n\n"
                 + LanguageManager.CurrentLanguage.intermission.act1_intermission_second2 + " ▼\n\n"
-                + LanguageManager.CurrentLanguage.intermission.act1_intermission_second3 + " ▼\n\n"
+                + LanguageManager.CurrentLanguage.intermission.act1_intermission_second3 + " ▼"
                 + LanguageManager.CurrentLanguage.intermission.act1_intermission_second4 + " ▼" + LanguageManager.CurrentLanguage.intermission.act1_intermission_second5 + " ▼"
-                + LanguageManager.CurrentLanguage.intermission.act1_intermission_second6 + " ▼" + LanguageManager.CurrentLanguage.intermission.act1_intermission_second7 + " ▼"
+                + LanguageManager.CurrentLanguage.intermission.act1_intermission_second4 + " ▼" + LanguageManager.CurrentLanguage.intermission.act1_intermission_second4 + " ▼\n"
+                + LanguageManager.CurrentLanguage.intermission.act1_intermission_second6 + " ▼\n" + LanguageManager.CurrentLanguage.intermission.act1_intermission_second7 + " ▼"
                 + LanguageManager.CurrentLanguage.intermission.act1_intermission_second8 + " ▼" + LanguageManager.CurrentLanguage.intermission.act1_intermission_second9 + " ▼\n\n"
                 + LanguageManager.CurrentLanguage.intermission.act1_intermission_second10 + " ▼" + LanguageManager.CurrentLanguage.intermission.act1_intermission_second11 + " ▼";
 
@@ -136,7 +137,7 @@ namespace UltrakULL
             + " ▼\n\n" + LanguageManager.CurrentLanguage.intermission.act2_intermission_fourth5 + " ▼\n\n"
 
             + LanguageManager.CurrentLanguage.intermission.act2_intermission_fourth6 + " ▼" + LanguageManager.CurrentLanguage.intermission.act2_intermission_fourth7 + " ▼"
-            + LanguageManager.CurrentLanguage.intermission.act2_intermission_fourth8 + " ▼\n\n"
+            + LanguageManager.CurrentLanguage.intermission.act2_intermission_fourth8 + " \n\n"
 
             + LanguageManager.CurrentLanguage.intermission.act2_intermission_fourth9 + " ▼" + LanguageManager.CurrentLanguage.intermission.act2_intermission_fourth10 + " ▼"
             + LanguageManager.CurrentLanguage.intermission.act2_intermission_fourth11 + LanguageManager.CurrentLanguage.intermission.act2_intermission_fourth12 + " ▼\n\n"

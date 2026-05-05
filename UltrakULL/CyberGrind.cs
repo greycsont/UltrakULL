@@ -97,8 +97,11 @@ namespace UltrakULL
             bestTime.text = time;
 
             //Points panel
-            TextMeshProUGUI totalPoints = GetTextMeshProUGUI(GetGameObjectChild(pointsPanel, "Text (1)"));
-            totalPoints.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_total;
+            TextMeshProUGUI totalPointsText = GetTextMeshProUGUI(GetGameObjectChild(pointsPanel, "Text (1)"));
+            totalPointsText.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_total;
+
+            TextMeshProUGUI totalPoints = GetTextMeshProUGUI(GetGameObjectChild(pointsPanel, "Text"));
+            totalPoints.text = "+0" + "<color=orange>" + LanguageManager.CurrentLanguage.shop.shop_moneyCount + "</color>";
 
             //Leaderboards
 

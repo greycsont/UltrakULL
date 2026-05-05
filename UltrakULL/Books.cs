@@ -14,7 +14,7 @@ namespace UltrakULL
 			case "Level 1-4":
 				return "<b>" + LanguageManager.CurrentLanguage.books.books_limboFourth1 + "</b>\n\n<i>" + LanguageManager.CurrentLanguage.books.books_limboFourth2 + "\n\n" + LanguageManager.CurrentLanguage.books.books_limboFourth3 + "\n\n" + LanguageManager.CurrentLanguage.books.books_limboFourth4 + "</i>\n\n<b>" + LanguageManager.CurrentLanguage.books.books_limboFourth5 + "</b>";
 			case "Level 2-2":
-				return "<b>" + LanguageManager.CurrentLanguage.books.books_lustSecond1 + "</b>\n\n<i>" + LanguageManager.CurrentLanguage.books.books_lustSecond2 + "\n\n" + LanguageManager.CurrentLanguage.books.books_lustSecond3 + "\n\n" + LanguageManager.CurrentLanguage.books.books_lustSecond4 + "</i>\n\n<b>" + LanguageManager.CurrentLanguage.books.books_lustSecond5 + "</b>";
+				return "<b>" + LanguageManager.CurrentLanguage.books.books_lustSecond1 + "</b>\n\n<i>" + LanguageManager.CurrentLanguage.books.books_lustSecond2 + LanguageManager.CurrentLanguage.books.books_lustSecond3 + LanguageManager.CurrentLanguage.books.books_lustSecond4 + "</i>\n\n<b>" + LanguageManager.CurrentLanguage.books.books_lustSecond5 + "</b>";
 			case "Level 4-2":
 				return "<b>" + LanguageManager.CurrentLanguage.books.books_greedSecond1 + "</b>\n\n<i>" + LanguageManager.CurrentLanguage.books.books_greedSecond2 + "\n\n" + LanguageManager.CurrentLanguage.books.books_greedSecond3 + "\n\n" + LanguageManager.CurrentLanguage.books.books_greedSecond4 + "\n\n" + LanguageManager.CurrentLanguage.books.books_greedSecond5 + "</i>\n\n<b>" + LanguageManager.CurrentLanguage.books.books_greedSecond6 + "</b>";
 			case "Level 4-3":

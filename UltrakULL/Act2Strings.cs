@@ -120,7 +120,10 @@ namespace UltrakULL
                 return LanguageManager.CurrentLanguage.act2.act2_wrathFirst_whiplashHardDamage1 + "\n" // Renamed to act2_wrathFirst_whiplashHardDamage1 because message moved from 4-4 to 5-1
                 + LanguageManager.CurrentLanguage.act2.act2_wrathFirst_whiplashHardDamage2; // Renamed to act2_wrathFirst_whiplashHardDamage2 because message moved from 4-4 to 5-1
             }
-
+            if (fullMessage.Contains("A door opens."))
+            {
+                return LanguageManager.CurrentLanguage.act3.act3_violenceFirst_doorOpens;
+            }
             return ("Unimplemented string");
         }
 
@@ -237,7 +240,7 @@ namespace UltrakULL
             string currentLevel = GetCurrentSceneName();
             string fullMessage = message + message2;
 
-            if(fullMessage.Contains("opens"))
+            if(fullMessage.Contains("An eye opens."))
             {
                 return (LanguageManager.CurrentLanguage.act2.act2_greed_secretDoor);
             }

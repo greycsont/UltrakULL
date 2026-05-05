@@ -23,20 +23,20 @@ namespace UltrakULL.Harmony_Patches
                         return false;
                     case 1:
                         num = MonoSingleton<PlayerTracker>.Instance.GetPlayerVelocity(true).magnitude;
-                        arg = "u";
+                        arg = LanguageManager.CurrentLanguage.misc.classicHud_speed_u;
                         break;
                     case 2:
                         num = Vector3.ProjectOnPlane(MonoSingleton<PlayerTracker>.Instance.GetPlayerVelocity(true), Vector3.up).magnitude;
-                        arg = "hu";
+                        arg = LanguageManager.CurrentLanguage.misc.classicHud_speed_hu;
                         break;
                     case 3:
                         num = Mathf.Abs(MonoSingleton<PlayerTracker>.Instance.GetPlayerVelocity(true).y);
-                        arg = "vu";
+                        arg = LanguageManager.CurrentLanguage.misc.classicHud_speed_vu;
                         break;
                 }
                 if (___lastUpdate > 0.064f)
                 {
-                    ___textMesh.text = string.Format(LanguageManager.CurrentLanguage.misc.classicHud_speed + ": {0:0.00} {1}/s", num, arg);
+                    ___textMesh.text = string.Format(LanguageManager.CurrentLanguage.misc.classicHud_speed + ": {0:0.00} {1}", num, arg);
                     ___lastUpdate = 0;
                 }
                 return false;

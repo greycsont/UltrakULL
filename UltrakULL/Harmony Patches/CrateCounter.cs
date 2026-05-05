@@ -30,7 +30,7 @@ namespace UltrakULL.Harmony_Patches
                     ___savedCoins,
                     " " + LanguageManager.CurrentLanguage.act2.act2_greedSecret_transactionComplete2 +" <color=orange>=></color> ",
                     StatsManager.DivideMoney(___savedCoins * 100),
-                    "<color=orange>P</color>"
+                    "<color=orange>" + LanguageManager.CurrentLanguage.shop.shop_moneyCount + "</color>"
                 }), "", "", 0, false);
                 ___savedCoins = 0;
             }

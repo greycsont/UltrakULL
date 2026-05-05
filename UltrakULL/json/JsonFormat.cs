@@ -3437,6 +3437,9 @@ namespace UltrakULL.json
         public string classicHud_arm;
         public string classicHud_railcannonMeter;
         public string classicHud_speed;
+        public string classicHud_speed_u;
+        public string classicHud_speed_hu;
+        public string classicHud_speed_vu;
 
         public string enemyAlter_title;
         public string enemyAlter_sizeTitle;
@@ -3481,6 +3484,8 @@ namespace UltrakULL.json
         public string enemyAlter_altarRed;
         public string enemyAlter_altarStone;
         public string enemyAlter_alteredDestroyed;
+        public string enemyAlter_unpuppet;
+        public string enemyAlter_unpuppetNon;
 
         public string earlyAccessEnd1;
         public string earlyAccessEnd2;

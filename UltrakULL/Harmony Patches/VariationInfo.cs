@@ -29,11 +29,11 @@ namespace UltrakULL.Harmony_Patches
                     }
                     else if (__instance.cost > ___money)
                     {
-                        __instance.costText.text = "<color=red>" + MoneyText.DivideMoney(__instance.cost) + "P</color>";
+                        __instance.costText.text = "<color=red>" + MoneyText.DivideMoney(__instance.cost) + " " + LanguageManager.CurrentLanguage.shop.shop_moneyCount + "</color>";
                     }
                     else
                     {
-                        __instance.costText.text = "<color=white>" + MoneyText.DivideMoney(__instance.cost) + "</color><color=orange>P</color>";
+                        __instance.costText.text = "<color=white>" + MoneyText.DivideMoney(__instance.cost) + "</color> <color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_moneyCount + "</color>";
                     }
                 }
                 else
@@ -41,6 +41,14 @@ namespace UltrakULL.Harmony_Patches
                     __instance.costText.text = LanguageManager.CurrentLanguage.misc.weapons_alreadyBought;
                 }
             ___buttonText.text = (___buttonText.text.ToUpper() == "ALREADY OWNED" ? LanguageManager.CurrentLanguage.misc.weapons_alreadyBought : ___buttonText.text);
+
+            if (___buttonText != null && ___buttonText.text.Contains("P</color>"))
+            {
+                ___buttonText.text = ___buttonText.text.Replace(
+                    "P",
+                    LanguageManager.CurrentLanguage.shop.shop_moneyCount
+                );
+            }
 
             switch (___equipText.text)
             {
