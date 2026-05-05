@@ -362,10 +362,8 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /UltrakULL/UltrakULL.dt
-/UltrakULL/UltrakULL.csproj
 /UltrakULL/lib/Newtonsoft.Json.xml
 /UltrakULL/lib/UMM.dll
-/UltrakULL.csproj
 /UltrakULL.dt
 /UltrakULL/README.md
 /Sprites/Sprite.png
@@ -377,7 +375,6 @@ FodyWeavers.xsd
 
 .idea/
 .github/copilot-instructions.md
-.vscode/tasks.json
 
 # User-specific build props
 Directory.Build.props

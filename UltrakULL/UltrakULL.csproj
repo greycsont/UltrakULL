@@ -26,6 +26,11 @@
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <OutputPath>bin\Release\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+
 <!-- Dependencies from NuGet  -->
   <ItemGroup>
     <PackageReference Include="Emgu.CV" Version="4.6.0.5131" />
@@ -36,12 +41,12 @@
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
       <HintPath>lib\Newtonsoft.Json.dll</HintPath>
-      <Private>true</Private>
+      <Private>false</Private>
     </Reference>
 
     <Reference Include="UMM">
       <HintPath>lib\UMM.dll</HintPath>
-      <Private>true</Private>
+      <Private>false</Private>
     </Reference>
   </ItemGroup>
 
@@ -181,6 +186,21 @@
           SkipUnchangedFiles="true" />
   </Target>
 
+<!-- Clean root directory (remove all files except plugins/ and config/ folders) -->
+  <Target Name="CleanRoot" AfterTargets="CopyFonts" Condition="'$(Configuration)' == 'Release'">
+    <!-- Delete net472 folder if exists -->
+    <RemoveDir Directories="$(TargetDir)net472" Condition="Exists('$(TargetDir)net472')" />
+    <!-- Delete config file -->
+    <Delete Files="$(TargetDir)UltrakULL.dll.config" Condition="Exists('$(TargetDir)UltrakULL.dll.config')" />
+    <!-- Delete publish folder if exists -->
+    <RemoveDir Directories="$(TargetDir)publish" Condition="Exists('$(TargetDir)publish')" />
+    <!-- Delete any other files in root -->
+    <ItemGroup>
+      <_FilesToDelete Include="$(TargetDir)*.*" />
+    </ItemGroup>
+    <Delete Files="@(_FilesToDelete)" />
+  </Target>
+
 <!-- JSON templates -->
   <Target Name="CopyJSON" AfterTargets="Build">
     <ItemGroup>
@@ -226,14 +246,22 @@
   <!-- Fonts -->
   <Target Name="CopyFonts" AfterTargets="Build">
     <ItemGroup>
-      <_FontPack Include="$(ProjectDir)fonts\ullfont.resource" />
-      <_FontPack Include="$(ProjectDir)fonts\arabfonts\**\*.*" />
+      <!-- Main font asset -->
+      <_FontRoot Include="$(ProjectDir)fonts\ullfont.resource" />
+
+      <!-- arabfonts asset -->
+      <_ArabicFonts Include="$(ProjectDir)fonts\arabfonts" />
     </ItemGroup>
 
-    <Copy
-      SourceFiles="@(_FontPack)"
-      DestinationFolder="$(TargetDir)plugins\UltrakULL\%(RecursiveDir)"
-      SkipUnchangedFiles="true" />
-  </Target>
+    <!-- copy main font asset -->
+    <Copy SourceFiles="@(_FontRoot)"
+          DestinationFolder="$(TargetDir)plugins\UltrakULL"
+          SkipUnchangedFiles="false" />
+
+    <!-- copy arabic font assets with structure preservation -->
+    <Copy SourceFiles="@(_ArabicFonts)"
+          DestinationFolder="$(TargetDir)plugins\UltrakULL\arabfonts"
+          SkipUnchangedFiles="false" />
+</Target>
 
 </Project>
