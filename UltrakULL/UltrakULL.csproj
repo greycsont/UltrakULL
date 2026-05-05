@@ -34,7 +34,7 @@
 <!-- Dependencies from NuGet  -->
   <ItemGroup>
     <PackageReference Include="Emgu.CV" Version="4.6.0.5131" />
-    <PackageReference Include="Emgu.CV.runtime.windows" Version="4.6.0.5131" />
+    <PackageReference Include="Emgu.CV.runtime.windows" Version="4.6.0.5131" GeneratePathProperty="true" />
   </ItemGroup>
 
 <!-- local DLL's (lib) -->
@@ -170,8 +170,12 @@
 
 <!-- Emgu native -->
   <Target Name="CopyEmguNative" AfterTargets="MoveDLL">
+    <PropertyGroup>
+      <_EmguRuntimeWindowsPath>$(PkgEmgu_CV_runtime_windows)</_EmguRuntimeWindowsPath>
+    </PropertyGroup>
+    <Message Text="Emgu.CV.runtime.windows package path: $(_EmguRuntimeWindowsPath)" Importance="high" />
     <ItemGroup>
-      <_Native Include="$(UserProfile)\.nuget\packages\emgu.cv.runtime.windows\4.6.0.5131\runtimes\win-x64\native\*.*" />
+      <_Native Include="$(_EmguRuntimeWindowsPath)\runtimes\win-x64\native\*.*" />
     </ItemGroup>
 
     <Copy SourceFiles="@(_Native)"
@@ -181,7 +185,14 @@
 
 <!-- Emgu managed -->
   <Target Name="CopyEmguManaged" AfterTargets="CopyEmguNative">
-    <Copy SourceFiles="$(ProjectDir)..\packages\Emgu.CV.4.6.0.5131\lib\netstandard2.0\Emgu.CV.dll"
+    <ItemGroup>
+      <!-- Try to find Emgu.CV.dll in ReferenceCopyLocalPaths (already copied to output) -->
+      <_EmguManagedFile Include="@(ReferenceCopyLocalPaths)" Condition="'%(Filename)%(Extension)' == 'Emgu.CV.dll'" />
+      <!-- Fallback to TargetDir if not found -->
+      <_EmguManagedFile Condition="@(_EmguManagedFile->Count()) == 0" Include="$(TargetDir)Emgu.CV.dll" />
+    </ItemGroup>
+    <Message Text="Copying Emgu.CV.dll from @(_EmguManagedFile)" Importance="high" />
+    <Copy SourceFiles="@(_EmguManagedFile)"
           DestinationFolder="$(TargetDir)plugins\UltrakULL"
           SkipUnchangedFiles="true" />
   </Target>
