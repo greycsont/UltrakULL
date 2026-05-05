@@ -49,12 +49,12 @@ namespace UltrakULL
             //shop
             GameObject sandboxShop = GameObject.Find("Sandbox Shop");
 
-            TextMeshProUGUI sandboxShopStatsTitle = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(sandboxShop, "Canvas"),"Background"),"Title"));
+            GameObject sandboxShopCanvas = GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(sandboxShop, "Canvas"), "Background"), "Main Panel");
+
+            TextMeshProUGUI sandboxShopStatsTitle = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(sandboxShopCanvas, "Stats"), "Title"));
             sandboxShopStatsTitle.text = LanguageManager.CurrentLanguage.sandbox.sandbox_shop_stats;
             //for wondering, actual stat texts are patched in StatsPatch.cs
 
-            GameObject sandboxShopCanvas =
-                GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(sandboxShop, "Canvas"), "Background"), "Main Panel");
             
             //Main menu
             GameObject sandboxShopMenu = GetGameObjectChild(GetGameObjectChild(sandboxShopCanvas, "Main Menu"), "Buttons");
