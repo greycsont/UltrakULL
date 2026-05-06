@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static UltrakULL.CommonFunctions;
+using UltrakULL;
 
 namespace UltrakULL.Harmony_Patches
 {
@@ -70,6 +71,13 @@ private static void ConvertTextToTMP(Text source)
         return;
     }
 
+    // Skip conversion for UniverseLibCanvas texts (UnityExplorer UI)
+    if (IsUniverseLibCanvas(source))
+    {
+        // Logging.Message($"Skipping conversion for UniverseLibCanvas text: {source.gameObject.name}");
+        return;
+    }
+
     TextMeshProUGUI tmp = GetTMPForSource(source);
     if (tmp == null)
     {
@@ -86,7 +94,29 @@ private static void ConvertTextToTMP(Text source)
 
     if (Core.TMPFontReady)
     {
-        TextMeshProFontSwap.SwapTMPFont(ref tmp);
+        // Determine original font from Text component
+        string originalFontName = source.font?.name;
+        bool isMuseumFont = (originalFontName == "GFS Garaldus") || (originalFontName?.Contains("Garaldus") == true) ||
+                            (originalFontName?.Contains("EBGaramond") == true) || (originalFontName?.Contains("Garamond") == true);
+        
+        // Build object path for logging
+        string objectPath = source.gameObject.name;
+        if (source.transform.parent != null)
+        {
+            objectPath = source.transform.parent.name + "/" + objectPath;
+            if (source.transform.parent.parent != null)
+            {
+                objectPath = source.transform.parent.parent.name + "/" + objectPath;
+            }
+        }
+        
+        // Logging.Message($"{objectPath} converted to TMP. OriginalFontName in Text = '{originalFontName}', isMuseumFont={isMuseumFont}, scene='{GetCurrentSceneName()}'");
+        
+        TextMeshProFontSwap.SwapTMPFont(
+            ref tmp,
+            isConvertedFromText: true,
+            originalFontName: originalFontName
+        );
     }
 
     if (IsIntermissionShadowChild(source))
@@ -203,6 +233,89 @@ private static bool IsIntermissionShadowChild(Text source)
         && source.transform.parent.parent.parent.parent.name == "PowerUpVignette"
         && source.transform.parent.parent.parent.parent.parent != null
         && source.transform.parent.parent.parent.parent.parent.name == "Canvas";
+}
+
+private static bool IsUniverseLibCanvas(Text source)
+{
+    if (source == null)
+    {
+        return false;
+    }
+    
+    // Список паттернов, характерных для UniverseLib/UnityExplorer
+    string[] universeLibPatterns = new string[]
+    {
+        "UniverseLibCanvas",
+        "unityexplorer",
+        "com.sinai",
+        "UniverseLib",
+        "ExplorerCanvas",
+        "InspectorCanvas",
+        "MouseInspectDropdown",
+        "Dropdown List",
+        "Viewport",
+        "Inspector",
+        "PanelHolder"
+    };
+    
+    // Проверить всю иерархию объекта
+    Transform current = source.transform;
+    while (current != null)
+    {
+        string name = current.gameObject.name;
+        
+        // Проверить все паттерны (без учета регистра)
+        string nameLower = name.ToLowerInvariant();
+        foreach (string pattern in universeLibPatterns)
+        {
+            if (nameLower.Contains(pattern.ToLowerInvariant()))
+            {
+                // Logging.Message($"Skipping UniverseLib text: {GetFullPath(source.transform)} (matched pattern: {pattern})");
+                return true;
+            }
+        }
+        current = current.parent;
+    }
+    
+    // Дополнительно проверить полный путь
+    string fullPath = GetFullPath(source.transform);
+    string fullPathLower = fullPath.ToLowerInvariant();
+    foreach (string pattern in universeLibPatterns)
+    {
+        if (fullPathLower.Contains(pattern.ToLowerInvariant()))
+        {
+            // Logging.Message($"Skipping UniverseLib text by path: {fullPath} (matched pattern: {pattern})");
+            return true;
+        }
+    }
+    
+    // Отладочное логирование: если путь содержит "com.sinai", но не был распознан
+    if (fullPathLower.Contains("com.sinai"))
+    {
+        // Logging.Warn($"UniverseLib text NOT recognized despite 'com.sinai' in path: {fullPath}. Patterns checked: {string.Join(", ", universeLibPatterns)}");
+    }
+    
+    return false;
+}
+
+private static string GetFullPath(Transform transform)
+{
+    if (transform == null)
+        return string.Empty;
+    
+    List<string> pathParts = new List<string>();
+    Transform current = transform;
+    while (current != null)
+    {
+        string name = current.gameObject.name;
+        // Удаляем "(Clone)" из имени для лучшего сопоставления
+        if (name.EndsWith("(Clone)"))
+            name = name.Substring(0, name.Length - 7).TrimEnd();
+        pathParts.Add(name);
+        current = current.parent;
+    }
+    pathParts.Reverse();
+    return string.Join("/", pathParts);
 }
 
 private static void ApplyIntermissionHardShadow(TextMeshProUGUI target)

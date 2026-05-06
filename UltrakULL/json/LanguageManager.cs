@@ -468,6 +468,9 @@ namespace UltrakULL.json
                     CurrentLanguage = ApplyRtl(CurrentLanguage);
                 }
 
+                // Reload custom fonts for the new language
+                Core.ReloadCustomFonts();
+
                 MainPatch.Instance.onSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
                 DumpLastLanguage();
                 AudioSwapper.SpeechFolder = Path.Combine(Paths.ConfigPath, "ultrakull", "audio", CurrentLanguage.metadata.langName) + Path.DirectorySeparatorChar;

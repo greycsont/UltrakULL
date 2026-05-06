@@ -1273,6 +1273,14 @@ namespace UltrakULL.json
         public string visualnovel_conclusionResponseSecond3;
     }
 
+    public class FontsMetadata
+    {
+        public string MainFont = "";
+        public string MuseumFont = "";
+        public string TerminalFont = "";
+        public string SecretTerminalFont = "";
+    }
+
     public class Metadata
     {
         public string langName;
@@ -1283,6 +1291,7 @@ namespace UltrakULL.json
         public string minimumModVersion;
         public bool langHinduNumbers;
         public string addchar;
+        public FontsMetadata fonts = new FontsMetadata();
     }
 
     public class IntermissionStrings
