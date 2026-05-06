@@ -79,6 +79,7 @@ namespace UltrakULL.Harmony_Patches
                 case "Dual Wield Pickup": { name = LanguageManager.CurrentLanguage.misc.enemyAlter_dualWieldPickup; break; }
                 case "Hurt Zone": { name = LanguageManager.CurrentLanguage.misc.enemyAlter_hurtZone; break; }
                 case "Sandbox": { name = LanguageManager.CurrentLanguage.frontend.chapter_sandbox; break; }
+                case "Gutterman": { name = LanguageManager.CurrentLanguage.enemyNames.enemyname_gutterman; break; }
                 default:{break;}
                     
             }
