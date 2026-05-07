@@ -146,15 +146,18 @@ namespace UltrakULL.Harmony_Patches
 			}
 		}
 
-		public static void SwapTMPFont(ref TextMeshProUGUI __instance, bool onTop = false, bool editOverlayStatus = false, bool isConvertedFromText = false, string originalFontName = null)
-		{
-			if (((Component)((TMP_Text)__instance).transform.parent).GetComponent<HealthBar>() != null && ((Component)__instance).gameObject.name.Equals("HP Text"))
-			{
-				return;
-			}
+        public static void SwapTMPFont(ref TextMeshProUGUI __instance, bool onTop = false, bool editOverlayStatus = false, bool isConvertedFromText = false, string originalFontName = null)
+        {
+            if (__instance?.text.Contains("■") == true && __instance.text.Contains("|"))
+                return;
 
-			// Log the original font before replacement
-			TMPFontLogger.LogFont(__instance.font);
+            if (((Component)((TMP_Text)__instance).transform.parent).GetComponent<HealthBar>() != null && ((Component)__instance).gameObject.name.Equals("HP Text"))
+            {
+                return;
+            }
+
+            // Log the original font before replacement
+            TMPFontLogger.LogFont(__instance.font);
 
 			string text = null;
 			if (((TMP_Text)__instance).transform.parent != null && ((TMP_Text)__instance).transform.parent.parent != null)
