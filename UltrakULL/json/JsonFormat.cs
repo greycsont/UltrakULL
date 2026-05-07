@@ -2383,6 +2383,7 @@ namespace UltrakULL.json
 
         public string colors_title;
         public string colors_reset;
+        public string colors_hud;
         public string colors_hudHealth;
         public string colors_hudHealthNumber;
         public string colors_hudDamage;

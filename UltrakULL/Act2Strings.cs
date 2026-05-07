@@ -90,7 +90,7 @@ namespace UltrakULL
             string fullMessage = message + message2;
             if (fullMessage.Contains("HOLD"))
             {
-                return (LanguageManager.CurrentLanguage.act2.act2_greedSecret_holdToJump1 + " [<color=orange>" + input + "</color>] " + LanguageManager.CurrentLanguage.act2.act2_greedSecret_holdToJump2);
+                return (LanguageManager.CurrentLanguage.act2.act2_greedSecret_holdToJump1 + " [<color=orange>" + input + "</color>]" + LanguageManager.CurrentLanguage.act2.act2_greedSecret_holdToJump2);
             }
 
             return ("Unimplemented string");

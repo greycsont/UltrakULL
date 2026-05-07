@@ -667,6 +667,9 @@ namespace UltrakULL
             //HUD Text
             GameObject colorsHudObject = GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(optionsMenu, "Scroll Rect"), "Contents"), "HUD");
 
+            TextMeshProUGUI colorsHudText = GetTextMeshProUGUI(colorsHudObject);
+            colorsHudText.text = "--" + LanguageManager.CurrentLanguage.options.colors_hud + "--";
+
             TextMeshProUGUI colorsHudHealthText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(colorsHudObject, "Health"), "Text"));
             colorsHudHealthText.text = LanguageManager.CurrentLanguage.options.colors_hudHealth;
 
