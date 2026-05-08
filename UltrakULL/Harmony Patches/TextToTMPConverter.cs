@@ -11,13 +11,9 @@ namespace UltrakULL.Harmony_Patches
 {
 public static class TextToTMPConverter
 {
-    private static readonly Dictionary<int, TextMeshProUGUI> textToTMP = new Dictionary<int, TextMeshProUGUI>();
-    private static readonly HashSet<int> shadowAppliedObjects = new HashSet<int>();
+private static readonly Dictionary<int, TextMeshProUGUI> textToTMP = new Dictionary<int, TextMeshProUGUI>();
 
-    public static bool IsShadowApplied(int instanceId) => shadowAppliedObjects.Contains(instanceId);
-    public static void MarkShadowApplied(int instanceId) => shadowAppliedObjects.Add(instanceId);
-
-    [HarmonyPatch(typeof(Text), "OnEnable")]
+[HarmonyPatch(typeof(Text), "OnEnable")]
 public static class TextOnEnablePatch
 {
 [HarmonyPostfix]
@@ -95,7 +91,6 @@ private static void ConvertTextToTMP(Text source)
 
     CopyRectTransform(source.rectTransform, tmp.rectTransform);
     CopyTextProperties(source, tmp);
-    SyncEffects(source, tmp);
 
     if (Core.TMPFontReady)
     {
@@ -327,164 +322,15 @@ private static void ApplyIntermissionHardShadow(TextMeshProUGUI target)
 {
     if (target == null)
     {
-        Logging.Warn("ApplyIntermissionHardShadow: target is null");
         return;
     }
 
-    TMP_FontAsset fontAsset = target.font;
-    if (fontAsset == null)
-    {
-        Logging.Warn($"ApplyIntermissionHardShadow: target.font is null for {target.gameObject.name}");
-        return;
-    }
-
-    Logging.Message($"ApplyIntermissionHardShadow: Applying shadow to {target.gameObject.name}, font: {fontAsset.name}, material: {target.fontSharedMaterial?.name}");
-    
-    // Параметры тени для Intermission - УВЕЛИЧЕНЫ ДЛЯ ТЕСТИРОВАНИЯ
-    // Альфа 1.0 - полностью непрозрачная тень
-    // Смещение (5, -5) - значительное смещение для видимости
-    // UnderlaySoftness 0.5 - небольшая мягкость
-    // UnderlayDilate 0.5 - небольшое расширение
-    Vector4 underlayColor = new Vector4(0f, 0f, 0f, 1.0f);
-    Vector4 underlayOffset = new Vector4(5f, -5f, 0f, 0f);
-    float underlaySoftness = 0.5f;
-    float underlayDilate = 0.5f;
-    
-    Logging.Message($"ApplyIntermissionHardShadow: Testing with extreme values - color alpha={underlayColor.w}, offset=({underlayOffset.x}, {underlayOffset.y}), softness={underlaySoftness}, dilate={underlayDilate}");
-    
-    // Используем материал из Core.GlobalFontTMP, который должен поддерживать underlay свойства
-    // Если GlobalFontTMP недоступен, используем материал шрифта (fontAsset.material)
-    Material normalMat = null;
-    Material overlayMat = null;
-    
-    if (Core.GlobalFontTMP != null)
-    {
-        normalMat = Core.GlobalFontTMP.material;
-        overlayMat = Core.GlobalFontTMPOverlayMat;
-        Logging.Message($"ApplyIntermissionHardShadow: Using GlobalFontTMP material: {normalMat?.name ?? "NULL"}, overlay: {overlayMat?.name ?? "NULL"}");
-    }
-    else
-    {
-        normalMat = fontAsset.material;
-        Logging.Message($"ApplyIntermissionHardShadow: GlobalFontTMP not available, using font asset material: {normalMat?.name ?? "NULL"}");
-    }
-    
-    // Используем ApplyUnderlayAndZTest для применения тени с правильным материалом шрифта
-    // isUnderlaid = true гарантирует, что тень будет применена
-    // preserveExistingUnderlay = false, чтобы перезаписать существующие значения (если они есть)
-    // editOverlayStatus = false, так как мы не меняем overlay статус
-    // isOverlay = false
-    TMPFontUtils.ApplyUnderlayAndZTest(
-        instance: target,
-        underlayColor: underlayColor,
-        underlayOffset: underlayOffset,
-        underlaySoftness: underlaySoftness,
-        underlayDilate: underlayDilate,
-        preserveExistingUnderlay: false,
-        isUnderlaid: true,
-        isOverlay: false,
-        editOverlayStatus: false,
-        fontAsset: fontAsset,
-        overlayMat: overlayMat,
-        normalMat: normalMat
-    );
-    
-    Logging.Message($"ApplyIntermissionHardShadow: Applied shadow via ApplyUnderlayAndZTest");
-
-    // Mark this object as having shadow applied
-    MarkShadowApplied(target.GetInstanceID());
-    Logging.Message($"ApplyIntermissionHardShadow: Marked shadow applied for {target.gameObject.name} (ID: {target.GetInstanceID()})");
-}
-
-/// <summary>
-/// Добавляет Outline как запасной вариант тени, если underlay не поддерживается
-/// </summary>
-private static void AddOutlineFallback(TextMeshProUGUI target)
-{
-    if (target == null)
-    {
-        Logging.Warn("AddOutlineFallback: target is null");
-        return;
-    }
-    
-    // Проверяем, есть ли уже компонент Outline
-    Outline existingOutline = target.gameObject.GetComponent<Outline>();
-    if (existingOutline != null)
-    {
-        Logging.Message($"AddOutlineFallback: Outline already exists on {target.gameObject.name}");
-        return;
-    }
-    
-    // Добавляем компонент Outline
-    Outline outline = target.gameObject.AddComponent<Outline>();
-    if (outline == null)
-    {
-        Logging.Warn($"AddOutlineFallback: Failed to add Outline to {target.gameObject.name}");
-        return;
-    }
-    
-    // Настраиваем параметры Outline (черная тень с полупрозрачностью)
-    outline.effectColor = new Color(0f, 0f, 0f, 0.9f);
-    outline.effectDistance = new Vector2(2f, -2f);
-    outline.useGraphicAlpha = true;
-    
-    Logging.Message($"AddOutlineFallback: Added Outline to {target.gameObject.name} with color={outline.effectColor}, distance={outline.effectDistance}");
-}
-
-private static void SyncEffects(Text source, TextMeshProUGUI target)
-{
-    if (source == null || target == null)
-    {
-        return;
-    }
-
-    Shadow sourceShadow = source.GetComponent<Shadow>();
-    Shadow targetShadow = target.GetComponent<Shadow>();
-    if (sourceShadow != null)
-    {
-        if (targetShadow == null || targetShadow.GetType() != typeof(Shadow))
-        {
-            if (targetShadow != null)
-            {
-                UnityEngine.Object.Destroy(targetShadow);
-            }
-            targetShadow = target.gameObject.AddComponent<Shadow>();
-        }
-
-        CopyShadowSettings(sourceShadow, targetShadow);
-    }
-    else if (targetShadow != null && targetShadow.GetType() == typeof(Shadow))
-    {
-        UnityEngine.Object.Destroy(targetShadow);
-    }
-
-    Outline sourceOutline = source.GetComponent<Outline>();
-    Outline targetOutline = target.GetComponent<Outline>();
-    if (sourceOutline != null)
-    {
-        if (targetOutline == null)
-        {
-            targetOutline = target.gameObject.AddComponent<Outline>();
-        }
-
-        CopyShadowSettings(sourceOutline, targetOutline);
-    }
-    else if (targetOutline != null)
-    {
-        UnityEngine.Object.Destroy(targetOutline);
-    }
-}
-
-private static void CopyShadowSettings(Shadow source, Shadow target)
-{
-    if (source == null || target == null)
-    {
-        return;
-    }
-
-    target.effectColor = source.effectColor;
-    target.effectDistance = source.effectDistance;
-    target.useGraphicAlpha = source.useGraphicAlpha;
+    Material shadowMaterial = new Material(target.fontSharedMaterial);
+    shadowMaterial.SetVector("_UnderlayColor", new Vector4(0f, 0f, 0f, 0.75f));
+    shadowMaterial.SetVector("_UnderlayOffset", new Vector4(1.5f, -1.5f, 0f, 0f));
+    shadowMaterial.SetFloat("_UnderlaySoftness", 0f);
+    shadowMaterial.SetFloat("_UnderlayDilate", 0f);
+    target.fontSharedMaterial = shadowMaterial;
 }
 
 private static TextMeshProUGUI CreateTMPSibling(Text source)

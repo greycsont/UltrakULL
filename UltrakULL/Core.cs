@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Net.Http;
-using System.Reflection;
 using System.Threading.Tasks;
 using HarmonyLib;
 using Newtonsoft.Json;
@@ -33,43 +32,28 @@ namespace UltrakULL
         
         public static Font GlobalFont;
         public static Font MuseumFont;
-
-        public static TMP_FontAsset DefaultGlobalFontTMP;
-        public static TMP_FontAsset DefaultMuseumFontTMP;
-
         public static TMP_FontAsset GlobalFontTMP;
         public static TMP_FontAsset MuseumFontTMP;
-        public static TMP_FontAsset TerminalFontTMP;
-        public static TMP_FontAsset SecretTerminalFontTMP;
-
         public static TMP_FontAsset CJKFontTMP;
         public static TMP_FontAsset JaFontTMP;
         public static TMP_FontAsset ArabicFontTMP;
-        public static TMP_FontAsset HebrewFontTMP;
-
-        public static Material DefaultGlobalFontTMPOverlayMat;
+  public static TMP_FontAsset HebrewFontTMP;
         public static Material GlobalFontTMPOverlayMat;
-
         public static Material CJKFontTMPOverlayMat;
         public static Material jaFontTMPOverlayMat;
-
         public static Sprite[] CustomRankImages;
 
-        private sealed class RuntimeFontData
-        {
-            public string Path;
-            public int PointSize;
-        }
-
-        private static readonly Dictionary<TMP_FontAsset, RuntimeFontData>
-            RuntimeFonts = new Dictionary<TMP_FontAsset, RuntimeFontData>();
-
-        private static readonly string[] FontExtensions =
-        {
-            ".ttf",
-            ".otf",
-            ".ttc"
-        };
+        // Custom fonts loaded from external files
+        public static TMP_FontAsset CustomMainFontTMP;
+        public static TMP_FontAsset CustomMuseumFontTMP;
+        public static TMP_FontAsset CustomTerminalFontTMP;
+        public static TMP_FontAsset CustomSecretTerminalFontTMP;
+        
+        // Materials for custom TMP fonts (overlay)
+        public static Material CustomMainFontTMPOverlayMat;
+        public static Material CustomMuseumFontTMPOverlayMat;
+        public static Material CustomTerminalFontTMPOverlayMat;
+        public static Material CustomSecretTerminalFontTMPOverlayMat;
 
         private static bool ultrakullDropdownExpanded = false;
 
@@ -249,179 +233,51 @@ namespace UltrakULL
         
         private static string FindFontFile(string directory, string baseName)
         {
-            if (string.IsNullOrWhiteSpace(baseName))
-                return null;
-
-            string exactPath = Path.Combine(directory, baseName);
-
-            if (File.Exists(exactPath))
-                return exactPath;
-
-            foreach (string ext in FontExtensions)
+            if (string.IsNullOrEmpty(baseName))
             {
-                string path = exactPath + ext;
-
-                if (File.Exists(path))
-                    return path;
+                Logging.Message($"FindFontFile: baseName is null or empty");
+                return null;
             }
 
+            // Если имя уже содержит расширение, проверим как есть
+            string fullPath = Path.Combine(directory, baseName);
+            Logging.Message($"FindFontFile: checking exact path '{fullPath}'");
+            if (File.Exists(fullPath))
+            {
+                Logging.Message($"FindFontFile: found exact file '{fullPath}'");
+                return fullPath;
+            }
+
+            // Попробуем добавить распространённые расширения шрифтов
+            string[] extensions = { ".ttf", ".otf", ".ttc", ".woff", ".woff2" };
+            foreach (var ext in extensions)
+            {
+                string path = Path.Combine(directory, baseName + ext);
+                Logging.Message($"FindFontFile: checking path '{path}'");
+                if (File.Exists(path))
+                {
+                    Logging.Message($"FindFontFile: found file with extension '{ext}' at '{path}'");
+                    return path;
+                }
+            }
+
+            // Не найдено
+            Logging.Message($"FindFontFile: no file found for '{baseName}' in directory '{directory}'");
             return null;
         }
 
-        private static void DestroyTMPFont(TMP_FontAsset font)
-        {
-            if (font == null)
-                return;
-
-            RuntimeFonts.Remove(font);
-
-            try
-            {
-                if (font.material != null)
-                    UnityEngine.Object.Destroy(font.material);
-
-                if (font.atlasTextures != null)
-                {
-                    foreach (Texture tex in font.atlasTextures)
-                    {
-                        if (tex != null)
-                            UnityEngine.Object.Destroy(tex);
-                    }
-                }
-
-                UnityEngine.Object.Destroy(font);
-            }
-            catch (Exception e)
-            {
-                Logging.Error($"DestroyTMPFont failed: {e}");
-            }
-        }
-
-        private static void DestroyMaterial(Material mat)
-        {
-            if (mat == null)
-                return;
-
-            try
-            {
-                UnityEngine.Object.Destroy(mat);
-            }
-            catch (Exception e)
-            {
-                Logging.Error($"DestroyMaterial failed: {e}");
-            }
-        }
-
-        private static void EnableMultiAtlas(TMP_FontAsset font)
-        {
-            if (font == null)
-                return;
-
-            try
-            {
-                font.isMultiAtlasTexturesEnabled = true;
-                return;
-            }
-            catch (Exception e)
-            {
-                Logging.Warn($"Public multi-atlas API failed: {e.Message}");
-            }
-
-            try
-            {
-                FieldInfo field = typeof(TMP_FontAsset).GetField(
-                    "m_IsMultiAtlasTexturesEnabled",
-                    BindingFlags.NonPublic | BindingFlags.Instance
-                );
-
-                if (field != null)
-                    field.SetValue(font, true);
-            }
-            catch (Exception e)
-            {
-                Logging.Error($"Reflection multi-atlas fallback failed: {e}");
-            }
-        }
-
-        private static void DisableClearDynamicDataOnBuild(TMP_FontAsset font)
-        {
-            if (font == null)
-                return;
-
-            try
-            {
-                PropertyInfo property = typeof(TMP_FontAsset).GetProperty(
-                    "clearDynamicDataOnBuild",
-                    BindingFlags.Public | BindingFlags.Instance
-                );
-
-                if (property != null && property.CanWrite)
-                {
-                    property.SetValue(font, false, null);
-                    return;
-                }
-
-                FieldInfo field = typeof(TMP_FontAsset).GetField(
-                    "m_ClearDynamicDataOnBuild",
-                    BindingFlags.NonPublic | BindingFlags.Instance
-                );
-
-                if (field != null)
-                    field.SetValue(font, false);
-            }
-            catch (Exception e)
-            {
-                Logging.Warn($"clearDynamicDataOnBuild fallback failed: {e.Message}");
-            }
-        }
-
-        private static void FixFontMetrics(TMP_FontAsset font)
-        {
-            if (font == null)
-                return;
-
-            try
-            {
-                FaceInfo face = font.faceInfo;
-                float maxGlyphTop = float.MinValue;
-
-                if (font.glyphTable != null)
-                {
-                    foreach (Glyph glyph in font.glyphTable)
-                    {
-                        if (glyph == null)
-                            continue;
-
-                        maxGlyphTop = Mathf.Max(maxGlyphTop, glyph.metrics.horizontalBearingY);
-                    }
-                }
-
-                const float minimumHeadroom = 1f;
-                const float lineHeightPadding = 1f;
-
-                if (maxGlyphTop > float.MinValue)
-                {
-                    float desiredAscent = maxGlyphTop + minimumHeadroom;
-
-                    if (face.ascentLine < desiredAscent)
-                        face.ascentLine = desiredAscent;
-                }
-
-                float minimumLineHeight = face.ascentLine - face.descentLine;
-
-                if (face.lineHeight < minimumLineHeight)
-                    face.lineHeight = minimumLineHeight + lineHeightPadding;
-
-                font.faceInfo = face;
-            }
-            catch (Exception e)
-            {
-                Logging.Warn($"FixFontMetrics failed: {e.Message}");
-            }
-        }
-
-        private static TMP_FontAsset CreateTMPFontFromFile(
-            string fontPath,
+        /// <summary>
+        /// Creates a TMP_FontAsset from a font file path.
+        /// </summary>
+        /// <param name="fontPath">Full path to the font file (TTF, OTF, etc.)</param>
+        /// <param name="samplingPointSize">Sampling point size for the font atlas (default 90)</param>
+        /// <param name="padding">Padding between glyphs in the atlas (default 9)</param>
+        /// <param name="renderMode">Glyph render mode (default SDFAA)</param>
+        /// <param name="atlasWidth">Width of the atlas texture (default 1024)</param>
+        /// <param name="atlasHeight">Height of the atlas texture (default 1024)</param>
+        /// <param name="atlasPopulationMode">Atlas population mode (default Dynamic)</param>
+        /// <returns>TMP_FontAsset if successful, null otherwise</returns>
+        private static TMP_FontAsset CreateTMPFontFromFile(string fontPath,
             int samplingPointSize = 90,
             int padding = 9,
             GlyphRenderMode renderMode = GlyphRenderMode.SDFAA,
@@ -429,22 +285,23 @@ namespace UltrakULL
             int atlasHeight = 1024,
             AtlasPopulationMode atlasPopulationMode = AtlasPopulationMode.Dynamic)
         {
-            if (string.IsNullOrWhiteSpace(fontPath) || !File.Exists(fontPath))
+            if (string.IsNullOrEmpty(fontPath) || !File.Exists(fontPath))
             {
-                Logging.Error($"Font file not found: {fontPath}");
+                Logging.Error($"CreateTMPFontFromFile: font file not found or path empty: {fontPath}");
                 return null;
             }
 
             try
             {
+                // Load Unity Font from file
                 Font unityFont = new Font(fontPath);
-
                 if (unityFont == null)
                 {
-                    Logging.Error($"Failed to create Unity Font from: {fontPath}");
+                    Logging.Error($"CreateTMPFontFromFile: failed to create Unity Font from {fontPath}");
                     return null;
                 }
 
+                Logging.Message($"CreateTMPFontFromFile: creating TMP font asset from {Path.GetFileName(fontPath)}");
                 TMP_FontAsset tmpFont = TMP_FontAsset.CreateFontAsset(
                     unityFont,
                     samplingPointSize,
@@ -455,9 +312,10 @@ namespace UltrakULL
                     atlasPopulationMode
                 );
 
+                // If failed, try without parameters (simpler method)
                 if (tmpFont == null)
                 {
-                    Logging.Warn("Primary TMP creation failed, attempting fallback...");
+                    Logging.Warn($"CreateTMPFontFromFile: first attempt failed, trying without parameters...");
                     tmpFont = TMP_FontAsset.CreateFontAsset(unityFont);
                 }
 
@@ -467,177 +325,200 @@ namespace UltrakULL
                     return null;
                 }
 
-                EnableMultiAtlas(tmpFont);
-
-                DisableClearDynamicDataOnBuild(tmpFont);
-                FixFontMetrics(tmpFont);
-
-                if (tmpFont.fallbackFontAssetTable == null)
-                    tmpFont.fallbackFontAssetTable = new List<TMP_FontAsset>();
-
-                RuntimeFonts[tmpFont] = new RuntimeFontData
-                {
-                    Path = fontPath,
-                    PointSize = samplingPointSize
-                };
-
-                Logging.Message($"Created TMP runtime font: {tmpFont.name}");
-
+                Logging.Message($"CreateTMPFontFromFile: successfully created TMP font asset '{tmpFont.name}'");
                 return tmpFont;
             }
             catch (Exception e)
             {
-                Logging.Error($"CreateTMPFontFromFile failed: {e}");
+                Logging.Error($"CreateTMPFontFromFile: exception while processing {fontPath}: {e.Message}");
+                Logging.Error(e.ToString());
                 return null;
             }
-        }
-
-        private static Material CreateOverlayMaterial(Material baseMaterial, TMP_FontAsset font)
-        {
-            if (baseMaterial == null || font == null)
-                return null;
-
-            try
-            {
-                Material mat = new Material(baseMaterial);
-
-                mat.name = font.name + "_Overlay";
-
-                if (font.atlasTexture != null)
-                    mat.mainTexture = font.atlasTexture;
-
-                return mat;
-            }
-            catch (Exception e)
-            {
-                Logging.Error($"CreateOverlayMaterial failed: {e}");
-                return null;
-            }
-        }
-
-        private static void ResetFontsToDefault()
-        {
-            if (GlobalFontTMP != null && GlobalFontTMP != DefaultGlobalFontTMP)
-                DestroyTMPFont(GlobalFontTMP);
-
-            if (MuseumFontTMP != null && MuseumFontTMP != DefaultMuseumFontTMP)
-                DestroyTMPFont(MuseumFontTMP);
-
-            if (TerminalFontTMP != null)
-                DestroyTMPFont(TerminalFontTMP);
-
-            if (SecretTerminalFontTMP != null)
-                DestroyTMPFont(SecretTerminalFontTMP);
-
-            if (GlobalFontTMPOverlayMat != null &&
-                GlobalFontTMPOverlayMat != DefaultGlobalFontTMPOverlayMat)
-            {
-                DestroyMaterial(GlobalFontTMPOverlayMat);
-            }
-
-            GlobalFontTMP = DefaultGlobalFontTMP;
-            MuseumFontTMP = DefaultMuseumFontTMP;
-
-            GlobalFontTMPOverlayMat = DefaultGlobalFontTMPOverlayMat;
-
-            TerminalFontTMP = null;
-            SecretTerminalFontTMP = null;
-        }
-
-        private static void LoadCustomFont(
-            string fontsDirectory,
-            string fontName,
-            Action<TMP_FontAsset> assignFont,
-            Action<Material> assignOverlay)
-        {
-            if (string.IsNullOrWhiteSpace(fontName))
-                return;
-
-            string path = FindFontFile(fontsDirectory, fontName);
-
-            if (path == null)
-            {
-                Logging.Warn($"Custom font not found: {fontName}");
-                return;
-            }
-
-            TMP_FontAsset font = CreateTMPFontFromFile(path);
-
-            if (font == null)
-            {
-                Logging.Error($"Failed to create TMP font from: {path}");
-                return;
-            }
-
-            assignFont(font);
-
-            if (assignOverlay != null)
-            {
-                Material overlay = CreateOverlayMaterial(DefaultGlobalFontTMPOverlayMat, font);
-                assignOverlay(overlay);
-            }
-
-            Logging.Message($"Loaded custom TMP font: {fontName}");
         }
 
         public static void LoadCustomFonts()
         {
-            ResetFontsToDefault();
+            // Reset custom font fields before loading
+            CustomMainFontTMP = null;
+            CustomMuseumFontTMP = null;
+            CustomTerminalFontTMP = null;
+            CustomSecretTerminalFontTMP = null;
+            CustomMainFontTMPOverlayMat = null;
+            CustomMuseumFontTMPOverlayMat = null;
+            CustomTerminalFontTMPOverlayMat = null;
+            CustomSecretTerminalFontTMPOverlayMat = null;
 
             if (LanguageManager.CurrentLanguage?.metadata?.fonts == null)
             {
-                Logging.Message("No custom font metadata found.");
+                Logging.Message("No custom fonts defined in language metadata.");
                 return;
             }
 
             var fonts = LanguageManager.CurrentLanguage.metadata.fonts;
+            
+            // Debug log font fields
+            Logging.Message($"Custom font fields - MainFont: '{fonts.MainFont}', MuseumFont: '{fonts.MuseumFont}', TerminalFont: '{fonts.TerminalFont}', SecretTerminalFont: '{fonts.SecretTerminalFont}'");
+            
+            // Check if any font field is non-empty
+            if (string.IsNullOrEmpty(fonts.MainFont) &&
+                string.IsNullOrEmpty(fonts.MuseumFont) &&
+                string.IsNullOrEmpty(fonts.TerminalFont) &&
+                string.IsNullOrEmpty(fonts.SecretTerminalFont))
+            {
+                Logging.Message("All custom font fields are empty, skipping custom font loading.");
+                return;
+            }
 
             string langName = LanguageManager.CurrentLanguage.metadata.langName;
-
-            string fontsPath = Path.Combine(
-                Paths.ConfigPath,
-                "ultrakull",
-                "fonts",
-                langName
-            );
-
+            string fontsPath = Path.Combine(Paths.ConfigPath, "ultrakull", "fonts", langName);
+            
+            Logging.Message($"Custom fonts directory path: {fontsPath}");
             if (!Directory.Exists(fontsPath))
             {
-                Logging.Message($"Custom font directory not found: {fontsPath}");
+                Logging.Message($"Custom fonts directory not found: {fontsPath}");
                 return;
             }
 
             Logging.Message($"Loading custom fonts from: {fontsPath}");
 
-            LoadCustomFont(
-                fontsPath,
-                fonts.MainFont,
-                f => GlobalFontTMP = f,
-                m => GlobalFontTMPOverlayMat = m
-            );
+            // Load MainFont
+            if (!string.IsNullOrEmpty(fonts.MainFont))
+            {
+                Logging.Message($"Attempting to load MainFont: '{fonts.MainFont}'");
+                string mainFontPath = FindFontFile(fontsPath, fonts.MainFont);
+                if (mainFontPath != null)
+                {
+                    Logging.Message($"Found MainFont file at: {mainFontPath}");
+                    TMP_FontAsset tmpFont = CreateTMPFontFromFile(mainFontPath);
+                    if (tmpFont != null)
+                    {
+                        CustomMainFontTMP = tmpFont;
+                        // Create overlay material for this font
+                        if (GlobalFontTMPOverlayMat != null)
+                        {
+                            CustomMainFontTMPOverlayMat = new Material(GlobalFontTMPOverlayMat);
+                            CustomMainFontTMPOverlayMat.name = $"{tmpFont.name}_Overlay";
+                            Logging.Message($"Created overlay material for MainFont: {CustomMainFontTMPOverlayMat.name}");
+                        }
+                        else
+                        {
+                            Logging.Warn("GlobalFontTMPOverlayMat is null, cannot create overlay material for MainFont");
+                        }
+                        Logging.Message($"Loaded custom MainFont TMP: {fonts.MainFont} (from {Path.GetFileName(mainFontPath)})");
+                    }
+                    else
+                    {
+                        Logging.Error($"CreateTMPFontFromFile returned null for MainFont");
+                    }
+                }
+                else
+                {
+                    Logging.Warn($"Custom MainFont file not found: {fonts.MainFont} (searched with extensions .ttf, .otf, .ttc, .woff, .woff2)");
+                }
+            }
 
-            LoadCustomFont(
-                fontsPath,
-                fonts.MuseumFont,
-                f => MuseumFontTMP = f,
-                null
-            );
+            // Load MuseumFont
+            if (!string.IsNullOrEmpty(fonts.MuseumFont))
+            {
+                string museumFontPath = FindFontFile(fontsPath, fonts.MuseumFont);
+                if (museumFontPath != null)
+                {
+                    TMP_FontAsset tmpFont = CreateTMPFontFromFile(museumFontPath);
+                    if (tmpFont != null)
+                    {
+                        CustomMuseumFontTMP = tmpFont;
+                        // Create overlay material for this font
+                        if (GlobalFontTMPOverlayMat != null)
+                        {
+                            CustomMuseumFontTMPOverlayMat = new Material(GlobalFontTMPOverlayMat);
+                            CustomMuseumFontTMPOverlayMat.name = $"{tmpFont.name}_Overlay";
+                            Logging.Message($"Created overlay material for MuseumFont: {CustomMuseumFontTMPOverlayMat.name}");
+                        }
+                        else
+                        {
+                            Logging.Warn("GlobalFontTMPOverlayMat is null, cannot create overlay material for MuseumFont");
+                        }
+                        Logging.Message($"Loaded custom MuseumFont TMP: {fonts.MuseumFont} (from {Path.GetFileName(museumFontPath)})");
+                    }
+                    else
+                    {
+                        Logging.Error($"CreateTMPFontFromFile returned null for MuseumFont");
+                    }
+                }
+                else
+                {
+                    Logging.Warn($"Custom MuseumFont file not found: {fonts.MuseumFont} (searched with extensions .ttf, .otf, .ttc, .woff, .woff2)");
+                }
+            }
 
-            LoadCustomFont(
-                fontsPath,
-                fonts.TerminalFont,
-                f => TerminalFontTMP = f,
-                null
-            );
+            // Load TerminalFont (optional)
+            if (!string.IsNullOrEmpty(fonts.TerminalFont))
+            {
+                string terminalFontPath = FindFontFile(fontsPath, fonts.TerminalFont);
+                if (terminalFontPath != null)
+                {
+                    TMP_FontAsset tmpFont = CreateTMPFontFromFile(terminalFontPath);
+                    if (tmpFont != null)
+                    {
+                        CustomTerminalFontTMP = tmpFont;
+                        // Create overlay material for this font
+                        if (GlobalFontTMPOverlayMat != null)
+                        {
+                            CustomTerminalFontTMPOverlayMat = new Material(GlobalFontTMPOverlayMat);
+                            CustomTerminalFontTMPOverlayMat.name = $"{tmpFont.name}_Overlay";
+                            Logging.Message($"Created overlay material for TerminalFont: {CustomTerminalFontTMPOverlayMat.name}");
+                        }
+                        else
+                        {
+                            Logging.Warn("GlobalFontTMPOverlayMat is null, cannot create overlay material for TerminalFont");
+                        }
+                        Logging.Message($"Loaded custom TerminalFont TMP: {fonts.TerminalFont} (from {Path.GetFileName(terminalFontPath)})");
+                    }
+                    else
+                    {
+                        Logging.Error($"CreateTMPFontFromFile returned null for TerminalFont");
+                    }
+                    
+                }
+                else
+                {
+                    Logging.Warn($"Custom TerminalFont file not found: {fonts.TerminalFont} (searched with extensions .ttf, .otf, .ttc, .woff, .woff2)");
+                }
+            }
 
-            LoadCustomFont(
-                fontsPath,
-                fonts.SecretTerminalFont,
-                f => SecretTerminalFontTMP = f,
-                null
-            );
-
-            AddGlyphs();
+            // Load SecretTerminalFont (optional)
+            if (!string.IsNullOrEmpty(fonts.SecretTerminalFont))
+            {
+                string secretFontPath = FindFontFile(fontsPath, fonts.SecretTerminalFont);
+                if (secretFontPath != null)
+                {
+                    TMP_FontAsset tmpFont = CreateTMPFontFromFile(secretFontPath);
+                    if (tmpFont != null)
+                    {
+                        CustomSecretTerminalFontTMP = tmpFont;
+                        // Create overlay material for this font
+                        if (GlobalFontTMPOverlayMat != null)
+                        {
+                            CustomSecretTerminalFontTMPOverlayMat = new Material(GlobalFontTMPOverlayMat);
+                            CustomSecretTerminalFontTMPOverlayMat.name = $"{tmpFont.name}_Overlay";
+                            Logging.Message($"Created overlay material for SecretTerminalFont: {CustomSecretTerminalFontTMPOverlayMat.name}");
+                        }
+                        else
+                        {
+                            Logging.Warn("GlobalFontTMPOverlayMat is null, cannot create overlay material for SecretTerminalFont");
+                        }
+                        Logging.Message($"Loaded custom SecretTerminalFont TMP: {fonts.SecretTerminalFont} (from {Path.GetFileName(secretFontPath)})");
+                    }
+                    else
+                    {
+                        Logging.Error($"CreateTMPFontFromFile returned null for SecretTerminalFont");
+                    }
+                }
+                else
+                {
+                    Logging.Warn($"Custom SecretTerminalFont file not found: {fonts.SecretTerminalFont} (searched with extensions .ttf, .otf, .ttc, .woff, .woff2)");
+                }
+            }
         }
 
         /// <summary>
@@ -752,18 +633,11 @@ namespace UltrakULL
                 if(font1TMP && font2TMP && cjkFontTMP && jafontTMP && font1TMPTopMat && cjkFontTMPTopMat && jaFontTMPTopMat)
                 {
                     Logging.Warn("Normal TMP fonts loaded.");
-                    DefaultGlobalFontTMP = font1TMP;
-                    DefaultMuseumFontTMP = font2TMP;
-
-                    GlobalFontTMP = DefaultGlobalFontTMP;
-                    MuseumFontTMP = DefaultMuseumFontTMP;
-
+                    GlobalFontTMP = font1TMP;
+                    MuseumFontTMP = font2TMP;
                     CJKFontTMP = cjkFontTMP;
                     JaFontTMP = jafontTMP;
-
-                    DefaultGlobalFontTMPOverlayMat = font1TMPTopMat;
-                    GlobalFontTMPOverlayMat = DefaultGlobalFontTMPOverlayMat;
-
+                    GlobalFontTMPOverlayMat = font1TMPTopMat;
                     CJKFontTMPOverlayMat = cjkFontTMPTopMat;
                     jaFontTMPOverlayMat = jaFontTMPTopMat;
                     
@@ -1040,103 +914,29 @@ namespace UltrakULL
             }*/
         }
 
-        private static void AddGlyphsToFont(TMP_FontAsset font, string chars)
-        {
-            if (font == null || string.IsNullOrEmpty(chars))
-                return;
-
-            try
-            {
-                EnableMultiAtlas(font);
-
-                bool success = font.TryAddCharacters(chars, out string missingChars);
-                FixFontMetrics(font);
-
-                if (!success && !string.IsNullOrEmpty(missingChars))
-                {
-                    Logging.Warn($"Missing glyphs for font '{font.name}': {missingChars}");
-                }
-                else
-                {
-                    Logging.Message($"Added glyphs to '{font.name}'");
-                }
-            }
-            catch (Exception e)
-            {
-                Logging.Error($"AddGlyphsToFont failed: {e}");
-            }
-        }
-
         public static void AddGlyphs()
         {
+            if (GlobalFontTMP == null) return;
+
             string charsToAdd = LanguageManager.CurrentLanguage.metadata.addchar;
 
-            if (string.IsNullOrEmpty(charsToAdd))
-                return;
+            if (string.IsNullOrEmpty(charsToAdd)) return;
 
-            AddGlyphsToFont(GlobalFontTMP, charsToAdd);
-            AddGlyphsToFont(MuseumFontTMP, charsToAdd);
-            AddGlyphsToFont(TerminalFontTMP, charsToAdd);
-            AddGlyphsToFont(SecretTerminalFontTMP, charsToAdd);
-        }
+            Logging.Message("Adding extra glyphs from language file...");
 
-        [HarmonyPatch(typeof(TMP_FontAsset), "TryAddCharacterInternal")]
-        public static class RuntimeTMPFontPatch
-        {
-            private static MethodInfo loadFontFaceMethod;
-            private static MethodInfo setFaceSizeMethod;
-            private static MethodInfo initializeFontEngineMethod;
+            var multiAtlasField = typeof(TMP_FontAsset).GetField(
+                "m_IsMultiAtlasTexturesEnabled",
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance
+            );
 
-            static RuntimeTMPFontPatch()
-            {
-                try
-                {
-                    Type fontEngineType = typeof(FontEngine);
+            multiAtlasField?.SetValue(GlobalFontTMP, true);
 
-                    initializeFontEngineMethod = fontEngineType.GetMethod(
-                        "InitializeFontEngine",
-                        BindingFlags.Public | BindingFlags.Static
-                    );
+            GlobalFontTMP.TryAddCharacters(charsToAdd, out string missingChars);
 
-                    setFaceSizeMethod = fontEngineType.GetMethod(
-                        "SetFaceSize",
-                        BindingFlags.Public | BindingFlags.Static
-                    );
-
-                    loadFontFaceMethod = fontEngineType
-                        .GetMethods(BindingFlags.Public | BindingFlags.Static)
-                        .FirstOrDefault(m =>
-                            m.Name == "LoadFontFace" &&
-                            m.GetParameters().Length == 1 &&
-                            m.GetParameters()[0].ParameterType == typeof(string));
-                }
-                catch (Exception e)
-                {
-                    Logging.Error($"RuntimeTMPFontPatch init failed: {e}");
-                }
-            }
-
-            static void Prefix(TMP_FontAsset __instance)
-            {
-                try
-                {
-                    if (!RuntimeFonts.TryGetValue(__instance, out RuntimeFontData data))
-                        return;
-
-                    initializeFontEngineMethod?.Invoke(null, null);
-                    loadFontFaceMethod?.Invoke(null, new object[] { data.Path });
-                    setFaceSizeMethod?.Invoke(null, new object[] { data.PointSize });
-                }
-                catch (Exception e)
-                {
-                    Logging.Error($"Runtime TMP glyph patch failed: {e}");
-                }
-            }
-
-            static void Postfix(TMP_FontAsset __instance)
-            {
-                FixFontMetrics(__instance);
-            }
+            if (!string.IsNullOrEmpty(missingChars))
+                Logging.Warn($"Missing chars ({missingChars.Length}): {missingChars}");
+            else
+                Logging.Message("Extra glyphs added");
         }
     }
 }
