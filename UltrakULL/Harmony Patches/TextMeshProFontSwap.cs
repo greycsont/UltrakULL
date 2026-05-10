@@ -62,7 +62,7 @@ namespace UltrakULL.Harmony_Patches
 		{
 			private static List<IntPtr> objectsFixed = new List<IntPtr>();
 
-			[HarmonyPostfix]
+            [HarmonyPostfix]
 			public static void SwapFont(ref TextMeshProUGUI __instance, IntPtr ___m_CachedPtr)
 			{
 				if ((objectsFixed.Count <= 0 || !objectsFixed.Contains(___m_CachedPtr)) && Core.TMPFontReady && (!CommonFunctions.isUsingEnglish() || !(CommonFunctions.GetCurrentSceneName() != "Main Menu")))
@@ -270,7 +270,7 @@ namespace UltrakULL.Harmony_Patches
 					{
 						// Apply terminal font
 						Logging.Message($"Detected Tahoma font: '{currentFontName}', applying terminal font: {terminalFont?.name}");
-						TMPFontUtils.ApplyUnderlayAndZTest(__instance, underlayColor, isUnderlaid, isOverlay, editOverlayStatus, terminalFont, terminalOverlayMat, terminalNormalMat);
+                        ApplyFont(__instance, underlayColor, isUnderlaid, isOverlay, editOverlayStatus, terminalFont, terminalOverlayMat, terminalNormalMat);
 						return;
 					}
 					else if (fontNameLower.Contains("bittypix monospace ") && fontNameLower.Contains("bittypix"))
@@ -292,7 +292,7 @@ namespace UltrakULL.Harmony_Patches
 			// If terminal and custom terminal font exists, use it
 			if (isTerminal && !isSecretTerminal && terminalFont != Core.GlobalFontTMP)
 			{
-				TMPFontUtils.ApplyUnderlayAndZTest(__instance, underlayColor, isUnderlaid, isOverlay, editOverlayStatus, terminalFont, terminalOverlayMat, terminalNormalMat);
+                ApplyFont(__instance, underlayColor, isUnderlaid, isOverlay, editOverlayStatus, terminalFont, terminalOverlayMat, terminalNormalMat);
 				return;
 			}
 
@@ -365,5 +365,54 @@ namespace UltrakULL.Harmony_Patches
 				break;
 			}
 		}
-	}
+        //test font size scaling for terminal font
+        private static readonly Dictionary<TextMeshProUGUI, float> OriginalFontSizes = new Dictionary<TextMeshProUGUI, float>();
+
+        public static int TerminalFontScale = LanguageManager.CurrentLanguage.metadata.tmFontSize;
+
+        private static void ApplyTerminalFontScale(TextMeshProUGUI tmp)
+        {
+            if (tmp == null)
+                return;
+
+            if (!OriginalFontSizes.TryGetValue(tmp, out float originalSize))
+            {
+                originalSize = tmp.fontSize;
+                OriginalFontSizes[tmp] = originalSize;
+            }
+
+            tmp.fontSize = originalSize * (TerminalFontScale / 100f);
+        }
+
+        private static void ApplyFont(
+            TextMeshProUGUI tmp,
+            Vector4 underlayColor,
+            bool isUnderlaid,
+            bool isOverlay,
+            bool editOverlayStatus,
+            TMP_FontAsset font,
+            Material overlayMat,
+            Material normalMat)
+        {
+            TMPFontUtils.ApplyUnderlayAndZTest(
+                tmp,
+                underlayColor,
+                isUnderlaid,
+                isOverlay,
+                editOverlayStatus,
+                font,
+                overlayMat,
+                normalMat
+            );
+
+            if (font == Core.CustomTerminalFontTMP)
+            {
+                ApplyTerminalFontScale(tmp);
+            }
+        }
+        public static void ClearFontSwapCache()
+        {
+			TerminalFontScale = LanguageManager.CurrentLanguage.metadata.tmFontSize;
+        }
+    }
 }

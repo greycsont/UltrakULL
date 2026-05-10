@@ -470,6 +470,7 @@ namespace UltrakULL.json
 
                 // Reload custom fonts for the new language
                 Core.ReloadCustomFonts();
+                TextMeshProFontSwap.ClearFontSwapCache();
 
                 MainPatch.Instance.onSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
                 DumpLastLanguage();

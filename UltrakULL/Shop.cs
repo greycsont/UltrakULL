@@ -252,6 +252,8 @@ namespace UltrakULL
                 GameObject revolverLore = GetGameObjectChild(revolverWindow, "Info Screen");
                 TextMeshProUGUI revolverLoreName = GetTextMeshProUGUI(GetGameObjectChild(revolverLore, "Title"));
                 revolverLoreName.text = LanguageManager.CurrentLanguage.shop.shop_weaponsRevolver;// + info
+                TextMeshProUGUI revolverLoreTitle = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(revolverLore, "Main Window"), "Name"));
+                revolverLoreTitle.text = LanguageManager.CurrentLanguage.shop.shop_weaponsRevolver;
 
                 TextMeshProUGUI revolverLoreInfo = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(revolverLore, "Main Window"), "Scroll View"),"Viewport"),"Text"));
 
@@ -397,6 +399,8 @@ namespace UltrakULL
                 GameObject shotgunLore = GetGameObjectChild(GetGameObjectChild(shotgunWindow,"Info Screen"), "Main Window");
                 TextMeshProUGUI shotgunLoreName = GetTextMeshProUGUI(GetGameObjectChild(shotgunLore.transform.parent.gameObject, "Title"));
                 shotgunLoreName.text = LanguageManager.CurrentLanguage.shop.shop_weaponsShotgun;
+                TextMeshProUGUI shotgunLoreTitle = GetTextMeshProUGUI(GetGameObjectChild(shotgunLore, "Name"));
+                shotgunLoreTitle.text = LanguageManager.CurrentLanguage.shop.shop_weaponsShotgun;
 
                 TextMeshProUGUI shotgunLoreInfo = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(shotgunLore, "Scroll View"), "Viewport"), "Text"));
 
@@ -531,6 +535,8 @@ namespace UltrakULL
                 GameObject nailgunLore = GetGameObjectChild(GetGameObjectChild(nailgunWindow, "Info Screen"), "Main Window");
                 TextMeshProUGUI nailgunLoreName = GetTextMeshProUGUI(GetGameObjectChild(nailgunLore.transform.parent.gameObject, "Title"));
                 nailgunLoreName.text = LanguageManager.CurrentLanguage.shop.shop_weaponsNailgun;
+                TextMeshProUGUI nailgunLoreTitle = GetTextMeshProUGUI(GetGameObjectChild(nailgunLore, "Name"));
+                nailgunLoreTitle.text = LanguageManager.CurrentLanguage.shop.shop_weaponsNailgun;
 
                 TextMeshProUGUI NailgunLoreInfo = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(nailgunLore, "Scroll View"), "Viewport"), "Text"));
 
@@ -666,6 +672,8 @@ namespace UltrakULL
                 GameObject railcannonLore = GetGameObjectChild(GetGameObjectChild(railcannonWindow, "Info Screen"), "Main Window");
                 TextMeshProUGUI railcannonLoreName = GetTextMeshProUGUI(GetGameObjectChild(railcannonLore.transform.parent.gameObject, "Title"));
                 railcannonLoreName.text = LanguageManager.CurrentLanguage.shop.shop_weaponsRailcannon;
+                TextMeshProUGUI railcannonLoreTitle = GetTextMeshProUGUI(GetGameObjectChild(railcannonLore, "Name"));
+                railcannonLoreTitle.text = LanguageManager.CurrentLanguage.shop.shop_weaponsRailcannon;
 
                 TextMeshProUGUI railcannonLoreInfo = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(railcannonLore, "Scroll View"), "Viewport"), "Text"));
 
@@ -799,6 +807,8 @@ namespace UltrakULL
                 GameObject rocketlauncherLore = GetGameObjectChild(GetGameObjectChild(rocketlauncherWindow, "Info Screen"), "Main Window");
                 TextMeshProUGUI rocketlauncherLoreName = GetTextMeshProUGUI(GetGameObjectChild(rocketlauncherLore.transform.parent.gameObject, "Title"));
                 rocketlauncherLoreName.text = LanguageManager.CurrentLanguage.shop.shop_weaponsRocketLauncher;
+                TextMeshProUGUI rocketlauncherLoreTitle = GetTextMeshProUGUI(GetGameObjectChild(rocketlauncherLore, "Name"));
+                rocketlauncherLoreTitle.text = LanguageManager.CurrentLanguage.shop.shop_weaponsRocketLauncher;
 
                 TextMeshProUGUI rocketlauncherLoreInfo = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(rocketlauncherLore, "Scroll View"), "Viewport"), "Text"));
 
