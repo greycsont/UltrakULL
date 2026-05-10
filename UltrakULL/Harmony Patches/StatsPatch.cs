@@ -18,10 +18,10 @@ namespace UltrakULL.Harmony_Patches
                 return;
             }
             SandboxStats sandboxStats = SteamController.Instance.GetSandboxStats();
-            ___textContent.text = string.Format("<color=orange>{0}</color> - " + LanguageManager.CurrentLanguage.sandbox.sandbox_shop_totalBoxes + "\n", sandboxStats.brushesBuilt)
-                + string.Format("<color=orange>{0}</color> - "+ LanguageManager.CurrentLanguage.sandbox.sandbox_shop_totalProps + "\n", sandboxStats.propsSpawned)
-                + string.Format("<color=orange>{0}</color> - " + LanguageManager.CurrentLanguage.sandbox.sandbox_shop_totalEnemies + "\n", sandboxStats.enemiesSpawned)
-                + string.Format("<color=orange>{0:F1}h</color> - " + LanguageManager.CurrentLanguage.sandbox.sandbox_shop_totalTime + "\n", sandboxStats.hoursSpend);
+            ___textContent.text = string.Format("<color=#FF4343>{0}</color> - " + LanguageManager.CurrentLanguage.sandbox.sandbox_shop_totalBoxes + "\n", sandboxStats.brushesBuilt)
+                + string.Format("<color=#FF4343>{0}</color> - " + LanguageManager.CurrentLanguage.sandbox.sandbox_shop_totalProps + "\n", sandboxStats.propsSpawned)
+                + string.Format("<color=#FF4343>{0}</color> - " + LanguageManager.CurrentLanguage.sandbox.sandbox_shop_totalEnemies + "\n", sandboxStats.enemiesSpawned)
+                + string.Format("<color=#FF4343>{0:F1}" + LanguageManager.CurrentLanguage.sandbox.sandbox_shop_totalTimeh + "</color> - " + LanguageManager.CurrentLanguage.sandbox.sandbox_shop_totalTime + "\n", sandboxStats.hoursSpend);
         }
     }
 }

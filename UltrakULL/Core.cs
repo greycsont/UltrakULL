@@ -676,227 +676,232 @@ namespace UltrakULL
             }
             else
             {
-                switch(levelName) 
-                { 
-                case "Intro": { break; }
-                case "Main Menu":
-                    {
-                        if (Core.wasLanguageReset)
+                switch (levelName)
+                {
+                    case "Intro": { break; }
+                    case "Main Menu":
                         {
-                            Core.wasLanguageReset = false;
-                            MonoSingleton<HudMessageReceiver>.Instance.SendHudMessage("<color=orange>The currently set language file could not be loaded.\nLanguage has been reset to English to avoid problems.</color>");
-                        }
-
-                        PatchFrontEnd(canvasObj);
-
-                        if (ultrakullLogo != null)
-                        {
-                            GameObject.Destroy(ultrakullLogo);
-                            ultrakullLogo = null;
-                        }
-
-                        ultrakullLogo = new GameObject("UltrakULL_Dropdown");
-                        ultrakullLogo.transform.SetParent(canvasObj.transform, false);
-
-                        RectTransform rootRect = ultrakullLogo.AddComponent<RectTransform>();
-                        rootRect.anchorMin = new Vector2(1, 1);
-                        rootRect.anchorMax = new Vector2(1, 1);
-                        rootRect.pivot = new Vector2(1, 1);
-                        rootRect.anchoredPosition = new Vector2(-20, -20);
-                        rootRect.sizeDelta = new Vector2(250, 30);
-
-                        Image buttonImage = ultrakullLogo.AddComponent<Image>();
-                        buttonImage.color = new Color(0.2f, 0.2f, 0.2f, 0.7f);
-                        Button button = ultrakullLogo.AddComponent<Button>();
-
-                        GameObject buttonTextObj = new GameObject("ButtonText");
-                        buttonTextObj.transform.SetParent(ultrakullLogo.transform, false);
-                        RectTransform buttonTextRect = buttonTextObj.AddComponent<RectTransform>();
-                        buttonTextRect.anchorMin = Vector2.zero;
-                        buttonTextRect.anchorMax = Vector2.one;
-                        buttonTextRect.offsetMin = Vector2.zero;
-                        buttonTextRect.offsetMax = Vector2.zero;
-
-                        TextMeshProUGUI buttonText = buttonTextObj.AddComponent<TextMeshProUGUI>();
-                        buttonText.text = "UltrakULL ▼";
-                        buttonText.alignment = TextAlignmentOptions.MidlineRight;
-                        buttonText.fontSize = 16;
-                        buttonText.color = Color.white;
-
-                        GameObject panel = new GameObject("DropdownPanel");
-                        panel.transform.SetParent(ultrakullLogo.transform, false);
-                        RectTransform panelRect = panel.AddComponent<RectTransform>();
-                        panelRect.anchorMin = new Vector2(1, 1);
-                        panelRect.anchorMax = new Vector2(1, 1);
-                        panelRect.pivot = new Vector2(1, 1);
-                        panelRect.anchoredPosition = new Vector2(0, -30);
-                        panelRect.sizeDelta = new Vector2(rootRect.sizeDelta.x, updateAvailable ? 170 : 130);
-
-                        Image panelBg = panel.AddComponent<Image>();
-                        panelBg.color = new Color(0f, 0f, 0f, 0.75f);
-
-                        GameObject panelTextObj = new GameObject("PanelText");
-                        panelTextObj.transform.SetParent(panel.transform, false);
-                        RectTransform panelTextRect = panelTextObj.AddComponent<RectTransform>();
-                        panelTextRect.anchorMin = new Vector2(0, 0);
-                        panelTextRect.anchorMax = new Vector2(1, 1);
-                        panelTextRect.offsetMin = new Vector2(5, 5);
-                        panelTextRect.offsetMax = new Vector2(-5, -5);
-
-                        TextMeshProUGUI panelText = panelTextObj.AddComponent<TextMeshProUGUI>();
-                        panelText.text = "<color=white>UltrakULL loaded.\nVersion: " + MainPatch.GetVersion() + "\nCurrent locale: " + LanguageManager.CurrentLanguage.metadata.langName;
-                        panelText.alignment = TextAlignmentOptions.TopRight;
-                        panelText.fontSize = 16;
-                        panelText.color = Color.white;
-
-
-                        if (updateAvailable)
-                        {
-                            panelText.text += "\n<color=green>UPDATE AVAILABLE!</color>";
-
-                            GameObject updateLink = new GameObject("UpdateLink", typeof(RectTransform), typeof(TextMeshProUGUI), typeof(Button));
-                            updateLink.transform.SetParent(panel.transform, false);
-
-                            RectTransform linkRect = updateLink.GetComponent<RectTransform>();
-                            linkRect.anchorMin = new Vector2(1, 1);   
-                            linkRect.anchorMax = new Vector2(1, 1);
-                            linkRect.pivot = new Vector2(1, 1);       
-                            linkRect.anchoredPosition = new Vector2(-5, -90); 
-                            linkRect.sizeDelta = new Vector2(150, 24); 
-
-                            TextMeshProUGUI linkText = updateLink.GetComponent<TextMeshProUGUI>();
-                            linkText.font = GlobalFontTMP;
-                            linkText.text = "<u><color=white>VIEW UPDATE</color></u>";
-                            linkText.alignment = TextAlignmentOptions.TopRight;
-                            linkText.fontSize = 16;
-                            linkText.raycastTarget = true;
-
-                            Button updateButton = updateLink.GetComponent<Button>();
-                            updateButton.onClick.AddListener(() =>
+                            if (Core.wasLanguageReset)
                             {
-                                Application.OpenURL("https://github.com/ClearwaterUK/UltrakULL/releases/latest");
+                                Core.wasLanguageReset = false;
+                                MonoSingleton<HudMessageReceiver>.Instance.SendHudMessage("<color=orange>The currently set language file could not be loaded.\nLanguage has been reset to English to avoid problems.</color>");
+                            }
+
+                            PatchFrontEnd(canvasObj);
+
+                            if (ultrakullLogo != null)
+                            {
+                                GameObject.Destroy(ultrakullLogo);
+                                ultrakullLogo = null;
+                            }
+
+                            ultrakullLogo = new GameObject("UltrakULL_Dropdown");
+                            ultrakullLogo.transform.SetParent(canvasObj.transform, false);
+
+                            RectTransform rootRect = ultrakullLogo.AddComponent<RectTransform>();
+                            rootRect.anchorMin = new Vector2(1, 1);
+                            rootRect.anchorMax = new Vector2(1, 1);
+                            rootRect.pivot = new Vector2(1, 1);
+                            rootRect.anchoredPosition = new Vector2(-20, -20);
+                            rootRect.sizeDelta = new Vector2(250, 30);
+
+                            Image buttonImage = ultrakullLogo.AddComponent<Image>();
+                            buttonImage.color = new Color(0.2f, 0.2f, 0.2f, 0.7f);
+                            Button button = ultrakullLogo.AddComponent<Button>();
+
+                            GameObject buttonTextObj = new GameObject("ButtonText");
+                            buttonTextObj.transform.SetParent(ultrakullLogo.transform, false);
+                            RectTransform buttonTextRect = buttonTextObj.AddComponent<RectTransform>();
+                            buttonTextRect.anchorMin = Vector2.zero;
+                            buttonTextRect.anchorMax = Vector2.one;
+                            buttonTextRect.offsetMin = Vector2.zero;
+                            buttonTextRect.offsetMax = Vector2.zero;
+
+                            TextMeshProUGUI buttonText = buttonTextObj.AddComponent<TextMeshProUGUI>();
+                            buttonText.text = "UltrakULL ▼";
+                            buttonText.alignment = TextAlignmentOptions.MidlineRight;
+                            buttonText.fontSize = 16;
+                            buttonText.color = Color.white;
+
+                            GameObject panel = new GameObject("DropdownPanel");
+                            panel.transform.SetParent(ultrakullLogo.transform, false);
+                            RectTransform panelRect = panel.AddComponent<RectTransform>();
+                            panelRect.anchorMin = new Vector2(1, 1);
+                            panelRect.anchorMax = new Vector2(1, 1);
+                            panelRect.pivot = new Vector2(1, 1);
+                            panelRect.anchoredPosition = new Vector2(0, -30);
+                            panelRect.sizeDelta = new Vector2(rootRect.sizeDelta.x, updateAvailable ? 170 : 130);
+
+                            Image panelBg = panel.AddComponent<Image>();
+                            panelBg.color = new Color(0f, 0f, 0f, 0.75f);
+
+                            GameObject panelTextObj = new GameObject("PanelText");
+                            panelTextObj.transform.SetParent(panel.transform, false);
+                            RectTransform panelTextRect = panelTextObj.AddComponent<RectTransform>();
+                            panelTextRect.anchorMin = new Vector2(0, 0);
+                            panelTextRect.anchorMax = new Vector2(1, 1);
+                            panelTextRect.offsetMin = new Vector2(5, 5);
+                            panelTextRect.offsetMax = new Vector2(-5, -5);
+
+                            TextMeshProUGUI panelText = panelTextObj.AddComponent<TextMeshProUGUI>();
+                            panelText.text = "<color=white>UltrakULL loaded.\nVersion: " + MainPatch.GetVersion() + "\nCurrent locale: " + LanguageManager.CurrentLanguage.metadata.langName;
+                            panelText.alignment = TextAlignmentOptions.TopRight;
+                            panelText.fontSize = 16;
+                            panelText.color = Color.white;
+
+
+                            if (updateAvailable)
+                            {
+                                panelText.text += "\n<color=green>UPDATE AVAILABLE!</color>";
+
+                                GameObject updateLink = new GameObject("UpdateLink", typeof(RectTransform), typeof(TextMeshProUGUI), typeof(Button));
+                                updateLink.transform.SetParent(panel.transform, false);
+
+                                RectTransform linkRect = updateLink.GetComponent<RectTransform>();
+                                linkRect.anchorMin = new Vector2(1, 1);
+                                linkRect.anchorMax = new Vector2(1, 1);
+                                linkRect.pivot = new Vector2(1, 1);
+                                linkRect.anchoredPosition = new Vector2(-5, -90);
+                                linkRect.sizeDelta = new Vector2(150, 24);
+
+                                TextMeshProUGUI linkText = updateLink.GetComponent<TextMeshProUGUI>();
+                                linkText.font = GlobalFontTMP;
+                                linkText.text = "<u><color=white>VIEW UPDATE</color></u>";
+                                linkText.alignment = TextAlignmentOptions.TopRight;
+                                linkText.fontSize = 16;
+                                linkText.raycastTarget = true;
+
+                                Button updateButton = updateLink.GetComponent<Button>();
+                                updateButton.onClick.AddListener(() =>
+                                {
+                                    Application.OpenURL("https://github.com/ClearwaterUK/UltrakULL/releases/latest");
+                                });
+                            }
+
+
+                            if (!LanguageManager.FileMatchesMinimumRequiredVersion(LanguageManager.CurrentLanguage.metadata.minimumModVersion, MainPatch.GetVersion()) && !isUsingEnglish())
+                            {
+                                panelText.text += "\n<color=orange>This language file\nwas created for\nan older version of\nUltrakULL.\nPlease check for\nan update to this file!</color>";
+                            }
+                            else if (!updateAvailable && updateFailed)
+                            {
+                                panelText.text += "\n<color=red>Unable to check for updates.\nCheck console for info.</color>";
+                            }
+
+                            CanvasGroup panelGroup = panel.AddComponent<CanvasGroup>();
+                            panelGroup.alpha = 0f;
+                            panelGroup.interactable = false;
+                            panelGroup.blocksRaycasts = false;
+
+                            button.onClick.AddListener(() =>
+                            {
+                                ultrakullDropdownExpanded = !ultrakullDropdownExpanded;
+                                panelGroup.alpha = ultrakullDropdownExpanded ? 1f : 0f;
+                                panelGroup.interactable = ultrakullDropdownExpanded;
+                                panelGroup.blocksRaycasts = ultrakullDropdownExpanded;
+                                buttonText.text = ultrakullDropdownExpanded ? "UltrakULL ▲" : "UltrakULL ▼";
                             });
+
+                            break;
                         }
-
-
-                        if (!LanguageManager.FileMatchesMinimumRequiredVersion(LanguageManager.CurrentLanguage.metadata.minimumModVersion, MainPatch.GetVersion()) && !isUsingEnglish())
-                        {
-                            panelText.text += "\n<color=orange>This language file\nwas created for\nan older version of\nUltrakULL.\nPlease check for\nan update to this file!</color>";
-                        }
-                        else if (!updateAvailable && updateFailed)
-                        {
-                            panelText.text += "\n<color=red>Unable to check for updates.\nCheck console for info.</color>";
-                        }
-
-                        CanvasGroup panelGroup = panel.AddComponent<CanvasGroup>();
-                        panelGroup.alpha = 0f;
-                        panelGroup.interactable = false;
-                        panelGroup.blocksRaycasts = false;
-
-                        button.onClick.AddListener(() =>
-                        {
-                            ultrakullDropdownExpanded = !ultrakullDropdownExpanded;
-                            panelGroup.alpha = ultrakullDropdownExpanded ? 1f : 0f;
-                            panelGroup.interactable = ultrakullDropdownExpanded;
-                            panelGroup.blocksRaycasts = ultrakullDropdownExpanded;
-                            buttonText.text = ultrakullDropdownExpanded ? "UltrakULL ▲" : "UltrakULL ▼";
-                        });
-
-                        break;
-                    }
 
                     default:
-                    {
-                        if (isUsingEnglish())
                         {
-                            Logging.Warn("Current language is English, not patching.");
-                            return;
-                        }
-                        
-                        Logging.Message("Regular scene");
-                        Logging.Message("Attempting to patch base elements");
-                        try{PatchPauseMenu(ref canvasObj);} catch(Exception e){Console.WriteLine(e.ToString());}
-                        try{Cheats.PatchCheatConsentPanel(ref canvasObj);;} catch(Exception e){Console.WriteLine(e.ToString());}
-                        try{Sandbox.PatchAlterMenu();} catch(Exception e){ Console.WriteLine(e.ToString());}
-                        try{HUDMessages.PatchDeathScreen(ref canvasObj);} catch(Exception e){Console.WriteLine(e.ToString());}
-                        try{LevelStatWindow.PatchStats(ref canvasObj);} catch(Exception e){Console.WriteLine(e.ToString());}
-                        try{HUDMessages.PatchMisc(ref canvasObj);} catch(Exception e){Console.WriteLine(e.ToString());}
-                        try{Options options = new Options(ref canvasObj);} catch(Exception e){Console.WriteLine(e.ToString());}
-        
-                        Logging.Message("Base elements patched");
-                        }
-                        
-                        
-                        if (levelName.Contains("Tutorial"))
-                            { 
-                                Logging.Message("Tutorial");
-                            }
-                            else if (levelName.Contains("-S"))
+                            if (isUsingEnglish())
                             {
-                                Logging.Message("Secret");
-                                SecretLevels secretLevels = new SecretLevels(ref canvasObj);
+                                Logging.Warn("Current language is English, not patching.");
+                                return;
                             }
-                            if(levelName.Contains("0-") & !levelName.Contains("-E"))
-                            { 
-                                Logging.Message("Prelude");
-                                Prelude preludePatchClass = new Prelude(ref canvasObj);
-                            }
-                            else if((levelName.Contains("1-") & !levelName.Contains("-E")) || (levelName.Contains("2-") & !levelName.Contains("-E")) || (levelName.Contains("3-") & !levelName.Contains("-E")) )
-                            {
-                                Logging.Message("Act 1");
-                                Act1.PatchAct1(ref canvasObj);
-                            }
-                            else if((levelName.Contains("4-") & !levelName.Contains("-E")) || (levelName.Contains("5-") & !levelName.Contains("-E")) || (levelName.Contains("6-") & !levelName.Contains("-E")) )
-                            {
-                                Logging.Message("Act 2");
-                                Act2.PatchAct2(ref canvasObj);
-                            }
-                            else if((levelName.Contains("7-") & !levelName.Contains("-E")) || (levelName.Contains("8-") & !levelName.Contains("-E")) || (levelName.Contains("9-") & !levelName.Contains("-E")) )
-                            {
-                                Logging.Message("Act 3");
-                                if(LanguageManager.CurrentLanguage.act3 != null)
-                                {
-                                    Act3.PatchAct3(ref canvasObj);
-                                }
-                                else
-                                {
-                                    Logging.Warn("Category is not found in the language file!");
-                                }
-                            }
-                            else if (levelName.Contains("P-"))
-                            {
-                                Logging.Message("Prime");
-                                PrimeSanctum primeSanctumClass = new PrimeSanctum();
-                            }
-                            else if (levelName.Contains("-E"))
-                            {
-                                Logging.Message("Encore");
-                                if (LanguageManager.CurrentLanguage.encore != null)
-                                {
-                                    Encore.PatchEncore(ref canvasObj);
-                                }
 
-                            }
-                            else if (levelName == "uk_construct")
-                            { 
-                                Logging.Message("Sandbox");
-                                Sandbox sandbox = new Sandbox(ref canvasObj);
-                            }
-                            else if (levelName == "Endless")
+                            Logging.Message("Regular scene");
+                            Logging.Message("Attempting to patch base elements");
+                            try { PatchPauseMenu(ref canvasObj); } catch (Exception e) { Console.WriteLine(e.ToString()); }
+                            try { Cheats.PatchCheatConsentPanel(ref canvasObj); ; } catch (Exception e) { Console.WriteLine(e.ToString()); }
+                            try { Sandbox.PatchAlterMenu(); } catch (Exception e) { Console.WriteLine(e.ToString()); }
+                            try { HUDMessages.PatchDeathScreen(ref canvasObj); } catch (Exception e) { Console.WriteLine(e.ToString()); }
+                            try { LevelStatWindow.PatchStats(ref canvasObj); } catch (Exception e) { Console.WriteLine(e.ToString()); }
+                            try { HUDMessages.PatchMisc(ref canvasObj); } catch (Exception e) { Console.WriteLine(e.ToString()); }
+                            try { Options options = new Options(ref canvasObj); } catch (Exception e) { Console.WriteLine(e.ToString()); }
+
+                            Logging.Message("Base elements patched");
+                        }
+
+
+                        if (levelName.Contains("Tutorial"))
+                        {
+                            Logging.Message("Tutorial");
+                        }
+                        else if (AngryLevel.IsAngryCustomLevel() == true)
+                        {
+                            Logging.Message("Angry Custom Level");
+                            AngryLevel.PatchAngry();
+                        }
+                        else if (levelName.Contains("-S"))
+                        {
+                            Logging.Message("Secret");
+                            SecretLevels secretLevels = new SecretLevels(ref canvasObj);
+                        }
+                        if (levelName.Contains("0-") & !levelName.Contains("-E"))
+                        {
+                            Logging.Message("Prelude");
+                            Prelude preludePatchClass = new Prelude(ref canvasObj);
+                        }
+                        else if ((levelName.Contains("1-") & !levelName.Contains("-E")) || (levelName.Contains("2-") & !levelName.Contains("-E")) || (levelName.Contains("3-") & !levelName.Contains("-E")))
+                        {
+                            Logging.Message("Act 1");
+                            Act1.PatchAct1(ref canvasObj);
+                        }
+                        else if ((levelName.Contains("4-") & !levelName.Contains("-E")) || (levelName.Contains("5-") & !levelName.Contains("-E")) || (levelName.Contains("6-") & !levelName.Contains("-E")))
+                        {
+                            Logging.Message("Act 2");
+                            Act2.PatchAct2(ref canvasObj);
+                        }
+                        else if ((levelName.Contains("7-") & !levelName.Contains("-E")) || (levelName.Contains("8-") & !levelName.Contains("-E")) || (levelName.Contains("9-") & !levelName.Contains("-E")))
+                        {
+                            Logging.Message("Act 3");
+                            if (LanguageManager.CurrentLanguage.act3 != null)
                             {
-                                Logging.Message("CyberGrind");
-                                CyberGrind.PatchCg();
+                                Act3.PatchAct3(ref canvasObj);
                             }
-                            else if (levelName.Contains("Intermission") || levelName.Contains("EarlyAccessEnd"))
+                            else
                             {
-                                Logging.Message("Intermission");
-                                Intermission intermission = new Intermission(ref canvasObj);
+                                Logging.Warn("Category is not found in the language file!");
                             }
-                            else if (levelName == "CreditsMuseum2")
+                        }
+                        else if (levelName.Contains("P-"))
+                        {
+                            Logging.Message("Prime");
+                            PrimeSanctum primeSanctumClass = new PrimeSanctum();
+                        }
+                        else if (levelName.Contains("-E"))
+                        {
+                            Logging.Message("Encore");
+                            if (LanguageManager.CurrentLanguage.encore != null)
                             {
-                                Logging.Message("DevMuseum");
-                                DevMuseum devMuseum = new DevMuseum();
+                                Encore.PatchEncore(ref canvasObj);
                             }
+
+                        }
+                        else if (levelName == "uk_construct")
+                        {
+                            Logging.Message("Sandbox");
+                            Sandbox sandbox = new Sandbox(ref canvasObj);
+                        }
+                        else if (levelName == "Endless")
+                        {
+                            Logging.Message("CyberGrind");
+                            CyberGrind.PatchCg();
+                        }
+                        else if (levelName.Contains("Intermission") || levelName.Contains("EarlyAccessEnd"))
+                        {
+                            Logging.Message("Intermission");
+                            Intermission intermission = new Intermission(ref canvasObj);
+                        }
+                        else if (levelName == "CreditsMuseum2")
+                        {
+                            Logging.Message("DevMuseum");
+                            DevMuseum devMuseum = new DevMuseum();
+                        }
                         break;
                 }
             }

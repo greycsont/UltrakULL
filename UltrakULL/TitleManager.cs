@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 using UltrakULL.json;
 
@@ -85,110 +86,71 @@ namespace UltrakULL
 
         public static string GetLayer(string inputTitle)
         {
-            StringBuilder titleToReturn = new StringBuilder();
+            string layer = "";
+            string number = "";
 
-            //Grab the layer name...
+            // Grab the layer name...
             if (inputTitle.Contains("PRELUDE"))
-            {
-                titleToReturn.Append(LanguageManager.CurrentLanguage.misc.hellmap_prelude);
-            }
+                layer = LanguageManager.CurrentLanguage.misc.hellmap_prelude;
             else if (inputTitle.Contains("LIMBO"))
-            {
-                titleToReturn.Append(LanguageManager.CurrentLanguage.misc.hellmap_limbo);
-            }
+                layer = LanguageManager.CurrentLanguage.misc.hellmap_limbo;
             else if (inputTitle.Contains("LUST"))
-            {
-                titleToReturn.Append(LanguageManager.CurrentLanguage.misc.hellmap_lust);
-            }
+                layer = LanguageManager.CurrentLanguage.misc.hellmap_lust;
             else if (inputTitle.Contains("GLUTTONY"))
-            {
-                titleToReturn.Append(LanguageManager.CurrentLanguage.misc.hellmap_gluttony);
-            }
+                layer = LanguageManager.CurrentLanguage.misc.hellmap_gluttony;
             else if (inputTitle.Contains("GREED"))
-            {
-                titleToReturn.Append(LanguageManager.CurrentLanguage.misc.hellmap_greed);
-            }
+                layer = LanguageManager.CurrentLanguage.misc.hellmap_greed;
             else if (inputTitle.Contains("WRATH"))
-            {
-                titleToReturn.Append(LanguageManager.CurrentLanguage.misc.hellmap_wrath);
-            }
+                layer = LanguageManager.CurrentLanguage.misc.hellmap_wrath;
             else if (inputTitle.Contains("HERESY"))
-            {
-                titleToReturn.Append(LanguageManager.CurrentLanguage.misc.hellmap_heresy);
-            }
+                layer = LanguageManager.CurrentLanguage.misc.hellmap_heresy;
             else if (inputTitle.Contains("VIOLENCE"))
-            {
-                titleToReturn.Append(LanguageManager.CurrentLanguage.misc.hellmap_violence);
-            }
+                layer = LanguageManager.CurrentLanguage.misc.hellmap_violence;
             else if (inputTitle.Contains("FRAUD"))
-            {
-                titleToReturn.Append(LanguageManager.CurrentLanguage.misc.hellmap_fraud);
-            }
+                layer = LanguageManager.CurrentLanguage.misc.hellmap_fraud;
             else if (inputTitle.Contains("TREACHERY"))
-            {
-                titleToReturn.Append(LanguageManager.CurrentLanguage.misc.hellmap_treachery);
-            }
+                layer = LanguageManager.CurrentLanguage.misc.hellmap_treachery;
             else if (inputTitle.Contains("PRIME"))
-            {
-                titleToReturn.Append(LanguageManager.CurrentLanguage.misc.hellmap_prime);
-            }
+                layer = LanguageManager.CurrentLanguage.misc.hellmap_prime;
 
-            titleToReturn.Append(" /// ");
-
-            //...and then the number
+            // ...and then the number
             if (inputTitle.Contains("ACT I CRESCENDO"))
-            {
-                titleToReturn.Append(LanguageManager.CurrentLanguage.misc.hellmap_act1crescendo);
-            }
+                number = LanguageManager.CurrentLanguage.misc.hellmap_act1crescendo;
             else if (inputTitle.Contains("ACT I CLIMAX"))
-            {
-                titleToReturn.Append(LanguageManager.CurrentLanguage.misc.hellmap_act1climax);
-                return titleToReturn.ToString();
-            }
-            if (inputTitle.Contains("ACT II CRESCENDO"))
-            {
-                titleToReturn.Append(LanguageManager.CurrentLanguage.misc.hellmap_act2crescendo);
-            }
+                number = LanguageManager.CurrentLanguage.misc.hellmap_act1climax;
+            else if (inputTitle.Contains("ACT II CRESCENDO"))
+                number = LanguageManager.CurrentLanguage.misc.hellmap_act2crescendo;
             else if (inputTitle.Contains("ACT II CLIMAX"))
-            {
-                titleToReturn.Append(LanguageManager.CurrentLanguage.misc.hellmap_act2climax);
-                return titleToReturn.ToString();
-            }
-            if (inputTitle.Contains("ACT III CRESCENDO"))
-            {
-                titleToReturn.Append(LanguageManager.CurrentLanguage.misc.hellmap_act3crescendo);
-            }
+                number = LanguageManager.CurrentLanguage.misc.hellmap_act2climax;
+            else if (inputTitle.Contains("ACT III CRESCENDO"))
+                number = LanguageManager.CurrentLanguage.misc.hellmap_act3crescendo;
             else if (inputTitle.Contains("ACT III CLIMAX"))
-            {
-                titleToReturn.Append(LanguageManager.CurrentLanguage.misc.hellmap_act3climax);
-                return titleToReturn.ToString();
-            }
-
+                number = LanguageManager.CurrentLanguage.misc.hellmap_act3climax;
             else if (inputTitle.Contains("FIRST"))
-            {
-                titleToReturn.Append(LanguageManager.CurrentLanguage.misc.hellmap_first);
-            }
+                number = LanguageManager.CurrentLanguage.misc.hellmap_first;
             else if (inputTitle.Contains("SECOND"))
-            {
-                titleToReturn.Append(LanguageManager.CurrentLanguage.misc.hellmap_second);
-            }
+                number = LanguageManager.CurrentLanguage.misc.hellmap_second;
             else if (inputTitle.Contains("THIRD"))
-            {
-                titleToReturn.Append(LanguageManager.CurrentLanguage.misc.hellmap_third);
-            }
+                number = LanguageManager.CurrentLanguage.misc.hellmap_third;
             else if (inputTitle.Contains("FOURTH"))
-            {
-                titleToReturn.Append(LanguageManager.CurrentLanguage.misc.hellmap_fourth);
-            }
+                number = LanguageManager.CurrentLanguage.misc.hellmap_fourth;
             else if (inputTitle.Contains("CLIMAX"))
-            {
-                titleToReturn.Append(LanguageManager.CurrentLanguage.misc.hellmap_climax);
-            }
+                number = LanguageManager.CurrentLanguage.misc.hellmap_climax;
             else if (inputTitle.Contains("ENCORE"))
-            {
-                titleToReturn.Append(LanguageManager.CurrentLanguage.frontend.chapter_encore);
-            }
-            return titleToReturn.ToString();
+                number = LanguageManager.CurrentLanguage.frontend.chapter_encore;
+
+            string[] split = inputTitle.Split(new string[] { "///" }, StringSplitOptions.None);
+
+            string originalLayer = split.Length > 0 ? split[0].Trim() : "";
+            string originalNumber = split.Length > 1 ? split[1].Trim() : "";
+
+            if (string.IsNullOrEmpty(layer))
+                layer = originalLayer;
+
+            if (string.IsNullOrEmpty(number))
+                number = originalNumber;
+
+            return layer + " /// " + number;
         }
     }
 }

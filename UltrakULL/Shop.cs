@@ -162,11 +162,9 @@ namespace UltrakULL
                 //The longer text is, the more we'll need to reduce the font size to compensate.
                 TextMeshProUGUI weaponRailcannonText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(shopWeaponsButtonsObject, "RailcannonButton"), "Text"));
                 weaponRailcannonText.text = LanguageManager.CurrentLanguage.shop.shop_weaponsRailcannon;
-                weaponRailcannonText.fontSize = 16;
 
                 TextMeshProUGUI rocketLauncherText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(shopWeaponsButtonsObject, "RocketLauncherButton"), "Text"));
                 rocketLauncherText.text = LanguageManager.CurrentLanguage.shop.shop_weaponsRocketLauncher;
-                rocketLauncherText.fontSize = 16;
 
                 TextMeshProUGUI weaponArmText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(shopWeaponsButtonsObject, "ArmButton"), "Text"));
                 weaponArmText.text = LanguageManager.CurrentLanguage.shop.shop_weaponsArms;
@@ -205,7 +203,6 @@ namespace UltrakULL
                 GameObject marksman = GetGameObjectChild(revolverVariations, "Variation Panel (Green)");
                 TextMeshProUGUI marksmanName = GetTextMeshProUGUI(GetGameObjectChild(marksman, "Variation Name"));
                 marksmanName.text = LanguageManager.CurrentLanguage.shop.shop_revolverMarksman;
-                marksmanName.fontSize = 14;
                 
                 GameObject marksmanWindow = GetGameObjectChild(GetGameObjectChild(revolverWindow, "Variation Info (Green)"), "Panel");
                 TextMeshProUGUI marksmanWindowTitle = GetTextMeshProUGUI(GetGameObjectChild(marksmanWindow.transform.parent.gameObject, "Title"));
@@ -217,7 +214,6 @@ namespace UltrakULL
                 marksmanWindowDescription.text = LanguageManager.CurrentLanguage.shop.shop_revolverMarksmanDescription1 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_revolverMarksmanDescription2 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_revolverMarksmanDescription3;
-                marksmanWindowDescription.fontSize = 14;
 
                 TextMeshProUGUI marksmanWindowDescriptionBack = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(marksmanWindow, "Back Button"), "Text"));
                 marksmanWindowDescriptionBack.text = LanguageManager.CurrentLanguage.options.options_back;
@@ -226,7 +222,6 @@ namespace UltrakULL
                 GameObject sharpshooter = GetGameObjectChild(revolverVariations, "Variation Panel (Red)");
                 TextMeshProUGUI sharpshooterName = GetTextMeshProUGUI(GetGameObjectChild(sharpshooter, "Variation Name"));
                 sharpshooterName.text = LanguageManager.CurrentLanguage.shop.shop_revolverSharpshooter;
-                sharpshooterName.fontSize = 20;
                 
                 GameObject sharpshooterWindow = GetGameObjectChild(GetGameObjectChild(revolverWindow, "Variation Info (Red)"), "Panel");
                 TextMeshProUGUI sharpshooterWindowTitle = GetTextMeshProUGUI(GetGameObjectChild(sharpshooterWindow.transform.parent.gameObject, "Title"));
@@ -237,7 +232,6 @@ namespace UltrakULL
                 TextMeshProUGUI sharpshooterWindowDescription = GetTextMeshProUGUI(GetGameObjectChild(sharpshooterWindow, "Description"));
                 sharpshooterWindowDescription.text = LanguageManager.CurrentLanguage.shop.shop_revolverSharpshooterDescription1 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_revolverSharpshooterDescription2 + "\n\n";
-                sharpshooterWindowDescription.fontSize = 20;
 
                 //just in case.
                 TextMeshProUGUI redrevolverBackText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(sharpshooterWindow, "Back Button"), "Text"));
@@ -355,7 +349,6 @@ namespace UltrakULL
                 GameObject pumpCharge = GetGameObjectChild(shotgunVariations, "Variation Panel (Green)");
                 TextMeshProUGUI pumpChargeName = GetTextMeshProUGUI(GetGameObjectChild(pumpCharge, "Variation Name"));
                 pumpChargeName.text = LanguageManager.CurrentLanguage.shop.shop_shotgunPumpCharge;
-                pumpChargeName.fontSize = 16;
 
                 GameObject pumpChargeWindow = GetGameObjectChild(GetGameObjectChild(shotgunWindow, "Variation Info (Green)"), "Panel");
                 TextMeshProUGUI pumpChargeWindowTitle = GetTextMeshProUGUI(GetGameObjectChild(pumpChargeWindow.transform.parent.gameObject, "Title"));
@@ -366,7 +359,6 @@ namespace UltrakULL
                 TextMeshProUGUI pumpChargeWindowDescription = GetTextMeshProUGUI(GetGameObjectChild(pumpChargeWindow, "Description"));
                 pumpChargeWindowDescription.text = LanguageManager.CurrentLanguage.shop.shop_shotgunPumpChargeDescription1 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_shotgunPumpChargeDescription2;
-                pumpChargeWindowDescription.fontSize = 14;
 
                 TextMeshProUGUI pumpChargeWindowDescriptionBack = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(pumpChargeWindow, "Back Button"), "Text"));
                 pumpChargeWindowDescriptionBack.text = LanguageManager.CurrentLanguage.options.options_back;
@@ -484,7 +476,6 @@ namespace UltrakULL
                 TextMeshProUGUI attractorWindowDescription = GetTextMeshProUGUI(GetGameObjectChild(attractorWindow, "Description"));
                 attractorWindowDescription.text = LanguageManager.CurrentLanguage.shop.shop_nailgunMagnetDescription1 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_nailgunMagnetDescription2;
-                attractorWindowDescription.fontSize = 16;
 
                 TextMeshProUGUI attractorWindowDescriptionBack = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(attractorWindow, "Back Button"), "Text"));
                 attractorWindowDescriptionBack.text = LanguageManager.CurrentLanguage.options.options_back;
@@ -493,7 +484,6 @@ namespace UltrakULL
                 GameObject overheat = GetGameObjectChild(nailgunVariations, "Variation Panel (Green)");
                 TextMeshProUGUI overheatName = GetTextMeshProUGUI(GetGameObjectChild(overheat, "Variation Name"));
                 overheatName.text = LanguageManager.CurrentLanguage.shop.shop_nailgunOverheat;
-                overheatName.fontSize = 16;
 
                 GameObject overheatWindow = GetGameObjectChild(GetGameObjectChild(nailgunWindow, "Variation Info (Green)"), "Panel");
                 TextMeshProUGUI overheatWindowTitle = GetTextMeshProUGUI(GetGameObjectChild(overheatWindow.transform.parent.gameObject, "Title"));
@@ -504,7 +494,6 @@ namespace UltrakULL
                 TextMeshProUGUI overheatWindowDescription = GetTextMeshProUGUI(GetGameObjectChild(overheatWindow, "Description"));
                 overheatWindowDescription.text = LanguageManager.CurrentLanguage.shop.shop_nailgunOverheatDescription1 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_nailgunOverheatDescription2;
-                overheatWindowDescription.fontSize = 14;
 
                 TextMeshProUGUI overheatWindowDescriptionBack = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(overheatWindow, "Back Button"), "Text"));
                 overheatWindowDescriptionBack.text = LanguageManager.CurrentLanguage.options.options_back;
@@ -513,7 +502,6 @@ namespace UltrakULL
                 GameObject jumpStart = GetGameObjectChild(nailgunVariations, "Variation Panel (Red)");
                 TextMeshProUGUI jumpStartName = GetTextMeshProUGUI(GetGameObjectChild(jumpStart, "Variation Name"));
                 jumpStartName.text = LanguageManager.CurrentLanguage.shop.shop_nailgunJumpStart;
-                jumpStartName.fontSize = 16;
 
                 GameObject jumpStartWindow = GetGameObjectChild(GetGameObjectChild(nailgunWindow, "Variation Info (Red)"), "Panel");
                 TextMeshProUGUI jumpStartWindowTitle = GetTextMeshProUGUI(GetGameObjectChild(jumpStartWindow.transform.parent.gameObject, "Title"));
@@ -623,7 +611,6 @@ namespace UltrakULL
                 electricWindowDescription.text = LanguageManager.CurrentLanguage.shop.shop_railcannonElectricDescription1 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_railcannonElectricDescription2 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_railcannonElectricDescription3;
-                electricWindowDescription.fontSize = 16;
 
                 TextMeshProUGUI electricWindowDescriptionBack = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(electricWindow, "Back Button"), "Text"));
                 electricWindowDescriptionBack.text = LanguageManager.CurrentLanguage.options.options_back;
@@ -642,7 +629,6 @@ namespace UltrakULL
                 TextMeshProUGUI screwdriverWindowDescription = GetTextMeshProUGUI(GetGameObjectChild(screwdriverWindow, "Description"));
                 screwdriverWindowDescription.text = LanguageManager.CurrentLanguage.shop.shop_railcannonScrewdriverDescription1 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_railcannonScrewdriverDescription2;
-                screwdriverWindowDescription.fontSize = 16;
 
                 TextMeshProUGUI screwdriverWindowDescriptionBack = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(screwdriverWindow, "Back Button"), "Text"));
                 screwdriverWindowDescriptionBack.text = LanguageManager.CurrentLanguage.options.options_back;
@@ -661,7 +647,6 @@ namespace UltrakULL
                 TextMeshProUGUI maliciousWindowDescription = GetTextMeshProUGUI(GetGameObjectChild(maliciousWindow, "Description"));
                 maliciousWindowDescription.text = LanguageManager.CurrentLanguage.shop.shop_railcannonMaliciousDescription1 + "\n\n"
                     +  LanguageManager.CurrentLanguage.shop.shop_railcannonMaliciousDescription2;
-                maliciousWindowDescription.fontSize = 16;
 
                 TextMeshProUGUI maliciousWindowDescriptionBack = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(maliciousWindow, "Back Button"), "Text"));
                 maliciousWindowDescriptionBack.text = LanguageManager.CurrentLanguage.options.options_back;
@@ -759,7 +744,6 @@ namespace UltrakULL
                 TextMeshProUGUI freezeframeDescription = GetTextMeshProUGUI(GetGameObjectChild(freezeframeInfo, "Description"));
                 freezeframeDescription.text = LanguageManager.CurrentLanguage.shop.shop_rocketLauncherFreezeDescription1 + "\n\n" + 
                 LanguageManager.CurrentLanguage.shop.shop_rocketLauncherFreezeDescription2;
-                freezeframeDescription.fontSize = 16;
 
                 TextMeshProUGUI freezeframeDescriptionBack = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(freezeframeInfo, "Back Button"), "Text"));
                 freezeframeDescriptionBack.text = LanguageManager.CurrentLanguage.options.options_back;
@@ -779,7 +763,6 @@ namespace UltrakULL
                     LanguageManager.CurrentLanguage.shop.shop_rocketLauncherSrsCannonDescription1 + "\n\n" +
                     LanguageManager.CurrentLanguage.shop.shop_rocketLauncherSrsCannonDescription2 + "\n\n" +
                     LanguageManager.CurrentLanguage.shop.shop_rocketLauncherSrsCannonDescription3;
-                srsCannonInfoDescription.fontSize = 16;
 
                 TextMeshProUGUI srsCannonBackText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(srsCannonInfo, "Back Button"), "Text"));
                 srsCannonBackText.text = LanguageManager.CurrentLanguage.shop.shop_back;
@@ -798,7 +781,6 @@ namespace UltrakULL
                 fireStarterInfoDescription.text =
                     LanguageManager.CurrentLanguage.shop.shop_rocketLauncherFireStarterDescription1 + "\n\n" +
                     LanguageManager.CurrentLanguage.shop.shop_rocketLauncherFireStarterDescription2;
-                fireStarterInfoDescription.fontSize = 16;
                 TextMeshProUGUI fireStarterBackText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(fireStarterInfo, "Back Button"), "Text"));
                 fireStarterBackText.text = LanguageManager.CurrentLanguage.shop.shop_back;
 
@@ -937,7 +919,6 @@ namespace UltrakULL
                 TextMeshProUGUI whiplashWindowDescription = GetTextMeshProUGUI(GetGameObjectChild(whiplashWindow, "Description"));
                 whiplashWindowDescription.text = LanguageManager.CurrentLanguage.shop.shop_armWhiplashDescription1 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_armWhiplashDescription2;
-                whiplashWindowDescription.fontSize = 16;
                 
                 TextMeshProUGUI whiplashWindowDescriptionBack = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(whiplashWindow, "Back Button"), "Text"));
                 whiplashWindowDescriptionBack.text = LanguageManager.CurrentLanguage.options.options_back;

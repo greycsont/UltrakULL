@@ -200,22 +200,30 @@ namespace UltrakULL
 			GameObject coreGame = GameObject.Find("Player");
 
 			GameObject resultsPanel = GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(coreGame, "Main Camera"), "HUD Camera"), "HUD"), "FinishCanvas"), "Panel"); 
-
-			//Level title
 			GameObject resultsTitle = GetGameObjectChild(resultsPanel, "Title");
-			TextMeshProUGUI resultsTitleLevelName = GetTextMeshProUGUI(GetGameObjectChild(resultsTitle, "Text"));
-			resultsTitleLevelName.text = levelName;
 
-			//Disable the levelFinderComponent, so the level name doesn't get reverted when the results panel appears.
-			LevelNameFinder finder = resultsTitleLevelName.GetComponent<LevelNameFinder>();
-			if (finder != null)
+			if (levelName != null)
 			{
-				finder.enabled = false;
-			}
+                TextMeshProUGUI resultsTitleLevelName = GetTextMeshProUGUI(GetGameObjectChild(resultsTitle, "Text"));
+                resultsTitleLevelName.text = levelName;
+                //Disable the levelFinderComponent, so the level name doesn't get reverted when the results panel appears.
+                LevelNameFinder finder = resultsTitleLevelName.GetComponent<LevelNameFinder>();
+                if (finder != null)
+                {
+                    finder.enabled = false;
+                }
+            }
+            if (levelChallenge != null)
+			{
+                //Challenge description
+                GameObject challengeDescription = GetGameObjectChild(resultsPanel, "Challenge");
+                TextMeshProUGUI challengeDescriptionText = GetTextMeshProUGUI(GetGameObjectChild(challengeDescription, "ChallengeText"));
+                challengeDescriptionText.text = levelChallenge;
+            }
 
-			//Time
-			//For some bizzare reason, the timer is labelled as "ff". Hakita were you cutting corners? :D
-			GameObject timeTitle = GetGameObjectChild(resultsPanel, "ff");
+            //Time
+            //For some bizzare reason, the timer is labelled as "ff". Hakita were you cutting corners? :D
+            GameObject timeTitle = GetGameObjectChild(resultsPanel, "ff");
 			TextMeshProUGUI timeTitleText = GetTextMeshProUGUI(GetGameObjectChild(timeTitle, "Text"));
 			timeTitleText.text = LanguageManager.CurrentLanguage.misc.stats_time;
 
@@ -238,11 +246,6 @@ namespace UltrakULL
 			GameObject challengeTitle = GetGameObjectChild(resultsPanel, "Challenge - Title");
 			TextMeshProUGUI challengeTitleText = GetTextMeshProUGUI(GetGameObjectChild(challengeTitle, "Text"));
 			challengeTitleText.text = LanguageManager.CurrentLanguage.misc.stats_challenge;
-
-			//Challenge description
-			GameObject challengeDescription = GetGameObjectChild(resultsPanel, "Challenge");
-			TextMeshProUGUI challengeDescriptionText = GetTextMeshProUGUI(GetGameObjectChild(challengeDescription, "ChallengeText"));
-			challengeDescriptionText.text = levelChallenge;
 
 			//Total points
 			TextMeshProUGUI totalPointsText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(resultsPanel, "Total Points"),"Text (1)"));

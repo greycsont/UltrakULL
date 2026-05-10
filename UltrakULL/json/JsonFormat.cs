@@ -3541,6 +3541,7 @@ namespace UltrakULL.json
         public string sandbox_shop_totalProps;
         public string sandbox_shop_totalEnemies;
         public string sandbox_shop_totalTime;
+        public string sandbox_shop_totalTimeh;
 
         public string sandbox_shop_worldOptionsTitle;
         public string sandbox_shop_worldOptionsEnable;
