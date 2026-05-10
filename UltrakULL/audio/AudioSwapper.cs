@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Collections;
 using BepInEx;
 using UltrakULL.json;
@@ -54,12 +55,17 @@ namespace UltrakULL.audio
                 onComplete?.Invoke(sourceClip);
                 yield break;
             }
+            
+            string filePath = Directory.GetFiles(
+                Path.GetDirectoryName(audioFilePath), 
+                Path.GetFileName(audioFilePath) + ".*"
+            ).FirstOrDefault();
 
-            string filePath = audioFilePath + ".ogg";
+            AudioType type = TryGetAudioType(filePath);
             string fileUrl = "file://" + filePath;
             Logging.Message("Async swapping: " + fileUrl);
 
-            using (var req = UnityWebRequestMultimedia.GetAudioClip(fileUrl, AudioType.OGGVORBIS))
+            using (var req = UnityWebRequestMultimedia.GetAudioClip(fileUrl, type))
             {
                 var op = req.SendWebRequest();
                 while (!op.isDone)
@@ -91,13 +97,20 @@ namespace UltrakULL.audio
             if (isUsingEnglish())
                 return sourceClip;
 
-            string file = "file://" + audioFilePath + ".ogg";
-            Logging.Message("Swapping (sync fallback): " + file);
+            string filePath = Directory.GetFiles(
+                Path.GetDirectoryName(audioFilePath), 
+                Path.GetFileName(audioFilePath) + ".*"
+            ).FirstOrDefault();
+
+            AudioType type = TryGetAudioType(filePath);
+
+            string fileUrl = "file://" + filePath;
+            Logging.Message("Swapping (sync fallback): " + fileUrl);
 
             UnityWebRequest req = null;
             try
             {
-                req = UnityWebRequestMultimedia.GetAudioClip(file, AudioType.OGGVORBIS);
+                req = UnityWebRequestMultimedia.GetAudioClip(fileUrl, type);
                 var op = req.SendWebRequest();
                 while (!op.isDone)
                 {
@@ -135,5 +148,42 @@ namespace UltrakULL.audio
 
             return sourceClip;
         }
+
+        public static AudioType TryGetAudioType(string path)
+        {
+            var parts = path.Split('.');
+            for (int i = 1; i <= parts.Length; i++)
+            {
+                var result = GetUnityAudioType(parts[parts.Length - i]);
+                if (result != AudioType.UNKNOWN) 
+                    return result;
+            }
+            return AudioType.UNKNOWN;
+        }
+
+        private static AudioType GetUnityAudioType(string extension)
+        {
+            switch (extension)
+            {
+                case "aac":  return AudioType.ACC;
+                case "aiff": return AudioType.AIFF;
+                case "aif":  return AudioType.AIFF;
+                case "aifc": return AudioType.AIFF;
+                case "it":   return AudioType.IT;
+                case "mod":  return AudioType.MOD;
+                case "mp3":  return AudioType.MPEG;
+                case "mpga": return AudioType.MPEG;
+                case "mpeg": return AudioType.MPEG;
+                case "ogg":  return AudioType.OGGVORBIS;
+                case "s3m":  return AudioType.S3M;
+                case "wav":  return AudioType.WAV;
+                case "xm":   return AudioType.XM;
+                case "xma":  return AudioType.XMA;
+                case "vag":  return AudioType.VAG;
+                default:     return AudioType.UNKNOWN;
+            }
+        }
     }
+
+    
 }
