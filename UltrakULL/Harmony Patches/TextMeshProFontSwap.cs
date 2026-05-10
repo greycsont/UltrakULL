@@ -148,7 +148,15 @@ namespace UltrakULL.Harmony_Patches
 
         public static void SwapTMPFont(ref TextMeshProUGUI __instance, bool onTop = false, bool editOverlayStatus = false, bool isConvertedFromText = false, string originalFontName = null)
         {
-            if (__instance?.text.Contains("■") == true && __instance.text.Contains("|"))
+            // Защита от null
+            if (__instance == null)
+                return;
+            
+            // Если шрифты ещё не загружены, выходим
+            if (!Core.TMPFontReady || Core.GlobalFontTMP == null)
+                return;
+
+            if (__instance.text != null && __instance.text.Contains("■") && __instance.text.Contains("|"))
                 return;
 
             if (((Component)((TMP_Text)__instance).transform.parent).GetComponent<HealthBar>() != null && ((Component)__instance).gameObject.name.Equals("HP Text"))
@@ -171,18 +179,18 @@ namespace UltrakULL.Harmony_Patches
 
 			// Determine which font to use
 			TMP_FontAsset mainFont = Core.GlobalFontTMP;
-			TMP_FontAsset museumFont = Core.MuseumFontTMP;
+			TMP_FontAsset museumFont = Core.MuseumFontTMP ?? mainFont; // Fallback to main font if null
 			TMP_FontAsset terminalFont = Core.GlobalFontTMP; // Default to main font
 			TMP_FontAsset secretTerminalFont = Core.GlobalFontTMP;
 			Material overlayMat = Core.GlobalFontTMPOverlayMat;
-			Material normalMat = ((TMP_Asset)Core.GlobalFontTMP).material;
+			Material normalMat = Core.GlobalFontTMP?.material;
 
 			// Check for custom fonts
 			if (Core.CustomMainFontTMP != null)
 			{
 				mainFont = Core.CustomMainFontTMP;
 				overlayMat = Core.GlobalFontTMPOverlayMat; // Keep same overlay material for now
-				normalMat = ((TMP_Asset)mainFont).material;
+				normalMat = mainFont?.material;
 			}
 			if (Core.CustomMuseumFontTMP != null)
 			{
@@ -199,21 +207,21 @@ namespace UltrakULL.Harmony_Patches
 
 			// Determine materials for each font type
 			Material museumOverlayMat = Core.GlobalFontTMPOverlayMat;
-			Material museumNormalMat = ((TMP_Asset)museumFont).material;
+			Material museumNormalMat = museumFont?.material;
 			if (Core.CustomMuseumFontTMP != null && Core.CustomMuseumFontTMPOverlayMat != null)
 			{
 				museumOverlayMat = Core.CustomMuseumFontTMPOverlayMat;
 			}
 
 			Material terminalOverlayMat = Core.GlobalFontTMPOverlayMat;
-			Material terminalNormalMat = ((TMP_Asset)terminalFont).material;
+			Material terminalNormalMat = terminalFont?.material;
 			if (Core.CustomTerminalFontTMP != null && Core.CustomTerminalFontTMPOverlayMat != null)
 			{
 				terminalOverlayMat = Core.CustomTerminalFontTMPOverlayMat;
 			}
 
 			Material secretTerminalOverlayMat = Core.GlobalFontTMPOverlayMat;
-			Material secretTerminalNormalMat = ((TMP_Asset)secretTerminalFont).material;
+			Material secretTerminalNormalMat = secretTerminalFont?.material;
 			if (Core.CustomSecretTerminalFontTMP != null && Core.CustomSecretTerminalFontTMPOverlayMat != null)
 			{
 				secretTerminalOverlayMat = Core.CustomSecretTerminalFontTMPOverlayMat;
