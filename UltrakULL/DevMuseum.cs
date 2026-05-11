@@ -526,7 +526,41 @@ namespace UltrakULL
 			((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild2, "Settings"), "Main Window"), "Set Elo"), "Slider"), "Bot Text"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_chessBot + ":";
 			((TMP_Text)GetTextMeshPro(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild, "WhiteWin"), "WinText"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_chessWhitewin;
 			((TMP_Text)GetTextMeshPro(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild, "BlackWin"), "WinText"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_chessBlackwin;
-		}
+
+            GameObject chessPieces = CommonFunctions.GetGameObjectChild(gameObjectChild, "ChessPieces");
+
+            foreach (TMP_Text tmp in chessPieces.GetComponentsInChildren<TMP_Text>(true))
+            {
+                Transform t = tmp.transform;
+                bool isPawn = false;
+                string promotion = null;
+
+                while (t != null)
+                {
+                    if (t.name.StartsWith("W Pawn") || t.name.StartsWith("B Pawn"))
+                        isPawn = true;
+
+                    if (t.name == "Queen" || t.name == "Rook" || t.name == "Bishop" || t.name == "Knight")
+                        promotion = t.name;
+
+                    t = t.parent;
+                }
+
+                if (!isPawn)
+                    continue;
+
+                if (tmp.name == "Text (TMP) (1)")
+                    tmp.text = LanguageManager.CurrentLanguage.devMuseum.museum_chessPromotion;
+                else if (promotion == "Queen")
+                    tmp.text = LanguageManager.CurrentLanguage.devMuseum.museum_chessQueen;
+                else if (promotion == "Rook")
+                    tmp.text = LanguageManager.CurrentLanguage.devMuseum.museum_chessRook;
+                else if (promotion == "Bishop")
+                    tmp.text = LanguageManager.CurrentLanguage.devMuseum.museum_chessBishop;
+                else if (promotion == "Knight")
+                    tmp.text = LanguageManager.CurrentLanguage.devMuseum.museum_chessKnight;
+            }
+        }
 
 		private static TextMeshPro GetTextMeshPro(GameObject hogeobject)
 		{

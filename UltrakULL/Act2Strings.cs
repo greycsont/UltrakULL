@@ -11,6 +11,10 @@ namespace UltrakULL
         private static string Level41(string message, string message2)
         {
             string fullMessage = message + message2;
+            if (fullMessage.Contains("An eye opens."))
+            {
+                return (LanguageManager.CurrentLanguage.act2.act2_greed_secretDoor);
+            }
             return ("Unimplemented string");
         }
         
@@ -20,6 +24,10 @@ namespace UltrakULL
             if (fullMessage.Contains("BLEED"))
             {
                 return (LanguageManager.CurrentLanguage.act2.act2_greedSecond_sand);
+            }
+            if (fullMessage.Contains("A door opens."))
+            {
+                return LanguageManager.CurrentLanguage.act3.act3_violenceFirst_doorOpens;
             }
             return ("Unimplemented string");
         }
@@ -239,11 +247,6 @@ namespace UltrakULL
         {
             string currentLevel = GetCurrentSceneName();
             string fullMessage = message + message2;
-
-            if(fullMessage.Contains("An eye opens."))
-            {
-                return (LanguageManager.CurrentLanguage.act2.act2_greed_secretDoor);
-            }
 
             switch (currentLevel)
             {

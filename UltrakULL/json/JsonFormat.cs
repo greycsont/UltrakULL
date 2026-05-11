@@ -394,7 +394,7 @@ namespace UltrakULL.json
         public string style_hammerHitRed;
         public string style_hammerHitYellow;
         public string style_headshot;
-        //public string style_headshotcombo; //Not used
+        public string style_headshotcombo;
         public string style_heavylight;
         public string style_homerun;
         public string style_iconoclasm;
@@ -1290,7 +1290,6 @@ namespace UltrakULL.json
         public bool langRTL;
         public string minimumModVersion;
         public bool langHinduNumbers;
-        public string addchar;
         public int tmFontSize;
         public FontsMetadata fonts = new FontsMetadata();
     }
@@ -3304,6 +3303,11 @@ namespace UltrakULL.json
         public string museum_chessWhitewin;
         public string museum_chessBlackwin;
         public string museum_chessSettingsclose;
+        public string museum_chessPromotion;
+        public string museum_chessQueen;
+        public string museum_chessRook;
+        public string museum_chessBishop;
+        public string museum_chessKnight;
         
         public string museum_cinemaPlay;
         public string museum_cinemaStop;

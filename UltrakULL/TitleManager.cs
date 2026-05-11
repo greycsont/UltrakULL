@@ -86,6 +86,9 @@ namespace UltrakULL
 
         public static string GetLayer(string inputTitle)
         {
+            if (AngryLevel.IsAngryCustomLevel())
+                return inputTitle;
+
             string layer = "";
             string number = "";
 

@@ -175,8 +175,6 @@ namespace UltrakULL
 				Logging.Warn("--- Loading external fonts ---");
 				Core.LoadFonts();
 
-                Core.AddGlyphs();
-
                 Logging.Warn("--- Patching vanilla game functions ---");
 				Harmony harmony = new Harmony(InternalName);
 				harmony.PatchAll();

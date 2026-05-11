@@ -121,7 +121,7 @@ namespace UltrakULL
 			case "ultrakill.headshot":
 				return LanguageManager.CurrentLanguage.style.style_headshot;
 			case "ultrakill.headshotcombo":
-				return "<color=#00ffff>" + LanguageManager.CurrentLanguage.style.style_headshot + "</color>";
+				return "<color=#00ffff>" + LanguageManager.CurrentLanguage.style.style_headshotcombo + "</color>";
 			case "ultrakill.homerun":
 				return LanguageManager.CurrentLanguage.style.style_homerun;
 			case "ultrakill.iconoclasm":

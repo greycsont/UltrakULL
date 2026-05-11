@@ -258,16 +258,16 @@ namespace UltrakULL
                 TextMeshProUGUI revolverLoreInfo = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(revolverLore, "Main Window"), "Scroll View"),"Viewport"),"Text"));
 
                 revolverLoreInfo.text =
-                    "<color=orange>" + LanguageManager.CurrentLanguage.shop.shop_data + "</color>\n\n"
+                    "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_data + "</color>\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRevolver1 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRevolver2 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRevolver3 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRevolver4 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRevolver5 + "\n\n"
-                    + "<color=orange>" + LanguageManager.CurrentLanguage.shop.shop_strategy + "</color>\n\n"
+                    + "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_strategy + "</color>\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRevolver6 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRevolver7 + "\n\n"
-                    + "<color=orange>" + LanguageManager.CurrentLanguage.shop.shop_advancedStrategy + "</color>\n\n"
+                    + "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_advancedStrategy + "</color>\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRevolver8 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRevolver9 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRevolver10;
@@ -405,16 +405,16 @@ namespace UltrakULL
                 TextMeshProUGUI shotgunLoreInfo = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(shotgunLore, "Scroll View"), "Viewport"), "Text"));
 
                 shotgunLoreInfo.text =
-                    "<color=orange>" + LanguageManager.CurrentLanguage.shop.shop_data + "</color>\n\n"
+                    "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_data + "</color>\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreShotgun1 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreShotgun2 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreShotgun3 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreShotgun4 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreShotgun5 + "\n\n"
-                    + "<color=orange>" + LanguageManager.CurrentLanguage.shop.shop_strategy + "</color>\n\n"
+                    + "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_strategy + "</color>\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreShotgun6 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreShotgun7 + "\n\n"
-                    + "<color=orange>" + LanguageManager.CurrentLanguage.shop.shop_advancedStrategy + "</color>\n\n"
+                    + "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_advancedStrategy + "</color>\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreShotgun8 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreShotgun9;
 
@@ -541,16 +541,16 @@ namespace UltrakULL
                 TextMeshProUGUI NailgunLoreInfo = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(nailgunLore, "Scroll View"), "Viewport"), "Text"));
 
                 NailgunLoreInfo.text =
-                    "<color=orange>" + LanguageManager.CurrentLanguage.shop.shop_data + "</color>\n\n"
+                    "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_data + "</color>\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreNailgun1 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreNailgun2 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreNailgun3 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreNailgun4 + "\n\n"
-                    + "<color=orange>" + LanguageManager.CurrentLanguage.shop.shop_strategy + "</color>\n\n"
+                    + "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_strategy + "</color>\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreNailgun5 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreNailgun6 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreNailgun7 + "\n\n"
-                    + "<color=orange>" + LanguageManager.CurrentLanguage.shop.shop_advancedStrategy + "</color>\n\n"
+                    + "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_advancedStrategy + "</color>\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreNailgun8 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreNailgun9;
 
@@ -678,17 +678,17 @@ namespace UltrakULL
                 TextMeshProUGUI railcannonLoreInfo = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(railcannonLore, "Scroll View"), "Viewport"), "Text"));
 
                 railcannonLoreInfo.text =
-                     "<color=orange>" + LanguageManager.CurrentLanguage.shop.shop_data + "</color>\n\n"
+                     "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_data + "</color>\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRailcannon1 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRailcannon2 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRailcannon3 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRailcannon4 + "\n\n"
-                    + "<color=orange>" + LanguageManager.CurrentLanguage.shop.shop_strategy + "</color>\n\n"
+                    + "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_strategy + "</color>\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRailcannon5 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRailcannon6 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_advancedStrategy + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRailcannon7 + "\n\n"
-                    + "<color=orange>" + LanguageManager.CurrentLanguage.shop.shop_loreRailcannon8 + "</color>\n\n"
+                    + "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_loreRailcannon8 + "</color>\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRailcannon9;
 
                 TextMeshProUGUI railcannonLoreBack = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(railcannonLore, "Back Button"), "Text"));
@@ -813,7 +813,7 @@ namespace UltrakULL
                 TextMeshProUGUI rocketlauncherLoreInfo = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(rocketlauncherLore, "Scroll View"), "Viewport"), "Text"));
 
                 rocketlauncherLoreInfo.text =
-                      "<color=orange>" + LanguageManager.CurrentLanguage.shop.shop_data + "</color>\n\n"
+                      "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_data + "</color>\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher1 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher2 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher3 + "\n\n"
@@ -821,13 +821,13 @@ namespace UltrakULL
                     + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher5 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher6 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher7 + "\n\n"
-                    + "<color=orange>" + LanguageManager.CurrentLanguage.shop.shop_strategy + "</color>\n\n"
+                    + "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_strategy + "</color>\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher8 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher9 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher10 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher11 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher12 + "\n\n"
-                    + "<color=orange>" + LanguageManager.CurrentLanguage.shop.shop_advancedStrategy + "</color>\n\n"
+                    + "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_advancedStrategy + "</color>\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher13 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher14 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher15;

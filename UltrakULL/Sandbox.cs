@@ -136,7 +136,7 @@ namespace UltrakULL
             sandboxShopIconsPitr.text = LanguageManager.CurrentLanguage.sandbox.sandbox_shop_pitr;
             
             TextMeshProUGUI sandboxIconsClose = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(sandboxShopCanvas, "Icons"), "Back Button"),"Text"));
-            sandboxIconsClose.text = LanguageManager.CurrentLanguage.options.options_back;
+            sandboxIconsClose.text = LanguageManager.CurrentLanguage.shop.shop_back;
         }
         public static void PatchAlterMenu()
         {

@@ -918,30 +918,5 @@ namespace UltrakULL
                 
             }*/
         }
-
-        public static void AddGlyphs()
-        {
-            if (GlobalFontTMP == null) return;
-
-            string charsToAdd = LanguageManager.CurrentLanguage.metadata.addchar;
-
-            if (string.IsNullOrEmpty(charsToAdd)) return;
-
-            Logging.Message("Adding extra glyphs from language file...");
-
-            var multiAtlasField = typeof(TMP_FontAsset).GetField(
-                "m_IsMultiAtlasTexturesEnabled",
-                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance
-            );
-
-            multiAtlasField?.SetValue(GlobalFontTMP, true);
-
-            GlobalFontTMP.TryAddCharacters(charsToAdd, out string missingChars);
-
-            if (!string.IsNullOrEmpty(missingChars))
-                Logging.Warn($"Missing chars ({missingChars.Length}): {missingChars}");
-            else
-                Logging.Message("Extra glyphs added");
-        }
     }
 }
