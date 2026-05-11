@@ -688,7 +688,8 @@ namespace UltrakULL
                     + LanguageManager.CurrentLanguage.shop.shop_loreRailcannon6 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_advancedStrategy + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRailcannon7 + "\n\n"
-                    + "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_loreRailcannon8 + "</color>\n"
+                    + "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_advancedStrategy + "</color>\n"
+                    + LanguageManager.CurrentLanguage.shop.shop_loreRailcannon8 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRailcannon9;
 
                 TextMeshProUGUI railcannonLoreBack = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(railcannonLore, "Back Button"), "Text"));
