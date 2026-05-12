@@ -686,9 +686,8 @@ namespace UltrakULL
                     + "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_strategy + "</color>\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRailcannon5 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRailcannon6 + "\n\n"
-                    + LanguageManager.CurrentLanguage.shop.shop_advancedStrategy + "\n\n"
-                    + LanguageManager.CurrentLanguage.shop.shop_loreRailcannon7 + "\n\n"
                     + "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_advancedStrategy + "</color>\n"
+                    + LanguageManager.CurrentLanguage.shop.shop_loreRailcannon7 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRailcannon8 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRailcannon9;
 
@@ -828,10 +827,11 @@ namespace UltrakULL
                     + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher10 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher11 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher12 + "\n\n"
-                    + "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_advancedStrategy + "</color>\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher13 + "\n\n"
+                    + "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_advancedStrategy + "</color>\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher14 + "\n\n"
-                    + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher15;
+                    + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher15 + "\n\n"
+                    + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher16;
 
                 TextMeshProUGUI rocketlauncherLoreBack = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(rocketlauncherLore, "Back Button"), "Text"));
                 rocketlauncherLoreBack.text = LanguageManager.CurrentLanguage.options.options_back;

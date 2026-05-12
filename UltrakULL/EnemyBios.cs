@@ -272,7 +272,7 @@ namespace UltrakULL
 			case "SWORDSMACHINE":
 				return LanguageManager.CurrentLanguage.enemyBios.enemyBios_swordsmachine_1 + "\n\n\n" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_swordsmachine_2 + "\n\n\n" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_swordsmachine_3;
 			case "DRONE":
-				return LanguageManager.CurrentLanguage.enemyBios.enemyBios_drone_1 + "\n\n\n" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_drone_2 + "\n\n\n";
+				return LanguageManager.CurrentLanguage.enemyBios.enemyBios_drone_1 + "\n\n\n" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_drone_2 + "\n\n\n" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_drone_3;
 			case "STREETCLEANER":
 				return LanguageManager.CurrentLanguage.enemyBios.enemyBios_streetcleaner_1 + "\n\n\n" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_streetcleaner_2;
 			case "V2":
@@ -310,7 +310,7 @@ namespace UltrakULL
 			case "VIRTUE":
 				return LanguageManager.CurrentLanguage.enemyBios.enemyBios_virtue_1 + "\n\n\n" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_virtue_2 + "\n\n\n" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_virtue_3 + "\n\n\n" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_virtue_4 + "\n\n\n" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_virtue_5;
 			case "SOMETHING WICKED":
-				return LanguageManager.CurrentLanguage.enemyBios.enemyBios_somethingWicked_1 + "\n\n\n" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_somethingWicked_2 + "\n\n\n" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_somethingWicked_3;
+				return LanguageManager.CurrentLanguage.enemyBios.enemyBios_somethingWicked_1 + "\n\n\n" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_somethingWicked_2 + "\n\n\n" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_somethingWicked_3 + "\n\n\n" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_somethingWicked_4;
 			case "FLESH PRISON":
 				return LanguageManager.CurrentLanguage.enemyBios.enemyBios_fleshPrison_1 + "\n\n\n" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_fleshPrison_2 + "\n\n\n" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_fleshPrison_3;
 			case "MINOS PRIME":
@@ -352,7 +352,7 @@ namespace UltrakULL
 			case "SENTRY":
 				return "- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_sentry_strategy1 + "\n\n\n- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_sentry_strategy2 + "\n\n\n- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_sentry_strategy3 + "\n\n\n- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_sentry_strategy4;
 			case "IDOL":
-				return "- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_idol_strategy1 + "\n\n\n- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_idol_strategy2 + "\n\n\n- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_idol_strategy3;
+				return "- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_idol_strategy1 + "\n\n\n- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_idol_strategy2 + "\n\n\n- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_idol_strategy3 + "\n\n\n- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_idol_strategy4;
 			case "THE CORPSE OF KING MINOS":
 				return "- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_corpseOfKingMinos_strategy1 + "\n\n\n- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_corpseOfKingMinos_strategy2 + "\n\n\n- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_corpseOfKingMinos_strategy3;
 			case "LEVIATHAN":

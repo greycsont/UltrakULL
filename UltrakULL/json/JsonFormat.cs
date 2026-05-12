@@ -551,6 +551,7 @@ namespace UltrakULL.json
         public string enemyBios_idol_strategy1;
         public string enemyBios_idol_strategy2;
         public string enemyBios_idol_strategy3;
+        public string enemyBios_idol_strategy4;
 
         public string enemyBios_leviathan_1;
         public string enemyBios_leviathan_2;
@@ -603,6 +604,7 @@ namespace UltrakULL.json
 
         public string enemyBios_drone_1;
         public string enemyBios_drone_2;
+        public string enemyBios_drone_3;
 
         public string enemyBios_drone_strategy1;
         public string enemyBios_drone_strategy2;
@@ -755,6 +757,7 @@ namespace UltrakULL.json
         public string enemyBios_somethingWicked_1;
         public string enemyBios_somethingWicked_2;
         public string enemyBios_somethingWicked_3;
+        public string enemyBios_somethingWicked_4;
 
         public string enemyBios_somethingWicked_strategy1;
         public string enemyBios_somethingWicked_strategy2;
@@ -1856,6 +1859,7 @@ namespace UltrakULL.json
         public string shop_loreRocketLauncher13;
         public string shop_loreRocketLauncher14;
         public string shop_loreRocketLauncher15;
+        public string shop_loreRocketLauncher16;
 
         public string shop_revolverPreset1;
         public string shop_revolverPreset2;
@@ -2963,6 +2967,7 @@ namespace UltrakULL.json
         public string museum_bookVictoriaHolland6;
         public string museum_bookVictoriaHolland7;
         public string museum_bookVictoriaHolland8;
+        public string museum_bookVictoriaHolland9;
         
         public string museum_bookToniStigell1;
         public string museum_bookToniStigell2;
@@ -3071,6 +3076,7 @@ namespace UltrakULL.json
         public string museum_bookAdditionalMusic10;
         public string museum_bookAdditionalMusic11;
         public string museum_bookAdditionalMusic12;
+        public string museum_bookAdditionalMusic13;
         
         public string museum_bookAdditionalCredits1;
         public string museum_bookAdditionalCredits2;
@@ -3080,6 +3086,7 @@ namespace UltrakULL.json
         public string museum_bookAdditionalCredits6;
         public string museum_bookAdditionalCredits7;
         public string museum_bookAdditionalCredits8;
+        public string museum_bookAdditionalCredits9;
         
         public string museum_bookStephanWeyte1;
         public string museum_bookStephanWeyte2;
