@@ -381,4 +381,5 @@ Directory.Build.props
 
 # Decompiled game files
 .Decompiled/
+# Nuget local binary
 nuget.exe

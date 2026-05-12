@@ -5,5 +5,45 @@
     "editor.wordWrap": "wordWrapColumn",
     "editor.wordWrapColumn": 72
   },
-  "scm.inputFontFamily": "monospace"
+  "scm.inputFontFamily": "monospace",
+  
+  // C# и .NET настройки
+  "csharp.suppressDotnetRestoreNotification": true,
+  "omnisharp.enableEditorConfigSupport": true,
+  "omnisharp.enableRoslynAnalyzers": true,
+  "omnisharp.enableAsyncCompletion": true,
+  "omnisharp.useModernNet": false,
+  
+  // Навигация по коду
+  "editor.gotoLocation.multipleDefinitions": "goto",
+  "editor.gotoLocation.multipleTypeDefinitions": "goto",
+  "editor.gotoLocation.multipleImplementations": "goto",
+  "editor.gotoLocation.multipleReferences": "goto",
+  "editor.gotoLocation.multipleDeclarations": "goto",
+  
+  // Подсветка ссылок
+  "editor.referenceInfos": "inline",
+  "editor.occurrencesHighlight": "multiFile",
+  "editor.selectionHighlight": true,
+  
+  // Декомпилятор
+  "csharp.decompilationService.enabled": true,
+  "csharp.decompilationService.fallbackToMetadata": true,
+  
+  // Дополнительные настройки для лучшего опыта разработки
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": false
+  },
+  "editor.suggestOnTriggerCharacters": true,
+  "editor.parameterHints.enabled": true,
+  "editor.suggestSelection": "recentlyUsed",
+  
+  // Настройки для Unity/игровых проектов
+  "csharp.suppressHiddenDiagnostics": false,
+  "csharp.implementationsCodeLens.enabled": true,
+  "dotnet.completion.showCompletionItemsFromUnimportedNamespaces": true,
+  "dotnet.codeLens.enableReferencesCodeLens": true,
+  "dotnet.codeLens.enableTestsCodeLens": true
 }
