@@ -197,7 +197,7 @@ namespace UltrakULL
                     + LanguageManager.CurrentLanguage.shop.shop_revolverPiercerDescription2;
 
                 TextMeshProUGUI piercerWindowDescriptionBack = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(piercerWindow, "Back Button"),"Text"));
-                piercerWindowDescriptionBack.text = LanguageManager.CurrentLanguage.options.options_back;
+                piercerWindowDescriptionBack.text = LanguageManager.CurrentLanguage.shop.shop_back;
 
                 //Marksman
                 GameObject marksman = GetGameObjectChild(revolverVariations, "Variation Panel (Green)");
@@ -216,7 +216,7 @@ namespace UltrakULL
                     + LanguageManager.CurrentLanguage.shop.shop_revolverMarksmanDescription3;
 
                 TextMeshProUGUI marksmanWindowDescriptionBack = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(marksmanWindow, "Back Button"), "Text"));
-                marksmanWindowDescriptionBack.text = LanguageManager.CurrentLanguage.options.options_back;
+                marksmanWindowDescriptionBack.text = LanguageManager.CurrentLanguage.shop.shop_back;
 
                 //Sharpshooter
                 GameObject sharpshooter = GetGameObjectChild(revolverVariations, "Variation Panel (Red)");
@@ -273,7 +273,7 @@ namespace UltrakULL
                     + LanguageManager.CurrentLanguage.shop.shop_loreRevolver10;
 
                 TextMeshProUGUI revolverLoreBack = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(revolverLore, "Main Window"), "Back Button"), "Text"));
-                revolverLoreBack.text = LanguageManager.CurrentLanguage.options.options_back;
+                revolverLoreBack.text = LanguageManager.CurrentLanguage.shop.shop_back;
 
                 //Revolver preset colors
                 GameObject revolverColorWindow = GetGameObjectChild(GetGameObjectChild(revolverWindow, "Color Screen"),"Main Window");
@@ -345,7 +345,7 @@ namespace UltrakULL
                     + LanguageManager.CurrentLanguage.shop.shop_shotgunCoreEjectDescription3;
 
                 TextMeshProUGUI coreEjectWindowDescriptionBack = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(coreEjectWindow, "Back Button"), "Text"));
-                coreEjectWindowDescriptionBack.text = LanguageManager.CurrentLanguage.options.options_back;
+                coreEjectWindowDescriptionBack.text = LanguageManager.CurrentLanguage.shop.shop_back;
 
                 //Pump Charge
                 GameObject pumpCharge = GetGameObjectChild(shotgunVariations, "Variation Panel (Green)");
@@ -363,7 +363,7 @@ namespace UltrakULL
                     + LanguageManager.CurrentLanguage.shop.shop_shotgunPumpChargeDescription2;
 
                 TextMeshProUGUI pumpChargeWindowDescriptionBack = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(pumpChargeWindow, "Back Button"), "Text"));
-                pumpChargeWindowDescriptionBack.text = LanguageManager.CurrentLanguage.options.options_back;
+                pumpChargeWindowDescriptionBack.text = LanguageManager.CurrentLanguage.shop.shop_back;
 
                 //Sawed-On
                 GameObject sawedOn = GetGameObjectChild(shotgunVariations, "Variation Panel (Red)");
@@ -382,7 +382,7 @@ namespace UltrakULL
                     + LanguageManager.CurrentLanguage.shop.shop_shotgunSawedOnDescription3;
 
                 TextMeshProUGUI sawedOnWindowDescriptionBack = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(sawedOnWindow, "Back Button"), "Text"));
-                sawedOnWindowDescriptionBack.text = LanguageManager.CurrentLanguage.options.options_back;
+                sawedOnWindowDescriptionBack.text = LanguageManager.CurrentLanguage.shop.shop_back;
 
                 //Shotgun info & color tabs
                 GameObject shotgunExtra = GetGameObjectChild(shotgunVariations, "Info and Color Panel");
@@ -419,7 +419,7 @@ namespace UltrakULL
                     + LanguageManager.CurrentLanguage.shop.shop_loreShotgun9;
 
                 TextMeshProUGUI shotgunLoreBack = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(shotgunLore, "Back Button"), "Text"));
-                shotgunLoreBack.text = LanguageManager.CurrentLanguage.options.options_back;
+                shotgunLoreBack.text = LanguageManager.CurrentLanguage.shop.shop_back;
 
                 //Shotgun preset colors
                 GameObject shotgunColorWindow = GetGameObjectChild(GetGameObjectChild(shotgunWindow, "Color Screen"), "Main Window");
@@ -482,7 +482,7 @@ namespace UltrakULL
                     + LanguageManager.CurrentLanguage.shop.shop_nailgunMagnetDescription2;
 
                 TextMeshProUGUI attractorWindowDescriptionBack = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(attractorWindow, "Back Button"), "Text"));
-                attractorWindowDescriptionBack.text = LanguageManager.CurrentLanguage.options.options_back;
+                attractorWindowDescriptionBack.text = LanguageManager.CurrentLanguage.shop.shop_back;
 
                 //Overheat
                 GameObject overheat = GetGameObjectChild(nailgunVariations, "Variation Panel (Green)");
@@ -500,7 +500,7 @@ namespace UltrakULL
                     + LanguageManager.CurrentLanguage.shop.shop_nailgunOverheatDescription2;
 
                 TextMeshProUGUI overheatWindowDescriptionBack = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(overheatWindow, "Back Button"), "Text"));
-                overheatWindowDescriptionBack.text = LanguageManager.CurrentLanguage.options.options_back;
+                overheatWindowDescriptionBack.text = LanguageManager.CurrentLanguage.shop.shop_back;
 
                 //Jumpstarter
                 GameObject jumpStart = GetGameObjectChild(nailgunVariations, "Variation Panel (Red)");
@@ -518,7 +518,7 @@ namespace UltrakULL
                     + LanguageManager.CurrentLanguage.shop.shop_nailgunJumpStartDescription2;
 
                 TextMeshProUGUI jumpStartWindowDescriptionBack = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(jumpStartWindow, "Back Button"), "Text"));
-                jumpStartWindowDescriptionBack.text = LanguageManager.CurrentLanguage.options.options_back;
+                jumpStartWindowDescriptionBack.text = LanguageManager.CurrentLanguage.shop.shop_back;
 
                 //Nailgun info & color tabs
                 GameObject nailgunExtra = GetGameObjectChild(nailgunVariations, "Info and Color Panel");
@@ -555,7 +555,7 @@ namespace UltrakULL
                     + LanguageManager.CurrentLanguage.shop.shop_loreNailgun9;
 
                 TextMeshProUGUI NailgunLoreBack = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(nailgunLore, "Back Button"), "Text"));
-                NailgunLoreBack.text = LanguageManager.CurrentLanguage.options.options_back;
+                NailgunLoreBack.text = LanguageManager.CurrentLanguage.shop.shop_back;
 
                 //nailgun preset colors
                 GameObject nailgunColorWindow = GetGameObjectChild(GetGameObjectChild(nailgunWindow, "Color Screen"), "Main Window");
@@ -619,7 +619,7 @@ namespace UltrakULL
                     + LanguageManager.CurrentLanguage.shop.shop_railcannonElectricDescription3;
 
                 TextMeshProUGUI electricWindowDescriptionBack = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(electricWindow, "Back Button"), "Text"));
-                electricWindowDescriptionBack.text = LanguageManager.CurrentLanguage.options.options_back;
+                electricWindowDescriptionBack.text = LanguageManager.CurrentLanguage.shop.shop_back;
 
                 //Screwdriver
                 GameObject screwdriver = GetGameObjectChild(railcannonVariations, "Variation Panel (Green)");
@@ -637,7 +637,7 @@ namespace UltrakULL
                     + LanguageManager.CurrentLanguage.shop.shop_railcannonScrewdriverDescription2;
 
                 TextMeshProUGUI screwdriverWindowDescriptionBack = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(screwdriverWindow, "Back Button"), "Text"));
-                screwdriverWindowDescriptionBack.text = LanguageManager.CurrentLanguage.options.options_back;
+                screwdriverWindowDescriptionBack.text = LanguageManager.CurrentLanguage.shop.shop_back;
 
                 //Malicious
                 GameObject malicious = GetGameObjectChild(railcannonVariations, "Variation Panel (Red)");
@@ -655,7 +655,7 @@ namespace UltrakULL
                     +  LanguageManager.CurrentLanguage.shop.shop_railcannonMaliciousDescription2;
 
                 TextMeshProUGUI maliciousWindowDescriptionBack = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(maliciousWindow, "Back Button"), "Text"));
-                maliciousWindowDescriptionBack.text = LanguageManager.CurrentLanguage.options.options_back;
+                maliciousWindowDescriptionBack.text = LanguageManager.CurrentLanguage.shop.shop_back;
 
                 //Railcannon info & color tabs
                 GameObject railcannonExtra = GetGameObjectChild(railcannonVariations, "Info and Color Panel");
@@ -692,7 +692,7 @@ namespace UltrakULL
                     + LanguageManager.CurrentLanguage.shop.shop_loreRailcannon9;
 
                 TextMeshProUGUI railcannonLoreBack = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(railcannonLore, "Back Button"), "Text"));
-                railcannonLoreBack.text = LanguageManager.CurrentLanguage.options.options_back;
+                railcannonLoreBack.text = LanguageManager.CurrentLanguage.shop.shop_back;
 
                 //Railcannon preset colors
                 GameObject railcannonColorWindow = GetGameObjectChild(GetGameObjectChild(railcannonWindow, "Color Screen"), "Main Window");
@@ -754,7 +754,7 @@ namespace UltrakULL
                 LanguageManager.CurrentLanguage.shop.shop_rocketLauncherFreezeDescription2;
 
                 TextMeshProUGUI freezeframeDescriptionBack = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(freezeframeInfo, "Back Button"), "Text"));
-                freezeframeDescriptionBack.text = LanguageManager.CurrentLanguage.options.options_back;
+                freezeframeDescriptionBack.text = LanguageManager.CurrentLanguage.shop.shop_back;
 
                 //Rocket Launcher green variation
                 GameObject srsCannon = GetGameObjectChild(rocketlauncherVariations, "Variation Panel (Green)");
@@ -834,7 +834,7 @@ namespace UltrakULL
                     + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher16;
 
                 TextMeshProUGUI rocketlauncherLoreBack = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(rocketlauncherLore, "Back Button"), "Text"));
-                rocketlauncherLoreBack.text = LanguageManager.CurrentLanguage.options.options_back;
+                rocketlauncherLoreBack.text = LanguageManager.CurrentLanguage.shop.shop_back;
 
                 //RocketLauncher preset colors
                 GameObject rocketlauncherColorWindow = GetGameObjectChild(GetGameObjectChild(rocketlauncherWindow, "Color Screen"), "Main Window");
@@ -897,7 +897,7 @@ namespace UltrakULL
                 feedbackerWindowDescription.text = LanguageManager.CurrentLanguage.shop.shop_armFeedbackerDescription1 + "\n\n" + LanguageManager.CurrentLanguage.shop.shop_armFeedbackerDescription2;
 
                 TextMeshProUGUI feedbackerWindowDescriptionBack = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(feedbackerWindow, "Back Button"), "Text"));
-                feedbackerWindowDescriptionBack.text = LanguageManager.CurrentLanguage.options.options_back;
+                feedbackerWindowDescriptionBack.text = LanguageManager.CurrentLanguage.shop.shop_back;
                 
                 //Knuckleblaster
                 GameObject knuckleblaster = GetGameObjectChild(armVariations, "Arm Panel (Red)");
@@ -914,7 +914,7 @@ namespace UltrakULL
                 knuckleblasterWindowDescription.text = LanguageManager.CurrentLanguage.shop.shop_armKnuckleblasterDescription1 + "\n\n" + LanguageManager.CurrentLanguage.shop.shop_armKnuckleblasterDescription2;
 
                 TextMeshProUGUI knuckleblasterWindowDescriptionBack = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(knuckleblasterWindow, "Back Button"), "Text"));
-                knuckleblasterWindowDescriptionBack.text = LanguageManager.CurrentLanguage.options.options_back;
+                knuckleblasterWindowDescriptionBack.text = LanguageManager.CurrentLanguage.shop.shop_back;
                 
                 //Whiplash
                 GameObject whiplash = GetGameObjectChild(armVariations, "Arm Panel (Green)");
@@ -932,7 +932,7 @@ namespace UltrakULL
                     + LanguageManager.CurrentLanguage.shop.shop_armWhiplashDescription2;
                 
                 TextMeshProUGUI whiplashWindowDescriptionBack = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(whiplashWindow, "Back Button"), "Text"));
-                whiplashWindowDescriptionBack.text = LanguageManager.CurrentLanguage.options.options_back;
+                whiplashWindowDescriptionBack.text = LanguageManager.CurrentLanguage.shop.shop_back;
 
                 //it's "???" and placeholders so comment it for future
                 /*//Gold arm (under construction)
