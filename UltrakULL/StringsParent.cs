@@ -202,7 +202,14 @@ namespace UltrakULL
 			{
 				return message;
 			}
-			Logging.Warn("Unimplemented string in \"" + CommonFunctions.GetCurrentSceneName() + "\": " + message);
+            if (message.Contains("You have found a <color=orange>SECRET MISSION</color>."))
+            {
+                return EnsureTranslation(
+                    LanguageManager.CurrentLanguage.misc.secretMissionFound,
+                    message
+                );
+            }
+            Logging.Warn("Unimplemented string in \"" + CommonFunctions.GetCurrentSceneName() + "\": " + message);
 			return message;
 		}
 
