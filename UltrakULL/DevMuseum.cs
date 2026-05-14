@@ -476,11 +476,11 @@ namespace UltrakULL
 					textComponent.text = LanguageManager.CurrentLanguage.devMuseum.museum_plaquesHeckteck1;
 					text1Component.text = LanguageManager.CurrentLanguage.devMuseum.museum_plaquesHeckteck2;
 				}
-				else if (initialText.Contains("Additonal credits"))
+				else if (initialText.Contains("Additional credits"))
 				{
 					textComponent.text = LanguageManager.CurrentLanguage.devMuseum.museum_plaquesAdditionalCredits;
 				}
-				else if (initialText.Contains("Additonal ART"))
+				else if (initialText.Contains("Additional ART"))
 				{
 					textComponent.text = LanguageManager.CurrentLanguage.devMuseum.museum_plaquesAdditionalArt;
 				}
