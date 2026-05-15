@@ -22,35 +22,51 @@ namespace UltrakULL
 
     private static readonly Dictionary<string, string> LocalizedInputs = new Dictionary<string, string>()
 		{
-			{ "Space", LanguageManager.CurrentLanguage.inputStrings.input_space },
-			{ "Enter", LanguageManager.CurrentLanguage.inputStrings.input_enter },
-			{ "Tab", LanguageManager.CurrentLanguage.inputStrings.input_tab },
-			{ "Esc", LanguageManager.CurrentLanguage.inputStrings.input_esc },
-			{ "Left Shift", LanguageManager.CurrentLanguage.inputStrings.input_leftShift },
-			{ "Right Shift", LanguageManager.CurrentLanguage.inputStrings.input_rightShift },
-			{ "Left Control", LanguageManager.CurrentLanguage.inputStrings.input_leftControl },
-			{ "Right Control", LanguageManager.CurrentLanguage.inputStrings.input_rightControl },
-			{ "Left Alt", LanguageManager.CurrentLanguage.inputStrings.input_leftAlt },
-			{ "Right Alt", LanguageManager.CurrentLanguage.inputStrings.input_rightAlt },
-			{ "LMB", LanguageManager.CurrentLanguage.inputStrings.input_LMB },
-			{ "RMB", LanguageManager.CurrentLanguage.inputStrings.input_RMB },
-			{ "MMB", LanguageManager.CurrentLanguage.inputStrings.input_MMB },
-			{ "Up Arrow", LanguageManager.CurrentLanguage.inputStrings.input_arrowUp },
-			{ "Down Arrow", LanguageManager.CurrentLanguage.inputStrings.input_arrowDown },
-			{ "Left Arrow", LanguageManager.CurrentLanguage.inputStrings.input_arrowLeft },
-			{ "Right Arrow", LanguageManager.CurrentLanguage.inputStrings.input_arrowRight },
-            { "Forward", LanguageManager.CurrentLanguage.inputStrings.input_forward },
-            { "Back", LanguageManager.CurrentLanguage.inputStrings.input_back },
-            { "NO BINDING", LanguageManager.CurrentLanguage.inputStrings.input_noBinding },
+			{ "space", LanguageManager.CurrentLanguage.inputStrings.input_space },
+			{ "enter", LanguageManager.CurrentLanguage.inputStrings.input_enter },
+			{ "tab", LanguageManager.CurrentLanguage.inputStrings.input_tab },
+			{ "escape", LanguageManager.CurrentLanguage.inputStrings.input_esc },
+			{ "leftshift", LanguageManager.CurrentLanguage.inputStrings.input_leftShift },
+			{ "rightshift", LanguageManager.CurrentLanguage.inputStrings.input_rightShift },
+			{ "leftcontrol", LanguageManager.CurrentLanguage.inputStrings.input_leftControl },
+			{ "rightcontrol", LanguageManager.CurrentLanguage.inputStrings.input_rightControl },
+			{ "leftalt", LanguageManager.CurrentLanguage.inputStrings.input_leftAlt },
+			{ "rightalt", LanguageManager.CurrentLanguage.inputStrings.input_rightAlt },
+			{ "lmb", LanguageManager.CurrentLanguage.inputStrings.input_LMB },
+			{ "rmb", LanguageManager.CurrentLanguage.inputStrings.input_RMB },
+			{ "mmb", LanguageManager.CurrentLanguage.inputStrings.input_MMB },
+			{ "uparrow", LanguageManager.CurrentLanguage.inputStrings.input_arrowUp },
+			{ "downarrow", LanguageManager.CurrentLanguage.inputStrings.input_arrowDown },
+			{ "leftarrow", LanguageManager.CurrentLanguage.inputStrings.input_arrowLeft },
+			{ "rightarrow", LanguageManager.CurrentLanguage.inputStrings.input_arrowRight },
+            { "forward", LanguageManager.CurrentLanguage.inputStrings.input_forward },
+            { "back", LanguageManager.CurrentLanguage.inputStrings.input_back },
+            { "comma", LanguageManager.CurrentLanguage.inputStrings.input_comma },
+            { "capslock", LanguageManager.CurrentLanguage.inputStrings.input_capsLock },
+            { "slash", LanguageManager.CurrentLanguage.inputStrings.input_slash },
+            { "backslash", LanguageManager.CurrentLanguage.inputStrings.input_backslash },
+            { "backspace", LanguageManager.CurrentLanguage.inputStrings.input_backspace },
+            { "equals", LanguageManager.CurrentLanguage.inputStrings.input_equals },
+            { "minus", LanguageManager.CurrentLanguage.inputStrings.input_minus },
+            { "numlock", LanguageManager.CurrentLanguage.inputStrings.input_numLock },
+            { "delete", LanguageManager.CurrentLanguage.inputStrings.input_delete },
+            { "nobinding", LanguageManager.CurrentLanguage.inputStrings.input_noBinding },
         };
 
         public static string GetLocalizedInput(string input)
         {
+            if (string.IsNullOrEmpty(input))
+                return input;
+
             if (input.Length == 1 && char.IsLetter(input[0]))
                 return input;
 
-			Logging.Message("[GetLocalizedInput] Input in Message = " + input);
-            if (LocalizedInputs.TryGetValue(input, out string localized))
+            string key = input.Replace(" ", "").ToLowerInvariant();
+
+            if (key.StartsWith("numpad"))
+                return LanguageManager.CurrentLanguage.inputStrings.input_numpad + key.Substring(6);
+
+            if (LocalizedInputs.TryGetValue(key, out string localized))
                 return localized;
 
             return input;

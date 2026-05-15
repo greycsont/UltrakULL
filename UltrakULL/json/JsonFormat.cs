@@ -3539,6 +3539,16 @@ namespace UltrakULL.json
         public string input_arrowDown = "Arrow Down";
         public string input_arrowLeft = "Arrow Left";
         public string input_arrowRight = "Arrow Right";
+        public string input_numpad = "Numpad";
+        public string input_numLock = "NumLock";
+        public string input_comma = "Comma";
+        public string input_capsLock = "CapsLock";
+        public string input_slash = "Slash";
+        public string input_backslash = "Backslash";
+        public string input_backspace = "Backspace";
+        public string input_equals = "Equals";
+        public string input_minus = "Minus";
+        public string input_delete = "Delete";
         public string input_noBinding = "NO BINDING";
     }
     public class SandboxStrings
