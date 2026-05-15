@@ -251,7 +251,7 @@ namespace UltrakULL
                 //Revolver lore
                 GameObject revolverLore = GetGameObjectChild(revolverWindow, "Info Screen");
                 TextMeshProUGUI revolverLoreName = GetTextMeshProUGUI(GetGameObjectChild(revolverLore, "Title"));
-                revolverLoreName.text = LanguageManager.CurrentLanguage.shop.shop_weaponsRevolver;// + info
+                revolverLoreName.text = LanguageManager.CurrentLanguage.shop.shop_weaponsRevolverInfo;// + info
                 TextMeshProUGUI revolverLoreTitle = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(revolverLore, "Main Window"), "Name"));
                 revolverLoreTitle.text = LanguageManager.CurrentLanguage.shop.shop_weaponsRevolver;
 
@@ -279,7 +279,7 @@ namespace UltrakULL
                 GameObject revolverColorWindow = GetGameObjectChild(GetGameObjectChild(revolverWindow, "Color Screen"),"Main Window");
 
                 TextMeshProUGUI revolverColorWindowTitle = GetTextMeshProUGUI(GetGameObjectChild(revolverColorWindow.transform.parent.gameObject,"Title"));
-                revolverColorWindowTitle.text = "--" + LanguageManager.CurrentLanguage.shop.shop_weaponsRevolver + "--"; //+ color
+                revolverColorWindowTitle.text = LanguageManager.CurrentLanguage.shop.shop_weaponsRevolverColors; //+ color
 
                 GameObject revolverTemplates = GetGameObjectChild(GetGameObjectChild(revolverColorWindow, "Window"), "Presets");
                 TextMeshProUGUI revolverTemplate1 = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(revolverTemplates, "Template 1"), "Text"));
@@ -398,7 +398,7 @@ namespace UltrakULL
                 //Shotgun lore
                 GameObject shotgunLore = GetGameObjectChild(GetGameObjectChild(shotgunWindow,"Info Screen"), "Main Window");
                 TextMeshProUGUI shotgunLoreName = GetTextMeshProUGUI(GetGameObjectChild(shotgunLore.transform.parent.gameObject, "Title"));
-                shotgunLoreName.text = LanguageManager.CurrentLanguage.shop.shop_weaponsShotgun;
+                shotgunLoreName.text = LanguageManager.CurrentLanguage.shop.shop_weaponsShotgunInfo;
                 TextMeshProUGUI shotgunLoreTitle = GetTextMeshProUGUI(GetGameObjectChild(shotgunLore, "Name"));
                 shotgunLoreTitle.text = LanguageManager.CurrentLanguage.shop.shop_weaponsShotgun;
 
@@ -425,7 +425,7 @@ namespace UltrakULL
                 GameObject shotgunColorWindow = GetGameObjectChild(GetGameObjectChild(shotgunWindow, "Color Screen"), "Main Window");
 
                 TextMeshProUGUI shotgunColorWindowTitle = GetTextMeshProUGUI(GetGameObjectChild(shotgunColorWindow.transform.parent.gameObject, "Title"));
-                shotgunColorWindowTitle.text = LanguageManager.CurrentLanguage.shop.shop_weaponsShotgun; //+ color
+                shotgunColorWindowTitle.text = LanguageManager.CurrentLanguage.shop.shop_weaponsShotgunColors; //+ color
 
                 GameObject shotgunTemplates = GetGameObjectChild(GetGameObjectChild(shotgunColorWindow, "Window"), "Presets");
                 TextMeshProUGUI shotgunTemplate1 = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(shotgunTemplates, "Template 1"), "Text"));
@@ -534,7 +534,7 @@ namespace UltrakULL
                 //Nailgun lore
                 GameObject nailgunLore = GetGameObjectChild(GetGameObjectChild(nailgunWindow, "Info Screen"), "Main Window");
                 TextMeshProUGUI nailgunLoreName = GetTextMeshProUGUI(GetGameObjectChild(nailgunLore.transform.parent.gameObject, "Title"));
-                nailgunLoreName.text = LanguageManager.CurrentLanguage.shop.shop_weaponsNailgun;
+                nailgunLoreName.text = LanguageManager.CurrentLanguage.shop.shop_weaponsNailgunInfo;
                 TextMeshProUGUI nailgunLoreTitle = GetTextMeshProUGUI(GetGameObjectChild(nailgunLore, "Name"));
                 nailgunLoreTitle.text = LanguageManager.CurrentLanguage.shop.shop_weaponsNailgun;
 
@@ -561,7 +561,7 @@ namespace UltrakULL
                 GameObject nailgunColorWindow = GetGameObjectChild(GetGameObjectChild(nailgunWindow, "Color Screen"), "Main Window");
 
                 TextMeshProUGUI nailgunColorWindowTitle = GetTextMeshProUGUI(GetGameObjectChild(nailgunColorWindow.transform.parent.gameObject, "Title"));
-                nailgunColorWindowTitle.text = LanguageManager.CurrentLanguage.shop.shop_weaponsNailgun; //+ color
+                nailgunColorWindowTitle.text = LanguageManager.CurrentLanguage.shop.shop_weaponsNailgunColors; //+ color
 
                 GameObject nailgunTemplates = GetGameObjectChild(GetGameObjectChild(nailgunColorWindow, "Window"), "Presets");
                 TextMeshProUGUI nailgunTemplate1 = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(nailgunTemplates, "Template 1"), "Text"));
@@ -671,7 +671,7 @@ namespace UltrakULL
                 //Railcannon lore
                 GameObject railcannonLore = GetGameObjectChild(GetGameObjectChild(railcannonWindow, "Info Screen"), "Main Window");
                 TextMeshProUGUI railcannonLoreName = GetTextMeshProUGUI(GetGameObjectChild(railcannonLore.transform.parent.gameObject, "Title"));
-                railcannonLoreName.text = LanguageManager.CurrentLanguage.shop.shop_weaponsRailcannon;
+                railcannonLoreName.text = LanguageManager.CurrentLanguage.shop.shop_weaponsRailcannonInfo;
                 TextMeshProUGUI railcannonLoreTitle = GetTextMeshProUGUI(GetGameObjectChild(railcannonLore, "Name"));
                 railcannonLoreTitle.text = LanguageManager.CurrentLanguage.shop.shop_weaponsRailcannon;
 
@@ -698,7 +698,7 @@ namespace UltrakULL
                 GameObject railcannonColorWindow = GetGameObjectChild(GetGameObjectChild(railcannonWindow, "Color Screen"), "Main Window");
 
                 TextMeshProUGUI railcannonColorWindowTitle = GetTextMeshProUGUI(GetGameObjectChild(railcannonColorWindow.transform.parent.gameObject, "Title"));
-                railcannonColorWindowTitle.text = LanguageManager.CurrentLanguage.shop.shop_weaponsRailcannon; //+ color
+                railcannonColorWindowTitle.text = LanguageManager.CurrentLanguage.shop.shop_weaponsRailcannonColors; //+ color
 
                 GameObject railcannonTemplates = GetGameObjectChild(GetGameObjectChild(railcannonColorWindow, "Window"), "Presets");
                 TextMeshProUGUI railcannonTemplate1 = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(railcannonTemplates, "Template 1"), "Text"));
@@ -806,7 +806,7 @@ namespace UltrakULL
                 //RocketLauncher lore
                 GameObject rocketlauncherLore = GetGameObjectChild(GetGameObjectChild(rocketlauncherWindow, "Info Screen"), "Main Window");
                 TextMeshProUGUI rocketlauncherLoreName = GetTextMeshProUGUI(GetGameObjectChild(rocketlauncherLore.transform.parent.gameObject, "Title"));
-                rocketlauncherLoreName.text = LanguageManager.CurrentLanguage.shop.shop_weaponsRocketLauncher;
+                rocketlauncherLoreName.text = LanguageManager.CurrentLanguage.shop.shop_weaponsRocketLauncherInfo;
                 TextMeshProUGUI rocketlauncherLoreTitle = GetTextMeshProUGUI(GetGameObjectChild(rocketlauncherLore, "Name"));
                 rocketlauncherLoreTitle.text = LanguageManager.CurrentLanguage.shop.shop_weaponsRocketLauncher;
 
@@ -840,7 +840,7 @@ namespace UltrakULL
                 GameObject rocketlauncherColorWindow = GetGameObjectChild(GetGameObjectChild(rocketlauncherWindow, "Color Screen"), "Main Window");
 
                 TextMeshProUGUI rocketlauncherColorWindowTitle = GetTextMeshProUGUI(GetGameObjectChild(rocketlauncherColorWindow.transform.parent.gameObject, "Title"));
-                rocketlauncherColorWindowTitle.text = LanguageManager.CurrentLanguage.shop.shop_weaponsRocketLauncher; //+ color
+                rocketlauncherColorWindowTitle.text = LanguageManager.CurrentLanguage.shop.shop_weaponsRocketLauncherColors; //+ color
 
                 GameObject rocketlauncherTemplates = GetGameObjectChild(GetGameObjectChild(rocketlauncherColorWindow, "Window"), "Presets");
                 TextMeshProUGUI rocketlauncherTemplate1 = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(rocketlauncherTemplates, "Template 1"), "Text"));

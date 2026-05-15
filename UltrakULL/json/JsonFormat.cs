@@ -1713,8 +1713,20 @@ namespace UltrakULL.json
         public string shop_sandboxEnter;
 
         public string shop_back;
+
         public string shop_weaponInfo;
+        public string shop_weaponsRevolverInfo;
+        public string shop_weaponsShotgunInfo;
+        public string shop_weaponsNailgunInfo;
+        public string shop_weaponsRailcannonInfo;
+        public string shop_weaponsRocketLauncherInfo;
+
         public string shop_weaponColors;
+        public string shop_weaponsRevolverColors;
+        public string shop_weaponsShotgunColors;
+        public string shop_weaponsNailgunColors;
+        public string shop_weaponsRailcannonColors;
+        public string shop_weaponsRocketLauncherColors;
 
         public string shop_weaponsRevolver;
         public string shop_weaponsShotgun;
