@@ -16,6 +16,15 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps
         {
             if(LanguageManager.configFile.Bind("General","activeDubbing","False").Value == "False" || isUsingEnglish())
                 return;
+
+            Gabriel instance = __instance;
+            AudioPreloadManager.EnsureCurrentScenePreloaded(delegate { ApplyVoiceSwap(instance); });
+        }
+
+        private static void ApplyVoiceSwap(Gabriel __instance)
+        {
+            if (__instance == null)
+                return;
             
             string gabeFirstFolder =  AudioSwapper.SpeechFolder + "gabrielBossFirst" + Path.DirectorySeparatorChar;
             
@@ -45,6 +54,8 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps
             }
             
             if (voice == null) return;
+
+            AudioSwapper.LogAudioSourceDiagnostics(voice.GetComponent<AudioSource>(), "GabrielVoice");
             
             //Taunts
             AudioClip[] gabeTaunts = voice.taunt;
@@ -69,7 +80,7 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps
             {
                 int ix = x;
                 string gabrielTauntString = gabeFirstFolder + tauntLines[ix];
-                AudioSwapper.SwapClipWithFileAsync(gabeTaunts[ix], gabrielTauntString, (clip) => { try { gabeTaunts[ix] = clip; } catch { } });
+                AudioSwapper.SwapClipInArrayAsync(gabeTaunts, ix, gabrielTauntString);
             }
             
             //Phase change - need to use ref otherwise it gets swapped back to original
@@ -83,7 +94,7 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps
             {
                 int ix = x;
                 string gabrielBigHurtString = gabeFirstFolder + "gabrielBigHurt" + (ix+1).ToString();
-                AudioSwapper.SwapClipWithFileAsync(gabeBigHurt[ix], gabrielBigHurtString, (clip) => { try { gabeBigHurt[ix] = clip; } catch { } });
+                AudioSwapper.SwapClipInArrayAsync(gabeBigHurt, ix, gabrielBigHurtString);
             }
 
             //Hurt
@@ -92,7 +103,7 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps
             {
                 int ix = x;
                 string gabrielHurtString = gabeFirstFolder + "gabrielHurt" + (ix+1).ToString();
-                AudioSwapper.SwapClipWithFileAsync(gabeHurt[ix], gabrielHurtString, (clip) => { try { gabeHurt[ix] = clip; } catch { } });
+                AudioSwapper.SwapClipInArrayAsync(gabeHurt, ix, gabrielHurtString);
             }
         }
     }

@@ -19,12 +19,22 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps
             {
                 return;
             }
+            GabrielSecond instance = __instance;
+            AudioPreloadManager.EnsureCurrentScenePreloaded(delegate { ApplyVoiceSwap(instance); });
+        }
+
+        private static void ApplyVoiceSwap(GabrielSecond __instance)
+        {
+            if (__instance == null)
+                return;
+
             GabrielVoice voice = __instance.GetComponent<GabrielVoice>();
             if (voice == null)
             {
                 Debug.LogWarning("[UltrakULL] GabrielVoice component not found on GabrielSecond!");
                 return;
             }
+            AudioSwapper.LogAudioSourceDiagnostics(voice.GetComponent<AudioSource>(), "GabrielSecondVoice");
             string gabeSecondFolder = AudioSwapper.SpeechFolder + "gabrielBossSecond" + Path.DirectorySeparatorChar;
             
             // Taunts
@@ -43,11 +53,7 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps
             {
                 int ix = i;
                 string gabrielSecondTauntString = gabeSecondFolder + tauntLines[ix];
-                AudioSwapper.SwapClipWithFileAsync(gabeSecondTaunts[ix], gabrielSecondTauntString, (clip) =>
-                {
-                    try { gabeSecondTaunts[ix] = clip; }
-                    catch { }
-                });
+                AudioSwapper.SwapClipInArrayAsync(gabeSecondTaunts, ix, gabrielSecondTauntString);
             }
             
             // Phase change
@@ -65,11 +71,7 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps
             {
                 int ix = i;
                 string gabrielSecondBigHurtString = gabeSecondFolder + "gabrielSecondBigHurt" + (ix + 1).ToString();
-                AudioSwapper.SwapClipWithFileAsync(gabeSecondBigHurt[ix], gabrielSecondBigHurtString, (clip) =>
-                {
-                    try { gabeSecondBigHurt[ix] = clip; }
-                    catch { }
-                });
+                AudioSwapper.SwapClipInArrayAsync(gabeSecondBigHurt, ix, gabrielSecondBigHurtString);
             }
             
             // Hurt
@@ -78,11 +80,7 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps
             {
                 int ix = i;
                 string gabrielSecondHurtString = gabeSecondFolder + "gabrielSecondHurt" + (ix + 1).ToString();
-                AudioSwapper.SwapClipWithFileAsync(gabeSecondHurt[ix], gabrielSecondHurtString, (clip) =>
-                {
-                    try { gabeSecondHurt[ix] = clip; }
-                    catch { }
-                });
+                AudioSwapper.SwapClipInArrayAsync(gabeSecondHurt, ix, gabrielSecondHurtString);
             }
             
             // Taunts second phase
@@ -101,11 +99,7 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps
             {
                 int ix = i;
                 string gabeSecondTauntsSecondPhaseString = gabeSecondFolder + tauntLinesSecondPhase[ix];
-                AudioSwapper.SwapClipWithFileAsync(gabeSecondTauntsSecondPhase[ix], gabeSecondTauntsSecondPhaseString, (clip) =>
-                {
-                    try { gabeSecondTauntsSecondPhase[ix] = clip; }
-                    catch { }
-                });
+                AudioSwapper.SwapClipInArrayAsync(gabeSecondTauntsSecondPhase, ix, gabeSecondTauntsSecondPhaseString);
             }
         }
     }

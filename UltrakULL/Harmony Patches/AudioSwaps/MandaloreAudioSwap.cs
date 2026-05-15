@@ -22,12 +22,38 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps
                     return;
                 }
 
+                Mandalore instance = __instance;
+                AudioPreloadManager.EnsureCurrentScenePreloaded(delegate { ApplyAudioSwap(instance); });
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+        }
+
+        private static void ApplyAudioSwap(Mandalore __instance)
+        {
+            try
+            {
+                if (__instance == null)
+                {
+                    return;
+                }
+
                 //Mandalore uses an array for MandaloreVoice.
                 //voices[0] - Mandalore, voices[1] = Owl.
                 
                 //NOTE - both audio files for Manda & Owl play at the SAME TIME.
                 //This means each seperate audio file will need to have the relevant period of silence before/after speaking.
                 string mandaloreFolder = AudioSwapper.SpeechFolder + "mandalore" + Path.DirectorySeparatorChar;
+                if (__instance.voices != null)
+                {
+                    for (int i = 0; i < __instance.voices.Length; i++)
+                    {
+                        if (__instance.voices[i] != null)
+                            AudioSwapper.LogAudioSourceDiagnostics(__instance.voices[i].GetComponent<AudioSource>(), "MandaloreVoice" + i);
+                    }
+                }
             
                 //Attack 1 (Full auto)
                 var inst = __instance;
@@ -115,18 +141,18 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps
                     {
                         case 1:
                         {
-                            AudioSwapper.SwapClipWithFileAsync(mandaloreTauntOwl[ix], mandaloreFolder + owlTauntLines[ix], (clip) => { try { inst.voices[1].taunts[ix] = clip; } catch { } });
+                            AudioSwapper.SwapClipInArrayAsync(inst.voices[1].taunts, ix, mandaloreFolder + owlTauntLines[ix]);
                             break;
                         }
                         case 3:
                         {
-                            AudioSwapper.SwapClipWithFileAsync(mandaloreTauntManda[ix], mandaloreFolder + mandaTauntLines[ix], (clip) => { try { inst.voices[0].taunts[ix] = clip; } catch { } });
+                            AudioSwapper.SwapClipInArrayAsync(inst.voices[0].taunts, ix, mandaloreFolder + mandaTauntLines[ix]);
                             break;
                         }
                         default:
                         {
-                            AudioSwapper.SwapClipWithFileAsync(mandaloreTauntManda[ix], mandaloreFolder + mandaTauntLines[ix], (clip) => { try { inst.voices[0].taunts[ix] = clip; } catch { } });
-                            AudioSwapper.SwapClipWithFileAsync(mandaloreTauntOwl[ix], mandaloreFolder + owlTauntLines[ix], (clip) => { try { inst.voices[1].taunts[ix] = clip; } catch { } });
+                            AudioSwapper.SwapClipInArrayAsync(inst.voices[0].taunts, ix, mandaloreFolder + mandaTauntLines[ix]);
+                            AudioSwapper.SwapClipInArrayAsync(inst.voices[1].taunts, ix, mandaloreFolder + owlTauntLines[ix]);
                             break;
                         }
                     }

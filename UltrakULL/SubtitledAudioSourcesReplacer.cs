@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 using BepInEx;
+using UltrakULL.audio;
 using UltrakULL.json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -16,6 +19,7 @@ namespace UltrakULL
         public static string SpeechFolder = Combine(Paths.ConfigPath,"ultrakull", "audio", LanguageManager.CurrentLanguage.metadata.langName);
         
         public static SubtitledSourcesConfig Config;
+        private static readonly HashSet<string> subtitleTimingWarnings = new HashSet<string>();
 
         public static async void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
@@ -24,6 +28,11 @@ namespace UltrakULL
         }
 
         public static void ReplaceSubsAndAudio()
+        {
+            AudioPreloadManager.EnsureCurrentScenePreloaded(ApplySubsAndAudio);
+        }
+
+        private static void ApplySubsAndAudio()
         {
             if (!TryLoadMetadata(out var objectReferences)) 
                 return;
@@ -47,7 +56,21 @@ namespace UltrakULL
                         if (audioSource != null)
                         {
                             var src = audioSource;
-                            SwapClipWithFileAsync(src.clip, Combine(SpeechFolder, objectReference.AudioPath), (newClip) => { try { src.clip = newClip; } catch { } });
+                            AudioClip originalClip = src.clip;
+                            string requestedAudioPath = Combine(SpeechFolder, objectReference.AudioPath);
+                            string objectPath = gameObject;
+                            LogAudioSourceDiagnostics(src, "SubtitledAudioSource:" + obj.name);
+                            SwapClipWithFileAsync(originalClip, requestedAudioPath, (newClip) =>
+                            {
+                                try
+                                {
+                                    if (newClip != null && !ReferenceEquals(newClip, originalClip))
+                                        LogSubtitleTimingDiagnostics(objectReference, newClip, objectPath, requestedAudioPath);
+
+                                    src.clip = newClip;
+                                }
+                                catch { }
+                            });
                         }
                         else
                         {
@@ -79,6 +102,28 @@ namespace UltrakULL
 
             references = default;
             return false;
+        }
+
+        private static void LogSubtitleTimingDiagnostics(SubtitledObjectReference objectReference, AudioClip clip, string objectPath, string audioPath)
+        {
+            if (objectReference == null || objectReference.Lines == null || objectReference.Lines.Count == 0 || clip == null)
+                return;
+
+            Line latestLine = objectReference.Lines.OrderByDescending(line => line.Delay).FirstOrDefault();
+            if (latestLine == null || latestLine.Delay <= clip.length)
+                return;
+
+            string language = LanguageManager.CurrentLanguage != null ? LanguageManager.CurrentLanguage.metadata.langName : "";
+            string key = language + "|" + GetCurrentSceneName() + "|" + objectPath + "|" + audioPath + "|" + latestLine.Reference;
+            if (!subtitleTimingWarnings.Add(key))
+                return;
+
+            Logging.Warn("[AudioSwap] Subtitle timing exceeds replacement clip length: scene='" + GetCurrentSceneName() +
+                         "', object='" + objectPath +
+                         "', audio='" + audioPath +
+                         "', clipLength=" + clip.length.ToString("0.00") +
+                         ", subtitle='" + latestLine.Reference +
+                         "', delay=" + latestLine.Delay.ToString("0.00") + ".");
         }
     }
 }

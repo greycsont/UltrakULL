@@ -62,6 +62,7 @@ namespace UltrakULL.Harmony_Patches.Subtitles
 						AudioClip val = array[index.Value];
 						if ((UnityEngine.Object)val != (UnityEngine.Object)null && IsPowerClipBeingHandled(((UnityEngine.Object)val).name))
 						{
+							Logging.Info($"[PowerSubtitlesSwap] Intro clip '{val.name}' is being handled, suppressing subtitle.");
 							return false;
 						}
 					}
@@ -390,7 +391,7 @@ namespace UltrakULL.Harmony_Patches.Subtitles
 		private static IEnumerable<CodeInstruction> ReplaceSubtitleInMethod(IEnumerable<CodeInstruction> instructions, string baseKey)
 		{
 			List<CodeInstruction> list = new List<CodeInstruction>(instructions);
-			
+
 			int num = 0;
 			for (int i = 0; i < list.Count; i++)
 			{
@@ -401,21 +402,21 @@ namespace UltrakULL.Harmony_Patches.Subtitles
 					string subtitlesFieldSafe = GetSubtitlesFieldSafe(text2);
 					if (!string.IsNullOrEmpty(subtitlesFieldSafe) && subtitlesFieldSafe != text)
 					{
-						
+
 						list[i].operand = subtitlesFieldSafe;
-						
+
 						num++;
 					}
 				}
 			}
-			
+
 			return list;
 		}
 
 		private static IEnumerable<CodeInstruction> ReplaceFixedSubtitle(IEnumerable<CodeInstruction> instructions, string baseKey)
 		{
 			List<CodeInstruction> list = new List<CodeInstruction>(instructions);
-			
+
 			int num = 0;
 			for (int i = 0; i < list.Count; i++)
 			{
@@ -423,20 +424,20 @@ namespace UltrakULL.Harmony_Patches.Subtitles
 				{
 					continue;
 				}
-				
+
 				if ((!(baseKey == "power_spearThrow") || !(text != "Over here!")) && (!(baseKey == "power_glaiveThrow") || !(text != "Take THIS!")))
 				{
 					string subtitlesFieldSafe = GetSubtitlesFieldSafe("subtitles_" + baseKey);
 					if (!string.IsNullOrEmpty(subtitlesFieldSafe) && subtitlesFieldSafe != text)
 					{
-						
+
 						list[i].operand = subtitlesFieldSafe;
-						
+
 						num++;
 					}
 				}
 			}
-			
+
 			return list;
 		}
 
@@ -444,46 +445,46 @@ namespace UltrakULL.Harmony_Patches.Subtitles
 		{
 			if (string.IsNullOrEmpty(originalText))
 				return 0;
-			
+
 			switch (originalText)
 			{
-			case "Be afraid, machine.":
-				return 0;
-			case "Here shall be your grave.":
-				return 1;
-			case "It is over, machine!":
-				return 2;
-			case "Surrender or perish!":
-				return 3;
-			case "Lay down and die!":
-				return 4;
-			case "Bastard!":
-				return 0;
-			case "You piece of SHIT!":
-				return 1;
-			case "Just DIE already!":
-				return 2;
-			case "Why won't you die!?":
-				return 3;
-			case "God DAMN it!":
-				return 4;
-			case "This lowly thing could never have bested him!":
-				return 0;
-			case "An inconvenience at best.":
-				return 1;
-			case "This is a waste of my time!":
-				return 2;
-			case "Just another worthless object.":
-				return 3;
-			case "PAY ATTENTION!":
-				return 0;
-			case "Wait your TURN!":
-				return 1;
-			case "WRONG TARGET!":
-				return 2;
-			default:
-				Logging.Warn("[PowerTranspiler] GetVariantIndexFromOriginal: UNKNOWN string '" + originalText + "'");
-				return 0;
+				case "Be afraid, machine.":
+					return 0;
+				case "Here shall be your grave.":
+					return 1;
+				case "It is over, machine!":
+					return 2;
+				case "Surrender or perish!":
+					return 3;
+				case "Lay down and die!":
+					return 4;
+				case "Bastard!":
+					return 0;
+				case "You piece of SHIT!":
+					return 1;
+				case "Just DIE already!":
+					return 2;
+				case "Why won't you die!?":
+					return 3;
+				case "God DAMN it!":
+					return 4;
+				case "This lowly thing could never have bested him!":
+					return 0;
+				case "An inconvenience at best.":
+					return 1;
+				case "This is a waste of my time!":
+					return 2;
+				case "Just another worthless object.":
+					return 3;
+				case "PAY ATTENTION!":
+					return 0;
+				case "Wait your TURN!":
+					return 1;
+				case "WRONG TARGET!":
+					return 2;
+				default:
+					Logging.Warn("[PowerTranspiler] GetVariantIndexFromOriginal: UNKNOWN string '" + originalText + "'");
+					return 0;
 			}
 		}
 
@@ -518,7 +519,7 @@ namespace UltrakULL.Harmony_Patches.Subtitles
 					return null;
 				}
 				string text = field.GetValue(a) as string;
-				
+
 				return text;
 			}
 			catch (Exception ex)

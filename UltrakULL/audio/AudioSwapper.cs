@@ -1,8 +1,10 @@
-﻿using System;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Collections;
 using BepInEx;
+using BepInEx.Configuration;
 using UltrakULL.json;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -13,55 +15,205 @@ namespace UltrakULL.audio
 {
     public static class AudioSwapper
     {
-    // Folder where language audio is stored: <BepInEx.ConfigPath>/ultrakull/audio/<lang>/
-    // Make writable because LanguageManager updates this when switching languages.
-    public static string SpeechFolder { get; set; } = Path.Combine(Paths.ConfigPath, "ultrakull", "audio", LanguageManager.CurrentLanguage.metadata.langName) + Path.DirectorySeparatorChar;
+        // Folder where language audio is stored: <BepInEx.ConfigPath>/ultrakull/audio/<lang>/
+        // Make writable because LanguageManager updates this when switching languages.
+        public static string SpeechFolder { get; set; } = Path.Combine(Paths.ConfigPath, "ultrakull", "audio", LanguageManager.CurrentLanguage.metadata.langName) + Path.DirectorySeparatorChar;
 
-        // Small MonoBehaviour host so static code can run coroutines
         private class CoroutineHost : MonoBehaviour { }
+        private class PendingClipLoad
+        {
+            public AudioClip Fallback;
+            public Action<AudioClip> Callback;
+        }
+
         private static CoroutineHost coroutineHost;
+        private static readonly Dictionary<string, string> resolvedFileCache = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        private static readonly Dictionary<string, AudioClip> clipCache = new Dictionary<string, AudioClip>(StringComparer.OrdinalIgnoreCase);
+        private static readonly Dictionary<string, List<PendingClipLoad>> pendingLoads = new Dictionary<string, List<PendingClipLoad>>(StringComparer.OrdinalIgnoreCase);
+        private static readonly HashSet<string> missingPathWarnings = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        private static readonly HashSet<string> diagnosticLogKeys = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        private static readonly Dictionary<string, string> legacyAudioAliases = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        {
+            { Path.Combine("power", "powerSpecialWave1"), Path.Combine("power", "pow_SpecialIntro1") },
+            { Path.Combine("power", "powerSpecialWave2"), Path.Combine("power", "pow_SpecialIntro2") },
+            { Path.Combine("power", "powerSpecialWave3"), Path.Combine("power", "pow_SpecialIntro3") },
+            { Path.Combine("power", "powerSpecialWave4"), Path.Combine("power", "pow_SpecialIntro4") }
+        };
+        private static int cacheGeneration;
 
         private static void EnsureHost()
         {
             if (coroutineHost != null)
                 return;
+
             var go = new GameObject("AudioSwapper_CoroutineHost");
             UnityEngine.Object.DontDestroyOnLoad(go);
             coroutineHost = go.AddComponent<CoroutineHost>();
         }
 
-        /// <summary>
-        /// Non-blocking: starts a coroutine that loads an AudioClip from disk and calls onComplete on the main thread.
-        /// If loading fails, the original sourceClip is passed to the callback.
-        /// </summary>
         public static void SwapClipWithFileAsync(AudioClip sourceClip, string audioFilePath, Action<AudioClip> onComplete)
+        {
+            PreloadClipAsync(audioFilePath, sourceClip, onComplete);
+        }
+
+        public static void PreloadClipAsync(string audioFilePath, AudioClip fallback, Action<AudioClip> onComplete)
         {
             try
             {
+                BindAudioConfigDefaults();
+
+                if (isUsingEnglish())
+                {
+                    onComplete?.Invoke(fallback);
+                    return;
+                }
+
                 EnsureHost();
-                coroutineHost.StartCoroutine(LoadClipCoroutine(sourceClip, audioFilePath, onComplete));
+                string filePath = ResolveAudioFilePath(audioFilePath);
+                if (string.IsNullOrEmpty(filePath))
+                {
+                    WarnMissingOnce(audioFilePath);
+                    onComplete?.Invoke(fallback);
+                    return;
+                }
+
+                AudioClip cachedClip;
+                if (clipCache.TryGetValue(filePath, out cachedClip) && cachedClip != null)
+                {
+                    onComplete?.Invoke(cachedClip);
+                    return;
+                }
+
+                List<PendingClipLoad> callbacks;
+                if (pendingLoads.TryGetValue(filePath, out callbacks))
+                {
+                    callbacks.Add(new PendingClipLoad { Fallback = fallback, Callback = onComplete });
+                    return;
+                }
+
+                pendingLoads[filePath] = new List<PendingClipLoad>
+                {
+                    new PendingClipLoad { Fallback = fallback, Callback = onComplete }
+                };
+                coroutineHost.StartCoroutine(LoadClipCoroutine(filePath, fallback, cacheGeneration));
             }
             catch (Exception e)
             {
-                Logging.Warn("SwapClipWithFileAsync failed to start coroutine: " + e.Message);
-                onComplete?.Invoke(sourceClip);
+                Logging.Warn("[AudioSwap] PreloadClipAsync failed: " + e.Message);
+                onComplete?.Invoke(fallback);
             }
         }
 
-        private static IEnumerator LoadClipCoroutine(AudioClip sourceClip, string audioFilePath, Action<AudioClip> onComplete)
+        public static void PreloadFolderAsync(string folderPath, Action onComplete = null)
         {
-            if (isUsingEnglish())
+            try
             {
-                onComplete?.Invoke(sourceClip);
+                if (string.IsNullOrEmpty(folderPath) || !Directory.Exists(folderPath))
+                {
+                    onComplete?.Invoke();
+                    return;
+                }
+
+                IEnumerable<string> paths = Directory.GetFiles(folderPath, "*.*", SearchOption.TopDirectoryOnly)
+                    .Where(IsSupportedAudioFile);
+                PreloadPathsAsync(paths, onComplete);
+            }
+            catch (Exception e)
+            {
+                Logging.Warn("[AudioSwap] Failed to preload folder '" + folderPath + "': " + e.Message);
+                onComplete?.Invoke();
+            }
+        }
+
+        public static void PreloadPathsAsync(IEnumerable<string> audioPaths, Action onComplete = null)
+        {
+            if (audioPaths == null)
+            {
+                onComplete?.Invoke();
+                return;
+            }
+
+            List<string> paths = audioPaths
+                .Where(path => !string.IsNullOrEmpty(path))
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToList();
+
+            if (paths.Count == 0)
+            {
+                onComplete?.Invoke();
+                return;
+            }
+
+            int remaining = paths.Count;
+            Action<AudioClip> completeOne = delegate
+            {
+                remaining--;
+                if (remaining <= 0)
+                    onComplete?.Invoke();
+            };
+
+            foreach (string path in paths)
+                PreloadClipAsync(path, null, completeOne);
+        }
+
+        public static void ClearCacheForLanguageChange()
+        {
+            resolvedFileCache.Clear();
+            clipCache.Clear();
+            pendingLoads.Clear();
+            missingPathWarnings.Clear();
+            diagnosticLogKeys.Clear();
+            cacheGeneration++;
+            Logging.Info("[AudioSwap] Cleared audio caches after language change.");
+        }
+
+        public static void SwapClipInArrayAsync(AudioClip[] clips, int index, string audioFilePath)
+        {
+            if (clips == null || index < 0 || index >= clips.Length)
+                return;
+
+            PreloadClipAsync(audioFilePath, clips[index], delegate(AudioClip clip)
+            {
+                try { clips[index] = clip; } catch { }
+            });
+        }
+
+        public static void LogAudioSourceDiagnostics(AudioSource audioSource, string context)
+        {
+            BindAudioConfigDefaults();
+            if (!DebugAudioSwapEnabled() || audioSource == null)
+                return;
+
+            string key = context + "|" + audioSource.GetInstanceID();
+            if (!diagnosticLogKeys.Add(key))
+                return;
+
+            Component virtualFilter = audioSource.GetComponent("VirtualAudioFilter");
+            Logging.Info("[AudioSwap] " + context + " AudioSource: " +
+                         "spatialBlend=" + audioSource.spatialBlend +
+                         ", minDistance=" + audioSource.minDistance +
+                         ", maxDistance=" + audioSource.maxDistance +
+                         ", rolloffMode=" + audioSource.rolloffMode +
+                         ", dopplerLevel=" + audioSource.dopplerLevel +
+                         ", hasVirtualAudioFilter=" + (virtualFilter != null));
+        }
+
+        public static bool TryResolveReplacementPath(string audioFilePath, out string resolvedPath)
+        {
+            resolvedPath = ResolveAudioFilePath(audioFilePath);
+            return !string.IsNullOrEmpty(resolvedPath);
+        }
+
+        private static IEnumerator LoadClipCoroutine(string filePath, AudioClip fallback, int generation)
+        {
+            AudioType type = TryGetAudioType(filePath);
+            if (type == AudioType.UNKNOWN)
+            {
+                Logging.Warn("[AudioSwap] Unsupported audio type: " + filePath);
+                CompletePendingLoad(filePath, null);
                 yield break;
             }
-            
-            string filePath = Directory.GetFiles(
-                Path.GetDirectoryName(audioFilePath), 
-                Path.GetFileName(audioFilePath) + ".*"
-            ).FirstOrDefault();
 
-            AudioType type = TryGetAudioType(filePath);
             string fileUrl = "file://" + filePath;
             Logging.Message("Async swapping: " + fileUrl);
 
@@ -80,12 +232,32 @@ namespace UltrakULL.audio
 #endif
                 {
                     Logging.Warn(req.error + "\n Expected path: " + filePath);
-                    onComplete?.Invoke(sourceClip);
+                    CompletePendingLoad(filePath, null);
                     yield break;
                 }
 
                 var newClip = DownloadHandlerAudioClip.GetContent(req);
-                onComplete?.Invoke(newClip ?? sourceClip);
+                if (generation != cacheGeneration)
+                    yield break;
+
+                if (newClip != null)
+                    clipCache[filePath] = newClip;
+
+                CompletePendingLoad(filePath, newClip);
+            }
+        }
+
+        private static void CompletePendingLoad(string filePath, AudioClip clip)
+        {
+            List<PendingClipLoad> callbacks;
+            if (!pendingLoads.TryGetValue(filePath, out callbacks))
+                return;
+
+            pendingLoads.Remove(filePath);
+            foreach (var pending in callbacks)
+            {
+                try { pending.Callback?.Invoke(clip ?? pending.Fallback); }
+                catch (Exception e) { Logging.Warn("[AudioSwap] Completion callback failed: " + e.Message); }
             }
         }
 
@@ -97,12 +269,23 @@ namespace UltrakULL.audio
             if (isUsingEnglish())
                 return sourceClip;
 
-            string filePath = Directory.GetFiles(
-                Path.GetDirectoryName(audioFilePath), 
-                Path.GetFileName(audioFilePath) + ".*"
-            ).FirstOrDefault();
+            string filePath = ResolveAudioFilePath(audioFilePath);
+            if (string.IsNullOrEmpty(filePath))
+            {
+                WarnMissingOnce(audioFilePath);
+                return sourceClip;
+            }
+
+            AudioClip cachedClip;
+            if (clipCache.TryGetValue(filePath, out cachedClip) && cachedClip != null)
+                return cachedClip;
 
             AudioType type = TryGetAudioType(filePath);
+            if (type == AudioType.UNKNOWN)
+            {
+                Logging.Warn("[AudioSwap] Unsupported audio type: " + filePath);
+                return sourceClip;
+            }
 
             string fileUrl = "file://" + filePath;
             Logging.Message("Swapping (sync fallback): " + fileUrl);
@@ -113,10 +296,7 @@ namespace UltrakULL.audio
                 req = UnityWebRequestMultimedia.GetAudioClip(fileUrl, type);
                 var op = req.SendWebRequest();
                 while (!op.isDone)
-                {
-                    // Blocking fallback; keep sleep very small to reduce CPU impact.
                     System.Threading.Thread.Sleep(1);
-                }
 
 #if UNITY_2020_1_OR_NEWER
                 if (req.result != UnityWebRequest.Result.Success)
@@ -126,13 +306,16 @@ namespace UltrakULL.audio
 #pragma warning restore 0618
 #endif
                 {
-                    Logging.Warn(req.error + "\n Expected path: " + audioFilePath + ".ogg");
+                    Logging.Warn(req.error + "\n Expected path: " + filePath);
                 }
                 else
                 {
                     var newClip = DownloadHandlerAudioClip.GetContent(req);
                     if (newClip != null)
+                    {
+                        clipCache[filePath] = newClip;
                         sourceClip = newClip;
+                    }
                 }
             }
             catch (Exception err)
@@ -151,14 +334,119 @@ namespace UltrakULL.audio
 
         public static AudioType TryGetAudioType(string path)
         {
+            if (string.IsNullOrEmpty(path))
+                return AudioType.UNKNOWN;
+
             var parts = path.Split('.');
             for (int i = 1; i <= parts.Length; i++)
             {
-                var result = GetUnityAudioType(parts[parts.Length - i]);
-                if (result != AudioType.UNKNOWN) 
+                var result = GetUnityAudioType(parts[parts.Length - i].ToLowerInvariant());
+                if (result != AudioType.UNKNOWN)
                     return result;
             }
             return AudioType.UNKNOWN;
+        }
+
+        private static string ResolveAudioFilePath(string audioFilePath)
+        {
+            if (string.IsNullOrEmpty(audioFilePath))
+                return null;
+
+            string cached;
+            if (resolvedFileCache.TryGetValue(audioFilePath, out cached))
+                return cached;
+
+            try
+            {
+                if (File.Exists(audioFilePath))
+                {
+                    string directPath = IsSupportedAudioFile(audioFilePath) ? audioFilePath : null;
+                    resolvedFileCache[audioFilePath] = directPath;
+                    return directPath;
+                }
+
+                string directory = Path.GetDirectoryName(audioFilePath);
+                string fileName = Path.GetFileName(audioFilePath);
+                if (string.IsNullOrEmpty(directory) || string.IsNullOrEmpty(fileName) || !Directory.Exists(directory))
+                {
+                    resolvedFileCache[audioFilePath] = null;
+                    return null;
+                }
+
+                string filePath = Directory.GetFiles(directory, fileName + ".*").FirstOrDefault(IsSupportedAudioFile);
+                if (string.IsNullOrEmpty(filePath))
+                    filePath = ResolveLegacyAlias(audioFilePath);
+
+                resolvedFileCache[audioFilePath] = filePath;
+                return filePath;
+            }
+            catch (Exception e)
+            {
+                Logging.Warn("[AudioSwap] Failed to resolve audio path '" + audioFilePath + "': " + e.Message);
+                resolvedFileCache[audioFilePath] = null;
+                return null;
+            }
+        }
+
+        private static bool IsSupportedAudioFile(string filePath)
+        {
+            return TryGetAudioType(filePath) != AudioType.UNKNOWN;
+        }
+
+        private static void WarnMissingOnce(string audioFilePath)
+        {
+            string language = LanguageManager.CurrentLanguage != null ? LanguageManager.CurrentLanguage.metadata.langName : "";
+            string key = language + "|" + (audioFilePath ?? string.Empty);
+            if (missingPathWarnings.Add(key))
+                Logging.Warn("[AudioSwap] Replacement not found for expected path: " + audioFilePath);
+        }
+
+        private static string ResolveLegacyAlias(string audioFilePath)
+        {
+            string normalized = audioFilePath.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+            foreach (var alias in legacyAudioAliases)
+            {
+                string legacySuffix = alias.Key.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+                if (!normalized.EndsWith(legacySuffix, StringComparison.OrdinalIgnoreCase))
+                    continue;
+
+                string replacementSuffix = alias.Value.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+                string replacementPath = normalized.Substring(0, normalized.Length - legacySuffix.Length) + replacementSuffix;
+                if (File.Exists(replacementPath) && IsSupportedAudioFile(replacementPath))
+                    return replacementPath;
+
+                string directory = Path.GetDirectoryName(replacementPath);
+                string fileName = Path.GetFileName(replacementPath);
+                if (!string.IsNullOrEmpty(directory) && Directory.Exists(directory))
+                    return Directory.GetFiles(directory, fileName + ".*").FirstOrDefault(IsSupportedAudioFile);
+            }
+
+            return null;
+        }
+
+        private static void BindAudioConfigDefaults()
+        {
+            try
+            {
+                LanguageManager.configFile.Bind("General", "debugAudioSwap", "False", (ConfigDescription)null);
+                LanguageManager.configFile.Bind("General", "voiceSpatialOverride", "Original", (ConfigDescription)null);
+                LanguageManager.configFile.Bind("General", "audioPreloadMode", "Scene", (ConfigDescription)null);
+            }
+            catch
+            {
+            }
+        }
+
+        private static bool DebugAudioSwapEnabled()
+        {
+            try
+            {
+                return Convert.ToBoolean(LanguageManager.configFile.Bind("General", "debugAudioSwap", "False", (ConfigDescription)null).Value);
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         private static AudioType GetUnityAudioType(string extension)
@@ -184,6 +472,4 @@ namespace UltrakULL.audio
             }
         }
     }
-
-    
 }

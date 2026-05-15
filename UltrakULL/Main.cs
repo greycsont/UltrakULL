@@ -7,18 +7,19 @@ using System.Threading.Tasks;
 using UltrakULL.json;
 using BepInEx;
 using BepInEx.Configuration;
+using UltrakULL.audio;
 using static UltrakULL.CommonFunctions;
 using System.Reflection;
 
 /*
  *	UltrakULL (Ultrakill Language Library)
  *	Written by Clearwater
- *  	Additional code contributions by Temperz87, Flazhik, BitKoven, CoatlessAli and others
+ *  	Additional code contributions by Temperz87, Flazhik, BitKoven, CoatlessAli, Dice, greycsont, lenarikil and others
  *  	Translations by UltrakULL Translation Team
  *	Date started: 21st April 2021
  *	Last updated: 12th March 2024
  *	
- *	A translation mod for Ultrakill that hooks into the game and allows for text/string replacement. This tool is primarily meant to assist with language translation.
+ *	A translation mod for Ultrakill that hooks into the game and allows for text/string/audio/textures replacement. This tool is primarily meant to assist with language translation.
  * 
  * 
  *  -- LONG-TERM TASK LIST --
@@ -27,15 +28,15 @@ using System.Reflection;
  * Sit down and finish audio documentation
  * Figure out why online language browser breaks sometimes. Seems to happen at random with no singular cause. Quick game restart usually fixes.
  * Clean up logging, redirect or simplify non-breaking warnings & errors.
- * Swap rank textures in HUD for translated ones (there's already a mod that allows this. Will need to either integrate or copy code from it)
  * 
  * 
  * -- STUFF FOR NEXT UPDATE --
- * Nothing yet :)
+ * Dubbing for books? :)
  * 
  * 
  * -- REPORTED STUFF TO INVESTIGATE --
  * Spawning MDK+Owl while noclipped causes a crash. Function that's causing it: MandaloreSubtitlesSwap->Mandalore_Start
+ * Posthumous voice audios for MDK+Owl are abruptly cut off
  * Offending transpiler lines have been commented out for now. Waiting for Flazhik to look at and fix.
  * 14c Update completely messed up MDK/Owl. Yet again. Pain. 
  * r2modman messes up font files with extentions that makes the detection skip them (https://discord.com/channels/1017473804592754778/1017898261660565675/1228095247163068567)
@@ -43,11 +44,9 @@ using System.Reflection;
  *
  * -- TODO --
  * Make 2 materials for the font, one with a shadow and the other without, and only apply the shadow version on level title pop-ups
- * 
+ * Add "AI assisted" tag in Thunderstore description and on the mod page to be safe. Maybe also add a disclaimer about how the mod is still in early stages and may have some issues here and there.
  *
  * -- TESTING REPORTS --
- * "Home or ~" cheat string isn't translated
- * The arm alter menu isn't fully translated and mostly doesn't work outside of the Sandbox
  * '0' has weird spacing with the font
  * 
  * */
@@ -185,6 +184,7 @@ namespace UltrakULL
                     Logging.Error(AprilFoolsMessage());      
                 }
 
+				AudioPreloadManager.Initialize();
 				SceneManager.sceneLoaded += onSceneLoaded;
 				SceneManager.sceneLoaded += SubtitledAudioSourcesReplacer.OnSceneLoaded;
 				this.ready = true;

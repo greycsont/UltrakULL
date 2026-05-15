@@ -21,6 +21,7 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps
             if (LanguageManager.configFile.Bind("General", "activeDubbing", "False").Value == "False" || isUsingEnglish())
                 return;
 
+            AudioSwapper.LogAudioSourceDiagnostics(__instance.GetComponent<AudioSource>(), "BigJohninatorRadio");
             string radioFolder = AudioSwapper.SpeechFolder + "BigJohninator" + Path.DirectorySeparatorChar;
 
             var inst = __instance;
@@ -33,7 +34,7 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps
 
                 string clipPath = radioFolder + clip.name;
                 // Replace if there is a file (async)
-                AudioSwapper.SwapClipWithFileAsync(clip, clipPath, (newClip) => { try { inst.songs[ix] = newClip; } catch { } });
+                AudioSwapper.SwapClipInArrayAsync(inst.songs, ix, clipPath);
             }
         }
     }

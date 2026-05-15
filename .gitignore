@@ -90,7 +90,6 @@ StyleCopReport.xml
 *.tmp
 *.tmp_proj
 *_wpftmp.csproj
-*.log
 *.vspscc
 *.vssscc
 .builds
@@ -383,3 +382,6 @@ Directory.Build.props
 .Decompiled/
 # Nuget local binary
 nuget.exe
+UltrakULL/UltrakULL.csproj.lscache
+.codeassistant/mcp.json
+UltrakULL/.logs/LogOutput.log

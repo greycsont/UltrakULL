@@ -16,102 +16,60 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps
 			{
 				return;
 			}
+			SisyphusPrime instance = __instance;
+			AudioPreloadManager.EnsureCurrentScenePreloaded(delegate { ApplyAudioSwap(instance); });
+		}
+
+		private static void ApplyAudioSwap(SisyphusPrime __instance)
+		{
+			if (__instance == null)
+			{
+				return;
+			}
+
+			AudioSwapper.LogAudioSourceDiagnostics(__instance.GetComponent<AudioSource>(), "SisyphusPrime");
 			string text = AudioSwapper.SpeechFolder + "sisyphusPrime\\";
 			AudioClip[] begoneAttacks = __instance.clapVoice;
 			for (int i = 0; i < begoneAttacks.Length; i++)
 			{
 				int ix = i;
 				string audioFilePath = text + "sisyphusBegone" + (ix + 1);
-				AudioSwapper.SwapClipWithFileAsync(begoneAttacks[ix], audioFilePath, delegate(AudioClip clip)
-				{
-					try
-					{
-						begoneAttacks[ix] = clip;
-					}
-					catch
-					{
-					}
-				});
+				AudioSwapper.SwapClipInArrayAsync(begoneAttacks, ix, audioFilePath);
 			}
 			AudioClip[] thisWillHurtAttack = __instance.explosionVoice;
 			for (int num = 0; num < thisWillHurtAttack.Length; num++)
 			{
 				int ix2 = num;
 				string audioFilePath2 = text + "sisyphusThisWillHurt";
-				AudioSwapper.SwapClipWithFileAsync(thisWillHurtAttack[ix2], audioFilePath2, delegate(AudioClip clip)
-				{
-					try
-					{
-						thisWillHurtAttack[ix2] = clip;
-					}
-					catch
-					{
-					}
-				});
+				AudioSwapper.SwapClipInArrayAsync(thisWillHurtAttack, ix2, audioFilePath2);
 			}
 			AudioClip[] grunt = __instance.hurtVoice;
 			for (int num2 = 0; num2 < grunt.Length; num2++)
 			{
 				int ix3 = num2;
 				string audioFilePath3 = text + "sisyphusGrunt";
-				AudioSwapper.SwapClipWithFileAsync(grunt[ix3], audioFilePath3, delegate(AudioClip clip)
-				{
-					try
-					{
-						grunt[ix3] = clip;
-					}
-					catch
-					{
-					}
-				});
+				AudioSwapper.SwapClipInArrayAsync(grunt, ix3, audioFilePath3);
 			}
 			AudioClip[] stompAttacks = __instance.stompComboVoice;
 			for (int num3 = 0; num3 < stompAttacks.Length; num3++)
 			{
 				int ix4 = num3;
 				string audioFilePath4 = text + "sisyphusYouCantEscape" + (ix4 + 1);
-				AudioSwapper.SwapClipWithFileAsync(stompAttacks[ix4], audioFilePath4, delegate(AudioClip clip)
-				{
-					try
-					{
-						stompAttacks[ix4] = clip;
-					}
-					catch
-					{
-					}
-				});
+				AudioSwapper.SwapClipInArrayAsync(stompAttacks, ix4, audioFilePath4);
 			}
 			AudioClip[] taunts = __instance.tauntVoice;
 			for (int num4 = 0; num4 < taunts.Length; num4++)
 			{
 				int ix5 = num4;
 				string audioFilePath5 = text + "sisyphusNiceTry" + (ix5 + 1);
-				AudioSwapper.SwapClipWithFileAsync(taunts[ix5], audioFilePath5, delegate(AudioClip clip)
-				{
-					try
-					{
-						taunts[ix5] = clip;
-					}
-					catch
-					{
-					}
-				});
+				AudioSwapper.SwapClipInArrayAsync(taunts, ix5, audioFilePath5);
 			}
 			AudioClip[] uppercutAttacks = __instance.uppercutComboVoice;
 			for (int num5 = 0; num5 < uppercutAttacks.Length; num5++)
 			{
 				int ix6 = num5;
 				string audioFilePath6 = text + "sisyphusDestroy" + (ix6 + 1);
-				AudioSwapper.SwapClipWithFileAsync(uppercutAttacks[ix6], audioFilePath6, delegate(AudioClip clip)
-				{
-					try
-					{
-						uppercutAttacks[ix6] = clip;
-					}
-					catch
-					{
-					}
-				});
+				AudioSwapper.SwapClipInArrayAsync(uppercutAttacks, ix6, audioFilePath6);
 			}
 			SisyphusPrime inst = __instance;
 			AudioClip phaseChangeVoice = inst.phaseChangeVoice;

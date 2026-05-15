@@ -1,13 +1,10 @@
-﻿using System;
 using HarmonyLib;
 using UltrakULL.audio;
-using UnityEngine;
-using UnityEngine.SceneManagement;
 using static UltrakULL.CommonFunctions;
 
 namespace UltrakULL.Harmony_Patches.AudioSwaps
 {
-    //Fix for audio being unswapped when respawning. Needs testing.
+    // Rebind scene audio after checkpoint restarts without forcing duplicate disk loads.
     [HarmonyPatch(typeof(NewMovement), "Respawn")]
     public class RespawnAudioFixer
     {
@@ -17,16 +14,7 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps
             if (isUsingEnglish()) return;
 
             await System.Threading.Tasks.Task.Delay(500);
-            SubtitledAudioSourcesReplacer.ReplaceSubsAndAudio();
-
-            // A second attempt after 0.5 seconds, when everything is already activated
-            DelayedSubRecheck();
-        }
-
-        private static async void DelayedSubRecheck()
-        {
-            await System.Threading.Tasks.Task.Delay(500);
-            SubtitledAudioSourcesReplacer.ReplaceSubsAndAudio();
+            AudioPreloadManager.EnsureCurrentScenePreloaded(SubtitledAudioSourcesReplacer.ReplaceSubsAndAudio);
         }
     }
 }

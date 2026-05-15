@@ -22,6 +22,7 @@ namespace UltrakULL.Harmony_Patches
                 string clipName = aud.clip.name;
                 if (clipName != "gab_HologramFiltered")
                     return;
+                AudioSwapper.LogAudioSourceDiagnostics(aud, "GabrielBoat:Flicker");
                 string localizedPath = Path.Combine(AudioSwapper.SpeechFolder, "gabrielBoat", "gabrielBoat");
 
                 AudioSwapper.SwapClipWithFileAsync(aud.clip, localizedPath, newClip =>
@@ -53,6 +54,7 @@ namespace UltrakULL.Harmony_Patches
                 string clipName = aud.clip.name;
                 if (clipName != "gab_HologramFiltered")
                     return;
+                AudioSwapper.LogAudioSourceDiagnostics(aud, "GabrielBoat:RandomPitchStart");
                 string localizedPath = Path.Combine(AudioSwapper.SpeechFolder, "gabrielBoat", "gabrielBoat");
 
                 AudioSwapper.SwapClipWithFileAsync(aud.clip, localizedPath, newClip =>
@@ -84,6 +86,7 @@ namespace UltrakULL.Harmony_Patches
                 string clipName = aud.clip.name;
                 if (clipName != "gab_HologramFiltered")
                     return;
+                AudioSwapper.LogAudioSourceDiagnostics(aud, "GabrielBoat:RandomPitchOnEnable");
                 string localizedPath = Path.Combine(AudioSwapper.SpeechFolder, "gabrielBoat", "gabrielBoat");
 
                 AudioSwapper.SwapClipWithFileAsync(aud.clip, localizedPath, newClip =>

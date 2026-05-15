@@ -472,10 +472,14 @@ namespace UltrakULL.json
                 Core.ReloadCustomFonts();
                 TextMeshProFontSwap.ClearFontSwapCache();
 
-                MainPatch.Instance.onSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
-                DumpLastLanguage();
                 AudioSwapper.SpeechFolder = Path.Combine(Paths.ConfigPath, "ultrakull", "audio", CurrentLanguage.metadata.langName) + Path.DirectorySeparatorChar;
                 SubtitledAudioSourcesReplacer.SpeechFolder = AudioSwapper.SpeechFolder;
+                AudioSwapper.ClearCacheForLanguageChange();
+                AudioPreloadManager.OnLanguageChanged();
+
+                MainPatch.Instance.onSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
+                AudioPreloadManager.PreloadCurrentScene();
+                DumpLastLanguage();
 
                 //Patch some leftover components that aren't caught in the main change wave...
                 InjectLanguageButton.updateLanguageButtonText();

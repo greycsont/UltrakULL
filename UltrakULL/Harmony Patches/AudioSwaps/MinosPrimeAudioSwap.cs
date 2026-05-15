@@ -18,6 +18,16 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps
             {
                 return;
             }
+            MinosPrime instance = __instance;
+            AudioPreloadManager.EnsureCurrentScenePreloaded(delegate { ApplyVoiceSwap(instance); });
+        }
+
+        private static void ApplyVoiceSwap(MinosPrime __instance)
+        {
+            if (__instance == null)
+                return;
+
+            AudioSwapper.LogAudioSourceDiagnostics(__instance.GetComponent<AudioSource>(), "MinosPrime");
             string minosPrimeFolder =  AudioSwapper.SpeechFolder + "minosPrime" + Path.DirectorySeparatorChar;
 
 
@@ -27,7 +37,7 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps
             {
                 int ix = x;
                 string minosPrimeKickString = minosPrimeFolder + "minosPrimeDie" + (ix+1).ToString();
-                AudioSwapper.SwapClipWithFileAsync(minosPrimeKick[ix], minosPrimeKickString, (clip) => { try { minosPrimeKick[ix] = clip; } catch { } });
+                AudioSwapper.SwapClipInArrayAsync(minosPrimeKick, ix, minosPrimeKickString);
             }
             
             //Dropkick (Judgement)
@@ -36,7 +46,7 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps
             {
                 int ix = x;
                 string minosPrimeJudgementString = minosPrimeFolder + "minosPrimeJudgement" + (ix+1).ToString();
-                AudioSwapper.SwapClipWithFileAsync(minosPrimeJudgement[ix], minosPrimeJudgementString, (clip) => { try { minosPrimeJudgement[ix] = clip; } catch { } });
+                AudioSwapper.SwapClipInArrayAsync(minosPrimeJudgement, ix, minosPrimeJudgementString);
             }
             
             //Crush attack (Crush)
@@ -45,7 +55,7 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps
             {
                 int ix = x;
                 string minosPrimeCrushString = minosPrimeFolder + "minosPrimeCrush" + (ix+1).ToString();
-                AudioSwapper.SwapClipWithFileAsync(minosPrimeCrush[ix], minosPrimeCrushString, (clip) => { try { minosPrimeCrush[ix] = clip; } catch { } });
+                AudioSwapper.SwapClipInArrayAsync(minosPrimeCrush, ix, minosPrimeCrushString);
             }
             
             //Punches/Boxing (Thy end is now)
@@ -54,7 +64,7 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps
             {
                 int ix = x;
                 string minosPrimePunchString = minosPrimeFolder + "minosPrimeThyEndIsNow" + (ix+1).ToString();
-                AudioSwapper.SwapClipWithFileAsync(minosPrimePunch[ix], minosPrimePunchString, (clip) => { try { minosPrimePunch[ix] = clip; } catch { } });
+                AudioSwapper.SwapClipInArrayAsync(minosPrimePunch, ix, minosPrimePunchString);
             }
             
             //Combo (prepare thyself)
@@ -63,7 +73,7 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps
             {
                 int ix = x;
                 string minosPrimeComboString = minosPrimeFolder + "minosPrimePrepareThyself" + (ix+1).ToString();
-                AudioSwapper.SwapClipWithFileAsync(minosPrimeCombo[ix], minosPrimeComboString, (clip) => { try { minosPrimeCombo[ix] = clip; } catch { } });
+                AudioSwapper.SwapClipInArrayAsync(minosPrimeCombo, ix, minosPrimeComboString);
             }
             
             
@@ -80,7 +90,7 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps
             {
                 int ix = x;
                 string minosPrimeHurtString = minosPrimeFolder + "minosPrimeHurt" + (ix+1).ToString();
-                AudioSwapper.SwapClipWithFileAsync(minosPrimeHurt[ix], minosPrimeHurtString, (clip) => { try { minosPrimeHurt[ix] = clip; } catch { } });
+                AudioSwapper.SwapClipInArrayAsync(minosPrimeHurt, ix, minosPrimeHurtString);
             }
         }
     }

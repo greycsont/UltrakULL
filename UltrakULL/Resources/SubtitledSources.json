@@ -605,60 +605,108 @@
 		"Level 8-3": [
 			{
 				"objects": [
-				"Pre-Space/Rooms/7 - Heart Chamber/7 Stuff/Wave 1/PowerWithSpawnEffect"
+					"Pre-Space/Rooms/7 - Heart Chamber/7 Stuff/Wave 1/PowerWithSpawnEffect"
 				],
 				"audio": "power\\powerSpecialWave1",
 				"lines": [
-				{
-					"line": "subtitles_power_specialWave1_1",
-					"delay": 0.0
-				},
-				{
-					"line": "subtitles_power_specialWave1_2",
-					"delay": 1.0
-				}
+					{
+						"line": "subtitles_power_specialWave1_1",
+						"delay": 0.0
+					},
+					{
+						"line": "subtitles_power_specialWave1_2",
+						"delay": 1.0
+					}
 				]
 			},
 			{
 				"objects": [
-				"Pre-Space/Rooms/7 - Heart Chamber/7 Stuff/Wave 2/PowerWithSpawnEffect (1)"
+					"Pre-Space/Rooms/7 - Heart Chamber/7 Stuff/Wave 2/PowerWithSpawnEffect (1)"
 				],
 				"audio": "power\\powerSpecialWave2",
 				"lines": [
-				{
-					"line": "subtitles_power_specialWave2_1",
-					"delay": 0.0
-				},
-				{
-					"line": "subtitles_power_specialWave2_2",
-					"delay": 1.35
-				}
+					{
+						"line": "subtitles_power_specialWave2_1",
+						"delay": 0.0
+					},
+					{
+						"line": "subtitles_power_specialWave2_2",
+						"delay": 1.35
+					}
 				]
 			},
 			{
 				"objects": [
-				"Pre-Space/Rooms/9 - Loop Drop/9 Stuff/Wave 2/PowerWithSpawnEffect"
+					"Pre-Space/Rooms/9 - Loop Drop/9 Stuff/Wave 2/PowerWithSpawnEffect"
 				],
 				"audio": "power\\powerSpecialWave3",
 				"lines": [
-				{
-					"line": "subtitles_power_specialWave3",
-					"delay": 0.0
-				}
+					{
+						"line": "subtitles_power_specialWave3",
+						"delay": 0.0
+					}
 				]
 			},
 			{
 				"objects": [
-				"Space/16 - Space Tree/16 Stuff/Wave 3/PowerWithSpawnEffect"
+					"Pre-Space/Rooms/7 - Heart Chamber/7 Stuff/Wave 1/PowerWithSpawnEffect"
+				],
+				"audio": "power\\pow_SpecialIntro1_Short",
+				"lines": [
+					{
+						"line": "subtitles_power_specialWave1_1",
+						"delay": 0.0
+					}
+				]
+			},
+			{
+				"objects": [
+					"Pre-Space/Rooms/7 - Heart Chamber/7 Stuff/Wave 2/PowerWithSpawnEffect (1)"
+				],
+				"audio": "power\\pow_SpecialIntro2_Short",
+				"lines": [
+					{
+						"line": "subtitles_power_specialWave2_1",
+						"delay": 0.0
+					}
+				]
+			},
+			{
+				"objects": [
+					"Pre-Space/Rooms/9 - Loop Drop/9 Stuff/Wave 2/PowerWithSpawnEffect"
+				],
+				"audio": "power\\pow_SpecialIntro3_Short",
+				"lines": [
+					{
+						"line": "subtitles_power_specialWave3",
+						"delay": 0.0
+					}
+				]
+			},
+			{
+				"objects": [
+					"Space/16 - Space Tree/16 Stuff/Wave 3/PowerWithSpawnEffect"
+				],
+				"audio": "power\\pow_SpecialIntro4_Short",
+				"lines": [
+					{
+						"line": "subtitles_power_specialWave4",
+						"delay": 0.0
+					}
+				]
+			},
+			{
+				"objects": [
+					"Space/16 - Space Tree/16 Stuff/Wave 3/PowerWithSpawnEffect"
 				],
 				"audio": "power\\powerSpecialWave4",
 				"lines": [
-				{
-					"line": "subtitles_power_specialWave4",
-					"delay": 0.0
-				}
+					{
+						"line": "subtitles_power_specialWave4",
+						"delay": 0.0
+					}
 				]
 			}
-    ]
+		]
 	}
 }
