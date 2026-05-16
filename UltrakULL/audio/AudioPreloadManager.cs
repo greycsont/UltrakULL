@@ -154,8 +154,7 @@ namespace UltrakULL.audio
                 pendingScenePreloads.Remove(preloadKey);
                 completedScenePreloads.Add(preloadKey);
                 Logging.Info("[AudioPreload] Finished preloading scene '" + sceneName + "'.");
-                if (sceneName.Equals("Level 8-3", StringComparison.OrdinalIgnoreCase))
-                    PowerAudioSwap.RebindCachedInstances();
+                PowerAudioSwap.RebindCachedInstances();
 
                 List<Action> callbacks;
                 if (!pendingSceneCallbacks.TryGetValue(preloadKey, out callbacks))

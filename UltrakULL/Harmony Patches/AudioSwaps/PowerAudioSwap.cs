@@ -48,13 +48,12 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps
             AudioSwapper.LogAudioSourceDiagnostics(__instance.GetComponent<AudioSource>(), "PowerVoiceController");
             // Detailed logging for debugging audio swaps
             Logging.Info($"[PowerAudioSwap] Processing PowerVoiceController instance {__instance.GetInstanceID()} in scene '{GetCurrentSceneName()}'");
-            if (!ShouldUseScenePreload())
-                return;
 
-            if (AudioPreloadManager.IsScenePreloaded(GetCurrentSceneName()))
+            string powerFolder = Path.Combine(AudioSwapper.SpeechFolder, "power");
+            AudioSwapper.PreloadFolderAsync(powerFolder, () =>
+            {
                 RebindPowerClips(__instance);
-            else
-                AudioPreloadManager.EnsureCurrentScenePreloaded();
+            });
         }
 
         public static void RebindCachedInstances()
@@ -178,26 +177,23 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps
     [HarmonyPatch(typeof(PowerIntro), "Activate")]
     public static class PowerIntroSwap
     {
-        // Добавляем Reflection для доступа к приватным полям
         private static readonly BindingFlags fieldFlags = BindingFlags.NonPublic | BindingFlags.Instance;
-
         private static bool wasPerformedIntro = false;
 
         [HarmonyPrefix]
         private static void Prefix(PowerIntro __instance)
         {
+            // early return 전에 먼저 세팅
+            FieldInfo persistentDataField = typeof(PowerIntro).GetField("persistentData", fieldFlags);
+            PowerPersistentData persistentData = (PowerPersistentData)persistentDataField.GetValue(__instance);
+            wasPerformedIntro = persistentData != null && persistentData.PerformedIntro && persistentData.RepeatedIntroOverrideClip;
+
             if (LanguageManager.configFile.Bind<string>("General", "activeDubbing", "False", (ConfigDescription)null).Value == "False" || CommonFunctions.isUsingEnglish())
                 return;
 
-            FieldInfo persistentDataField2 = typeof(PowerIntro).GetField("persistentData", fieldFlags);
-            PowerPersistentData pd = (PowerPersistentData)persistentDataField2.GetValue(__instance);
-            wasPerformedIntro = pd != null && pd.PerformedIntro && pd.RepeatedIntroOverrideClip;
-
-            // Получаем introOverride через рефлексию
             FieldInfo introOverrideField = typeof(PowerIntro).GetField("introOverride", fieldFlags);
             AudioClip introOverride = (AudioClip)introOverrideField.GetValue(__instance);
 
-            // Логируем состояние introOverride
             Logging.Warn("PowerIntro: introOverride = " + (introOverride != null ? introOverride.name : "null"));
 
             if (introOverride == null)
@@ -211,16 +207,12 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps
 
                 AudioSwapper.LogAudioSourceDiagnostics(__instance.GetComponent<AudioSource>(), "PowerIntro (introOverride)");
 
-                // Копируем логику ShouldUseScenePreload() так как метод приватный
                 bool shouldUseScenePreload = false;
                 try
                 {
                     shouldUseScenePreload = LanguageManager.configFile.Bind<string>("General", "audioPreloadMode", "Scene", (ConfigDescription)null).Value == "StartupAll";
                 }
-                catch
-                {
-                    shouldUseScenePreload = false;
-                }
+                catch { shouldUseScenePreload = false; }
 
                 if (shouldUseScenePreload || GetCurrentSceneName() == "Level 8-3")
                 {
@@ -249,31 +241,9 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps
                 }
             }
 
-            // Логируем persistentData и RepeatedIntroClips
-            FieldInfo persistentDataField = typeof(PowerIntro).GetField("persistentData", fieldFlags);
-            PowerPersistentData persistentData = (PowerPersistentData)persistentDataField.GetValue(__instance);
+            Logging.Warn($"PowerIntro: persistentData.PerformedIntro = {persistentData?.PerformedIntro}");
+            Logging.Warn($"PowerIntro: persistentData.RepeatedIntroOverrideClip = {persistentData?.RepeatedIntroOverrideClip}");
 
-            if (persistentData != null)
-            {
-                Logging.Warn($"PowerIntro: persistentData.PerformedIntro = {persistentData.PerformedIntro}");
-                Logging.Warn($"PowerIntro: persistentData.RepeatedIntroOverrideClip = {persistentData.RepeatedIntroOverrideClip}");
-
-                if (persistentData.RepeatedIntroClips != null)
-                {
-                    Logging.Warn($"PowerIntro: RepeatedIntroClips.Length = {persistentData.RepeatedIntroClips.Length}");
-                    for (int i = 0; i < persistentData.RepeatedIntroClips.Length; i++)
-                    {
-                        AudioClip clip = persistentData.RepeatedIntroClips[i];
-                        Logging.Warn($"PowerIntro: RepeatedIntroClips[{i}] = " + (clip != null ? clip.name : "null"));
-                    }
-                }
-            }
-            else
-            {
-                Logging.Warn("PowerIntro: persistentData is null");
-            }
-
-            // Дополнительно обрабатываем RepeatedIntroClips
             if (persistentData != null && persistentData.RepeatedIntroClips != null && persistentData.RepeatedIntroClips.Length > 0)
             {
                 string folder = Path.Combine(AudioSwapper.SpeechFolder, "power");
@@ -292,6 +262,7 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps
                 }
             }
         }
+
         [HarmonyPostfix]
         private static void Postfix(PowerIntro __instance)
         {
