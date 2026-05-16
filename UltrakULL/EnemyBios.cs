@@ -276,7 +276,7 @@ namespace UltrakULL
 			case "STREETCLEANER":
 				return LanguageManager.CurrentLanguage.enemyBios.enemyBios_streetcleaner_1 + "\n\n\n" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_streetcleaner_2;
 			case "V2":
-				return LanguageManager.CurrentLanguage.enemyBios.enemyBios_v2_1 + "\n\n\n" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_v2_2 + "\n\n\n" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_v2_3 + "\n\n\n" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_v2_4 + "\n\n\n" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_v2_5 + "\n\n\n";
+				return LanguageManager.CurrentLanguage.enemyBios.enemyBios_v2_1 + "\n\n\n" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_v2_2 + "\n\n\n" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_v2_3 + "\n\n\n" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_v2_4 + "\n\n\n" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_v2_5;
 			case "MINDFLAYER":
 				return LanguageManager.CurrentLanguage.enemyBios.enemyBios_mindflayer_1 + "\n\n\n" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_mindflayer_2 + "\n\n\n" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_mindflayer_3 + "\n\n\n" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_mindflayer_4 + "\n\n\n" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_mindflayer_5;
 			case "V2 (2ND)":

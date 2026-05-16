@@ -410,11 +410,11 @@ namespace UltrakULL
                     + LanguageManager.CurrentLanguage.shop.shop_loreShotgun2 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreShotgun3 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreShotgun4 + "\n\n"
-                    + LanguageManager.CurrentLanguage.shop.shop_loreShotgun5 + "\n\n"
                     + "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_strategy + "</color>\n"
+                    + LanguageManager.CurrentLanguage.shop.shop_loreShotgun5 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreShotgun6 + "\n\n"
-                    + LanguageManager.CurrentLanguage.shop.shop_loreShotgun7 + "\n\n"
                     + "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_advancedStrategy + "</color>\n"
+                    + LanguageManager.CurrentLanguage.shop.shop_loreShotgun7 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreShotgun8 + "\n\n"
                     + LanguageManager.CurrentLanguage.shop.shop_loreShotgun9;
 

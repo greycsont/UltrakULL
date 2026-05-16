@@ -18,7 +18,11 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps
                 return;
 
             Gabriel instance = __instance;
-            AudioPreloadManager.EnsureCurrentScenePreloaded(delegate { ApplyVoiceSwap(instance); });
+            AudioPreloadManager.EnsureCurrentScenePreloaded(delegate
+            {
+                ApplyVoiceSwap(instance);
+                ApplyOutroSwap(instance);
+            });
         }
 
         private static void ApplyVoiceSwap(Gabriel __instance)
@@ -104,6 +108,49 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps
                 int ix = x;
                 string gabrielHurtString = gabeFirstFolder + "gabrielHurt" + (ix+1).ToString();
                 AudioSwapper.SwapClipInArrayAsync(gabeHurt, ix, gabrielHurtString);
+            }
+        }
+        private static void ApplyOutroSwap(Gabriel __instance)
+        {
+            if (__instance == null)
+                return;
+
+            string folder = AudioSwapper.SpeechFolder + "gabrielBossFirst" + Path.DirectorySeparatorChar;
+
+            GabrielOutro outro = UnityEngine.Object.FindObjectOfType<GabrielOutro>(true);
+
+            if (outro == null)
+                return;
+
+            AudioSource[] sources = outro.GetComponentsInChildren<AudioSource>(true);
+
+            foreach (AudioSource source in sources)
+            {
+                if (source == null || source.clip == null)
+                    continue;
+
+                if (source.clip.name != "gab_BigHurt1")
+                    continue;
+
+                string path = folder + "gabrielBigHurt1";
+
+                AudioSwapper.SwapClipWithFileAsync(source.clip, path, (clip) =>
+                {
+                    if (clip == null)
+                        return;
+
+                    try
+                    {
+                        if (source != null)
+                        {
+                            source.clip = clip;
+                        }
+                    }
+                    catch (System.Exception e)
+                    {
+                        Debug.LogException(e);
+                    }
+                });
             }
         }
     }

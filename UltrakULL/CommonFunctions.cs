@@ -29,10 +29,16 @@ namespace UltrakULL
 			{ "leftshift", LanguageManager.CurrentLanguage.inputStrings.input_leftShift },
 			{ "rightshift", LanguageManager.CurrentLanguage.inputStrings.input_rightShift },
 			{ "leftcontrol", LanguageManager.CurrentLanguage.inputStrings.input_leftControl },
+			{ "leftctrl", LanguageManager.CurrentLanguage.inputStrings.input_leftCtrl },
 			{ "rightcontrol", LanguageManager.CurrentLanguage.inputStrings.input_rightControl },
+			{ "rightctrl", LanguageManager.CurrentLanguage.inputStrings.input_rightCtrl },
 			{ "leftalt", LanguageManager.CurrentLanguage.inputStrings.input_leftAlt },
 			{ "rightalt", LanguageManager.CurrentLanguage.inputStrings.input_rightAlt },
-			{ "lmb", LanguageManager.CurrentLanguage.inputStrings.input_LMB },
+            { "leftmeta", LanguageManager.CurrentLanguage.inputStrings.input_leftMeta },
+            { "rightmeta", LanguageManager.CurrentLanguage.inputStrings.input_rightMeta },
+            { "leftbracket", LanguageManager.CurrentLanguage.inputStrings.input_leftBracket },
+            { "rightbracket", LanguageManager.CurrentLanguage.inputStrings.input_rightBracket },
+            { "lmb", LanguageManager.CurrentLanguage.inputStrings.input_LMB },
 			{ "rmb", LanguageManager.CurrentLanguage.inputStrings.input_RMB },
 			{ "mmb", LanguageManager.CurrentLanguage.inputStrings.input_MMB },
 			{ "uparrow", LanguageManager.CurrentLanguage.inputStrings.input_arrowUp },
@@ -50,6 +56,16 @@ namespace UltrakULL
             { "minus", LanguageManager.CurrentLanguage.inputStrings.input_minus },
             { "numlock", LanguageManager.CurrentLanguage.inputStrings.input_numLock },
             { "delete", LanguageManager.CurrentLanguage.inputStrings.input_delete },
+            { "period", LanguageManager.CurrentLanguage.inputStrings.input_period },
+            { "semicolon", LanguageManager.CurrentLanguage.inputStrings.input_semicolon },
+            { "quote", LanguageManager.CurrentLanguage.inputStrings.input_quote },
+            { "insert", LanguageManager.CurrentLanguage.inputStrings.input_insert },
+            { "pageup", LanguageManager.CurrentLanguage.inputStrings.input_pageUp },
+            { "pagedown", LanguageManager.CurrentLanguage.inputStrings.input_pageDown },
+            { "start", LanguageManager.CurrentLanguage.inputStrings.input_start },
+            { "end", LanguageManager.CurrentLanguage.inputStrings.input_end },
+            { "scrolllock", LanguageManager.CurrentLanguage.inputStrings.input_scrollLock },
+            { "pause", LanguageManager.CurrentLanguage.inputStrings.input_pause },
             { "nobinding", LanguageManager.CurrentLanguage.inputStrings.input_noBinding },
         };
 
@@ -62,6 +78,19 @@ namespace UltrakULL
                 return input;
 
             string key = input.Replace(" ", "").ToLowerInvariant();
+
+            if (key == "numpadperiod")
+                return LanguageManager.CurrentLanguage.inputStrings.input_numpadPeriod;
+            if (key == "numpaddivide")
+                return LanguageManager.CurrentLanguage.inputStrings.input_numpadDivide;
+            if (key == "numpadmultiply")
+                return LanguageManager.CurrentLanguage.inputStrings.input_numpadMultiply;
+            if (key == "numpadminus")
+                return LanguageManager.CurrentLanguage.inputStrings.input_numpadMinus;
+            if (key == "numpadenter")
+                return LanguageManager.CurrentLanguage.inputStrings.input_numpadEnter;
+            if (key == "numpadplus")
+                return LanguageManager.CurrentLanguage.inputStrings.input_numpadPlus;
 
             if (key.StartsWith("numpad"))
                 return LanguageManager.CurrentLanguage.inputStrings.input_numpad + key.Substring(6);

@@ -3539,9 +3539,15 @@ namespace UltrakULL.json
         public string input_leftShift = "Left Shift";
         public string input_rightShift = "Right Shift";
         public string input_leftControl = "Left Control";
+        public string input_leftCtrl = "Left Ctrl";
         public string input_rightControl = "Right Control";
+        public string input_rightCtrl = "Right Ctrl";
         public string input_leftAlt = "Left ALT";
         public string input_rightAlt = "Right ALT";
+        public string input_leftBracket = "Left Bracket";
+        public string input_rightBracket = "Right Bracket";
+        public string input_leftMeta = "Left Meta";
+        public string input_rightMeta = "Right Meta";
         public string input_LMB = "LMB";
         public string input_RMB = "RMB";
         public string input_MMB = "MMB";
@@ -3552,6 +3558,12 @@ namespace UltrakULL.json
         public string input_arrowLeft = "Arrow Left";
         public string input_arrowRight = "Arrow Right";
         public string input_numpad = "Numpad";
+        public string input_numpadPeriod = "NumpadPeriod";
+        public string input_numpadDivide = "NumpadDivide";
+        public string input_numpadMultiply = "NumpadMultiply";
+        public string input_numpadMinus = "NumpadMinus";
+        public string input_numpadEnter = "NumpadEnter";
+        public string input_numpadPlus = "NumpadPlus";
         public string input_numLock = "NumLock";
         public string input_comma = "Comma";
         public string input_capsLock = "CapsLock";
@@ -3561,6 +3573,16 @@ namespace UltrakULL.json
         public string input_equals = "Equals";
         public string input_minus = "Minus";
         public string input_delete = "Delete";
+        public string input_period = "Period";
+        public string input_semicolon = "Semicolon";
+        public string input_quote = "Quote";
+        public string input_insert = "Insert";
+        public string input_pageUp = "PageUp";
+        public string input_pageDown = "PageDown";
+        public string input_start = "Start";
+        public string input_end = "End";
+        public string input_scrollLock = "Scroll Lock";
+        public string input_pause = "Pause";
         public string input_noBinding = "NO BINDING";
     }
     public class SandboxStrings

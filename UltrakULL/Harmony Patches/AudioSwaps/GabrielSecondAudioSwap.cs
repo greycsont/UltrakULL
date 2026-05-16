@@ -20,7 +20,11 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps
                 return;
             }
             GabrielSecond instance = __instance;
-            AudioPreloadManager.EnsureCurrentScenePreloaded(delegate { ApplyVoiceSwap(instance); });
+            AudioPreloadManager.EnsureCurrentScenePreloaded(delegate
+            {
+                ApplyVoiceSwap(instance);
+                ApplyOutroSwap(instance);
+            });
         }
 
         private static void ApplyVoiceSwap(GabrielSecond __instance)
@@ -100,6 +104,51 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps
                 int ix = i;
                 string gabeSecondTauntsSecondPhaseString = gabeSecondFolder + tauntLinesSecondPhase[ix];
                 AudioSwapper.SwapClipInArrayAsync(gabeSecondTauntsSecondPhase, ix, gabeSecondTauntsSecondPhaseString);
+            }
+        }
+        private static void ApplyOutroSwap(GabrielSecond __instance)
+        {
+            if (__instance == null)
+                return;
+
+            string folder = AudioSwapper.SpeechFolder + "gabrielBossSecond" + Path.DirectorySeparatorChar;
+
+            GabrielOutro outro = UnityEngine.Object.FindObjectOfType<GabrielOutro>(true);
+
+            if (outro == null)
+                return;
+
+            AudioSource[] sources = outro.GetComponentsInChildren<AudioSource>(true);
+
+            foreach (AudioSource source in sources)
+            {
+                if (source == null || source.clip == null)
+                    continue;
+
+                if (source.clip.name != "gab_BigHurt1")
+                    continue;
+
+                string path = folder + "gabrielSecondBigHurt1";
+
+                AudioSwapper.SwapClipWithFileAsync(source.clip, path, (clip) =>
+                {
+                    if (clip == null)
+                    {
+                        return;
+                    }
+
+                    try
+                    {
+                        if (source != null)
+                        {
+                            source.clip = clip;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogException(e);
+                    }
+                });
             }
         }
     }
