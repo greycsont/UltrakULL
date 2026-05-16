@@ -1,13 +1,15 @@
-using System.IO;
-using System.Collections.Generic;
-using System.Reflection;
 using BepInEx.Configuration;
 using HarmonyLib;
+using ScriptableObjects;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using UltrakULL.audio;
 using UltrakULL.json;
 using UnityEngine;
-using ScriptableObjects;
 using static UltrakULL.CommonFunctions;
+using static UltrakULL.ReflectionUtils;
 
 namespace UltrakULL.Harmony_Patches.AudioSwaps
 {
@@ -179,11 +181,17 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps
         // Добавляем Reflection для доступа к приватным полям
         private static readonly BindingFlags fieldFlags = BindingFlags.NonPublic | BindingFlags.Instance;
 
+        private static bool wasPerformedIntro = false;
+
         [HarmonyPrefix]
         private static void Prefix(PowerIntro __instance)
         {
             if (LanguageManager.configFile.Bind<string>("General", "activeDubbing", "False", (ConfigDescription)null).Value == "False" || CommonFunctions.isUsingEnglish())
                 return;
+
+            FieldInfo persistentDataField2 = typeof(PowerIntro).GetField("persistentData", fieldFlags);
+            PowerPersistentData pd = (PowerPersistentData)persistentDataField2.GetValue(__instance);
+            wasPerformedIntro = pd != null && pd.PerformedIntro && pd.RepeatedIntroOverrideClip;
 
             // Получаем introOverride через рефлексию
             FieldInfo introOverrideField = typeof(PowerIntro).GetField("introOverride", fieldFlags);
@@ -283,6 +291,27 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps
                     });
                 }
             }
+        }
+        [HarmonyPostfix]
+        private static void Postfix(PowerIntro __instance)
+        {
+            if (CommonFunctions.isUsingEnglish()) return;
+            if (!wasPerformedIntro) return;
+
+            SubtitledAudioSource subtitledSource = __instance.GetComponent<SubtitledAudioSource>();
+            if (subtitledSource == null) return;
+
+            var currentData = (SubtitledAudioSource.SubtitleData)typeof(SubtitledAudioSource)
+                .GetField("subtitles", fieldFlags)
+                .GetValue(subtitledSource);
+
+            if (currentData?.lines == null || currentData.lines.Length == 0) return;
+
+            SetPrivate(subtitledSource, typeof(SubtitledAudioSource), "subtitles",
+                new SubtitledAudioSource.SubtitleData
+                {
+                    lines = new[] { currentData.lines[0] }
+                });
         }
     }
 }
