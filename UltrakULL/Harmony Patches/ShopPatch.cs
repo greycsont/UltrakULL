@@ -65,16 +65,7 @@ namespace UltrakULL.Harmony_Patches
                 GameObject shopObject = ___shopCanvas.gameObject;
 
                 //Redirect for the 5-3 end shop.
-                if (GetCurrentSceneName() == "Level 5-3" && origTip.text == "Ow.")
-                {
-                    origTip.text = LanguageManager.CurrentLanguage.levelTips.leveltips_wrathThirdBroken;
-                    TextMeshProUGUI tipTitle = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(___shopCanvas.gameObject, "Background"), "Main Panel"), "Tip of the Day"), "Title"));
-                    tipTitle.text = LanguageManager.CurrentLanguage.shop.shop_tipofthedayTitle;
-                }
-                else
-                {
-                    Shop.PatchShopRefactor(ref shopObject);
-                }
+                Shop.PatchShopRefactor(ref shopObject);
             }
         }
 

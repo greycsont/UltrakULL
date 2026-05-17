@@ -296,11 +296,22 @@ namespace UltrakULL
 			{
 				return EnsureTranslation(LanguageManager.CurrentLanguage.levelTips.leveltips_wrathSecond, tipDescriptionText);
 			}
-			if (currentSceneName.Contains("5-3"))
-			{
-				return EnsureTranslation(LanguageManager.CurrentLanguage.levelTips.leveltips_wrathThird, tipDescriptionText);
-			}
-			if (currentSceneName.Contains("5-4"))
+            if (currentSceneName.Contains("5-3"))
+            {
+                string trimmedTip = tipDescriptionText.Trim();
+                string brokenTip = LanguageManager.CurrentLanguage.levelTips.leveltips_wrathThirdBroken;
+
+                if (trimmedTip == "Ow." || trimmedTip == brokenTip)
+                {
+                    return EnsureTranslation(brokenTip, tipDescriptionText);
+                }
+
+                return EnsureTranslation(
+                    LanguageManager.CurrentLanguage.levelTips.leveltips_wrathThird,
+                    tipDescriptionText
+                );
+            }
+            if (currentSceneName.Contains("5-4"))
 			{
 				return EnsureTranslation(LanguageManager.CurrentLanguage.levelTips.leveltips_wrathFourth1, LanguageManager.CurrentLanguage.levelTips.leveltips_wrathFourth2, "\n", tipDescriptionText);
 			}
