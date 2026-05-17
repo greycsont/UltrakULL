@@ -958,6 +958,9 @@ namespace UltrakULL
                 TextMeshProUGUI feedbackerWindowTitle = GetTextMeshProUGUI(GetGameObjectChild(feedbackerWindow.transform.parent.gameObject, "Title"));
                 feedbackerWindowTitle.text = LanguageManager.CurrentLanguage.shop.shop_armFeedbacker;
                 TextMeshProUGUI feedbackerWindowName = GetTextMeshProUGUI(GetGameObjectChild(feedbackerWindow, "Name"));
+                feedbackerWindowName.enableAutoSizing = true;
+                feedbackerWindowName.fontSizeMax = feedbackerWindowName.fontSize;
+                feedbackerWindowName.fontSizeMin = 0f;
                 feedbackerWindowName.text = LanguageManager.CurrentLanguage.shop.shop_armFeedbacker;
 
                 TextMeshProUGUI feedbackerWindowDescription = GetTextMeshProUGUI(GetGameObjectChild(feedbackerWindow, "Description"));
@@ -975,6 +978,9 @@ namespace UltrakULL
                 TextMeshProUGUI knuckleblasterWindowTitle = GetTextMeshProUGUI(GetGameObjectChild(knuckleblasterWindow.transform.parent.gameObject, "Title"));
                 knuckleblasterWindowTitle.text = LanguageManager.CurrentLanguage.shop.shop_armKnuckleblaster;
                 TextMeshProUGUI knuckleblasterWindowName = GetTextMeshProUGUI(GetGameObjectChild(knuckleblasterWindow, "Name"));
+                knuckleblasterWindowName.enableAutoSizing = true;
+                knuckleblasterWindowName.fontSizeMax = knuckleblasterWindowName.fontSize;
+                knuckleblasterWindowName.fontSizeMin = 0f;
                 knuckleblasterWindowName.text = LanguageManager.CurrentLanguage.shop.shop_armKnuckleblaster;
 
                 TextMeshProUGUI knuckleblasterWindowDescription = GetTextMeshProUGUI(GetGameObjectChild(knuckleblasterWindow, "Description"));
@@ -992,6 +998,9 @@ namespace UltrakULL
                 TextMeshProUGUI whiplashWindowTitle = GetTextMeshProUGUI(GetGameObjectChild(whiplashWindow.transform.parent.gameObject, "Title"));
                 whiplashWindowTitle.text = LanguageManager.CurrentLanguage.shop.shop_armWhiplash;
                 TextMeshProUGUI whiplashWindowName = GetTextMeshProUGUI(GetGameObjectChild(whiplashWindow, "Name"));
+                whiplashWindowName.enableAutoSizing = true;
+                whiplashWindowName.fontSizeMax = whiplashWindowName.fontSize;
+                whiplashWindowName.fontSizeMin = 0f;
                 whiplashWindowName.text = LanguageManager.CurrentLanguage.shop.shop_armWhiplash;
 
                 TextMeshProUGUI whiplashWindowDescription = GetTextMeshProUGUI(GetGameObjectChild(whiplashWindow, "Description"));
@@ -1011,6 +1020,9 @@ namespace UltrakULL
                 TextMeshProUGUI goldArmWindowTitle = GetTextMeshProUGUI(GetGameObjectChild(goldArmWindow.transform.parent.gameObject, "Title"));
                 goldArmWindowTitle.text = LanguageManager.CurrentLanguage.shop.shop_armGold;
                 TextMeshProUGUI goldArmWindowName = GetTextMeshProUGUI(GetGameObjectChild(goldArmWindow, "Name"));
+                goldArmWindowName.enableAutoSizing = true;
+                goldArmWindowName.fontSizeMax = goldArmWindowName.fontSize;
+                goldArmWindowName.fontSizeMin = 0f;
                 goldArmWindowName.text = LanguageManager.CurrentLanguage.shop.shop_armGold;
 
                 TextMeshProUGUI goldArmWindowDescription = GetTextMeshProUGUI(GetGameObjectChild(goldArmWindow, "Description"));
