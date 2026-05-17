@@ -29,9 +29,9 @@ namespace UltrakULL.json
         public static bool UsingHinduNumbers { get => CurrentLanguage.metadata.langHinduNumbers; }
         #endregion
 
-        public static void InitializeManager(string modVersion)
+        public static void InitializeManager()
         {
-            LoadLanguages(modVersion);
+            LoadLanguages();
 
             configFile = new ConfigFile(Path.Combine(Paths.ConfigPath, "ultrakull", "lastLang.cfg"), true);
 
@@ -41,7 +41,7 @@ namespace UltrakULL.json
             if (allLanguages.ContainsKey(value))
             {
                 jsonLogger.Log(LogLevel.Message, "Setting language to " + value);
-                CurrentLanguage = allLanguages[value];
+                CurrentLanguage = CloneLanguage(allLanguages[value]);
                 if (IsRightToLeft)
                 {
                     Logging.Message("Language is set as RTL - applying fix!");
@@ -65,7 +65,7 @@ namespace UltrakULL.json
             configFile.Bind("General", "LastLanguage", "en-GB").Value = CurrentLanguage.metadata.langName; // Thank you copilot
         }
 
-        public static void LoadLanguagesInDirectory(string modVersion, string path)
+        public static void LoadLanguagesInDirectory(string path)
         {
             Logging.Info($"Loading all language files in \"{path}\"");
 
@@ -79,25 +79,23 @@ namespace UltrakULL.json
                 {
                     allLanguages.Add(lang.metadata.langName, lang);
                     allLanguagesDisplayNames.Add(lang.metadata.langDisplayName, lang);
-                    if (!ValidateFile(lang, modVersion))
-                        jsonLogger.Log(LogLevel.Debug, "Failed to validate " + lang.metadata.langName);
                 }
             }
 
         }
 
-        public static void LoadLanguages(string modVersion)
+        public static void LoadLanguages()
         {
             Logging.Message("Loading language files stored locally on disk...");
 
             allLanguages = new Dictionary<string, JsonFormat>();
 
-            LoadLanguagesInDirectory(modVersion, Path.Combine(Paths.ConfigPath, "ultrakull"));
+            LoadLanguagesInDirectory(Path.Combine(Paths.ConfigPath, "ultrakull"));
         }
 
         private static void LoadSubtitledSourcesConfig()
         {
-            var config = Encoding.Default.GetString(Resources.SubtitledSources);
+            var config = Encoding.UTF8.GetString(Resources.SubtitledSources);
             SubtitledAudioSourcesReplacer.Config = JsonConvert.DeserializeObject<SubtitledSourcesConfig>(config);
         }
 
@@ -239,64 +237,10 @@ namespace UltrakULL.json
 
 
 
-        private static bool ValidateFile(JsonFormat language, string modVersion)
+        private static JsonFormat CloneLanguage(JsonFormat original)
         {
-            try
-            {
-                //Following conditions to validate a file:
-                //Must be JSON-deserializable
-                //Must have a metadata attribute and a body attribute
-                //Version logged in the JSON file must match or be newer than the current mod version
-                //Will need to implement further sanity checks.
-                //Logging.Message("Checking version...");
-
-                if (!FileMatchesMinimumRequiredVersion(language.metadata.minimumModVersion, modVersion))
-                {
-                    Logging.Warn(language.metadata.langName + " was made for an older game version.");
-                    return false;
-                }
-
-                Logging.Message("Checking contents...");
-                if (language.metadata != null && language.body != null)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch (Exception e)
-            {
-                Logging.Error("An error occured while validating. It's possible the language file is not correctly formatted in .json.\n"
-                    + "Please use https://jsonlint.com/ to make sure your .json file is correctly formatted!");
-                Logging.Error(e.ToString());
-                return false;
-            }
-        }
-
-        public static bool FileMatchesMinimumRequiredVersion(string requiredModVersion, string actualModVersion)
-        {
-            if (requiredModVersion == "")
-            {
-                Logging.Error("Language file has not defined the minimum mod version required!");
-                return false;
-            }
-
-            Version jsonVersion = new Version(requiredModVersion);
-            Version ultrakullVersion = new Version(actualModVersion);
-            int isCompatible = jsonVersion.CompareTo(ultrakullVersion);
-
-            //JSON version is greater or matches mod version
-            if (jsonVersion == ultrakullVersion || isCompatible > 0)
-            {
-                return true;
-            }
-            //JSON version is lower than mod version
-            else
-            {
-                return false;
-            }
+            string json = JsonConvert.SerializeObject(original);
+            return JsonConvert.DeserializeObject<JsonFormat>(json);
         }
 
         private static JsonFormat ApplyRtl(JsonFormat language)
@@ -459,9 +403,9 @@ namespace UltrakULL.json
             }
             if (allLanguages.ContainsKey(langName))
             {
-                CurrentLanguage = allLanguages[langName];
                 Logging.Message("Setting language to " + langName);
 
+                CurrentLanguage = CloneLanguage(allLanguages[langName]);
                 if (IsRightToLeft)
                 {
                     Logging.Message("Language is an RTL - applying fix!");

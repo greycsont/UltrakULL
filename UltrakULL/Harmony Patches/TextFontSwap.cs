@@ -17,6 +17,11 @@ namespace UltrakULL.Harmony_Patches
 		{
 			private static List<IntPtr> objectsFixed = new List<IntPtr>();
 
+			public static void ClearCache()
+			{
+				objectsFixed.Clear();
+			}
+
 			[HarmonyPostfix]
 			public static void SwapFont(ref Text __instance, IntPtr ___m_CachedPtr)
 			{

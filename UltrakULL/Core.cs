@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using TMPro;
 using UnityEngine.TextCore;
 using UnityEngine.TextCore.LowLevel;
+using UltrakULL.Harmony_Patches;
 using UltrakULL.json;
 using static UltrakULL.CommonFunctions;
 using System.Linq;
@@ -24,8 +25,8 @@ namespace UltrakULL
         public static Font VcrFont;
         public static GameObject ultrakullLogo = null;
 
-        public static bool updateAvailable;
-        public static bool updateFailed;
+        public static volatile bool updateAvailable;
+        public static volatile bool updateFailed;
         
         public static bool GlobalFontReady;
         public static bool TMPFontReady;
@@ -676,6 +677,9 @@ namespace UltrakULL
             }
             else
             {
+                TextMeshProFontSwap.ClearFontSwapCache();
+                TextFontSwap.TextFontSwapper.ClearCache();
+
                 switch (levelName)
                 {
                     case "Intro": { break; }
@@ -779,11 +783,7 @@ namespace UltrakULL
                             }
 
 
-                            if (!LanguageManager.FileMatchesMinimumRequiredVersion(LanguageManager.CurrentLanguage.metadata.minimumModVersion, MainPatch.GetVersion()) && !isUsingEnglish())
-                            {
-                                panelText.text += "\n<color=orange>This language file\nwas created for\nan older version of\nUltrakULL.\nPlease check for\nan update to this file!</color>";
-                            }
-                            else if (!updateAvailable && updateFailed)
+                            if (!updateAvailable && updateFailed)
                             {
                                 panelText.text += "\n<color=red>Unable to check for updates.\nCheck console for info.</color>";
                             }

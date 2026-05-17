@@ -424,8 +424,13 @@ namespace UltrakULL.audio
             return null;
         }
 
+        private static bool configBound = false;
+
         private static void BindAudioConfigDefaults()
         {
+            if (configBound) return;
+            configBound = true;
+
             try
             {
                 LanguageManager.configFile.Bind("General", "debugAudioSwap", "False", (ConfigDescription)null);

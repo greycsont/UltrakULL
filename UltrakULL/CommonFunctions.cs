@@ -19,6 +19,10 @@ namespace UltrakULL
 {
 	public static class CommonFunctions
 	{
+    private static readonly Dictionary<string, GameObject> rootObjectCache = new Dictionary<string, GameObject>();
+    private static float lastCacheTime = 0f;
+    private static readonly Dictionary<(GameObject, string), GameObject> childCache = new Dictionary<(GameObject, string), GameObject>();
+    private static float lastChildCacheTime = 0f;
 
     private static readonly Dictionary<string, string> LocalizedInputs = new Dictionary<string, string>()
 		{
@@ -131,12 +135,8 @@ namespace UltrakULL
 
 		public static GameObject GetInactiveRootObject(string objectName)
 		{
-            // Caching search results to improve performance
-            Dictionary<string, GameObject> rootObjectCache = new Dictionary<string, GameObject>();
-			float lastCacheTime = 0f;
-			const float CACHE_DURATION = 1f; // Кэш действителен 1 секунду
+            const float CACHE_DURATION = 1f;
 
-            // The cache is valid for 1 second
             if (Time.time - lastCacheTime < CACHE_DURATION && rootObjectCache.TryGetValue(objectName, out GameObject cached))
 			{
 				if (cached != null)
@@ -145,7 +145,6 @@ namespace UltrakULL
 					rootObjectCache.Remove(objectName);
 			}
 
-            // If the cache is outdated, clear it
             if (Time.time - lastCacheTime >= CACHE_DURATION)
 			{
 				rootObjectCache.Clear();
@@ -305,14 +304,9 @@ namespace UltrakULL
         {
             if (parent == null) return null;
 
-            // Caching search results to improve performance
-            Dictionary<(GameObject, string), GameObject> childCache = new Dictionary<(GameObject, string), GameObject>();
-            float lastChildCacheTime = 0f;
-            const float CHILD_CACHE_DURATION = 0.5f; // Cache is valid for 0.5 seconds
-
+            const float CHILD_CACHE_DURATION = 0.5f;
             var cacheKey = (parent, childName);
 
-            // Checking the cache
             if (Time.time - lastChildCacheTime < CHILD_CACHE_DURATION && childCache.TryGetValue(cacheKey, out GameObject cached))
             {
                 if (cached != null)
@@ -321,7 +315,6 @@ namespace UltrakULL
                     childCache.Remove(cacheKey);
             }
 
-            // If the cache is outdated, clear it
             if (Time.time - lastChildCacheTime >= CHILD_CACHE_DURATION)
             {
                 childCache.Clear();

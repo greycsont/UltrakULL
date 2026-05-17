@@ -91,6 +91,7 @@ private static void ConvertTextToTMP(Text source)
 
     CopyRectTransform(source.rectTransform, tmp.rectTransform);
     CopyTextProperties(source, tmp);
+    SyncEffects(source, tmp);
 
     if (Core.TMPFontReady)
     {
@@ -110,22 +111,25 @@ private static void ConvertTextToTMP(Text source)
             }
         }
         
-        // Logging.Message($"{objectPath} converted to TMP. OriginalFontName in Text = '{originalFontName}', isMuseumFont={isMuseumFont}, scene='{GetCurrentSceneName()}'");
+        bool isInterChild = IsIntermissionShadowChild(source);
+        Logging.Message($"[TMPCONV] Convert: {objectPath}, origFont='{originalFontName}', scene='{GetCurrentSceneName()}', isInterChild={isInterChild}");
         
         TextMeshProFontSwap.SwapTMPFont(
             ref tmp,
             isConvertedFromText: true,
             originalFontName: originalFontName
         );
-    }
-
-    if (IsIntermissionShadowChild(source))
-    {
-        ApplyIntermissionHardShadow(tmp);
+        
+        if (isInterChild)
+        {
+            Logging.Message($"[TMPCONV]   -> is IntermissionShadowChild, adding Shadow component");
+            AddIntermissionShadow(tmp);
+        }
     }
 
     source.canvasRenderer.SetAlpha(0f);
     SetTMPActiveState(source, source.isActiveAndEnabled);
+    Logging.Message($"[TMPCONV] Done: {source.gameObject.name}");
 }
 
 private static void UpdateTMPText(Text source)
@@ -318,21 +322,6 @@ private static string GetFullPath(Transform transform)
     return string.Join("/", pathParts);
 }
 
-private static void ApplyIntermissionHardShadow(TextMeshProUGUI target)
-{
-    if (target == null)
-    {
-        return;
-    }
-
-    Material shadowMaterial = new Material(target.fontSharedMaterial);
-    shadowMaterial.SetVector("_UnderlayColor", new Vector4(0f, 0f, 0f, 0.75f));
-    shadowMaterial.SetVector("_UnderlayOffset", new Vector4(1.5f, -1.5f, 0f, 0f));
-    shadowMaterial.SetFloat("_UnderlaySoftness", 0f);
-    shadowMaterial.SetFloat("_UnderlayDilate", 0f);
-    target.fontSharedMaterial = shadowMaterial;
-}
-
 private static TextMeshProUGUI CreateTMPSibling(Text source)
 {
 if (source == null)
@@ -395,7 +384,75 @@ if (source.resizeTextForBestFit)
 target.fontSizeMin = source.resizeTextMinSize;
 target.fontSizeMax = source.resizeTextMaxSize;
 }
-target.fontStyle = ConvertFontStyle(source.fontStyle);
+	target.fontStyle = ConvertFontStyle(source.fontStyle);
+}
+
+private static void SyncEffects(Text source, TextMeshProUGUI target)
+{
+	if (source == null || target == null)
+	{
+		return;
+	}
+
+	Shadow sourceShadow = source.GetComponent<Shadow>();
+	Shadow targetShadow = target.GetComponent<Shadow>();
+	if (sourceShadow != null)
+	{
+		if (targetShadow == null || targetShadow.GetType() != typeof(Shadow))
+		{
+			if (targetShadow != null)
+			{
+				UnityEngine.Object.Destroy(targetShadow);
+			}
+			targetShadow = target.gameObject.AddComponent<Shadow>();
+		}
+
+		CopyShadowSettings(sourceShadow, targetShadow);
+	}
+	else if (targetShadow != null && targetShadow.GetType() == typeof(Shadow))
+	{
+		UnityEngine.Object.Destroy(targetShadow);
+	}
+
+	Outline sourceOutline = source.GetComponent<Outline>();
+	Outline targetOutline = target.GetComponent<Outline>();
+	if (sourceOutline != null)
+	{
+		if (targetOutline == null)
+		{
+			targetOutline = target.gameObject.AddComponent<Outline>();
+		}
+
+		CopyShadowSettings(sourceOutline, targetOutline);
+	}
+	else if (targetOutline != null)
+	{
+		UnityEngine.Object.Destroy(targetOutline);
+	}
+}
+
+private static void CopyShadowSettings(Shadow source, Shadow target)
+{
+	if (source == null || target == null)
+	{
+		return;
+	}
+
+	target.effectColor = source.effectColor;
+	target.effectDistance = source.effectDistance;
+	target.useGraphicAlpha = source.useGraphicAlpha;
+}
+
+private static void AddIntermissionShadow(TextMeshProUGUI tmp)
+{
+	if (tmp == null) return;
+	Shadow shadow = tmp.GetComponent<Shadow>();
+	if (shadow == null)
+		shadow = tmp.gameObject.AddComponent<Shadow>();
+	shadow.effectColor = new Color(0f, 0f, 0f, 0.75f);
+	shadow.effectDistance = new Vector2(1.5f, -1.5f);
+	shadow.useGraphicAlpha = true;
+	Logging.Message($"[TMPCONV]   Shadow component added: color=({shadow.effectColor.r},{shadow.effectColor.g},{shadow.effectColor.b},{shadow.effectColor.a}), dist=({shadow.effectDistance.x},{shadow.effectDistance.y})");
 }
 
 private static TextAlignmentOptions ConvertAlignment(TextAnchor anchor)

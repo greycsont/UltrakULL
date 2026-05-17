@@ -218,8 +218,9 @@ namespace UltrakULL.Harmony_Patches
             if (langBrowserPage != null)
             {
                 UnityEngine.Object.Destroy(langBrowserPage);
+                langBrowserPage = null;
             }
-            if (langBrowserPage.transform.Find("Title") == null)
+            if (langBrowserPage == null)
             {
                 langBrowserPage = new GameObject("LanguageBrowserPage", typeof(RectTransform), typeof(CanvasRenderer));
                 langBrowserPage.transform.SetParent(parent, false);

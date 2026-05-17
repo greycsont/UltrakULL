@@ -1417,17 +1417,11 @@ namespace UltrakULL.json
 
     public class Rank
     {
-        public string D { get => rank_letter_d; }
         public string rank_letter_d;
-        public string C { get => rank_letter_c; }
         public string rank_letter_c;
-        public string B { get => rank_letter_b; }
         public string rank_letter_b;
-        public string A { get => rank_letter_a; }
         public string rank_letter_a;
-        public string S { get => rank_letter_s; }
         public string rank_letter_s;
-        public string P { get => rank_letter_p; }
         public string rank_letter_p;
 
     }

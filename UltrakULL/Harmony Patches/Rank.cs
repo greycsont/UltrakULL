@@ -29,50 +29,50 @@ namespace UltrakULL.Harmony_Patches
 				switch (rank[15].ToString())
 				{
 					case "P":
-						if (ranks.P != null)
+						if (ranks.rank_letter_p != null)
 						{
 							// Logging.Info("[DEBUG] RankHelper::GetRankLetter -> Result is lang P!");
-							replacement = ranks.P;
+							replacement = ranks.rank_letter_p;
 							// return __result;
 						}
 						break;
 					case "C":
-						if (ranks.C != null)
+						if (ranks.rank_letter_c != null)
 						{
 							// Logging.Info("[DEBUG] RankHelper::GetRankLetter -> Result is lang C!");
-							replacement = ranks.C;
+							replacement = ranks.rank_letter_c;
 							// return __result;
 						}
 						break;
 					case "B":
-						if (ranks.B != null)
+						if (ranks.rank_letter_b != null)
 						{
 							// Logging.Info("[DEBUG] RankHelper::GetRankLetter -> Result is lang B!");
-							replacement = ranks.B;
+							replacement = ranks.rank_letter_b;
 							// return __result;
 						}
 						break;
 					case "A":
-						if (ranks.A != null)
+						if (ranks.rank_letter_a != null)
 						{
 							// Logging.Info("[DEBUG] RankHelper::GetRankLetter -> Result is lang A!");
-							replacement = ranks.A;
+							replacement = ranks.rank_letter_a;
 							// return __result;
 						}
 						break;
 					case "S":
-						if (ranks.S != null)
+						if (ranks.rank_letter_s != null)
 						{
 							// Logging.Info("[DEBUG] RankHelper::GetRankLetter -> Result is lang S!");
-							replacement = ranks.S;
+							replacement = ranks.rank_letter_s;
 							// return __result;
 						}
 						break;
 					case "D":
-						if (ranks.D != null)
+						if (ranks.rank_letter_d != null)
 						{
 							// Logging.Info("[DEBUG] RankHelper::GetRankLetter -> Result is lang D!");
-							replacement = ranks.D;
+							replacement = ranks.rank_letter_d;
 							// return __result;
 						}
 						break;
@@ -111,50 +111,50 @@ namespace UltrakULL.Harmony_Patches
 					switch (rank[15].ToString())
 					{
 						case "P":
-							if (ranks.P != null)
+							if (ranks.rank_letter_p != null)
 							{
 								// Logging.Info("[DEBUG] RankHelper::GetRankLetter -> Result is lang P!");
-								replacement = ranks.P;
+								replacement = ranks.rank_letter_p;
 								// return __result;
 							}
 							break;
 						case "C":
-							if (ranks.C != null)
+							if (ranks.rank_letter_c != null)
 							{
 								// Logging.Info("[DEBUG] RankHelper::GetRankLetter -> Result is lang C!");
-								replacement = ranks.C;
+								replacement = ranks.rank_letter_c;
 								// return __result;
 							}
 							break;
 						case "B":
-							if (ranks.B != null)
+							if (ranks.rank_letter_b != null)
 							{
 								// Logging.Info("[DEBUG] RankHelper::GetRankLetter -> Result is lang B!");
-								replacement = ranks.B;
+								replacement = ranks.rank_letter_b;
 								// return __result;
 							}
 							break;
 						case "A":
-							if (ranks.A != null)
+							if (ranks.rank_letter_a != null)
 							{
 								// Logging.Info("[DEBUG] RankHelper::GetRankLetter -> Result is lang A!");
-								replacement = ranks.A;
+								replacement = ranks.rank_letter_a;
 								// return __result;
 							}
 							break;
 						case "S":
-							if (ranks.S != null)
+							if (ranks.rank_letter_s != null)
 							{
 								// Logging.Info("[DEBUG] RankHelper::GetRankLetter -> Result is lang S!");
-								replacement = ranks.S;
+								replacement = ranks.rank_letter_s;
 								// return __result;
 							}
 							break;
 						case "D":
-							if (ranks.D != null)
+							if (ranks.rank_letter_d != null)
 							{
 								// Logging.Info("[DEBUG] RankHelper::GetRankLetter -> Result is lang D!");
-								replacement = ranks.D;
+								replacement = ranks.rank_letter_d;
 								// return __result;
 							}
 							break;
@@ -199,50 +199,50 @@ namespace UltrakULL.Harmony_Patches
 					switch (rank[15].ToString())
 					{
 						case "P":
-							if (ranks.P != null)
+							if (ranks.rank_letter_p != null)
 							{
 								// Logging.Info("[DEBUG] RankHelper::GetRankLetter -> Result is lang P!");
-								replacement = ranks.P;
+								replacement = ranks.rank_letter_p;
 								// return __result;
 							}
 							break;
 						case "C":
-							if (ranks.C != null)
+							if (ranks.rank_letter_c != null)
 							{
 								// Logging.Info("[DEBUG] RankHelper::GetRankLetter -> Result is lang C!");
-								replacement = ranks.C;
+								replacement = ranks.rank_letter_c;
 								// return __result;
 							}
 							break;
 						case "B":
-							if (ranks.B != null)
+							if (ranks.rank_letter_b != null)
 							{
 								// Logging.Info("[DEBUG] RankHelper::GetRankLetter -> Result is lang B!");
-								replacement = ranks.B;
+								replacement = ranks.rank_letter_b;
 								// return __result;
 							}
 							break;
 						case "A":
-							if (ranks.A != null)
+							if (ranks.rank_letter_a != null)
 							{
 								// Logging.Info("[DEBUG] RankHelper::GetRankLetter -> Result is lang A!");
-								replacement = ranks.A;
+								replacement = ranks.rank_letter_a;
 								// return __result;
 							}
 							break;
 						case "S":
-							if (ranks.S != null)
+							if (ranks.rank_letter_s != null)
 							{
 								// Logging.Info("[DEBUG] RankHelper::GetRankLetter -> Result is lang S!");
-								replacement = ranks.S;
+								replacement = ranks.rank_letter_s;
 								// return __result;
 							}
 							break;
 						case "D":
-							if (ranks.D != null)
+							if (ranks.rank_letter_d != null)
 							{
 								// Logging.Info("[DEBUG] RankHelper::GetRankLetter -> Result is lang D!");
-								replacement = ranks.D;
+								replacement = ranks.rank_letter_d;
 								// return __result;
 							}
 							break;

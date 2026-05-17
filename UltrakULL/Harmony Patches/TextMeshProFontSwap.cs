@@ -62,6 +62,11 @@ namespace UltrakULL.Harmony_Patches
 		{
 			private static List<IntPtr> objectsFixed = new List<IntPtr>();
 
+			public static void ClearCache()
+			{
+				objectsFixed.Clear();
+			}
+
             [HarmonyPostfix]
 			public static void SwapFont(ref TextMeshProUGUI __instance, IntPtr ___m_CachedPtr)
 			{
@@ -175,7 +180,82 @@ namespace UltrakULL.Harmony_Patches
 			string text2 = LanguageManager.CurrentLanguage.metadata.langName.ToLower().Substring(0, 2);
 			bool isUnderlaid = ((Component)__instance).gameObject.name.Contains("NameText") || ((Component)__instance).gameObject.name.Contains("LayerText") || ((Component)((TMP_Text)__instance).transform.parent).gameObject.name.Contains("Cheats Info") || (text?.Equals("ReadingScanned/Panel/Text (1)") ?? false);
 			bool isOverlay = onTop;
-			Vector4 underlayColor = (Vector4)(((TMP_Text)__instance).fontMaterial != null ? ((TMP_Text)__instance).fontMaterial.GetVector("_UnderlayColor") : new Vector4(0f, 0f, 0f, 0f));
+			Material currentMaterial = ((TMP_Text)__instance).fontMaterial;
+			Material sharedMatFallback = ((TMP_Text)__instance).fontSharedMaterial;
+			Logging.Message($"[SWAP] SwapTMPFont: {((Component)__instance).gameObject.name}, isConverted={isConvertedFromText}, origFont={originalFontName ?? "NULL"}");
+			Logging.Message($"[SWAP]   fontMaterial={currentMaterial?.name ?? "NULL"}, fontSharedMaterial={sharedMatFallback?.name ?? "NULL"}");
+			if (currentMaterial != null) Logging.Message($"[SWAP]   mat.hasKeyword(UNDERLAY_ON)={currentMaterial.IsKeywordEnabled("UNDERLAY_ON")}");
+
+			Vector4 underlayColor = new Vector4(0f, 0f, 0f, 0f);
+			Vector4 underlayOffset = Vector4.zero;
+			float underlaySoftness = 0f;
+			float underlayDilate = 0f;
+			bool preserveExistingUnderlay = false;
+
+			if (currentMaterial != null && currentMaterial.HasProperty("_UnderlayColor"))
+			{
+				underlayColor = currentMaterial.GetVector("_UnderlayColor");
+				preserveExistingUnderlay = underlayColor.w > 0.001f;
+			}
+			if (currentMaterial != null && currentMaterial.HasProperty("_UnderlayOffset"))
+			{
+				underlayOffset = currentMaterial.GetVector("_UnderlayOffset");
+				preserveExistingUnderlay = preserveExistingUnderlay ||
+					Mathf.Abs(underlayOffset.x) > 0.001f ||
+					Mathf.Abs(underlayOffset.y) > 0.001f;
+			}
+			if (currentMaterial != null && currentMaterial.HasProperty("_UnderlaySoftness"))
+			{
+				underlaySoftness = currentMaterial.GetFloat("_UnderlaySoftness");
+			}
+			if (currentMaterial != null && currentMaterial.HasProperty("_UnderlayDilate"))
+			{
+
+			}
+
+			if (preserveExistingUnderlay && currentMaterial != null && !currentMaterial.IsKeywordEnabled("UNDERLAY_ON"))
+			{
+				preserveExistingUnderlay = false;
+				Logging.Message($"[SWAP]   preserveExisting canceled: source keyword=False");
+			}
+			Logging.Message($"[SWAP]   after fontMaterial read: underlayColor=({underlayColor.x:F2},{underlayColor.y:F2},{underlayColor.z:F2},{underlayColor.w:F2}), preserve={preserveExistingUnderlay}");
+
+			// Fallback: check fontSharedMaterial if fontMaterial has no underlay
+			if (!preserveExistingUnderlay)
+			{
+				Material sharedMat = sharedMatFallback;
+				if (sharedMat != null && sharedMat.HasProperty("_UnderlayColor"))
+				{
+					Vector4 sharedColor = sharedMat.GetVector("_UnderlayColor");
+					Logging.Message($"[SWAP]   sharedMat._UnderlayColor=({sharedColor.x:F2},{sharedColor.y:F2},{sharedColor.z:F2},{sharedColor.w:F2})");
+					if (sharedColor.w > 0.001f)
+					{
+						underlayColor = sharedColor;
+						preserveExistingUnderlay = true;
+						if (sharedMat.HasProperty("_UnderlayOffset"))
+							underlayOffset = sharedMat.GetVector("_UnderlayOffset");
+						if (sharedMat.HasProperty("_UnderlaySoftness"))
+							underlaySoftness = sharedMat.GetFloat("_UnderlaySoftness");
+						if (sharedMat.HasProperty("_UnderlayDilate"))
+							underlayDilate = sharedMat.GetFloat("_UnderlayDilate");
+						Logging.Message($"[SWAP]   FOUND underlay in sharedMat! preserve=true, color=({underlayColor.x:F2},{underlayColor.y:F2},{underlayColor.z:F2},{underlayColor.w:F2})");
+					}
+				}
+			}
+
+			// Force underlay for Text->TMP converted texts in intermission scenes
+			if (isConvertedFromText)
+			{
+				string currentScene = CommonFunctions.GetCurrentSceneName();
+				Logging.Message($"[SWAP]   isConvertedFromText, scene={currentScene}");
+				if (currentScene == "Intermission1" || currentScene == "Intermission2")
+				{
+					underlayColor = new Vector4(0f, 0f, 0f, 0.75f);
+					underlayOffset = new Vector4(1.5f, -1.5f, 0f, 0f);
+					isUnderlaid = true;
+					Logging.Message($"[SWAP]   INTERMISSION: force shadow, isUnderlaid=true");
+				}
+			}
 
 			// Determine which font to use
 			TMP_FontAsset mainFont = Core.GlobalFontTMP;
@@ -240,13 +320,13 @@ namespace UltrakULL.Harmony_Patches
 					if (museumFont != null)
 					{
 						Logging.Message($"Applying museum font: {museumFont.name} with materials (overlay={museumOverlayMat?.name}, normal={museumNormalMat?.name})");
-						TMPFontUtils.ApplyUnderlayAndZTest(__instance, underlayColor, isUnderlaid, isOverlay, editOverlayStatus, museumFont, museumOverlayMat, museumNormalMat);
+						TMPFontUtils.ApplyUnderlayAndZTest(__instance, underlayColor, underlayOffset, underlaySoftness, underlayDilate, preserveExistingUnderlay, isUnderlaid, isOverlay, editOverlayStatus, museumFont, museumOverlayMat, museumNormalMat);
 					}
 					else
 					{
 						// Fallback to main font if museum font not available
 						Logging.Message($"Museum font is null, falling back to main font: {mainFont?.name}");
-						TMPFontUtils.ApplyUnderlayAndZTest(__instance, underlayColor, isUnderlaid, isOverlay, editOverlayStatus, mainFont, overlayMat, normalMat);
+						TMPFontUtils.ApplyUnderlayAndZTest(__instance, underlayColor, underlayOffset, underlaySoftness, underlayDilate, preserveExistingUnderlay, isUnderlaid, isOverlay, editOverlayStatus, mainFont, overlayMat, normalMat);
 					}
 					return;
 				}
@@ -254,7 +334,7 @@ namespace UltrakULL.Harmony_Patches
 				else
 				{
 					Logging.Message($"Original font is not museum font, using main font: {mainFont?.name}");
-					TMPFontUtils.ApplyUnderlayAndZTest(__instance, underlayColor, isUnderlaid, isOverlay, editOverlayStatus, mainFont, overlayMat, normalMat);
+					TMPFontUtils.ApplyUnderlayAndZTest(__instance, underlayColor, underlayOffset, underlaySoftness, underlayDilate, preserveExistingUnderlay, isUnderlaid, isOverlay, editOverlayStatus, mainFont, overlayMat, normalMat);
 					return;
 				}
 			}
@@ -270,14 +350,14 @@ namespace UltrakULL.Harmony_Patches
 					{
 						// Apply terminal font
 						Logging.Message($"Detected Tahoma font: '{currentFontName}', applying terminal font: {terminalFont?.name}");
-                        ApplyFont(__instance, underlayColor, isUnderlaid, isOverlay, editOverlayStatus, terminalFont, terminalOverlayMat, terminalNormalMat);
+                        ApplyFont(__instance, underlayColor, underlayOffset, underlaySoftness, underlayDilate, preserveExistingUnderlay, isUnderlaid, isOverlay, editOverlayStatus, terminalFont, terminalOverlayMat, terminalNormalMat);
 						return;
 					}
 					else if (fontNameLower.Contains("bittypix monospace ") && fontNameLower.Contains("bittypix"))
 					{
 						// Apply secret terminal font
 						Logging.Message($"Detected Bittypix Monospace font: '{currentFontName}', applying secret terminal font: {secretTerminalFont?.name}");
-						TMPFontUtils.ApplyUnderlayAndZTest(__instance, underlayColor, isUnderlaid, isOverlay, editOverlayStatus, secretTerminalFont, secretTerminalOverlayMat, secretTerminalNormalMat);
+						TMPFontUtils.ApplyUnderlayAndZTest(__instance, underlayColor, underlayOffset, underlaySoftness, underlayDilate, preserveExistingUnderlay, isUnderlaid, isOverlay, editOverlayStatus, secretTerminalFont, secretTerminalOverlayMat, secretTerminalNormalMat);
 						return;
 					}
 				}
@@ -292,7 +372,7 @@ namespace UltrakULL.Harmony_Patches
 			// If terminal and custom terminal font exists, use it
 			if (isTerminal && !isSecretTerminal && terminalFont != Core.GlobalFontTMP)
 			{
-                ApplyFont(__instance, underlayColor, isUnderlaid, isOverlay, editOverlayStatus, terminalFont, terminalOverlayMat, terminalNormalMat);
+                ApplyFont(__instance, underlayColor, underlayOffset, underlaySoftness, underlayDilate, preserveExistingUnderlay, isUnderlaid, isOverlay, editOverlayStatus, terminalFont, terminalOverlayMat, terminalNormalMat);
 				return;
 			}
 
@@ -300,10 +380,10 @@ namespace UltrakULL.Harmony_Patches
 			switch (text2)
 			{
 			case "zh":
-				TMPFontUtils.ApplyUnderlayAndZTest(__instance, underlayColor, isUnderlaid, isOverlay, editOverlayStatus, Core.CJKFontTMP, Core.CJKFontTMPOverlayMat, ((TMP_Asset)Core.CJKFontTMP).material);
+				TMPFontUtils.ApplyUnderlayAndZTest(__instance, underlayColor, underlayOffset, underlaySoftness, underlayDilate, preserveExistingUnderlay, isUnderlaid, isOverlay, editOverlayStatus, Core.CJKFontTMP, Core.CJKFontTMPOverlayMat, ((TMP_Asset)Core.CJKFontTMP).material);
 				break;
 			case "ja":
-				TMPFontUtils.ApplyUnderlayAndZTest(__instance, underlayColor, isUnderlaid, isOverlay, editOverlayStatus, Core.JaFontTMP, Core.jaFontTMPOverlayMat, ((TMP_Asset)Core.JaFontTMP).material);
+				TMPFontUtils.ApplyUnderlayAndZTest(__instance, underlayColor, underlayOffset, underlaySoftness, underlayDilate, preserveExistingUnderlay, isUnderlaid, isOverlay, editOverlayStatus, Core.JaFontTMP, Core.jaFontTMPOverlayMat, ((TMP_Asset)Core.JaFontTMP).material);
 				break;
 			case "ar":
 			case "fa":
@@ -338,11 +418,11 @@ namespace UltrakULL.Harmony_Patches
 				Core.GlobalFontTMP.fallbackFontAssetTable.Add(Core.ArabicFontTMP);
 				if (CommonFunctions.GetCurrentSceneName() == "CreditsMuseum2" && ((TMP_Text)__instance).font.name == "GFS Garaldus")
 				{
-					TMPFontUtils.ApplyUnderlayAndZTest(__instance, underlayColor, isUnderlaid, isOverlay, editOverlayStatus, museumFont, museumOverlayMat, museumNormalMat);
+					TMPFontUtils.ApplyUnderlayAndZTest(__instance, underlayColor, underlayOffset, underlaySoftness, underlayDilate, preserveExistingUnderlay, isUnderlaid, isOverlay, editOverlayStatus, museumFont, museumOverlayMat, museumNormalMat);
 				}
 				else
 				{
-					TMPFontUtils.ApplyUnderlayAndZTest(__instance, underlayColor, isUnderlaid, isOverlay, editOverlayStatus, mainFont, overlayMat, normalMat);
+					TMPFontUtils.ApplyUnderlayAndZTest(__instance, underlayColor, underlayOffset, underlaySoftness, underlayDilate, preserveExistingUnderlay, isUnderlaid, isOverlay, editOverlayStatus, mainFont, overlayMat, normalMat);
 				}
 				break;
 			}
@@ -351,16 +431,16 @@ namespace UltrakULL.Harmony_Patches
 			case "yi":
 			case "la":
 			case "ro":
-				TMPFontUtils.ApplyUnderlayAndZTest(__instance, underlayColor, isUnderlaid, isOverlay, editOverlayStatus, Core.HebrewFontTMP, Core.GlobalFontTMPOverlayMat, ((TMP_Asset)Core.GlobalFontTMP).material);
+				TMPFontUtils.ApplyUnderlayAndZTest(__instance, underlayColor, underlayOffset, underlaySoftness, underlayDilate, preserveExistingUnderlay, isUnderlaid, isOverlay, editOverlayStatus, Core.HebrewFontTMP, Core.GlobalFontTMPOverlayMat, ((TMP_Asset)Core.GlobalFontTMP).material);
 				break;
 			default:
 				if (CommonFunctions.GetCurrentSceneName() == "CreditsMuseum2" && ((TMP_Text)__instance).font.name == "GFS Garaldus")
 				{
-					TMPFontUtils.ApplyUnderlayAndZTest(__instance, underlayColor, isUnderlaid, isOverlay, editOverlayStatus, museumFont, museumOverlayMat, museumNormalMat);
+					TMPFontUtils.ApplyUnderlayAndZTest(__instance, underlayColor, underlayOffset, underlaySoftness, underlayDilate, preserveExistingUnderlay, isUnderlaid, isOverlay, editOverlayStatus, museumFont, museumOverlayMat, museumNormalMat);
 				}
 				else
 				{
-					TMPFontUtils.ApplyUnderlayAndZTest(__instance, underlayColor, isUnderlaid, isOverlay, editOverlayStatus, mainFont, overlayMat, normalMat);
+					TMPFontUtils.ApplyUnderlayAndZTest(__instance, underlayColor, underlayOffset, underlaySoftness, underlayDilate, preserveExistingUnderlay, isUnderlaid, isOverlay, editOverlayStatus, mainFont, overlayMat, normalMat);
 				}
 				break;
 			}
@@ -387,6 +467,10 @@ namespace UltrakULL.Harmony_Patches
         private static void ApplyFont(
             TextMeshProUGUI tmp,
             Vector4 underlayColor,
+            Vector4 underlayOffset,
+            float underlaySoftness,
+            float underlayDilate,
+            bool preserveExistingUnderlay,
             bool isUnderlaid,
             bool isOverlay,
             bool editOverlayStatus,
@@ -397,6 +481,10 @@ namespace UltrakULL.Harmony_Patches
             TMPFontUtils.ApplyUnderlayAndZTest(
                 tmp,
                 underlayColor,
+                underlayOffset,
+                underlaySoftness,
+                underlayDilate,
+                preserveExistingUnderlay,
                 isUnderlaid,
                 isOverlay,
                 editOverlayStatus,
@@ -413,6 +501,8 @@ namespace UltrakULL.Harmony_Patches
         public static void ClearFontSwapCache()
         {
 			TerminalFontScale = LanguageManager.CurrentLanguage.metadata.tmFontSize;
+			TextMeshProFontSwapper.ClearCache();
+			TMPFontUtils.ClearMaterialCache();
         }
     }
 }

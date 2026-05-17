@@ -29,52 +29,52 @@ namespace UltrakULL.Harmony_Patches
 			switch (rank)
 			{
 				case 12:
-					if (ranks.P != null)
+					if (ranks.rank_letter_p != null)
 					{
 						Logging.Info("[DEBUG] RankHelper::GetRankLetter -> Result is lang P!");
-						__result = ranks.P;
+						__result = ranks.rank_letter_p;
 						// return __result;
 					}
 					break;
 				case 1:
-					if (ranks.C != null)
+					if (ranks.rank_letter_c != null)
 					{
 						Logging.Info("[DEBUG] RankHelper::GetRankLetter -> Result is lang C!");
-						__result = ranks.C;
+						__result = ranks.rank_letter_c;
 						// return __result;
 					}
 					break;
 				case 2:
-					if (ranks.B != null)
+					if (ranks.rank_letter_b != null)
 					{
 						Logging.Info("[DEBUG] RankHelper::GetRankLetter -> Result is lang B!");
-						__result = ranks.B;
+						__result = ranks.rank_letter_b;
 						// return __result;
 					}
 					break;
 				case 3:
-					if (ranks.A != null)
+					if (ranks.rank_letter_a != null)
 					{
 						Logging.Info("[DEBUG] RankHelper::GetRankLetter -> Result is lang A!");
-						__result = ranks.A;
+						__result = ranks.rank_letter_a;
 						// return __result;
 					}
 					break;
 				case 4:
 				case 5:
 				case 6:
-					if (ranks.S != null)
+					if (ranks.rank_letter_s != null)
 					{
 						Logging.Info("[DEBUG] RankHelper::GetRankLetter -> Result is lang S!");
-						__result = ranks.S;
+						__result = ranks.rank_letter_s;
 						// return __result;
 					}
 					break;
 				default:
-					if (ranks.D != null)
+					if (ranks.rank_letter_d != null)
 					{
 						Logging.Info("[DEBUG] RankHelper::GetRankLetter -> Result is lang D!");
-						__result = ranks.D;
+						__result = ranks.rank_letter_d;
 						// return __result;
 					}
 					break;

@@ -169,7 +169,7 @@ namespace UltrakULL
 				});
 				
 				Logging.Warn("--- Initializing language manager ---");
-				LanguageManager.InitializeManager(InternalVersion);
+				LanguageManager.InitializeManager();
 				
 				Logging.Warn("--- Loading external fonts ---");
 				Core.LoadFonts();
