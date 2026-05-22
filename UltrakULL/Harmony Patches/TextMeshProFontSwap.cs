@@ -182,9 +182,9 @@ namespace UltrakULL.Harmony_Patches
 			bool isOverlay = onTop;
 			Material currentMaterial = ((TMP_Text)__instance).fontMaterial;
 			Material sharedMatFallback = ((TMP_Text)__instance).fontSharedMaterial;
-			Logging.Message($"[SWAP] SwapTMPFont: {((Component)__instance).gameObject.name}, isConverted={isConvertedFromText}, origFont={originalFontName ?? "NULL"}");
-			Logging.Message($"[SWAP]   fontMaterial={currentMaterial?.name ?? "NULL"}, fontSharedMaterial={sharedMatFallback?.name ?? "NULL"}");
-			if (currentMaterial != null) Logging.Message($"[SWAP]   mat.hasKeyword(UNDERLAY_ON)={currentMaterial.IsKeywordEnabled("UNDERLAY_ON")}");
+			//Logging.Message($"[SWAP] SwapTMPFont: {((Component)__instance).gameObject.name}, isConverted={isConvertedFromText}, origFont={originalFontName ?? "NULL"}");
+			//Logging.Message($"[SWAP]   fontMaterial={currentMaterial?.name ?? "NULL"}, fontSharedMaterial={sharedMatFallback?.name ?? "NULL"}");
+			//if (currentMaterial != null) Logging.Message($"[SWAP]   mat.hasKeyword(UNDERLAY_ON)={currentMaterial.IsKeywordEnabled("UNDERLAY_ON")}");
 
 			Vector4 underlayColor = new Vector4(0f, 0f, 0f, 0f);
 			Vector4 underlayOffset = Vector4.zero;
@@ -216,9 +216,9 @@ namespace UltrakULL.Harmony_Patches
 			if (preserveExistingUnderlay && currentMaterial != null && !currentMaterial.IsKeywordEnabled("UNDERLAY_ON"))
 			{
 				preserveExistingUnderlay = false;
-				Logging.Message($"[SWAP]   preserveExisting canceled: source keyword=False");
+				//Logging.Message($"[SWAP]   preserveExisting canceled: source keyword=False");
 			}
-			Logging.Message($"[SWAP]   after fontMaterial read: underlayColor=({underlayColor.x:F2},{underlayColor.y:F2},{underlayColor.z:F2},{underlayColor.w:F2}), preserve={preserveExistingUnderlay}");
+			//Logging.Message($"[SWAP]   after fontMaterial read: underlayColor=({underlayColor.x:F2},{underlayColor.y:F2},{underlayColor.z:F2},{underlayColor.w:F2}), preserve={preserveExistingUnderlay}");
 
 			// Fallback: check fontSharedMaterial if fontMaterial has no underlay
 			if (!preserveExistingUnderlay)
@@ -227,7 +227,7 @@ namespace UltrakULL.Harmony_Patches
 				if (sharedMat != null && sharedMat.HasProperty("_UnderlayColor"))
 				{
 					Vector4 sharedColor = sharedMat.GetVector("_UnderlayColor");
-					Logging.Message($"[SWAP]   sharedMat._UnderlayColor=({sharedColor.x:F2},{sharedColor.y:F2},{sharedColor.z:F2},{sharedColor.w:F2})");
+					//Logging.Message($"[SWAP]   sharedMat._UnderlayColor=({sharedColor.x:F2},{sharedColor.y:F2},{sharedColor.z:F2},{sharedColor.w:F2})");
 					if (sharedColor.w > 0.001f)
 					{
 						underlayColor = sharedColor;
@@ -238,7 +238,7 @@ namespace UltrakULL.Harmony_Patches
 							underlaySoftness = sharedMat.GetFloat("_UnderlaySoftness");
 						if (sharedMat.HasProperty("_UnderlayDilate"))
 							underlayDilate = sharedMat.GetFloat("_UnderlayDilate");
-						Logging.Message($"[SWAP]   FOUND underlay in sharedMat! preserve=true, color=({underlayColor.x:F2},{underlayColor.y:F2},{underlayColor.z:F2},{underlayColor.w:F2})");
+						//Logging.Message($"[SWAP]   FOUND underlay in sharedMat! preserve=true, color=({underlayColor.x:F2},{underlayColor.y:F2},{underlayColor.z:F2},{underlayColor.w:F2})");
 					}
 				}
 			}
@@ -247,13 +247,13 @@ namespace UltrakULL.Harmony_Patches
 			if (isConvertedFromText)
 			{
 				string currentScene = CommonFunctions.GetCurrentSceneName();
-				Logging.Message($"[SWAP]   isConvertedFromText, scene={currentScene}");
+				//Logging.Message($"[SWAP]   isConvertedFromText, scene={currentScene}");
 				if (currentScene == "Intermission1" || currentScene == "Intermission2")
 				{
 					underlayColor = new Vector4(0f, 0f, 0f, 0.75f);
 					underlayOffset = new Vector4(1.5f, -1.5f, 0f, 0f);
 					isUnderlaid = true;
-					Logging.Message($"[SWAP]   INTERMISSION: force shadow, isUnderlaid=true");
+					//Logging.Message($"[SWAP]   INTERMISSION: force shadow, isUnderlaid=true");
 				}
 			}
 
@@ -500,9 +500,9 @@ namespace UltrakULL.Harmony_Patches
         }
         public static void ClearFontSwapCache()
         {
-			TerminalFontScale = LanguageManager.CurrentLanguage.metadata.tmFontSize;
-			TextMeshProFontSwapper.ClearCache();
-			TMPFontUtils.ClearMaterialCache();
+            TerminalFontScale = LanguageManager.CurrentLanguage.metadata.tmFontSize;
+            OriginalFontSizes.Clear();
+            TMPFontUtils.ClearMaterialCache();
         }
     }
 }

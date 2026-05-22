@@ -76,7 +76,16 @@ namespace UltrakULL.Harmony_Patches
 			if (baseMaterial == null && currentMaterial == null)
 				return;
 
-			bool sourceHadUnderlay = currentMaterial != null && currentMaterial.IsKeywordEnabled("UNDERLAY_ON");
+            bool needsUniqueMaterial = isUnderlaid || preserveExistingUnderlay || editOverlayStatus;
+
+            if (!needsUniqueMaterial)
+            {
+                ((TMP_Text)instance).font = fontAsset;
+                ((TMP_Text)instance).fontSharedMaterial = baseMaterial ?? currentMaterial;
+                return;
+            }
+
+            bool sourceHadUnderlay = currentMaterial != null && currentMaterial.IsKeywordEnabled("UNDERLAY_ON");
 			bool shouldKeepUnderlay = isUnderlaid || (preserveExistingUnderlay && sourceHadUnderlay);
 
 			Logging.Message($"[TMPFU] ApplyUnderlay: {instanceName}, isUnderlaid={isUnderlaid}, preserveExisting={preserveExistingUnderlay}, sourceHadUnderlay={sourceHadUnderlay}");
@@ -89,6 +98,7 @@ namespace UltrakULL.Harmony_Patches
 			Material val = CreateMigratedMaterial(currentMaterial, baseMaterial);
 			if (val == null)
 				val = new Material(baseMaterial ?? currentMaterial);
+
 
 			bool supportsUnderlay = HasProperty(val, "_UnderlayOffset");
 			Logging.Message($"[TMPFU]   val: shader={val.shader?.name}, keyword={val.IsKeywordEnabled("UNDERLAY_ON")}, supportsUnderlay={supportsUnderlay}");
