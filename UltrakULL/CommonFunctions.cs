@@ -1,17 +1,18 @@
-﻿using System;
+﻿using HarmonyLib;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
-using HarmonyLib;
+using System.Xml;
 using TMPro;
+using UltrakULL.audio;
 using UltrakULL.json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UltrakULL.audio;
 
 
 
@@ -249,6 +250,7 @@ namespace UltrakULL
 			if (levelName != null)
 			{
                 TextMeshProUGUI resultsTitleLevelName = GetTextMeshProUGUI(GetGameObjectChild(resultsTitle, "Text"));
+                resultsTitleLevelName.enableWordWrapping = false;
                 resultsTitleLevelName.text = levelName;
                 //Disable the levelFinderComponent, so the level name doesn't get reverted when the results panel appears.
                 LevelNameFinder finder = resultsTitleLevelName.GetComponent<LevelNameFinder>();
