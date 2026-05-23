@@ -496,6 +496,7 @@ namespace UltrakULL.Harmony_Patches
             Scrollbar scrollbarComponent = scrollbar.GetComponent<Scrollbar>();
             scrollbarComponent.direction = Scrollbar.Direction.BottomToTop;
             scrollRectComponent.verticalScrollbar = scrollbarComponent;
+            scrollRectComponent.scrollSensitivity = 20f;
 
             // Content Container
             GameObject content = new GameObject("Contents", typeof(RectTransform), typeof(VerticalLayoutGroup), typeof(ContentSizeFitter));

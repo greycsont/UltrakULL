@@ -502,7 +502,8 @@ namespace UltrakULL.Harmony_Patches
         {
             TerminalFontScale = LanguageManager.CurrentLanguage.metadata.tmFontSize;
             OriginalFontSizes.Clear();
-            TMPFontUtils.ClearMaterialCache();
+            //TextMeshProFontSwapper.ClearCache();
+            //TMPFontUtils.ClearMaterialCache();
         }
     }
 }

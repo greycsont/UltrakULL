@@ -6,12 +6,6 @@ namespace UltrakULL.Harmony_Patches
 {
 	public static class TMPFontUtils
 	{
-		private static HashSet<Material> createdMaterials = new HashSet<Material>();
-
-		public static void ClearMaterialCache()
-		{
-			createdMaterials.Clear();
-		}
 
 		private static bool HasProperty(Material material, string propertyName)
 		{
@@ -81,17 +75,17 @@ namespace UltrakULL.Harmony_Patches
             if (!needsUniqueMaterial)
             {
                 ((TMP_Text)instance).font = fontAsset;
-                ((TMP_Text)instance).fontSharedMaterial = baseMaterial ?? currentMaterial;
+                ((TMP_Text)instance).fontSharedMaterial = fontAsset.material;
                 return;
             }
 
             bool sourceHadUnderlay = currentMaterial != null && currentMaterial.IsKeywordEnabled("UNDERLAY_ON");
 			bool shouldKeepUnderlay = isUnderlaid || (preserveExistingUnderlay && sourceHadUnderlay);
 
-			Logging.Message($"[TMPFU] ApplyUnderlay: {instanceName}, isUnderlaid={isUnderlaid}, preserveExisting={preserveExistingUnderlay}, sourceHadUnderlay={sourceHadUnderlay}");
-			Logging.Message($"[TMPFU]   currentMat={currentMaterial?.name ?? "NULL"}, baseMat={baseMaterial?.name ?? "NULL"}");
-			Logging.Message($"[TMPFU]   underlayColor=({underlayColor.x:F2},{underlayColor.y:F2},{underlayColor.z:F2},{underlayColor.w:F2}), offset=({underlayOffset.x:F2},{underlayOffset.y:F2}), softness={underlaySoftness}, dilate={underlayDilate}");
-			Logging.Message($"[TMPFU]   source.shader={currentMaterial?.shader?.name ?? "NULL"}, keyword={currentMaterial?.IsKeywordEnabled("UNDERLAY_ON")}");
+			//Logging.Message($"[TMPFU] ApplyUnderlay: {instanceName}, isUnderlaid={isUnderlaid}, preserveExisting={preserveExistingUnderlay}, sourceHadUnderlay={sourceHadUnderlay}");
+			//Logging.Message($"[TMPFU]   currentMat={currentMaterial?.name ?? "NULL"}, baseMat={baseMaterial?.name ?? "NULL"}");
+			//Logging.Message($"[TMPFU]   underlayColor=({underlayColor.x:F2},{underlayColor.y:F2},{underlayColor.z:F2},{underlayColor.w:F2}), offset=({underlayOffset.x:F2},{underlayOffset.y:F2}), softness={underlaySoftness}, dilate={underlayDilate}");
+			//Logging.Message($"[TMPFU]   source.shader={currentMaterial?.shader?.name ?? "NULL"}, keyword={currentMaterial?.IsKeywordEnabled("UNDERLAY_ON")}");
 
 			((TMP_Text)instance).font = fontAsset;
 
@@ -101,11 +95,11 @@ namespace UltrakULL.Harmony_Patches
 
 
 			bool supportsUnderlay = HasProperty(val, "_UnderlayOffset");
-			Logging.Message($"[TMPFU]   val: shader={val.shader?.name}, keyword={val.IsKeywordEnabled("UNDERLAY_ON")}, supportsUnderlay={supportsUnderlay}");
+			//Logging.Message($"[TMPFU]   val: shader={val.shader?.name}, keyword={val.IsKeywordEnabled("UNDERLAY_ON")}, supportsUnderlay={supportsUnderlay}");
 
 			if (supportsUnderlay && shouldKeepUnderlay)
 			{
-				Logging.Message($"[TMPFU]   Setting underlay properties");
+				//Logging.Message($"[TMPFU]   Setting underlay properties");
 				if (HasProperty(val, "_UnderlayColor"))
 					val.SetVector("_UnderlayColor", underlayColor);
 				if (HasProperty(val, "_UnderlayOffset"))
@@ -117,7 +111,7 @@ namespace UltrakULL.Harmony_Patches
 			}
 			else if (supportsUnderlay)
 			{
-				Logging.Message($"[TMPFU]   Clearing underlay");
+				//Logging.Message($"[TMPFU]   Clearing underlay");
 				if (HasProperty(val, "_UnderlayColor"))
 					val.SetVector("_UnderlayColor", new Vector4(0f, 0f, 0f, 0f));
 				if (HasProperty(val, "_UnderlayOffset"))
@@ -129,35 +123,27 @@ namespace UltrakULL.Harmony_Patches
 			}
 			else
 			{
-				Logging.Message($"[TMPFU]   Skipping underlay (Mobile shader)");
+				//Logging.Message($"[TMPFU]   Skipping underlay (Mobile shader)");
 			}
 
 			if (editOverlayStatus && HasProperty(val, "_ZTest"))
 				val.SetFloat("_ZTest", isOverlay ? 8f : 4f);
 
-			Logging.Message($"[TMPFU]   Final: keyword={val.IsKeywordEnabled("UNDERLAY_ON")}, shader={val.shader?.name ?? "NULL"}");
+			//Logging.Message($"[TMPFU]   Final: keyword={val.IsKeywordEnabled("UNDERLAY_ON")}, shader={val.shader?.name ?? "NULL"}");
 			if (HasProperty(val, "_UnderlayColor"))
 			{
 				string offsetStr = HasProperty(val, "_UnderlayOffset")
 					? $"({val.GetVector("_UnderlayOffset").x:F2},{val.GetVector("_UnderlayOffset").y:F2})"
 					: "N/A";
-				Logging.Message($"[TMPFU]   _UnderlayColor=({val.GetVector("_UnderlayColor").x:F2},{val.GetVector("_UnderlayColor").y:F2},{val.GetVector("_UnderlayColor").z:F2},{val.GetVector("_UnderlayColor").w:F2}), offset={offsetStr}");
+				//Logging.Message($"[TMPFU]   _UnderlayColor=({val.GetVector("_UnderlayColor").x:F2},{val.GetVector("_UnderlayColor").y:F2},{val.GetVector("_UnderlayColor").z:F2},{val.GetVector("_UnderlayColor").w:F2}), offset={offsetStr}");
 			}
 			if (HasProperty(val, "_UnderlaySoftness"))
-				Logging.Message($"[TMPFU]   _UnderlaySoftness={val.GetFloat("_UnderlaySoftness")}, _UnderlayDilate={val.GetFloat("_UnderlayDilate")}");
+				//Logging.Message($"[TMPFU]   _UnderlaySoftness={val.GetFloat("_UnderlaySoftness")}, _UnderlayDilate={val.GetFloat("_UnderlayDilate")}");
 
-			createdMaterials.Add(val);
 			((TMP_Text)instance).fontMaterial = val;
-			Logging.Message($"[TMPFU]   fontMaterial assigned");
+			//Logging.Message($"[TMPFU]   fontMaterial assigned");
 
-			if (previousInstanceMaterial != previousSharedMaterial && previousInstanceMaterial != null && createdMaterials.Contains(previousInstanceMaterial))
-			{
-				createdMaterials.Remove(previousInstanceMaterial);
-				Object.Destroy(previousInstanceMaterial);
-				Logging.Message($"[TMPFU]   destroyed previous instance material");
-			}
-
-			Logging.Message($"[TMPFU] Done: {instanceName}");
+			//Logging.Message($"[TMPFU] Done: {instanceName}");
 		}
 	}
 }
