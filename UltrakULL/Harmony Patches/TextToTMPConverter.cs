@@ -89,8 +89,16 @@ namespace UltrakULL.Harmony_Patches
                 textToTMP[source.GetInstanceID()] = tmp;
             }
 
-            CopyRectTransform(source.rectTransform, tmp.rectTransform);
-            CopyTextProperties(source, tmp);
+
+            if (IsFishingResultText(source))
+            {
+                ApplyFishingTMP(source, tmp);
+            }
+            else
+            {
+                CopyTextProperties(source, tmp);
+            }
+
             SyncEffects(source, tmp);
 
             if (Core.TMPFontReady)
@@ -129,32 +137,60 @@ namespace UltrakULL.Harmony_Patches
 
             source.canvasRenderer.SetAlpha(0f);
             SetTMPActiveState(source, source.isActiveAndEnabled);
+
+            if (IsFishingResultText(source))
+            {
+                ApplyFishingTMP(source, tmp);
+            }
+
             Logging.Message($"[TMPCONV] Done: {source.gameObject.name}");
+        }
+
+        private static bool IsFishingResultText(Text source)
+        {
+            return source != null &&
+                   (source.name == "Fish Caught Label" ||
+                    source.name == "Fish Size Text");
+        }
+
+        private static void ApplyFishingTMP(Text source, TextMeshProUGUI tmp)
+        {
+            if (source == null || tmp == null)
+                return;
+
+            tmp.text = source.text;
+            tmp.color = source.color;
+            tmp.richText = source.supportRichText;
+            tmp.alignment = ConvertAlignment(source.alignment);
+            tmp.enableWordWrapping = false;
+            tmp.overflowMode = TextOverflowModes.Overflow;
+            tmp.enableAutoSizing = false;
+            tmp.fontSize = source.fontSize;
+            tmp.fontSizeMax = source.fontSize;
+            tmp.fontSizeMin = source.fontSize;
+            tmp.rectTransform.localScale = Vector3.one;
+
+            tmp.ForceMeshUpdate(true);
         }
 
         private static void UpdateTMPText(Text source)
         {
             TextMeshProUGUI tmp = GetTMPForSource(source);
             if (tmp == null)
+                return;
+
+            if (IsFishingResultText(source))
             {
+                ApplyFishingTMP(source, tmp);
                 return;
             }
 
             CopyRectTransform(source.rectTransform, tmp.rectTransform);
-
-            string currentText = source.text;
-            if (tmp.text == currentText)
-            {
-                return;
-            }
-
-            tmp.text = currentText;
+            CopyTextProperties(source, tmp);
             tmp.ForceMeshUpdate();
 
             if (tmp.rectTransform != null)
-            {
                 LayoutRebuilder.MarkLayoutForRebuild(tmp.rectTransform);
-            }
         }
 
         private static void SetTMPActiveState(Text source, bool active)
