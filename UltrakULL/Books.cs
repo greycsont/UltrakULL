@@ -40,7 +40,7 @@ namespace UltrakULL
 				{
 					return LanguageManager.CurrentLanguage.books.books_violenceSecond1 + "\n\n" + LanguageManager.CurrentLanguage.books.books_violenceSecond2 + "\n\n> < < > < < > > < > > < >";
 				}
-				return "<i>" + LanguageManager.CurrentLanguage.books.books_violenceSecondAmbush1 + "\n\n\n\n" + LanguageManager.CurrentLanguage.books.books_violenceSecondAmbush2 + "\n\n\n\n\n" + LanguageManager.CurrentLanguage.books.books_violenceSecondAmbush1 + "\n\n\n\n" + LanguageManager.CurrentLanguage.books.books_violenceSecondAmbush3 + "\n\n\n\n\n" + LanguageManager.CurrentLanguage.books.books_violenceSecondAmbush1 + "\n\n\n\n" + LanguageManager.CurrentLanguage.books.books_violenceSecondAmbush4 + "</i>";
+				return "<i>" + LanguageManager.CurrentLanguage.books.books_violenceSecondAmbush1 + "\n\n\n" + LanguageManager.CurrentLanguage.books.books_violenceSecondAmbush2 + "\n\n\n\n\n" + LanguageManager.CurrentLanguage.books.books_violenceSecondAmbush1 + "\n\n\n" + LanguageManager.CurrentLanguage.books.books_violenceSecondAmbush3 + "\n\n\n\n\n" + LanguageManager.CurrentLanguage.books.books_violenceSecondAmbush1 + "\n\n\n" + LanguageManager.CurrentLanguage.books.books_violenceSecondAmbush4 + "</i>";
 			case "Level 7-4":
                     return "<size=23><color=red>" + LanguageManager.CurrentLanguage.books.books_violenceFourth1 + "\n\n\n" + LanguageManager.CurrentLanguage.books.books_violenceFourth2 + "\n\n\n" + LanguageManager.CurrentLanguage.books.books_violenceFourth3 + "\n\n\n" + LanguageManager.CurrentLanguage.books.books_violenceFourth4 + "\n\n\n<size=20><color=white>" + LanguageManager.CurrentLanguage.books.books_violenceFourth5 + "</color></size>";
                 case "Level 7-S":
