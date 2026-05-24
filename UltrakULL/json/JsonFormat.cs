@@ -1293,7 +1293,7 @@ namespace UltrakULL.json
         public bool langRTL;
         public string minimumModVersion;
         public bool langHinduNumbers;
-        public int tmFontSize;
+        public int tmFontSize = 100;
         public FontsMetadata fonts = new FontsMetadata();
     }
 

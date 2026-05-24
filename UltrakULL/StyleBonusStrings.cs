@@ -53,7 +53,7 @@ namespace UltrakULL
 			case "ultrakill.airslam":
 				return "<color=#00ffff>" + LanguageManager.CurrentLanguage.style.style_airslam + "</color>";
 			case "ultrakill.airshot":
-				return LanguageManager.CurrentLanguage.style.style_airshot;
+				return "<color=#00ffff>" + LanguageManager.CurrentLanguage.style.style_airshot + "</color>";
 			case "ultrakill.attripator":
 				return "<color=#00ffff>" + LanguageManager.CurrentLanguage.style.style_attraptor + "</color>";
 			case "ultrakill.arsenal":
@@ -173,9 +173,9 @@ namespace UltrakULL
 			case "ultrakill.roundtrip":
 				return "<color=green>" + LanguageManager.CurrentLanguage.style.style_roundtrip + "</color>";
 			case "ultrakill.terminalvelocity":
-				return "<color=green>" + LanguageManager.CurrentLanguage.style.style_terminalvelocity + "</color>";
+				return LanguageManager.CurrentLanguage.style.style_terminalvelocity;
 			case "ultrakill.heartbreak":
-				return "<color=green>" + LanguageManager.CurrentLanguage.style.style_heartbreak + "</color>";
+				return LanguageManager.CurrentLanguage.style.style_heartbreak;
             case "ultrakill.insurrstomp":
                 return LanguageManager.CurrentLanguage.style.style_stomped;
             case "ultrakill.drillhit":
@@ -276,13 +276,13 @@ namespace UltrakULL
 			case "BLACK WINS":
 				return "<color=orange>" + LanguageManager.CurrentLanguage.style.style_blackwins + "</color>";
 			case "BONGCLOUD":
-				return "<color=orange>" + LanguageManager.CurrentLanguage.style.style_bongcloud + "</color>";
+				return "<color=green>" + LanguageManager.CurrentLanguage.style.style_bongcloud + "</color>";
 			case "CASTLED":
-				return "<color=blue>" + LanguageManager.CurrentLanguage.style.style_castled + "</color>";
+				return "<color=#00FFFF>" + LanguageManager.CurrentLanguage.style.style_castled + "</color>";
 			case "EN PASSANT":
-				return "<color=blue>" + LanguageManager.CurrentLanguage.style.style_enpassant + "</color>";
+				return "<color=#00FFFF>" + LanguageManager.CurrentLanguage.style.style_enpassant + "</color>";
 			case "FOOLS MATE":
-				return "<color=red>" + LanguageManager.CurrentLanguage.style.style_foolsmate + "</color>";
+				return "<color=green>" + LanguageManager.CurrentLanguage.style.style_foolsmate + "</color>";
 			case "KNIGHT CAPTURE":
 				return "<color=green>" + LanguageManager.CurrentLanguage.style.style_knightcapture + "</color>";
 			case "KNIGHT PROMOTION":
