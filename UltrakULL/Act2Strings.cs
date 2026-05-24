@@ -111,10 +111,6 @@ namespace UltrakULL
             {
                 return (LanguageManager.CurrentLanguage.act2.act2_wrathFirst_slingshot);
             }
-            /*if (fullMessage.Contains("WHIPLASH")) // We disable, not delete, this condition and key. It is not guaranteed that the game will not return this message.
-            {
-                return (LanguageManager.CurrentLanguage.act2.act2_wrathFirst_whiplashUnderwater);
-            }*/
             if (fullMessage.Contains("SENTRIES"))
             {
                 return (LanguageManager.CurrentLanguage.act2.act2_wrathFirst_sentry);
@@ -123,10 +119,14 @@ namespace UltrakULL
             {
                 return (LanguageManager.CurrentLanguage.act2.act2_wrathFirst_waterDrained);
             }
-            if (fullMessage.Contains("HARD DAMAGE")) 
+            if (fullMessage.Contains("REDUCE")) 
             {
                 return LanguageManager.CurrentLanguage.act2.act2_wrathFirst_whiplashHardDamage1 + "\n" // Renamed to act2_wrathFirst_whiplashHardDamage1 because message moved from 4-4 to 5-1
                 + LanguageManager.CurrentLanguage.act2.act2_wrathFirst_whiplashHardDamage2; // Renamed to act2_wrathFirst_whiplashHardDamage2 because message moved from 4-4 to 5-1
+            }
+            if (fullMessage.Contains("UNDERWATER"))
+            {
+                return (LanguageManager.CurrentLanguage.act2.act2_wrathFirst_whiplashUnderwater);
             }
             if (fullMessage.Contains("A door opens."))
             {
