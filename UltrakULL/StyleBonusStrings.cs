@@ -206,7 +206,7 @@ namespace UltrakULL
 			switch (text)
 			{
 			case "CONDUCTOR":
-				return LanguageManager.CurrentLanguage.style.style_conductor;
+				return "<color=#00FFFF>" + LanguageManager.CurrentLanguage.style.style_conductor + "</color>";
 			case "CRUSHED":
 				return LanguageManager.CurrentLanguage.style.style_crushed;
 			case "FALL":

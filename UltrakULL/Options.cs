@@ -961,6 +961,9 @@ namespace UltrakULL
                 TextMeshProUGUI backText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(leftColumn, "Back"), "Text"));
                 backText.text = LanguageManager.CurrentLanguage.options.options_back;
 
+                TextMeshProUGUI paletteSelectorClose = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(optionsMenu, "Palette Selector"),"Close"),"Text"));
+                paletteSelectorClose.text = LanguageManager.CurrentLanguage.options.save_close;
+
                 try
                 {
                     GameObject savesOptions = GetGameObjectChild(optionsMenu, "Save Slots");
