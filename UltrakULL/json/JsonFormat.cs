@@ -1490,8 +1490,11 @@ namespace UltrakULL.json
         public string chapter_type_primary;
         public string chapter_prelude;
         public string chapter_act1;
+        public string chapter_act1_lock;
         public string chapter_act2;
+        public string chapter_act2_lock;
         public string chapter_act3;
+        public string chapter_act3_lock;
         public string chapter_type_secondary;
         public string chapter_encore;
         public string chapter_prime;
@@ -2275,6 +2278,7 @@ namespace UltrakULL.json
         public string graphics_vertexWarpingAbsurd;
 
         public string graphics_customColorPalette;
+        public string graphics_customPaletteTexture;
         public string graphics_customColorPaletteSelect;
 
         public string graphics_colorCompression;

@@ -290,7 +290,7 @@ namespace UltrakULL
             customColorPalette.text = LanguageManager.CurrentLanguage.options.graphics_customColorPalette;
 
             TextMeshProUGUI customPaletteTexture = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(graphicsContent, "Color Palette Texture"), "Text"));
-            //customPaletteTexture.text = LanguageManager.CurrentLanguage.options.graphics_customPaletteTexture;
+            customPaletteTexture.text = LanguageManager.CurrentLanguage.options.graphics_customPaletteTexture;
 
             TextMeshProUGUI customColorPaletteSelect = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(graphicsContent, "Color Palette Texture"), "Action Button(Clone)"), "Text"));
             customColorPaletteSelect.text = LanguageManager.CurrentLanguage.options.graphics_customColorPaletteSelect;
