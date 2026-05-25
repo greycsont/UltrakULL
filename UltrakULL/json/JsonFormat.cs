@@ -2423,6 +2423,7 @@ namespace UltrakULL.json
         public string save_reloadNo;
         public string save_deleteWarning1;
         public string save_deleteWarning2;
+        public string save_deleteWarning3;
         public string save_deleteYes;
         public string save_deleteNo;
         public string save_close;

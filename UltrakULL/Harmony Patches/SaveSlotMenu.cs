@@ -164,7 +164,7 @@ namespace UltrakULL.Harmony_Patches
             {
                 return;
             }
-            ___wipeConsentContent.text = string.Format(LanguageManager.CurrentLanguage.options.save_deleteWarning1 + " <color=red>" + LanguageManager.CurrentLanguage.options.save_deleteWarning2 + " {0}</color>?", slot + 1);
+            ___wipeConsentContent.text = string.Format(LanguageManager.CurrentLanguage.options.save_deleteWarning1 + "<color=red>" + LanguageManager.CurrentLanguage.options.save_deleteWarning2 + " {0}</color>" + LanguageManager.CurrentLanguage.options.save_deleteWarning3, slot + 1);
         }
     }
 }
