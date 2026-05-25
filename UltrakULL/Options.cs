@@ -830,7 +830,7 @@ namespace UltrakULL
             advancedOptionsTitle.text = "--" + LanguageManager.CurrentLanguage.options.advanced_title + "--";
 
             TextMeshProUGUI advancedOptionsClose = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(advancedOptions, "Close"), "Text"));
-            advancedOptionsClose.text = LanguageManager.CurrentLanguage.options.save_close;
+            advancedOptionsClose.text = LanguageManager.CurrentLanguage.options.steamLeaderboard_returnButton;
 
             //Cybergrind Reset Confirm
             GameObject cybergrindResetPanel = GetGameObjectChild(GetGameObjectChild(advancedOptions, "Reset Cyber Grind Dialog"), "Panel");
