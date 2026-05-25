@@ -455,13 +455,21 @@ namespace UltrakULL.Harmony_Patches
             if (tmp == null)
                 return;
 
+            float scale = TerminalFontScale / 100f;
+
             if (!OriginalFontSizes.TryGetValue(tmp, out float originalSize))
             {
                 originalSize = tmp.fontSize;
                 OriginalFontSizes[tmp] = originalSize;
             }
 
-            tmp.fontSize = originalSize * (TerminalFontScale / 100f);
+            tmp.fontSize = originalSize * scale;
+
+            if (tmp.enableAutoSizing)
+            {
+                tmp.fontSizeMin *= scale;
+                tmp.fontSizeMax *= scale;
+            }
         }
 
         private static void ApplyFont(
