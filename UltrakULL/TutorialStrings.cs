@@ -171,7 +171,7 @@ namespace UltrakULL
                 calibrationMechanicsLenient.text = LanguageManager.CurrentLanguage.frontend.difficulty_lenient;
 
                 TextMeshProUGUI calibrationMechanicsStandard = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(calibrationMechanicsWindow, "Standard"), "Name"));
-                calibrationMechanicsStandard.text = LanguageManager.CurrentLanguage.frontend.difficulty_standard;
+                calibrationMechanicsStandard.text = LanguageManager.CurrentLanguage.frontend.difficulty_standard + " <color=orange>*</color>";
 
                 TextMeshProUGUI calibrationMechanicsViolent = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(calibrationMechanicsWindow, "Violent"), "Name"));
                 calibrationMechanicsViolent.text = LanguageManager.CurrentLanguage.frontend.difficulty_violent;

@@ -70,7 +70,7 @@ namespace UltrakULL
 
             //Teleport menu title
             TextMeshProUGUI cheatsTeleportMenuTitle = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(canvasObj,"Cheat Menu"),"Cheats Teleport"),"Title"));
-            cheatsTeleportMenuTitle.text = LanguageManager.CurrentLanguage.cheats.cheats_teleportMenu;
+            cheatsTeleportMenuTitle.text = LanguageManager.CurrentLanguage.cheats.cheats_teleport;
         }
 
         public static string GetCheatStatus(string cheatStatus)
@@ -90,9 +90,10 @@ namespace UltrakULL
                         case "EQUIP": { return LanguageManager.CurrentLanguage.cheats.cheats_equip; }
                         case "REMOVE": { return LanguageManager.CurrentLanguage.cheats.cheats_remove; }
                         case "OPEN": { return LanguageManager.CurrentLanguage.cheats.cheats_open; }
-                        case "KILL ALL": { return LanguageManager.CurrentLanguage.cheats.cheats_killAll; }
+                        case "Kill All": { return LanguageManager.CurrentLanguage.cheats.cheats_killAll; }
                         case "STATIC": { return LanguageManager.CurrentLanguage.cheats.cheats_static; }
                         case "DYNAMIC": { return LanguageManager.CurrentLanguage.cheats.cheats_dynamic; }
+                        case "CLEAR": { return LanguageManager.CurrentLanguage.cheats.cheats_clear; }
                         case "REBUILD": { return LanguageManager.CurrentLanguage.cheats.cheats_rebuild; }
                         case "REBUILDING...": { return LanguageManager.CurrentLanguage.cheats.cheats_rebuilding; }
                         default: { return null; }
@@ -136,7 +137,7 @@ namespace UltrakULL
                     case "ultrakill.sandbox.quick-save": { return LanguageManager.CurrentLanguage.cheats.cheats_quickSave; }
                     case "ultrakill.sandbox.quick-load": { return LanguageManager.CurrentLanguage.cheats.cheats_quickLoad; }
                     case "ultrakill.sandbox.save-menu": { return LanguageManager.CurrentLanguage.cheats.cheats_saveMenu; }
-                    case "ultrakill.sandbox.clear": { return LanguageManager.CurrentLanguage.cheats.cheats_clear; }
+                    case "ultrakill.sandbox.clear": { return LanguageManager.CurrentLanguage.cheats.cheats_clearMap; }
                     case "ultrakill.sandbox.rebuild-nav": { return LanguageManager.CurrentLanguage.cheats.cheats_rebuildNav; }
                     case "ultrakill.sandbox.snapping": { return LanguageManager.CurrentLanguage.cheats.cheats_snapping; }
                     case "ultrakill.sandbox.physics": { return LanguageManager.CurrentLanguage.cheats.cheats_physics; }

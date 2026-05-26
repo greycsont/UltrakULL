@@ -283,6 +283,7 @@ namespace UltrakULL.json
         public string cheats_keepEnabled;
         public string cheats_spawnerArm;
         public string cheats_teleportMenu;
+        public string cheats_teleport;
         public string cheats_fullBright;
         public string cheats_invincibility;
         public string cheats_noclip;
@@ -299,6 +300,7 @@ namespace UltrakULL.json
         public string cheats_quickSave;
         public string cheats_quickLoad;
         public string cheats_saveMenu;
+        public string cheats_clearMap;
         public string cheats_clear;
         public string cheats_rebuildNav;
         public string cheats_snapping;
