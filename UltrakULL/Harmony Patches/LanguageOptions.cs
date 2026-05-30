@@ -653,6 +653,11 @@ namespace UltrakULL.Harmony_Patches
                     getOnlineLanguages(pagesParent, langLocalPage);
                 }
             });
+
+            browseLangButtonObj.GetComponent<Button>().interactable = false;
+            var text = browseLangButtonObj.GetComponentInChildren<TextMeshProUGUI>();
+            if (text != null) text.text = "<color=#028702>→Browse langs online←</color>";
+
             Logging.Info("Browse Language button added successfully.");
             return true;
         }
