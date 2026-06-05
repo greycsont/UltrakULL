@@ -36,8 +36,8 @@ namespace UltrakULL.Harmony_Patches
             }
             if(show && fish != null)
             {
-                string fishName = "";
-                switch(fish.fishName)
+                string fishName = fish.fishName;
+                switch (fish.fishName)
                 { 
                     case "Funny Stupid Fish (Friend)":
                     {
@@ -109,7 +109,7 @@ namespace UltrakULL.Harmony_Patches
             }
         }
     }
-
+    
     [HarmonyPatch(typeof(FishingRodWeapon),"Update")]
     public class DisplayWaterType
     {
