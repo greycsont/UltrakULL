@@ -319,19 +319,27 @@ namespace UltrakULL
 			}
 		}
 
-		public static string GetTranslatedStyleBonus(string inputBonus)
-		{
-			bool num = inputBonus.Contains("<color=");
-			string text = "</color>";
-			string styleBonus = GetStyleBonus(inputBonus);
-			if (num)
-			{
-				return GetBonusColor(inputBonus) + styleBonus + text;
-			}
-			return styleBonus;
-		}
+        public static string GetTranslatedStyleBonus(string inputBonus)
+        {
+            string colorOpen = "";
+            string colorClose = "";
 
-		public static string GetWeaponFreshness(StyleFreshnessState weaponState)
+            Match match = Regex.Match(inputBonus, @"<color=([^>]+)>", RegexOptions.IgnoreCase);
+            if (match.Success)
+            {
+                colorOpen = match.Value;
+                colorClose = "</color>";
+            }
+
+            string styleBonus = GetStyleBonus(inputBonus);
+
+            if (styleBonus.Contains("<color="))
+                return styleBonus;
+
+            return colorOpen + styleBonus + colorClose;
+        }
+
+        public static string GetWeaponFreshness(StyleFreshnessState weaponState)
 		{
 
 
