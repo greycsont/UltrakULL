@@ -149,7 +149,12 @@ namespace UltrakULL
                 
                 TextMeshProUGUI weaponBackText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(shopWeaponsButtonsObject, "BackButton"), "Text"));
                 weaponBackText.text = LanguageManager.CurrentLanguage.shop.shop_back;
-                
+
+                if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("maranara_project_prophet") ||
+                    BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("plonk.straymode"))
+                    return;
+
+
                 TextMeshProUGUI weaponRevolverText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(shopWeaponsButtonsObject, "RevolverButton"), "Text"));
                 weaponRevolverText.text = LanguageManager.CurrentLanguage.shop.shop_weaponsRevolver;
                 

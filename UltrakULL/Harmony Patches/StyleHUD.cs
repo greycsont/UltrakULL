@@ -25,10 +25,18 @@ namespace UltrakULL.Harmony_Patches
             }
             if (___idNameDict.ContainsKey(id))
             {
-                __result = StyleBonusStrings.GetStyleBonusDictionary(id);
+                string dictResult = StyleBonusStrings.GetStyleBonusDictionary(id);
+                if (dictResult == null)
+                    return true;
+                __result = dictResult;
                 return false;
             }
-            __result = StyleBonusStrings.GetTranslatedStyleBonus(id);
+
+            string translated = StyleBonusStrings.GetTranslatedStyleBonus(id);
+            if (translated == null || translated == "")
+                return true;
+
+            __result = translated;
             return false;
         }
     }

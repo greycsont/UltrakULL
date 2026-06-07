@@ -196,8 +196,8 @@ namespace UltrakULL
 				return "";
 			default:
 				Logging.Warn("Missing style translation: " + inputBonus);
-				return inputBonus;
-			}
+                return null;
+            }
 		}
 
 		private static string GetStyleBonus(string inputBonus)
@@ -315,12 +315,16 @@ namespace UltrakULL
 				return "";
 			default:
 				Logging.Warn("Missing style translation: " + text);
-				return text;
-			}
+                return null;
+            }
 		}
 
         public static string GetTranslatedStyleBonus(string inputBonus)
         {
+            string styleBonus = GetStyleBonus(inputBonus);
+            if (styleBonus == null)
+                return null;
+
             string colorOpen = "";
             string colorClose = "";
 
@@ -330,8 +334,6 @@ namespace UltrakULL
                 colorOpen = match.Value;
                 colorClose = "</color>";
             }
-
-            string styleBonus = GetStyleBonus(inputBonus);
 
             if (styleBonus.Contains("<color="))
                 return styleBonus;
