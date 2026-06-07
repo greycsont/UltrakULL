@@ -282,9 +282,12 @@ namespace UltrakULL.Harmony_Patches
 
         private static readonly Dictionary<string, (string filename, string type)> globalTextureReplacements = new Dictionary<string, (string, string)>
         {
-            { "checkpoint", ("Checkpoint", "texture") },
-            { "T_ShopTerminal", ("T_ShopTerminal", "texture") },
-            { "T_ShopTerminal_Emission", ("T_ShopTerminal_Emission", "texture") },
+            { "checkpoint", ("Checkpoint", "texture") }, //checkpoint, checkpoint, checkpoint
+            { "T_ShopTerminal", ("T_ShopTerminal", "texture") }, //Standart texture for the shop terminals. Used for "Broken" shop terminals
+            { "T_ShopTerminal_Emission", ("T_ShopTerminal_Emission", "texture") }, //Glow texture for the shop terminals. You can always see it
+            { "T_Gabe_SpledorJustice", ("T_Gabe_SpledorJustice", "texture") }, // Inscription on the scabbard of Gabriel's swords
+            { "bombtexture4", ("bombtexture4", "texture") }, //landing pod for some enemies
+            { "Explosive Barrel", ("Explosive Barrel", "texture") }, //KABOOOOOM
             { "RankD", ("RankD", "sprite") },
             { "RankC", ("RankC", "sprite") },
             { "RankB", ("RankB", "sprite") },
@@ -335,7 +338,7 @@ namespace UltrakULL.Harmony_Patches
                     { "Level 2-3", new Dictionary<string, (string, string)> { { "watercontrol1", ("watercontrol1", "texture") }, { "watercontrol2", ("watercontrol2", "texture") } } },
                     { "Level 4-3", new Dictionary<string, (string, string)> { { "traitor", ("traitor", "texture") } } },
                     { "Level 5-1", new Dictionary<string, (string, string)> { { "WaterProcessingAttention", ("WaterProcessingAttention", "texture") } } },
-                    { "Level 7-2", new Dictionary<string, (string, string)> { { "exit", ("exit", "texture") } } },
+                    { "Level 7-2", new Dictionary<string, (string, string)> { { "exit", ("exit", "texture") }, { "T_Excavator", ("T_Excavator", "texture") } } },
                     { "Level 7-3", new Dictionary<string, (string, string)> { { "marble_inverted 3", ("marble_inverted 3", "texture") } } },
                     { "Level 7-4", new Dictionary<string, (string, string)> { { "HotPipeSign", ("HotPipeSign", "texture") }, { "T_Cent_PlantRoom", ("T_Cent_PlantRoom", "texture") } } },
                     { "Level 7-S", new Dictionary<string, (string, string)> { { "T_Placard", ("T_Placard", "texture") }, { "T_TrailSign", ("T_TrailSign", "texture") } } },
