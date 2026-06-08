@@ -289,7 +289,8 @@ namespace UltrakULL.Harmony_Patches
             { "T_ShopTerminal", ("T_ShopTerminal", "texture") }, //Standart texture for the shop terminals. Used for "Broken" shop terminals
             { "T_ShopTerminal_Emission", ("T_ShopTerminal_Emission", "texture") }, //Glow texture for the shop terminals. You can always see it
             { "T_Gabe_SpledorJustice", ("T_Gabe_SpledorJustice", "texture") }, // Inscription on the scabbard of Gabriel's swords
-            { "bombtexture4", ("bombtexture4", "texture") }, //landing pod for some enemies
+            { "bombtexture4", ("bombtexture4", "texture") }, //landing pod for some enemies and standart bomb texture for some object
+            { "bombtexture5", ("bombtexture5", "texture") }, //landing pod for some enemies
             { "Explosive Barrel", ("Explosive Barrel", "texture") }, //KABOOOOOM
             { "RankD", ("RankD", "sprite") },
             { "RankC", ("RankC", "sprite") },
@@ -436,8 +437,6 @@ namespace UltrakULL.Harmony_Patches
         // Loaded custom icon sprites: iconKey -> Sprite
         private static Dictionary<string, Sprite> customIconSprites = new Dictionary<string, Sprite>();
 
-        // Export original icons to PNG when no replacement file exists
-        private const bool ExportIconOriginals = false;
 
         private static readonly HashSet<string> ignoredScenes = new HashSet<string>
         {
@@ -474,6 +473,7 @@ namespace UltrakULL.Harmony_Patches
                     { "Level 0-3", new Dictionary<string, (string, string)> { { "SignSecurityInstructions", ("SignSecurityInstructions", "texture") }, { "SignWarning", ("SignWarning", "texture") }, { "SignCoolingChamber", ("SignCoolingChamber", "texture") }, { "SignSecurityLockdown", ("SignSecurityLockdown", "texture") }, { "SignSecurityCheckpoint", ("SignSecurityCheckpoint", "texture") } } },
                     { "Level 0-4", new Dictionary<string, (string, string)> { { "SignSecurityInstructions", ("SignSecurityInstructions", "texture") }, { "SignWarning", ("SignWarning", "texture") }, { "SignCoolingChamber", ("SignCoolingChamber", "texture") }, { "SignSecurityLockdown", ("SignSecurityLockdown", "texture") }, { "SignSecurityCheckpoint", ("SignSecurityCheckpoint", "texture") } } },
                     { "Level 0-5", new Dictionary<string, (string, string)> { { "abandonhope2", ("abandonhope2", "texture") }, { "SignSecurityInstructions", ("SignSecurityInstructions", "texture") }, { "SignWarning", ("SignWarning", "texture") }, { "SignCoolingChamber", ("SignCoolingChamber", "texture") }, { "SignSecurityLockdown", ("SignSecurityLockdown", "texture") }, { "SignSecurityCheckpoint", ("SignSecurityCheckpoint", "texture") } } },
+                    { "Level 1-2", new Dictionary<string, (string, string)> { { "electricitybox", ("electricitybox", "texture") } } },
                     { "Level 1-4", new Dictionary<string, (string, string)> { { "forgiveme", ("forgiveme", "texture") } } },
                     { "Level 2-2", new Dictionary<string, (string, string)> { { "electricitybox", ("electricitybox", "texture") } } },
                     { "Level 2-3", new Dictionary<string, (string, string)> { { "watercontrol1", ("watercontrol1", "texture") }, { "watercontrol2", ("watercontrol2", "texture") } } },
@@ -481,7 +481,7 @@ namespace UltrakULL.Harmony_Patches
                     { "Level 5-1", new Dictionary<string, (string, string)> { { "WaterProcessingAttention", ("WaterProcessingAttention", "texture") } } },
                     { "Level 7-2", new Dictionary<string, (string, string)> { { "exit", ("exit", "texture") }, { "T_Excavator", ("T_Excavator", "texture") } } },
                     { "Level 7-3", new Dictionary<string, (string, string)> { { "marble_inverted 3", ("marble_inverted 3", "texture") } } },
-                    { "Level 7-4", new Dictionary<string, (string, string)> { { "HotPipeSign", ("HotPipeSign", "texture") }, { "T_Cent_PlantRoom", ("T_Cent_PlantRoom", "texture") } } },
+                    { "Level 7-4", new Dictionary<string, (string, string)> { { "HotPipeSign", ("HotPipeSign", "texture") }, { "T_Cent_PlantRoom", ("T_Cent_PlantRoom", "texture") }, { "electricitybox", ("electricitybox", "texture") } } },
                     { "Level 7-S", new Dictionary<string, (string, string)> { { "T_Placard", ("T_Placard", "texture") }, { "T_TrailSign", ("T_TrailSign", "texture") } } },
                     { "Level 8-1", new Dictionary<string, (string, string)> { { "ArchangelNamePlateRaphael", ("ArchangelNamePlateRaphael", "texture") }, { "ArchangelNamePlatePhanuel", ("ArchangelNamePlatePhanuel", "texture") }, { "ArchangelNamePlateMichael", ("ArchangelNamePlateMichael", "texture") }, { "ArchangelNamePlateGabriel", ("ArchangelNamePlateGabriel", "texture") }, { "T_LionPlaque", ("T_LionPlaque", "texture") }, { "wecamein", ("wecamein", "texture") }, { "wecamein2", ("wecamein2", "texture") } } },
                     { "Level 8-2", new Dictionary<string, (string, string)> { { "ad_fox 1", ("ad_fox 1", "texture") }, { "big_hakita", ("big_hakita", "texture") }, { "inthemirror", ("inthemirror", "texture") }, { "OfficeMaintenance", ("OfficeMaintenance", "texture") }, { "presentation2", ("presentation2", "texture") }, { "VendingMachine", ("VendingMachine", "texture") }, { "StatsBoard", ("StatsBoard", "texture") }, { "OfficeArchive", ("OfficeArchive", "texture") } } },
@@ -565,8 +565,6 @@ namespace UltrakULL.Harmony_Patches
 
             yield return LoadIconSprites();
 
-            if (ExportIconOriginals)
-                yield return ExportIconOriginalsCoroutine();
 
             if (currentReplacements.Count == 0 && rankSprites.Count == 0 && customIconSprites.Count == 0)
             {
@@ -2085,144 +2083,6 @@ namespace UltrakULL.Harmony_Patches
             customIconSprites.Clear();
         }
 
-        // ===== Icon Export System =====
-
-        private static IEnumerator ExportIconOriginalsCoroutine()
-        {
-            yield return null;
-            try
-            {
-                ExportIconPack(0);
-                ExportIconPack(1);
-            }
-            catch (Exception ex)
-            {
-                Logging.Warn($"[TexturePatcher] Export error: {ex.Message}");
-            }
-        }
-
-        private static void ExportIconPack(int packId)
-        {
-            try
-            {
-                Type iconManagerType = FindType("IconManager");
-                if (iconManagerType == null) return;
-
-                var iconPacksField = iconManagerType.GetField("iconPacks",
-                    BindingFlags.NonPublic | BindingFlags.Instance);
-                if (iconPacksField == null) return;
-
-                object mgr = GetSingletonInstance(iconManagerType);
-                if (mgr == null) return;
-
-                var packs = iconPacksField.GetValue(mgr) as Array;
-                if (packs == null || packId >= packs.Length) return;
-
-                var cheatAsset = packs.GetValue(packId);
-                if (cheatAsset == null) return;
-
-                string prefix = packId == 0 ? "Default" : "PIRT";
-                string dir = texturesFolder.TrimEnd(Path.DirectorySeparatorChar);
-
-                if (!Directory.Exists(dir))
-                    Directory.CreateDirectory(dir);
-
-                ExportIconArray(cheatAsset, "cheatIcons", dir, prefix);
-                ExportIconArray(cheatAsset, "sandboxMenuIcons", dir, prefix);
-                ExportIconArray(cheatAsset, "sandboxArmHoloIcons", dir, prefix);
-                ExportGenericSprite(cheatAsset, "genericCheatIcon", dir, prefix + "_genericCheatIcon");
-                ExportGenericSprite(cheatAsset, "genericSandboxToolIcon", dir, prefix + "_genericSandboxToolIcon");
-
-                Logging.Message($"[TexturePatcher] Exported {prefix} icons to {dir}");
-            }
-            catch (Exception ex)
-            {
-                Logging.Warn($"[TexturePatcher] Export pack {packId} error: {ex.Message}");
-            }
-        }
-
-        private static void ExportIconArray(object cheatAsset, string fieldName, string dir, string prefix)
-        {
-            var field = cheatAsset.GetType().GetField(fieldName,
-                BindingFlags.Public | BindingFlags.Instance);
-            if (field == null) return;
-
-            var arr = field.GetValue(cheatAsset) as Array;
-            if (arr == null) return;
-
-            var elementType = arr.GetType().GetElementType();
-            var keyField = elementType?.GetField("key",
-                BindingFlags.Public | BindingFlags.Instance);
-            var spriteField = elementType?.GetField("sprite",
-                BindingFlags.Public | BindingFlags.Instance);
-            if (keyField == null || spriteField == null) return;
-
-            int exported = 0;
-            for (int i = 0; i < arr.Length; i++)
-            {
-                var el = arr.GetValue(i);
-                if (el == null) continue;
-
-                string key = keyField.GetValue(el)?.ToString();
-                if (string.IsNullOrEmpty(key)) continue;
-
-                string exportName = prefix + "_" + key;
-                string exportPath = Path.Combine(dir, exportName + ".png");
-                if (File.Exists(exportPath)) continue;
-
-                if (spriteField.GetValue(el) is Sprite sprite && sprite.texture != null)
-                {
-                    ExportTextureToPng(sprite.texture, exportPath);
-                    exported++;
-                }
-            }
-
-            if (exported > 0)
-                Logging.Message($"[TexturePatcher] Exported {exported} icons from {fieldName}");
-        }
-
-        private static void ExportGenericSprite(object cheatAsset, string fieldName, string dir, string exportName)
-        {
-            var field = cheatAsset.GetType().GetField(fieldName,
-                BindingFlags.Public | BindingFlags.Instance);
-            if (field == null) return;
-
-            string exportPath = Path.Combine(dir, exportName + ".png");
-            if (File.Exists(exportPath)) return;
-
-            if (field.GetValue(cheatAsset) is Sprite sprite && sprite.texture != null)
-            {
-                ExportTextureToPng(sprite.texture, exportPath);
-            }
-        }
-
-        private static void ExportTextureToPng(Texture2D tex, string path)
-        {
-            try
-            {
-                var rt = RenderTexture.GetTemporary(tex.width, tex.height, 0, RenderTextureFormat.ARGB32);
-                Graphics.Blit(tex, rt);
-                var prev = RenderTexture.active;
-                RenderTexture.active = rt;
-
-                var copy = new Texture2D(tex.width, tex.height, TextureFormat.ARGB32, false);
-                copy.ReadPixels(new Rect(0, 0, tex.width, tex.height), 0, 0);
-                copy.Apply();
-
-                RenderTexture.active = prev;
-                RenderTexture.ReleaseTemporary(rt);
-
-                byte[] bytes = ImageConversion.EncodeToPNG(copy);
-                Object.Destroy(copy);
-
-                File.WriteAllBytes(path, bytes);
-                Logging.Message($"[TexturePatcher] Exported: {path}");
-            }
-            catch (Exception ex)
-            {
-                Logging.Warn($"[TexturePatcher] Export PNG error: {ex.Message}");
-            }
-        }
 
         // ===== Harmony Patches for Icon System =====
 
@@ -2290,11 +2150,6 @@ namespace UltrakULL.Harmony_Patches
                 ReplaceIconSpritesInScene();
             }
 
-            if (ExportIconOriginals)
-            {
-                try { ExportIconPack(0); ExportIconPack(1); }
-                catch { }
-            }
         }
 
         private static void ReplaceIconSpritesInScene()
