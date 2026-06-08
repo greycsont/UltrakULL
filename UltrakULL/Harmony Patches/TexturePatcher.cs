@@ -284,6 +284,7 @@ namespace UltrakULL.Harmony_Patches
         private static readonly Dictionary<string, (string filename, string type)> globalTextureReplacements = new Dictionary<string, (string, string)>
         {
             { "checkpoint", ("Checkpoint", "texture") }, //checkpoint, checkpoint, checkpoint
+            { "spawnpoint", ("spawnpoint", "texture") }, //Every day, 1000 players have ragequit from spawnkilling. Stop spawnkilling
             { "T_ShopTerminal", ("T_ShopTerminal", "texture") }, //Standart texture for the shop terminals. Used for "Broken" shop terminals
             { "T_ShopTerminal_Emission", ("T_ShopTerminal_Emission", "texture") }, //Glow texture for the shop terminals. You can always see it
             { "T_Gabe_SpledorJustice", ("T_Gabe_SpledorJustice", "texture") }, // Inscription on the scabbard of Gabriel's swords
