@@ -14,6 +14,20 @@ namespace UltrakULL.Harmony_Patches
     [HarmonyPatch(typeof(FinalRank), "SetInfo")]
     public static class LocalizeFinalRankInfo
     {
+        private static readonly Dictionary<string, string> arabicFixCache = new Dictionary<string, string>();
+        private static readonly object arabicFixCacheLock = new object();
+
+        private static string GetCachedArabicFix(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return text;
+            lock (arabicFixCacheLock)
+            {
+                if (arabicFixCache.TryGetValue(text, out var cached))
+                    return cached;
+                return arabicFixCache[text] = ArabicFixerTool.FixLine(text);
+            }
+        }
+
         [HarmonyPrefix]
         public static bool SetInfo_MyPatch(int restarts, bool damage, bool majorUsed, bool cheatsUsed, FinalRank __instance, bool ___noRestarts, bool ___majorAssists, bool ___noDamage)
         {
@@ -77,7 +91,7 @@ namespace UltrakULL.Harmony_Patches
                     {
                     text5.text,
                     "- <color=red>",
-                    ArabicFixerTool.FixLine(restarts.ToString()),
+                    GetCachedArabicFix(restarts.ToString()),
                     "</color> " + LanguageManager.CurrentLanguage.misc.endstats_restarts +"\n"
                     });
                 }

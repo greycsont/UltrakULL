@@ -2,8 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using ArabicSupportUnity;
 using BepInEx;
 using BepInEx.Configuration;
@@ -23,20 +25,52 @@ namespace UltrakULL.json
         public static JsonFormat CurrentLanguage { get; private set; }
         private static ManualLogSource jsonLogger = Logger.CreateLogSource("LanguageManager");
         public static ConfigFile configFile;
+        private static bool allLanguagesLoaded = false;
+        private static string languagesPath;
+        private static readonly object allLanguagesLock = new object();
+
+        // Cache FieldInfo per type to avoid repeated reflection
+        private static readonly Dictionary<Type, FieldInfo[]> cachedFields = new Dictionary<Type, FieldInfo[]>();
 
         #region Helper Properties
         public static bool IsRightToLeft { get => CurrentLanguage.metadata.langRTL; }
         public static bool UsingHinduNumbers { get => CurrentLanguage.metadata.langHinduNumbers; }
         #endregion
 
-        public static void InitializeManager()
+        private static FieldInfo[] GetCachedFields(Type type)
         {
-            LoadLanguages();
+            if (!cachedFields.TryGetValue(type, out var fields))
+            {
+                fields = type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                cachedFields[type] = fields;
+            }
+            return fields;
+        }
+
+        public static void InitializeManager(bool lazy = false)
+        {
+            languagesPath = Path.Combine(Paths.ConfigPath, "ultrakull");
+
+            if (!lazy)
+            {
+                LoadLanguages();
+            }
+            else
+            {
+                allLanguages = new Dictionary<string, JsonFormat>();
+                allLanguagesDisplayNames = new Dictionary<string, JsonFormat>();
+                allLanguagesLoaded = false;
+            }
 
             configFile = new ConfigFile(Path.Combine(Paths.ConfigPath, "ultrakull", "lastLang.cfg"), true);
 
             string value = configFile.Bind("General", "LastLanguage", "en-GB").Value;
             string dubValue = configFile.Bind("General", "activeDubbing", "False").Value;
+
+            // Always load en-GB (fallback) and the active language
+            EnsureLanguageLoaded("en-GB");
+            if (value != "en-GB")
+                EnsureLanguageLoaded(value);
 
             if (allLanguages.ContainsKey(value))
             {
@@ -58,6 +92,71 @@ namespace UltrakULL.json
             }
 
             LoadSubtitledSourcesConfig();
+        }
+
+        private static void EnsureLanguageLoaded(string langName)
+        {
+            if (allLanguages.ContainsKey(langName))
+                return;
+
+            string filePath = Path.Combine(languagesPath, langName + ".json");
+            if (File.Exists(filePath))
+            {
+                Logging.Info($"Lazy-loading language file: {filePath}");
+                // Use async version synchronously for single file (still offloads CPU/disk)
+                var task = TryLoadAsync(filePath);
+                var lang = task.GetAwaiter().GetResult();
+                lock (allLanguagesLock)
+                {
+                    if (lang != null && !allLanguages.ContainsKey(lang.metadata.langName) && lang.metadata.langName != "te-mp")
+                    {
+                        allLanguages.Add(lang.metadata.langName, lang);
+                        allLanguagesDisplayNames[lang.metadata.langDisplayName] = lang;
+                    }
+                }
+            }
+            else
+            {
+                jsonLogger.Log(LogLevel.Warning, $"Language file not found: {filePath}");
+            }
+        }
+
+        public static void EnsureAllLanguagesLoaded()
+        {
+            if (allLanguagesLoaded)
+                return;
+            allLanguagesLoaded = true;
+            Logging.Message("Loading all language files (parallel async load)...");
+
+            string[] files = Directory.GetFiles(languagesPath, "*.json");
+            var tasks = new List<Task<JsonFormat>>();
+
+            foreach (string file in files)
+            {
+                string name = Path.GetFileNameWithoutExtension(file);
+                if (allLanguages.ContainsKey(name))
+                    continue;
+                tasks.Add(TryLoadAsync(file));
+            }
+
+            if (tasks.Count == 0)
+                return;
+
+            // Run all JSON loads in parallel (CPU + disk on thread pool)
+            Task.WaitAll(tasks.ToArray());
+
+            lock (allLanguagesLock)
+            {
+                foreach (var t in tasks)
+                {
+                    var lang = t.Result;
+                    if (lang != null && !allLanguages.ContainsKey(lang.metadata.langName) && lang.metadata.langName != "te-mp")
+                    {
+                        allLanguages.Add(lang.metadata.langName, lang);
+                        allLanguagesDisplayNames[lang.metadata.langDisplayName] = lang;
+                    }
+                }
+            }
         }
 
         public static void DumpLastLanguage()
@@ -105,6 +204,8 @@ namespace UltrakULL.json
         Instead, it will add them to the file.
         Thanks to GitHub Copilot.
         Unfortunately, the logs are not working well at this moment... I'm sorry T_T
+
+        Async version runs all CPU + disk work on background threads.
         */
         private static bool TryLoad<T>(string pathName, out T file)
         {
@@ -117,7 +218,6 @@ namespace UltrakULL.json
                     MissingMemberHandling = MissingMemberHandling.Ignore,
                     Error = (sender, args) =>
                     {
-                        // Log the error and mark it as handled
                         jsonLogger.Log(LogLevel.Warning, $"Missing member: {args.ErrorContext.Member}");
                         args.ErrorContext.Handled = true;
                     }
@@ -143,6 +243,44 @@ namespace UltrakULL.json
             }
         }
 
+        // Thread-safe async version: returns JsonFormat (null on failure), does all CPU/disk work on ThreadPool
+        private static Task<JsonFormat> TryLoadAsync(string pathName)
+        {
+            return Task.Run(() =>
+            {
+                try
+                {
+                    string jsonFile = File.ReadAllText(pathName);
+                    var settings = new JsonSerializerSettings
+                    {
+                        MissingMemberHandling = MissingMemberHandling.Ignore,
+                        Error = (sender, args) =>
+                        {
+                            jsonLogger.Log(LogLevel.Warning, $"Missing member: {args.ErrorContext.Member}");
+                            args.ErrorContext.Handled = true;
+                        }
+                    };
+                    var file = JsonConvert.DeserializeObject<JsonFormat>(jsonFile, settings);
+                    if (file != null)
+                    {
+                        var reference = Activator.CreateInstance<JsonFormat>();
+                        string logFileName = $"{Path.GetFileNameWithoutExtension(pathName)}_MISSING_KEYS.log";
+                        jsonLogger.Log(LogLevel.Info, $"Starting to add missing keys for {pathName}");
+                        AddMissingKeys(reference, file, null, logFileName);
+                        string updatedJson = JsonConvert.SerializeObject(file, Formatting.Indented);
+                        File.WriteAllText(pathName, updatedJson);
+                        jsonLogger.Log(LogLevel.Info, $"Finished adding missing keys for {pathName}");
+                    }
+                    return file;
+                }
+                catch (Exception e)
+                {
+                    jsonLogger.Log(LogLevel.Error, "Failed to load language file " + pathName + ": " + e.Message);
+                    return null;
+                }
+            });
+        }
+
         private static void AddMissingKeys(object reference, object target, string parentKey, string logFileName)
         {
             if (reference == null || target == null)
@@ -152,7 +290,7 @@ namespace UltrakULL.json
             if (type != target.GetType())
                 return;
 
-            foreach (FieldInfo field in type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+            foreach (FieldInfo field in GetCachedFields(type))
             {
                 object refValue = field.GetValue(reference);
                 object targetValue = field.GetValue(target);
@@ -246,43 +384,53 @@ namespace UltrakULL.json
         private static JsonFormat ApplyRtl(JsonFormat language)
         {
             if (language == null)
-            {
                 return language;
-            }
 
-            List<object> translationComponents = new List<object>
+            // Heavy RTL processing runs on background thread to avoid hitching
+            return ApplyRtlAsync(language).GetAwaiter().GetResult();
+        }
+
+        private static Task<JsonFormat> ApplyRtlAsync(JsonFormat language)
+        {
+            return Task.Run(() =>
             {
-                language.frontend,
-                language.tutorial,
-                language.prelude,
-                language.act1,
-                language.act2,
-                language.act3,
-                language.cyberGrind,
-                language.encore,
-                language.primeSanctum,
-                language.secretLevels,
-                language.intermission,
-                language.ranks,
-                language.pauseMenu,
-                language.options,
-                language.levelNames,
-                language.levelChallenges,
-                language.enemyNames,
-                language.enemyBios,
-                language.shop,
-                language.levelTips,
-                language.books,
-                language.visualnovel,
-                language.subtitles,
-                language.style,
-                language.cheats,
-                language.misc,
-                language.devMuseum
-            };
+                if (language == null)
+                    return language;
 
-            ProcessTranslationComponents(translationComponents);
-            return language;
+                List<object> translationComponents = new List<object>
+                {
+                    language.frontend,
+                    language.tutorial,
+                    language.prelude,
+                    language.act1,
+                    language.act2,
+                    language.act3,
+                    language.cyberGrind,
+                    language.encore,
+                    language.primeSanctum,
+                    language.secretLevels,
+                    language.intermission,
+                    language.ranks,
+                    language.pauseMenu,
+                    language.options,
+                    language.levelNames,
+                    language.levelChallenges,
+                    language.enemyNames,
+                    language.enemyBios,
+                    language.shop,
+                    language.levelTips,
+                    language.books,
+                    language.visualnovel,
+                    language.subtitles,
+                    language.style,
+                    language.cheats,
+                    language.misc,
+                    language.devMuseum
+                };
+
+                ProcessTranslationComponents(translationComponents);
+                return language;
+            });
         }
 
         private static void ProcessTranslationComponents(List<object> components)
@@ -310,8 +458,8 @@ namespace UltrakULL.json
         {
             Type type = component.GetType();
             
-            // Обрабатываем поля
-            foreach (FieldInfo field in type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+            // Обрабатываем поля (cached)
+            foreach (FieldInfo field in GetCachedFields(type))
             {
                 ProcessField(component, field);
             }
@@ -401,6 +549,8 @@ namespace UltrakULL.json
                 Logging.Warn("Tried to switch language to " + langName + " but it was already set as that!");
                 return;
             }
+            // Ensure this language is loaded (lazy mode)
+            EnsureLanguageLoaded(langName);
             if (allLanguages.ContainsKey(langName))
             {
                 Logging.Message("Setting language to " + langName);

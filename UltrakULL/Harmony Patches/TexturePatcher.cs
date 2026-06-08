@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Threading.Tasks;
 using BepInEx;
 using Emgu.CV;
 using Emgu.CV.CvEnum;
@@ -105,9 +107,9 @@ namespace UltrakULL.Harmony_Patches
         private const float PreSearchThreshold = 0.6f;  // Slightly lower for pre-search
         
         // Parallel processing: max threads for Emgu CV
-        // Keep 2 for compatibility with minimum requirements (2-core CPU).
+        // Auto-detect based on available cores, min 1.
         // On systems with 4+ cores can increase to 3-4 for better speed.
-        private const int MaxConcurrentEmguTasks = 2;
+        private static readonly int MaxConcurrentEmguTasks = Math.Max(1, Environment.ProcessorCount - 1);
 
         // Mappings for batch textures: level -> atlas -> regions (template -> replacement)
         private static readonly Dictionary<string, Dictionary<string, Dictionary<string, string>>> batchTextureMappings = 
@@ -575,6 +577,10 @@ namespace UltrakULL.Harmony_Patches
 
             yield return ReplaceTexturesInScene(true);
             yield return UpdateStyleHUD();
+            ReplaceUISprites();
+
+            yield return new WaitForSeconds(0.25f);
+            yield return ReplaceTexturesInScene(false);
             ReplaceUISprites();
 
             if (backgroundChecker != null)
@@ -1443,6 +1449,7 @@ namespace UltrakULL.Harmony_Patches
                 {
                     yield return ReplaceTexturesInScene(false);
                     yield return UpdateStyleHUD();
+                    ReplaceUISprites();
                 }
             }
 
@@ -1451,9 +1458,6 @@ namespace UltrakULL.Harmony_Patches
 
         private static float GetSceneCheckDelay(string sceneName)
         {
-            if (sceneName.IndexOf("4-S", StringComparison.OrdinalIgnoreCase) >= 0)
-                return 1f;
-
             return 0.1f;
         }
 
@@ -1463,10 +1467,33 @@ namespace UltrakULL.Harmony_Patches
         private static readonly string[] TextureProps = { "_MainTex", "_BaseMap", "_DetailAlbedoMap", "_Texture", "_MainTexture", "_EmissiveTex" };
         private static readonly int[] TexturePropIDs = TextureProps.Select(Shader.PropertyToID).ToArray();
 
+        // Hide canvas during initial texture swap to avoid visible popping
+        private static CanvasGroup mainCanvasGroup;
+        private static void HideMainCanvas()
+        {
+            if (mainCanvasGroup != null) return;
+            var canvas = GameObject.FindObjectOfType<Canvas>();
+            if (canvas == null) return;
+            mainCanvasGroup = canvas.GetComponent<CanvasGroup>();
+            if (mainCanvasGroup == null)
+                mainCanvasGroup = canvas.gameObject.AddComponent<CanvasGroup>();
+            mainCanvasGroup.alpha = 0f;
+        }
+
+        private static void ShowMainCanvas()
+        {
+            if (mainCanvasGroup == null) return;
+            mainCanvasGroup.alpha = 1f;
+            mainCanvasGroup = null;
+        }
+
         private static IEnumerator ReplaceTexturesInScene(bool isInitialPass)
         {
             if (currentReplacements == null || cancellationTokenSource.IsCancellationRequested)
                 yield break;
+
+            if (isInitialPass)
+                HideMainCanvas();
 
             Camera mainCam = Camera.main;
             int processedChanges = 0;
@@ -1563,6 +1590,9 @@ namespace UltrakULL.Harmony_Patches
                     yield return null;
                 }
             }
+
+            if (isInitialPass)
+                ShowMainCanvas();
         }
 
         private static void ProcessSandboxArmRenderers()
@@ -2104,18 +2134,39 @@ namespace UltrakULL.Harmony_Patches
             if (!globalIconReplacements.TryGetValue(pack, out var packReplacements))
                 return;
 
+            var loadTasks = new List<(string iconKey, string fullPath)>();
             foreach (var kv in packReplacements)
             {
+                string fullPath = FindTextureFile(kv.Value);
+                if (!string.IsNullOrEmpty(fullPath))
+                    loadTasks.Add((kv.Key, fullPath));
+            }
+
+            if (loadTasks.Count == 0)
+                return;
+
+            var fileDataResults = new ConcurrentDictionary<string, (byte[] data, string path)>();
+
+            var ioTask = Task.Run(() =>
+            {
+                foreach (var task in loadTasks)
+                {
+                    try
+                    {
+                        byte[] data = File.ReadAllBytes(task.fullPath);
+                        if (data != null && data.Length > 0)
+                            fileDataResults[task.iconKey] = (data, task.fullPath);
+                    }
+                    catch { }
+                }
+            });
+            ioTask.Wait();
+
+            foreach (var kv in fileDataResults)
+            {
                 string iconKey = kv.Key;
-                string filename = kv.Value;
-
-                string fullPath = FindTextureFile(filename);
-                if (string.IsNullOrEmpty(fullPath))
-                    continue;
-
-                byte[] fileData;
-                try { fileData = File.ReadAllBytes(fullPath); }
-                catch { continue; }
+                byte[] fileData = kv.Value.data;
+                string fullPath = kv.Value.path;
 
                 var tex = new Texture2D(2, 2, TextureFormat.RGBA32, false)
                 {
@@ -2145,8 +2196,6 @@ namespace UltrakULL.Harmony_Patches
             {
                 ApplyIconReplacementsToCurrentIcons(pack);
                 ApplyIconReplacementsToSpawnMenu();
-
-                // Also replace Image components in the scene
                 ReplaceIconSpritesInScene();
             }
 

@@ -531,7 +531,7 @@ namespace UltrakULL
             LoadCustomFonts();
         }
 
-        public static void LoadFonts()
+        public static void LoadFontBundles()
         {
             Logging.Message("Loading font resource bundle...");
             //Will load from the same directory that the dll is in.
@@ -650,9 +650,7 @@ namespace UltrakULL
                     TMPFontReady = false;
                 }
                 
-                // Load custom fonts after standard fonts and materials are ready
-                Logging.Message("Loading custom fonts...");
-                LoadCustomFonts();
+                Logging.Message("Custom fonts will be loaded post-init.");
             }
         }
         
@@ -677,6 +675,7 @@ namespace UltrakULL
             }
             else
             {
+                ClearGameObjectCaches();
                 TextMeshProFontSwap.ClearFontSwapCache();
                 TextFontSwap.TextFontSwapper.ClearCache();
 
@@ -910,13 +909,7 @@ namespace UltrakULL
         public static async void ApplyPostInitFixes(GameObject canvasObj)
         {
             await Task.Delay(250); // Fix warning about async without await
-            /*if (GetCurrentSceneName() == "Main Menu")
-            {
-                //Open Language Folder button in Options->Language
-                TextMeshProUGUI openLangFolderText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(canvasObj,"OptionsMenu"), "Language Page"),"Scroll Rect (1)"),"Contents"),"OpenLangFolder"),"Slot Text")); 
-                openLangFolderText.text = "<color=#03fc07>Open language folder</color>";
-                
-            }*/
+            LoadCustomFonts();
         }
     }
 }

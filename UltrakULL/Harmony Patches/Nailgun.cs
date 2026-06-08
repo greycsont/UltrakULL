@@ -18,6 +18,19 @@ namespace UltrakULL.Harmony_Patches
     [HarmonyPatch(typeof(Nailgun))]
     public static class NailgunPatch
     {
+        private static readonly Dictionary<string, string> arabicFixCache = new Dictionary<string, string>();
+        private static readonly object arabicFixCacheLock = new object();
+
+        private static string GetCachedArabicFix(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return text;
+            lock (arabicFixCacheLock)
+            {
+                if (arabicFixCache.TryGetValue(text, out var cached))
+                    return cached;
+                return arabicFixCache[text] = ArabicFixerTool.FixLine(text);
+            }
+        }
         //Magnet Nailgun/Sawblade Launcher ammo text is disappers without this.
         [HarmonyPatch("Start"), HarmonyPostfix]
         public static void NailgunPostfix(Nailgun __instance, TMP_Text ___statusText)
@@ -35,11 +48,11 @@ namespace UltrakULL.Harmony_Patches
             {
                 if (__instance.altVersion) 
                 {
-                    __instance.ammoText.text = ArabicFixerTool.FixLine(Mathf.RoundToInt(___wc.naiSaws).ToString()).ToString();
+                    __instance.ammoText.text = GetCachedArabicFix(Mathf.RoundToInt(___wc.naiSaws).ToString());
                 }
                 else
                 {
-                    __instance.ammoText.text = ArabicFixerTool.FixLine(Mathf.RoundToInt(___wc.naiAmmo).ToString()).ToString();
+                    __instance.ammoText.text = GetCachedArabicFix(Mathf.RoundToInt(___wc.naiAmmo).ToString());
                 }
             }
             

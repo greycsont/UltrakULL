@@ -25,6 +25,17 @@ namespace UltrakULL
     private static readonly Dictionary<(GameObject, string), GameObject> childCache = new Dictionary<(GameObject, string), GameObject>();
     private static float lastChildCacheTime = 0f;
 
+    // Cache duration: effectively scene-scoped (60s is longer than any scene load)
+    private const float CACHE_DURATION_SCENE = 60f;
+
+    public static void ClearGameObjectCaches()
+    {
+        rootObjectCache.Clear();
+        childCache.Clear();
+        lastCacheTime = 0f;
+        lastChildCacheTime = 0f;
+    }
+
     private static readonly Dictionary<string, string> LocalizedInputs = new Dictionary<string, string>()
 		{
 			{ "space", LanguageManager.CurrentLanguage.inputStrings.input_space },
@@ -136,9 +147,7 @@ namespace UltrakULL
 
 		public static GameObject GetInactiveRootObject(string objectName)
 		{
-            const float CACHE_DURATION = 1f;
-
-            if (Time.time - lastCacheTime < CACHE_DURATION && rootObjectCache.TryGetValue(objectName, out GameObject cached))
+            if (Time.time - lastCacheTime < CACHE_DURATION_SCENE && rootObjectCache.TryGetValue(objectName, out GameObject cached))
 			{
 				if (cached != null)
 					return cached;
@@ -146,7 +155,7 @@ namespace UltrakULL
 					rootObjectCache.Remove(objectName);
 			}
 
-            if (Time.time - lastCacheTime >= CACHE_DURATION)
+            if (Time.time - lastCacheTime >= CACHE_DURATION_SCENE)
 			{
 				rootObjectCache.Clear();
 				lastCacheTime = Time.time;
@@ -306,10 +315,9 @@ namespace UltrakULL
         {
             if (parent == null) return null;
 
-            const float CHILD_CACHE_DURATION = 0.5f;
             var cacheKey = (parent, childName);
 
-            if (Time.time - lastChildCacheTime < CHILD_CACHE_DURATION && childCache.TryGetValue(cacheKey, out GameObject cached))
+            if (Time.time - lastChildCacheTime < CACHE_DURATION_SCENE && childCache.TryGetValue(cacheKey, out GameObject cached))
             {
                 if (cached != null)
                     return cached;
@@ -317,7 +325,7 @@ namespace UltrakULL
                     childCache.Remove(cacheKey);
             }
 
-            if (Time.time - lastChildCacheTime >= CHILD_CACHE_DURATION)
+            if (Time.time - lastChildCacheTime >= CACHE_DURATION_SCENE)
             {
                 childCache.Clear();
                 lastChildCacheTime = Time.time;

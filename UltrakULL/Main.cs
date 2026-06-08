@@ -144,6 +144,7 @@ namespace UltrakULL
 		{
 			await Task.Delay(250);
 			Core.ApplyPostInitFixes(canvasObj);
+			Core.LoadCustomFonts();
 		}
 
 		//Entry point for the mod.
@@ -169,10 +170,10 @@ namespace UltrakULL
 				});
 				
 				Logging.Warn("--- Initializing language manager ---");
-				LanguageManager.InitializeManager();
+				LanguageManager.InitializeManager(lazy: true);
 				
-				Logging.Warn("--- Loading external fonts ---");
-				Core.LoadFonts();
+				Logging.Warn("--- Loading font bundles ---");
+				Core.LoadFontBundles();
 
                 Logging.Warn("--- Patching vanilla game functions ---");
 				Harmony harmony = new Harmony(InternalName);
