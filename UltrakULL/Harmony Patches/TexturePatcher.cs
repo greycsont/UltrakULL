@@ -14,6 +14,7 @@ using UltrakULL.json;
 using UnityEngine;
 using UnityEngine.UI;
 using static UltrakULL.CommonFunctions;
+using Sandbox.Arm;
 using Object = UnityEngine.Object;
 using Rect = UnityEngine.Rect;
 
@@ -1453,9 +1454,9 @@ namespace UltrakULL.Harmony_Patches
         private static float GetSceneCheckDelay(string sceneName)
         {
             if (sceneName.IndexOf("4-S", StringComparison.OrdinalIgnoreCase) >= 0)
-                return 3f;
+                return 1f;
 
-            return 0.5f;
+            return 0.1f;
         }
 
 
@@ -1473,8 +1474,8 @@ namespace UltrakULL.Harmony_Patches
             int processedChanges = 0;
             int scannedRenderers = 0;
             int scannedRawImages = 0;
-            const int maxChangesPerFrame = 8;
-            const int maxScansPerFrame = 60;
+            int maxChangesPerFrame = isInitialPass ? int.MaxValue : 1024;
+            int maxScansPerFrame = isInitialPass ? int.MaxValue : 500;
 
             var renderers = Object.FindObjectsOfType<Renderer>();
             foreach (var rend in renderers)
@@ -1536,6 +1537,8 @@ namespace UltrakULL.Harmony_Patches
                 }
             }
 
+            ProcessSandboxArmRenderers();
+
             foreach (var raw in Object.FindObjectsOfType<RawImage>())
             {
                 if (!IsValidRawImage(raw)) continue;
@@ -1560,6 +1563,55 @@ namespace UltrakULL.Harmony_Patches
                 {
                     processedChanges = 0;
                     yield return null;
+                }
+            }
+        }
+
+        private static void ProcessSandboxArmRenderers()
+        {
+            if (currentReplacements == null) return;
+
+            SandboxArm arm = null;
+            try { arm = MonoSingleton<SandboxArm>.Instance; } catch { return; }
+            if (arm == null || arm.holder == null) return;
+
+            foreach (var rend in arm.holder.GetComponentsInChildren<Renderer>(true))
+            {
+                if (rend == null) continue;
+                int id = rend.GetInstanceID();
+                if (!processedObjectIds.Add(id)) continue;
+
+                var sharedMaterials = rend.sharedMaterials;
+                var propertyBlock = new MaterialPropertyBlock();
+
+                for (int m = 0; m < sharedMaterials.Length; m++)
+                {
+                    var mat = sharedMaterials[m];
+                    if (mat == null) continue;
+
+                    bool modified = false;
+                    propertyBlock.Clear();
+                    rend.GetPropertyBlock(propertyBlock, m);
+
+                    for (int p = 0; p < TexturePropIDs.Length; p++)
+                    {
+                        int propId = TexturePropIDs[p];
+                        if (!mat.HasProperty(propId)) continue;
+
+                        var curTex = mat.GetTexture(propId) as Texture2D;
+                        if (curTex == null) continue;
+
+                        if (TryGetReplacement(curTex.name, out var replacement))
+                        {
+                            propertyBlock.SetTexture(propId, replacement);
+                            modified = true;
+                        }
+                    }
+
+                    if (modified)
+                    {
+                        rend.SetPropertyBlock(propertyBlock, m);
+                    }
                 }
             }
         }
