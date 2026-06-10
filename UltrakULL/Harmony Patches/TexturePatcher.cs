@@ -1454,7 +1454,7 @@ namespace UltrakULL.Harmony_Patches
             if (sceneName.IndexOf("4-S", StringComparison.OrdinalIgnoreCase) >= 0)
                 return 1f;
 
-            return 0.1f;
+            return 0.5f;
         }
 
 
