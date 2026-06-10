@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using HarmonyLib;
 using TMPro;
 using UltrakULL.json;
@@ -37,30 +36,18 @@ namespace UltrakULL.Harmony_Patches
 				if (string.IsNullOrEmpty(fontName))
 					return;
 
-				bool shouldLog;
 				lock (lockObject)
 				{
-					shouldLog = loggedFonts.Add(fontName);
-				}
+					if (loggedFonts.Contains(fontName))
+						return;
 
-				if (shouldLog)
-				{
+					loggedFonts.Add(fontName);
 					string path = GetLogFilePath();
 					try
 					{
 						Directory.CreateDirectory(Path.GetDirectoryName(path));
-						Task.Run(() =>
-						{
-							try
-							{
-								File.AppendAllText(path, $"{fontName}\n");
-								UltrakULL.Logging.Debug($"Logged TMP font: {fontName}");
-							}
-							catch (Exception e)
-							{
-								UltrakULL.Logging.Error($"Failed to log TMP font {fontName}: {e.Message}");
-							}
-						});
+						File.AppendAllText(path, $"{fontName}\n");
+						UltrakULL.Logging.Debug($"Logged TMP font: {fontName}");
 					}
 					catch (Exception e)
 					{

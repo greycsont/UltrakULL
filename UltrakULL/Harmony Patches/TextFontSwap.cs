@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using HarmonyLib;
 using UltrakULL.json;
 using UnityEngine;
@@ -109,30 +108,18 @@ namespace UltrakULL.Harmony_Patches
 				if (string.IsNullOrEmpty(fontName))
 					return;
 
-				bool shouldLog;
 				lock (lockObject)
 				{
-					shouldLog = loggedFonts.Add(fontName);
-				}
+					if (loggedFonts.Contains(fontName))
+						return;
 
-				if (shouldLog)
-				{
+					loggedFonts.Add(fontName);
 					string path = GetLogFilePath();
 					try
 					{
 						Directory.CreateDirectory(Path.GetDirectoryName(path));
-						Task.Run(() =>
-						{
-							try
-							{
-								File.AppendAllText(path, $"{fontName}\n");
-								Logging.Debug($"Logged font: {fontName}");
-							}
-							catch (Exception e)
-							{
-								Logging.Error($"Failed to log font {fontName}: {e.Message}");
-							}
-						});
+						File.AppendAllText(path, $"{fontName}\n");
+						Logging.Debug($"Logged font: {fontName}");
 					}
 					catch (Exception e)
 					{

@@ -345,7 +345,7 @@ namespace UltrakULL.Harmony_Patches
             }
         }
 
-        public static async void downloadLanguageFile(string languageTag, string languageName)
+        public static void downloadLanguageFile(string languageTag, string languageName)
         {
             MonoSingleton<HudMessageReceiver>.Instance.SendHudMessage("<color=orange>DOWNLOADING...</color>");
             
@@ -359,43 +359,49 @@ namespace UltrakULL.Harmony_Patches
             
             Logging.Warn("Downloading to: " + fullPath);
             
+            Client.DefaultRequestHeaders.Accept.Add( new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            Client.DefaultRequestHeaders.UserAgent.TryParseAdd("request");
+            Client.Timeout = TimeSpan.FromSeconds(5);
+            
             try
             {
-                byte[] fileBytes = await Client.GetByteArrayAsync(languageFileUrl);
-
-                JsonFormat file = await Task.Run(() =>
+                using (WebClient webClient = new WebClient())
                 {
-                    Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
-                    File.WriteAllBytes(fullPath, fileBytes);
+                    string messageNotif;
+                    bool newLangDownloaded = false;
+              
+                    //If the file was simply updated, it can be used straightaway.
+                    //If a new lang file was downloaded, display a notif to the user to enter a level or reload the menu.
+                    if(langFileLocallyExists(languageTag))
+                    {
+                        messageNotif = "Language file \"" + languageName + "\" has been updated.";
+                    }
+                    else
+                    {
+                        messageNotif = "A new language file \"" + languageName + "\" has been downloaded.";
+                        newLangDownloaded = true;
+                    }
+
+                    webClient.DownloadFile(languageFileUrl, fullPath);
                     string jsonFile = File.ReadAllText(fullPath);
-                    return JsonConvert.DeserializeObject<JsonFormat>(jsonFile);
-                });
-
-                Logging.Info("Lang file saved.");
-
-                string messageNotif;
-                bool newLangDownloaded = false;
-               
-                if(langFileLocallyExists(languageTag))
-                {
-                    messageNotif = "Language file \"" + languageName + "\" has been updated.";
-                }
-                else
-                {
-                    messageNotif = "A new language file \"" + languageName + "\" has been downloaded.";
-                    newLangDownloaded = true;
-                }
-
-                MonoSingleton<HudMessageReceiver>.Instance.ClearMessage();
-                MonoSingleton<HudMessageReceiver>.Instance.SendHudMessage("<color=green>" + messageNotif + "</color>");
-
-                if(newLangDownloaded)
-                {
-                    LanguageManager.allLanguages.Add(languageTag, file);
+                    JsonFormat file = JsonConvert.DeserializeObject<JsonFormat>(jsonFile);
                     
-                    Transform optionsParent = GetGameObjectChild(GetInactiveRootObject("Canvas"),"OptionsMenu").transform;
-                    GameObject slotRowPrefab = optionsParent.Find("Save Slots").Find("Grid").Find("Slot Row").gameObject;
-                    addLocalLanguageToLocalList(ref slotRowPrefab, file.metadata.langName,true);
+                    Logging.Info("Lang file saved.");
+                       
+                    
+                    MonoSingleton<HudMessageReceiver>.Instance.ClearMessage();
+                    MonoSingleton<HudMessageReceiver>.Instance.SendHudMessage("<color=green>" + messageNotif + "</color>");
+
+                    if(newLangDownloaded)
+                    {
+
+                        LanguageManager.allLanguages.Add(languageTag, file);
+                        
+                        
+                        Transform optionsParent = GetGameObjectChild(GetInactiveRootObject("Canvas"),"OptionsMenu").transform;
+                        GameObject slotRowPrefab = optionsParent.Find("Save Slots").Find("Grid").Find("Slot Row").gameObject;
+                        addLocalLanguageToLocalList(ref slotRowPrefab, file.metadata.langName,true);
+                    }
                 }
             }
             catch(Exception e)
@@ -437,9 +443,6 @@ namespace UltrakULL.Harmony_Patches
             
             hasAlreadyFetchedLanguages = false;
             languageButtons.Clear();
-
-            // Ensure all languages are loaded before showing the options menu
-            LanguageManager.EnsureAllLanguagesLoaded();
 
             if (GetCurrentSceneName() == "Main Menu")
             {

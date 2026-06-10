@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Threading;
 using System.IO;
 using System.Linq;
 using BepInEx;
@@ -29,7 +27,7 @@ namespace UltrakULL.audio
         }
 
         private static CoroutineHost coroutineHost;
-        private static readonly ConcurrentDictionary<string, string> resolvedFileCache = new ConcurrentDictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        private static readonly Dictionary<string, string> resolvedFileCache = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         private static readonly Dictionary<string, AudioClip> clipCache = new Dictionary<string, AudioClip>(StringComparer.OrdinalIgnoreCase);
         private static readonly Dictionary<string, List<PendingClipLoad>> pendingLoads = new Dictionary<string, List<PendingClipLoad>>(StringComparer.OrdinalIgnoreCase);
         private static readonly HashSet<string> missingPathWarnings = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
@@ -71,56 +69,39 @@ namespace UltrakULL.audio
                 }
 
                 EnsureHost();
-                coroutineHost.StartCoroutine(PreloadClipAsyncImpl(audioFilePath, fallback, onComplete));
+                string filePath = ResolveAudioFilePath(audioFilePath);
+                if (string.IsNullOrEmpty(filePath))
+                {
+                    WarnMissingOnce(audioFilePath);
+                    onComplete?.Invoke(fallback);
+                    return;
+                }
+
+                AudioClip cachedClip;
+                if (clipCache.TryGetValue(filePath, out cachedClip) && cachedClip != null)
+                {
+                    onComplete?.Invoke(cachedClip);
+                    return;
+                }
+
+                List<PendingClipLoad> callbacks;
+                if (pendingLoads.TryGetValue(filePath, out callbacks))
+                {
+                    callbacks.Add(new PendingClipLoad { Fallback = fallback, Callback = onComplete });
+                    return;
+                }
+
+                pendingLoads[filePath] = new List<PendingClipLoad>
+                {
+                    new PendingClipLoad { Fallback = fallback, Callback = onComplete }
+                };
+                coroutineHost.StartCoroutine(LoadClipCoroutine(filePath, fallback, cacheGeneration));
             }
             catch (Exception e)
             {
                 Logging.Warn("[AudioSwap] PreloadClipAsync failed: " + e.Message);
                 onComplete?.Invoke(fallback);
             }
-        }
-
-        private static IEnumerator PreloadClipAsyncImpl(string audioFilePath, AudioClip fallback, Action<AudioClip> onComplete)
-        {
-            string filePath = null;
-            bool resolved = false;
-
-            ThreadPool.QueueUserWorkItem(_ =>
-            {
-                try { filePath = ResolveAudioFilePath(audioFilePath); }
-                catch { }
-                finally { resolved = true; }
-            });
-
-            while (!resolved)
-                yield return null;
-
-            if (string.IsNullOrEmpty(filePath))
-            {
-                WarnMissingOnce(audioFilePath);
-                onComplete?.Invoke(fallback);
-                yield break;
-            }
-
-            AudioClip cachedClip;
-            if (clipCache.TryGetValue(filePath, out cachedClip) && cachedClip != null)
-            {
-                onComplete?.Invoke(cachedClip);
-                yield break;
-            }
-
-            List<PendingClipLoad> callbacks;
-            if (pendingLoads.TryGetValue(filePath, out callbacks))
-            {
-                callbacks.Add(new PendingClipLoad { Fallback = fallback, Callback = onComplete });
-                yield break;
-            }
-
-            pendingLoads[filePath] = new List<PendingClipLoad>
-            {
-                new PendingClipLoad { Fallback = fallback, Callback = onComplete }
-            };
-            yield return coroutineHost.StartCoroutine(LoadClipCoroutine(filePath, fallback, cacheGeneration));
         }
 
         public static void PreloadFolderAsync(string folderPath, Action onComplete = null)
@@ -314,9 +295,8 @@ namespace UltrakULL.audio
             {
                 req = UnityWebRequestMultimedia.GetAudioClip(fileUrl, type);
                 var op = req.SendWebRequest();
-                var evt = new System.Threading.ManualResetEvent(false);
-                op.completed += _ => evt.Set();
-                evt.WaitOne();
+                while (!op.isDone)
+                    System.Threading.Thread.Sleep(1);
 
 #if UNITY_2020_1_OR_NEWER
                 if (req.result != UnityWebRequest.Result.Success)

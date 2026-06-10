@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 using System.Reflection;
-using System.Threading.Tasks;
 using UltrakULL.Harmony_Patches;
 using UltrakULL.json;
 
@@ -115,9 +114,7 @@ public static class IntroViolenceScreenPatch
     {
         if (!File.Exists(filePath)) return null;
 
-        byte[] fileData = Task.Run(() => File.ReadAllBytes(filePath)).Result;
-        if (fileData == null || fileData.Length == 0) return null;
-
+        byte[] fileData = File.ReadAllBytes(filePath);
         Texture2D tex = new Texture2D(2, 2);
         if (tex.LoadImage(fileData))
         {
