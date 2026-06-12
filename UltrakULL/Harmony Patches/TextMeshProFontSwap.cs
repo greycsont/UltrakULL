@@ -161,6 +161,9 @@ namespace UltrakULL.Harmony_Patches
             if (!Core.TMPFontReady || Core.GlobalFontTMP == null)
                 return;
 
+			if (Core.UseFontFallback)
+				return;
+
             if (__instance.text != null && __instance.text.Contains("■") && __instance.text.Contains("|"))
                 return;
 

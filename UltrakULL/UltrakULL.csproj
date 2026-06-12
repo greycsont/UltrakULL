@@ -7,6 +7,7 @@
     <AssemblyName>UltrakULL</AssemblyName>
     <Deterministic>true</Deterministic>
     <LangVersion>7.3</LangVersion>
+    <ULTRAKILLPath>E:\SteamLibrary\steamapps\common\ULTRAKILL</ULTRAKILLPath>
     <NoWarn>0169,0219,0618,4014,1998,0649,0414,0168</NoWarn>
 
     <!-- CRITICAL: otherwise duplicates of AssemblyInfo -->

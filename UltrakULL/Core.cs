@@ -38,7 +38,7 @@ namespace UltrakULL
         public static TMP_FontAsset CJKFontTMP;
         public static TMP_FontAsset JaFontTMP;
         public static TMP_FontAsset ArabicFontTMP;
-  public static TMP_FontAsset HebrewFontTMP;
+        public static TMP_FontAsset HebrewFontTMP;
         public static Material GlobalFontTMPOverlayMat;
         public static Material CJKFontTMPOverlayMat;
         public static Material jaFontTMPOverlayMat;
@@ -55,6 +55,9 @@ namespace UltrakULL
         public static Material CustomMuseumFontTMPOverlayMat;
         public static Material CustomTerminalFontTMPOverlayMat;
         public static Material CustomSecretTerminalFontTMPOverlayMat;
+
+        public static bool UseFontFallback;
+        private static bool fallbackHookRegistered;
 
         private static bool ultrakullDropdownExpanded = false;
 
@@ -339,6 +342,8 @@ namespace UltrakULL
 
         public static void LoadCustomFonts()
         {
+            UseFontFallback = LanguageManager.CurrentLanguage?.metadata?.fonts?.UseFallback ?? false;
+
             // Reset custom font fields before loading
             CustomMainFontTMP = null;
             CustomMuseumFontTMP = null;
@@ -382,142 +387,77 @@ namespace UltrakULL
 
             Logging.Message($"Loading custom fonts from: {fontsPath}");
 
-            // Load MainFont
-            if (!string.IsNullOrEmpty(fonts.MainFont))
+
+            void LoadFont(string fontName, string label, Action<TMP_FontAsset> setFont, Action<Material> setOverlay)
             {
-                Logging.Message($"Attempting to load MainFont: '{fonts.MainFont}'");
-                string mainFontPath = FindFontFile(fontsPath, fonts.MainFont);
-                if (mainFontPath != null)
+                if (string.IsNullOrEmpty(fontName))
+                    return;
+
+                Logging.Message($"Attempting to load {label}: '{fontName}'");
+                string fontPath = FindFontFile(fontsPath, fontName);
+                if (fontPath == null)
                 {
-                    Logging.Message($"Found MainFont file at: {mainFontPath}");
-                    TMP_FontAsset tmpFont = CreateTMPFontFromFile(mainFontPath);
-                    if (tmpFont != null)
-                    {
-                        CustomMainFontTMP = tmpFont;
-                        // Create overlay material for this font
-                        if (GlobalFontTMPOverlayMat != null)
-                        {
-                            CustomMainFontTMPOverlayMat = new Material(GlobalFontTMPOverlayMat);
-                            CustomMainFontTMPOverlayMat.name = $"{tmpFont.name}_Overlay";
-                            Logging.Message($"Created overlay material for MainFont: {CustomMainFontTMPOverlayMat.name}");
-                        }
-                        else
-                        {
-                            Logging.Warn("GlobalFontTMPOverlayMat is null, cannot create overlay material for MainFont");
-                        }
-                        Logging.Message($"Loaded custom MainFont TMP: {fonts.MainFont} (from {Path.GetFileName(mainFontPath)})");
-                    }
-                    else
-                    {
-                        Logging.Error($"CreateTMPFontFromFile returned null for MainFont");
-                    }
+                    Logging.Warn($"Custom {label} file not found: {fontName} (searched with extensions .ttf, .otf, .ttc, .woff, .woff2)");
+                    return;
+                }
+
+                Logging.Message($"Found {label} file at: {fontPath}");
+                TMP_FontAsset tmpFont = CreateTMPFontFromFile(fontPath);
+                if (tmpFont == null)
+                {
+                    Logging.Error($"CreateTMPFontFromFile returned null for {label}");
+                    return;
+                }
+
+                ApplyFallbackMetrics(tmpFont);
+                setFont(tmpFont);
+                // Create overlay material for this font
+                if (GlobalFontTMPOverlayMat != null)
+                {
+                    Material overlay = new Material(GlobalFontTMPOverlayMat) { name = $"{tmpFont.name}_Overlay" };
+                    setOverlay(overlay);
+                    Logging.Message($"Created overlay material for {label}: {overlay.name}");
                 }
                 else
                 {
-                    Logging.Warn($"Custom MainFont file not found: {fonts.MainFont} (searched with extensions .ttf, .otf, .ttc, .woff, .woff2)");
+                    Logging.Warn($"GlobalFontTMPOverlayMat is null, cannot create overlay material for {label}");
                 }
+                Logging.Message($"Loaded custom {label} TMP: {fontName} (from {Path.GetFileName(fontPath)})");
             }
 
-            // Load MuseumFont
-            if (!string.IsNullOrEmpty(fonts.MuseumFont))
+            LoadFont(fonts.MainFont,           "MainFont",           f => CustomMainFontTMP = f,           m => CustomMainFontTMPOverlayMat = m);
+            LoadFont(fonts.MuseumFont,         "MuseumFont",         f => CustomMuseumFontTMP = f,         m => CustomMuseumFontTMPOverlayMat = m);
+            LoadFont(fonts.TerminalFont,       "TerminalFont",       f => CustomTerminalFontTMP = f,       m => CustomTerminalFontTMPOverlayMat = m);
+            LoadFont(fonts.SecretTerminalFont, "SecretTerminalFont", f => CustomSecretTerminalFontTMP = f, m => CustomSecretTerminalFontTMPOverlayMat = m);
+
+            if (!fallbackHookRegistered)
             {
-                string museumFontPath = FindFontFile(fontsPath, fonts.MuseumFont);
-                if (museumFontPath != null)
-                {
-                    TMP_FontAsset tmpFont = CreateTMPFontFromFile(museumFontPath);
-                    if (tmpFont != null)
-                    {
-                        CustomMuseumFontTMP = tmpFont;
-                        // Create overlay material for this font
-                        if (GlobalFontTMPOverlayMat != null)
-                        {
-                            CustomMuseumFontTMPOverlayMat = new Material(GlobalFontTMPOverlayMat);
-                            CustomMuseumFontTMPOverlayMat.name = $"{tmpFont.name}_Overlay";
-                            Logging.Message($"Created overlay material for MuseumFont: {CustomMuseumFontTMPOverlayMat.name}");
-                        }
-                        else
-                        {
-                            Logging.Warn("GlobalFontTMPOverlayMat is null, cannot create overlay material for MuseumFont");
-                        }
-                        Logging.Message($"Loaded custom MuseumFont TMP: {fonts.MuseumFont} (from {Path.GetFileName(museumFontPath)})");
-                    }
-                    else
-                    {
-                        Logging.Error($"CreateTMPFontFromFile returned null for MuseumFont");
-                    }
-                }
-                else
-                {
-                    Logging.Warn($"Custom MuseumFont file not found: {fonts.MuseumFont} (searched with extensions .ttf, .otf, .ttc, .woff, .woff2)");
-                }
+                SceneManager.sceneLoaded += AddFontAsFallbackFont;
+                fallbackHookRegistered = true;
             }
 
-            // Load TerminalFont (optional)
-            if (!string.IsNullOrEmpty(fonts.TerminalFont))
+            void AddFontAsFallbackFont(Scene scene, LoadSceneMode mode)
             {
-                string terminalFontPath = FindFontFile(fontsPath, fonts.TerminalFont);
-                if (terminalFontPath != null)
-                {
-                    TMP_FontAsset tmpFont = CreateTMPFontFromFile(terminalFontPath);
-                    if (tmpFont != null)
-                    {
-                        CustomTerminalFontTMP = tmpFont;
-                        // Create overlay material for this font
-                        if (GlobalFontTMPOverlayMat != null)
-                        {
-                            CustomTerminalFontTMPOverlayMat = new Material(GlobalFontTMPOverlayMat);
-                            CustomTerminalFontTMPOverlayMat.name = $"{tmpFont.name}_Overlay";
-                            Logging.Message($"Created overlay material for TerminalFont: {CustomTerminalFontTMPOverlayMat.name}");
-                        }
-                        else
-                        {
-                            Logging.Warn("GlobalFontTMPOverlayMat is null, cannot create overlay material for TerminalFont");
-                        }
-                        Logging.Message($"Loaded custom TerminalFont TMP: {fonts.TerminalFont} (from {Path.GetFileName(terminalFontPath)})");
-                    }
-                    else
-                    {
-                        Logging.Error($"CreateTMPFontFromFile returned null for TerminalFont");
-                    }
-                    
-                }
-                else
-                {
-                    Logging.Warn($"Custom TerminalFont file not found: {fonts.TerminalFont} (searched with extensions .ttf, .otf, .ttc, .woff, .woff2)");
-                }
-            }
+                if (!UseFontFallback)
+                    return;
 
-            // Load SecretTerminalFont (optional)
-            if (!string.IsNullOrEmpty(fonts.SecretTerminalFont))
-            {
-                string secretFontPath = FindFontFile(fontsPath, fonts.SecretTerminalFont);
-                if (secretFontPath != null)
+                var allFontAsset = UnityEngine.Resources.FindObjectsOfTypeAll<TMP_FontAsset>()
+                    .Except(new[] { CustomMainFontTMP, CustomMuseumFontTMP, CustomTerminalFontTMP, CustomSecretTerminalFontTMP });
+
+                foreach (var fontAsset in allFontAsset)
                 {
-                    TMP_FontAsset tmpFont = CreateTMPFontFromFile(secretFontPath);
-                    if (tmpFont != null)
-                    {
-                        CustomSecretTerminalFontTMP = tmpFont;
-                        // Create overlay material for this font
-                        if (GlobalFontTMPOverlayMat != null)
-                        {
-                            CustomSecretTerminalFontTMPOverlayMat = new Material(GlobalFontTMPOverlayMat);
-                            CustomSecretTerminalFontTMPOverlayMat.name = $"{tmpFont.name}_Overlay";
-                            Logging.Message($"Created overlay material for SecretTerminalFont: {CustomSecretTerminalFontTMPOverlayMat.name}");
-                        }
-                        else
-                        {
-                            Logging.Warn("GlobalFontTMPOverlayMat is null, cannot create overlay material for SecretTerminalFont");
-                        }
-                        Logging.Message($"Loaded custom SecretTerminalFont TMP: {fonts.SecretTerminalFont} (from {Path.GetFileName(secretFontPath)})");
-                    }
+                    string name = fontAsset.name?.ToLower();
+                    if (string.IsNullOrEmpty(name))
+                        continue;
+
+                    if (name.Contains("tahoma"))
+                        AddFallback(fontAsset, CustomTerminalFontTMP);
+                    else if (name.Contains("bittypix"))
+                        AddFallback(fontAsset, CustomSecretTerminalFontTMP);
+                    else if (name.Contains("garaldus") || name.Contains("garamond") || name.Contains("museum"))
+                        AddFallback(fontAsset, CustomMuseumFontTMP);
                     else
-                    {
-                        Logging.Error($"CreateTMPFontFromFile returned null for SecretTerminalFont");
-                    }
-                }
-                else
-                {
-                    Logging.Warn($"Custom SecretTerminalFont file not found: {fonts.SecretTerminalFont} (searched with extensions .ttf, .otf, .ttc, .woff, .woff2)");
+                        AddFallback(fontAsset, CustomMainFontTMP);
                 }
             }
         }
@@ -529,6 +469,31 @@ namespace UltrakULL
         public static void ReloadCustomFonts()
         {
             LoadCustomFonts();
+        }
+
+        private static void AddFallback(TMP_FontAsset primary, TMP_FontAsset fallback)
+        {
+            if (primary == null || fallback == null || primary == fallback)
+                return;
+            if (primary.fallbackFontAssetTable == null)
+                primary.fallbackFontAssetTable = new List<TMP_FontAsset>();
+            if (!primary.fallbackFontAssetTable.Contains(fallback))
+                primary.fallbackFontAssetTable.Add(fallback);
+        }
+
+        private static void ApplyFallbackMetrics(TMP_FontAsset font)
+        {
+            if (font == null)
+                return;
+
+            var fonts = LanguageManager.CurrentLanguage?.metadata?.fonts;
+            if (fonts == null || (fonts.FallbackScale == 1f && fonts.FallbackBaselineOffset == 0f))
+                return;
+
+            var fi = font.faceInfo;
+            fi.scale *= fonts.FallbackScale;
+            fi.baseline += fonts.FallbackBaselineOffset;
+            font.faceInfo = fi;
         }
 
         public static void LoadFonts()
