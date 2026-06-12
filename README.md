@@ -2,6 +2,14 @@
 ![Version](https://img.shields.io/github/v/release/ClearwaterTM/UltrakULL)
 ![Licence](https://img.shields.io/github/license/ClearwaterTM/UltrakULL)
 
+
+
+<div style="border: 3px solid transparent; padding: 20px; border-radius: 5px; background: linear-gradient(135deg, #2d003d, #4a0066) #2d003d; box-shadow: 0 4px 15px rgba(212, 0, 255, 0.3); text-align: center; position: relative; overflow: hidden;">
+  <div style="position: absolute; top: -5px; right: -5px; bottom: -5px; left: -5px; background: linear-gradient(45deg, #d400ff, #ff00d4, #00ff9d); z-index: -1; border-radius: 15px;"></div>
+  <h2 style="color: #ffffff; margin-top: 0; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);">This project/mod was created using AI. 🤖</h2>
+</div>
+
+
 <img src="https://github.com/user-attachments/assets/98fd5921-0662-4e09-9ab4-b844e2bbf45e">
 
 # UltrakULL

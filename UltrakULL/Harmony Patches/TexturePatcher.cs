@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using BepInEx;
@@ -13,6 +14,7 @@ using UltrakULL.json;
 using UnityEngine;
 using UnityEngine.UI;
 using static UltrakULL.CommonFunctions;
+using Sandbox.Arm;
 using Object = UnityEngine.Object;
 using Rect = UnityEngine.Rect;
 
@@ -283,10 +285,12 @@ namespace UltrakULL.Harmony_Patches
         private static readonly Dictionary<string, (string filename, string type)> globalTextureReplacements = new Dictionary<string, (string, string)>
         {
             { "checkpoint", ("Checkpoint", "texture") }, //checkpoint, checkpoint, checkpoint
+            { "spawnpoint", ("spawnpoint", "texture") }, //Every day, 1000 players have ragequit from spawnkilling. Stop spawnkilling
             { "T_ShopTerminal", ("T_ShopTerminal", "texture") }, //Standart texture for the shop terminals. Used for "Broken" shop terminals
             { "T_ShopTerminal_Emission", ("T_ShopTerminal_Emission", "texture") }, //Glow texture for the shop terminals. You can always see it
             { "T_Gabe_SpledorJustice", ("T_Gabe_SpledorJustice", "texture") }, // Inscription on the scabbard of Gabriel's swords
-            { "bombtexture4", ("bombtexture4", "texture") }, //landing pod for some enemies
+            { "bombtexture4", ("bombtexture4", "texture") }, //landing pod for some enemies and standart bomb texture for some object
+            { "bombtexture5", ("bombtexture5", "texture") }, //landing pod for some enemies
             { "Explosive Barrel", ("Explosive Barrel", "texture") }, //KABOOOOOM
             { "RankD", ("RankD", "sprite") },
             { "RankC", ("RankC", "sprite") },
@@ -297,6 +301,142 @@ namespace UltrakULL.Harmony_Patches
             { "RankSSS", ("RankSSS", "sprite") },
             { "RankU", ("RankU", "sprite") }
         };
+
+        // Icon pack replacements: iconPackId -> (iconKey -> texture filename)
+        // Place textures in BepInEx/config/ultrakull/textures/<lang>/
+        // Default icons: "Default_<key>.png"
+        // PIRT icons:    "PIRT_<key>.png"
+        private static readonly Dictionary<int, Dictionary<string, string>> globalIconReplacements = new Dictionary<int, Dictionary<string, string>>
+        {
+            [0] = new Dictionary<string, string>
+            {
+                { "alter", "Default_alter" },
+                { "barrel", "Default_barrel" },
+                { "barrier", "Default_barrier" },
+                { "blind", "Default_blind" },
+                { "block-creator-acid", "Default_block-creator-acid" },
+                { "block-creator-armor", "Default_block-creator-armor" },
+                { "block-creator-glass", "Default_block-creator-glass" },
+                { "block-creator-grass", "Default_block-creator-grass" },
+                { "block-creator-hot-sand", "Default_block-creator-hot-sand" },
+                { "block-creator-lava", "Default_block-creator-lava" },
+                { "block-creator-metal", "Default_block-creator-metal" },
+                { "block-creator-plastic", "Default_block-creator-plastic" },
+                { "block-creator-water", "Default_block-creator-water" },
+                { "block-creator-wood", "Default_block-creator-wood" },
+                { "checkpoint", "Default_checkpoint" },
+                { "clash", "Default_clash" },
+                { "crate", "Default_crate" },
+                { "death", "Default_death" },
+                { "delete", "Default_delete" },
+                { "destroy", "Default_destroy" },
+                { "enemy-hate-enemy", "Default_enemy-hate-enemy" },
+                { "enemy-ignore-player", "Default_enemy-ignore-player" },
+                { "explosive-barrel", "Default_explosive-barrel" },
+                { "flight", "Default_flight" },
+                { "genericCheatIcon", "Default_genericCheatIcon" },
+                { "genericSandboxToolIcon", "Default_genericSandboxToolIcon" },
+                { "grapple-point", "Default_grapple-point" },
+                { "grapple-point-blue", "Default_grapple-point-blue" },
+                { "grapple-point-pink", "Default_grapple-point-pink" },
+                { "grid", "Default_grid" },
+                { "hand-delete", "Default_hand-delete" },
+                { "infinite-power-ups", "Default_infinite-power-ups" },
+                { "infinite-wall-jumps", "Default_infinite-wall-jumps" },
+                { "invincibility", "Default_invincibility" },
+                { "invincible-enemies", "Default_invincible-enemies" },
+                { "jump-pad", "Default_jump-pad" },
+                { "light", "Default_light" },
+                { "load", "Default_load" },
+                { "maurice", "Default_maurice" },
+                { "melon", "Default_melon" },
+                { "move", "Default_move" },
+                { "navmesh", "Default_navmesh" },
+                { "no-enemies", "Default_no-enemies" },
+                { "no-weapon-cooldown", "Default_no-weapon-cooldown" },
+                { "noclip", "Default_noclip" },
+                { "physics", "Default_physics" },
+                { "quick-load", "Default_quick-load" },
+                { "ramp", "Default_ramp" },
+                { "ramp-stone", "Default_ramp-stone" },
+                { "save", "Default_save" },
+                { "spawn-point", "Default_spawn-point" },
+                { "spawner-arm", "Default_spawner-arm" },
+                { "teleport", "Default_teleport" },
+                { "tool-alter", "Default_tool-alter" },
+                { "tool-hand", "Default_tool-hand" },
+                { "tree", "Default_tree" },
+                { "wall-jumps", "Default_wall-jumps" },
+                { "warning", "Default_warning" },
+            },
+            [1] = new Dictionary<string, string>
+            {
+                { "alter", "PIRT_alter" },
+                { "barrel", "PIRT_barrel" },
+                { "barrier", "PIRT_barrier" },
+                { "blind", "PIRT_blind" },
+                { "block-creator-acid", "PIRT_block-creator-acid" },
+                { "block-creator-armor", "PIRT_block-creator-armor" },
+                { "block-creator-glass", "PIRT_block-creator-glass" },
+                { "block-creator-grass", "PIRT_block-creator-grass" },
+                { "block-creator-hot-sand", "PIRT_block-creator-hot-sand" },
+                { "block-creator-invisible", "PIRT_block-creator-invisible" },
+                { "block-creator-lava", "PIRT_block-creator-lava" },
+                { "block-creator-metal", "PIRT_block-creator-metal" },
+                { "block-creator-plastic", "PIRT_block-creator-plastic" },
+                { "block-creator-water", "PIRT_block-creator-water" },
+                { "block-creator-wood", "PIRT_block-creator-wood" },
+                { "checkpoint", "PIRT_checkpoint" },
+                { "clash", "PIRT_clash" },
+                { "crate", "PIRT_crate" },
+                { "death", "PIRT_death" },
+                { "delete", "PIRT_delete" },
+                { "destroy", "PIRT_destroy" },
+                { "enemy-hate-enemy", "PIRT_enemy-hate-enemy" },
+                { "enemy-ignore-player", "PIRT_enemy-ignore-player" },
+                { "explosive-barrel", "PIRT_explosive-barrel" },
+                { "flight", "PIRT_flight" },
+                { "genericCheatIcon", "PIRT_genericCheatIcon" },
+                { "genericSandboxToolIcon", "PIRT_genericSandboxToolIcon" },
+                { "grapple-point", "PIRT_grapple-point" },
+                { "grapple-point-blue", "PIRT_grapple-point-blue" },
+                { "grapple-point-pink", "PIRT_grapple-point-pink" },
+                { "grid", "PIRT_grid" },
+                { "hand-delete", "PIRT_hand-delete" },
+                { "infinite-power-ups", "PIRT_infinite-power-ups" },
+                { "infinite-wall-jumps", "PIRT_infinite-wall-jumps" },
+                { "invincibility", "PIRT_invincibility" },
+                { "invincible-enemies", "PIRT_invincible-enemies" },
+                { "jump-pad", "PIRT_jump-pad" },
+                { "light", "PIRT_light" },
+                { "load", "PIRT_load" },
+                { "maurice", "PIRT_maurice" },
+                { "melon", "PIRT_melon" },
+                { "move", "PIRT_move" },
+                { "navmesh", "PIRT_navmesh" },
+                { "no-enemies", "PIRT_no-enemies" },
+                { "no-weapon-cooldown", "PIRT_no-weapon-cooldown" },
+                { "noclip", "PIRT_noclip" },
+                { "physics", "PIRT_physics" },
+                { "quick-load", "PIRT_quick-load" },
+                { "ramp", "PIRT_ramp" },
+                { "ramp-stone", "PIRT_ramp-stone" },
+                { "rotate", "PIRT_rotate" },
+                { "save", "PIRT_save" },
+                { "spawn-point", "PIRT_spawn-point" },
+                { "spawner-arm", "PIRT_spawner-arm" },
+                { "teleport", "PIRT_teleport" },
+                { "tool-alter", "PIRT_tool-alter" },
+                { "tool-hand", "PIRT_tool-hand" },
+                { "tree", "PIRT_tree" },
+                { "wall-jumps", "PIRT_wall-jumps" },
+                { "warning", "PIRT_warning" },
+            }
+        };
+
+        // Loaded custom icon sprites: iconKey -> Sprite
+        private static Dictionary<string, Sprite> customIconSprites = new Dictionary<string, Sprite>();
+
 
         private static readonly HashSet<string> ignoredScenes = new HashSet<string>
         {
@@ -333,6 +473,7 @@ namespace UltrakULL.Harmony_Patches
                     { "Level 0-3", new Dictionary<string, (string, string)> { { "SignSecurityInstructions", ("SignSecurityInstructions", "texture") }, { "SignWarning", ("SignWarning", "texture") }, { "SignCoolingChamber", ("SignCoolingChamber", "texture") }, { "SignSecurityLockdown", ("SignSecurityLockdown", "texture") }, { "SignSecurityCheckpoint", ("SignSecurityCheckpoint", "texture") } } },
                     { "Level 0-4", new Dictionary<string, (string, string)> { { "SignSecurityInstructions", ("SignSecurityInstructions", "texture") }, { "SignWarning", ("SignWarning", "texture") }, { "SignCoolingChamber", ("SignCoolingChamber", "texture") }, { "SignSecurityLockdown", ("SignSecurityLockdown", "texture") }, { "SignSecurityCheckpoint", ("SignSecurityCheckpoint", "texture") } } },
                     { "Level 0-5", new Dictionary<string, (string, string)> { { "abandonhope2", ("abandonhope2", "texture") }, { "SignSecurityInstructions", ("SignSecurityInstructions", "texture") }, { "SignWarning", ("SignWarning", "texture") }, { "SignCoolingChamber", ("SignCoolingChamber", "texture") }, { "SignSecurityLockdown", ("SignSecurityLockdown", "texture") }, { "SignSecurityCheckpoint", ("SignSecurityCheckpoint", "texture") } } },
+                    { "Level 1-2", new Dictionary<string, (string, string)> { { "electricitybox", ("electricitybox", "texture") } } },
                     { "Level 1-4", new Dictionary<string, (string, string)> { { "forgiveme", ("forgiveme", "texture") } } },
                     { "Level 2-2", new Dictionary<string, (string, string)> { { "electricitybox", ("electricitybox", "texture") } } },
                     { "Level 2-3", new Dictionary<string, (string, string)> { { "watercontrol1", ("watercontrol1", "texture") }, { "watercontrol2", ("watercontrol2", "texture") } } },
@@ -340,7 +481,7 @@ namespace UltrakULL.Harmony_Patches
                     { "Level 5-1", new Dictionary<string, (string, string)> { { "WaterProcessingAttention", ("WaterProcessingAttention", "texture") } } },
                     { "Level 7-2", new Dictionary<string, (string, string)> { { "exit", ("exit", "texture") }, { "T_Excavator", ("T_Excavator", "texture") } } },
                     { "Level 7-3", new Dictionary<string, (string, string)> { { "marble_inverted 3", ("marble_inverted 3", "texture") } } },
-                    { "Level 7-4", new Dictionary<string, (string, string)> { { "HotPipeSign", ("HotPipeSign", "texture") }, { "T_Cent_PlantRoom", ("T_Cent_PlantRoom", "texture") } } },
+                    { "Level 7-4", new Dictionary<string, (string, string)> { { "HotPipeSign", ("HotPipeSign", "texture") }, { "T_Cent_PlantRoom", ("T_Cent_PlantRoom", "texture") }, { "electricitybox", ("electricitybox", "texture") } } },
                     { "Level 7-S", new Dictionary<string, (string, string)> { { "T_Placard", ("T_Placard", "texture") }, { "T_TrailSign", ("T_TrailSign", "texture") } } },
                     { "Level 8-1", new Dictionary<string, (string, string)> { { "ArchangelNamePlateRaphael", ("ArchangelNamePlateRaphael", "texture") }, { "ArchangelNamePlatePhanuel", ("ArchangelNamePlatePhanuel", "texture") }, { "ArchangelNamePlateMichael", ("ArchangelNamePlateMichael", "texture") }, { "ArchangelNamePlateGabriel", ("ArchangelNamePlateGabriel", "texture") }, { "T_LionPlaque", ("T_LionPlaque", "texture") }, { "wecamein", ("wecamein", "texture") }, { "wecamein2", ("wecamein2", "texture") } } },
                     { "Level 8-2", new Dictionary<string, (string, string)> { { "ad_fox 1", ("ad_fox 1", "texture") }, { "big_hakita", ("big_hakita", "texture") }, { "inthemirror", ("inthemirror", "texture") }, { "OfficeMaintenance", ("OfficeMaintenance", "texture") }, { "presentation2", ("presentation2", "texture") }, { "VendingMachine", ("VendingMachine", "texture") }, { "StatsBoard", ("StatsBoard", "texture") }, { "OfficeArchive", ("OfficeArchive", "texture") } } },
@@ -422,9 +563,12 @@ namespace UltrakULL.Harmony_Patches
                 yield return ProcessBatchTextures(sceneName, batchMappings);
             }
 
-            if (currentReplacements.Count == 0 && rankSprites.Count == 0)
+            yield return LoadIconSprites();
+
+
+            if (currentReplacements.Count == 0 && rankSprites.Count == 0 && customIconSprites.Count == 0)
             {
-                Logging.Warn("[TexturePatcher] No textures or rank sprites were loaded, skipping patching");
+                Logging.Warn("[TexturePatcher] No textures, rank sprites or icon sprites were loaded, skipping patching");
                 isProcessing = false;
                 yield break;
             }
@@ -1308,7 +1452,7 @@ namespace UltrakULL.Harmony_Patches
         private static float GetSceneCheckDelay(string sceneName)
         {
             if (sceneName.IndexOf("4-S", StringComparison.OrdinalIgnoreCase) >= 0)
-                return 3f;
+                return 1f;
 
             return 0.5f;
         }
@@ -1328,8 +1472,8 @@ namespace UltrakULL.Harmony_Patches
             int processedChanges = 0;
             int scannedRenderers = 0;
             int scannedRawImages = 0;
-            const int maxChangesPerFrame = 8;
-            const int maxScansPerFrame = 60;
+            int maxChangesPerFrame = isInitialPass ? int.MaxValue : 1024;
+            int maxScansPerFrame = isInitialPass ? int.MaxValue : 500;
 
             var renderers = Object.FindObjectsOfType<Renderer>();
             foreach (var rend in renderers)
@@ -1391,6 +1535,8 @@ namespace UltrakULL.Harmony_Patches
                 }
             }
 
+            ProcessSandboxArmRenderers();
+
             foreach (var raw in Object.FindObjectsOfType<RawImage>())
             {
                 if (!IsValidRawImage(raw)) continue;
@@ -1415,6 +1561,55 @@ namespace UltrakULL.Harmony_Patches
                 {
                     processedChanges = 0;
                     yield return null;
+                }
+            }
+        }
+
+        private static void ProcessSandboxArmRenderers()
+        {
+            if (currentReplacements == null) return;
+
+            SandboxArm arm = null;
+            try { arm = MonoSingleton<SandboxArm>.Instance; } catch { return; }
+            if (arm == null || arm.holder == null) return;
+
+            foreach (var rend in arm.holder.GetComponentsInChildren<Renderer>(true))
+            {
+                if (rend == null) continue;
+                int id = rend.GetInstanceID();
+                if (!processedObjectIds.Add(id)) continue;
+
+                var sharedMaterials = rend.sharedMaterials;
+                var propertyBlock = new MaterialPropertyBlock();
+
+                for (int m = 0; m < sharedMaterials.Length; m++)
+                {
+                    var mat = sharedMaterials[m];
+                    if (mat == null) continue;
+
+                    bool modified = false;
+                    propertyBlock.Clear();
+                    rend.GetPropertyBlock(propertyBlock, m);
+
+                    for (int p = 0; p < TexturePropIDs.Length; p++)
+                    {
+                        int propId = TexturePropIDs[p];
+                        if (!mat.HasProperty(propId)) continue;
+
+                        var curTex = mat.GetTexture(propId) as Texture2D;
+                        if (curTex == null) continue;
+
+                        if (TryGetReplacement(curTex.name, out var replacement))
+                        {
+                            propertyBlock.SetTexture(propId, replacement);
+                            modified = true;
+                        }
+                    }
+
+                    if (modified)
+                    {
+                        rend.SetPropertyBlock(propertyBlock, m);
+                    }
                 }
             }
         }
@@ -1623,6 +1818,11 @@ namespace UltrakULL.Harmony_Patches
                     img.sprite = replacement;
                     replaced++;
                 }
+                else if (customIconSprites.TryGetValue(spriteName, out var iconReplacement))
+                {
+                    img.sprite = iconReplacement;
+                    replaced++;
+                }
             }
 
             if (replaced > 0)
@@ -1656,6 +1856,335 @@ namespace UltrakULL.Harmony_Patches
 
         private static bool ShouldIgnoreScene(string sceneName)
             => ignoredScenes.Any(i => sceneName.Equals(i, StringComparison.OrdinalIgnoreCase));
+
+        // ===== Icon Pack Replacement System =====
+
+        private static Type FindType(string typeName)
+        {
+            foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                Type t = asm.GetType(typeName);
+                if (t != null) return t;
+                foreach (var type in asm.GetTypes())
+                {
+                    if (type.Name == typeName) return type;
+                }
+            }
+            return null;
+        }
+
+        private static object GetSingletonInstance(Type type)
+        {
+            try
+            {
+                Type mono = FindType("MonoSingleton`1");
+                if (mono != null)
+                {
+                    var g = mono.MakeGenericType(type);
+                    var p = g.GetProperty("Instance", BindingFlags.Public | BindingFlags.Static);
+                    if (p != null) return p.GetValue(null);
+                }
+            }
+            catch { }
+            try
+            {
+                var p = type.GetProperty("Instance", BindingFlags.Public | BindingFlags.Static);
+                if (p != null) return p.GetValue(null);
+            }
+            catch { }
+            return null;
+        }
+
+        private static object GetPropertyOrField(object obj, string name)
+        {
+            var p = obj.GetType().GetProperty(name, BindingFlags.Public | BindingFlags.Instance);
+            if (p != null) return p.GetValue(obj);
+            var f = obj.GetType().GetField(name, BindingFlags.Public | BindingFlags.Instance);
+            if (f != null) return f.GetValue(obj);
+            p = obj.GetType().GetProperty(name, BindingFlags.NonPublic | BindingFlags.Instance);
+            if (p != null) return p.GetValue(obj);
+            f = obj.GetType().GetField(name, BindingFlags.NonPublic | BindingFlags.Instance);
+            if (f != null) return f.GetValue(obj);
+            return null;
+        }
+
+        private static int GetCurrentIconPack()
+        {
+            try
+            {
+                Type iconManagerType = FindType("IconManager");
+                if (iconManagerType == null) return 0;
+                object mgr = GetSingletonInstance(iconManagerType);
+                if (mgr == null) return 0;
+                var prop = iconManagerType.GetProperty("CurrentIconPackId",
+                    BindingFlags.Public | BindingFlags.Instance);
+                if (prop == null) return 0;
+                return (int)prop.GetValue(mgr);
+            }
+            catch { return 0; }
+        }
+
+        private static IEnumerator LoadIconSprites()
+        {
+            customIconSprites.Clear();
+
+            int pack = GetCurrentIconPack();
+            if (!globalIconReplacements.TryGetValue(pack, out var packReplacements))
+                yield break;
+
+            foreach (var kv in packReplacements)
+            {
+                string iconKey = kv.Key;
+                string filename = kv.Value;
+
+                if (cancellationTokenSource.IsCancellationRequested)
+                    yield break;
+
+                Texture2D loaded = null;
+                yield return coroutineStarter.StartCoroutine(LoadTexture(filename, tex => loaded = tex));
+
+                if (loaded == null)
+                {
+                    Logging.Warn($"[TexturePatcher] Failed to load icon texture: {filename}");
+                    continue;
+                }
+
+                float ppu = loaded.height;
+                var sprite = Sprite.Create(
+                    loaded,
+                    new Rect(0, 0, loaded.width, loaded.height),
+                    new Vector2(0.5f, 0.5f),
+                    ppu
+                );
+                sprite.name = iconKey;
+
+                customIconSprites[iconKey] = sprite;
+                Logging.Message($"[TexturePatcher] Loaded icon sprite '{filename}' as key='{iconKey}'");
+            }
+
+            if (customIconSprites.Count > 0)
+            {
+                ApplyIconReplacementsToCurrentIcons(pack);
+                ApplyIconReplacementsToSpawnMenu();
+            }
+        }
+
+        private static void ApplyIconReplacementsToCurrentIcons(int pack)
+        {
+            try
+            {
+                Type iconManagerType = FindType("IconManager");
+                if (iconManagerType == null) return;
+                object mgr = GetSingletonInstance(iconManagerType);
+                if (mgr == null) return;
+                object icons = GetPropertyOrField(mgr, "CurrentIcons");
+                if (icons == null) return;
+
+                if (!globalIconReplacements.TryGetValue(pack, out var packReplacements))
+                    return;
+
+                ModifyKeyIconArray(icons, "cheatIcons", packReplacements);
+                ModifyKeyIconArray(icons, "sandboxMenuIcons", packReplacements);
+                ModifyKeyIconArray(icons, "sandboxArmHoloIcons", packReplacements);
+                Logging.Message($"[TexturePatcher] Applied icon replacements to CurrentIcons");
+            }
+            catch (Exception ex)
+            {
+                Logging.Warn($"[TexturePatcher] ApplyIconReplacements error: {ex.Message}");
+            }
+        }
+
+        private static void ModifyKeyIconArray(object cheatAsset, string fieldName,
+            Dictionary<string, string> packReplacements)
+        {
+            var field = cheatAsset.GetType().GetField(fieldName,
+                BindingFlags.Public | BindingFlags.Instance);
+            if (field == null) return;
+
+            var arr = field.GetValue(cheatAsset) as Array;
+            if (arr == null) return;
+
+            var elementType = arr.GetType().GetElementType();
+            var keyField = elementType?.GetField("key",
+                BindingFlags.Public | BindingFlags.Instance);
+            var spriteField = elementType?.GetField("sprite",
+                BindingFlags.Public | BindingFlags.Instance);
+            if (keyField == null || spriteField == null) return;
+
+            for (int i = 0; i < arr.Length; i++)
+            {
+                var el = arr.GetValue(i);
+                if (el == null) continue;
+
+                string key = keyField.GetValue(el)?.ToString();
+                if (string.IsNullOrEmpty(key) || !packReplacements.ContainsKey(key))
+                    continue;
+
+                if (customIconSprites.TryGetValue(key, out var customSprite))
+                {
+                    spriteField.SetValue(el, customSprite);
+                    arr.SetValue(el, i);
+                }
+            }
+
+            field.SetValue(cheatAsset, arr);
+        }
+
+        private static void ApplyIconReplacementsToSpawnMenu()
+        {
+            try
+            {
+                Type spawnMenuType = FindType("SpawnMenu");
+                if (spawnMenuType == null) return;
+                object menu = GetSingletonInstance(spawnMenuType);
+                if (menu == null) return;
+
+                var spriteIconsField = spawnMenuType.GetField("spriteIcons",
+                    BindingFlags.NonPublic | BindingFlags.Instance);
+                if (spriteIconsField == null)
+                {
+                    spriteIconsField = spawnMenuType.GetField("spriteIcons",
+                        BindingFlags.Public | BindingFlags.Instance);
+                }
+                if (spriteIconsField == null) return;
+
+                var dict = spriteIconsField.GetValue(menu) as IDictionary;
+                if (dict == null) return;
+
+                int replaced = 0;
+                var keys = new List<object>();
+                foreach (var k in dict.Keys)
+                    keys.Add(k);
+
+                foreach (var key in keys)
+                {
+                    string keyStr = key?.ToString();
+                    if (string.IsNullOrEmpty(keyStr)) continue;
+                    if (customIconSprites.TryGetValue(keyStr, out var sprite))
+                    {
+                        dict[key] = sprite;
+                        replaced++;
+                    }
+                }
+
+                if (replaced > 0)
+                    Logging.Message($"[TexturePatcher] Replaced {replaced} icons in SpawnMenu spriteIcons");
+            }
+            catch (Exception ex)
+            {
+                Logging.Warn($"[TexturePatcher] SpawnMenu icon apply error: {ex.Message}");
+            }
+        }
+
+        private static void ClearIconSprites()
+        {
+            foreach (var s in customIconSprites.Values)
+                Object.Destroy(s);
+            customIconSprites.Clear();
+        }
+
+
+        // ===== Harmony Patches for Icon System =====
+
+        [HarmonyPatch(typeof(IconManager), "Reload")]
+        [HarmonyPostfix]
+        private static void OnIconManagerReload()
+        {
+            LoadIconSpritesSync();
+        }
+
+        private static void LoadIconSpritesSync()
+        {
+            if (cancellationTokenSource == null || cancellationTokenSource.IsCancellationRequested)
+                return;
+
+            customIconSprites.Clear();
+
+            int pack = GetCurrentIconPack();
+            if (!globalIconReplacements.TryGetValue(pack, out var packReplacements))
+                return;
+
+            foreach (var kv in packReplacements)
+            {
+                string iconKey = kv.Key;
+                string filename = kv.Value;
+
+                string fullPath = FindTextureFile(filename);
+                if (string.IsNullOrEmpty(fullPath))
+                    continue;
+
+                byte[] fileData;
+                try { fileData = File.ReadAllBytes(fullPath); }
+                catch { continue; }
+
+                var tex = new Texture2D(2, 2, TextureFormat.RGBA32, false)
+                {
+                    name = Path.GetFileNameWithoutExtension(fullPath),
+                    filterMode = FilterMode.Point,
+                    anisoLevel = 0
+                };
+
+                if (!tex.LoadImage(fileData))
+                {
+                    Object.Destroy(tex);
+                    continue;
+                }
+
+                float ppu = tex.height;
+                var sprite = Sprite.Create(
+                    tex,
+                    new Rect(0, 0, tex.width, tex.height),
+                    new Vector2(0.5f, 0.5f),
+                    ppu
+                );
+                sprite.name = iconKey;
+                customIconSprites[iconKey] = sprite;
+            }
+
+            if (customIconSprites.Count > 0)
+            {
+                ApplyIconReplacementsToCurrentIcons(pack);
+                ApplyIconReplacementsToSpawnMenu();
+
+                // Also replace Image components in the scene
+                ReplaceIconSpritesInScene();
+            }
+
+        }
+
+        private static void ReplaceIconSpritesInScene()
+        {
+            try
+            {
+                var images = GameObject.FindObjectsOfType<Image>(true);
+                int replaced = 0;
+
+                foreach (var img in images)
+                {
+                    if (img == null || img.sprite == null) continue;
+
+                    if (customIconSprites.TryGetValue(img.sprite.name, out var replacement))
+                    {
+                        img.sprite = replacement;
+                        replaced++;
+                    }
+                }
+
+                if (replaced > 0)
+                    Logging.Message($"[TexturePatcher] Replaced {replaced} icon sprites in scene");
+            }
+            catch (Exception ex)
+            {
+                Logging.Warn($"[TexturePatcher] ReplaceIconSpritesInScene error: {ex.Message}");
+            }
+        }
+
+        [HarmonyPatch(typeof(SpawnMenu), "RebuildIcons")]
+        [HarmonyPostfix]
+        private static void OnSpawnMenuRebuildIcons()
+        {
+            ApplyIconReplacementsToSpawnMenu();
+        }
 
         private class DummyMonoBehaviour : MonoBehaviour
         {
