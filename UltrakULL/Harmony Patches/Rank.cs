@@ -8,8 +8,8 @@ using UltrakULL.json;
 using UnityEngine.UI;
 using TMPro;
 
-namespace UltrakULL.Harmony_Patches
-{
+namespace UltrakULL.Harmony_Patches;
+
 	[HarmonyPatch(typeof(FinalRank), "SetRank")]
 	public static class FinalRank_SetRankPatch
 	{
@@ -83,24 +83,24 @@ namespace UltrakULL.Harmony_Patches
 
 				rank = new string(chars);
 			}
-            catch (Exception e)
-            {
-                Logging.Warn("Failed to Patch SetRank :(");
-                Logging.Warn(e.Message);
-                enablepatchSetRank = false;
-                return;
-            }
+        catch (Exception e)
+        {
+            Logging.Warn("Failed to Patch SetRank :(");
+            Logging.Warn(e.Message);
+            enablepatchSetRank = false;
+            return;
         }
+    }
 
 		[HarmonyPatch(typeof(StatsManager), "GetRanks")]
 		public static class StatsManager_GetRanksPatch
-        {
-            [HarmonyPostfix]
+    {
+        [HarmonyPostfix]
 			public static void Patch(FinalRank __instance, ref string __result)
 			{
-                try
-                {
-                    string rank = __result;
+            try
+            {
+                string rank = __result;
 					Rank ranks = LanguageManager.CurrentLanguage.ranks;
 					string replacement = "_";
 
@@ -161,25 +161,25 @@ namespace UltrakULL.Harmony_Patches
 
 					__result = new string(chars);
 				}
-                catch (Exception e)
-                {
-                    Logging.Warn("Failed to Patch GetRanks :(");
-                    Logging.Warn(e.ToString());
-                    return;
-                }
+            catch (Exception e)
+            {
+                Logging.Warn("Failed to Patch GetRanks :(");
+                Logging.Warn(e.ToString());
+                return;
             }
+        }
 		}
 
 		[HarmonyPatch(typeof(LevelSelectPanel), nameof(LevelSelectPanel.CheckScore))]
 		public static class LevelSelectPanel_CheckScorePatch
 		{
-            static bool enableLevelSelectfix = true;
-            [HarmonyPostfix]
+        static bool enableLevelSelectfix = true;
+        [HarmonyPostfix]
 			public static void Postfix(LevelSelectPanel __instance)
 			{
-                try
+            try
 				{
-                    TextMeshProUGUI componentInChildren = __instance.transform.Find("Stats").Find("Rank").GetComponentInChildren<TextMeshProUGUI>();
+                TextMeshProUGUI componentInChildren = __instance.transform.Find("Stats").Find("Rank").GetComponentInChildren<TextMeshProUGUI>();
 
 					Rank ranks = LanguageManager.CurrentLanguage.ranks;
 					string replacement = "_";
@@ -255,13 +255,12 @@ namespace UltrakULL.Harmony_Patches
 				catch (Exception e) 
 				{ 
 					Logging.Warn("Failed to Patch Level Menu :(");
-                    if (LanguageManager.CurrentLanguage.ranks == null)
-                    { Logging.Warn("Category \"Ranks\" is missing from the language file!"); return; }
-                    Logging.Warn(e.ToString());
+                if (LanguageManager.CurrentLanguage.ranks == null)
+                { Logging.Warn("Category \"Ranks\" is missing from the language file!"); return; }
+                Logging.Warn(e.ToString());
 					enableLevelSelectfix = false;
-                    return;
+                return;
 				}
 			}
 		}
 	}
-}

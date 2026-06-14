@@ -9,8 +9,8 @@ using UnityEngine.UI;
 using static UltrakULL.CommonFunctions;
 using static UnityEngine.TextAnchor;
 
-namespace UltrakULL.Harmony_Patches
-{
+namespace UltrakULL.Harmony_Patches;
+
 	public class TextFontSwap
 	{
 		public static Font originalFont;
@@ -87,110 +87,87 @@ namespace UltrakULL.Harmony_Patches
 	{
 		public static void SwapTMPFont(ref TextMeshProUGUI __instance)
 		{
-            string currentLanguage = LanguageManager.CurrentLanguage.metadata.langName.ToLower();
-            string currentLanguageCode = currentLanguage.Substring(0, 2);
-            bool isUnderlaid = __instance.gameObject.name.Contains("NameText") ||
-                __instance.gameObject.name.Contains("LayerText") ||
-                __instance.transform.parent.gameObject.name.Contains("Cheats Info");
-            Vector4 originalUnderlaycolor = __instance.fontMaterial.GetVector("_UnderlayColor");
-            if (__instance.transform.parent.gameObject.name.Equals("Filler") && __instance.gameObject.name.Equals("HP Text") && __instance.GetComponentInParent<HealthBar>() != null) { return; }
-            switch (currentLanguageCode)
-            {
-                //Traditional/Simplified Chinese
-                case "zh":
+        string currentLanguage = LanguageManager.CurrentLanguage.metadata.langName.ToLower();
+        string currentLanguageCode = currentLanguage.Substring(0, 2);
+        bool isUnderlaid = __instance.gameObject.name.Contains("NameText") ||
+            __instance.gameObject.name.Contains("LayerText") ||
+            __instance.transform.parent.gameObject.name.Contains("Cheats Info");
+        Vector4 originalUnderlaycolor = __instance.fontMaterial.GetVector("_UnderlayColor");
+        if (__instance.transform.parent.gameObject.name.Equals("Filler") && __instance.gameObject.name.Equals("HP Text") && __instance.GetComponentInParent<HealthBar>() != null) { return; }
+        switch (currentLanguageCode)
+        {
+            //Traditional/Simplified Chinese
+            case "zh":
+                {
+                    
+                    //Swap with a Chinese font when it comes in.
+                    __instance.font = Core.CJKFontTMP;
+                    if (isUnderlaid)
                     {
-                        
-                        //Swap with a Chinese font when it comes in.
-                        __instance.font = Core.CJKFontTMP;
-                        if (isUnderlaid)
-                        {
-                            Material underlaid = new Material(__instance.fontMaterial);
-                            underlaid.SetVector("_UnderlayColor", originalUnderlaycolor);
-                            __instance.fontMaterial = underlaid;
-                        }
-                        else
-                        {
-                            __instance.fontSharedMaterial.SetVector("_UnderlayColor", new Vector4(0, 0, 0, 0));
-                        }
-                        break;
+                        Material underlaid = new Material(__instance.fontMaterial);
+                        underlaid.SetVector("_UnderlayColor", originalUnderlaycolor);
+                        __instance.fontMaterial = underlaid;
                     }
-                //Japanese
-                case "ja":
+                    else
                     {
-                        __instance.font = Core.jaFontTMP;
-                        if (isUnderlaid)
-                        {
-                            Material underlaid = new Material(__instance.fontMaterial);
-                            underlaid.SetVector("_UnderlayColor", originalUnderlaycolor);
-                            __instance.fontMaterial = underlaid;
-                        }
-                        else
-                        {
-                            __instance.fontSharedMaterial.SetVector("_UnderlayColor", new Vector4(0, 0, 0, 0));
-                        }
-                        break;
+                        __instance.fontSharedMaterial.SetVector("_UnderlayColor", new Vector4(0, 0, 0, 0));
                     }
-                //Arabic Persian Urdu
-                case "ar":
-                case "fa":
-                case "ur":
+                    break;
+                }
+            //Japanese
+            case "ja":
+                {
+                    __instance.font = Core.jaFontTMP;
+                    if (isUnderlaid)
                     {
+                        Material underlaid = new Material(__instance.fontMaterial);
+                        underlaid.SetVector("_UnderlayColor", originalUnderlaycolor);
+                        __instance.fontMaterial = underlaid;
+                    }
+                    else
+                    {
+                        __instance.fontSharedMaterial.SetVector("_UnderlayColor", new Vector4(0, 0, 0, 0));
+                    }
+                    break;
+                }
+            //Arabic Persian Urdu
+            case "ar":
+            case "fa":
+            case "ur":
+                {
 
-                        switch (__instance.alignment)
+                    switch (__instance.alignment)
+                    {
+                        case TextAlignmentOptions.TopLeft:
+                            __instance.alignment = TextAlignmentOptions.TopRight;
+                            break;
+                        case TextAlignmentOptions.Left:
+                            __instance.alignment = TextAlignmentOptions.Right;
+                            break;
+                        case TextAlignmentOptions.BottomLeft:
+                            __instance.alignment = TextAlignmentOptions.BottomRight;
+                            break;
+                        case TextAlignmentOptions.BaselineLeft:
+                            __instance.alignment = TextAlignmentOptions.BaselineRight;
+                            break;
+                    }
+
+                    Core.GlobalFontTMP.fallbackFontAssetTable.Add(Core.ArabicFontTMP);
+
+                    if (GetCurrentSceneName() == "CreditsMuseum2")
+                    {
+                        if (__instance.font.name == "GFS Garaldus")
                         {
-                            case TextAlignmentOptions.TopLeft:
-                                __instance.alignment = TextAlignmentOptions.TopRight;
-                                break;
-                            case TextAlignmentOptions.Left:
-                                __instance.alignment = TextAlignmentOptions.Right;
-                                break;
-                            case TextAlignmentOptions.BottomLeft:
-                                __instance.alignment = TextAlignmentOptions.BottomRight;
-                                break;
-                            case TextAlignmentOptions.BaselineLeft:
-                                __instance.alignment = TextAlignmentOptions.BaselineRight;
-                                break;
-                        }
-
-                        Core.GlobalFontTMP.fallbackFontAssetTable.Add(Core.ArabicFontTMP);
-
-                        if (GetCurrentSceneName() == "CreditsMuseum2")
-                        {
-                            if (__instance.font.name == "GFS Garaldus")
-                            {
-                                __instance.font = Core.MuseumFontTMP;
-                            }
-                            else
-                            {
-                                __instance.font = Core.GlobalFontTMP;
-                            }
+                            __instance.font = Core.MuseumFontTMP;
                         }
                         else
                         {
                             __instance.font = Core.GlobalFontTMP;
-                            if (isUnderlaid)
-                            {
-                                Material underlaid = new Material(__instance.fontMaterial);
-                                underlaid.SetVector("_UnderlayColor", originalUnderlaycolor);
-                                __instance.fontMaterial = underlaid;
-                            }
-                            else
-                            {
-                                __instance.fontSharedMaterial.SetVector("_UnderlayColor", new Vector4(0, 0, 0, 0));
-                            }
                         }
-
-                        break;
                     }
-
-                //Hebrew Yiddish Ladino Mozarabic Judeo-Arabic
-                case "he":
-                case "yi":
-                case "la":
-                case "ro":
-                case "jr":
+                    else
                     {
-                        __instance.font = Core.HebrewFontTMP;
+                        __instance.font = Core.GlobalFontTMP;
                         if (isUnderlaid)
                         {
                             Material underlaid = new Material(__instance.fontMaterial);
@@ -201,40 +178,63 @@ namespace UltrakULL.Harmony_Patches
                         {
                             __instance.fontSharedMaterial.SetVector("_UnderlayColor", new Vector4(0, 0, 0, 0));
                         }
-                        break;
                     }
-                default:
+
+                    break;
+                }
+
+            //Hebrew Yiddish Ladino Mozarabic Judeo-Arabic
+            case "he":
+            case "yi":
+            case "la":
+            case "ro":
+            case "jr":
+                {
+                    __instance.font = Core.HebrewFontTMP;
+                    if (isUnderlaid)
                     {
-                        if (GetCurrentSceneName() == "CreditsMuseum2")
+                        Material underlaid = new Material(__instance.fontMaterial);
+                        underlaid.SetVector("_UnderlayColor", originalUnderlaycolor);
+                        __instance.fontMaterial = underlaid;
+                    }
+                    else
+                    {
+                        __instance.fontSharedMaterial.SetVector("_UnderlayColor", new Vector4(0, 0, 0, 0));
+                    }
+                    break;
+                }
+            default:
+                {
+                    if (GetCurrentSceneName() == "CreditsMuseum2")
+                    {
+                        if (__instance.font.name == "GFS Garaldus")
                         {
-                            if (__instance.font.name == "GFS Garaldus")
-                            {
-                                __instance.font = Core.MuseumFontTMP;
-                            }
-                            else
-                            {
-                                __instance.font = Core.GlobalFontTMP;
-                            }
+                            __instance.font = Core.MuseumFontTMP;
                         }
                         else
                         {
                             __instance.font = Core.GlobalFontTMP;
-                            if (isUnderlaid)
-                            {
-                                Material underlaid = new Material(__instance.fontMaterial);
-                                underlaid.SetVector("_UnderlayColor", originalUnderlaycolor);
-                                __instance.fontMaterial = underlaid;
-                            }
-                            else
-                            {
-                                __instance.fontSharedMaterial.SetVector("_UnderlayColor", new Vector4(0, 0, 0, 0));
-                            }
                         }
-                        break;
                     }
-            }
-
+                    else
+                    {
+                        __instance.font = Core.GlobalFontTMP;
+                        if (isUnderlaid)
+                        {
+                            Material underlaid = new Material(__instance.fontMaterial);
+                            underlaid.SetVector("_UnderlayColor", originalUnderlaycolor);
+                            __instance.fontMaterial = underlaid;
+                        }
+                        else
+                        {
+                            __instance.fontSharedMaterial.SetVector("_UnderlayColor", new Vector4(0, 0, 0, 0));
+                        }
+                    }
+                    break;
+                }
         }
+
+    }
 		[HarmonyPatch(typeof(TextMeshProUGUI), "OnEnable")]
 		public static class TextMeshProFontSwapper
 		{
@@ -262,7 +262,7 @@ namespace UltrakULL.Harmony_Patches
 							return;
 						}
 					}
-                    SwapTMPFont(ref __instance);
+                SwapTMPFont(ref __instance);
 					objectsFixed.Add(___m_CachedPtr);
 				}
 
@@ -273,34 +273,33 @@ namespace UltrakULL.Harmony_Patches
 		{
 			[HarmonyPatch("DisplaySubtitle", new[] { typeof(string), typeof(AudioSource), typeof(bool) }), HarmonyPrefix]
 			public static bool SubtitlePostfix(SubtitleController __instance, string caption, AudioSource audioSource, bool ignoreSetting, Subtitle ___subtitleLine, Transform ___container, Subtitle ___previousSubtitle)
+        {
+            if (!__instance.SubtitlesEnabled && !ignoreSetting)
             {
-                if (!__instance.SubtitlesEnabled && !ignoreSetting)
-                {
-                    return false;
-                }
-                Subtitle subtitle = UnityEngine.Object.Instantiate<Subtitle>(___subtitleLine, ___container, true);
-                subtitle.GetComponentInChildren<TMP_Text>().text = caption;
-                TextMeshProUGUI subtext = subtitle.GetComponentInChildren<TextMeshProUGUI>();
-				if (Core.TMPFontReady)
-                {
-                    SwapTMPFont(ref subtext);
-                }
-                if (audioSource != null)
-                {
-                    subtitle.distanceCheckObject = audioSource;
-                }
-                subtitle.gameObject.SetActive(true);
-                if (!___previousSubtitle)
-                {
-                    subtitle.ContinueChain();
-                }
-                else
-                {
-                    ___previousSubtitle.nextInChain = subtitle;
-                }
-                ___previousSubtitle = subtitle;
-				return false;
+                return false;
             }
+            Subtitle subtitle = UnityEngine.Object.Instantiate<Subtitle>(___subtitleLine, ___container, true);
+            subtitle.GetComponentInChildren<TMP_Text>().text = caption;
+            TextMeshProUGUI subtext = subtitle.GetComponentInChildren<TextMeshProUGUI>();
+				if (Core.TMPFontReady)
+            {
+                SwapTMPFont(ref subtext);
+            }
+            if (audioSource != null)
+            {
+                subtitle.distanceCheckObject = audioSource;
+            }
+            subtitle.gameObject.SetActive(true);
+            if (!___previousSubtitle)
+            {
+                subtitle.ContinueChain();
+            }
+            else
+            {
+                ___previousSubtitle.nextInChain = subtitle;
+            }
+            ___previousSubtitle = subtitle;
+				return false;
+        }
 		}
 	}
-}

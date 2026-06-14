@@ -5,19 +5,18 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UltrakULL.CommonFunctions;
 
-namespace UltrakULL.Harmony_Patches.AudioSwaps
+namespace UltrakULL.Harmony_Patches.AudioSwaps;
+
+//Fix for audio being unswapped when respawning. Needs testing.
+[HarmonyPatch(typeof(NewMovement),"Respawn")]
+public class RespawnAudioFixer
 {
-    //Fix for audio being unswapped when respawning. Needs testing.
-    [HarmonyPatch(typeof(NewMovement),"Respawn")]
-    public class RespawnAudioFixer
+    [HarmonyPostfix]
+    public static void Respawn_SwapperFix()
     {
-        [HarmonyPostfix]
-        public static void Respawn_SwapperFix()
+        if(!isUsingEnglish())
         {
-            if(!isUsingEnglish())
-            {
-                SubtitledAudioSourcesReplacer.ReplaceSubsAndAudio();
-            }
+            SubtitledAudioSourcesReplacer.ReplaceSubsAndAudio();
         }
     }
 }

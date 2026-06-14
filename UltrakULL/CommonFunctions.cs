@@ -10,8 +10,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace UltrakULL
-{
+namespace UltrakULL;
+
 	public static class CommonFunctions
 	{
 		public static bool isUsingEnglish()
@@ -235,4 +235,3 @@ namespace UltrakULL
 				: rootPart.transform.Find(restPath).gameObject;
 		}
 	}
-}

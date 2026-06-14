@@ -8,8 +8,8 @@ using TMPro;
 
 using static UltrakULL.CommonFunctions;
 
-namespace UltrakULL.Harmony_Patches
-{
+namespace UltrakULL.Harmony_Patches;
+
 	//@Override
 	//Overrides checkScore function from the vanilla game. This translates level names, as well as if challenges have been completed or not. POSTFIX.
 	[HarmonyPatch(typeof(LevelSelectPanel), "CheckScore")]
@@ -90,4 +90,3 @@ namespace UltrakULL.Harmony_Patches
 			}
 		}
 	}
-}

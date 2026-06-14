@@ -1,12 +1,12 @@
 ﻿using UltrakULL.json;
 
-namespace UltrakULL
-{
+namespace UltrakULL;
+
 	public static class LevelNames
 	{
 
 		public static string GetDiscordLevelName(string missionName)
-        {
+    {
 			if (missionName.Contains("Main Menu")) { return LanguageManager.CurrentLanguage.levelNames.levelName_mainMenu; }
 			if (missionName.Contains("Endless")) { return LanguageManager.CurrentLanguage.levelNames.levelName_cybergrind; }
 			if (missionName.Contains("uk_construct")) { return LanguageManager.CurrentLanguage.levelNames.levelName_sandbox; }
@@ -73,7 +73,7 @@ namespace UltrakULL
 
 	        Logging.Warn("Unknown level name: " + missionName);
 			return missionName;
-        }
+    }
 
 		public static string GetLevelName(int missionNum)
 		{
@@ -262,5 +262,4 @@ namespace UltrakULL
 				}
 			}
 		}
-    }
 }

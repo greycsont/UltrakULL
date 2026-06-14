@@ -51,8 +51,8 @@ using System.Reflection;
  * 
  * */
 
-namespace UltrakULL
-{
+namespace UltrakULL;
+
 	[BepInPlugin(Guid, InternalName, InternalVersion)]
 	public class MainPatch : BaseUnityPlugin
 	{
@@ -158,4 +158,3 @@ namespace UltrakULL
 			}
 		}
 	}
-}

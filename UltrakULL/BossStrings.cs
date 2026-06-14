@@ -1,13 +1,12 @@
 ﻿using UltrakULL.json;
 
-namespace UltrakULL
+namespace UltrakULL;
+
+public static class BossStrings
 {
-    public static class BossStrings
+    public static string GetBossName(string originalBossName)
     {
-        public static string GetBossName(string originalBossName)
-        {
-            Logging.Warn(originalBossName);
-            return EnemyBios.GetName(originalBossName.ToUpper());
-        }
+        Logging.Warn(originalBossName);
+        return EnemyBios.GetName(originalBossName.ToUpper());
     }
 }

@@ -6,8 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using UltrakULL.json;
 
-namespace UltrakULL.Harmony_Patches
-{
+namespace UltrakULL.Harmony_Patches;
+
 
 	[HarmonyPatch(typeof(RankHelper), nameof(RankHelper.GetRankLetter))]
 	public static class RankHelperPatch
@@ -82,4 +82,3 @@ namespace UltrakULL.Harmony_Patches
 			// return "";
 		}
 	}
-}

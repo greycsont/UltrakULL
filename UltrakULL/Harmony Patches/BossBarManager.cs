@@ -2,21 +2,20 @@
 
 using static UltrakULL.CommonFunctions;
 
-namespace UltrakULL.Harmony_Patches
+namespace UltrakULL.Harmony_Patches;
+
+//@Override
+//Overrides the CreateBossBar method from the BossBarManager class. This is needed to swap in the translated boss names on their health bars.
+[HarmonyPatch(typeof(BossBarManager), "CreateBossBar")]
+public static class LocalizeBossBar
 {
-    //@Override
-    //Overrides the CreateBossBar method from the BossBarManager class. This is needed to swap in the translated boss names on their health bars.
-    [HarmonyPatch(typeof(BossBarManager), "CreateBossBar")]
-    public static class LocalizeBossBar
+    [HarmonyPrefix]
+    public static bool CreateBossBar_MyPatch(ref BossHealthBar bossBar)
     {
-        [HarmonyPrefix]
-        public static bool CreateBossBar_MyPatch(ref BossHealthBar bossBar)
+        if(!isUsingEnglish())
         {
-            if(!isUsingEnglish())
-            {
-                bossBar.bossName = BossStrings.GetBossName(bossBar.source.FullName);
-            }
-            return true;
+            bossBar.bossName = BossStrings.GetBossName(bossBar.source.FullName);
         }
+        return true;
     }
 }

@@ -12,8 +12,8 @@ using UnityEngine;
 
 using static UltrakULL.CommonFunctions;
 
-namespace UltrakULL.Harmony_Patches
-{
+namespace UltrakULL.Harmony_Patches;
+
 	[HarmonyPatch(typeof(HellMap), "Start")]
 	public static class HellMap_AwakePatch
 	{
@@ -143,4 +143,3 @@ namespace UltrakULL.Harmony_Patches
 			}
 		}
 	}
-}
