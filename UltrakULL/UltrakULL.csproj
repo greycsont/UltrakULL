@@ -9,8 +9,6 @@
     <LangVersion>latest</LangVersion>
     <ULTRAKILLPath>E:\SteamLibrary\steamapps\common\ULTRAKILL</ULTRAKILLPath>
     <NoWarn>0169,0219,0618,4014,1998,0649,0414,0168</NoWarn>
-
-    <!-- CRITICAL: otherwise duplicates of AssemblyInfo -->
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
@@ -31,19 +29,6 @@
     <OutputPath>bin\Release\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
-
-<!-- local DLL's (lib) -->
-  <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>lib\Newtonsoft.Json.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-
-    <Reference Include="UMM">
-      <HintPath>lib\UMM.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-  </ItemGroup>
 
 <!-- Unity + BepInEx -->
   <ItemGroup>
@@ -136,6 +121,12 @@
 
     <Reference Include="Unity.InputSystem">
       <HintPath>$(ManagedDir)\Unity.InputSystem.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+
+    <!-- JSON -->
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>$(ManagedDir)\Newtonsoft.Json.dll</HintPath>
       <Private>false</Private>
     </Reference>
 
