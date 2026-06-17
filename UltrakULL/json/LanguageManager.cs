@@ -28,7 +28,7 @@ public static class LanguageManager
 		public static bool UsingHinduNumbers { get => CurrentLanguage.metadata.langHinduNumbers; }
 		#endregion
 
-		public static void InitializeManager(string modVersion)
+	public static void InitializeManager(string modVersion)
     {
         LoadLanguages(modVersion);
 
@@ -87,7 +87,7 @@ public static class LanguageManager
         {
             LoadLanguagesInDirectory(modVersion, directory);
         }
-		}
+	}
 
     public static void LoadLanguages(string modVersion)
     {
