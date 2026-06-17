@@ -79,7 +79,7 @@ namespace UltrakULL;
 		{
 			if (SceneHelper.IsPlayingCustom)
 			{
-				return MapInfoBase.InstanceAnyType.levelName;
+				return MapInfoBase.Instance?.levelName ?? "Unknown Level";
 			}
 			if (!LanguageManager.UsingHinduNumbers)
 			{

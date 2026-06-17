@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>UltrakULL</RootNamespace>
     <AssemblyName>UltrakULL</AssemblyName>
@@ -130,9 +130,14 @@
       <Private>false</Private>
     </Reference>
 
-    <!-- System -->
-    <Reference Include="System.Net.Http" />
 
+  </ItemGroup>
+
+  <!-- Embedded resources -->
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\SubtitledSources.json">
+      <LogicalName>UltrakULL.SubtitledSources.json</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
 
 <!-- Path -->
@@ -177,7 +182,7 @@
 <!-- JSON templates -->
   <Target Name="CopyJSON" AfterTargets="Build">
     <ItemGroup>
-      <_Json Include="$(ProjectDir)json\templates\*.json" />
+      <_Json Include="$(ProjectDir)UltrakULL\json\templates\*.json" />
     </ItemGroup>
 
     <Copy SourceFiles="@(_Json)"
@@ -187,22 +192,11 @@
   <!-- Audio templates -->
   <Target Name="CopyAudio" AfterTargets="Build">
     <ItemGroup>
-      <_Audio Include="$(ProjectDir)audio\templates\**\*.*" />
+      <_Audio Include="$(ProjectDir)UltrakULL\audio\templates\**\*.*" />
     </ItemGroup>
 
     <Copy SourceFiles="@(_Audio)"
           DestinationFolder="$(TargetDir)config\ultrakull\audio\%(RecursiveDir)" />
-  </Target>
-
-  <!--IntroViolenceScreen -->
-  <Target Name="CopyIntroViolenceScreen" AfterTargets="Build">
-    <ItemGroup>
-      <_IntroViolence Include="$(ProjectDir)IntroViolenceScreen\violence1.png" />
-      <_IntroViolence Include="$(ProjectDir)IntroViolenceScreen\violence2.png" />
-    </ItemGroup>
-
-    <Copy SourceFiles="@(_IntroViolence)"
-          DestinationFolder="$(TargetDir)plugins\UltrakULL\IntroViolenceScreen" />
   </Target>
 
   <!-- Fonts -->

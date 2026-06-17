@@ -7,7 +7,6 @@ using TMPro;
 
 using static UltrakULL.CommonFunctions;
 using UltrakULL.json;
-using System.Diagnostics.Eventing.Reader;
 
 namespace UltrakULL.Harmony_Patches;
 

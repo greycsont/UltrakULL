@@ -100,8 +100,8 @@ public static class LanguageManager
 
     private static void LoadSubtitledSourcesConfig()
     {
-        var config = Encoding.Default.GetString(Resources.SubtitledSources);
-        SubtitledAudioSourcesReplacer.Config = JsonConvert.DeserializeObject<SubtitledSourcesConfig>(config);
+        using Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("UltrakULL.SubtitledSources.json");
+        SubtitledAudioSourcesReplacer.Config = JsonConvert.DeserializeObject<SubtitledSourcesConfig>(new StreamReader(stream).ReadToEnd());
     }
 
     private static bool TryLoad<T>(string pathName, out T file)

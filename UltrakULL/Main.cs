@@ -121,20 +121,6 @@ namespace UltrakULL;
 			Logging.Warn("UltrakULL Loading... | Version v." + InternalVersion);
 			try
 			{
-				Logging.Warn("--- Checking for updates ---");
-				Task.Run(() =>
-				{
-					try
-					{
-						return Core.CheckForUpdates();
-					}
-					catch(Exception e)
-					{
-						Logging.Message($"Failed to read version info! {e.Message}");
-						return null;
-					}
-				});
-				
 				Logging.Warn("--- Loading external fonts ---");
 				Core.LoadFonts();
 			
