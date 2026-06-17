@@ -32,12 +32,12 @@ public static class Core
     public static TMP_FontAsset CJKFontTMP;
     public static TMP_FontAsset jaFontTMP;
     public static TMP_FontAsset ArabicFontTMP;
-		public static TMP_FontAsset HebrewFontTMP;
+	public static TMP_FontAsset HebrewFontTMP;
     public static Sprite[] CustomRankImages;
 
     public static Sprite ArabicUltrakillLogo;
 
-		public static bool wasLanguageReset = false;
+	public static bool wasLanguageReset = false;
     
     private static readonly HttpClient Client = new HttpClient();
     
@@ -46,39 +46,6 @@ public static class Core
     {
         MainMenu.Patch(frontEnd);
         Options options = new Options(ref frontEnd);
-    }
-    
-    public static async Task CheckForUpdates()
-    {
-        string updateUrl = "https://api.github.com/repos/clearwateruk/ultrakull/releases/latest";
-        Client.DefaultRequestHeaders.Accept.Add( new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-        Client.DefaultRequestHeaders.UserAgent.TryParseAdd("request");
-        Client.Timeout = TimeSpan.FromSeconds(5);
-        
-        try
-        {
-            string responseJsonRaw = await Client.GetStringAsync(updateUrl);
-            UpdateInfo responseJson = JsonConvert.DeserializeObject<UpdateInfo>(responseJsonRaw);
-            
-            Logging.Message("Latest version on GitHub: " + responseJson.tag_name.Substring(1));
-            Logging.Message("Current local version: " + MainPatch.GetVersion());
-            
-            Version onlineVersion = new Version(responseJson.tag_name.Substring(1));
-            Version localVersion = new Version(MainPatch.GetVersion());
-            
-            switch(localVersion.CompareTo(onlineVersion))
-            {
-                case -1: { Logging.Warn("UPDATE AVAILABLE!"); updateAvailable = true; break;}
-                default: { Logging.Warn("No newer version detected. Assuming current version is up to date."); updateAvailable = false;break;}
-            }
-        }
-        catch (Exception e)
-        {
-            Logging.Error("Unable to acquire version info from GitHub.");
-            Logging.Error(e.ToString()); 
-            updateAvailable = false;
-            updateFailed = true;
-        }
     }
     
     //Patches all text strings in the pause menu.
@@ -171,8 +138,8 @@ public static class Core
             Logging.Message("Extra Fonts Asset Bundle has been loaded...");
 
             TMP_FontAsset arabicFontAsset = extraFontBundle.LoadAsset<TMP_FontAsset>("segoeui SDF Arabic");
-				TMP_FontAsset hebrewFontAsset = extraFontBundle.LoadAsset<TMP_FontAsset>("segoeui SDF Hebrew");
-				Sprite arabicLogo = extraFontBundle.LoadAsset<Sprite>("2023_improved_logo.png");
+			TMP_FontAsset hebrewFontAsset = extraFontBundle.LoadAsset<TMP_FontAsset>("segoeui SDF Hebrew");
+			Sprite arabicLogo = extraFontBundle.LoadAsset<Sprite>("2023_improved_logo.png");
 
             Sprite rankD = extraFontBundle.LoadAsset<Sprite>("RankD.png");
             Sprite rankC = extraFontBundle.LoadAsset<Sprite>("RankC.png");
@@ -193,7 +160,7 @@ public static class Core
 				CustomRankImages[6] = rankSSS;
 				CustomRankImages[7] = rankU;
 
-				if (arabicFontAsset == null)
+			if (arabicFontAsset == null)
             {
                 Logging.Warn("There is no Arabic font in this AssetBundle!?");
             }
@@ -205,8 +172,8 @@ public static class Core
 
             if (arabicLogo == null)
             {
-					Logging.Warn("There is no Arabic logo in this AssetBundle!?");
-				}
+				Logging.Warn("There is no Arabic logo in this AssetBundle!?");
+			}
             else
             {
                 ArabicUltrakillLogo = arabicLogo;
