@@ -48,7 +48,7 @@ public static class SandboxWorldOptions
             return;
         }
         ___borderStatus.text = (___isBorderOn ? LanguageManager.CurrentLanguage.sandbox.sandbox_shop_worldOptionsEnabled : LanguageManager.CurrentLanguage.sandbox.sandbox_shop_worldOptionsDisabled);
-        ___buttonText.text = (___isBorderOn ? LanguageManager.CurrentLanguage.sandbox.sandbox_shop_worldOptionsEnable : LanguageManager.CurrentLanguage.sandbox.sandbox_shop_worldOptionsDisable);
+        ___buttonText.text = (___isBorderOn ? LanguageManager.CurrentLanguage.sandbox.sandbox_shop_worldOptionsDisable : LanguageManager.CurrentLanguage.sandbox.sandbox_shop_worldOptionsEnable);
     }
 }
 
@@ -64,7 +64,7 @@ public static class SandboxAlterOptions
         }
         switch (name)
         {
-            case "enemy": { name = LanguageManager.CurrentLanguage.misc.enemyAlter_boss_title; break;}
+            case "enemy": case "Enemy": case "ENEMY": { name = LanguageManager.CurrentLanguage.misc.enemyAlter_boss_title; break;}
             case "Jump Pad": { name = LanguageManager.CurrentLanguage.misc.enemyAlter_jumpPadTitle; break;}
             case "Hook Point": { name = LanguageManager.CurrentLanguage.misc.enemyAlter_hookPointTitle; break;}
             case "Breakable": { name = LanguageManager.CurrentLanguage.misc.enemyAlter_metaBreakable; break;}
@@ -78,6 +78,7 @@ public static class SandboxAlterOptions
             case "Dual Wield Pickup": { name = LanguageManager.CurrentLanguage.misc.enemyAlter_dualWieldPickup; break; }
             case "Hurt Zone": { name = LanguageManager.CurrentLanguage.misc.enemyAlter_hurtZone; break; }
             case "Sandbox": { name = LanguageManager.CurrentLanguage.frontend.chapter_sandbox; break; }
+            case "Gutterman": { name = LanguageManager.CurrentLanguage.enemyNames.enemyname_gutterman; break; }
             default:{break;}
                 
         }
@@ -85,12 +86,10 @@ public static class SandboxAlterOptions
     }
 
     [HarmonyPatch("CreateBoolRow"), HarmonyPrefix]
-    public static bool sandboxAlterBoolOptions_Prefix(ref string name, bool initialState, Action<bool> callback, AlterMenuElements __instance)
+    public static void sandboxAlterBoolOptions_Prefix(ref string name, bool initialState, Action<bool> callback, ref string tooltipMessage)
     {
-        if(isUsingEnglish())
-        {
-            return true;
-        }
+        if (isUsingEnglish())
+            return;
         switch (name)
         {
             case "Boss Health Bar": { name = LanguageManager.CurrentLanguage.misc.enemyAlter_boss_description; break;}
@@ -105,11 +104,19 @@ public static class SandboxAlterOptions
             case "Has Skull": { name = LanguageManager.CurrentLanguage.misc.enemyAlter_hasSkull; break; }
             //Dual Wield Pickup
             case "Infinite Uses": { name = LanguageManager.CurrentLanguage.misc.enemyAlter_infiniteUses; break; }
-
-            default:{break;}
-                
+            case "This enemy cannot be un-puppeteered ": { name = LanguageManager.CurrentLanguage.misc.enemyAlter_unpuppet; break; }
+            default:{break;} 
         }
-        return true;
+        switch (tooltipMessage)
+        {
+            case "This enemy cannot be un-puppeteered ":
+                tooltipMessage = LanguageManager.CurrentLanguage.misc.enemyAlter_unpuppet;
+                break;
+
+            case "Un-puppeteering is not supported for non-sandbox enemies":
+                tooltipMessage = LanguageManager.CurrentLanguage.misc.enemyAlter_unpuppetNon;
+                break;
+        }
     }
 
     [HarmonyPatch("CreateFloatRow"), HarmonyPrefix]
@@ -128,6 +135,9 @@ public static class SandboxAlterOptions
             case "Hurt Cooldown": { name = LanguageManager.CurrentLanguage.misc.enemyAlter_hurtCooldown; break; }
             //Hookpoint
             case "Force": { name = LanguageManager.CurrentLanguage.misc.enemyAlter_power; break; }
+            //Health
+            case "Health": case "heatlh": case "HEALTH": { name = LanguageManager.CurrentLanguage.misc.enemyAlter_radianceHealth_tier; break; }
+            //Why not a separate key for health? Why would you need that if the values are the same?
             default: { break; }
         }
         return true;

@@ -1,30 +1,94 @@
 ﻿using HarmonyLib;
-using System.Collections.Generic;
 using System;
+using static UltrakULL.CommonFunctions;
+using SettingsMenu.Components;
+using UnityEngine;
 using TMPro;
 using UltrakULL.json;
 
 namespace UltrakULL.Harmony_Patches;
 
-[HarmonyPatch(typeof(HudController))]
-public static class HudControllerPatch
+
+[HarmonyPatch(typeof(PauseMenu))]
+public static class PauseMenuPatch
 {
-    [HarmonyPatch("SetAlwaysOnTop"), HarmonyPrefix]
-    public static bool SetAlwaysOnTop_Prefix(TMP_Text[] ___textElements)
+    [HarmonyPatch("OnEnable"), HarmonyPostfix]
+    public static void PauseMenuOnEnablePostfix(TMP_Text ___checkpointText)
     {
-        if (___textElements == null)
+        try
         {
-            return false;
-        }
-        TMP_Text[] array = ___textElements;
-        for (int i = 0; i < array.Length; i++)
-        {
-            if(!array[i].font.name.Contains("VCR_OSD_MONO_EXTENDED") && array[i].font.name.Contains("VCR_OSD_MONO"))
+            if (___checkpointText.text.Contains("SKIP"))
             {
-                return true;
+                ___checkpointText.text = LanguageManager.CurrentLanguage.pauseMenu.pause_skip;
             }
-            return false;
         }
-        return false;
+        catch (Exception e)
+        { 
+            Logging.Warn("Failed to patch SKIP button in pause menu");
+            Logging.Warn(e.ToString());
+        }
+    }
+}
+[HarmonyPatch(typeof(SettingsMenu.Components.SettingsPageBuilder))]
+public static class OptionsPatch
+{
+    [HarmonyPatch("BuildPage"), HarmonyPostfix]
+    public static void OptionsSetSelectedPostfix(SettingsPageBuilder __instance) {
+        try
+        {
+            Logging.Debug("Patching Option menu...");
+            GameObject optionsObject = __instance.gameObject;
+            switch (__instance.name.ToUpper())
+            {
+                case "GENERAL":
+                    {
+                        Logging.Debug("GENERAL");
+                        Options.PatchGeneralOptions(optionsObject);
+                        break;
+                    }
+                case "CONTROLS":
+                    {
+                        Logging.Debug("CONTROLS");
+                        Options.PatchControlOptions(optionsObject);
+                        break;
+                    }
+                case "GRAPHICS":
+                    {
+                        Logging.Debug("GRAPHICS");
+                        Options.PatchGraphicsOptions(optionsObject);
+                        break;
+                    }
+                case "AUDIO":
+                    {
+                        Logging.Debug("AUDIO");
+                        Options.PatchAudioOptions(optionsObject);
+                        break;
+                    }
+                case "ASSIST":
+                    {
+                        Logging.Debug("ASSIST");
+                        Options.PatchAssistOptions(optionsObject);
+                        break;
+                    }
+                case "HUD":
+                    {
+                        Logging.Debug("HUD");
+                        Options.PatchHUDOptions(optionsObject);
+                        break;
+                    }
+                default:
+                    {
+                        Logging.Warn("Unknown Option page name: " + __instance.name);
+                        break;
+                    }
+
+            }
+        }
+        catch (Exception e)
+        {
+            Logging.Error("Something went wrong while patching options.");
+            Logging.Error(e.ToString());
+        }
+
     }
 }

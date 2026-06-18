@@ -1,5 +1,5 @@
-﻿using HarmonyLib;
 using System.IO;
+using HarmonyLib;
 using UltrakULL.audio;
 using UltrakULL.json;
 using UnityEngine;
@@ -8,23 +8,34 @@ using static UltrakULL.CommonFunctions;
 
 namespace UltrakULL.Harmony_Patches.AudioSwaps;
 
-[HarmonyPatch(typeof(GabrielSecond),"Start")]
+[HarmonyPatch(typeof(GabrielSecond), "Awake")]
 public static class GabrielSecondAudioSwap
 {
-    
     [HarmonyPostfix]
-    public static void GabrielSecond_VoiceSwap(ref GabrielSecond __instance, ref GabrielVoice ___voice)
+    public static void GabrielSecond_VoiceSwap(ref GabrielSecond __instance)
     {
-        if(LanguageManager.configFile.Bind("General","activeDubbing","False").Value == "False" ||isUsingEnglish())
+        if (LanguageManager.configFile.Bind("General", "activeDubbing", "False").Value == "False" || isUsingEnglish())
+            return;
+
+        ApplyVoiceSwap(__instance);
+        ApplyOutroSwap(__instance);
+    }
+
+    private static void ApplyVoiceSwap(GabrielSecond __instance)
+    {
+        if (__instance == null)
+            return;
+
+        GabrielVoice voice = __instance.GetComponent<GabrielVoice>();
+        if (voice == null)
         {
+            Debug.LogWarning("[UltrakULL] GabrielVoice component not found on GabrielSecond!");
             return;
         }
-        string gabeSecondFolder =  AudioSwapper.SpeechFolder + "gabrielBossSecond" + Path.DirectorySeparatorChar;
+        string gabeSecondFolder = AudioSwapper.SpeechFolder + "gabrielBossSecond" + Path.DirectorySeparatorChar;
 
-
-        //Taunts
-        AudioClip[] gabeSecondTaunts = ___voice.taunt;
-        
+        // Taunts
+        AudioClip[] gabeSecondTaunts = voice.taunt;
         string[] tauntLines =
         {
             "gabrielSecondTaunt_IsThisWhatILostTo",
@@ -35,35 +46,23 @@ public static class GabrielSecondAudioSwap
             "gabrielSecondTaunt_TimeToRight",
             "gabrielSecondTaunt_YouNeedMorePower"
         };
-        
-        for(int x = 0; x < gabeSecondTaunts.Length; x++)
-        {
-            string gabrielSecondTauntString = gabeSecondFolder + tauntLines[x];
-            gabeSecondTaunts[x] =  AudioSwapper.SwapClipWithFile(gabeSecondTaunts[x], gabrielSecondTauntString);
-        }
-        
-        //Phase change - need to use ref otherwise it gets swapped back to original
-        ref AudioClip gabeSecondPhaseChange = ref ___voice.phaseChange;
-        string gabrielSecondPhaseChangeString = gabeSecondFolder + "gabrielSecondPhaseChange";
-        gabeSecondPhaseChange = AudioSwapper.SwapClipWithFile(gabeSecondPhaseChange, gabrielSecondPhaseChangeString);
+        for (int i = 0; i < gabeSecondTaunts.Length; i++)
+            gabeSecondTaunts[i] = AudioSwapper.SwapClipWithFile(gabeSecondTaunts[i], gabeSecondFolder + tauntLines[i]);
 
-        //Big hurt
-        AudioClip[] gabeSecondBigHurt = ___voice.bigHurt;
-        for(int x = 0; x < gabeSecondBigHurt.Length; x++)
-        {
-            string gabrielSecondBigHurtString = gabeSecondFolder + "gabrielSecondBigHurt" + (x+1).ToString();
-            gabeSecondBigHurt[x] =  AudioSwapper.SwapClipWithFile(gabeSecondBigHurt[x], gabrielSecondBigHurtString);
-        }
+        // Phase change
+        voice.phaseChange = AudioSwapper.SwapClipWithFile(voice.phaseChange, gabeSecondFolder + "gabrielSecondPhaseChange");
 
-        //Hurt
-        AudioClip[] gabeSecondHurt = ___voice.hurt;
-        for(int x = 0; x < gabeSecondHurt.Length; x++)
-        {
-            string gabrielSecondHurtString = gabeSecondFolder + "gabrielSecondHurt" + (x+1).ToString();
-            gabeSecondHurt[x] =  AudioSwapper.SwapClipWithFile(gabeSecondHurt[x], gabrielSecondHurtString);
-        }
-        
-        //Taunts second phase
+        // Big hurt
+        AudioClip[] gabeSecondBigHurt = voice.bigHurt;
+        for (int i = 0; i < gabeSecondBigHurt.Length; i++)
+            gabeSecondBigHurt[i] = AudioSwapper.SwapClipWithFile(gabeSecondBigHurt[i], gabeSecondFolder + "gabrielSecondBigHurt" + (i + 1));
+
+        // Hurt
+        AudioClip[] gabeSecondHurt = voice.hurt;
+        for (int i = 0; i < gabeSecondHurt.Length; i++)
+            gabeSecondHurt[i] = AudioSwapper.SwapClipWithFile(gabeSecondHurt[i], gabeSecondFolder + "gabrielSecondHurt" + (i + 1));
+
+        // Taunts second phase
         string[] tauntLinesSecondPhase =
         {
             "gabrielSecondTaunt_IveNeverHadAFight",
@@ -74,13 +73,31 @@ public static class GabrielSecondAudioSwap
             "gabrielSecondTaunt_ComeOnMachine",
             "gabrielSecondTaunt_IllShowYouTrueSplendor"
         };
-        
-        AudioClip[] gabeSecondTauntsSecondPhase = ___voice.tauntSecondPhase;
-        for(int x = 0; x < gabeSecondTauntsSecondPhase.Length; x++)
+        AudioClip[] gabeSecondTauntsSecondPhase = voice.tauntSecondPhase;
+        for (int i = 0; i < gabeSecondTauntsSecondPhase.Length; i++)
+            gabeSecondTauntsSecondPhase[i] = AudioSwapper.SwapClipWithFile(gabeSecondTauntsSecondPhase[i], gabeSecondFolder + tauntLinesSecondPhase[i]);
+    }
+
+    private static void ApplyOutroSwap(GabrielSecond __instance)
+    {
+        if (__instance == null)
+            return;
+
+        string folder = AudioSwapper.SpeechFolder + "gabrielBossSecond" + Path.DirectorySeparatorChar;
+
+        GabrielOutro outro = Object.FindObjectOfType<GabrielOutro>(true);
+        if (outro == null)
+            return;
+
+        AudioSource[] sources = outro.GetComponentsInChildren<AudioSource>(true);
+        foreach (AudioSource source in sources)
         {
-            string gabeSecondTauntsSecondPhaseString = gabeSecondFolder + tauntLinesSecondPhase[x];
-            gabeSecondTauntsSecondPhase[x] =  AudioSwapper.SwapClipWithFile(gabeSecondTauntsSecondPhase[x], gabeSecondTauntsSecondPhaseString);
+            if (source == null || source.clip == null)
+                continue;
+            if (source.clip.name != "gab_BigHurt1")
+                continue;
+
+            source.clip = AudioSwapper.SwapClipWithFile(source.clip, folder + "gabrielSecondBigHurt1");
         }
     }
 }
-

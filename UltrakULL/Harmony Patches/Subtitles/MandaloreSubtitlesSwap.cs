@@ -21,8 +21,10 @@ public static class MandaloreSubtitlesSwap
 {
     private const string MandaloreColor = "FFC49E";
     private const string OwlColor = "9EE6FF";
+    private const string WhiteColor = "FFFFFF";
     private const string MandaloreColour = "<color=#FFC49E>";
     private const string OwlColour = "<color=#9EE6FF>";
+    private const string WhiteColour = "<color=#FFFFFF>";
 
     private const int ReplacementInstructionsLength = 5;
 
@@ -30,8 +32,8 @@ public static class MandaloreSubtitlesSwap
         new Dictionary<string, (string, string)>
         {
             { "now we lost", ("subtitles_mandalore_defeated", OwlColor) },
-            { "Full auto", ("subtitles_mandalore_attack1", MandaloreColor) },
-            { "Fuller auto", ("subtitles_mandalore_attack2", MandaloreColor) },
+            { "Full auto", ("subtitles_mandalore_attack1", WhiteColor) },
+            { "Fuller auto", ("subtitles_mandalore_attack2", WhiteColor) },
             { "Use the salt", ("subtitles_mandalore_phaseChangeThird1", OwlColor) },
             { "I'm reaching", ("subtitles_mandalore_phaseChangeThird2", MandaloreColor) },
             { "Feel my maximum speed", ("subtitles_mandalore_phaseChangeSecond1", MandaloreColor) },
@@ -92,11 +94,11 @@ public static class MandaloreSubtitlesSwap
                 }
                 else if (((string)codes[i].operand).Contains("Full auto"))
                 {
-                    codes[i].operand = MandaloreColour + LanguageManager.CurrentLanguage.subtitles.subtitles_mandalore_attack1 + "</color>";
+                    codes[i].operand = WhiteColour + LanguageManager.CurrentLanguage.subtitles.subtitles_mandalore_attack1 + "</color>";
                 } 
                 else if (((string)codes[i].operand).Contains("Fuller auto"))
                 {
-                    codes[i].operand = MandaloreColour + LanguageManager.CurrentLanguage.subtitles.subtitles_mandalore_attack2 + "</color>";
+                    codes[i].operand = WhiteColour + LanguageManager.CurrentLanguage.subtitles.subtitles_mandalore_attack2 + "</color>";
                 }
                 else if (((string)codes[i].operand).Contains("Use the salt"))
                 {

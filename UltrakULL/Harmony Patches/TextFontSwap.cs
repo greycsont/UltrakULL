@@ -23,6 +23,7 @@ namespace UltrakULL.Harmony_Patches;
 			[HarmonyPostfix]
 			public static void SwapFont(ref Text __instance, IntPtr ___m_CachedPtr)
 			{
+                if (__instance == null || isUsingEnglish()) return;
 				if (objectsFixed.Count > 0)
 				{
 					if (objectsFixed.Contains(___m_CachedPtr))
@@ -87,6 +88,10 @@ namespace UltrakULL.Harmony_Patches;
 	{
 		public static void SwapTMPFont(ref TextMeshProUGUI __instance)
 		{
+        // English needs no font swap. Also guards against this global OnEnable patch firing on
+        // freshly-created / unparented TMP elements (e.g. other mods' UI) and NRE-ing.
+        // TODO: rework alongside the font loading system.
+        if (__instance == null || isUsingEnglish()) return;
         string currentLanguage = LanguageManager.CurrentLanguage.metadata.langName.ToLower();
         string currentLanguageCode = currentLanguage.Substring(0, 2);
         bool isUnderlaid = __instance.gameObject.name.Contains("NameText") ||

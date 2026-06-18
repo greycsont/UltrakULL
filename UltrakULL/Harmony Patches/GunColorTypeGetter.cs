@@ -1,7 +1,8 @@
 ﻿using HarmonyLib;
+using System.Collections.Generic;
+using System.Reflection.Emit;
 using TMPro;
 using UltrakULL.json;
-
 using static UltrakULL.CommonFunctions;
 
 namespace UltrakULL.Harmony_Patches;
@@ -32,6 +33,27 @@ public static class LocalizeGunColorTypeShop
                     GunColorController.requiredSecrets[i]
                 });
             }
+        }
+    }
+}
+[HarmonyPatch(typeof(GunColorLock), "OnEnable")]
+public class GunColorLockPatch
+{
+    static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+    {
+        foreach (var code in instructions)
+        {
+            if (code.opcode == OpCodes.Ldstr && (string)code.operand == "<color=#FF4343>P</color>")
+            {
+                code.operand = $"<color=#FF4343>{LanguageManager.CurrentLanguage.shop.shop_moneyCount}</color>";
+            }
+
+            if (code.opcode == OpCodes.Ldstr && (string)code.operand == "<color=red>1,000,000 P</color>")
+            {
+                code.operand = $"<color=red>1,000,000 {LanguageManager.CurrentLanguage.shop.shop_moneyCount}</color>";
+            }
+
+            yield return code;
         }
     }
 }

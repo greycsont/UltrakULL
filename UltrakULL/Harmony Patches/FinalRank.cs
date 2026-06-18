@@ -1,4 +1,6 @@
 ﻿using HarmonyLib;
+using System.Collections.Generic;
+using System.Reflection.Emit;
 using TMPro;
 using UltrakULL.json;
 using UnityEngine.UI;
@@ -57,11 +59,11 @@ public static class LocalizeFinalRankInfo
                 TMP_Text text4 = __instance.extraInfo;
                 if (LanguageManager.CurrentLanguage.metadata.langHinduNumbers)
                 {
-                    text4.text += "+ " + LanguageManager.CurrentLanguage.misc.endstats_noRestarts + "\n  (+500<color=orange>P</color>)\n";
+                    text4.text += "+ " + LanguageManager.CurrentLanguage.misc.endstats_noRestarts + "\n  (+500<color=orange>" + LanguageManager.CurrentLanguage.shop.shop_moneyCount + "</color>)\n";
                 }
                 else
                 {
-						text4.text += "+ " + LanguageManager.CurrentLanguage.misc.endstats_noRestarts + "\n  (+500<color=orange>P</color>)\n";
+						text4.text += "+ " + LanguageManager.CurrentLanguage.misc.endstats_noRestarts + "\n  (+500<color=orange>" + LanguageManager.CurrentLanguage.shop.shop_moneyCount + "</color>)\n";
 					}
             }
             ___noRestarts = true;
@@ -94,10 +96,61 @@ public static class LocalizeFinalRankInfo
             else
             {
                 TMP_Text text7 = __instance.extraInfo;
-                text7.text += "+ <color=orange>" + LanguageManager.CurrentLanguage.misc.endstats_noDamage + "\n  (</color>+5,000<color=orange>P)</color>\n";
+                text7.text += "+ <color=orange>" + LanguageManager.CurrentLanguage.misc.endstats_noDamage + "\n  (</color>+5,000<color=orange>" + LanguageManager.CurrentLanguage.shop.shop_moneyCount + ")</color>\n";
             }
             ___noDamage = true;
         }
         return false;
+    }
+}
+
+[HarmonyPatch(typeof(FinalRank), "PointsShow")]
+public static class FinalRank_PointsShow_Patch
+{
+    static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+    {
+        foreach (var code in instructions)
+        {
+            if (code.opcode == OpCodes.Ldstr && (string)code.operand == "<color=orange>P</color>")
+            {
+                code.operand = "<color=orange>" + LanguageManager.CurrentLanguage.shop.shop_moneyCount + "</color>";
+            }
+
+            yield return code;
+        }
+    }
+}
+
+[HarmonyPatch(typeof(FinalCyberRank), "PointsShow")]
+public static class FinalCyberRank_PointsShow_Patch
+{
+    static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+    {
+        foreach (var code in instructions)
+        {
+            if (code.opcode == OpCodes.Ldstr && (string)code.operand == "<color=orange>P</color>")
+            {
+                code.operand = "<color=orange>" + LanguageManager.CurrentLanguage.shop.shop_moneyCount + "</color>";
+            }
+
+            yield return code;
+        }
+    }
+}
+
+[HarmonyPatch(typeof(FinalCyberRank), "Update")]
+public static class FinalCyberRank_PointsUpdate_Patch
+{
+    static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+    {
+        foreach (var code in instructions)
+        {
+            if (code.opcode == OpCodes.Ldstr && (string)code.operand == "<color=orange>P</color>")
+            {
+                code.operand = "<color=orange>" + LanguageManager.CurrentLanguage.shop.shop_moneyCount + "</color>";
+            }
+
+            yield return code;
+        }
     }
 }

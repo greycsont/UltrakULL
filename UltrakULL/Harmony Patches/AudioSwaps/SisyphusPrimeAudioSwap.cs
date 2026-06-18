@@ -1,4 +1,5 @@
-﻿    using HarmonyLib;
+using BepInEx.Configuration;
+using HarmonyLib;
 using UltrakULL.audio;
 using UltrakULL.json;
 using UnityEngine;
@@ -7,62 +8,50 @@ using static UltrakULL.CommonFunctions;
 
 namespace UltrakULL.Harmony_Patches.AudioSwaps;
 
-[HarmonyPatch(typeof(SisyphusPrime),"Start")]
+[HarmonyPatch(typeof(SisyphusPrime), "Start")]
 public class SisyphusPrimeAudioSwap
 {
     [HarmonyPostfix]
     public static void SisyphusPrimeAudioSwapPatch(ref SisyphusPrime __instance)
     {
-        if(LanguageManager.configFile.Bind("General","activeDubbing","False").Value == "False" || isUsingEnglish())
-        {
+        if (LanguageManager.configFile.Bind<string>("General", "activeDubbing", "False", (ConfigDescription)null).Value == "False" || isUsingEnglish())
             return;
-        }
 
-        string sisyphusPrimeFolder =  AudioSwapper.SpeechFolder + "sisyphusPrime\\";
-        
-        AudioClip[] begoneAttacks  = __instance.clapVoice;
-        for(int x = 0; x < begoneAttacks.Length; x++)
-        {
-            string minosPrimeKickString = sisyphusPrimeFolder + "sisyphusBegone" + (x+1).ToString();
-            begoneAttacks[x] =  AudioSwapper.SwapClipWithFile(begoneAttacks[x], minosPrimeKickString);
-        }
-        
+        ApplyAudioSwap(__instance);
+    }
+
+    private static void ApplyAudioSwap(SisyphusPrime __instance)
+    {
+        if (__instance == null)
+            return;
+
+        string folder = AudioSwapper.SpeechFolder + "sisyphusPrime\\";
+
+        AudioClip[] begoneAttacks = __instance.clapVoice;
+        for (int i = 0; i < begoneAttacks.Length; i++)
+            begoneAttacks[i] = AudioSwapper.SwapClipWithFile(begoneAttacks[i], folder + "sisyphusBegone" + (i + 1));
+
         AudioClip[] thisWillHurtAttack = __instance.explosionVoice;
-        for(int x = 0; x < thisWillHurtAttack.Length; x++)
-        {
-            string thisWillHurtString = sisyphusPrimeFolder + "sisyphusThisWillHurt";
-            thisWillHurtAttack[x] =  AudioSwapper.SwapClipWithFile(thisWillHurtAttack[x], thisWillHurtString);
-        }
-        
+        for (int i = 0; i < thisWillHurtAttack.Length; i++)
+            thisWillHurtAttack[i] = AudioSwapper.SwapClipWithFile(thisWillHurtAttack[i], folder + "sisyphusThisWillHurt");
+
         AudioClip[] grunt = __instance.hurtVoice;
-        for(int x = 0; x < grunt.Length; x++)
-        {
-            string gruntString = sisyphusPrimeFolder + "sisyphusGrunt";
-            grunt[x] =  AudioSwapper.SwapClipWithFile(grunt[x], gruntString);
-        }
-        
+        for (int i = 0; i < grunt.Length; i++)
+            grunt[i] = AudioSwapper.SwapClipWithFile(grunt[i], folder + "sisyphusGrunt");
+
         AudioClip[] stompAttacks = __instance.stompComboVoice;
-        for(int x = 0; x < stompAttacks.Length; x++)
-        {
-            string sisyphusPrimeStompString = sisyphusPrimeFolder + "sisyphusYouCantEscape" + (x+1).ToString();
-            stompAttacks[x] =  AudioSwapper.SwapClipWithFile(stompAttacks[x], sisyphusPrimeStompString);
-        }
-        
+        for (int i = 0; i < stompAttacks.Length; i++)
+            stompAttacks[i] = AudioSwapper.SwapClipWithFile(stompAttacks[i], folder + "sisyphusYouCantEscape" + (i + 1));
+
         AudioClip[] taunts = __instance.tauntVoice;
-        for(int x = 0; x < taunts.Length; x++)
-        {
-            string sisyphusPrimeTauntString = sisyphusPrimeFolder + "sisyphusNiceTry" + (x+1).ToString();
-            taunts[x] =  AudioSwapper.SwapClipWithFile(taunts[x], sisyphusPrimeTauntString);
-        }
-        
+        for (int i = 0; i < taunts.Length; i++)
+            taunts[i] = AudioSwapper.SwapClipWithFile(taunts[i], folder + "sisyphusNiceTry" + (i + 1));
+
         AudioClip[] uppercutAttacks = __instance.uppercutComboVoice;
-        for(int x = 0; x < uppercutAttacks.Length; x++)
-        {
-            string sisyphusPrimeUppercutString = sisyphusPrimeFolder + "sisyphusDestroy" + (x+1).ToString();
-            uppercutAttacks[x] =  AudioSwapper.SwapClipWithFile(uppercutAttacks[x], sisyphusPrimeUppercutString);
-        }
-        ref AudioClip sisyphusPrimePhaseChange = ref __instance.phaseChangeVoice;
-        string sisyphusPrimePhaseChangeString = sisyphusPrimeFolder + "sisyphusYesThatsIt";
-        sisyphusPrimePhaseChange = AudioSwapper.SwapClipWithFile(sisyphusPrimePhaseChange, sisyphusPrimePhaseChangeString);
+        for (int i = 0; i < uppercutAttacks.Length; i++)
+            uppercutAttacks[i] = AudioSwapper.SwapClipWithFile(uppercutAttacks[i], folder + "sisyphusDestroy" + (i + 1));
+
+        //Phase change
+        __instance.phaseChangeVoice = AudioSwapper.SwapClipWithFile(__instance.phaseChangeVoice, folder + "sisyphusYesThatsIt");
     }
 }
