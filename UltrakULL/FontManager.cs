@@ -138,7 +138,7 @@ public static class FontManager
             return;
 
         UseFontFallback = meta.fonts?.UseFallback ?? false;
-
+        
         mainFallback = LoadCustomFont(meta.fonts?.MainFont) ?? BakedFallbackForLanguage(meta.langName);
         if (mainFallback == null)
             return;
