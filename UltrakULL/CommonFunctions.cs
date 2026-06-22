@@ -123,14 +123,31 @@ namespace UltrakULL;
 			Logging.Error(e.ToString());
 		}
 
+		private static readonly Dictionary<string, GameObject> rootObjectCache = new Dictionary<string, GameObject>();
+		private static readonly Dictionary<(GameObject, string), GameObject> childCache = new Dictionary<(GameObject, string), GameObject>();
+
+		public static void ClearObjectCaches(Scene scene, LoadSceneMode mode)
+		{
+			rootObjectCache.Clear();
+			childCache.Clear();
+		}
+
 		public static GameObject GetInactiveRootObject(string objectName)
 		{
+			if (rootObjectCache.TryGetValue(objectName, out GameObject cached))
+			{
+				if (cached != null)
+					return cached;
+				rootObjectCache.Remove(objectName);
+			}
+
 			List<GameObject> rootList = new List<GameObject>();
 			SceneManager.GetActiveScene().GetRootGameObjects(rootList);
 			foreach (GameObject child in rootList)
 			{
-				if (child.name == objectName)
+				if (child != null && child.name == objectName)
 				{
+					rootObjectCache[objectName] = child;
 					return child;
 				}
 			}
@@ -180,7 +197,7 @@ namespace UltrakULL;
 		  text.GetComponent<RectTransform>().sizeDelta = Vector2.zero;
 
 		  text.GetComponent<Text>().text = buttonText;
-		  text.GetComponent<Text>().font = Core.VcrFont;
+		  text.GetComponent<Text>().font = FontManager.VcrFont;
 		  text.GetComponent<Text>().fontSize = 32;
 		  text.GetComponent<Text>().alignment = TextAnchor.MiddleCenter;
 		  text.GetComponent<Text>().color = Color.white;
@@ -199,7 +216,7 @@ namespace UltrakULL;
 			//text.GetComponent<RectTransform>().SetPivot(PivotPresets.MiddleCenter);
 			text.AddComponent<Text>();
 			text.GetComponent<Text>().text = "Text";
-			text.GetComponent<Text>().font = Core.VcrFont;
+			text.GetComponent<Text>().font = FontManager.VcrFont;
 			text.GetComponent<Text>().fontSize = 32;
 			text.GetComponent<Text>().alignment = TextAnchor.MiddleCenter;
 			text.GetComponent<Text>().color = Color.black;
@@ -266,21 +283,30 @@ namespace UltrakULL;
 
 		public static GameObject GetGameObjectChild(GameObject parentObject, string childToFind)
 		{
-			Transform transform = parentObject.transform.Find(childToFind);
-			if (transform == null)
+			if (parentObject == null)
 				return null;
 
-			GameObject childToReturn = transform.gameObject;
-			return childToReturn;
+			var key = (parentObject, childToFind);
+			if (childCache.TryGetValue(key, out GameObject cached))
+			{
+				if (cached != null)
+					return cached;
+				childCache.Remove(key);
+			}
+
+			Transform transform = parentObject.transform.Find(childToFind);
+			GameObject result = transform != null ? transform.gameObject : null;
+			childCache[key] = result;
+			return result;
 		}
 		public static Text GetTextfromGameObject(GameObject objectToUse)
 		{
-			return objectToUse.GetComponent<Text>();
+			return objectToUse == null ? null : objectToUse.GetComponent<Text>();
 		}
 
 		public static TextMeshProUGUI GetTextMeshProUGUI(GameObject objectToUse)
 		{
-			return objectToUse.GetComponent<TextMeshProUGUI>();
+			return objectToUse == null ? null : objectToUse.GetComponent<TextMeshProUGUI>();
 		}
 		
 		public static IEnumerable<CodeInstruction> IL(params (OpCode, object)[] instructions)

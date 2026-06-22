@@ -56,6 +56,7 @@ public static class LanguageManager
             SetCurrentLanguage("en-GB");
         }
         
+        FontManager.ApplyLanguageFallback();
         LoadSubtitledSourcesConfig();
     }
 
@@ -276,7 +277,9 @@ public static class LanguageManager
                 Logging.Message("Language is an RTL - applying fix!");
                 CurrentLanguage = ApplyRtl(CurrentLanguage);
             }
-            
+
+            FontManager.ApplyLanguageFallback();
+
             MainPatch.Instance.onSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
             DumpLastLanguage();
             AudioSwapper.SpeechFolder = Path.Combine(Paths.ConfigPath,"ultrakull", "audio", CurrentLanguage.metadata.langName) + Path.DirectorySeparatorChar;

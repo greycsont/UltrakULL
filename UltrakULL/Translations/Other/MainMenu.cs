@@ -158,14 +158,14 @@ namespace UltrakULL;
 				string currentLangName = LanguageManager.CurrentLanguage.metadata.langName;
 				bool usingArabicLogo = false;
 
-            if (currentLangName.Substring(currentLangName.Length - 2).ToUpper() == "AR" && Core.ArabicUltrakillLogo != null)
+            if (currentLangName.Substring(currentLangName.Length - 2).ToUpper() == "AR" && FontManager.ArabicUltrakillLogo != null)
 				{
 					if (titleObjectArabic == null)
 					{
 						GameObject.Instantiate(titleObject, titleObject.transform.position, Quaternion.identity, trueMainMenu.transform);
 					}
 					titleObjectArabic = GetGameObjectChild(trueMainMenu, "Title(Clone)");
-					titleObjectArabic.GetComponent<Image>().sprite = Core.ArabicUltrakillLogo;
+					titleObjectArabic.GetComponent<Image>().sprite = FontManager.ArabicUltrakillLogo;
 					usingArabicLogo = true;
 				}
 				else

@@ -577,7 +577,7 @@ namespace UltrakULL;
 				case "Japanese":
 				case "Traditional Chinese":
 				case "Simplified Chinese":
-					((TMP_Text)hogeobject.GetComponent<TextMeshPro>()).font = Core.CJKFontTMP;
+					((TMP_Text)hogeobject.GetComponent<TextMeshPro>()).font = FontManager.CJKFontTMP;
 					break;
 				}
 			}

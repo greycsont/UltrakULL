@@ -122,7 +122,7 @@ namespace UltrakULL;
 			try
 			{
 				Logging.Warn("--- Loading external fonts ---");
-				Core.LoadFonts();
+				FontManager.LoadFonts();
 			
 				Logging.Warn("--- Initializing language manager ---");
 				LanguageManager.InitializeManager(InternalVersion);
@@ -132,6 +132,7 @@ namespace UltrakULL;
 				harmony.PatchAll();
 
 				Logging.Warn(" --- All done. Enjoy! ---");
+				SceneManager.sceneLoaded += CommonFunctions.ClearObjectCaches;
 				SceneManager.sceneLoaded += onSceneLoaded;
 				SceneManager.sceneLoaded += SubtitledAudioSourcesReplacer.OnSceneLoaded;
 				this.ready = true;

@@ -16,27 +16,6 @@ namespace UltrakULL;
 
 public static class Core
 {
-    public static Font VcrFont;
-    public static GameObject ultrakullLogo;
-    
-    public static bool updateAvailable;
-    public static bool updateFailed;
-    
-    public static bool GlobalFontReady;
-    public static bool TMPFontReady;
-    
-    public static Font GlobalFont;
-    public static Font MuseumFont;
-    public static TMP_FontAsset GlobalFontTMP;
-    public static TMP_FontAsset MuseumFontTMP;
-    public static TMP_FontAsset CJKFontTMP;
-    public static TMP_FontAsset jaFontTMP;
-    public static TMP_FontAsset ArabicFontTMP;
-	public static TMP_FontAsset HebrewFontTMP;
-    public static Sprite[] CustomRankImages;
-
-    public static Sprite ArabicUltrakillLogo;
-
 	public static bool wasLanguageReset = false;
     
     private static readonly HttpClient Client = new HttpClient();
@@ -121,123 +100,6 @@ public static class Core
         }
     }
     
-    public static void LoadFonts()
-    {
-        Logging.Message("Loading font resource bundle...");
-        //Will load from the same directory that the dll is in.
-        AssetBundle fontBundle = AssetBundle.LoadFromFile(Path.Combine(MainPatch.ModFolder,"ullfont.resource"));
-
-        AssetBundle extraFontBundle = AssetBundle.LoadFromFile(Path.Combine(MainPatch.ModFolder, "arabfonts"));
-
-        if (extraFontBundle == null)
-        {
-            Logging.Error("Failed to load Arabic / Hebrew fonts. :( (No extra AssetBundle found!)");
-        }
-        else
-        {
-            Logging.Message("Extra Fonts Asset Bundle has been loaded...");
-
-            TMP_FontAsset arabicFontAsset = extraFontBundle.LoadAsset<TMP_FontAsset>("segoeui SDF Arabic");
-			TMP_FontAsset hebrewFontAsset = extraFontBundle.LoadAsset<TMP_FontAsset>("segoeui SDF Hebrew");
-			Sprite arabicLogo = extraFontBundle.LoadAsset<Sprite>("2023_improved_logo.png");
-
-            Sprite rankD = extraFontBundle.LoadAsset<Sprite>("RankD.png");
-            Sprite rankC = extraFontBundle.LoadAsset<Sprite>("RankC.png");
-            Sprite rankB = extraFontBundle.LoadAsset<Sprite>("RankB.png");
-            Sprite rankA = extraFontBundle.LoadAsset<Sprite>("RankA.png");
-            Sprite rankS = extraFontBundle.LoadAsset<Sprite>("RankS.png");
-            Sprite rankSS = extraFontBundle.LoadAsset<Sprite>("RankSS.png");
-            Sprite rankSSS = extraFontBundle.LoadAsset<Sprite>("RankSSS.png");
-            Sprite rankU = extraFontBundle.LoadAsset<Sprite>("RankU.png");
-
-            CustomRankImages = new Sprite[8];
-				CustomRankImages[0] = rankD;
-				CustomRankImages[1] = rankC;
-				CustomRankImages[2] = rankB;
-				CustomRankImages[3] = rankA;
-				CustomRankImages[4] = rankS;
-				CustomRankImages[5] = rankSS;
-				CustomRankImages[6] = rankSSS;
-				CustomRankImages[7] = rankU;
-
-			if (arabicFontAsset == null)
-            {
-                Logging.Warn("There is no Arabic font in this AssetBundle!?");
-            }
-            else
-            {
-                Logging.Message("Arabic Font has been loaded.");
-                ArabicFontTMP = arabicFontAsset;
-            }
-
-            if (arabicLogo == null)
-            {
-				Logging.Warn("There is no Arabic logo in this AssetBundle!?");
-			}
-            else
-            {
-                ArabicUltrakillLogo = arabicLogo;
-            }
-
-				if (hebrewFontAsset == null)
-				{
-					Logging.Warn("There is no Hebrew font in this AssetBundle!?");
-				}
-				else
-				{
-					Logging.Message("Hebrew Font has been loaded.");
-					HebrewFontTMP = hebrewFontAsset;
-				}
-			}
-
-			if (fontBundle == null)
-        {
-            Logging.Error("FAILED TO LOAD");
-        }
-        else
-        {
-            Logging.Message("Font bundle loaded.");
-            Logging.Message("Loading fonts from bundle...");
-            
-            Font font1 = fontBundle.LoadAsset<Font>("VCR_OSD_MONO_EXTENDED");
-            Font font2 = fontBundle.LoadAsset<Font>("EBGaramond-Regular");
-            TMP_FontAsset font1TMP = fontBundle.LoadAsset<TMP_FontAsset>("VCR_OSD_MONO_EXTENDED_TMP");
-            TMP_FontAsset font2TMP = fontBundle.LoadAsset<TMP_FontAsset>("EBGaramond-Regular_TMP");
-
-            
-            TMP_FontAsset cjkFontTMP = fontBundle.LoadAsset<TMP_FontAsset>("NotoSans-CJK_TMP");
-            TMP_FontAsset jafontTMP = fontBundle.LoadAsset<TMP_FontAsset>("JF-Dot-jiskan16s-2000_TMP");
-            if (font1 && font2)
-            {
-                Logging.Warn("Normal fonts loaded.");
-                GlobalFont = font1;
-                MuseumFont = font2;
-                GlobalFontReady = true;
-            }
-            else
-            {
-                Logging.Error("FAILED TO LOAD NORMAL FONTS");
-                GlobalFontReady = false;
-            }
-            if(font1TMP && font2TMP && cjkFontTMP)
-            {
-                Logging.Warn("Normal TMP fonts loaded.");
-                GlobalFontTMP = font1TMP;
-                MuseumFontTMP = font2TMP;
-                CJKFontTMP = cjkFontTMP;
-                jaFontTMP = jafontTMP;
-                
-                TMPFontReady = true;
-            }
-            else
-            {
-                Logging.Error("FAILED TO LOAD TMP FONTS");
-                TMPFontReady = false;
-            }
-            
-        }
-    }
-    
     public static void HandleSceneSwitch(Scene scene,ref GameObject canvas)
     {
 
@@ -271,42 +133,7 @@ public static class Core
                     }
 
                     PatchFrontEnd(canvasObj);
-                        
-                    //(Re)render the UltrakULL status on screen when a language has been (re)loaded.
-                    if (ultrakullLogo != null) {GameObject.Destroy(ultrakullLogo);}
-                    ultrakullLogo = GameObject.Instantiate(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(canvasObj, "Main Menu (1)"), "Title"), "Text"), canvasObj.transform);
-                    ultrakullLogo.transform.localPosition = new Vector3(1075, 210, 0);
-                    TextMeshProUGUI ultrakullLogoText = GetTextMeshProUGUI(ultrakullLogo);
-                    ultrakullLogoText.text = "UltrakULL loaded.\nVersion: " + MainPatch.GetVersion() + "\nCurrent locale: " + LanguageManager.CurrentLanguage.metadata.langName;
-                    ultrakullLogoText.alignment = TextAlignmentOptions.TopLeft;
-                    ultrakullLogoText.fontSize = 16;
-                    
-                        
-                    //Add notif if there's a mod update available
-                    if(updateAvailable)
-                    { 
-                        ultrakullLogoText.text += "\n<color=green>UPDATE AVAILABLE!</color>";
-                            
-                        //Make an update button
-                        GameObject buttonBase= GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(canvasObj,"Main Menu (1)"),"Panel"),"Youtube");
-                            
-                        GameObject ultrakullUpdateButton = GameObject.Instantiate(buttonBase,buttonBase.transform.parent);
-                        ultrakullUpdateButton.GetComponent<RectTransform>().anchoredPosition = new Vector2(185, 0f);
-                        ultrakullUpdateButton.GetComponentInChildren<Image>().color = new Color(0,1,0,1);
-                        ultrakullUpdateButton.GetComponentInChildren<Text>().text = "VIEW UPDATE";
-                        ultrakullUpdateButton.GetComponentInChildren<WebButton>().url = "https://github.com/ClearwaterTM/UltrakULL/releases/latest";
-                    }
-                    //Warn of a language that doesn't match the mod version
-                    if (!LanguageManager.FileMatchesMinimumRequiredVersion(LanguageManager.CurrentLanguage.metadata.minimumModVersion, MainPatch.GetVersion()) && !isUsingEnglish())
-                    {
-                        ultrakullLogoText.text += "\n<color=orange>This language file\nwas created for\nan older version of\nUltrakULL.\nPlease check for\nan update to this file!</color>";
-                    }
-                    //Warn of a failed updated check
-                    else if (!(updateAvailable) && updateFailed)
-                    {
-                        ultrakullLogoText.text += "\n<color=red>Unable to check for updates.\nCheck console for info.</color>";
-                    }
-                    
+
                     break;
                     }
 

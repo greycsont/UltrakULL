@@ -63,7 +63,7 @@ public static class StyleHUD_AscendRankPatch
 				{
 					return; // no change
 				}
-				__instance.ranks[i].sprite = Core.CustomRankImages[i];
+				__instance.ranks[i].sprite = FontManager.CustomRankImages[i];
         }
         catch (Exception e)
         {
@@ -88,7 +88,7 @@ public static class StyleHUD_AscendRankPatch
             {
                 return; // no change
             }
-            __instance.ranks[i].sprite = Core.CustomRankImages[i];
+            __instance.ranks[i].sprite = FontManager.CustomRankImages[i];
         }
         catch (Exception e)
         {
@@ -112,7 +112,7 @@ public static class StyleHUD_AscendRankPatch
         {
             for (int i = 0; i < 8; i++)
             {
-                __instance.ranks[i].sprite = Core.CustomRankImages[i];
+                __instance.ranks[i].sprite = FontManager.CustomRankImages[i];
             }
         }
         catch(Exception e)
