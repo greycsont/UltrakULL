@@ -570,17 +570,7 @@ namespace UltrakULL;
 
 		private static TextMeshPro GetTextMeshPro(GameObject hogeobject)
 		{
-			if (!CommonFunctions.isUsingEnglish())
-			{
-				switch (LanguageManager.CurrentLanguage.metadata.langDisplayName)
-				{
-				case "Japanese":
-				case "Traditional Chinese":
-				case "Simplified Chinese":
-					((TMP_Text)hogeobject.GetComponent<TextMeshPro>()).font = FontManager.CJKFontTMP;
-					break;
-				}
-			}
+			// CJK glyphs now come from the TMP fallback fonts; no per-language font swap needed.
 			return hogeobject.GetComponent<TextMeshPro>();
 		}
 

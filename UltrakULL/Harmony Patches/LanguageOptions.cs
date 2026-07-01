@@ -108,7 +108,6 @@ public static class InjectLanguageButton
                 text.text = labelText;
                 text.richText = richText;
                 text.alignment = TextAlignmentOptions.Center;
-                text.font = FontManager.GlobalFontTMP;
 
                 if (changeSize)
                 {
@@ -188,7 +187,6 @@ public static class InjectLanguageButton
         DownloadYes.transform.position = new Vector3(1150, 300, 0);
         DownloadYes.GetComponentInChildren<RectTransform>().sizeDelta = new Vector2(300f, 50f);
         DownloadYes.GetComponentInChildren<Text>().text = "YES";
-        DownloadYes.GetComponentInChildren<Text>().font = FontManager.GlobalFont;
         DownloadYes.transform.SetParent(redownloadConfirmPanel.transform);
         
         GameObject DownloadNo = CreateButton("NO","DownloadNo");
@@ -196,7 +194,6 @@ public static class InjectLanguageButton
         DownloadNo.transform.position = new Vector3(750, 300, 0);
         DownloadNo.GetComponentInChildren<RectTransform>().sizeDelta = new Vector2(300f, 50f);
         DownloadNo.GetComponentInChildren<Text>().text = "NO";
-        DownloadNo.GetComponentInChildren<Text>().font = FontManager.GlobalFont;
         DownloadNo.transform.SetParent(redownloadConfirmPanel.transform);
         
         DownloadYes.GetComponentInChildren<Button>().onClick.AddListener(delegate { redownloadConfirmPanel.SetActive(false); downloadLanguageFile(lInfo.languageTag,lInfo.languageFullName); });
@@ -236,7 +233,6 @@ public static class InjectLanguageButton
             langBrowserTitle.text = "--LANGUAGE BROWSER--";
             langBrowserTitle.alignment = TextAlignmentOptions.Center;
             langBrowserTitle.fontSize = 24;
-            langBrowserTitle.font = FontManager.GlobalFontTMP;
 
             RectTransform titleRect = langBrowserTitle.rectTransform;
             titleRect.anchorMin = new Vector2(0.5f, 1);
@@ -523,7 +519,6 @@ public static class InjectLanguageButton
         GameObject titleObject = GameObject.Instantiate(optionsParent.Find("Text").gameObject, content.transform);
         titleObject.name = "Title";
         languagePageTitleText = titleObject.GetComponent<TextMeshProUGUI>();
-        languagePageTitleText.font = FontManager.GlobalFontTMP;
         languagePageTitleText.text = "--" + LanguageManager.CurrentLanguage.options.language_languages + "--";
         languagePageTitleText.alignment = TextAlignmentOptions.Center;
         languagePageTitleText.fontSize = 24;

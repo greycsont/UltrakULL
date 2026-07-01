@@ -10,7 +10,7 @@ namespace UltrakULL.Harmony_Patches;
 
 // Legacy UnityEngine.UI.Text can't use TMP fallback fonts. To still render non-Latin
 // glyphs on those elements, we mirror each Text into a TextMeshProUGUI "twin": the
-// original is hidden and the twin (using GlobalFontTMP, which carries the global
+// original is hidden and the twin (whose default TMP font carries the global
 // fallback) renders instead. Inert for English (no twins created).
 public static class TextToTMPConverter
 {
@@ -79,13 +79,10 @@ public static class TextToTMPConverter
 
         SyncEffects(source, tmp);
 
-        // Glyph coverage comes from the global TMP fallback; just use the base TMP font.
-        if (FontManager.TMPFontReady && FontManager.GlobalFontTMP != null)
-        {
-            tmp.font = FontManager.GlobalFontTMP;
-            if (IsIntermissionShadowChild(source))
-                AddIntermissionShadow(tmp);
-        }
+        // The twin keeps TMP's default font; glyph coverage comes from the fallback
+        // fonts FontManager registers onto it.
+        if (IsIntermissionShadowChild(source))
+            AddIntermissionShadow(tmp);
 
         source.canvasRenderer.SetAlpha(0f);
         SetTMPActiveState(source, source.isActiveAndEnabled);
