@@ -9,6 +9,7 @@ using UnityEngine.TextCore;
 using UltrakULL.json;
 
 using static UltrakULL.CommonFunctions;
+using UnityEngine.TextCore.LowLevel;
 
 namespace UltrakULL;
 
@@ -221,8 +222,8 @@ public static class FontManager
         {
             ff.scale *= fonts.FallbackScale;
             ff.baseline += fonts.FallbackBaselineOffset +6.5f;
-            ff.ascentLine += fonts.FallbackBaselineOffset +6.5f;
-            ff.descentLine += fonts.FallbackBaselineOffset + 6.5f;
+            ff.ascentLine += fonts.FallbackBaselineOffset -5f;
+            ff.descentLine += fonts.FallbackBaselineOffset -5f;
         }
         ff.lineHeight = primary.faceInfo.lineHeight;
         clone.faceInfo = ff;
@@ -305,7 +306,7 @@ public static class FontManager
         try
         {
             Font unityFont = new Font(fontPath);
-            TMP_FontAsset tmpFont = TMP_FontAsset.CreateFontAsset(unityFont);
+            TMP_FontAsset tmpFont = TMP_FontAsset.CreateFontAsset(unityFont, 90, 9, GlyphRenderMode.SDFAA, 4096, 4096);
             tmpFont.isMultiAtlasTexturesEnabled = true;
             if (tmpFont == null)
                 Logging.Error($"[Font] CreateFontAsset returned null for {fontPath}");
