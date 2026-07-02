@@ -5,8 +5,8 @@ using UltrakULL.json;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UltrakULL;
-
+namespace UltrakULL
+{
 	public class DevMuseum
 	{
 		public static string GetMessage(string message, string message2, string input)
@@ -53,11 +53,11 @@ namespace UltrakULL;
 			{
 				return LanguageManager.CurrentLanguage.devMuseum.museum_bookMaximilianOvesson1 + "\n\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookMaximilianOvesson2 + "\n\n<i><color=#8f65da>" + LanguageManager.CurrentLanguage.devMuseum.museum_bookMaximilianOvesson3 + "</color></i>\n\n";
 			}
-        if (originalText.Contains("RHIANNON MITCHELL</color> - UI ARTIST</b>"))
-        {
-            return LanguageManager.CurrentLanguage.devMuseum.museum_bookRhiannonMitchell1 + "\n\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookRhiannonMitchell2 + "\n\n<i><color=#dabfff>" + LanguageManager.CurrentLanguage.devMuseum.museum_bookRhiannonMitchell3 + "</color></i>\n\n";
-        }
-        if (originalText.Contains("VICTORIA HOLLAND</color> - LEAD 3D ARTIST AND GRAPHICS PROGRAMMER</b>"))
+            if (originalText.Contains("RHIANNON MITCHELL</color> - UI ARTIST</b>"))
+            {
+                return LanguageManager.CurrentLanguage.devMuseum.museum_bookRhiannonMitchell1 + "\n\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookRhiannonMitchell2 + "\n\n<i><color=#dabfff>" + LanguageManager.CurrentLanguage.devMuseum.museum_bookRhiannonMitchell3 + "</color></i>\n\n";
+            }
+            if (originalText.Contains("VICTORIA HOLLAND</color> - LEAD 3D ARTIST AND GRAPHICS PROGRAMMER</b>"))
 			{
 				return LanguageManager.CurrentLanguage.devMuseum.museum_bookVictoriaHolland1 + "\n\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookVictoriaHolland2 + "\n\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookVictoriaHolland3 + "\n\n<size=18>" + LanguageManager.CurrentLanguage.devMuseum.museum_bookVictoriaHolland4 + "\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookVictoriaHolland5 + "\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookVictoriaHolland6 + "\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookVictoriaHolland7 + "\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookVictoriaHolland8 + "</size>\n\n<i><color=#F5ABB9>" + LanguageManager.CurrentLanguage.devMuseum.museum_bookVictoriaHolland9 + "</color></i>\n\n";
 			}
@@ -508,13 +508,13 @@ namespace UltrakULL;
 			GameObject gameObjectChild40 = CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetInactiveRootObject("__Room_Theater"), "Ultrakill Projector"), "PuzzleScreen"), "Canvas"), "Background");
 			((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild40, "PlayButton"), "Text"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_cinemaPlay;
 			((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild40, "StopButton"), "Text"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_cinemaStop;
-        GameObject spoilerBackground1 = CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetInactiveRootObject("__DEV_SPACE_ALL"), "Prime 1 VA"), "SpoilerBlock"), "PuzzleScreen (1)"), "Canvas"), "Background");
-        GameObject spoilerBackground2 = CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetInactiveRootObject("__DEV_SPACE_ALL"), "Prime 2 VA"), "SpoilerBlock"), "PuzzleScreen (1)"), "Canvas"), "Background");
+            GameObject spoilerBackground1 = CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetInactiveRootObject("__DEV_SPACE_ALL"), "Prime 1 VA"), "SpoilerBlock"), "PuzzleScreen (1)"), "Canvas"), "Background");
+            GameObject spoilerBackground2 = CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetInactiveRootObject("__DEV_SPACE_ALL"), "Prime 2 VA"), "SpoilerBlock"), "PuzzleScreen (1)"), "Canvas"), "Background");
 			((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(spoilerBackground1, "Text"))).text = "<color=red>" + LanguageManager.CurrentLanguage.devMuseum.museum_spoiler1 + "</color>\n" + LanguageManager.CurrentLanguage.devMuseum.museum_spoiler2;
-        ((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(spoilerBackground2, "Text"))).text = "<color=red>" + LanguageManager.CurrentLanguage.devMuseum.museum_spoiler1 + "</color>\n" + LanguageManager.CurrentLanguage.devMuseum.museum_spoiler2;
-        ((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(spoilerBackground1, "OpenButton/Text"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_spoiler3;
-        ((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(spoilerBackground2, "OpenButton/Text"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_spoiler3;
-    }
+            ((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(spoilerBackground2, "Text"))).text = "<color=red>" + LanguageManager.CurrentLanguage.devMuseum.museum_spoiler1 + "</color>\n" + LanguageManager.CurrentLanguage.devMuseum.museum_spoiler2;
+            ((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(spoilerBackground1, "OpenButton/Text"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_spoiler3;
+            ((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(spoilerBackground2, "OpenButton/Text"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_spoiler3;
+        }
 
 		private void PatchChess()
 		{
@@ -530,49 +530,45 @@ namespace UltrakULL;
 			((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild2, "White"), "Player Button"), "Text"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_chessPlayer;
 			((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild2, "Settings"), "Main Window"), "Close Button"), "Text"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_chessSettingsclose;
 			((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild2, "Settings"), "Main Window"), "Set Elo"), "Slider"), "Bot Text"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_chessBot + ":";
-			((TMP_Text)GetTextMeshPro(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild, "WhiteWin"), "WinText"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_chessWhitewin;
-			((TMP_Text)GetTextMeshPro(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild, "BlackWin"), "WinText"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_chessBlackwin;
+			((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild, "WhiteWin"), "WinText"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_chessWhitewin;
+			((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild, "BlackWin"), "WinText"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_chessBlackwin;
 
-        GameObject chessPieces = CommonFunctions.GetGameObjectChild(gameObjectChild, "ChessPieces");
+            GameObject chessPieces = CommonFunctions.GetGameObjectChild(gameObjectChild, "ChessPieces");
 
-        foreach (TMP_Text tmp in chessPieces.GetComponentsInChildren<TMP_Text>(true))
-        {
-            Transform t = tmp.transform;
-            bool isPawn = false;
-            string promotion = null;
+			Logging.Debug("Patching chess piece texts...");
 
-            while (t != null)
+            foreach (TMP_Text tmp in chessPieces.GetComponentsInChildren<TMP_Text>(true))
             {
-                if (t.name.StartsWith("W Pawn") || t.name.StartsWith("B Pawn"))
-                    isPawn = true;
+                Transform t = tmp.transform;
+                bool isPawn = false;
+                string promotion = null;
 
-                if (t.name == "Queen" || t.name == "Rook" || t.name == "Bishop" || t.name == "Knight")
-                    promotion = t.name;
+                while (t != null)
+                {
+                    if (t.name.StartsWith("W Pawn") || t.name.StartsWith("B Pawn"))
+                        isPawn = true;
 
-                t = t.parent;
+                    if (t.name == "Queen" || t.name == "Rook" || t.name == "Bishop" || t.name == "Knight")
+                        promotion = t.name;
+
+                    t = t.parent;
+                }
+
+                if (!isPawn)
+                    continue;
+
+                if (tmp.name == "Text (TMP) (1)")
+                    tmp.text = LanguageManager.CurrentLanguage.devMuseum.museum_chessPromotion;
+                else if (promotion == "Queen")
+                    tmp.text = LanguageManager.CurrentLanguage.devMuseum.museum_chessQueen;
+                else if (promotion == "Rook")
+                    tmp.text = LanguageManager.CurrentLanguage.devMuseum.museum_chessRook;
+                else if (promotion == "Bishop")
+                    tmp.text = LanguageManager.CurrentLanguage.devMuseum.museum_chessBishop;
+                else if (promotion == "Knight")
+                    tmp.text = LanguageManager.CurrentLanguage.devMuseum.museum_chessKnight;
             }
-
-            if (!isPawn)
-                continue;
-
-            if (tmp.name == "Text (TMP) (1)")
-                tmp.text = LanguageManager.CurrentLanguage.devMuseum.museum_chessPromotion;
-            else if (promotion == "Queen")
-                tmp.text = LanguageManager.CurrentLanguage.devMuseum.museum_chessQueen;
-            else if (promotion == "Rook")
-                tmp.text = LanguageManager.CurrentLanguage.devMuseum.museum_chessRook;
-            else if (promotion == "Bishop")
-                tmp.text = LanguageManager.CurrentLanguage.devMuseum.museum_chessBishop;
-            else if (promotion == "Knight")
-                tmp.text = LanguageManager.CurrentLanguage.devMuseum.museum_chessKnight;
         }
-    }
-
-		private static TextMeshPro GetTextMeshPro(GameObject hogeobject)
-		{
-			// CJK glyphs now come from the TMP fallback fonts; no per-language font swap needed.
-			return hogeobject.GetComponent<TextMeshPro>();
-		}
 
 		public DevMuseum()
 		{
@@ -580,3 +576,4 @@ namespace UltrakULL;
 			PatchChess();
 		}
 	}
+}

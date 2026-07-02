@@ -99,6 +99,11 @@ namespace UltrakULL;
 		{
 			return (LanguageManager.CurrentLanguage.metadata.langDisplayName == "English");
 		}
+
+		public static string MakeVertical(string input)
+		{
+			return string.IsNullOrEmpty(input) ? input : string.Join("\n", input);
+		}
 		
 		public static ColorBlock UkButtonColors = new ColorBlock()
 		{
