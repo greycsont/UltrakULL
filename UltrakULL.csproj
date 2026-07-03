@@ -1,202 +1,81 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <!-- Game install location. Override with an env var or Directory.Build.props;
+       the hardcoded value is only a fallback for when nothing else is set. -->
+  <PropertyGroup>
+    <ULTRAKILLPath Condition="'$(ULTRAKILLPath)' == ''">E:\SteamLibrary\steamapps\common\ULTRAKILL</ULTRAKILLPath>
+    <ManagedDir>$(ULTRAKILLPath)\ULTRAKILL_Data\Managed</ManagedDir>
+    <BepInExCoreDir>$(ULTRAKILLPath)\BepInEx\core</BepInExCoreDir>
+  </PropertyGroup>
+
+  <!-- Build settings -->
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <OutputType>Library</OutputType>
-    <RootNamespace>UltrakULL</RootNamespace>
     <AssemblyName>UltrakULL</AssemblyName>
-    <Deterministic>true</Deterministic>
+    <RootNamespace>UltrakULL</RootNamespace>
     <LangVersion>latest</LangVersion>
-    <ULTRAKILLPath>E:\SteamLibrary\steamapps\common\ULTRAKILL</ULTRAKILLPath>
-    <NoWarn>0169,0219,0618,4014,1998,0649,0414,0168</NoWarn>
+    <Deterministic>true</Deterministic>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-  </PropertyGroup>
-
-  <!-- Debug / Release -->
-  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <DefineConstants>TRACE</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <OutputPath>bin\Release\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <NoWarn>0168;0169;0219;0414;0618;0649;1998;4014</NoWarn>
   </PropertyGroup>
 
-<!-- Unity + BepInEx -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <Optimize>false</Optimize>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
+  <ItemDefinitionGroup>
+    <Reference>
+      <Private>false</Private>
+    </Reference>
+  </ItemDefinitionGroup>
+
   <ItemGroup>
-
-    <Reference Include="0Harmony">
-      <HintPath>$(BepInExCoreDir)\0Harmony.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-
-    <Reference Include="BepInEx">
-      <HintPath>$(BepInExCoreDir)\BepInEx.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-
-    <Reference Include="Assembly-CSharp">
-      <HintPath>$(ManagedDir)\Assembly-CSharp.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-
-    <!-- Unity base -->
-    <Reference Include="UnityEngine">
-      <HintPath>$(ManagedDir)\UnityEngine.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-
-    <Reference Include="UnityEngine.CoreModule">
-      <HintPath>$(ManagedDir)\UnityEngine.CoreModule.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-
-    <Reference Include="UnityEngine.AssetBundleModule">
-      <HintPath>$(ManagedDir)\UnityEngine.AssetBundleModule.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-
-    <Reference Include="UnityEngine.AudioModule">
-      <HintPath>$(ManagedDir)\UnityEngine.AudioModule.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-
-    <Reference Include="UnityEngine.TextRenderingModule">
-      <HintPath>$(ManagedDir)\UnityEngine.TextRenderingModule.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-
-    <Reference Include="UnityEngine.UIModule">
-      <HintPath>$(ManagedDir)\UnityEngine.UIModule.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-
-    <Reference Include="UnityEngine.UI">
-      <HintPath>$(ManagedDir)\UnityEngine.UI.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-
-    <Reference Include="UnityEngine.ImageConversionModule">
-      <HintPath>$(ManagedDir)\UnityEngine.ImageConversionModule.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-
-    <Reference Include="UnityEngine.InputLegacyModule">
-      <HintPath>$(ManagedDir)\UnityEngine.InputLegacyModule.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-
-    <Reference Include="UnityEngine.PhysicsModule">
-      <HintPath>$(ManagedDir)\UnityEngine.PhysicsModule.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-
-    <Reference Include="UnityEngine.UnityWebRequestModule">
-      <HintPath>$(ManagedDir)\UnityEngine.UnityWebRequestModule.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-
-    <Reference Include="UnityEngine.UnityWebRequestAudioModule">
-      <HintPath>$(ManagedDir)\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-
-    <Reference Include="Unity.TextMeshPro">
-      <HintPath>$(ManagedDir)\Unity.TextMeshPro.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-
-    <Reference Include="UnityEngine.TextCoreFontEngineModule">
-      <HintPath>$(ManagedDir)\UnityEngine.TextCoreFontEngineModule.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-
-    <Reference Include="Unity.InputSystem">
-      <HintPath>$(ManagedDir)\Unity.InputSystem.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-
-    <!-- JSON -->
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>$(ManagedDir)\Newtonsoft.Json.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-
-
+    <Reference Include="0Harmony"><HintPath>$(BepInExCoreDir)\0Harmony.dll</HintPath></Reference>
+    <Reference Include="BepInEx"><HintPath>$(BepInExCoreDir)\BepInEx.dll</HintPath></Reference>
+    <Reference Include="Assembly-CSharp"><HintPath>$(ManagedDir)\Assembly-CSharp.dll</HintPath></Reference>
+    <Reference Include="Newtonsoft.Json"><HintPath>$(ManagedDir)\Newtonsoft.Json.dll</HintPath></Reference>
+    <Reference Include="$(ManagedDir)\UnityEngine*.dll" />
+    <Reference Include="$(ManagedDir)\Unity.*.dll" />
   </ItemGroup>
 
   <!-- Embedded resources -->
   <ItemGroup>
-    <EmbeddedResource Include="Resources\SubtitledSources.json">
-      <LogicalName>UltrakULL.SubtitledSources.json</LogicalName>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SubtitledSources.json" LogicalName="UltrakULL.SubtitledSources.json" />
   </ItemGroup>
 
-<!-- Path -->
-  <PropertyGroup>
-    <ManagedDir>$(ULTRAKILLPath)\ULTRAKILL_Data\Managed\</ManagedDir>
-    <BepInExRootDir>$(ULTRAKILLPath)\BepInEx\</BepInExRootDir>
-    <BepInExCoreDir>$(BepInExRootDir)\core\</BepInExCoreDir>
-  </PropertyGroup>
-
-<!-- Path validation -->
-  <Target Name="WarnBeforeBuild" BeforeTargets="BeforeBuild">
-    <Error Condition="!Exists('$(ULTRAKILLPath)')" Text="ULTRAKILLPath not set" />
+  <!-- Fail early with a clear message if the game path is wrong -->
+  <Target Name="CheckGamePath" BeforeTargets="BeforeBuild">
+    <Error Condition="!Exists('$(ManagedDir)')"
+           Text="ULTRAKILL not found at '$(ULTRAKILLPath)'. Set the ULTRAKILLPath property to your install location." />
   </Target>
 
-<!-- Folders -->
-  <Target Name="MakeDirs" BeforeTargets="Build">
-    <MakeDir Directories="$(OutDir)plugins\UltrakULL" />
-    <MakeDir Directories="$(OutDir)config\ultrakull" />
-  </Target>
-
-<!-- Main DLL -->
-  <Target Name="MoveDLL" AfterTargets="Build">
-    <Move SourceFiles="$(TargetDir)UltrakULL.dll"
-          DestinationFolder="$(TargetDir)plugins\UltrakULL" />
-  </Target>
-
-<!-- Clean root directory (remove all files except plugins/ and config/ folders) -->
-  <Target Name="CleanRoot" AfterTargets="CopyJSON;CopyAudio" Condition="'$(Configuration)' == 'Release'">
-    <!-- Delete net472 folder if exists -->
-    <RemoveDir Directories="$(TargetDir)net472" Condition="Exists('$(TargetDir)net472')" />
-    <!-- Delete config file -->
-    <Delete Files="$(TargetDir)UltrakULL.dll.config" Condition="Exists('$(TargetDir)UltrakULL.dll.config')" />
-    <!-- Delete publish folder if exists -->
-    <RemoveDir Directories="$(TargetDir)publish" Condition="Exists('$(TargetDir)publish')" />
-    <!-- Delete any other files in root -->
+  <!-- Package into a BepInEx-ready layout: <out>/plugins/UltrakULL + <out>/config/ultrakull.
+       Copy/Move create their destination folders, so no MakeDir step is needed. -->
+  <Target Name="Package" AfterTargets="Build">
     <ItemGroup>
-      <_FilesToDelete Include="$(TargetDir)*.*" />
-    </ItemGroup>
-    <Delete Files="@(_FilesToDelete)" />
-  </Target>
-
-<!-- JSON templates -->
-  <Target Name="CopyJSON" AfterTargets="Build">
-    <ItemGroup>
-      <_Json Include="$(ProjectDir)UltrakULL\json\templates\*.json" />
+      <_JsonTemplates Include="$(ProjectDir)UltrakULL\json\templates\*.json" />
+      <_AudioTemplates Include="$(ProjectDir)UltrakULL\audio\templates\**\*.*" />
     </ItemGroup>
 
-    <Copy SourceFiles="@(_Json)"
-          DestinationFolder="$(TargetDir)config\ultrakull" />
+    <Move SourceFiles="$(TargetDir)UltrakULL.dll" DestinationFolder="$(TargetDir)plugins\UltrakULL" />
+    <Copy SourceFiles="@(_JsonTemplates)" DestinationFolder="$(TargetDir)config\ultrakull" />
+    <Copy SourceFiles="@(_AudioTemplates)" DestinationFolder="$(TargetDir)config\ultrakull\audio\%(RecursiveDir)" />
   </Target>
 
-  <!-- Audio templates -->
-  <Target Name="CopyAudio" AfterTargets="Build">
+  <!-- In Release, strip stray root files so the output folder is a clean drop-in -->
+  <Target Name="CleanRoot" AfterTargets="Package" Condition="'$(Configuration)' == 'Release'">
+    <RemoveDir Directories="$(TargetDir)net472;$(TargetDir)publish" />
     <ItemGroup>
-      <_Audio Include="$(ProjectDir)UltrakULL\audio\templates\**\*.*" />
+      <_StrayRootFiles Include="$(TargetDir)*.*" />
     </ItemGroup>
-
-    <Copy SourceFiles="@(_Audio)"
-          DestinationFolder="$(TargetDir)config\ultrakull\audio\%(RecursiveDir)" />
+    <Delete Files="@(_StrayRootFiles)" />
   </Target>
 
 </Project>
