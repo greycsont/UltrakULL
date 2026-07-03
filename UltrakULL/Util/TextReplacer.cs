@@ -19,4 +19,10 @@ public static class TextReplacer
 
         text.text = replacement;
     }
+
+    public static void TryToReplaceText(TMP_Dropdown.OptionData option, string translation)
+    {
+        if (option == null || string.IsNullOrEmpty(translation)) return;
+        option.text = translation;
+    }
 }
