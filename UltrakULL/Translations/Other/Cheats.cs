@@ -13,10 +13,10 @@ public static class Cheats
 {
     public static void PatchCheatConsentPanel(ref GameObject canvasObj)
     {
-        GameObject cheatsMenu = GetGameObjectChild(canvasObj, "Cheat Menu");
-        GameObject cheatsConsentObject = GetGameObjectChild(cheatsMenu, "Cheats Consent");
+        GameObject cheatsMenu = FindDescendant(canvasObj, "Cheat Menu");
+        GameObject cheatsConsentObject = FindDescendant(cheatsMenu, "Cheats Consent");
 
-        GameObject cheatsConsentTextObject = GetGameObjectChild(cheatsConsentObject, "Text");
+        GameObject cheatsConsentTextObject = FindDescendant(cheatsConsentObject, "Text");
 
         //Consent window
         TextMeshProUGUI cheatsConsentText = GetTextMeshProUGUI(cheatsConsentTextObject);
@@ -24,16 +24,16 @@ public static class Cheats
             LanguageManager.CurrentLanguage.cheats.cheats_disclaimer1 + "\n\n"
             + LanguageManager.CurrentLanguage.cheats.cheats_disclaimer2;
 
-        TextMeshProUGUI cheatsConsentYesText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(cheatsConsentObject, "Yes"), "Text"));
+        TextMeshProUGUI cheatsConsentYesText = GetTextMeshProUGUI(FindDescendant(cheatsConsentObject, "Yes", "Text"));
         cheatsConsentYesText.text = LanguageManager.CurrentLanguage.cheats.cheats_disclaimerYes;
         cheatsConsentYesText.fontSize = 22;
 
-        TextMeshProUGUI cheatsConsentNoText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(cheatsConsentObject, "No"), "Text"));
+        TextMeshProUGUI cheatsConsentNoText = GetTextMeshProUGUI(FindDescendant(cheatsConsentObject, "No", "Text"));
         cheatsConsentNoText.text = LanguageManager.CurrentLanguage.cheats.cheats_disclaimerNo;
 
-        GameObject cheatsPanelObject = GetGameObjectChild(cheatsMenu, "Cheats Manager");
+        GameObject cheatsPanelObject = FindDescendant(cheatsMenu, "Cheats Manager");
 
-        TextMeshProUGUI cheatsPanelObjectTitle = GetTextMeshProUGUI(GetGameObjectChild(cheatsPanelObject, "Title"));
+        TextMeshProUGUI cheatsPanelObjectTitle = GetTextMeshProUGUI(FindDescendant(cheatsPanelObject, "Title"));
         cheatsPanelObjectTitle.text = LanguageManager.CurrentLanguage.cheats.cheats_panelTitle;
 
         //Need to disable the TextOverride component.
@@ -43,12 +43,12 @@ public static class Cheats
         
 
         //Cheat confirmation panel
-        GameObject cheatsEnabledConfirmationObject = GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(canvasObj, "Cheat Menu"), "Cheats Overlay"),"Cheats Enabled");
+        GameObject cheatsEnabledConfirmationObject = FindDescendant(canvasObj, "Cheat Menu", "Cheats Overlay", "Cheats Enabled");
 
-        TextMeshProUGUI cheatsEnabledConfirmationTitleText = GetTextMeshProUGUI(GetGameObjectChild(cheatsEnabledConfirmationObject, "Title"));
+        TextMeshProUGUI cheatsEnabledConfirmationTitleText = GetTextMeshProUGUI(FindDescendant(cheatsEnabledConfirmationObject, "Title"));
         cheatsEnabledConfirmationTitleText.text = LanguageManager.CurrentLanguage.cheats.cheats_cheatsEnabled;
 
-        GameObject cheatsDetailsTipObject = GetGameObjectChild(cheatsEnabledConfirmationObject, "Details Tip");
+        GameObject cheatsDetailsTipObject = FindDescendant(cheatsEnabledConfirmationObject, "Details Tip");
         Component[] cheatsDetailsTipComponents = cheatsDetailsTipObject.GetComponents(typeof(Component));
         foreach (Component comp in cheatsDetailsTipComponents)
         {
@@ -69,7 +69,7 @@ public static class Cheats
         cheatsEnabledConfirmationButtonsText.text = LanguageManager.CurrentLanguage.cheats.cheats_cheatsOpenButtons;
 
         //Teleport menu title
-        TextMeshProUGUI cheatsTeleportMenuTitle = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(canvasObj,"Cheat Menu"),"Cheats Teleport"),"Title"));
+        TextMeshProUGUI cheatsTeleportMenuTitle = GetTextMeshProUGUI(FindDescendant(canvasObj, "Cheat Menu", "Cheats Teleport", "Title"));
         cheatsTeleportMenuTitle.text = LanguageManager.CurrentLanguage.cheats.cheats_teleport;
     }
 

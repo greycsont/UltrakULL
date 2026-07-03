@@ -61,7 +61,7 @@ public static class NailgunPatch
                 }
                 if (___rechargingOverlay.activeSelf)
                 {
-                    TextMeshProUGUI rechargeText = GetTextMeshProUGUI(GetGameObjectChild(___rechargingOverlay, "Text (TMP)"));
+                    TextMeshProUGUI rechargeText = GetTextMeshProUGUI(FindDescendant(___rechargingOverlay, "Text (TMP)"));
                     //RECHARGING...
                     rechargeText.text = LanguageManager.CurrentLanguage.weapon.weapon_nailgunZapperRecharging;
                 }

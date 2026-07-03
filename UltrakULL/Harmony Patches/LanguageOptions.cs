@@ -36,9 +36,9 @@ public static class InjectLanguageButton
         if (referenceButtonTemplate != null)
             return;
 
-        var optionsParent = GetGameObjectChild(GetInactiveRootObject("Canvas"), "OptionsMenu").transform;
+        var optionsParent = FindDescendant(GetInactiveRootObject("Canvas"), "OptionsMenu").transform;
         var navigationRail = optionsParent.Find("Navigation Rail").gameObject;
-        var buttonPrefab = GetGameObjectChild(navigationRail, "Back");
+        var buttonPrefab = FindDescendant(navigationRail, "Back");
 
         referenceButtonTemplate = GameObject.Instantiate(buttonPrefab);
         referenceButtonTemplate.name = "ReferenceButtonTemplate";
@@ -154,9 +154,9 @@ public static class InjectLanguageButton
     
     public static void warnBeforeDownload(LanguageInfo lInfo)
     {
-        GameObject difficultySelectMenu = GetGameObjectChild(GetInactiveRootObject("Canvas"),"Difficulty Select (1)");
+        GameObject difficultySelectMenu = FindDescendant(GetInactiveRootObject("Canvas"),"Difficulty Select (1)");
 
-        GameObject panelToUse = GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetInactiveRootObject("Canvas"),"OptionsMenu"),"Assist Options"),"Panel");
+        GameObject panelToUse = FindDescendant(GetInactiveRootObject("Canvas"),"OptionsMenu","Assist Options","Panel");
         
         if(redownloadConfirmPanel == null)
         {
@@ -165,19 +165,19 @@ public static class InjectLanguageButton
 
         redownloadConfirmPanel.name = "ConfirmDownloadPanel";
         
-        Text confirmDownloadText = GetTextfromGameObject(GetGameObjectChild(GetGameObjectChild(redownloadConfirmPanel,"Panel"),"Text (2)"));
+        Text confirmDownloadText = GetTextfromGameObject(FindDescendant(redownloadConfirmPanel,"Panel","Text (2)"));
         
         confirmDownloadText.fontSize = 22;
         confirmDownloadText.text =
         "This language has already been downloaded. <color=#34e1eb>Redownload?</color>\n\n" 
             +"<color=orange>The current file's contents will be overwritten.</color>";
 
-        Text confirmDownloadTextConfirm = GetTextfromGameObject(GetGameObjectChild(GetGameObjectChild(redownloadConfirmPanel,"Panel"),"Text (1)"));
+        Text confirmDownloadTextConfirm = GetTextfromGameObject(FindDescendant(redownloadConfirmPanel,"Panel","Text (1)"));
         confirmDownloadTextConfirm.text = "";
         
         //Destroy the original buttons and replace them with new ones (at least until I can figure out how to change the listeners of the original buttons)
-        GameObject origYes = GetGameObjectChild(GetGameObjectChild(redownloadConfirmPanel,"Panel"),"Yes");
-        GameObject origNo = GetGameObjectChild(GetGameObjectChild(redownloadConfirmPanel,"Panel"),"No");
+        GameObject origYes = FindDescendant(redownloadConfirmPanel,"Panel","Yes");
+        GameObject origNo = FindDescendant(redownloadConfirmPanel,"Panel","No");
         origYes.SetActive(false);
         origNo.SetActive(false);
         
@@ -206,7 +206,7 @@ public static class InjectLanguageButton
     {
         string masterLanguageUrl = "https://clearwateruk.github.io/mods/ultrakULL/languagesMaster.json";
         Transform navigationRail = GameObject.Find("Navigation Rail").transform;
-        Transform optionsParent = GetGameObjectChild(GetInactiveRootObject("Canvas"), "OptionsMenu").transform;
+        Transform optionsParent = FindDescendant(GetInactiveRootObject("Canvas"), "OptionsMenu").transform;
         Transform pagesParent = GameObject.Find("Pages").transform;
         Transform referencePage = pagesParent.transform.Find("General");
         Scrollbar referenceScrollbar = referencePage.GetComponentsInChildren<Scrollbar>().FirstOrDefault();
@@ -393,7 +393,7 @@ public static class InjectLanguageButton
                     LanguageManager.allLanguages.Add(languageTag, file);
                     
                     
-                    Transform optionsParent = GetGameObjectChild(GetInactiveRootObject("Canvas"),"OptionsMenu").transform;
+                    Transform optionsParent = FindDescendant(GetInactiveRootObject("Canvas"),"OptionsMenu").transform;
                     GameObject slotRowPrefab = optionsParent.Find("Save Slots").Find("Grid").Find("Slot Row").gameObject;
                     addLocalLanguageToLocalList(ref slotRowPrefab, file.metadata.langName,true);
                 }
@@ -411,11 +411,11 @@ public static class InjectLanguageButton
     public static void addLocalLanguageToLocalList(ref GameObject slotRowPrefab, string language, bool newlyAdded=false)
     {
         Transform contentParent = langLocalPage.transform.Find("Scroll Rect").Find("Contents");
-        GameObject deleteButtonPrefab = GetGameObjectChild(slotRowPrefab.transform.Find("Delete Wrapper").gameObject, "Delete Button");
+        GameObject deleteButtonPrefab = FindDescendant(slotRowPrefab.transform.Find("Delete Wrapper").gameObject, "Delete Button");
         GameObject languageButtonInstance = ButtonUtils.CreateTMPButton(contentParent, language, LanguageManager.allLanguages[language].metadata.langDisplayName, delegate
         {
-            GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(contentParent.gameObject, LanguageManager.CurrentLanguage.metadata.langName), "Text")).text = LanguageManager.CurrentLanguage.metadata.langDisplayName;
-            GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(contentParent.gameObject, language), "Text")).text += "\n<size=22>(<color=green>Selected</color>)</size>";
+            GetTextMeshProUGUI(FindDescendant(contentParent.gameObject, LanguageManager.CurrentLanguage.metadata.langName, "Text")).text = LanguageManager.CurrentLanguage.metadata.langDisplayName;
+            GetTextMeshProUGUI(FindDescendant(contentParent.gameObject, language, "Text")).text += "\n<size=22>(<color=green>Selected</color>)</size>";
             LanguageManager.SetCurrentLanguage(language);
         });
         //languageButtonInstance.transform.Find("Select Wrapper").gameObject.SetActive(false);
@@ -532,8 +532,8 @@ public static class InjectLanguageButton
 
         Logging.Message("Creating language menu button...");
         GameObject languageButton = ButtonUtils.CreateTMPButton(navigationRail, "Language", LanguageManager.CurrentLanguage.options.language_title, () => ShowLanguagePage(), changeSize: false);
-        languageButtonText = GetTextMeshProUGUI(GetGameObjectChild(languageButton, "Text"));
-        RectTransform sourceRect = GetGameObjectChild(navigationRail.gameObject, "General").GetComponent<RectTransform>();
+        languageButtonText = GetTextMeshProUGUI(FindDescendant(languageButton, "Text"));
+        RectTransform sourceRect = FindDescendant(navigationRail.gameObject, "General").GetComponent<RectTransform>();
         RectTransform targetRect = languageButton.GetComponent<RectTransform>();
         targetRect.sizeDelta = sourceRect.sizeDelta;
         //targetRect.anchorMin = sourceRect.anchorMin;
@@ -596,8 +596,8 @@ public static class InjectLanguageButton
                         b.colors = cb; // Force update colors (sometimes helps)
                     }
                 }
-                Transform navRail = GetGameObjectChild(GetInactiveRootObject("Canvas"), "OptionsMenu").transform.Find("Navigation Rail");
-                GameObject langBtn = GetGameObjectChild(navRail.gameObject, "Language");
+                Transform navRail = FindDescendant(GetInactiveRootObject("Canvas"), "OptionsMenu").transform.Find("Navigation Rail");
+                GameObject langBtn = FindDescendant(navRail.gameObject, "Language");
                 EventSystem.current.SetSelectedGameObject(langBtn);
             }
         }

@@ -71,14 +71,14 @@ namespace UltrakULL.Harmony_Patches;
 					break;
 			}
 
-			GameObject actHellMap = GetGameObjectChild(root, $"Hellmap Act {iAct}");
+			GameObject actHellMap = FindDescendant(root, $"Hellmap Act {iAct}");
 			if (actHellMap == null)
 			{
 				Logging.Message($"Hellmap RtlFixLevel is FUCKED!!");
 				return;
 			}
 
-			GameObject levelObject = GetGameObjectChild(actHellMap, levelName);
+			GameObject levelObject = FindDescendant(actHellMap, levelName);
 			if (levelObject == null)
 			{
 				Logging.Message($"Hellmap RtlFixLevel is FUCKED!!");
@@ -95,7 +95,7 @@ namespace UltrakULL.Harmony_Patches;
 
 			if (useHinduNumerals)
 			{
-				GameObject textObject = GetGameObjectChild(levelObject, "Text");
+				GameObject textObject = FindDescendant(levelObject, "Text");
 				if (textObject == null)
 				{
 					return;

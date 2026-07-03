@@ -11,33 +11,33 @@ public static class LevelStatWindow
 {
     public static void PatchStats(ref GameObject canvasObj)
     {
-        GameObject levelStatsWindow = GetGameObjectChild(GetGameObjectChild(canvasObj, "Level Stats Controller"), "Level Stats (1)");
+        GameObject levelStatsWindow = FindDescendant(canvasObj, "Level Stats Controller", "Level Stats (1)");
         
-        TextMeshProUGUI levelName = GetTextMeshProUGUI(GetGameObjectChild(levelStatsWindow, "Title"));
+        TextMeshProUGUI levelName = GetTextMeshProUGUI(FindDescendant(levelStatsWindow, "Title"));
         levelName.text = LevelNames.GetDiscordLevelName(GetCurrentSceneName());
 
         //Secret levels will only have a timer, or something else.
-        TextMeshProUGUI timeName = GetTextMeshProUGUI(GetGameObjectChild(levelStatsWindow, "Time Title"));
+        TextMeshProUGUI timeName = GetTextMeshProUGUI(FindDescendant(levelStatsWindow, "Time Title"));
         timeName.text = LanguageManager.CurrentLanguage.misc.levelstats_time; 
 
-        TextMeshProUGUI killsName = GetTextMeshProUGUI(GetGameObjectChild(levelStatsWindow, "Kills Title"));
+        TextMeshProUGUI killsName = GetTextMeshProUGUI(FindDescendant(levelStatsWindow, "Kills Title"));
         killsName.text = LanguageManager.CurrentLanguage.misc.levelstats_kills;
 
-        TextMeshProUGUI styleName = GetTextMeshProUGUI(GetGameObjectChild(levelStatsWindow, "Style Title"));
+        TextMeshProUGUI styleName = GetTextMeshProUGUI(FindDescendant(levelStatsWindow, "Style Title"));
         styleName.text = LanguageManager.CurrentLanguage.misc.levelstats_style;
 
-        TextMeshProUGUI secretsName = GetTextMeshProUGUI(GetGameObjectChild(levelStatsWindow, "Secrets Title"));
+        TextMeshProUGUI secretsName = GetTextMeshProUGUI(FindDescendant(levelStatsWindow, "Secrets Title"));
         secretsName.text = LanguageManager.CurrentLanguage.misc.levelstats_secrets;
 
-        TextMeshProUGUI challengesName = GetTextMeshProUGUI(GetGameObjectChild(levelStatsWindow, "Challenge Title"));
+        TextMeshProUGUI challengesName = GetTextMeshProUGUI(FindDescendant(levelStatsWindow, "Challenge Title"));
         challengesName.text = LanguageManager.CurrentLanguage.misc.levelstats_challenge;
 
-        TextMeshProUGUI assistsName = GetTextMeshProUGUI(GetGameObjectChild(levelStatsWindow, "Assists Title"));
+        TextMeshProUGUI assistsName = GetTextMeshProUGUI(FindDescendant(levelStatsWindow, "Assists Title"));
         assistsName.text = LanguageManager.CurrentLanguage.misc.levelstats_majorAssists;
 
         if (GetCurrentSceneName() == "Level 4-S")
         {
-            TextMeshProUGUI cratesName = GetTextMeshProUGUI(GetGameObjectChild(levelStatsWindow, "Crates Counter"));
+            TextMeshProUGUI cratesName = GetTextMeshProUGUI(FindDescendant(levelStatsWindow, "Crates Counter"));
             cratesName.text = LanguageManager.CurrentLanguage.misc.levelstats_boxes;
         }
     }

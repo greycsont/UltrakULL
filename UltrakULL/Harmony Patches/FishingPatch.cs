@@ -14,10 +14,10 @@ public class FishingHUDPatch
     {
         if(!isUsingEnglish())
         {
-            Text outOfWaterText = GetTextfromGameObject(GetGameObjectChild(___outOfWaterMessage,"Text"));
+            Text outOfWaterText = GetTextfromGameObject(FindDescendant(___outOfWaterMessage,"Text"));
             outOfWaterText.text = LanguageManager.CurrentLanguage.fishing.fish_outOfWater;
         
-            Text hookedText = GetTextfromGameObject(GetGameObjectChild(___hookedContainer,"Text"));
+            Text hookedText = GetTextfromGameObject(FindDescendant(___hookedContainer,"Text"));
             hookedText.text = LanguageManager.CurrentLanguage.fishing.fish_rodHooked;
         }
         

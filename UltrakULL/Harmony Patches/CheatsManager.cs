@@ -36,7 +36,7 @@ public static class CheatsManagerPatch
         
         GameObject canvas = GetInactiveRootObject("Canvas");
 
-        GameObject cheatMenu = GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(canvas, "Cheat Menu"), "Cheats Manager"), "Scroll View"), "Viewport");
+        GameObject cheatMenu = FindDescendant(canvas, "Cheat Menu", "Cheats Manager", "Scroll View", "Viewport");
 
         CheatMenuItem[] cheatList = cheatMenu.GetComponentsInChildren<CheatMenuItem>();
         foreach (CheatMenuItem category in cheatList)
@@ -82,7 +82,7 @@ public static class CheatsManagerPatch
                 item.bindButtonText.text = text.ToUpper();
             }
             GameObject parentResetButton = item.resetBindButton.gameObject;
-            TextMeshProUGUI parentResetText = CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(parentResetButton, "Text"));
+            TextMeshProUGUI parentResetText = GetTextMeshProUGUI(FindDescendant(parentResetButton, "Text"));
             parentResetText.text = LanguageManager.CurrentLanguage.cheats.cheats_delete;
             __instance.RenderCheatsInfo();
             return false;

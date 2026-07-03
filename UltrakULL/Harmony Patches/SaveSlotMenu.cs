@@ -40,7 +40,7 @@ public static class LocalizeSaveLoadFailMessage
                     TextMeshProUGUI dupeSaveText = mergeConsentMessage.GetComponent<TextMeshProUGUI>();
                     dupeSaveText.text = dupeSaveConsentText;
                 }
-                GameObject quitButtonTextObject = GetGameObjectChild(GetGameObjectChild(mergeConsentMessage, "Button Wrapper"), "Quit Button");
+                GameObject quitButtonTextObject = FindDescendant(mergeConsentMessage, "Button Wrapper", "Quit Button");
                 try
                 {
                     Text quitButtonText = quitButtonTextObject.GetComponentInChildren<Text>();

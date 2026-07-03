@@ -32,65 +32,65 @@ public static class Core
     {
         try
         {
-            GameObject pauseMenu = GetGameObjectChild(canvasObj, "PauseMenu");
+            GameObject pauseMenu = FindDescendant(canvasObj, "PauseMenu");
 
             //Title
-            TextMeshProUGUI pauseText = GetTextMeshProUGUI(GetGameObjectChild(pauseMenu, "Text"));
+            TextMeshProUGUI pauseText = GetTextMeshProUGUI(FindDescendant(pauseMenu, "Text"));
             pauseText.text = "-- " + LanguageManager.CurrentLanguage.pauseMenu.pause_title + " --";
 
             //Resume
-            TextMeshProUGUI continueText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(pauseMenu, "Resume"), "Text"));
+            TextMeshProUGUI continueText = GetTextMeshProUGUI(FindDescendant(pauseMenu, "Resume", "Text"));
             continueText.text = LanguageManager.CurrentLanguage.pauseMenu.pause_resume;
 
             //Checkpoint
-            TextMeshProUGUI checkpointText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(pauseMenu, "Restart Checkpoint"), "Text"));
+            TextMeshProUGUI checkpointText = GetTextMeshProUGUI(FindDescendant(pauseMenu, "Restart Checkpoint", "Text"));
             checkpointText.text = LanguageManager.CurrentLanguage.pauseMenu.pause_respawn;
             if (GetCurrentSceneName().Contains("Intermission"))
             {
                 checkpointText.text = LanguageManager.CurrentLanguage.pauseMenu.pause_skip;
             }
             //Restart mission
-            TextMeshProUGUI restartText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(pauseMenu, "Restart Mission"), "Text"));
+            TextMeshProUGUI restartText = GetTextMeshProUGUI(FindDescendant(pauseMenu, "Restart Mission", "Text"));
             restartText.text = LanguageManager.CurrentLanguage.pauseMenu.pause_restart;
 
             //Options
-            TextMeshProUGUI optionsText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(pauseMenu, "Options"), "Text"));
+            TextMeshProUGUI optionsText = GetTextMeshProUGUI(FindDescendant(pauseMenu, "Options", "Text"));
             optionsText.text = LanguageManager.CurrentLanguage.pauseMenu.pause_options;
 
             //Quit
-            TextMeshProUGUI quitText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(pauseMenu, "Quit Mission"), "Text"));
+            TextMeshProUGUI quitText = GetTextMeshProUGUI(FindDescendant(pauseMenu, "Quit Mission", "Text"));
             quitText.text = LanguageManager.CurrentLanguage.pauseMenu.pause_quit;
 
             //Quit+Restart windows
-            GameObject pauseDialogs = GetGameObjectChild(canvasObj, "PauseMenuDialogs");
+            GameObject pauseDialogs = FindDescendant(canvasObj, "PauseMenuDialogs");
 
             //Quit
-            GameObject quitDialog = GetGameObjectChild(GetGameObjectChild(pauseDialogs, "Quit Confirm"), "Panel");
-            TextMeshProUGUI quitDialogText = GetTextMeshProUGUI(GetGameObjectChild(quitDialog, "Text (2)"));
+            GameObject quitDialog = FindDescendant(pauseDialogs, "Quit Confirm", "Panel");
+            TextMeshProUGUI quitDialogText = GetTextMeshProUGUI(FindDescendant(quitDialog, "Text (2)"));
             quitDialogText.text = LanguageManager.CurrentLanguage.pauseMenu.pause_quitConfirm;
 
-            TextMeshProUGUI quitDialogTooltip = GetTextMeshProUGUI(GetGameObjectChild(quitDialog, "Text (1)"));
+            TextMeshProUGUI quitDialogTooltip = GetTextMeshProUGUI(FindDescendant(quitDialog, "Text (1)"));
             quitDialogTooltip.text = LanguageManager.CurrentLanguage.pauseMenu.pause_disableWindow;
 
-            TextMeshProUGUI quitDialogYes = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(quitDialog, "Confirm"), "Text"));
+            TextMeshProUGUI quitDialogYes = GetTextMeshProUGUI(FindDescendant(quitDialog, "Confirm", "Text"));
             quitDialogYes.text = LanguageManager.CurrentLanguage.pauseMenu.pause_quitConfirmYes;
 
-            TextMeshProUGUI quitDialogNo = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(quitDialog, "Cancel"), "Text"));
+            TextMeshProUGUI quitDialogNo = GetTextMeshProUGUI(FindDescendant(quitDialog, "Cancel", "Text"));
             quitDialogNo.text = LanguageManager.CurrentLanguage.pauseMenu.pause_quitConfirmNo;
 
             //Restart
-            GameObject restartDialog = GetGameObjectChild(GetGameObjectChild(pauseDialogs, "Restart Confirm"), "Panel");
+            GameObject restartDialog = FindDescendant(pauseDialogs, "Restart Confirm", "Panel");
 
-            TextMeshProUGUI restartDialogText = GetTextMeshProUGUI(GetGameObjectChild(restartDialog, "Text"));
+            TextMeshProUGUI restartDialogText = GetTextMeshProUGUI(FindDescendant(restartDialog, "Text"));
             restartDialogText.text = LanguageManager.CurrentLanguage.pauseMenu.pause_restartConfirm;
 
-            TextMeshProUGUI restartDialogTooltip = GetTextMeshProUGUI(GetGameObjectChild(restartDialog, "Text (1)"));
+            TextMeshProUGUI restartDialogTooltip = GetTextMeshProUGUI(FindDescendant(restartDialog, "Text (1)"));
             restartDialogTooltip.text = LanguageManager.CurrentLanguage.pauseMenu.pause_disableWindow;
 
-            TextMeshProUGUI restartDialogYes = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(restartDialog, "Confirm"), "Text"));
+            TextMeshProUGUI restartDialogYes = GetTextMeshProUGUI(FindDescendant(restartDialog, "Confirm", "Text"));
             restartDialogYes.text = LanguageManager.CurrentLanguage.pauseMenu.pause_restartConfirmYes;
 
-            TextMeshProUGUI restartDialogNo = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(restartDialog, "Cancel"), "Text"));
+            TextMeshProUGUI restartDialogNo = GetTextMeshProUGUI(FindDescendant(restartDialog, "Cancel", "Text"));
             restartDialogNo.text = LanguageManager.CurrentLanguage.pauseMenu.pause_restartConfirmNo;
         }
         catch (Exception e)
@@ -231,7 +231,15 @@ public static class Core
         if (GetCurrentSceneName() == "Main Menu")
         {
             //Open Language Folder button in Options->Language
-            TextMeshProUGUI openLangFolderText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(canvasObj,"OptionsMenu"), "Language Page"),"Scroll Rect (1)"),"Contents"),"OpenLangFolder"),"Slot Text"));
+            TextMeshProUGUI openLangFolderText = GetTextMeshProUGUI(
+                FindDescendant(canvasObj,
+                "OptionsMenu", 
+                "Language Page",
+                "Scroll Rect (1)",
+                "Contents",
+                "OpenLangFolder",
+                "Slot Text")
+            );
             if (openLangFolderText != null)
                 openLangFolderText.text = "<color=#03fc07>Open language folder</color>";
             

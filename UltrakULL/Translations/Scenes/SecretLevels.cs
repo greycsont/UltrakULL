@@ -45,22 +45,22 @@ class SecretLevels
         if (GetCurrentSceneName() == "Level 0-S")
         {
 
-            //testamentPanelTitle = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(finalRoom, "Room"), "Testament Shop"), "Canvas"), "Border"), "TipBox"), "Panel"), "Title"));
+            //testamentPanelTitle = GetTextMeshProUGUI(FindDescendant(FindDescendant(FindDescendant(FindDescendant(FindDescendant(FindDescendant(FindDescendant(finalRoom, "Room"), "Testament Shop"), "Canvas"), "Border"), "TipBox"), "Panel"), "Title"));
 
-            testamentPanelText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(testamentRoom, "Room"), "Testament Shop (1)"), "Canvas"), "Text (TMP)"));
+            testamentPanelText = GetTextMeshProUGUI(FindDescendant(testamentRoom, "Room", "Testament Shop (1)", "Canvas", "Text (TMP)"));
 
             //testamentPanelTitle.text = LanguageManager.CurrentLanguage.secretLevels.secretLevels_prelude_testamentTitle;
         }
         //1-S
         else if (GetCurrentSceneName() == "Level 1-S")
         {
-            GameObject finalRoom = GetGameObjectChild(testamentRoom, "FinalRoomSecretExit");
-            testamentPanelText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(finalRoom, "Room"), "Testament Shop (1)"), "Canvas"), "Text (TMP)"));
+            GameObject finalRoom = FindDescendant(testamentRoom, "FinalRoomSecretExit");
+            testamentPanelText = GetTextMeshProUGUI(FindDescendant(finalRoom, "Room", "Testament Shop (1)", "Canvas", "Text (TMP)"));
         }
         //4-S
         else if (GetCurrentSceneName() == "Level 4-S")
         {
-            //testamentPanelTitle = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(testamentRoom, "4 Stuff"), "FinalRoom 2"), "Room"), "Testament Shop"), "Canvas"), "Border"), "TipBox"), "Panel"), "Title"));
+            //testamentPanelTitle = GetTextMeshProUGUI(FindDescendant(FindDescendant(FindDescendant(FindDescendant(FindDescendant(FindDescendant(FindDescendant(FindDescendant(FindDescendant(testamentRoom, "4 Stuff"), "FinalRoom 2"), "Room"), "Testament Shop"), "Canvas"), "Border"), "TipBox"), "Panel"), "Title"));
             Transform[] allChildren = testamentRoom.GetComponentsInChildren<Transform>(true);
             List<GameObject> stuff = new List<GameObject>();
             int errorCount = 0;
@@ -79,14 +79,12 @@ class SecretLevels
                 {
                     try
                     {
-                        testamentPanelText4S1 = GetTextMeshProUGUI(GetGameObjectChild(
-                            GetGameObjectChild(
-                                GetGameObjectChild(
-                                    GetGameObjectChild(
-                                        GetGameObjectChild(stuffObject, "FinalRoom SecretExit"),
-                                        "Room"),
-                                    "Testament Shop (1)"),
-                                "Canvas"),
+                        testamentPanelText4S1 = GetTextMeshProUGUI(
+                            FindDescendant(stuffObject, 
+                            "FinalRoom SecretExit",
+                            "Room",
+                            "Testament Shop (1)",
+                            "Canvas",
                             "Text (TMP)"));
                     }
                     catch (Exception ex)
@@ -99,14 +97,11 @@ class SecretLevels
                 {
                     try
                     {
-                        testamentPanelText4S2 = GetTextMeshProUGUI(GetGameObjectChild(
-                            GetGameObjectChild(
-                                GetGameObjectChild(
-                                    GetGameObjectChild(
-                                        GetGameObjectChild(stuffObject, "FinalRoom SecretExit"),
-                                        "Room"),
-                                    "Testament Shop (1)"),
-                                "Canvas"),
+                        testamentPanelText4S2 = GetTextMeshProUGUI(
+                            FindDescendant(stuffObject, "FinalRoom SecretExit",
+                            "Room",
+                            "Testament Shop (1)",
+                            "Canvas",
                             "Text (TMP)"));
                     }
                     catch (Exception ex)
@@ -125,14 +120,14 @@ class SecretLevels
         //5-S   
         else if (GetCurrentSceneName() == "Level 5-S")
         {
-            //testamentPanelTitle = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(finalRoom, "Room"), "Testament Shop"), "Canvas"), "Border"), "TipBox"), "Panel"), "Title"));
+            //testamentPanelTitle = GetTextMeshProUGUI(FindDescendant(FindDescendant(FindDescendant(FindDescendant(FindDescendant(FindDescendant(FindDescendant(finalRoom, "Room"), "Testament Shop"), "Canvas"), "Border"), "TipBox"), "Panel"), "Title"));
 
-            testamentPanelText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(testamentRoom, "Room"), "Testament Shop (1)"), "Canvas"), "Text (TMP)"));
+            testamentPanelText = GetTextMeshProUGUI(FindDescendant(testamentRoom, "Room", "Testament Shop (1)", "Canvas", "Text (TMP)"));
 
         }
         else if (GetCurrentSceneName() == "Level 7-S")
         {
-            testamentPanelText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(testamentRoom, "Room"), "Testament Shop (1)"), "Canvas"), "Text (TMP)"));
+            testamentPanelText = GetTextMeshProUGUI(FindDescendant(testamentRoom, "Room", "Testament Shop (1)", "Canvas", "Text (TMP)"));
 
         }
 
@@ -264,37 +259,37 @@ class SecretLevels
 
     public void Patch5S(ref GameObject canvasObj)
     {
-        GameObject powerGauge = GetGameObjectChild(GetInactiveRootObject("FishingCanvas"), "Power Meter");
-        TextMeshProUGUI distanceFar = GetTextMeshProUGUI(GetGameObjectChild(powerGauge, "Text (TMP)")); 
+        GameObject powerGauge = FindDescendant(GetInactiveRootObject("FishingCanvas"), "Power Meter");
+        TextMeshProUGUI distanceFar = GetTextMeshProUGUI(FindDescendant(powerGauge, "Text (TMP)")); 
         distanceFar.text = LanguageManager.CurrentLanguage.fishing.fish_rodFar;
-        TextMeshProUGUI distanceClose = GetTextMeshProUGUI(GetGameObjectChild(powerGauge, "Text (TMP) (1)"));
+        TextMeshProUGUI distanceClose = GetTextMeshProUGUI(FindDescendant(powerGauge, "Text (TMP) (1)"));
         distanceClose.text = LanguageManager.CurrentLanguage.fishing.fish_rodClose;
 
         //Localize buttons in Balancing Minigame
-        GameObject balancingMinigame = GetGameObjectChild(GetGameObjectChild(GetInactiveRootObject("FishingCanvas"), "Struggle Mini Game"), "Balancing Minigame");
-        TextMeshProUGUI RMB = GetTextMeshProUGUI(GetGameObjectChild(balancingMinigame, "Text (TMP)"));
+        GameObject balancingMinigame = FindDescendant(GetInactiveRootObject("FishingCanvas"), "Struggle Mini Game", "Balancing Minigame");
+        TextMeshProUGUI RMB = GetTextMeshProUGUI(FindDescendant(balancingMinigame, "Text (TMP)"));
         RMB.text = GetAbbreviation(LanguageManager.CurrentLanguage.inputStrings.input_RMB);
-        TextMeshProUGUI LMB = GetTextMeshProUGUI(GetGameObjectChild(balancingMinigame, "Text (TMP) (1)"));
+        TextMeshProUGUI LMB = GetTextMeshProUGUI(FindDescendant(balancingMinigame, "Text (TMP) (1)"));
         LMB.text = GetAbbreviation(LanguageManager.CurrentLanguage.inputStrings.input_LMB);
 
-        GameObject fishingLeaderboard = GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetInactiveRootObject("Exit Lobby Interior"), "Fish Scores"), "Canvas"), "Border"), "TipBox"), "Panel");
+        GameObject fishingLeaderboard = FindDescendant(GetInactiveRootObject("Exit Lobby Interior"), "Fish Scores", "Canvas", "Border", "TipBox", "Panel");
 
-        TextMeshProUGUI fishingLeaderboardTitle = GetTextMeshProUGUI(GetGameObjectChild(fishingLeaderboard, "Title"));
+        TextMeshProUGUI fishingLeaderboardTitle = GetTextMeshProUGUI(FindDescendant(fishingLeaderboard, "Title"));
         fishingLeaderboardTitle.text = LanguageManager.CurrentLanguage.fishing.fish_leaderboard;
 
         //Trying change Fishing Leaderboard "Global" and "Friend" title. Not work now, need create Harmony Patch for original Fishing Leaderboad code
-        /*TextMeshProUGUI fishingLeaderboardGlobal = GetTextMeshProUGUI(GetGameObjectChild(fishingLeaderboard, "Global Text"));
-        TextMeshProUGUI fishingLeaderboardFriends = GetTextMeshProUGUI(GetGameObjectChild(fishingLeaderboard, "Friends Text"));
+        /*TextMeshProUGUI fishingLeaderboardGlobal = GetTextMeshProUGUI(FindDescendant(fishingLeaderboard, "Global Text"));
+        TextMeshProUGUI fishingLeaderboardFriends = GetTextMeshProUGUI(FindDescendant(fishingLeaderboard, "Friends Text"));
         var rx = new Regex(@"\bGLOBAL\b", RegexOptions.IgnoreCase);
         var rw = new Regex(@"\bFRIENDS\b", RegexOptions.IgnoreCase);
         fishingLeaderboardGlobal.text = rx.Replace(fishingLeaderboardGlobal.text, "GLOBAL TEST", 1);
         fishingLeaderboardFriends.text = rw.Replace(fishingLeaderboardFriends.text, "FRIENDS TEST", 1);*/
 
-        GameObject fishingTerminal = GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetInactiveRootObject("Fishing Enc Terminal"), "Canvas"), "Background"), "Main Window");
-        TextMeshProUGUI fishingTerminalTitle = GetTextMeshProUGUI(GetGameObjectChild(fishingTerminal, "Title"));
+        GameObject fishingTerminal = FindDescendant(GetInactiveRootObject("Fishing Enc Terminal"), "Canvas", "Background", "Main Window");
+        TextMeshProUGUI fishingTerminalTitle = GetTextMeshProUGUI(FindDescendant(fishingTerminal, "Title"));
         fishingTerminalTitle.text = LanguageManager.CurrentLanguage.fishing.fish_terminalTitle;
-        GameObject fishingTerminalBackButton = GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(fishingTerminal, "Fish Info"), "Window"), "Back Button");
-        TextMeshProUGUI fishingTerminalBackButtonText = GetTextMeshProUGUI(GetGameObjectChild(fishingTerminalBackButton, "Text"));
+        GameObject fishingTerminalBackButton = FindDescendant(fishingTerminal, "Fish Info", "Window", "Back Button");
+        TextMeshProUGUI fishingTerminalBackButtonText = GetTextMeshProUGUI(FindDescendant(fishingTerminalBackButton, "Text"));
         fishingTerminalBackButtonText.text = LanguageManager.CurrentLanguage.shop.shop_back;
     }
     public void Patch7S(ref GameObject canvasObj)
@@ -303,16 +298,16 @@ class SecretLevels
         {   
             //BloodCleanText
             GameObject washcanvas = GameObject.Find("WashingCanvas");
-            TextMeshProUGUI BloodCleanText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(washcanvas, "Painter Completion Meter"), "Slider Group"), "Blood Cleaned"));
+            TextMeshProUGUI BloodCleanText = GetTextMeshProUGUI(FindDescendant(washcanvas, "Painter Completion Meter", "Slider Group", "Blood Cleaned"));
             BloodCleanText.text = LanguageManager.CurrentLanguage.washing.wash_bloodClean;
-            GameObject chklst = GetGameObjectChild(washcanvas, "CheckList");
+            GameObject chklst = FindDescendant(washcanvas, "CheckList");
 
-            TextMeshProUGUI LitterCount = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(chklst, "Litter"), "Litter Count:"));
+            TextMeshProUGUI LitterCount = GetTextMeshProUGUI(FindDescendant(chklst, "Litter", "Litter Count:"));
             LitterCount.text = LanguageManager.CurrentLanguage.washing.wash_littercount;
 
             //Faxeexittext
-            GameObject fakeexitCanvas = GetGameObjectChild(GetGameObjectChild(GetInactiveRootObject("Fake Exit"), "PuzzleScreen"), "Canvas"); 
-            TextMeshProUGUI fakeexittext = GetTextMeshProUGUI(GetGameObjectChild(fakeexitCanvas, "Cleaning Prompt Text"));
+            GameObject fakeexitCanvas = FindDescendant(GetInactiveRootObject("Fake Exit"), "PuzzleScreen", "Canvas"); 
+            TextMeshProUGUI fakeexittext = GetTextMeshProUGUI(FindDescendant(fakeexitCanvas, "Cleaning Prompt Text"));
             fakeexittext.text = "<size=12><color=#7f0000><u><b>" + LanguageManager.CurrentLanguage.washing.wash_fakeexittext1 + "</u></b></color></size>\n\n"
             + LanguageManager.CurrentLanguage.washing.wash_fakeexittext2 + "\n"
             + LanguageManager.CurrentLanguage.washing.wash_fakeexittext3 + "\n"
@@ -320,7 +315,7 @@ class SecretLevels
             + LanguageManager.CurrentLanguage.washing.wash_fakeexittext5 + "\n"
             + LanguageManager.CurrentLanguage.washing.wash_fakeexittext6;
 
-            TextMeshProUGUI thxtext = GetTextMeshProUGUI(GetGameObjectChild(fakeexitCanvas, "Thank You Text"));
+            TextMeshProUGUI thxtext = GetTextMeshProUGUI(FindDescendant(fakeexitCanvas, "Thank You Text"));
             thxtext.text = "<size=12><color=#7f0000><u><b>" + LanguageManager.CurrentLanguage.washing.wash_exitOpenText1 + "</u></b></color></size>\n\n"
             + LanguageManager.CurrentLanguage.washing.wash_exitOpenText2 + "\n\n"
             + LanguageManager.CurrentLanguage.washing.wash_exitOpenText3;
@@ -352,19 +347,19 @@ class SecretLevels
             case "Level 7-S": { testamentRoom = GetInactiveRootObject("FinalRoom SecretExit");PatchTestament(ref testamentRoom); Patch7S(ref canvasObj); break; }  
         }
         Logging.Info("gugi");
-        GameObject secretLevelResults = GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(player, "Main Camera"), "HUD Camera"), "HUD"), "FinishCanvas");
+        GameObject secretLevelResults = FindDescendant(player, "Main Camera", "HUD Camera", "HUD", "FinishCanvas");
 
         Logging.Info("guga");
         GameObject secretLevelResultsPanel = secretLevelResults.transform.GetChild(2).gameObject;
 
         Logging.Info("gooo");
-        TextMeshProUGUI secretLevelResultsName = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(secretLevelResultsPanel, "Title"), "Text"));
+        TextMeshProUGUI secretLevelResultsName = GetTextMeshProUGUI(FindDescendant(secretLevelResultsPanel, "Title", "Text"));
         secretLevelResultsName.text = GetSecretLevelName();
 
-        TextMeshProUGUI secretLevelResultsInfo = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(secretLevelResultsPanel, "Time - Info"), "Text"));
+        TextMeshProUGUI secretLevelResultsInfo = GetTextMeshProUGUI(FindDescendant(secretLevelResultsPanel, "Time - Info", "Text"));
         secretLevelResultsInfo.text = LanguageManager.CurrentLanguage.secretLevels.secretLevels_complete1;
 
-        TextMeshProUGUI secretLevelComplete = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(secretLevelResultsPanel, "Time - Rank"), "Text"));
+        TextMeshProUGUI secretLevelComplete = GetTextMeshProUGUI(FindDescendant(secretLevelResultsPanel, "Time - Rank", "Text"));
         secretLevelComplete.text = LanguageManager.CurrentLanguage.secretLevels.secretLevels_complete2;
 
     }

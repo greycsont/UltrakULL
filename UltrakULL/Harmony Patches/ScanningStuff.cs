@@ -21,7 +21,7 @@ public static class LocalizeScanningText
         }
         GameObject canvas = GetInactiveRootObject("Canvas");
 
-        TextMeshProUGUI scanningText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(canvas, "ScanningStuff"), "ScanningPanel"), "Text"));
+        TextMeshProUGUI scanningText = GetTextMeshProUGUI(FindDescendant(canvas, "ScanningStuff", "ScanningPanel", "Text"));
         scanningText.text = LanguageManager.CurrentLanguage.books.books_scanning;
         text = Books.GetBookText(text);
         return true;

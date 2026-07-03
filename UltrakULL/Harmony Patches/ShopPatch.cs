@@ -54,14 +54,13 @@ public class ShopPatch
             if (__instance.gameObject.name == "Shop Prime")
             {
                 Logging.Warn("Prime end testament, getting text");
-                TextMeshProUGUI primeEndText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(___shopCanvas.gameObject, "Background"), "Main Window"),
-                    "Scroll View"), "Viewport"), "Text"));
+                TextMeshProUGUI primeEndText = GetTextMeshProUGUI(FindDescendant(___shopCanvas.gameObject, "Background", "Main Window", "Scroll View", "Viewport", "Text"));
                 PrimeSanctumStrings pss = new PrimeSanctumStrings();
                 primeEndText.text = pss.GetSecretText();
                 return;
             }
 
-            TextMeshProUGUI origTip = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(___shopCanvas.gameObject, "Background"), "Main Panel"), "Tip of the Day"), "Panel"), "Text Inset"), "TipText"));
+            TextMeshProUGUI origTip = GetTextMeshProUGUI(FindDescendant(___shopCanvas.gameObject, "Background", "Main Panel", "Tip of the Day", "Panel", "Text Inset", "TipText"));
             GameObject shopObject = ___shopCanvas.gameObject;
 
             //Redirect for the 5-3 end shop.

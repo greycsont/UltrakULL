@@ -5,6 +5,8 @@ using UltrakULL.json;
 using UnityEngine;
 using UnityEngine.UI;
 
+using static UltrakULL.CommonFunctions;
+
 namespace UltrakULL;
 
 public class DevMuseum
@@ -53,11 +55,11 @@ public class DevMuseum
 		{
 			return LanguageManager.CurrentLanguage.devMuseum.museum_bookMaximilianOvesson1 + "\n\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookMaximilianOvesson2 + "\n\n<i><color=#8f65da>" + LanguageManager.CurrentLanguage.devMuseum.museum_bookMaximilianOvesson3 + "</color></i>\n\n";
 		}
-	if (originalText.Contains("RHIANNON MITCHELL</color> - UI ARTIST</b>"))
-	{
-		return LanguageManager.CurrentLanguage.devMuseum.museum_bookRhiannonMitchell1 + "\n\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookRhiannonMitchell2 + "\n\n<i><color=#dabfff>" + LanguageManager.CurrentLanguage.devMuseum.museum_bookRhiannonMitchell3 + "</color></i>\n\n";
-	}
-	if (originalText.Contains("VICTORIA HOLLAND</color> - LEAD 3D ARTIST AND GRAPHICS PROGRAMMER</b>"))
+		if (originalText.Contains("RHIANNON MITCHELL</color> - UI ARTIST</b>"))
+		{
+			return LanguageManager.CurrentLanguage.devMuseum.museum_bookRhiannonMitchell1 + "\n\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookRhiannonMitchell2 + "\n\n<i><color=#dabfff>" + LanguageManager.CurrentLanguage.devMuseum.museum_bookRhiannonMitchell3 + "</color></i>\n\n";
+		}
+		if (originalText.Contains("VICTORIA HOLLAND</color> - LEAD 3D ARTIST AND GRAPHICS PROGRAMMER</b>"))
 		{
 			return LanguageManager.CurrentLanguage.devMuseum.museum_bookVictoriaHolland1 + "\n\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookVictoriaHolland2 + "\n\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookVictoriaHolland3 + "\n\n<size=18>" + LanguageManager.CurrentLanguage.devMuseum.museum_bookVictoriaHolland4 + "\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookVictoriaHolland5 + "\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookVictoriaHolland6 + "\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookVictoriaHolland7 + "\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookVictoriaHolland8 + "</size>\n\n<i><color=#F5ABB9>" + LanguageManager.CurrentLanguage.devMuseum.museum_bookVictoriaHolland9 + "</color></i>\n\n";
 		}
@@ -215,19 +217,19 @@ public class DevMuseum
 	private void PatchPlaques()
 	{
 		// First part: Non-__DEV_SPACE_ALL placards (lines 211-221)
-		CommonFunctions.GetTextfromGameObject(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(((Component)CommonFunctions.GetInactiveRootObject("__Room_Courtyard").transform.GetChild(4).GetChild(0)).gameObject, "Canvas (2)"), "Text")).text = LanguageManager.CurrentLanguage.devMuseum.museum_plaquesMuseumTitle;
-		GameObject gameObject = ((Component)CommonFunctions.GetInactiveRootObject("__Room_FrontDesk_1").transform.GetChild(1)).gameObject;
-		GameObject gameObject2 = ((Component)gameObject.transform.GetChild(58)).gameObject;
-		GameObject gameObject3 = ((Component)gameObject.transform.GetChild(0)).gameObject;
-		GameObject gameObject4 = ((Component)gameObject.transform.GetChild(1)).gameObject;
-		CommonFunctions.GetTextfromGameObject(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObject2, "Canvas (3)"), "Text")).text = LanguageManager.CurrentLanguage.devMuseum.museum_plaquesHakita1;
-		CommonFunctions.GetTextfromGameObject(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObject2, "Canvas (3)"), "Text (1)")).text = LanguageManager.CurrentLanguage.devMuseum.museum_plaquesHakita2;
-		CommonFunctions.GetTextfromGameObject(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObject3, "Canvas (3)"), "Text")).text = LanguageManager.CurrentLanguage.devMuseum.museum_plaquesArtRoom;
-		CommonFunctions.GetTextfromGameObject(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObject4, "Canvas (3)"), "Text")).text = LanguageManager.CurrentLanguage.devMuseum.museum_plaquesNerdRoom;
+		GetTextfromGameObject(FindDescendant(GetInactiveRootObject("__Room_Courtyard").transform.GetChild(4).GetChild(0).gameObject, "Canvas (2)", "Text")).text = LanguageManager.CurrentLanguage.devMuseum.museum_plaquesMuseumTitle;
+		GameObject gameObject = GetInactiveRootObject("__Room_FrontDesk_1").transform.GetChild(1).gameObject;
+		GameObject gameObject2 = gameObject.transform.GetChild(58).gameObject;
+		GameObject gameObject3 = gameObject.transform.GetChild(0).gameObject;
+		GameObject gameObject4 = gameObject.transform.GetChild(1).gameObject;
+		GetTextfromGameObject(FindDescendant(gameObject2, "Canvas (3)", "Text")).text = LanguageManager.CurrentLanguage.devMuseum.museum_plaquesHakita1;
+		GetTextfromGameObject(FindDescendant(gameObject2, "Canvas (3)", "Text (1)")).text = LanguageManager.CurrentLanguage.devMuseum.museum_plaquesHakita2;
+		GetTextfromGameObject(FindDescendant(gameObject3, "Canvas (3)", "Text")).text = LanguageManager.CurrentLanguage.devMuseum.museum_plaquesArtRoom;
+		GetTextfromGameObject(FindDescendant(gameObject4, "Canvas (3)", "Text")).text = LanguageManager.CurrentLanguage.devMuseum.museum_plaquesNerdRoom;
 		
 		// New logic for __DEV_SPACE_ALL placards (lines 222-317)
 		// Find the main container
-		GameObject inactiveRootObject = CommonFunctions.GetInactiveRootObject("__DEV_SPACE_ALL");
+		GameObject inactiveRootObject = GetInactiveRootObject("__DEV_SPACE_ALL");
 		
 		// Step 1: Find all placards directly under __DEV_SPACE_ALL (including Dev Space Large, etc.)
 		List<GameObject> placards = new List<GameObject>();
@@ -256,7 +258,7 @@ public class DevMuseum
 		foreach (GameObject placard in placards)
 		{
 			// Get the Canvas (4) child
-			GameObject canvas = CommonFunctions.GetGameObjectChild(placard, "Canvas (4)");
+			GameObject canvas = FindDescendant(placard, "Canvas (4)");
 			if (canvas == null)
 			{
 				Logging.Warn($"Canvas (4) not found for placard: {placard.name}");
@@ -264,8 +266,8 @@ public class DevMuseum
 			}
 			
 			// Get Text and Text (1) components
-			Text textComponent = CommonFunctions.GetTextfromGameObject(CommonFunctions.GetGameObjectChild(canvas, "Text"));
-			Text text1Component = CommonFunctions.GetTextfromGameObject(CommonFunctions.GetGameObjectChild(canvas, "Text (1)"));
+			Text textComponent = GetTextfromGameObject(FindDescendant(canvas, "Text"));
+			Text text1Component = GetTextfromGameObject(FindDescendant(canvas, "Text (1)"));
 			
 			if (textComponent == null || text1Component == null)
 			{
@@ -493,47 +495,47 @@ public class DevMuseum
 		
 		// Last part: Remaining non-__DEV_SPACE_ALL placards (lines 318-420)
 		GameObject gameObject5 = ((Component)CommonFunctions.GetInactiveRootObject("__Room_Large_Lower").transform.GetChild(4)).gameObject;
-		Text textfromGameObject39 = CommonFunctions.GetTextfromGameObject(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObject5, "Wing name (4)"), "Canvas (5)"), "Text"));
-		Text textfromGameObject40 = CommonFunctions.GetTextfromGameObject(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObject5, "Wing name (4)"), "Canvas (5)"), "Text (1)"));
+		Text textfromGameObject39 = CommonFunctions.GetTextfromGameObject(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(gameObject5, "Wing name (4)"), "Canvas (5)"), "Text"));
+		Text textfromGameObject40 = CommonFunctions.GetTextfromGameObject(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(gameObject5, "Wing name (4)"), "Canvas (5)"), "Text (1)"));
 		textfromGameObject39.text = LanguageManager.CurrentLanguage.devMuseum.museum_plaquesDaveOshry1;
 		textfromGameObject40.text = LanguageManager.CurrentLanguage.devMuseum.museum_plaquesDaveOshry2;
 		GameObject gameObject6 = ((Component)CommonFunctions.GetInactiveRootObject("__Room_Large_Lower").transform.GetChild(3)).gameObject;
 		GameObject gameObject7 = ((Component)gameObject6.transform.GetChild(9)).gameObject;
 		GameObject gameObject8 = ((Component)gameObject6.transform.GetChild(10)).gameObject;
-		CommonFunctions.GetTextfromGameObject(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObject7, "Canvas (3)"), "Text")).text = LanguageManager.CurrentLanguage.devMuseum.museum_plaquesRestRoom;
-		CommonFunctions.GetTextfromGameObject(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObject8, "Canvas (3)"), "Text")).text = LanguageManager.CurrentLanguage.devMuseum.museum_plaquesTalkRoom;
-		GameObject gameObjectChild39 = CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetInactiveRootObject("PuzzleScreen (2)"), "Canvas"), "Background"), "Start");
-		((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(gameObjectChild39, "Text"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_rocketRace1;
-		((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild39, "OpenButton"), "Text"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_rocketRace2;
-		GameObject gameObjectChild40 = CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetInactiveRootObject("__Room_Theater"), "Ultrakill Projector"), "PuzzleScreen"), "Canvas"), "Background");
-		((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild40, "PlayButton"), "Text"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_cinemaPlay;
-		((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild40, "StopButton"), "Text"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_cinemaStop;
-	GameObject spoilerBackground1 = CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetInactiveRootObject("__DEV_SPACE_ALL"), "Prime 1 VA"), "SpoilerBlock"), "PuzzleScreen (1)"), "Canvas"), "Background");
-	GameObject spoilerBackground2 = CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetInactiveRootObject("__DEV_SPACE_ALL"), "Prime 2 VA"), "SpoilerBlock"), "PuzzleScreen (1)"), "Canvas"), "Background");
-		((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(spoilerBackground1, "Text"))).text = "<color=red>" + LanguageManager.CurrentLanguage.devMuseum.museum_spoiler1 + "</color>\n" + LanguageManager.CurrentLanguage.devMuseum.museum_spoiler2;
-	((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(spoilerBackground2, "Text"))).text = "<color=red>" + LanguageManager.CurrentLanguage.devMuseum.museum_spoiler1 + "</color>\n" + LanguageManager.CurrentLanguage.devMuseum.museum_spoiler2;
-	((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(spoilerBackground1, "OpenButton/Text"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_spoiler3;
-	((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(spoilerBackground2, "OpenButton/Text"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_spoiler3;
+		CommonFunctions.GetTextfromGameObject(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(gameObject7, "Canvas (3)"), "Text")).text = LanguageManager.CurrentLanguage.devMuseum.museum_plaquesRestRoom;
+		CommonFunctions.GetTextfromGameObject(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(gameObject8, "Canvas (3)"), "Text")).text = LanguageManager.CurrentLanguage.devMuseum.museum_plaquesTalkRoom;
+		GameObject gameObjectChild39 = CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(CommonFunctions.GetInactiveRootObject("PuzzleScreen (2)"), "Canvas"), "Background"), "Start");
+		((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.FindDescendant(gameObjectChild39, "Text"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_rocketRace1;
+		((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(gameObjectChild39, "OpenButton"), "Text"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_rocketRace2;
+		GameObject gameObjectChild40 = CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(CommonFunctions.GetInactiveRootObject("__Room_Theater"), "Ultrakill Projector"), "PuzzleScreen"), "Canvas"), "Background");
+		((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(gameObjectChild40, "PlayButton"), "Text"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_cinemaPlay;
+		((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(gameObjectChild40, "StopButton"), "Text"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_cinemaStop;
+	GameObject spoilerBackground1 = CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(CommonFunctions.GetInactiveRootObject("__DEV_SPACE_ALL"), "Prime 1 VA"), "SpoilerBlock"), "PuzzleScreen (1)"), "Canvas"), "Background");
+	GameObject spoilerBackground2 = CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(CommonFunctions.GetInactiveRootObject("__DEV_SPACE_ALL"), "Prime 2 VA"), "SpoilerBlock"), "PuzzleScreen (1)"), "Canvas"), "Background");
+		((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.FindDescendant(spoilerBackground1, "Text"))).text = "<color=red>" + LanguageManager.CurrentLanguage.devMuseum.museum_spoiler1 + "</color>\n" + LanguageManager.CurrentLanguage.devMuseum.museum_spoiler2;
+	((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.FindDescendant(spoilerBackground2, "Text"))).text = "<color=red>" + LanguageManager.CurrentLanguage.devMuseum.museum_spoiler1 + "</color>\n" + LanguageManager.CurrentLanguage.devMuseum.museum_spoiler2;
+	((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.FindDescendant(spoilerBackground1, "OpenButton/Text"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_spoiler3;
+	((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.FindDescendant(spoilerBackground2, "OpenButton/Text"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_spoiler3;
 }
 
 	private void PatchChess()
 	{
-		GameObject gameObjectChild = CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetInactiveRootObject("__Room_Aquarium"), "Geo"), "Chess");
-		GameObject gameObjectChild2 = CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild, "PuzzleScreen"), "Canvas"), "Background"), "Main Window");
-		((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(gameObjectChild2, "Versus Text"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_chessVs;
-		((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild2, "Start New Game Button"), "Text"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_chessNewgame;
-		((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild2, "Black"), "Black Text"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_chessBlack;
-		((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild2, "White"), "White Text"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_chessWhite;
-		((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild2, "Black"), "Bot Button"), "Text"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_chessBot;
-		((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild2, "Black"), "Player Button"), "Text"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_chessPlayer;
-		((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild2, "White"), "Bot Button"), "Text"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_chessBot;
-		((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild2, "White"), "Player Button"), "Text"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_chessPlayer;
-		((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild2, "Settings"), "Main Window"), "Close Button"), "Text"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_chessSettingsclose;
-		((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild2, "Settings"), "Main Window"), "Set Elo"), "Slider"), "Bot Text"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_chessBot + ":";
-		((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild, "WhiteWin"), "WinText"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_chessWhitewin;
-		((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild, "BlackWin"), "WinText"))).text = LanguageManager.CurrentLanguage.devMuseum.museum_chessBlackwin;
+		GameObject gameObjectChild = FindDescendant(GetInactiveRootObject("__Room_Aquarium"), "Geo", "Chess");
+		GameObject gameObjectChild2 = FindDescendant(gameObjectChild, "PuzzleScreen", "Canvas", "Background", "Main Window");
+		GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "Versus Text")).text = LanguageManager.CurrentLanguage.devMuseum.museum_chessVs;
+		GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "Start New Game Button", "Text")).text = LanguageManager.CurrentLanguage.devMuseum.museum_chessNewgame;
+		GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "Black", "Black Text")).text = LanguageManager.CurrentLanguage.devMuseum.museum_chessBlack;
+		GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "White", "White Text")).text = LanguageManager.CurrentLanguage.devMuseum.museum_chessWhite;
+		GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "Black", "Bot Button", "Text")).text = LanguageManager.CurrentLanguage.devMuseum.museum_chessBot;
+		GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "Black", "Player Button", "Text")).text = LanguageManager.CurrentLanguage.devMuseum.museum_chessPlayer;
+		GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "White", "Bot Button", "Text")).text = LanguageManager.CurrentLanguage.devMuseum.museum_chessBot;
+		GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "White", "Player Button", "Text")).text = LanguageManager.CurrentLanguage.devMuseum.museum_chessPlayer;
+		GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "Settings", "Main Window", "Close Button", "Text")).text = LanguageManager.CurrentLanguage.devMuseum.museum_chessSettingsclose;
+		GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "Settings", "Main Window", "Set Elo", "Slider", "Bot Text")).text = LanguageManager.CurrentLanguage.devMuseum.museum_chessBot + ":";
+		GetTextMeshProUGUI(FindDescendant(gameObjectChild, "WhiteWin", "WinText")).text = LanguageManager.CurrentLanguage.devMuseum.museum_chessWhitewin;
+		GetTextMeshProUGUI(FindDescendant(gameObjectChild, "BlackWin", "WinText")).text = LanguageManager.CurrentLanguage.devMuseum.museum_chessBlackwin;
 
-	GameObject chessPieces = CommonFunctions.GetGameObjectChild(gameObjectChild, "ChessPieces");
+	GameObject chessPieces = FindDescendant(gameObjectChild, "ChessPieces");
 
 		Logging.Debug("Patching chess piece texts...");
 

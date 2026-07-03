@@ -3,16 +3,18 @@ using TMPro;
 using UltrakULL.json;
 using UnityEngine;
 
+using static UltrakULL.CommonFunctions;
+
 namespace UltrakULL;
 
 public static class Act3
 {
 	private static void PatchHellmap(ref GameObject canvasObj)
 	{
-		GameObject gameObjectChild = CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(canvasObj, "Hellmap"), "Hellmap Act 3");
-		((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(gameObjectChild, "Text"))).text = LanguageManager.CurrentLanguage.misc.hellmap_violence;
-		((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(gameObjectChild, "Text (1)"))).text = LanguageManager.CurrentLanguage.misc.hellmap_fraud;
-		((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(gameObjectChild, "Text (2)"))).text = LanguageManager.CurrentLanguage.misc.hellmap_treachery;
+		GameObject gameObjectChild = FindDescendant(canvasObj, "Hellmap", "Hellmap Act 3");
+		GetTextMeshProUGUI(FindDescendant(gameObjectChild, "Text")).text = LanguageManager.CurrentLanguage.misc.hellmap_violence;
+		GetTextMeshProUGUI(FindDescendant(gameObjectChild, "Text (1)")).text = LanguageManager.CurrentLanguage.misc.hellmap_fraud;
+		GetTextMeshProUGUI(FindDescendant(gameObjectChild, "Text (2)")).text = LanguageManager.CurrentLanguage.misc.hellmap_treachery;
 	}
 
 	public static void PatchAct3(ref GameObject canvasObj)
@@ -24,36 +26,36 @@ public static class Act3
 		PatchHellmap(ref canvasObj);
 		if (currentSceneName.Contains("7-2"))
 		{
-			GameObject gameObjectChild = CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetInactiveRootObject("Other Interiors"), "9 - Tram Station"), "9 Stuff"), "9A"), "InteractiveScreenWithStand"), "InteractiveScreen"), "Canvas"), "Background");
-			TextMeshProUGUI textMeshProUGUI = CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild, "A"), "Opened"), "Text (TMP)"));
-			TextMeshProUGUI textMeshProUGUI2 = CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild, "A"), "Closed"), "Text (TMP)"));
-			TextMeshProUGUI textMeshProUGUI3 = CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild, "B"), "Opened"), "Text (TMP)"));
-			TextMeshProUGUI textMeshProUGUI4 = CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild, "B"), "Closed"), "Text (TMP)"));
-			TextMeshProUGUI textMeshProUGUI5 = CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild, "C"), "Opened"), "Text (TMP)"));
-			TextMeshProUGUI textMeshProUGUI6 = CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild, "C"), "Closed"), "Text (TMP)"));
-			TextMeshProUGUI textMeshProUGUI7 = CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild, "D"), "Opened"), "Text (TMP)"));
-			TextMeshProUGUI textMeshProUGUI8 = CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild, "D"), "Closed"), "Text (TMP)"));
-			((TMP_Text)textMeshProUGUI).text = LanguageManager.CurrentLanguage.act3.act3_violenceSecond_gateControlOpen;
-			((TMP_Text)textMeshProUGUI2).text = LanguageManager.CurrentLanguage.act3.act3_violenceSecond_gateControlClosed;
-			((TMP_Text)textMeshProUGUI3).text = LanguageManager.CurrentLanguage.act3.act3_violenceSecond_gateControlOpen;
-			((TMP_Text)textMeshProUGUI4).text = LanguageManager.CurrentLanguage.act3.act3_violenceSecond_gateControlClosed;
-			((TMP_Text)textMeshProUGUI5).text = LanguageManager.CurrentLanguage.act3.act3_violenceSecond_gateControlOpen;
-			((TMP_Text)textMeshProUGUI6).text = LanguageManager.CurrentLanguage.act3.act3_violenceSecond_gateControlClosed;
-			((TMP_Text)textMeshProUGUI7).text = LanguageManager.CurrentLanguage.act3.act3_violenceSecond_gateControlOpen;
-			((TMP_Text)textMeshProUGUI8).text = LanguageManager.CurrentLanguage.act3.act3_violenceSecond_gateControlClosed;
-			GameObject gameObjectChild2 = CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetInactiveRootObject("Outdoors"), "10 - Ambush Station"), "10 Nonstuff"), "InteractiveScreenWithStand"), "InteractiveScreen"), "Canvas"), "Background");
-			TextMeshProUGUI textMeshProUGUI9 = CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(gameObjectChild2, "Text (TMP) (1)"));
-			TextMeshProUGUI textMeshProUGUI10 = CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild2, "Button (Open)"), "Text (TMP)"));
-			TextMeshProUGUI textMeshProUGUI11 = CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild2, "Button (Closed)"), "Text (TMP)"));
-			((TMP_Text)textMeshProUGUI9).text = LanguageManager.CurrentLanguage.act3.act3_violenceSecond_cartGateControlTitle;
-			((TMP_Text)textMeshProUGUI10).text = LanguageManager.CurrentLanguage.act3.act3_violenceSecond_cartGateControlOpen;
-			((TMP_Text)textMeshProUGUI11).text = LanguageManager.CurrentLanguage.act3.act3_violenceSecond_cartGateControlClosed;
-			GameObject gameObjectChild3 = CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetInactiveRootObject("Outdoors"), "11 - Bomb Station"), "11 Nonstuff"), "Bomb Mechanisms"), "InteractiveScreenWithStand"), "InteractiveScreen"), "Canvas");
-			TextMeshProUGUI textMeshProUGUI12 = CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(gameObjectChild3, "Text (TMP)"));
-			TextMeshProUGUI[] componentsInChildren = CommonFunctions.GetGameObjectChild(gameObjectChild3, "UsableButtons").GetComponentsInChildren<TextMeshProUGUI>(true);
-			TextMeshProUGUI textMeshProUGUI13 = CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild3, "UsableButtons"), "Error"));
-			TextMeshProUGUI textMeshProUGUI14 = CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(gameObjectChild3, "Done"));
-			((TMP_Text)textMeshProUGUI12).text = LanguageManager.CurrentLanguage.act3.act3_violenceSecond_payloadControlTitle;
+			GameObject gameObjectChild = FindDescendant(GetInactiveRootObject("Other Interiors"), "9 - Tram Station", "9 Stuff", "9A", "InteractiveScreenWithStand", "InteractiveScreen", "Canvas", "Background");
+			TextMeshProUGUI textMeshProUGUI = GetTextMeshProUGUI(FindDescendant(gameObjectChild, "A", "Opened", "Text (TMP)"));
+			TextMeshProUGUI textMeshProUGUI2 = GetTextMeshProUGUI(FindDescendant(gameObjectChild, "A", "Closed", "Text (TMP)"));
+			TextMeshProUGUI textMeshProUGUI3 = GetTextMeshProUGUI(FindDescendant(gameObjectChild, "B", "Opened", "Text (TMP)"));
+			TextMeshProUGUI textMeshProUGUI4 = GetTextMeshProUGUI(FindDescendant(gameObjectChild, "B", "Closed", "Text (TMP)"));
+			TextMeshProUGUI textMeshProUGUI5 = GetTextMeshProUGUI(FindDescendant(gameObjectChild, "C", "Opened", "Text (TMP)"));
+			TextMeshProUGUI textMeshProUGUI6 = GetTextMeshProUGUI(FindDescendant(gameObjectChild, "C", "Closed", "Text (TMP)"));
+			TextMeshProUGUI textMeshProUGUI7 = GetTextMeshProUGUI(FindDescendant(gameObjectChild, "D", "Opened", "Text (TMP)"));
+			TextMeshProUGUI textMeshProUGUI8 = GetTextMeshProUGUI(FindDescendant(gameObjectChild, "D", "Closed", "Text (TMP)"));
+			textMeshProUGUI.text = LanguageManager.CurrentLanguage.act3.act3_violenceSecond_gateControlOpen;
+			textMeshProUGUI2.text = LanguageManager.CurrentLanguage.act3.act3_violenceSecond_gateControlClosed;
+			textMeshProUGUI3.text = LanguageManager.CurrentLanguage.act3.act3_violenceSecond_gateControlOpen;
+			textMeshProUGUI4.text = LanguageManager.CurrentLanguage.act3.act3_violenceSecond_gateControlClosed;
+			textMeshProUGUI5.text = LanguageManager.CurrentLanguage.act3.act3_violenceSecond_gateControlOpen;
+			textMeshProUGUI6.text = LanguageManager.CurrentLanguage.act3.act3_violenceSecond_gateControlClosed;
+			textMeshProUGUI7.text = LanguageManager.CurrentLanguage.act3.act3_violenceSecond_gateControlOpen;
+			textMeshProUGUI8.text = LanguageManager.CurrentLanguage.act3.act3_violenceSecond_gateControlClosed;
+			GameObject gameObjectChild2 = FindDescendant(GetInactiveRootObject("Outdoors"), "10 - Ambush Station", "10 Nonstuff", "InteractiveScreenWithStand", "InteractiveScreen", "Canvas", "Background");
+			TextMeshProUGUI textMeshProUGUI9 = GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "Text (TMP) (1)"));
+			TextMeshProUGUI textMeshProUGUI10 = GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "Button (Open)", "Text (TMP)"));
+			TextMeshProUGUI textMeshProUGUI11 = GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "Button (Closed)", "Text (TMP)"));
+			textMeshProUGUI9.text = LanguageManager.CurrentLanguage.act3.act3_violenceSecond_cartGateControlTitle;
+			textMeshProUGUI10.text = LanguageManager.CurrentLanguage.act3.act3_violenceSecond_cartGateControlOpen;
+			textMeshProUGUI11.text = LanguageManager.CurrentLanguage.act3.act3_violenceSecond_cartGateControlClosed;
+			GameObject gameObjectChild3 = FindDescendant(GetInactiveRootObject("Outdoors"), "11 - Bomb Station", "11 Nonstuff", "Bomb Mechanisms", "InteractiveScreenWithStand", "InteractiveScreen", "Canvas");
+			TextMeshProUGUI textMeshProUGUI12 = GetTextMeshProUGUI(FindDescendant(gameObjectChild3, "Text (TMP)"));
+			TextMeshProUGUI[] componentsInChildren = FindDescendant(gameObjectChild3, "UsableButtons").GetComponentsInChildren<TextMeshProUGUI>(true);
+			TextMeshProUGUI textMeshProUGUI13 = GetTextMeshProUGUI(FindDescendant(FindDescendant(gameObjectChild3, "UsableButtons"), "Error"));
+			TextMeshProUGUI textMeshProUGUI14 = GetTextMeshProUGUI(FindDescendant(gameObjectChild3, "Done"));
+			textMeshProUGUI12.text = LanguageManager.CurrentLanguage.act3.act3_violenceSecond_payloadControlTitle;
 			TextMeshProUGUI[] array = componentsInChildren;
 			foreach (TextMeshProUGUI val in array)
 			{
@@ -67,25 +69,25 @@ public static class Act3
 		}
 		else if (currentSceneName.Contains("7-3"))
 		{
-			GameObject gameObjectChild4 = CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetInactiveRootObject("Outdoors Areas"), "8 - Upper Garden Battlefield"), "8 Stuff"), "Destructible Tunnel"), "InteractiveScreenWithStand"), "InteractiveScreen"), "Canvas"), "Background");
-			TextMeshProUGUI textMeshProUGUI15 = CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild4, "PreActivation"), "Text (TMP) (1)"));
-			TextMeshProUGUI textMeshProUGUI16 = CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild4, "PreActivation"), "InteractiveScreenButton"), "Text (TMP)"));
-			TextMeshProUGUI textMeshProUGUI17 = CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(gameObjectChild4, "PostActivation"), "Text (TMP) (1)"));
-			((TMP_Text)textMeshProUGUI15).text = LanguageManager.CurrentLanguage.act3.act3_violenceThird_becomeMarked;
-			((TMP_Text)textMeshProUGUI16).text = LanguageManager.CurrentLanguage.act3.act3_violenceThird_becomeMarkedButton;
-			((TMP_Text)textMeshProUGUI17).text = LanguageManager.CurrentLanguage.act3.act3_violenceThird_starOfTheShow;
+			GameObject gameObjectChild4 = FindDescendant(GetInactiveRootObject("Outdoors Areas"), "8 - Upper Garden Battlefield", "8 Stuff", "Destructible Tunnel", "InteractiveScreenWithStand", "InteractiveScreen", "Canvas", "Background");
+			TextMeshProUGUI textMeshProUGUI15 = GetTextMeshProUGUI(FindDescendant(FindDescendant(gameObjectChild4, "PreActivation"), "Text (TMP) (1)"));
+			TextMeshProUGUI textMeshProUGUI16 = GetTextMeshProUGUI(FindDescendant(FindDescendant(FindDescendant(gameObjectChild4, "PreActivation"), "InteractiveScreenButton"), "Text (TMP)"));
+			TextMeshProUGUI textMeshProUGUI17 = GetTextMeshProUGUI(FindDescendant(FindDescendant(gameObjectChild4, "PostActivation"), "Text (TMP) (1)"));
+			textMeshProUGUI15.text = LanguageManager.CurrentLanguage.act3.act3_violenceThird_becomeMarked;
+			textMeshProUGUI16.text = LanguageManager.CurrentLanguage.act3.act3_violenceThird_becomeMarkedButton;
+			textMeshProUGUI17.text = LanguageManager.CurrentLanguage.act3.act3_violenceThird_starOfTheShow;
 		}
 		else if (currentSceneName.Contains("7-4"))
 		{
-			((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(canvasObj, "Warning"), "Text (TMP)"))).text = LanguageManager.CurrentLanguage.act3.act3_violenceFourth_floodingWarning;
-			((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(canvasObj, "Countdown"), "Text (TMP)"))).text = LanguageManager.CurrentLanguage.act3.act3_violenceFourth_countdownTitle;
+			GetTextMeshProUGUI(FindDescendant(canvasObj, "Warning", "Text (TMP)")).text = LanguageManager.CurrentLanguage.act3.act3_violenceFourth_floodingWarning;
+			GetTextMeshProUGUI(FindDescendant(canvasObj, "Countdown", "Text (TMP)")).text = LanguageManager.CurrentLanguage.act3.act3_violenceFourth_countdownTitle;
 		}
 		else if (currentSceneName.Contains("8-2"))
 		{
-			GameObject hub = CommonFunctions.GetInactiveRootObject("4 - Hub");
+			GameObject hub = GetInactiveRootObject("4 - Hub");
 			if (hub == null)
 			{
-				hub = CommonFunctions.GetInactiveRootObject("Hub");
+				hub = GetInactiveRootObject("Hub");
 			}
 			if (hub != null)
 			{
@@ -146,10 +148,10 @@ public static class Act3
 			}
 			foreach (string path in screenPaths)
 			{
-				GameObject screenObj = CommonFunctions.GetObject(path);
+				GameObject screenObj = GetObject(path);
 				if (screenObj != null)
 				{
-					TextMeshProUGUI textComp = CommonFunctions.GetTextMeshProUGUI(screenObj);
+					TextMeshProUGUI textComp = GetTextMeshProUGUI(screenObj);
 					if (textComp != null)
 					{
 						if (!translationMissing)
@@ -171,37 +173,38 @@ public static class Act3
 		}
 		else if (currentSceneName.Contains("8-4"))
 		{
-			TextMeshProUGUI textMeshProUGUI18 = CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(CommonFunctions.GetGameObjectChild(canvasObj, "HeightMarkerParent"), "HeightMarker"), "Title"));
+			TextMeshProUGUI textMeshProUGUI18 = GetTextMeshProUGUI(FindDescendant(canvasObj, "HeightMarkerParent", "HeightMarker", "Title"));
 			string act3_fraudFourth_heightMarkerTitle = LanguageManager.CurrentLanguage.act3.act3_fraudFourth_heightMarkerTitle;
 			((TMP_Text)textMeshProUGUI18).text = CommonFunctions.MakeVertical(act3_fraudFourth_heightMarkerTitle);
 			((TMP_Text)textMeshProUGUI18).ForceMeshUpdate(false, false);
 
 			// Patch "N O P E" text
-			GameObject introRoot = CommonFunctions.GetInactiveRootObject("The Intro");
+			// These mf must be cleaned in the fucking future - greycsont
+			GameObject introRoot = GetInactiveRootObject("The Intro");
 			if (introRoot != null)
 			{
-				GameObject upperIntro = CommonFunctions.GetGameObjectChild(introRoot, "3 - Upper Intro");
+				GameObject upperIntro = FindDescendant(introRoot, "3 - Upper Intro");
 				if (upperIntro != null)
 				{
-					GameObject elevatorSet = CommonFunctions.GetGameObjectChild(upperIntro, "ElevatorSet");
+					GameObject elevatorSet = FindDescendant(upperIntro, "ElevatorSet");
 					if (elevatorSet != null)
 					{
-						GameObject elevator = CommonFunctions.GetGameObjectChild(elevatorSet, "Elevator");
+						GameObject elevator = FindDescendant(elevatorSet, "Elevator");
 						if (elevator != null)
 						{
-							GameObject interactiveScreen = CommonFunctions.GetGameObjectChild(elevator, "InteractiveScreen");
+							GameObject interactiveScreen = FindDescendant(elevator, "InteractiveScreen");
 							if (interactiveScreen != null)
 							{
-								GameObject canvas = CommonFunctions.GetGameObjectChild(interactiveScreen, "Canvas");
+								GameObject canvas = FindDescendant(interactiveScreen, "Canvas");
 								if (canvas != null)
 								{
-									GameObject background = CommonFunctions.GetGameObjectChild(canvas, "Background");
+									GameObject background = FindDescendant(canvas, "Background");
 									if (background != null)
 									{
-										GameObject nopeBackground = CommonFunctions.GetGameObjectChild(background, "1 (Nope)");
+										GameObject nopeBackground = FindDescendant(background, "1 (Nope)");
 										if (nopeBackground != null)
 										{
-											TextMeshProUGUI nopeText = CommonFunctions.GetTextMeshProUGUI(CommonFunctions.GetGameObjectChild(nopeBackground, "Text (TMP)"));
+											TextMeshProUGUI nopeText = GetTextMeshProUGUI(FindDescendant(nopeBackground, "Text (TMP)"));
 											if (nopeText != null)
 											{
 												string nopeTranslation = LanguageManager.CurrentLanguage.act3.act3_fraudFourth_nope;

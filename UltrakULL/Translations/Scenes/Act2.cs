@@ -13,15 +13,15 @@ public static class Act2
 {
     private static void PatchHellmap(ref GameObject canvasObj)
     {
-        GameObject hellMapObject = GetGameObjectChild(GetGameObjectChild(canvasObj, "Hellmap"),"Hellmap Act 2");
+        GameObject hellMapObject = FindDescendant(canvasObj, "Hellmap", "Hellmap Act 2");
         
-        TextMeshProUGUI hellmapGreed = GetTextMeshProUGUI(GetGameObjectChild(hellMapObject, "Text"));
+        TextMeshProUGUI hellmapGreed = GetTextMeshProUGUI(FindDescendant(hellMapObject, "Text"));
         hellmapGreed.text = LanguageManager.CurrentLanguage.misc.hellmap_greed;
 
-        TextMeshProUGUI hellmapWrath = GetTextMeshProUGUI(GetGameObjectChild(hellMapObject, "Text (1)"));
+        TextMeshProUGUI hellmapWrath = GetTextMeshProUGUI(FindDescendant(hellMapObject, "Text (1)"));
         hellmapWrath.text = LanguageManager.CurrentLanguage.misc.hellmap_wrath;
 
-        TextMeshProUGUI hellmapHeresy = GetTextMeshProUGUI(GetGameObjectChild(hellMapObject, "Text (2)"));
+        TextMeshProUGUI hellmapHeresy = GetTextMeshProUGUI(FindDescendant(hellMapObject, "Text (2)"));
         hellmapHeresy.text = LanguageManager.CurrentLanguage.misc.hellmap_heresy;
     }
 

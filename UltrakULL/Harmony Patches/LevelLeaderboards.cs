@@ -34,7 +34,7 @@ public class LevelLeaderboards
             ___anyPercentLabel.text = LanguageManager.CurrentLanguage.frontend.leaderboard_anyPercent;
             ___pRankLabel.text = LanguageManager.CurrentLanguage.frontend.leaderboard_pPercent;
 
-            Text noItems = GetTextfromGameObject(GetGameObjectChild(___noItemsPanel,"Text"));
+            Text noItems = GetTextfromGameObject(FindDescendant(___noItemsPanel,"Text"));
             noItems.text = LanguageManager.CurrentLanguage.frontend.leaderboard_noEntries;
 
         }
@@ -55,7 +55,7 @@ public class LevelLeaderboards
             TextMeshProUGUI connecting = GetTextMeshProUGUI(___loadingPanel);
             connecting.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_connectingToSteam;
 
-            TextMeshProUGUI reminder = GetTextMeshProUGUI(GetGameObjectChild(___loadingPanel.transform.parent.gameObject, "SettingsReminder"));
+            TextMeshProUGUI reminder = GetTextMeshProUGUI(FindDescendant(___loadingPanel.transform.parent.gameObject, "SettingsReminder"));
             reminder.text = LanguageManager.CurrentLanguage.frontend.leaderboard_reminder;
         }
     }

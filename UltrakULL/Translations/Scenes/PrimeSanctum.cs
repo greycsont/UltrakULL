@@ -20,13 +20,13 @@ class PrimeSanctum
         {
             GameObject bossRoom = GetInactiveRootObject("3 - Fuckatorium");
 
-            secretText = GetTextfromGameObject(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(bossRoom, "3 Stuff"),"End"),"FinalRoom Prime"),"Testament Shop"),"Canvas"),"Border"),"TipBox"),"Panel"),"Scroll View"),"Viewport"),"Content"),"Text (1)"));
+            secretText = GetTextfromGameObject(FindDescendant(bossRoom, "3 Stuff", "End", "FinalRoom Prime", "Testament Shop", "Canvas", "Border", "TipBox", "Panel", "Scroll View", "Viewport", "Content","Text (1)"));
         }
         else if (currentLevel.Contains("P-2"))
         {
-            GameObject bossRoom = GetGameObjectChild(GetInactiveRootObject("Main Section"),"9 - Boss Arena");
+            GameObject bossRoom = FindDescendant(GetInactiveRootObject("Main Section"),"9 - Boss Arena");
             
-            secretText = GetTextfromGameObject(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(bossRoom, "Boss Stuff"),"Outro"),"FinalRoom Prime Variant"),"Testament Shop"),"Canvas"),"Border"),"TipBox"),"Panel"),"Scroll View"),"Viewport"),"Content"),"Text (1)"));
+            secretText = GetTextfromGameObject(FindDescendant(bossRoom, "Boss Stuff", "Outro", "FinalRoom Prime Variant", "Testament Shop", "Canvas", "Border", "TipBox", "Panel", "Scroll View" ,"Viewport" ,"Content", "Text (1)"));
         }
 
         if (secretText != null)
@@ -56,14 +56,14 @@ class PrimeSanctum
             string levelname = primeSanctumChallengeStrings.GetLevelName();
             
             //First lock buttons
-            GameObject firstLockObject = GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetInactiveRootObject("Main Section"),"Inside"),"8 - Elevator"),"8 Stuff"), "InteractiveScreenWithStand"), "InteractiveScreen"),"Canvas"), "Background");
+            GameObject firstLockObject = FindDescendant(GetInactiveRootObject("Main Section"),"Inside","8 - Elevator","8 Stuff", "InteractiveScreenWithStand", "InteractiveScreen","Canvas", "Background");
             
-            TextMeshProUGUI firstLockLocked = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(firstLockObject,"A"), "Text (TMP)"));
-            TextMeshProUGUI firstLockUnlocked = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(firstLockObject, "A (Pressed)"), "Text (TMP)"));
-            TextMeshProUGUI secondLockLocked = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(firstLockObject,"B"), "Text (TMP)"));
-            TextMeshProUGUI secondLockUnlocked = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(firstLockObject, "B (Pressed)"),"Text (TMP)"));
-            TextMeshProUGUI thirdLockLocked = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(firstLockObject,"C"), "Text (TMP)"));
-            TextMeshProUGUI thirdLockUnlocked = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(firstLockObject, "C (Pressed)"), "Text (TMP)"));
+            TextMeshProUGUI firstLockLocked = GetTextMeshProUGUI(FindDescendant(firstLockObject, "A", "Text (TMP)"));
+            TextMeshProUGUI firstLockUnlocked = GetTextMeshProUGUI(FindDescendant(firstLockObject, "A (Pressed)", "Text (TMP)"));
+            TextMeshProUGUI secondLockLocked = GetTextMeshProUGUI(FindDescendant(firstLockObject, "B", "Text (TMP)"));
+            TextMeshProUGUI secondLockUnlocked = GetTextMeshProUGUI(FindDescendant(firstLockObject, "B (Pressed)", "Text (TMP)"));
+            TextMeshProUGUI thirdLockLocked = GetTextMeshProUGUI(FindDescendant(firstLockObject, "C", "Text (TMP)"));
+            TextMeshProUGUI thirdLockUnlocked = GetTextMeshProUGUI(FindDescendant(firstLockObject, "C (Pressed)", "Text (TMP)"));
 
             firstLockLocked.text = LanguageManager.CurrentLanguage.primeSanctum.primeSanctum_second_lockFirstLocked;
             firstLockUnlocked.text = LanguageManager.CurrentLanguage.primeSanctum.primeSanctum_second_lockUnlocked;
@@ -73,14 +73,13 @@ class PrimeSanctum
             thirdLockUnlocked.text = LanguageManager.CurrentLanguage.primeSanctum.primeSanctum_second_lockUnlocked;
             
             //Second lock buttons
-            GameObject secondLockObject = GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetInactiveRootObject("Main Section"), "Inside"), "8 - Elevator"), "8 Stuff"), "InteractiveScreenWithStand (1)"), "InteractiveScreen"), "Canvas"), "Background");
+            GameObject secondLockObject = FindDescendant(GetInactiveRootObject("Main Section"), "Inside", "8 - Elevator", "8 Stuff", "InteractiveScreenWithStand (1)", "InteractiveScreen", "Canvas", "Background");
 
-            TextMeshProUGUI secondLockOpen =
-                GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(secondLockObject, "InteractiveScreenButton"), "Text (TMP)"));
-            TextMeshProUGUI secondLockAreYouSure = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(secondLockObject, "AreYouSure"), "Text"));
+            TextMeshProUGUI secondLockOpen = GetTextMeshProUGUI(FindDescendant(secondLockObject, "InteractiveScreenButton", "Text (TMP)"));
+            TextMeshProUGUI secondLockAreYouSure = GetTextMeshProUGUI(FindDescendant(secondLockObject, "AreYouSure", "Text"));
 
-            TextMeshProUGUI secondLockWarning = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(secondLockObject, "WarningText"), "WarningText"));
-            GameObject secondLockAsIf = GetGameObjectChild(secondLockObject, "AsIfText");
+            TextMeshProUGUI secondLockWarning = GetTextMeshProUGUI(FindDescendant(secondLockObject, "WarningText", "WarningText"));
+            GameObject secondLockAsIf = FindDescendant(secondLockObject, "AsIfText");
 
             secondLockOpen.text = LanguageManager.CurrentLanguage.primeSanctum.primeSanctum_second_lockOpen;
             //secondLockOpen.fontSize = 20;
@@ -99,13 +98,13 @@ class PrimeSanctum
             {
                 try
                 {
-                    TextMeshProUGUI haText = GetTextMeshProUGUI(GetGameObjectChild(secondLockAsIf.transform.GetChild(i).gameObject, "Text (TMP)"));
+                    TextMeshProUGUI haText = GetTextMeshProUGUI(FindDescendant(secondLockAsIf.transform.GetChild(i).gameObject, "Text (TMP)"));
                     haText.text = LanguageManager.CurrentLanguage.primeSanctum.primeSanctum_second_lockNo1;
                 }
                 catch { }
             }
 
-            TextMeshProUGUI secondLockAsIfText = GetTextMeshProUGUI(GetGameObjectChild(secondLockAsIf.transform.GetChild(7).gameObject, "Text (TMP)"));
+            TextMeshProUGUI secondLockAsIfText = GetTextMeshProUGUI(FindDescendant(secondLockAsIf.transform.GetChild(7).gameObject, "Text (TMP)"));
             secondLockAsIfText.text =
                 "<color=red>" + LanguageManager.CurrentLanguage.primeSanctum.primeSanctum_second_lockNo2 + "\n</color>";
             

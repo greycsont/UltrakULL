@@ -12,12 +12,12 @@ class Prelude
 {
     public void PatchOpeningCredits(ref GameObject canvasObj)
     {
-        GameObject openingCredsParent = GetGameObjectChild(canvasObj, "HurtScreen");
+        GameObject openingCredsParent = FindDescendant(canvasObj, "HurtScreen");
 
-        TextMeshProUGUI openingCredsFirst = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(openingCredsParent, "Text 1 Sound"), "Text (1)"));
+        TextMeshProUGUI openingCredsFirst = GetTextMeshProUGUI(FindDescendant(openingCredsParent, "Text 1 Sound", "Text (1)"));
         openingCredsFirst.text = LanguageManager.CurrentLanguage.prelude.prelude_first_openingCredits1;
 
-        TextMeshProUGUI openingCredsSecond = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(openingCredsParent, "Text 2 Sound"), "Text (2)"));
+        TextMeshProUGUI openingCredsSecond = GetTextMeshProUGUI(FindDescendant(openingCredsParent, "Text 2 Sound", "Text (2)"));
         openingCredsSecond.text = LanguageManager.CurrentLanguage.prelude.prelude_first_openingCredits2;
     }
 
