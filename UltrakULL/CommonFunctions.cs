@@ -233,11 +233,11 @@ namespace UltrakULL;
 
 			GameObject coreGame = GameObject.Find("Player");
 
-			GameObject resultsPanel = GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(GetGameObjectChild(coreGame, "Main Camera"), "HUD Camera"), "HUD"), "FinishCanvas"), "Panel"); 
+			GameObject resultsPanel = FindDescendant(coreGame, "Main Camera", "HUD Camera", "HUD", "FinishCanvas", "Panel"); 
 
 			//Level title
-			GameObject resultsTitle = GetGameObjectChild(resultsPanel, "Title");
-			TextMeshProUGUI resultsTitleLevelName = GetTextMeshProUGUI(GetGameObjectChild(resultsTitle, "Text"));
+			GameObject resultsTitle = FindDescendant(resultsPanel, "Title");
+			TextMeshProUGUI resultsTitleLevelName = GetTextMeshProUGUI(FindDescendant(resultsTitle, "Text"));
 			resultsTitleLevelName.text = levelName;
 
 			//Disable the levelFinderComponent, so the level name doesn't get reverted when the results panel appears.
@@ -249,38 +249,47 @@ namespace UltrakULL;
 
 			//Time
 			//For some bizzare reason, the timer is labelled as "ff". Hakita were you cutting corners? :D
-			GameObject timeTitle = GetGameObjectChild(resultsPanel, "ff");
-			TextMeshProUGUI timeTitleText = GetTextMeshProUGUI(GetGameObjectChild(timeTitle, "Text"));
+			TextMeshProUGUI timeTitleText = GetTextMeshProUGUI(FindDescendant(resultsPanel, "ff", "Text"));
 			timeTitleText.text = LanguageManager.CurrentLanguage.misc.stats_time;
 
 			//Kills
-			GameObject killsTitle = GetGameObjectChild(resultsPanel, "Kills - Info");
-			TextMeshProUGUI killsTitleText = GetTextMeshProUGUI(GetGameObjectChild(killsTitle, "Text"));
+			TextMeshProUGUI killsTitleText = GetTextMeshProUGUI(FindDescendant(resultsPanel, "Kills - Info", "Text"));
 			killsTitleText.text = LanguageManager.CurrentLanguage.misc.stats_kills;
 
 			//Style
-			GameObject styleTitle = GetGameObjectChild(resultsPanel, "Style - Info");
-			TextMeshProUGUI styleTitleText = GetTextMeshProUGUI(GetGameObjectChild(styleTitle, "Text"));
+			TextMeshProUGUI styleTitleText = GetTextMeshProUGUI(FindDescendant(resultsPanel, "Style - Info", "Text"));
 			styleTitleText.text = LanguageManager.CurrentLanguage.misc.stats_style;
 
 			//Secrets
-			GameObject secretsTitle = GetGameObjectChild(resultsPanel, "Secrets -  Title");
-			TextMeshProUGUI secretsTitleText = GetTextMeshProUGUI(GetGameObjectChild(secretsTitle, "Text"));
+			TextMeshProUGUI secretsTitleText = GetTextMeshProUGUI(FindDescendant(resultsPanel, "Secrets -  Title", "Text"));
 			secretsTitleText.text = LanguageManager.CurrentLanguage.misc.stats_secrets;
 
 			//Challenge title
-			GameObject challengeTitle = GetGameObjectChild(resultsPanel, "Challenge - Title");
-			TextMeshProUGUI challengeTitleText = GetTextMeshProUGUI(GetGameObjectChild(challengeTitle, "Text"));
+			TextMeshProUGUI challengeTitleText = GetTextMeshProUGUI(FindDescendant(resultsPanel, "Challenge - Title", "Text"));
 			challengeTitleText.text = LanguageManager.CurrentLanguage.misc.stats_challenge;
 
 			//Challenge description
-			GameObject challengeDescription = GetGameObjectChild(resultsPanel, "Challenge");
-			TextMeshProUGUI challengeDescriptionText = GetTextMeshProUGUI(GetGameObjectChild(challengeDescription, "ChallengeText"));
+			TextMeshProUGUI challengeDescriptionText = GetTextMeshProUGUI(FindDescendant(resultsPanel, "Challenge", "ChallengeText"));
 			challengeDescriptionText.text = levelChallenge;
 
 			//Total points
-			TextMeshProUGUI totalPointsText = GetTextMeshProUGUI(GetGameObjectChild(GetGameObjectChild(resultsPanel, "Total Points"),"Text (1)"));
+			TextMeshProUGUI totalPointsText = GetTextMeshProUGUI(FindDescendant(resultsPanel, "Total Points", "Text (1)"));
 			totalPointsText.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_total + ":";
+		}
+
+		public static GameObject FindDescendant(GameObject parentObject, params string[] childPath)
+		{
+			if (parentObject == null || childPath == null || childPath.Length == 0)
+				return null;
+
+			GameObject currentObject = parentObject;
+			foreach (string childName in childPath)
+			{
+				currentObject = GetGameObjectChild(currentObject, childName);
+				if (currentObject == null)
+					return null;
+			}
+			return currentObject;
 		}
 
 
