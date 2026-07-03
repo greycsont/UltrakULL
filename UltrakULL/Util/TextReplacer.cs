@@ -4,18 +4,19 @@ namespace UltrakULL;
 
 public static class TextReplacer
 {
-    public static void TryToReplaceText(TMP_Text text, string[] translatedArgs, string replacement)
+    public static void TryToReplaceText(TMP_Text text, string translation)
+    {
+        if (text == null || string.IsNullOrEmpty(translation)) return;
+        text.text = translation;
+    }
+
+    public static void TryToReplaceText(TMP_Text text, string[] parts, string replacement)
     {
         if (text == null) return;
-        if (text.text == null) return;
 
-        var shouldReplace = true;
+        foreach (string part in parts)
+            if (string.IsNullOrEmpty(part)) return;
 
-        foreach (string arg in translatedArgs)
-            if (arg == null) shouldReplace = false;
-        
-        if (!shouldReplace) return;
-        
         text.text = replacement;
     }
 }
