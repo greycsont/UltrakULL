@@ -1,8 +1,8 @@
 using UltrakULL.json;
 using UnityEngine;
 
-namespace UltrakULL
-{
+namespace UltrakULL;
+
 	public static class StringsParent
 	{
 		private static string fullMessage;
@@ -202,14 +202,14 @@ namespace UltrakULL
 			{
 				return message;
 			}
-            if (message.Contains("You have found a <color=orange>SECRET MISSION</color>."))
-            {
-                return EnsureTranslation(
-                    LanguageManager.CurrentLanguage.misc.secretMissionFound,
-                    message
-                );
-            }
-            Logging.Warn("Unimplemented string in \"" + CommonFunctions.GetCurrentSceneName() + "\": " + message);
+        if (message.Contains("You have found a <color=orange>SECRET MISSION</color>."))
+        {
+            return EnsureTranslation(
+                LanguageManager.CurrentLanguage.misc.secretMissionFound,
+                message
+            );
+        }
+        Logging.Warn("Unimplemented string in \"" + CommonFunctions.GetCurrentSceneName() + "\": " + message);
 			return message;
 		}
 
@@ -296,22 +296,22 @@ namespace UltrakULL
 			{
 				return EnsureTranslation(LanguageManager.CurrentLanguage.levelTips.leveltips_wrathSecond, tipDescriptionText);
 			}
-            if (currentSceneName.Contains("5-3"))
+        if (currentSceneName.Contains("5-3"))
+        {
+            string trimmedTip = tipDescriptionText.Trim();
+            string brokenTip = LanguageManager.CurrentLanguage.levelTips.leveltips_wrathThirdBroken;
+
+            if (trimmedTip == "Ow." || trimmedTip == brokenTip)
             {
-                string trimmedTip = tipDescriptionText.Trim();
-                string brokenTip = LanguageManager.CurrentLanguage.levelTips.leveltips_wrathThirdBroken;
-
-                if (trimmedTip == "Ow." || trimmedTip == brokenTip)
-                {
-                    return EnsureTranslation(brokenTip, tipDescriptionText);
-                }
-
-                return EnsureTranslation(
-                    LanguageManager.CurrentLanguage.levelTips.leveltips_wrathThird,
-                    tipDescriptionText
-                );
+                return EnsureTranslation(brokenTip, tipDescriptionText);
             }
-            if (currentSceneName.Contains("5-4"))
+
+            return EnsureTranslation(
+                LanguageManager.CurrentLanguage.levelTips.leveltips_wrathThird,
+                tipDescriptionText
+            );
+        }
+        if (currentSceneName.Contains("5-4"))
 			{
 				return EnsureTranslation(LanguageManager.CurrentLanguage.levelTips.leveltips_wrathFourth1, LanguageManager.CurrentLanguage.levelTips.leveltips_wrathFourth2, "\n", tipDescriptionText);
 			}
@@ -442,4 +442,3 @@ namespace UltrakULL
 			return tipDescriptionText;
 		}
 	}
-}

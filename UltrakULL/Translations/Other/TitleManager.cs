@@ -7,153 +7,152 @@ using UltrakULL.json;
 //This is in a seperate class and not part of scene classes, as the layer/lavel strings are private and can't simply be put in the
 //corresponding classes.
 
-namespace UltrakULL
+namespace UltrakULL;
+
+public static class TitleManager
 {
-    public static class TitleManager
+    public static string GetName(string inputName)
     {
-        public static string GetName(string inputName)
-        {
-            //Prelude titles
-            if (inputName.Contains("INTO THE FIRE")) { return LanguageManager.CurrentLanguage.levelNames.levelName_preludeFirst; }
-            if (inputName.Contains("THE MEATGRINDER")) { return LanguageManager.CurrentLanguage.levelNames.levelName_preludeSecond; }
-            if (inputName.Contains("DOUBLE DOWN")) { return LanguageManager.CurrentLanguage.levelNames.levelName_preludeThird; }
-            if (inputName.Contains("A ONE-MACHINE ARMY")) { return LanguageManager.CurrentLanguage.levelNames.levelName_preludeFourth; }
-            if (inputName.Contains("CERBERUS")) { return LanguageManager.CurrentLanguage.levelNames.levelName_preludeFifth; }
+        //Prelude titles
+        if (inputName.Contains("INTO THE FIRE")) { return LanguageManager.CurrentLanguage.levelNames.levelName_preludeFirst; }
+        if (inputName.Contains("THE MEATGRINDER")) { return LanguageManager.CurrentLanguage.levelNames.levelName_preludeSecond; }
+        if (inputName.Contains("DOUBLE DOWN")) { return LanguageManager.CurrentLanguage.levelNames.levelName_preludeThird; }
+        if (inputName.Contains("A ONE-MACHINE ARMY")) { return LanguageManager.CurrentLanguage.levelNames.levelName_preludeFourth; }
+        if (inputName.Contains("CERBERUS")) { return LanguageManager.CurrentLanguage.levelNames.levelName_preludeFifth; }
 
-            //Act 1 titles
-            //Limbo
-            if (inputName.Contains("HEART OF THE SUNRISE")) { return LanguageManager.CurrentLanguage.levelNames.levelName_limboFirst; }
-            if (inputName.Contains("THE BURNING WORLD")) { return LanguageManager.CurrentLanguage.levelNames.levelName_limboSecond; }
-            if (inputName.Contains("HALLS OF SACRED REMAINS")) { return LanguageManager.CurrentLanguage.levelNames.levelName_limboThird; }
-            if (inputName.Contains("CLAIR DE LUNE")) { return LanguageManager.CurrentLanguage.levelNames.levelName_limboFourth; }
+        //Act 1 titles
+        //Limbo
+        if (inputName.Contains("HEART OF THE SUNRISE")) { return LanguageManager.CurrentLanguage.levelNames.levelName_limboFirst; }
+        if (inputName.Contains("THE BURNING WORLD")) { return LanguageManager.CurrentLanguage.levelNames.levelName_limboSecond; }
+        if (inputName.Contains("HALLS OF SACRED REMAINS")) { return LanguageManager.CurrentLanguage.levelNames.levelName_limboThird; }
+        if (inputName.Contains("CLAIR DE LUNE")) { return LanguageManager.CurrentLanguage.levelNames.levelName_limboFourth; }
 
-            //Lust
-            if (inputName.Contains("BRIDGEBURNER")) { return LanguageManager.CurrentLanguage.levelNames.levelName_lustFirst; }
-            if (inputName.Contains("DEATH AT 20,000 VOLTS")) { return LanguageManager.CurrentLanguage.levelNames.levelName_lustSecond; }
-            if (inputName.Contains("SHEER HEART ATTACK")) { return LanguageManager.CurrentLanguage.levelNames.levelName_lustThird; }
-            if (inputName.Contains("COURT OF THE CORPSE KING")) { return LanguageManager.CurrentLanguage.levelNames.levelName_lustFourth; }
+        //Lust
+        if (inputName.Contains("BRIDGEBURNER")) { return LanguageManager.CurrentLanguage.levelNames.levelName_lustFirst; }
+        if (inputName.Contains("DEATH AT 20,000 VOLTS")) { return LanguageManager.CurrentLanguage.levelNames.levelName_lustSecond; }
+        if (inputName.Contains("SHEER HEART ATTACK")) { return LanguageManager.CurrentLanguage.levelNames.levelName_lustThird; }
+        if (inputName.Contains("COURT OF THE CORPSE KING")) { return LanguageManager.CurrentLanguage.levelNames.levelName_lustFourth; }
 
-            //Gluttony
-            if (inputName.Contains("BELLY OF THE BEAST")) { return LanguageManager.CurrentLanguage.levelNames.levelName_gluttonyFirst; }
-            if (inputName.Contains("IN THE FLESH")) { return LanguageManager.CurrentLanguage.levelNames.levelName_gluttonySecond; }
+        //Gluttony
+        if (inputName.Contains("BELLY OF THE BEAST")) { return LanguageManager.CurrentLanguage.levelNames.levelName_gluttonyFirst; }
+        if (inputName.Contains("IN THE FLESH")) { return LanguageManager.CurrentLanguage.levelNames.levelName_gluttonySecond; }
 
-            //Act 2 titles
-            //Greed
-            if (inputName.Contains("SLAVES TO POWER")) { return LanguageManager.CurrentLanguage.levelNames.levelName_greedFirst; }
-            if (inputName.Contains("GOD DAMN THE SUN")) { return LanguageManager.CurrentLanguage.levelNames.levelName_greedSecond; }
-            if (inputName.Contains("A SHOT IN THE DARK")) { return LanguageManager.CurrentLanguage.levelNames.levelName_greedThird; }
-            if (inputName.Contains("CLAIR DE SOLEIL")) { return LanguageManager.CurrentLanguage.levelNames.levelName_greedFourth; }
+        //Act 2 titles
+        //Greed
+        if (inputName.Contains("SLAVES TO POWER")) { return LanguageManager.CurrentLanguage.levelNames.levelName_greedFirst; }
+        if (inputName.Contains("GOD DAMN THE SUN")) { return LanguageManager.CurrentLanguage.levelNames.levelName_greedSecond; }
+        if (inputName.Contains("A SHOT IN THE DARK")) { return LanguageManager.CurrentLanguage.levelNames.levelName_greedThird; }
+        if (inputName.Contains("CLAIR DE SOLEIL")) { return LanguageManager.CurrentLanguage.levelNames.levelName_greedFourth; }
 
-            //Wrath titles
-            if (inputName.Contains("IN THE WAKE OF POSEIDON")) { return LanguageManager.CurrentLanguage.levelNames.levelName_wrathFirst; }
-            if (inputName.Contains("WAVES OF THE STARLESS SEA")) { return LanguageManager.CurrentLanguage.levelNames.levelName_wrathSecond; }
-            if (inputName.Contains("SHIP OF FOOLS")) { return LanguageManager.CurrentLanguage.levelNames.levelName_wrathThird; }
-            if (inputName.Contains("LEVIATHAN")) { return LanguageManager.CurrentLanguage.levelNames.levelName_wrathFourth; }
+        //Wrath titles
+        if (inputName.Contains("IN THE WAKE OF POSEIDON")) { return LanguageManager.CurrentLanguage.levelNames.levelName_wrathFirst; }
+        if (inputName.Contains("WAVES OF THE STARLESS SEA")) { return LanguageManager.CurrentLanguage.levelNames.levelName_wrathSecond; }
+        if (inputName.Contains("SHIP OF FOOLS")) { return LanguageManager.CurrentLanguage.levelNames.levelName_wrathThird; }
+        if (inputName.Contains("LEVIATHAN")) { return LanguageManager.CurrentLanguage.levelNames.levelName_wrathFourth; }
 
-            //Heresy titles
-            if (inputName.Contains("CRY FOR THE WEEPER")) { return LanguageManager.CurrentLanguage.levelNames.levelName_heresyFirst; }
-            if (inputName.Contains("AESTHETICS OF HATE")) { return LanguageManager.CurrentLanguage.levelNames.levelName_heresySecond; }
-            
-            //Violence titles
-            if (inputName.Contains("GARDEN OF FORKING PATHS")) { return LanguageManager.CurrentLanguage.levelNames.levelName_violenceFirst; }
-            if (inputName.Contains("LIGHT UP THE NIGHT")) { return LanguageManager.CurrentLanguage.levelNames.levelName_violenceSecond; }
-            if (inputName.Contains("NO SOUND, NO MEMORY")) { return LanguageManager.CurrentLanguage.levelNames.levelName_violenceThird; }
-            if (inputName.Contains("...LIKE ANTENNAS TO HEAVEN")) { return LanguageManager.CurrentLanguage.levelNames.levelName_violenceFourth; }
-            
-            //Fraud titles
-            if (inputName.Contains("HURTBREAK WONDERLAND")) { return LanguageManager.CurrentLanguage.levelNames.levelName_fraudFirst; }
-            if (inputName.Contains("THROUGH THE MIRROR")) { return LanguageManager.CurrentLanguage.levelNames.levelName_fraudSecond; }
-            if (inputName.Contains("DISINTEGRATION LOOP")) { return LanguageManager.CurrentLanguage.levelNames.levelName_fraudThird; }
-            if (inputName.Contains("FINAL FLIGHT")) { return LanguageManager.CurrentLanguage.levelNames.levelName_fraudFourth; }
-            
-            //Treachery titles
-            if (inputName.Contains("TREACHERY FIRST")) { return LanguageManager.CurrentLanguage.levelNames.levelName_treacheryFirst; }
-            if (inputName.Contains("TREACHERY SECOND")) { return LanguageManager.CurrentLanguage.levelNames.levelName_treacherySecond; }
+        //Heresy titles
+        if (inputName.Contains("CRY FOR THE WEEPER")) { return LanguageManager.CurrentLanguage.levelNames.levelName_heresyFirst; }
+        if (inputName.Contains("AESTHETICS OF HATE")) { return LanguageManager.CurrentLanguage.levelNames.levelName_heresySecond; }
+        
+        //Violence titles
+        if (inputName.Contains("GARDEN OF FORKING PATHS")) { return LanguageManager.CurrentLanguage.levelNames.levelName_violenceFirst; }
+        if (inputName.Contains("LIGHT UP THE NIGHT")) { return LanguageManager.CurrentLanguage.levelNames.levelName_violenceSecond; }
+        if (inputName.Contains("NO SOUND, NO MEMORY")) { return LanguageManager.CurrentLanguage.levelNames.levelName_violenceThird; }
+        if (inputName.Contains("...LIKE ANTENNAS TO HEAVEN")) { return LanguageManager.CurrentLanguage.levelNames.levelName_violenceFourth; }
+        
+        //Fraud titles
+        if (inputName.Contains("HURTBREAK WONDERLAND")) { return LanguageManager.CurrentLanguage.levelNames.levelName_fraudFirst; }
+        if (inputName.Contains("THROUGH THE MIRROR")) { return LanguageManager.CurrentLanguage.levelNames.levelName_fraudSecond; }
+        if (inputName.Contains("DISINTEGRATION LOOP")) { return LanguageManager.CurrentLanguage.levelNames.levelName_fraudThird; }
+        if (inputName.Contains("FINAL FLIGHT")) { return LanguageManager.CurrentLanguage.levelNames.levelName_fraudFourth; }
+        
+        //Treachery titles
+        if (inputName.Contains("TREACHERY FIRST")) { return LanguageManager.CurrentLanguage.levelNames.levelName_treacheryFirst; }
+        if (inputName.Contains("TREACHERY SECOND")) { return LanguageManager.CurrentLanguage.levelNames.levelName_treacherySecond; }
 
-            //Encore titles
-            if (inputName.Contains("THIS HEAT, AN EVIL HEAT")) { return LanguageManager.CurrentLanguage.levelNames.levelName_encorePrelude; }
-            if (inputName.Contains("THEN FELL THE ASHES")) { return LanguageManager.CurrentLanguage.levelNames.levelName_encoreLimbo; }
+        //Encore titles
+        if (inputName.Contains("THIS HEAT, AN EVIL HEAT")) { return LanguageManager.CurrentLanguage.levelNames.levelName_encorePrelude; }
+        if (inputName.Contains("THEN FELL THE ASHES")) { return LanguageManager.CurrentLanguage.levelNames.levelName_encoreLimbo; }
 
 
-            //Prime titles
-            if (inputName.Contains("SOUL SURVIVOR")) { return LanguageManager.CurrentLanguage.levelNames.levelName_primeFirst; }
-            if (inputName.Contains("WAIT OF THE WORLD")) { return LanguageManager.CurrentLanguage.levelNames.levelName_primeSecond; }
-            if (inputName.Contains("PRIME THIRD")) { return LanguageManager.CurrentLanguage.levelNames.levelName_primeThird; }
+        //Prime titles
+        if (inputName.Contains("SOUL SURVIVOR")) { return LanguageManager.CurrentLanguage.levelNames.levelName_primeFirst; }
+        if (inputName.Contains("WAIT OF THE WORLD")) { return LanguageManager.CurrentLanguage.levelNames.levelName_primeSecond; }
+        if (inputName.Contains("PRIME THIRD")) { return LanguageManager.CurrentLanguage.levelNames.levelName_primeThird; }
 
-            Logging.Warn("No translation strings are specified for “" + inputName + "”. Returning the original name");
-            return inputName;
-        }
+        Logging.Warn("No translation strings are specified for “" + inputName + "”. Returning the original name");
+        return inputName;
+    }
 
-        public static string GetLayer(string inputTitle)
-        {
-            if (SceneHelper.IsPlayingCustom)
-                return inputTitle;
+    public static string GetLayer(string inputTitle)
+    {
+        if (SceneHelper.IsPlayingCustom)
+            return inputTitle;
 
-            string layer = "";
-            string number = "";
+        string layer = "";
+        string number = "";
 
-            // Grab the layer name...
-            if (inputTitle.Contains("PRELUDE"))
-                layer = LanguageManager.CurrentLanguage.misc.hellmap_prelude;
-            else if (inputTitle.Contains("LIMBO"))
-                layer = LanguageManager.CurrentLanguage.misc.hellmap_limbo;
-            else if (inputTitle.Contains("LUST"))
-                layer = LanguageManager.CurrentLanguage.misc.hellmap_lust;
-            else if (inputTitle.Contains("GLUTTONY"))
-                layer = LanguageManager.CurrentLanguage.misc.hellmap_gluttony;
-            else if (inputTitle.Contains("GREED"))
-                layer = LanguageManager.CurrentLanguage.misc.hellmap_greed;
-            else if (inputTitle.Contains("WRATH"))
-                layer = LanguageManager.CurrentLanguage.misc.hellmap_wrath;
-            else if (inputTitle.Contains("HERESY"))
-                layer = LanguageManager.CurrentLanguage.misc.hellmap_heresy;
-            else if (inputTitle.Contains("VIOLENCE"))
-                layer = LanguageManager.CurrentLanguage.misc.hellmap_violence;
-            else if (inputTitle.Contains("FRAUD"))
-                layer = LanguageManager.CurrentLanguage.misc.hellmap_fraud;
-            else if (inputTitle.Contains("TREACHERY"))
-                layer = LanguageManager.CurrentLanguage.misc.hellmap_treachery;
-            else if (inputTitle.Contains("PRIME"))
-                layer = LanguageManager.CurrentLanguage.misc.hellmap_prime;
+        // Grab the layer name...
+        if (inputTitle.Contains("PRELUDE"))
+            layer = LanguageManager.CurrentLanguage.misc.hellmap_prelude;
+        else if (inputTitle.Contains("LIMBO"))
+            layer = LanguageManager.CurrentLanguage.misc.hellmap_limbo;
+        else if (inputTitle.Contains("LUST"))
+            layer = LanguageManager.CurrentLanguage.misc.hellmap_lust;
+        else if (inputTitle.Contains("GLUTTONY"))
+            layer = LanguageManager.CurrentLanguage.misc.hellmap_gluttony;
+        else if (inputTitle.Contains("GREED"))
+            layer = LanguageManager.CurrentLanguage.misc.hellmap_greed;
+        else if (inputTitle.Contains("WRATH"))
+            layer = LanguageManager.CurrentLanguage.misc.hellmap_wrath;
+        else if (inputTitle.Contains("HERESY"))
+            layer = LanguageManager.CurrentLanguage.misc.hellmap_heresy;
+        else if (inputTitle.Contains("VIOLENCE"))
+            layer = LanguageManager.CurrentLanguage.misc.hellmap_violence;
+        else if (inputTitle.Contains("FRAUD"))
+            layer = LanguageManager.CurrentLanguage.misc.hellmap_fraud;
+        else if (inputTitle.Contains("TREACHERY"))
+            layer = LanguageManager.CurrentLanguage.misc.hellmap_treachery;
+        else if (inputTitle.Contains("PRIME"))
+            layer = LanguageManager.CurrentLanguage.misc.hellmap_prime;
 
-            // ...and then the number
-            if (inputTitle.Contains("ACT I CRESCENDO"))
-                number = LanguageManager.CurrentLanguage.misc.hellmap_act1crescendo;
-            else if (inputTitle.Contains("ACT I CLIMAX"))
-                number = LanguageManager.CurrentLanguage.misc.hellmap_act1climax;
-            else if (inputTitle.Contains("ACT II CRESCENDO"))
-                number = LanguageManager.CurrentLanguage.misc.hellmap_act2crescendo;
-            else if (inputTitle.Contains("ACT II CLIMAX"))
-                number = LanguageManager.CurrentLanguage.misc.hellmap_act2climax;
-            else if (inputTitle.Contains("ACT III CRESCENDO"))
-                number = LanguageManager.CurrentLanguage.misc.hellmap_act3crescendo;
-            else if (inputTitle.Contains("ACT III CLIMAX"))
-                number = LanguageManager.CurrentLanguage.misc.hellmap_act3climax;
-            else if (inputTitle.Contains("FIRST"))
-                number = LanguageManager.CurrentLanguage.misc.hellmap_first;
-            else if (inputTitle.Contains("SECOND"))
-                number = LanguageManager.CurrentLanguage.misc.hellmap_second;
-            else if (inputTitle.Contains("THIRD"))
-                number = LanguageManager.CurrentLanguage.misc.hellmap_third;
-            else if (inputTitle.Contains("FOURTH"))
-                number = LanguageManager.CurrentLanguage.misc.hellmap_fourth;
-            else if (inputTitle.Contains("CLIMAX"))
-                number = LanguageManager.CurrentLanguage.misc.hellmap_climax;
-            else if (inputTitle.Contains("ENCORE"))
-                number = LanguageManager.CurrentLanguage.frontend.chapter_encore;
+        // ...and then the number
+        if (inputTitle.Contains("ACT I CRESCENDO"))
+            number = LanguageManager.CurrentLanguage.misc.hellmap_act1crescendo;
+        else if (inputTitle.Contains("ACT I CLIMAX"))
+            number = LanguageManager.CurrentLanguage.misc.hellmap_act1climax;
+        else if (inputTitle.Contains("ACT II CRESCENDO"))
+            number = LanguageManager.CurrentLanguage.misc.hellmap_act2crescendo;
+        else if (inputTitle.Contains("ACT II CLIMAX"))
+            number = LanguageManager.CurrentLanguage.misc.hellmap_act2climax;
+        else if (inputTitle.Contains("ACT III CRESCENDO"))
+            number = LanguageManager.CurrentLanguage.misc.hellmap_act3crescendo;
+        else if (inputTitle.Contains("ACT III CLIMAX"))
+            number = LanguageManager.CurrentLanguage.misc.hellmap_act3climax;
+        else if (inputTitle.Contains("FIRST"))
+            number = LanguageManager.CurrentLanguage.misc.hellmap_first;
+        else if (inputTitle.Contains("SECOND"))
+            number = LanguageManager.CurrentLanguage.misc.hellmap_second;
+        else if (inputTitle.Contains("THIRD"))
+            number = LanguageManager.CurrentLanguage.misc.hellmap_third;
+        else if (inputTitle.Contains("FOURTH"))
+            number = LanguageManager.CurrentLanguage.misc.hellmap_fourth;
+        else if (inputTitle.Contains("CLIMAX"))
+            number = LanguageManager.CurrentLanguage.misc.hellmap_climax;
+        else if (inputTitle.Contains("ENCORE"))
+            number = LanguageManager.CurrentLanguage.frontend.chapter_encore;
 
-            string[] split = inputTitle.Split(new string[] { "///" }, StringSplitOptions.None);
+        string[] split = inputTitle.Split(new string[] { "///" }, StringSplitOptions.None);
 
-            string originalLayer = split.Length > 0 ? split[0].Trim() : "";
-            string originalNumber = split.Length > 1 ? split[1].Trim() : "";
+        string originalLayer = split.Length > 0 ? split[0].Trim() : "";
+        string originalNumber = split.Length > 1 ? split[1].Trim() : "";
 
-            if (string.IsNullOrEmpty(layer))
-                layer = originalLayer;
+        if (string.IsNullOrEmpty(layer))
+            layer = originalLayer;
 
-            if (string.IsNullOrEmpty(number))
-                number = originalNumber;
+        if (string.IsNullOrEmpty(number))
+            number = originalNumber;
 
-            return layer + " /// " + number;
-        }
+        return layer + " /// " + number;
     }
 }
