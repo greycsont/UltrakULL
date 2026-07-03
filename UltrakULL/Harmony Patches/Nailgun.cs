@@ -24,7 +24,8 @@ public static class NailgunPatch
     {
         if (__instance.gameObject.name.ToLower().Contains("magnet"))
         {
-            __instance.ammoText.fontSize = 220;
+            // the tmp will not shown so i just detach it
+            __instance.ammoText.GetComponent<TMPTwin>()?.Detach();
         }
     }
     [HarmonyPatch("Update"), HarmonyPostfix]
