@@ -72,27 +72,26 @@ namespace UltrakULL;
 				return input;
 
 			string key = input.Replace(" ", "").ToLowerInvariant();
+			var inp = LanguageManager.CurrentLanguage.inputStrings;
 
-			if (key == "numpadperiod")
-				return LanguageManager.CurrentLanguage.inputStrings.input_numpadPeriod;
-			if (key == "numpaddivide")
-				return LanguageManager.CurrentLanguage.inputStrings.input_numpadDivide;
-			if (key == "numpadmultiply")
-				return LanguageManager.CurrentLanguage.inputStrings.input_numpadMultiply;
-			if (key == "numpadminus")
-				return LanguageManager.CurrentLanguage.inputStrings.input_numpadMinus;
-			if (key == "numpadenter")
-				return LanguageManager.CurrentLanguage.inputStrings.input_numpadEnter;
-			if (key == "numpadplus")
-				return LanguageManager.CurrentLanguage.inputStrings.input_numpadPlus;
+			string localized;
+			switch (key)
+			{
+				case "numpadperiod":   localized = inp.input_numpadPeriod; break;
+				case "numpaddivide":   localized = inp.input_numpadDivide; break;
+				case "numpadmultiply": localized = inp.input_numpadMultiply; break;
+				case "numpadminus":    localized = inp.input_numpadMinus; break;
+				case "numpadenter":    localized = inp.input_numpadEnter; break;
+				case "numpadplus":     localized = inp.input_numpadPlus; break;
+				default:
+					if (key.StartsWith("numpad"))
+						localized = string.IsNullOrEmpty(inp.input_numpad) ? null : inp.input_numpad + key.Substring(6);
+					else
+						LocalizedInputs.TryGetValue(key, out localized);
+					break;
+			}
 
-			if (key.StartsWith("numpad"))
-				return LanguageManager.CurrentLanguage.inputStrings.input_numpad + key.Substring(6);
-
-			if (LocalizedInputs.TryGetValue(key, out string localized))
-				return localized;
-
-			return input;
+			return string.IsNullOrEmpty(localized) ? input : localized;
 		}
 
 		public static bool isUsingEnglish()
