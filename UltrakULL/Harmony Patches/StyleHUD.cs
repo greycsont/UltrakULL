@@ -9,25 +9,21 @@ using static UltrakULL.CommonFunctions;
 
 namespace UltrakULL.Harmony_Patches;
 
-//@Override
-//Overrides the AddPoints method from the StyleHUD class. This is needed to intercept and translate any strings coming into the style meter in-game.
-
+[NeedDebugMode]
 [HarmonyPatch(typeof(StyleHUD), "GetLocalizedName")]
 public static class LocalizeStyleHud
 {
     [HarmonyPrefix]
     public static bool GetLocalizedName_MyPatch(string id, StyleHUD __instance, Dictionary<string, string> ___idNameDict, ref string __result)
     {
-        if(isUsingEnglish())
+        if(isUsingEnglish() || !___idNameDict.ContainsKey(id))
         {
             return true;
         }
-        if (___idNameDict.ContainsKey(id))
-        {
-            __result = StyleBonusStrings.GetStyleBonusDictionary(id);
-            return false;
-        }
-        __result = StyleBonusStrings.GetTranslatedStyleBonus(id);
+        var bonus = StyleBonusStrings.GetStyleBonusDictionary(id);
+        if(bonus == null) return true;
+
+        __result = bonus;
         return false;
     }
 }

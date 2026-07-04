@@ -2,6 +2,7 @@ using TMPro;
 
 namespace UltrakULL;
 
+[NeedDebugMode]
 public static class TextReplacer
 {
     public static void TryToReplaceText(TMP_Text text, string translation)
