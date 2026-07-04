@@ -754,11 +754,11 @@ public static class MainMenu
 		//Main levels
 		GameObject heresyContent = FindDescendant(heresyObject,"Level Row");
 
-
-	    TextMeshProUGUI heresyFirstChallenge = GetTextMeshProUGUI(FindDescendant(heresyContent, "6-1 Panel", "Panel", "Text"));
+		// YES IT'S 1-1 AND 1-2 PANEL FUCK
+	    TextMeshProUGUI heresyFirstChallenge = GetTextMeshProUGUI(FindDescendant(heresyContent, "1-1 Panel", "Panel", "Text"));
 		heresyFirstChallenge.text = Act2Strings.GetLevelChallenge("Level 6-1");
 
-	    TextMeshProUGUI heresySecondChallenge = GetTextMeshProUGUI(FindDescendant(heresyContent, "6-2 Panel", "Panel (2)", "Text"));
+	    TextMeshProUGUI heresySecondChallenge = GetTextMeshProUGUI(FindDescendant(heresyContent, "1-2 Panel", "Panel (2)", "Text"));
 		heresySecondChallenge.text = Act2Strings.GetLevelChallenge("Level 6-2");
 	}
 	
@@ -882,28 +882,19 @@ public static class MainMenu
 
 	public static void Patch(GameObject frontEnd)
 	{
-		try
-		{
-			PatchMainMenu(frontEnd);
-			PatchTextArroundV1(frontEnd);
-			PatchPopUps(frontEnd);
-			//ChangeTitle(frontEnd);
-			PatchDifficultyMenu(frontEnd);
-			PatchDifficultyDescriptors(frontEnd);
-
-			PatchChapterSelect(frontEnd);
-			PatchLevelSelectPrelude(frontEnd);
-			PatchLevelSelectAct1(frontEnd);
-			PatchLevelSelectAct2(frontEnd);
-			PatchLevelSelectAct3(frontEnd);
-			PatchLevelSelectEncore(frontEnd);
-			PatchLevelSelectPrime(frontEnd);
-		}
-		catch (Exception e)
-		{
-			Console.WriteLine(e);
-		}
-
+		// currently it's only used in this class, will implement it to other class in future
+		SafeRun.Run("MainMenu: Main Menu", () => PatchMainMenu(frontEnd));
+		SafeRun.Run("MainMenu: V1 text", () => PatchTextArroundV1(frontEnd));
+		SafeRun.Run("MainMenu: Popups", () => PatchPopUps(frontEnd));
+		SafeRun.Run("MainMenu: Difficulty menu", () => PatchDifficultyMenu(frontEnd));
+		SafeRun.Run("MainMenu: Difficulty descriptors", () => PatchDifficultyDescriptors(frontEnd));
+		SafeRun.Run("MainMenu: Chapter select", () => PatchChapterSelect(frontEnd));
+		SafeRun.Run("MainMenu: Level select (Prelude)", () => PatchLevelSelectPrelude(frontEnd));
+		SafeRun.Run("MainMenu: Level select (Act I)", () => PatchLevelSelectAct1(frontEnd));
+		SafeRun.Run("MainMenu: Level select (Act II)", () => PatchLevelSelectAct2(frontEnd));
+		SafeRun.Run("MainMenu: Level select (Act III)", () => PatchLevelSelectAct3(frontEnd));
+		SafeRun.Run("MainMenu: Level select (Encore)", () => PatchLevelSelectEncore(frontEnd));
+		SafeRun.Run("MainMenu: Level select (Prime)", () => PatchLevelSelectPrime(frontEnd));
 	}
 
 }
