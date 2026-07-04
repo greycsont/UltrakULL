@@ -23,6 +23,10 @@ public static class FontManager
     public static bool TMPFontReady;
     public static bool UseFontFallback;
 
+    // These two mf is the game's font
+    public static TMP_FontAsset MeseumFontAsset; // Garaldus (museum), loaded from basegameasset.bundle
+    public static TMP_FontAsset TwinFont;        // VCR (default), cached from the game's loaded fonts
+
     private static TMP_FontAsset mainFallback;
     private static TMP_FontAsset museumFallback;
     private static TMP_FontAsset terminalFallback;  
@@ -37,11 +41,13 @@ public static class FontManager
     {
         Logging.Message("Loading font resource bundle...");
         var fontBundle = AssetBundle.LoadFromFile(Path.Combine(MainPatch.ModFolder, "fontpack.bundle"));
+        var baseFontBundle = AssetBundle.LoadFromFile(Path.Combine(MainPatch.ModFolder, "basegameasset.bundle"));
         if (fontBundle == null)
         {
             Logging.Error("Failed to load fontPack.bundle");
             return;
         }
+        MeseumFontAsset = baseFontBundle.LoadAsset<TMP_FontAsset>("GFSGaraldus SDF");
 
         mainFallback = fontBundle.LoadAsset<TMP_FontAsset>("MainFont");
         museumFallback = fontBundle.LoadAsset<TMP_FontAsset>("MuseumFont");
@@ -103,7 +109,7 @@ public static class FontManager
             if (primary == mainFallback || primary == museumFallback || primary == terminalFallback || primary == secretFallback)
                 continue;
 
-            TMP_FontAsset source;
+            TMP_FontAsset source = null;
             if (name.Contains("tahoma"))
                 source = terminalFallback;
             else if (name.Contains("bittypix"))
@@ -114,9 +120,24 @@ public static class FontManager
                 source = mainFallback;
             else
                 source = mainFallback;
+            
+            if (name.Contains("vcr-osd-replayed"))
+                TwinFont = primary;
 
             AddFallback(primary, source);
         }
+    }
+
+    // Chooses the twin primary for a legacy Text based on the font it originally used.
+    public static TMP_FontAsset GetTwinFont(string sourceFontName)
+    {
+        if (!string.IsNullOrEmpty(sourceFontName))
+        {
+            string name = sourceFontName.ToLowerInvariant();
+            if (name.Contains("garaldus") || name.Contains("garamond") || name.Contains("museum"))
+                return MeseumFontAsset != null ? MeseumFontAsset : TwinFont;
+        }
+        return TwinFont;
     }
 
     private static void AddFallback(TMP_FontAsset primary, TMP_FontAsset fallback)

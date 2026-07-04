@@ -32,6 +32,8 @@ internal static class TextMirror
     {
         if (source == null || tmp == null) return;
 
+        TMP_FontAsset twinFont = FontManager.GetTwinFont(source.font != null ? source.font.name : null);
+        if (twinFont != null) tmp.font = twinFont;
         tmp.text = source.text;
         tmp.color = source.color;
         tmp.richText = source.supportRichText;
@@ -65,6 +67,8 @@ internal static class TextMirror
     {
         if (source == null || target == null) return;
 
+        TMP_FontAsset twinFont = FontManager.GetTwinFont(source.font != null ? source.font.name : null);
+        if (twinFont != null) target.font = twinFont;
         target.text = source.text;
         target.fontSize = source.fontSize;
         target.color = source.color;
