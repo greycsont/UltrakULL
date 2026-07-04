@@ -1,4 +1,6 @@
+using System.Text.RegularExpressions;
 using TMPro;
+using UnityEngine.UI;
 
 namespace UltrakULL;
 
@@ -25,5 +27,28 @@ public static class TextReplacer
     {
         if (option == null || string.IsNullOrEmpty(translation)) return;
         option.text = translation;
+    }
+
+    public static void TryToReplaceText(Text text, string translation)
+    {
+        if (text == null || string.IsNullOrEmpty(translation)) return;
+        text.text = translation;
+    }
+
+    public static void TryToReplaceText(Text text, string[] parts, string replacement)
+    {
+        if (text == null) return;
+
+        foreach (string part in parts)
+            if (string.IsNullOrEmpty(part)) return;
+
+        text.text = replacement;
+    }
+
+    // fuck you rich text
+    public static string ReplaceOrKeep(string original, string replacement)
+    {
+        string stripped = Regex.Replace(replacement, "<.*?>", "").Trim();
+        return string.IsNullOrEmpty(stripped) ? original : replacement;
     }
 }

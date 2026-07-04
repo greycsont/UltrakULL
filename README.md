@@ -9,7 +9,16 @@ cuz the old one's folder structure and code is suck as f
 ## status
 compilable: yes
 
-font: no
+font: chinese only
+
+fallback to original text:
+
+- stylehud's bonus
+
+- options
+
+- museum and it's books
+
 
 audioswapping: no?
 
