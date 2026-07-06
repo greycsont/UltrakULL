@@ -4,7 +4,6 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using System.Net.Http;
 using System.Threading.Tasks;
 using HarmonyLib;
 using Newtonsoft.Json;
@@ -17,9 +16,7 @@ namespace UltrakULL;
 public static class Core
 {
 	public static bool wasLanguageReset = false;
-    
-    private static readonly HttpClient Client = new HttpClient();
-    
+
     //Encapsulation function to patch all of the front end.
     public static void PatchFrontEnd(GameObject frontEnd)
     {
