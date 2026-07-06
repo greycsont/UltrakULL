@@ -25,52 +25,8 @@ public static class LocalizeBossBar
         LocalizeName(bossBar);
     }
 
-    [NonSenseNeedChange]
-    public static class BossNameHelper
-    {
-        public static bool IsAlreadyLocalized(string name)
-        {
-            var enemyNames = LanguageManager.CurrentLanguage.enemyNames;
-
-            foreach (var field in enemyNames.GetType().GetFields())
-            {
-                var value = field.GetValue(enemyNames)?.ToString();
-                if (!string.IsNullOrEmpty(value) && value == name)
-                {
-                    return true; // If it matches, it's a translation
-                }
-            }
-
-            return false;// If it doesn't match, it's the original
-        }
-    }
-
-    private static readonly HashSet<string> loggedNames = new HashSet<string>();
-
     private static void LocalizeName(BossHealthBar bossBar)
     {
-        if (!BossNameHelper.IsAlreadyLocalized(bossBar.bossName))
-        {
-            Logging.Warn(bossBar.bossName);
-            string translatedName = EnemyBios.GetName(bossBar.bossName);
-            if (!string.IsNullOrEmpty(translatedName))
-            {
-                bossBar.bossName = translatedName;
-            }
-            else
-            {
-                if (loggedNames.Add(bossBar.bossName)) // adds and returns true if not present
-                {
-                    Logging.Warn($"Boss name '{bossBar.bossName}' not found in localization. Using default.");
-                }
-            }
-        }
-        else
-        {
-            if (loggedNames.Add(bossBar.bossName))
-            {
-                Logging.Info($"Boss name '{bossBar.bossName}' is already localized. Skipping translation.");
-            }
-        }
+        bossBar.bossName = EnemyBios.GetName(bossBar.bossName);
     }
 }
