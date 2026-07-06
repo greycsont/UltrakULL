@@ -9,7 +9,7 @@ public static class StyleBonusStrings
 	{
 		if (inputBonus.Contains("blue"))
 		{
-		return "<color=#0000FF>";
+			return "<color=#0000FF>";
 		}
 		if (inputBonus.Contains("cyan"))
 		{
@@ -176,9 +176,9 @@ public static class StyleBonusStrings
 			return LanguageManager.CurrentLanguage.style.style_terminalvelocity;
 		case "ultrakill.heartbreak":
 			return LanguageManager.CurrentLanguage.style.style_heartbreak;
-	case "ultrakill.insurrstomp":
-		return LanguageManager.CurrentLanguage.style.style_stomped;
-	case "ultrakill.drillhit":
+		case "ultrakill.insurrstomp":
+			return LanguageManager.CurrentLanguage.style.style_stomped;
+		case "ultrakill.drillhit":
 			return "";
 		case "ultrakill.hammerhit":
 			return "";
@@ -309,39 +309,39 @@ public static class StyleBonusStrings
 			return LanguageManager.CurrentLanguage.style.style_starstruck;
 		case "GONE SWIMMING":
 			return LanguageManager.CurrentLanguage.style.style_goneswimming;
-	case "RAISON D'ETRE":
-		return LanguageManager.CurrentLanguage.style.style_raIsondetre;
-	case "":
-			return "";
+		case "RAISON D'ETRE":
+			return LanguageManager.CurrentLanguage.style.style_raIsondetre;
+		case "":
+				return "";
 		default:
 			Logging.Warn("Missing style translation: " + text);
 		return null;
 	}
 	}
 
-public static string GetTranslatedStyleBonus(string inputBonus)
-{
-	string styleBonus = GetStyleBonus(inputBonus);
-	if (styleBonus == null)
-		return null;
-
-	string colorOpen = "";
-	string colorClose = "";
-
-	Match match = Regex.Match(inputBonus, @"<color=([^>]+)>", RegexOptions.IgnoreCase);
-	if (match.Success)
+	public static string GetTranslatedStyleBonus(string inputBonus)
 	{
-		colorOpen = match.Value;
-		colorClose = "</color>";
+		string styleBonus = GetStyleBonus(inputBonus);
+		if (styleBonus == null)
+			return null;
+
+		string colorOpen = "";
+		string colorClose = "";
+
+		Match match = Regex.Match(inputBonus, @"<color=([^>]+)>", RegexOptions.IgnoreCase);
+		if (match.Success)
+		{
+			colorOpen = match.Value;
+			colorClose = "</color>";
+		}
+
+		if (styleBonus.Contains("<color="))
+			return styleBonus;
+
+		return colorOpen + styleBonus + colorClose;
 	}
 
-	if (styleBonus.Contains("<color="))
-		return styleBonus;
-
-	return colorOpen + styleBonus + colorClose;
-}
-
-public static string GetWeaponFreshness(StyleFreshnessState weaponState)
+	public static string GetWeaponFreshness(StyleFreshnessState weaponState)
 	{
 
 
