@@ -16,25 +16,15 @@ public static class LocalizeStyleHud
     [HarmonyPrefix]
     public static bool GetLocalizedName_MyPatch(string id, StyleHUD __instance, Dictionary<string, string> ___idNameDict, ref string __result)
     {
-        if(isUsingEnglish())
-        {
-            return true;
-        }
-        if (___idNameDict.ContainsKey(id))
-        {
-            string dictResult = StyleBonusStrings.GetStyleBonusDictionary(id);
-            if (dictResult == null) return true;
-            __result = dictResult;
-            return false;
-        }
-
-        // Some Style Bonus are not in the dictionary fuck you hakita
-        string translated = StyleBonusStrings.GetTranslatedStyleBonus(id);
-        if (translated == null || translated == "")
+        if (isUsingEnglish())
             return true;
 
-        __result = translated;
-        return false;        
+        string result = StyleBonusStrings.GetLocalizedStyle(id, ___idNameDict.ContainsKey(id));
+        if (result == null)
+            return true;
+
+        __result = result;
+        return false;
     }
 }
 

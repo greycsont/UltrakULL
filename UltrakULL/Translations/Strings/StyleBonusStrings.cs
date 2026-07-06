@@ -5,48 +5,19 @@ namespace UltrakULL;
 
 public static class StyleBonusStrings
 {
-	private static string GetBonusColor(string inputBonus)
+	// Single entry point for StyleHUD.GetLocalizedName. Returns the localized style text, or null to
+	// let the game keep its original. An empty string from the id-dictionary intentionally hides the
+	// bonus, so it is passed through as-is (only the display-name path treats empty as "not found").
+	public static string GetLocalizedStyle(string id, bool inGameDict)
 	{
-		if (inputBonus.Contains("blue"))
-		{
-			return "<color=#0000FF>";
-		}
-		if (inputBonus.Contains("cyan"))
-		{
-			return "<color=#00FFFF>";
-		}
-		if (inputBonus.Contains("green"))
-		{
-			return "<color=#00FF00>";
-		}
-		if (inputBonus.Contains("lime"))
-		{
-			return "<color=#32CD32>";
-		}
-		if (inputBonus.Contains("yellow"))
-		{
-			return "<color=#FFFF00>";
-		}
-		if (inputBonus.Contains("red"))
-		{
-			return "<color=#FF0000>";
-		}
-		if (inputBonus.Contains("orange"))
-		{
-			return "<color=#FFA500>";
-		}
-		if (inputBonus.Contains("grey"))
-		{
-			return "<color=#808080>";
-		}
-		if (inputBonus.Contains("aqua"))
-		{
-			return "<color=#00FFFF>";
-		}
-		return "";
+		if (inGameDict)
+			return GetStyleBonusDictionary(id);
+
+		string translated = GetTranslatedStyleBonus(id);
+		return string.IsNullOrEmpty(translated) ? null : translated;
 	}
-	
-	public static string GetStyleBonusDictionary(string inputBonus)
+
+	private static string GetStyleBonusDictionary(string inputBonus)
 	{
 		switch (inputBonus)
 		{
@@ -319,7 +290,7 @@ public static class StyleBonusStrings
 	}
 	}
 
-	public static string GetTranslatedStyleBonus(string inputBonus)
+	private static string GetTranslatedStyleBonus(string inputBonus)
 	{
 		string styleBonus = GetStyleBonus(inputBonus);
 		if (styleBonus == null)
