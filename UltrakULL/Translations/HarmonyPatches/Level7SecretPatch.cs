@@ -8,7 +8,7 @@ using TMPro;
 namespace UltrakULL.Harmony_Patches;
 
 [HarmonyPatch(typeof(BloodCheckerManager))]
-public static class _7SecretPatch
+public static class Level7SecretPatch
 {
     private static string ReplacePainterName(string painterName)
     {

@@ -25,6 +25,7 @@ public static class LocalizeBossBar
         LocalizeName(bossBar);
     }
 
+    [NonSenseNeedChange]
     public static class BossNameHelper
     {
         public static bool IsAlreadyLocalized(string name)
@@ -50,7 +51,8 @@ public static class LocalizeBossBar
     {
         if (!BossNameHelper.IsAlreadyLocalized(bossBar.bossName))
         {
-            string translatedName = BossStrings.GetBossName(bossBar.bossName);
+            Logging.Warn(bossBar.bossName);
+            string translatedName = EnemyBios.GetName(bossBar.bossName);
             if (!string.IsNullOrEmpty(translatedName))
             {
                 bossBar.bossName = translatedName;
