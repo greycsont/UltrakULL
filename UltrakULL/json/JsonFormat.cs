@@ -809,6 +809,7 @@ public class EnemyBioStrings
     public string enemyBios_providence_strategy1;
     public string enemyBios_providence_strategy2;
     public string enemyBios_providence_strategy3;
+    public string enemyBios_providence_strategy4;
 
     // Power
     public string enemyBios_power_1;

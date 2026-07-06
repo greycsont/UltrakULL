@@ -408,7 +408,7 @@ public static class EnemyBios
 		case "SISYPHUS PRIME":
 			return "- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_sisyphusPrime_strategy1 + "\n\n\n- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_sisyphusPrime_strategy2;
 		case "PROVIDENCE":
-			return "- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_providence_strategy1 + "\n\n\n- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_providence_strategy2 + "\n\n\n- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_providence_strategy3;
+			return "- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_providence_strategy1 + "\n\n\n- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_providence_strategy2 + "\n\n\n- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_providence_strategy3 + "\n\n\n- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_providence_strategy4;
 		case "POWER":
 			return "- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_power_strategy1 + "\n\n\n- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_power_strategy2 + "\n\n\n- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_power_strategy3 + "\n\n\n- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_power_strategy4;
 		case "GERYON":
