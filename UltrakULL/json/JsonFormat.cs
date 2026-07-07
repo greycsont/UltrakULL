@@ -839,6 +839,7 @@ public class EnemyBioStrings
     public string enemyBios_mirrorReaper_strategy1;
     public string enemyBios_mirrorReaper_strategy2;
     public string enemyBios_mirrorReaper_strategy3;
+    public string enemyBios_mirrorReaper_strategy4;
 
     // Deathcatcher
     public string enemyBios_deathcatcher_1;

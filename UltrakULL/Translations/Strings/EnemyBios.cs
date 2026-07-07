@@ -414,7 +414,7 @@ public static class EnemyBios
 		case "GERYON":
 			return "- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_geryon_strategy1 + "\n\n\n- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_geryon_strategy2 + "\n\n\n- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_geryon_strategy3;
 		case "MIRROR REAPER":
-			return "- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_mirrorReaper_strategy1 + "\n\n\n- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_mirrorReaper_strategy2 + "\n\n\n- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_mirrorReaper_strategy3;
+			return "- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_mirrorReaper_strategy1 + "\n\n\n- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_mirrorReaper_strategy2 + "\n\n\n- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_mirrorReaper_strategy3 + "\n\n\n- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_mirrorReaper_strategy4;
 		case "DEATHCATCHER":
 			return "- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_deathcatcher_strategy1 + "\n\n\n- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_deathcatcher_strategy2 + "\n\n\n- " + LanguageManager.CurrentLanguage.enemyBios.enemyBios_deathcatcher_strategy3;
 		default:
