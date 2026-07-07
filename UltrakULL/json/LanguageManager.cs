@@ -293,6 +293,8 @@ public static class LanguageManager
             {
                 MonoSingleton<HudMessageReceiver>.Instance.SendHudMessage("<color=orange>Language changes will not fully take effect until the current mission is quit or restarted.</color>");
             }
+
+            SubtitleLocalizer.Rebuild();
         }
         else
             Logging.Warn("No language found with name " + langName);
