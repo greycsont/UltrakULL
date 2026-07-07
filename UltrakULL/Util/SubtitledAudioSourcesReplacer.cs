@@ -13,8 +13,8 @@ namespace UltrakULL;
 
 public static class SubtitledAudioSourcesReplacer
 {
-    public static string SpeechFolder = Combine(Paths.ConfigPath,"ultrakull", "audio", LanguageManager.CurrentLanguage.metadata
-        .langName);
+    // Set at runtime by LanguageManager.SetCurrentLanguage (kept in sync with AudioSwapper.SpeechFolder).
+    public static string SpeechFolder = "";
     
     public static SubtitledSourcesConfig Config;
 

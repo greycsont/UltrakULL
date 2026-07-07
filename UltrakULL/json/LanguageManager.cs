@@ -15,6 +15,7 @@ using static UltrakULL.CommonFunctions;
 
 namespace UltrakULL.json;
 
+[NeedRework]
 public static class LanguageManager
 {
     public static Dictionary<string, JsonFormat> allLanguages = new Dictionary<string, JsonFormat>();
@@ -40,23 +41,16 @@ public static class LanguageManager
         if (allLanguages.ContainsKey(value))
         {
             jsonLogger.Log(LogLevel.Message, "Setting language to " + value);
-            CurrentLanguage = allLanguages[value];
-				if (IsRightToLeft)
-            {
-                Logging.Message("Language is set as RTL - applying fix!");
-                CurrentLanguage = ApplyRtl(CurrentLanguage);
-            }
+            SetCurrentLanguage(value);
         }
         else
         {
             jsonLogger.Log(LogLevel.Message, "Previous lang file is missing from disk: " + value);
             Logging.Warn("Setting language back to en-GB to avoid problems");
             Core.wasLanguageReset = true;
-            CurrentLanguage = allLanguages["en-GB"];
             SetCurrentLanguage("en-GB");
         }
         
-        FontManager.ApplyLanguageFallback();
         LoadSubtitledSourcesConfig();
     }
 
@@ -272,6 +266,7 @@ public static class LanguageManager
             CurrentLanguage = allLanguages[langName];
             Logging.Message( "Setting language to " + langName);
             
+            /// GOAT APPLYING
             if(IsRightToLeft)
             {
                 Logging.Message("Language is an RTL - applying fix!");
@@ -291,7 +286,7 @@ public static class LanguageManager
 					
             if(GetCurrentSceneName() != "Main Menu")
             {
-                MonoSingleton<HudMessageReceiver>.Instance.SendHudMessage("<color=orange>Language changes will not fully take effect until the current mission is quit or restarted.</color>");
+                MonoSingleton<HudMessageReceiver>.Instance?.SendHudMessage("<color=orange>Language changes will not fully take effect until the current mission is quit or restarted.</color>");
             }
 
             SubtitleLocalizer.Rebuild();

@@ -136,6 +136,9 @@ public static class InjectLanguageButton
 
     public static void updateLanguageButtonText()
     {
+        // I LOVE MINESWEEPER
+        if (languageButtonText == null || languagePageTitleText == null)
+            return;
         languageButtonText.text = LanguageManager.CurrentLanguage.options.language_languages;
         languagePageTitleText.text = "--" + LanguageManager.CurrentLanguage.options.language_languages + "--";
     }
