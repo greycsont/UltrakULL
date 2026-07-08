@@ -10,11 +10,15 @@ public static class StyleBonusStrings
 	// bonus, so it is passed through as-is (only the display-name path treats empty as "not found").
 	public static string GetLocalizedStyle(string id, bool inGameDict)
 	{
-		if (inGameDict)
-			return GetStyleBonusDictionary(id);
+		string result = inGameDict ? GetStyleBonusDictionary(id) : GetTranslatedStyleBonus(id);
 
-		string translated = GetTranslatedStyleBonus(id);
-		return string.IsNullOrEmpty(translated) ? null : translated;
+		if (string.IsNullOrEmpty(result))
+			return inGameDict ? result : null;
+
+		if (string.IsNullOrEmpty(Regex.Replace(result, "<.*?>", "").Trim()))
+			return null;
+
+		return result;
 	}
 
 	private static string GetStyleBonusDictionary(string inputBonus)
