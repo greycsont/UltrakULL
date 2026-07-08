@@ -26,9 +26,8 @@ Currently it supports Simplfied Chinese only, WIP
 
 如果你觉得可能没那么乱，请查阅本repo ./UltrakULL/Translations/Scenes/Act3.cs 拉到最底下，这个之后会清理的
 
-如果有任何问题请先觉得我是vibecoder，至于为什么他都天天拿自己vibecoding给自己声称clearwater完全删除其他所有人的贡献这种事实上的错误把整个事件极端化找补我稍微拿这个当下挡箭牌怎么了
+如果有任何问题请先觉得我是vibecoder然后顺从，至于为什么有人都天天拿自己vibecoding给自己声称clearwater完全删除其他所有人的贡献这种事实上的错误，把整个事件朝辱骂开盒极端化这种行为找补我稍微拿这个当下挡箭牌怎么了
 
-如果称自己vibecoding就能把自己的错误撇得干干净净，那当我用相同的理由时也没理由指责我
 ## 以知BUG
 关卡选择界面里关卡的通关等级的P明显往下了好多
 
