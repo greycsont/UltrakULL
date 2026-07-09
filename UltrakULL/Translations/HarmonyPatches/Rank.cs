@@ -188,8 +188,6 @@ namespace UltrakULL.Harmony_Patches;
 					Rank ranks = LanguageManager.CurrentLanguage.ranks;
 					string replacement = "_";
 					string rank = componentInChildren.text;
-
-					componentInChildren.verticalAlignment = VerticalAlignmentOptions.Bottom;
 					//componentInChildren.autoSizeTextContainer = true;
 
 					// at least 16 in length, otherwise its 99.999% certain to be nothing.
