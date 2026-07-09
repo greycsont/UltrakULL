@@ -121,7 +121,7 @@ public static class FontManager
             else
                 source = mainFallback;
             
-            if (name.Contains("vcr-osd-replayed"))
+            if (name.Contains("vcr_osd_mono_ui"))
                 TwinFont = primary;
 
             AddFallback(primary, source);

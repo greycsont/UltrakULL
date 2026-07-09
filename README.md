@@ -42,6 +42,7 @@ VCROSD的后备字体: 破晓像素体 (我知道这个字体不是特别适配�
 
 ## 鸣谢
 6r3^2n: VCROSD字体方面的相关建议
+RewTwn：bug
 
 ## 关于字体包:
 basegameasset.bundle: 附带了原游戏的GFSGaraldus字体生成的字体资产，博物馆要用，别替换就对了（
@@ -76,5 +77,5 @@ r1赢了
 
 ## 1.0.2？
 修复了MirrorReaper和Providence少一行strategy的问题
-修复了Power字幕没翻译的问题（ 但这个1.0.1时是故意没加的所以不算修复，md这低能vibecoded power补丁是想着mod使用者只会玩一种语言吗
+修复了Power字幕没翻译的问题 `但这个1.0.1时是故意没加的所以不算修复`
 修复了部分风格带颜色富文本但没翻译会被检测为有翻译导致StyleHUD出现神秘`+  x2`之类的问题
