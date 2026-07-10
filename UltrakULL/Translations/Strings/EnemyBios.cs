@@ -1,4 +1,5 @@
 using UltrakULL.json;
+using static UltrakULL.CommonFunctions;
 
 namespace UltrakULL;
 
@@ -43,7 +44,7 @@ public static class EnemyBios
 
 	public static string GetName(string originalName)
 	{
-		Logging.Warn(originalName);
+		Logging.Debug(originalName);
 		if (originalName.ToUpper().Contains("RADIANT"))
 		{
 			if (originalName.ToUpper().Contains("SWORDSMACHINE"))
@@ -182,9 +183,9 @@ public static class EnemyBios
 			return LanguageManager.CurrentLanguage.enemyNames.enemyname_earthmoverRocketLauncher;
 		case "EARTHMOVER TOWER":
 			return LanguageManager.CurrentLanguage.enemyNames.enemyname_earthmoverTower;
-	case "GERYON":
-		return LanguageManager.CurrentLanguage.enemyNames.enemyname_geryon;
-	case "PROVIDENCE":
+		case "GERYON":
+			return LanguageManager.CurrentLanguage.enemyNames.enemyname_geryon;
+		case "PROVIDENCE":
 			return GetEnemyNameWithFallback(LanguageManager.CurrentLanguage.enemyNames.enemyname_boss_providence, originalName);
 		case "DEATHCATCHER":
 			return GetEnemyNameWithFallback(LanguageManager.CurrentLanguage.enemyNames.enemyname_deathcatcher, originalName);
@@ -204,7 +205,6 @@ public static class EnemyBios
 		case "GERYON, WATCHER OF THE SKIES":
 			return GetEnemyNameWithFallback(LanguageManager.CurrentLanguage.enemyNames.enemyname_boss_geryon, originalName);
 		default:
-			Logging.Warn("Untranslated enemy name: " + originalName);
 			return originalName;
 		}
 	}
