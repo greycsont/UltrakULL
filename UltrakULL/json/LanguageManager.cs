@@ -23,6 +23,7 @@ public static class LanguageManager
     public static Lang Current { get; set; }
     private static ManualLogSource jsonLogger = Logger.CreateLogSource("LanguageManager");
     public static ConfigFile configFile;
+    public static event Action<Lang> OnLanguageChanged;
 
 		#region Helper Properties
 		public static bool IsRightToLeft { get => CurrentLanguage.metadata.langRTL; }
@@ -252,7 +253,7 @@ public static class LanguageManager
     }
 
     public static void SetCurrentLanguage(string langName)
-    { 
+    {
         if (!allLanguages.TryGetValue(langName, out Lang lang))
         {
             Logging.Warn("No language found with name " + langName);
@@ -267,6 +268,7 @@ public static class LanguageManager
 
         Current = allLanguages[langName];
         Logging.Message( "Setting language to " + langName);
+        DumpLastLanguage();
         
         /// GOAT APPLYING
         if(IsRightToLeft)
@@ -274,11 +276,12 @@ public static class LanguageManager
             Logging.Message("Language is an RTL - applying fix!");
             Current.Json = ApplyRtl(Current.Json);
         }
+        
+        OnLanguageChanged?.Invoke(Current);
 
         FontManager.ApplyLanguageFallback();
 
         MainPatch.Instance.onSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
-        DumpLastLanguage();
         AudioSwapper.SpeechFolder = Path.Combine(Paths.ConfigPath,"ultrakull", "audio", CurrentLanguage.metadata.langName) + Path.DirectorySeparatorChar;
         SubtitledAudioSourcesReplacer.SpeechFolder = AudioSwapper.SpeechFolder;
         
