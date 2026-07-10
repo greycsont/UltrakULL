@@ -6,7 +6,12 @@ public sealed class Lang
 {
     public JsonFormat Json { get; }
     public string Name => Json.metadata.langName;
+    public string DisplayName => Json.metadata.langDisplayName;
     public bool IsEnglish => Json.metadata.langDisplayName == "English";
+    public bool IsRightToLeft => Json.metadata.langRTL;
+
+    // Isn't this Hindi Number?
+    public bool UsingHinduNumbers => Json.metadata.langHinduNumbers;
 
     public TMP_FontAsset MainFontAsset { get; set; }
     public TMP_FontAsset TerminalAsset { get; set; }
