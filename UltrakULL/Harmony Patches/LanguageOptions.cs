@@ -258,7 +258,7 @@ public static class InjectLanguageButton
         Logging.Message("Adding language selection buttons...");
         foreach (string language in LanguageManager.allLanguages.Keys)
         {
-            GameObject langButton = ButtonUtils.CreateTMPButton(content.transform, language, LanguageManager.allLanguages[language].metadata.langDisplayName, delegate
+            GameObject langButton = ButtonUtils.CreateTMPButton(content.transform, language, LanguageManager.allLanguages[language].DisplayName, delegate
             {
                 SelectLanguage(language);
                 foreach (Transform child in content.transform)
@@ -270,11 +270,11 @@ public static class InjectLanguageButton
                         TextMeshProUGUI tC = child.GetComponentInChildren<TextMeshProUGUI>();
                         if (tC != null && LanguageManager.allLanguages.ContainsKey(child.name))
                         {
-                            tC.text = LanguageManager.allLanguages[child.name].metadata.langDisplayName;
+                            tC.text = LanguageManager.allLanguages[child.name].DisplayName;
                             if (LanguageManager.CurrentLanguage.metadata.langName == child.name) { tC.text += "\n<size=22>(<color=green>Selected</color>)</size>"; }
                             else if (tC.text.Contains("<color=green>Selected</color>"))
                             {
-                                tC.text = LanguageManager.allLanguages[child.name].metadata.langDisplayName;
+                                tC.text = LanguageManager.allLanguages[child.name].DisplayName;
                             }
                         }
                     }

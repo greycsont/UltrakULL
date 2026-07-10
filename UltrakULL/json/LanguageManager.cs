@@ -18,8 +18,9 @@ namespace UltrakULL.json;
 [NeedRework]
 public static class LanguageManager
 {
-    public static Dictionary<string, JsonFormat> allLanguages = new Dictionary<string, JsonFormat>();
-    public static JsonFormat CurrentLanguage { get; private set; }
+    public static Dictionary<string, Lang> allLanguages = new Dictionary<string, Lang>();
+    public static JsonFormat CurrentLanguage => Current.Json;
+    public static Lang Current { get; set; }
     private static ManualLogSource jsonLogger = Logger.CreateLogSource("LanguageManager");
     public static ConfigFile configFile;
 
@@ -70,7 +71,7 @@ public static class LanguageManager
             Logging.Info($"Trying to load \"{file}\"");
             if (TryLoad(file, out JsonFormat lang) && !allLanguages.ContainsKey(lang.metadata.langName) && lang.metadata.langName != "te-mp")
             {
-                allLanguages.Add(lang.metadata.langName, lang);
+                allLanguages.Add(lang.metadata.langName, new Lang { Json = lang });
                 if (!ValidateFile(lang, modVersion))
                     jsonLogger.Log(LogLevel.Debug, "Failed to validate " + lang.metadata.langName);
             }
@@ -85,8 +86,6 @@ public static class LanguageManager
     public static void LoadLanguages(string modVersion)
     {
         Logging.Message("Loading language files stored locally on disk...");
-        
-        allLanguages = new Dictionary<string, JsonFormat>();
 
         LoadLanguagesInDirectory(modVersion, Path.Combine(Paths.ConfigPath, "ultrakull"));
     }
@@ -253,43 +252,46 @@ public static class LanguageManager
     }
 
     public static void SetCurrentLanguage(string langName)
-    {
-        if (CurrentLanguage != null && CurrentLanguage.metadata.langName == langName)
+    { 
+        if (!allLanguages.TryGetValue(langName, out Lang lang))
+        {
+            Logging.Warn("No language found with name " + langName);
+            return;
+        }
+        if (lang == Current)
         {
             Logging.Warn("Tried to switch language to " + langName + " but it was already set as that!");
             return;
         }
-        if (allLanguages.ContainsKey(langName))
+
+
+        Current = allLanguages[langName];
+        Logging.Message( "Setting language to " + langName);
+        
+        /// GOAT APPLYING
+        if(IsRightToLeft)
         {
-            CurrentLanguage = allLanguages[langName];
-            Logging.Message( "Setting language to " + langName);
-            
-            /// GOAT APPLYING
-            if(IsRightToLeft)
-            {
-                Logging.Message("Language is an RTL - applying fix!");
-                CurrentLanguage = ApplyRtl(CurrentLanguage);
-            }
-
-            FontManager.ApplyLanguageFallback();
-
-            MainPatch.Instance.onSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
-            DumpLastLanguage();
-            AudioSwapper.SpeechFolder = Path.Combine(Paths.ConfigPath,"ultrakull", "audio", CurrentLanguage.metadata.langName) + Path.DirectorySeparatorChar;
-            SubtitledAudioSourcesReplacer.SpeechFolder = AudioSwapper.SpeechFolder;
-            
-            //Patch some leftover components that aren't caught in the main change wave...
-            InjectLanguageButton.updateLanguageButtonText();
-            LoadingTextPatch.updateLoadingText();
-					
-            if(GetCurrentSceneName() != "Main Menu")
-            {
-                MonoSingleton<HudMessageReceiver>.Instance?.SendHudMessage("<color=orange>Language changes will not fully take effect until the current mission is quit or restarted.</color>");
-            }
-
-            SubtitleLocalizer.Rebuild();
+            Logging.Message("Language is an RTL - applying fix!");
+            Current.Json = ApplyRtl(Current.Json);
         }
-        else
-            Logging.Warn("No language found with name " + langName);
+
+        FontManager.ApplyLanguageFallback();
+
+        MainPatch.Instance.onSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
+        DumpLastLanguage();
+        AudioSwapper.SpeechFolder = Path.Combine(Paths.ConfigPath,"ultrakull", "audio", CurrentLanguage.metadata.langName) + Path.DirectorySeparatorChar;
+        SubtitledAudioSourcesReplacer.SpeechFolder = AudioSwapper.SpeechFolder;
+        
+        //Patch some leftover components that aren't caught in the main change wave...
+        InjectLanguageButton.updateLanguageButtonText();
+        LoadingTextPatch.updateLoadingText();
+                
+        if(GetCurrentSceneName() != "Main Menu")
+        {
+            MonoSingleton<HudMessageReceiver>.Instance?.SendHudMessage("<color=orange>Language changes will not fully take effect until the current mission is quit or restarted.</color>");
+        }
+
+        SubtitleLocalizer.Rebuild();
+
     }
 }
