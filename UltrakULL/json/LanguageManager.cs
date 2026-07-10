@@ -72,7 +72,7 @@ public static class LanguageManager
             Logging.Info($"Trying to load \"{file}\"");
             if (TryLoad(file, out JsonFormat lang) && !allLanguages.ContainsKey(lang.metadata.langName) && lang.metadata.langName != "te-mp")
             {
-                allLanguages.Add(lang.metadata.langName, new Lang { Json = lang });
+                allLanguages.Add(lang.metadata.langName, new Lang(lang));
                 if (!ValidateFile(lang, modVersion))
                     jsonLogger.Log(LogLevel.Debug, "Failed to validate " + lang.metadata.langName);
             }
@@ -274,7 +274,7 @@ public static class LanguageManager
         if(IsRightToLeft)
         {
             Logging.Message("Language is an RTL - applying fix!");
-            Current.Json = ApplyRtl(Current.Json);
+            //Current.Json = ApplyRtl(Current.Json);
         }
         
         OnLanguageChanged?.Invoke(Current);
