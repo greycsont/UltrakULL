@@ -19,7 +19,6 @@ namespace UltrakULL.json;
 public static class LanguageManager
 {
     public static Dictionary<string, JsonFormat> allLanguages = new Dictionary<string, JsonFormat>();
-    private static Dictionary<string, JsonFormat> allLanguagesDisplayNames = new Dictionary<string, JsonFormat>();
     public static JsonFormat CurrentLanguage { get; private set; }
     private static ManualLogSource jsonLogger = Logger.CreateLogSource("LanguageManager");
     public static ConfigFile configFile;
@@ -66,17 +65,16 @@ public static class LanguageManager
         string[] files = Directory.GetFiles(path, "*.json");
         string[] subdirectories = Directory.GetDirectories(path);
 
-			foreach (string file in files)
-			{
+        foreach (string file in files)
+        {
             Logging.Info($"Trying to load \"{file}\"");
-				if (TryLoad(file, out JsonFormat lang) && !allLanguages.ContainsKey(lang.metadata.langName) && lang.metadata.langName != "te-mp")
-				{
-					allLanguages.Add(lang.metadata.langName, lang);
-					allLanguagesDisplayNames.Add(lang.metadata.langDisplayName, lang);
-					if (!ValidateFile(lang, modVersion))
-						jsonLogger.Log(LogLevel.Debug, "Failed to validate " + lang.metadata.langName);
-				}
-			}
+            if (TryLoad(file, out JsonFormat lang) && !allLanguages.ContainsKey(lang.metadata.langName) && lang.metadata.langName != "te-mp")
+            {
+                allLanguages.Add(lang.metadata.langName, lang);
+                if (!ValidateFile(lang, modVersion))
+                    jsonLogger.Log(LogLevel.Debug, "Failed to validate " + lang.metadata.langName);
+            }
+        }
 
         foreach (string directory in  subdirectories)
         {
