@@ -32,10 +32,15 @@ public static class FontManager
     private static TMP_FontAsset terminalFallback;  
     private static TMP_FontAsset secretFallback;
 
-    private static readonly List<(TMP_FontAsset font, TMP_FontAsset fallback)> appliedFallbacks = new();
     private static readonly List<TMP_FontAsset> createdFonts = new();
     private static readonly Dictionary<string, TMP_FontAsset> alignedCache = new();
     private static bool sceneHookRegistered;
+
+    // Make sure this func is called before LanguageManager.InitializeManager
+    public static void Initialize()
+    {
+        LanguageManager.OnLanguageChanged += ApplyLanguageFallback;
+    }
 
     public static void LoadFonts()
     {
@@ -59,22 +64,23 @@ public static class FontManager
             Logging.Error("fontPack.bundle is missing the 'MainFont' TMP_FontAsset");
     }
 
-    public static void ApplyLanguageFallback()
+    private static void ApplyLanguageFallback(ValueChangedEvent<Lang> change)
     {
         if (!TMPFontReady)
             return;
 
-        ClearAppliedFallbacks();
+        // Some Unicode characters are shared between multiple languages but have
+        // language-specific glyphs (especially in CJK fonts).
+        // Remove the previous language's fallback fonts before adding the new ones
+        // to ensure the correct glyphs are used.
+        RemoveFallbacksOf(change.OldValue);
 
-        if (isUsingEnglish())
+        Lang lang = change.NewValue;
+        if (lang == null || lang.IsEnglish)
             return;
 
-        Metadata meta = LanguageManager.CurrentLanguage?.metadata;
-        if (meta == null)
-            return;
+        UseFontFallback = lang.Json.metadata.fonts?.UseFallback ?? false;
 
-        UseFontFallback = meta.fonts?.UseFallback ?? false;
-        
         if (mainFallback == null)
             return;
 
@@ -84,16 +90,18 @@ public static class FontManager
             sceneHookRegistered = true;
         }
 
-        RegisterFallbacksForLoadedFonts();
+        RegisterFallbacksForLoadedFonts(lang);
     }
 
+    // Scenes bring their own TMP_FontAssets with them, so re-run on every load.
     private static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (mainFallback != null)
-            RegisterFallbacksForLoadedFonts();
+        Lang lang = LanguageManager.Current;
+        if (mainFallback != null && lang != null && !lang.IsEnglish)
+            RegisterFallbacksForLoadedFonts(lang);
     }
 
-    private static void RegisterFallbacksForLoadedFonts()
+    private static void RegisterFallbacksForLoadedFonts(Lang lang)
     {
         if (mainFallback == null)
             return;
@@ -124,7 +132,7 @@ public static class FontManager
             if (name.Contains("vcr_osd_mono_ui"))
                 TwinFont = primary;
 
-            AddFallback(primary, source);
+            AddFallback(lang, primary, source);
         }
     }
 
@@ -140,7 +148,7 @@ public static class FontManager
         return TwinFont;
     }
 
-    private static void AddFallback(TMP_FontAsset primary, TMP_FontAsset fallback)
+    private static void AddFallback(Lang lang, TMP_FontAsset primary, TMP_FontAsset fallback)
     {
         if (primary == null || fallback == null || primary == fallback)
             return;
@@ -148,20 +156,24 @@ public static class FontManager
         if (primary.fallbackFontAssetTable.Contains(fallback))
             return;
         primary.fallbackFontAssetTable.Add(fallback);
-        appliedFallbacks.Add((primary, fallback));
+        lang.AppliedFallbacks.Add((primary, fallback));
     }
 
-    private static void ClearAppliedFallbacks()
+    private static void RemoveFallbacksOf(Lang lang)
     {
-        foreach ((TMP_FontAsset font, TMP_FontAsset fallback) in appliedFallbacks)
-            font?.fallbackFontAssetTable?.Remove(fallback);
-        appliedFallbacks.Clear();
         alignedCache.Clear();
 
         foreach (TMP_FontAsset font in createdFonts)
             if (font != null)
                 UnityEngine.Object.Destroy(font);
         createdFonts.Clear();
+
+        if (lang == null)
+            return;
+
+        foreach ((TMP_FontAsset font, TMP_FontAsset fallback) in lang.AppliedFallbacks)
+            font?.fallbackFontAssetTable?.Remove(fallback);
+        lang.AppliedFallbacks.Clear();
 
         // The four fallbacks are loaded once in LoadFonts and reused for every language;
         // don't null them here or ApplyLanguageFallback would bail after the first switch.

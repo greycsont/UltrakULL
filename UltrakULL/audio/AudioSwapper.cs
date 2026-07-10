@@ -11,10 +11,9 @@ namespace UltrakULL.audio;
 
 public static class AudioSwapper
 {
-    // Set at runtime by LanguageManager.SetCurrentLanguage. Not initialized from CurrentLanguage here:
-    // this static initializer can run (via the type's cctor) before the language is set, which NRE'd.
-    public static string SpeechFolder = "";
-    
+    public static string SpeechFolder => LanguageManager.Current?.SpeechFolder ?? "";
+
+
     public static AudioClip SwapClipWithFile(AudioClip sourceClip, string audioFilePath)
     {
         if(isUsingEnglish())

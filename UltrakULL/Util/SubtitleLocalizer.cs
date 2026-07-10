@@ -25,15 +25,20 @@ public static class SubtitleLocalizer
 
     private static readonly MethodInfo LocalizeMethod = AccessTools.Method(typeof(SubtitleLocalizer), nameof(Localize));
 
-    public static void Rebuild()
+    // Make sure this func is called before LanguageManager.InitializeManager
+    public static void Initialize()
+    {
+        LanguageManager.OnLanguageChanged += _ => Rebuild();
+    }
+
+    private static void Rebuild()
     {
         map.Clear();
 
-        JsonFormat english = LanguageManager.allLanguages.Values
-            .FirstOrDefault(l => l?.metadata?.langDisplayName == "English");
+        Lang english = LanguageManager.allLanguages.Values.FirstOrDefault(l => l.IsEnglish);
 
-        json.Subtitles source = english?.subtitles;
-        json.Subtitles current = LanguageManager.CurrentLanguage?.subtitles;
+        json.Subtitles source = english?.Json?.subtitles;
+        json.Subtitles current = LanguageManager.Current?.Json?.subtitles;
         if (source == null || current == null)
             return;
 

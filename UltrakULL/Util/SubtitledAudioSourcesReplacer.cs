@@ -13,9 +13,7 @@ namespace UltrakULL;
 
 public static class SubtitledAudioSourcesReplacer
 {
-    // Set at runtime by LanguageManager.SetCurrentLanguage (kept in sync with AudioSwapper.SpeechFolder).
-    public static string SpeechFolder = "";
-    
+    // SpeechFolder comes from the static import of AudioSwapper.
     public static SubtitledSourcesConfig Config;
 
     public static async void OnSceneLoaded(Scene scene, LoadSceneMode mode)

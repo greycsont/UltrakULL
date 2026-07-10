@@ -94,9 +94,10 @@ namespace UltrakULL;
 			return string.IsNullOrEmpty(localized) ? input : localized;
 		}
 
+		// No language set yet (early startup) counts as English, i.e. the mod stays inert.
 		public static bool isUsingEnglish()
 		{
-			return (LanguageManager.CurrentLanguage.metadata.langDisplayName == "English");
+			return LanguageManager.Current?.IsEnglish ?? true;
 		}
 
 		public static string MakeVertical(string input)

@@ -2,13 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Text;
-using ArabicSupportUnity;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
 using Newtonsoft.Json;
-using UltrakULL.audio;
 using UltrakULL.Harmony_Patches;
 using UnityEngine.SceneManagement;
 using static UltrakULL.CommonFunctions;
@@ -20,14 +17,17 @@ public static class LanguageManager
 {
     public static Dictionary<string, Lang> allLanguages = new Dictionary<string, Lang>();
     public static JsonFormat CurrentLanguage => Current.Json;
-    public static Lang Current { get; set; }
+    public static Lang Current { get; private set; }
     private static ManualLogSource jsonLogger = Logger.CreateLogSource("LanguageManager");
     public static ConfigFile configFile;
-    public static event Action<Lang> OnLanguageChanged;
+
+    // Raised after Current has been swapped. OldValue is null on the very first (startup) set.
+    // Subscribe from a module's own init, before InitializeManager runs.
+    public static event Action<ValueChangedEvent<Lang>> OnLanguageChanged;
 
 		#region Helper Properties
-		public static bool IsRightToLeft { get => CurrentLanguage.metadata.langRTL; }
-		public static bool UsingHinduNumbers { get => CurrentLanguage.metadata.langHinduNumbers; }
+		public static bool IsRightToLeft { get => Current.IsRightToLeft; }
+		public static bool UsingHinduNumbers { get => Current.UsingHinduNumbers; }
 		#endregion
 
 	public static void InitializeManager(string modVersion)
@@ -173,128 +173,52 @@ public static class LanguageManager
         }
     }
 
-    private static JsonFormat ApplyRtl(JsonFormat language)
-		{
-			//Logging.Warn("ApplyRtl Breakpoint #1");
-
-
-			List<object> translationComponents = new List<object>
-        {
-            language.frontend,
-            language.tutorial,
-            language.prelude,
-            language.act1,
-            language.act2,
-            language.act3,
-            language.cyberGrind,
-            language.primeSanctum,
-            language.secretLevels,
-            language.intermission,
-            language.pauseMenu,
-            language.options,
-            language.levelNames,
-            language.levelChallenges,
-            language.enemyNames,
-            language.enemyBios,
-            language.shop,
-            language.levelTips,
-            language.books,
-            language.visualnovel,
-            language.subtitles,
-            language.style,
-            language.cheats,
-            language.misc,
-            language.devMuseum
-        };
-
-
-			//Logging.Warn("ApplyRtl Breakpoint #2");
-
-			foreach (object component in translationComponents)
-			{
-            try
-            {
-                Type type = component.GetType();
-                FieldInfo[] fields = type.GetFields();
-                foreach (FieldInfo field in fields)
-                {
-                    string originalString = (string)field.GetValue(component);
-                    string translatedString = null;
-
-                    if (originalString != null)
-                    {
-
-                        //Logging.Warn("ApplyRtl Breakpoint #3");
-                        //Apply the RTL fix here
-                        translatedString = ArabicFixer.Fix(originalString);
-                    }
-                    if (translatedString != null)
-                    {
-
-                        //Logging.Warn("ApplyRtl Breakpoint #4");
-                        field.SetValue(component, translatedString);
-                    }
-                }
-
-
-
-                //Logging.Warn("ApplyRtl Breakpoint #5");
-            }
-            catch (Exception ex)
-            {
-                Logging.Warn($"ULL caught an exception while trying to fix a RTL language! {ex.Message} \nSource: {ex.Source}\nStack Trace:{ex.StackTrace}");
-            }
-
-				//Logging.Warn("ApplyRtl Breakpoint #6");
-			}
-
-			//Logging.Warn("ApplyRtl Breakpoint #7");
-			return language;
-    }
-
-    public static void SetCurrentLanguage(string langName)
+    // Swaps the active language and lets every interested module rebuild its own resources through
+    // OnLanguageChanged. Touches no scene objects, so it is safe to call during startup. Reacting to
+    // a *user* changing language means calling SwitchLanguage instead.
+    public static bool SetCurrentLanguage(string langName)
     {
         if (!allLanguages.TryGetValue(langName, out Lang lang))
         {
             Logging.Warn("No language found with name " + langName);
-            return;
+            return false;
         }
         if (lang == Current)
         {
             Logging.Warn("Tried to switch language to " + langName + " but it was already set as that!");
-            return;
+            return false;
         }
 
+        Lang previous = Current;
+        Current = lang;
+        Logging.Message("Setting language to " + langName);
 
-        Current = allLanguages[langName];
-        Logging.Message( "Setting language to " + langName);
+        lang.EnsureRtlApplied();
         DumpLastLanguage();
-        
-        /// GOAT APPLYING
-        if(IsRightToLeft)
-        {
-            Logging.Message("Language is an RTL - applying fix!");
-            //Current.Json = ApplyRtl(Current.Json);
-        }
-        
-        OnLanguageChanged?.Invoke(Current);
 
-        FontManager.ApplyLanguageFallback();
+        OnLanguageChanged?.Invoke(new ValueChangedEvent<Lang>(previous, lang));
+        return true;
+    }
 
+    // User-initiated switch: swap the language, then refresh the UI that is already on screen.
+    public static void SwitchLanguage(string langName)
+    {
+        if (SetCurrentLanguage(langName))
+            RefreshLiveUI();
+    }
+
+    // Re-runs the scene's replacement wave plus the few components it doesn't catch. Never called
+    // during startup - none of these objects exist that early, which is what used to NRE.
+    private static void RefreshLiveUI()
+    {
         MainPatch.Instance.onSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
-        AudioSwapper.SpeechFolder = Path.Combine(Paths.ConfigPath,"ultrakull", "audio", CurrentLanguage.metadata.langName) + Path.DirectorySeparatorChar;
-        SubtitledAudioSourcesReplacer.SpeechFolder = AudioSwapper.SpeechFolder;
-        
-        //Patch some leftover components that aren't caught in the main change wave...
+
         InjectLanguageButton.updateLanguageButtonText();
         LoadingTextPatch.updateLoadingText();
-                
-        if(GetCurrentSceneName() != "Main Menu")
+
+        if (GetCurrentSceneName() != "Main Menu")
         {
             MonoSingleton<HudMessageReceiver>.Instance?.SendHudMessage("<color=orange>Language changes will not fully take effect until the current mission is quit or restarted.</color>");
         }
-
-        SubtitleLocalizer.Rebuild();
-
     }
 }

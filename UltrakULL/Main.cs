@@ -123,7 +123,12 @@ namespace UltrakULL;
 			{
 				Logging.Warn("--- Loading external fonts ---");
 				FontManager.LoadFonts();
-			
+
+				// Must happen before InitializeManager
+				// These two mf is to register event in LanguageManager
+				FontManager.Initialize();
+				SubtitleLocalizer.Initialize();
+
 				Logging.Warn("--- Initializing language manager ---");
 				LanguageManager.InitializeManager(InternalVersion);
 				
