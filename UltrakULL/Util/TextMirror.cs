@@ -88,6 +88,7 @@ internal static class TextMirror
         target.fontStyle = ConvertFontStyle(source.fontStyle);
     }
 
+    [NeedRework]
     internal static void SyncEffects(Text source, TextMeshProUGUI target)
     {
         if (source == null || target == null) return;
@@ -132,15 +133,40 @@ internal static class TextMirror
         target.useGraphicAlpha = source.useGraphicAlpha;
     }
 
-    // The intermission screen fakes a drop shadow with a second Text; we hide that and give the
-    // twin its own Shadow instead. Values are tuned to match the game's original look.
+    // Drop shadow for the intermission text. UI.Shadow is inert on TMP, so use TMP's native underlay
+    // on a per-instance material. Re-applied each Sync since CopyTextProperties resets the material.
     internal static void AddIntermissionShadow(TextMeshProUGUI tmp)
     {
         if (tmp == null) return;
-        Shadow shadow = tmp.GetComponent<Shadow>() ?? tmp.gameObject.AddComponent<Shadow>();
-        shadow.effectColor = new Color(0f, 0f, 0f, 0.75f);
-        shadow.effectDistance = new Vector2(1.5f, -1.5f);
-        shadow.useGraphicAlpha = true;
+        Material mat = tmp.fontMaterial; // instantiates a per-label material copy; leaves shared ones alone
+        mat.EnableKeyword(ShaderUtilities.Keyword_Underlay);
+        mat.SetColor(ShaderUtilities.ID_UnderlayColor, new Color(0f, 0f, 0f, 0.75f));
+        mat.SetFloat(ShaderUtilities.ID_UnderlayOffsetX, 0.5f);
+        mat.SetFloat(ShaderUtilities.ID_UnderlayOffsetY, -0.5f);
+        mat.SetFloat(ShaderUtilities.ID_UnderlayDilate, 0.1f);
+        mat.SetFloat(ShaderUtilities.ID_UnderlaySoftness, 0f);
+
+        // Underlay is enabled after CopyTextProperties() already rebuilt the mesh
+        // so recompute padding and rebuild
+        // otherwise the offset underlay falls outside the old bounds and gets clipped.
+        /* 
+         * public override void UpdateMeshPadding()
+         * {
+         *     m_padding = ShaderUtilities.GetPadding(m_sharedMaterial, m_enableExtraPadding, m_isUsingBold);
+         *     m_isMaskingEnabled = ShaderUtilities.IsMaskingEnabled(m_sharedMaterial);
+         *     m_havePropertiesChanged = true;
+         *     checkPaddingRequired = false;
+         *     if (m_textInfo != null)
+         *     {
+         *         for (int i = 1; i < m_textInfo.materialCount; i++)
+         *         {
+         *            m_subTextObjects[i].UpdateMeshPadding(m_enableExtraPadding, m_isUsingBold);
+         *         }
+         *     }
+         * }
+         */
+        tmp.UpdateMeshPadding();
+        tmp.ForceMeshUpdate();
     }
 
     private static TextAlignmentOptions ConvertAlignment(TextAnchor anchor) => anchor switch
