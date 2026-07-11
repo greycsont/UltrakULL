@@ -101,8 +101,6 @@ public class TMPTwin : MonoBehaviour
         if (twin == null) return;
 
         Sync();
-        if (kind == TwinKind.IntermissionChild)
-            TextMirror.AddIntermissionShadow(twin);
 
         HideSource();
         twin.gameObject.SetActive(source.isActiveAndEnabled);
@@ -122,7 +120,13 @@ public class TMPTwin : MonoBehaviour
             twin.ForceMeshUpdate();
             MarkRebuild();
         }
+
         TextMirror.SyncEffects(source, twin);
+
+        // Intermission's drop shadow (the game's separate shadow Text is our hidden ShadowParent).
+        // Re-applied every sync because CopyTextProperties resets the material.
+        if (kind == TwinKind.IntermissionChild)
+            TextMirror.AddIntermissionShadow(twin);
     }
 
     private void HideSource()
