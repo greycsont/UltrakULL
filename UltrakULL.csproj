@@ -69,6 +69,20 @@
     <Copy SourceFiles="@(_AudioTemplates)" DestinationFolder="$(TargetDir)config\ultrakull\audio\%(RecursiveDir)" />
   </Target>
 
+  <!-- Copies the .dll and .pdb complied to (ULTRAKILLDIR)/BepInEx/plugins/UltrakULL -->
+  <PropertyGroup>
+    <DeployToGame Condition="'$(DeployToGame)' == ''">true</DeployToGame>
+    <GamePluginDir>$(ULTRAKILLPath)\BepInEx\plugins\UltrakULL</GamePluginDir>
+  </PropertyGroup>
+
+  <Target Name="DeployToGame" AfterTargets="Package"
+          Condition="'$(DeployToGame)' == 'true' AND Exists('$(ULTRAKILLPath)\BepInEx')">
+    <Copy SourceFiles="$(TargetDir)plugins\UltrakULL\UltrakULL.dll" DestinationFolder="$(GamePluginDir)" />
+    <Copy Condition="Exists('$(TargetDir)UltrakULL.pdb')"
+          SourceFiles="$(TargetDir)UltrakULL.pdb" DestinationFolder="$(GamePluginDir)" />
+    <Message Importance="high" Text="Deployed UltrakULL.dll -> $(GamePluginDir)" />
+  </Target>
+
   <!-- In Release, strip stray root files so the output folder is a clean drop-in -->
   <Target Name="CleanRoot" AfterTargets="Package" Condition="'$(Configuration)' == 'Release'">
     <RemoveDir Directories="$(TargetDir)net472;$(TargetDir)publish" />
