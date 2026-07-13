@@ -12,9 +12,8 @@ using static UltrakULL.TextReplacer;
 
 namespace UltrakULL;
 
-class Options
+public static class Options
 {
-    private GameObject optionsMenu;
 
     static public void PatchGeneralOptions(GameObject generalOptions)
     {
@@ -543,7 +542,7 @@ class Options
 
     }
     
-    private void PatchColorsOptions(GameObject optionsMenu)
+    private static void PatchColorsOptions(GameObject optionsMenu)
     {
         //Colors options
         //TextMeshProUGUI colorsPanel = GetTextMeshProUGUI(FindDescendant(optionsMenu, "Text (1)"));
@@ -634,7 +633,7 @@ class Options
     
 
     //Does not work for some reason, nothing gets translated
-    private void PatchRumbleOptions(GameObject optionMenu)
+    private static void PatchRumbleOptions(GameObject optionMenu)
     {
         TryToReplaceText(GetTextMeshProUGUI(FindDescendant(optionMenu, "Text (1)")), LanguageManager.CurrentLanguage.options.rumble_title);
 
@@ -666,7 +665,7 @@ class Options
 
     }
     
-    private void PatchAdvancedOptions(GameObject optionMenu)
+    private static void PatchAdvancedOptions(GameObject optionMenu)
     {
         var opt = LanguageManager.CurrentLanguage.options;
         GameObject advancedOptions = optionMenu;
@@ -719,7 +718,7 @@ class Options
         
     }
     
-    private void PatchOptions(GameObject optionsMenu)
+    private static void PatchOptions(GameObject optionsMenu)
     {
         if (optionsMenu != null)
         {
@@ -782,7 +781,7 @@ class Options
 
     }
 
-    private void PatchSteamLeaderboard(GameObject optionMenu)
+    private static void PatchSteamLeaderboard(GameObject optionMenu)
     {
         TryToReplaceText(GetTextMeshProUGUI(FindDescendant(optionMenu, "Title")), LanguageManager.CurrentLanguage.options.steamLeaderboard_title);
 
@@ -815,14 +814,15 @@ class Options
 
     }
 
-    public Options(ref GameObject game)
+    public static void Patch(ref GameObject game)
     {
         //Options are in two different locations.
         //On the main menu, it's root/Canvas/OptionsMenu.
         //In-game it's root/Canvas/OptionsMenu.
+        GameObject optionsMenu;
         if (GetCurrentSceneName() == "Main Menu")
         {
-            this.optionsMenu = FindDescendant(game, "OptionsMenu");
+            optionsMenu = FindDescendant(game, "OptionsMenu");
         }
         else
         {
@@ -837,8 +837,8 @@ class Options
                     break;
                 }
             }
-            this.optionsMenu = FindDescendant(pauseObject, "OptionsMenu");
+            optionsMenu = FindDescendant(pauseObject, "OptionsMenu");
         }
-        this.PatchOptions(this.optionsMenu);
+        PatchOptions(optionsMenu);
     }
 }

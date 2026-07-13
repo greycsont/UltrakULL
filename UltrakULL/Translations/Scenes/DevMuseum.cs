@@ -10,7 +10,7 @@ using static UltrakULL.TextReplacer;
 
 namespace UltrakULL;
 
-public class DevMuseum
+public static class DevMuseum
 {
 	public static string GetMessage(string message, string message2, string input)
 	{
@@ -217,7 +217,7 @@ public class DevMuseum
 		return originalText ?? "";
 	}
 
-	private void PatchPlaques()
+	private static void PatchPlaques()
 	{
 		// First part: Non-__DEV_SPACE_ALL placards (lines 211-221)
 		TryToReplaceText(GetTextfromGameObject(FindDescendant(GetInactiveRootObject("__Room_Courtyard").transform.GetChild(4).GetChild(0).gameObject, "Canvas (2)", "Text")), LanguageManager.CurrentLanguage.devMuseum.museum_plaquesMuseumTitle);
@@ -521,7 +521,7 @@ public class DevMuseum
 	TryToReplaceText(((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.FindDescendant(spoilerBackground2, "OpenButton/Text"))), LanguageManager.CurrentLanguage.devMuseum.museum_spoiler3);
 }
 
-	private void PatchChess()
+	private static void PatchChess()
 	{
 		GameObject gameObjectChild = FindDescendant(GetInactiveRootObject("__Room_Aquarium"), "Geo", "Chess");
 		GameObject gameObjectChild2 = FindDescendant(gameObjectChild, "PuzzleScreen", "Canvas", "Background", "Main Window");
@@ -575,7 +575,7 @@ public class DevMuseum
 	}
 }
 
-	public DevMuseum()
+	public static void Patch()
 	{
 		PatchPlaques();
 		PatchChess();

@@ -11,9 +11,8 @@ using static UltrakULL.CommonFunctions;
 
 namespace UltrakULL;
 
-class SecretLevels
+public static class SecretLevels
 {
-    private string currentLevel;
     public static string GetAbbreviation(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
@@ -34,7 +33,7 @@ class SecretLevels
         return abbreviation.ToString();
     }
 
-    private void PatchTestament(ref GameObject testamentRoom)
+    private static void PatchTestament(ref GameObject testamentRoom)
     {
         TextMeshProUGUI testamentPanelText = null;
         TextMeshProUGUI testamentPanelText4S1 = null;
@@ -131,7 +130,7 @@ class SecretLevels
 
         }
 
-        switch (this.currentLevel)
+        switch (GetCurrentSceneName())
         {
             case "Level 0-S":
                 {
@@ -257,7 +256,7 @@ class SecretLevels
         }
     }
 
-    public void Patch5S(ref GameObject canvasObj)
+    public static void Patch5S(ref GameObject canvasObj)
     {
         GameObject powerGauge = FindDescendant(GetInactiveRootObject("FishingCanvas"), "Power Meter");
         TextMeshProUGUI distanceFar = GetTextMeshProUGUI(FindDescendant(powerGauge, "Text (TMP)")); 
@@ -292,7 +291,7 @@ class SecretLevels
         TextMeshProUGUI fishingTerminalBackButtonText = GetTextMeshProUGUI(FindDescendant(fishingTerminalBackButton, "Text"));
         fishingTerminalBackButtonText.text = LanguageManager.CurrentLanguage.shop.shop_back;
     }
-    public void Patch7S(ref GameObject canvasObj)
+    public static void Patch7S(ref GameObject canvasObj)
     {
         try
         {   
@@ -331,13 +330,13 @@ class SecretLevels
     }
     // SecretFirstRoom/Player/Main Camera/HUD Camera/HUD/FinishCanvas/Panel/Title/Text
     // Note - it uses a separate panel that has the same name as the normal result panel.
-    public SecretLevels(ref GameObject canvasObj)
+    public static void Patch(ref GameObject canvasObj)
     {
         GameObject player = GetInactiveRootObject("Player");
-        this.currentLevel = GetCurrentSceneName();
+        string currentLevel = GetCurrentSceneName();
         GameObject testamentRoom;
 
-        switch (this.currentLevel)
+        switch (currentLevel)
         {
             case "Level 0-S": {testamentRoom = GameObject.Find("FinalRoom SecretExit"); PatchTestament(ref testamentRoom); break; }
             case "Level 1-S": {testamentRoom = GameObject.Find("5 - Finale"); PatchTestament(ref testamentRoom); break; }
@@ -354,7 +353,7 @@ class SecretLevels
 
         Logging.Info("gooo");
         TextMeshProUGUI secretLevelResultsName = GetTextMeshProUGUI(FindDescendant(secretLevelResultsPanel, "Title", "Text"));
-        secretLevelResultsName.text = GetSecretLevelName();
+        secretLevelResultsName.text = GetSecretLevelName(currentLevel);
 
         TextMeshProUGUI secretLevelResultsInfo = GetTextMeshProUGUI(FindDescendant(secretLevelResultsPanel, "Time - Info", "Text"));
         secretLevelResultsInfo.text = LanguageManager.CurrentLanguage.secretLevels.secretLevels_complete1;
@@ -364,9 +363,9 @@ class SecretLevels
 
     }
 
-    public string GetSecretLevelName()
+    public static string GetSecretLevelName(string currentLevel)
     {
-        switch(this.currentLevel)
+        switch(currentLevel)
         {
             case ("Level 0-S"): { return "0-S: " + LanguageManager.CurrentLanguage.levelNames.levelName_preludeSecret; }
             case ("Level 1-S"): { return "1-S: " + LanguageManager.CurrentLanguage.levelNames.levelName_limboSecret; }

@@ -8,9 +8,9 @@ using UltrakULL.json;
 
 namespace UltrakULL;
 
-class Prelude
+public static class Prelude
 {
-    public void PatchOpeningCredits(ref GameObject canvasObj)
+    private static void PatchOpeningCredits(ref GameObject canvasObj)
     {
         GameObject openingCredsParent = FindDescendant(canvasObj, "HurtScreen");
 
@@ -21,7 +21,7 @@ class Prelude
         openingCredsSecond.text = LanguageManager.CurrentLanguage.prelude.prelude_first_openingCredits2;
     }
 
-    public Prelude(ref GameObject level)
+    public static void Patch(ref GameObject level)
     {
         string currentLevel = GetCurrentSceneName();
 
@@ -29,7 +29,7 @@ class Prelude
         {
             try
             {
-                this.PatchOpeningCredits(ref level);
+                PatchOpeningCredits(ref level);
 
             }
             catch(Exception e)

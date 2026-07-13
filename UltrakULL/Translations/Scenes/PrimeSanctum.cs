@@ -8,9 +8,9 @@ using static UltrakULL.CommonFunctions;
 
 namespace UltrakULL;
 
-class PrimeSanctum
+public static class PrimeSanctum
 {
-    private void PatchSecretText(PrimeSanctumStrings strings)
+    private static void PatchSecretText(PrimeSanctumStrings strings)
     {
         string currentLevel = GetCurrentSceneName();
 
@@ -38,7 +38,7 @@ class PrimeSanctum
         
     }
 
-    public PrimeSanctum()
+    public static void Patch()
     {
         string currentLevel = GetCurrentSceneName();
 

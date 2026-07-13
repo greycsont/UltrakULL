@@ -6,9 +6,9 @@ using UltrakULL.json;
 
 namespace UltrakULL;
 
-public class Intermission
+public static class Intermission
 {
-    private void Act1Int(GameObject intermissionObject)
+    private static void Act1Int(GameObject intermissionObject)
     {
         //ACT 1
         //Two text elements to patch: Foreground and background shadow.
@@ -30,7 +30,7 @@ public class Intermission
         act1EndInsert.text = LanguageManager.CurrentLanguage.intermission.act1_intermission_insert;
     }
 
-    private void Act2Int(GameObject intermissionObject)
+    private static void Act2Int(GameObject intermissionObject)
     {
         Text toBeContinued = GetTextfromGameObject(FindDescendant(intermissionObject, "Panel (1)", "Text", "Text (1)"));
         toBeContinued.text = LanguageManager.CurrentLanguage.intermission.act2_intermission_tobecontinued;
@@ -50,7 +50,7 @@ public class Intermission
         act2EndInsert.text = LanguageManager.CurrentLanguage.intermission.act1_intermission_insert;
     }
 
-    private void EarlyAccessEnd(GameObject intermissionObject)
+    private static void EarlyAccessEnd(GameObject intermissionObject)
     {
         GameObject earlyAccessEnd = FindDescendant(intermissionObject, "Skippables");
         if (earlyAccessEnd != null)
@@ -67,7 +67,7 @@ public class Intermission
         }
     }
 
-    public Intermission(ref GameObject canvasObj)
+    public static void Patch(ref GameObject canvasObj)
     {
         GameObject intermissionObject = FindDescendant(canvasObj, "PowerUpVignette", "Panel");
 

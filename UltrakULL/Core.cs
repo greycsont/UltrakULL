@@ -21,7 +21,7 @@ public static class Core
     public static void PatchFrontEnd(GameObject frontEnd)
     {
         MainMenu.Patch(frontEnd);
-        Options options = new Options(ref frontEnd);
+        Options.Patch(ref frontEnd);
     }
     
     public static void HandleSceneSwitch(Scene scene,ref GameObject canvas)
@@ -77,7 +77,7 @@ public static class Core
                     try{HUDMessages.PatchDeathScreen(ref canvasObj);} catch(Exception e){Console.WriteLine(e.ToString());}
                     try{LevelStatWindow.PatchStats(ref canvasObj);} catch(Exception e){Console.WriteLine(e.ToString());}
                     try{HUDMessages.PatchMisc(ref canvasObj);} catch(Exception e){Console.WriteLine(e.ToString());}
-                    try{Options options = new Options(ref canvasObj);} catch(Exception e){Console.WriteLine(e.ToString());}
+                    try{Options.Patch(ref canvasObj);} catch(Exception e){Console.WriteLine(e.ToString());}
     
                     Logging.Message("Base elements patched");
                     }
@@ -90,12 +90,12 @@ public static class Core
                         else if (levelName.Contains("-S"))
                         {
                             Logging.Message("Secret");
-                            SecretLevels secretLevels = new SecretLevels(ref canvasObj);
+                            SecretLevels.Patch(ref canvasObj);
                         }
                         if(levelName.Contains("0-"))
                         { 
                             Logging.Message("Prelude");
-                            Prelude preludePatchClass = new Prelude(ref canvasObj);
+                            Prelude.Patch(ref canvasObj);
                         }
                         else if(levelName.Contains("1-") || levelName.Contains("2-") || levelName.Contains("3-"))
                         {
@@ -122,12 +122,12 @@ public static class Core
                         else if (levelName.Contains("P-"))
                         {
                             Logging.Message("Prime");
-                            PrimeSanctum primeSanctumClass = new PrimeSanctum();
+                            PrimeSanctum.Patch();
                         }
                         else if (levelName == "uk_construct")
                         { 
                             Logging.Message("Sandbox");
-                            Sandbox sandbox = new Sandbox(ref canvasObj);
+                            Sandbox.Patch(ref canvasObj);
                         }
                         else if (levelName == "Endless")
                         {
@@ -137,12 +137,12 @@ public static class Core
                         else if (levelName.Contains("Intermission") || levelName.Contains("EarlyAccessEnd"))
                         {
                             Logging.Message("Intermission");
-                            Intermission intermission = new Intermission(ref canvasObj);
+                            Intermission.Patch(ref canvasObj);
                         }
                         else if (levelName == "CreditsMuseum2")
                         {
                             Logging.Message("DevMuseum");
-                            DevMuseum devMuseum = new DevMuseum();
+                            DevMuseum.Patch();
                         }
                     break;
             }
