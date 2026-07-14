@@ -1,9 +1,7 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using BepInEx;
 using UltrakULL.json;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using static UltrakULL.ReflectionUtils;
 using static UltrakULL.CommonFunctions;
 using static UltrakULL.audio.AudioSwapper;
@@ -16,12 +14,7 @@ public static class SubtitledAudioSourcesReplacer
     // SpeechFolder comes from the static import of AudioSwapper.
     public static SubtitledSourcesConfig Config;
 
-    public static async void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        await Task.Delay(250);
-        ReplaceSubsAndAudio();
-    }
-
+    // Called by the scene-load pipeline's deferred wave (after it has already waited).
     public static void ReplaceSubsAndAudio()
     {
         if (!TryLoadMetadata(out var objectReferences)) 

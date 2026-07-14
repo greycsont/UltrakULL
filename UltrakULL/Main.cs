@@ -85,33 +85,44 @@ public class MainPatch : BaseUnityPlugin
 		this.ready = false;
 	}
 	
-	//Most of the hook logic and checks go in this function.
+	
+	/// <summary>
+	/// For everything you want to do it on Scene Switching.
+	/// Please put it to here!
+	/// Because if not it will make the whole logics on Scene Switching into chaotic.
+	/// Love you.
+	/// </summary>
+	/// <param name="scene">scene after loaded</param>
+	/// <param name="mode">the load mode of scene (ULTRAKILL mostly uses Single)</param>
 	public void onSceneLoaded(Scene scene, LoadSceneMode mode)
 	{
 		if (!this.ready || LanguageManager.CurrentLanguage == null)
 		{
 			Logging.Error("UltrakULL has been deactivated to prevent crashing. Check the console for any errors!");
+			return;
 		}
-		else
-		{
-			GameObject canvasObj = GetInactiveRootObject("Canvas");
-			Core.HandleSceneSwitch(scene, ref canvasObj);
-			//Bunch of things the mod should do *after* loading to avoid problems.
-			if(GetCurrentSceneName() != "Bootstrap" || GetCurrentSceneName() != "Intro")
-			{
-				PostInitPatches(canvasObj);
-			}
 
-		}
+		CommonFunctions.ClearObjectCaches(scene, mode);
+		FontManager.RefreshFallback();                 
+		GameObject canvasObj = GetInactiveRootObject("Canvas");
+		Core.HandleSceneSwitch(scene, ref canvasObj);
+
+		RunDeferred(canvasObj);
 	}
 
-	public async void PostInitPatches(GameObject canvasObj)
+	// Some objects only appear a moment after the scene loads, so this second wave waits first.
+	// I have no idea why clearwater do this but it may have some reason so I kept
+	private async void RunDeferred(GameObject canvasObj)
 	{
 		await Task.Delay(250);
 		Core.ApplyPostInitFixes(canvasObj);
+		SubtitledAudioSourcesReplacer.ReplaceSubsAndAudio();
 	}
 
-	//Entry point for the mod.
+	/// <summary>
+	/// THIS IS THE ENTRY OF THE MOD!
+	/// PLEASE PUT EVERYTHING WHEN LAUNCHING IN HERE
+	/// </summary>
 	private void Awake()
 	{
 		Debug.unityLogger.filterLogType = LogType.Exception;
@@ -124,6 +135,7 @@ public class MainPatch : BaseUnityPlugin
 
 			// Must happen before InitializeManager
 			// These two mf is to register event in LanguageManager
+			// For handling Language switching
 			Logging.Warn("--- Register events ---");
 			FontManager.Initialize();
 			SubtitleLocalizer.Initialize();
@@ -136,9 +148,7 @@ public class MainPatch : BaseUnityPlugin
 			harmony.PatchAll();
 
 			Logging.Warn(" --- All done. Enjoy! ---");
-			SceneManager.sceneLoaded += CommonFunctions.ClearObjectCaches;
 			SceneManager.sceneLoaded += onSceneLoaded;
-			SceneManager.sceneLoaded += SubtitledAudioSourcesReplacer.OnSceneLoaded;
 			this.ready = true;
 		}
 		catch (Exception e)

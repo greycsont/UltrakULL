@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.IO;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UltrakULL.json;
 
 namespace UltrakULL;
@@ -29,8 +28,6 @@ public static class FontManager
     private static TMP_FontAsset defaultMuseumFont;
     private static TMP_FontAsset defaultTerminalFont;
     private static TMP_FontAsset defaultSecretFont;
-
-    private static bool sceneHookRegistered;
 
     // Make sure this func is called before LanguageManager.InitializeManager
     public static void Initialize()
@@ -61,7 +58,6 @@ public static class FontManager
     }
 
     // It fills the language's FontAsset section
-    // 
     private static void ResolveFonts(Lang lang)
     {
         lang.MainFontAsset ??= defaultMainFont;
@@ -86,17 +82,12 @@ public static class FontManager
 
         UseFontFallback = lang.Json.metadata.fonts?.UseFallback ?? false;
 
-        if (!sceneHookRegistered)
-        {
-            SceneManager.sceneLoaded += OnSceneLoaded;
-            sceneHookRegistered = true;
-        }
-
         RegisterFallbacksForLoadedFonts(lang);
     }
 
-    // Scenes bring their own TMP_FontAssets with them, so re-run on every load.
-    private static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    // Called by the scene-load pipeline: scenes bring their own TMP_FontAssets, so re-attach the
+    // current language's fallbacks to them on every load.
+    public static void RefreshFallback()
     {
         Lang lang = LanguageManager.Current;
         if (TMPFontReady && lang != null && !lang.IsEnglish)
