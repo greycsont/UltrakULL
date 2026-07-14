@@ -793,7 +793,7 @@ public static class Options
         GameObject SteamEntryList = FindDescendant(optionMenu, "Scroll View", "Viewport", "Content");
         try
         {
-            for (int x = 0; x < 35; x++) //Hardcoded, amount may increase in future updates
+            for (int x = 0; x < SteamEntryList.transform.childCount; x++) //Hardcoded, amount may increase in future updates
             {
                 GameObject entry = SteamEntryList.transform.GetChild(x).gameObject;
 
