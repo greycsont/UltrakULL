@@ -8,6 +8,12 @@ using TMPro;
 
 namespace UltrakULL.json;
 
+/// <summary>
+/// In the LanguageManager.cs
+/// The json should be the only one in the lang
+/// For the FontAsset, when switching the currentlanguage to it's own
+/// load the FontAsset
+/// </summary>
 public sealed class Lang
 {
     public JsonFormat Json { get;}

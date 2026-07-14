@@ -1,16 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
-using BepInEx;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.TextCore;
 using UltrakULL.json;
-
-using static UltrakULL.CommonFunctions;
-using UnityEngine.TextCore.LowLevel;
-using System.Reflection;
 
 namespace UltrakULL;
 
@@ -24,16 +17,19 @@ public static class FontManager
     public static bool UseFontFallback;
 
     // These two mf is the game's font
+    // No relationship with Languages
     public static TMP_FontAsset MeseumFontAsset; // Garaldus (museum), loaded from basegameasset.bundle
     public static TMP_FontAsset TwinFont;        // VCR (default), cached from the game's loaded fonts
 
-    private static TMP_FontAsset mainFallback;
-    private static TMP_FontAsset museumFallback;
-    private static TMP_FontAsset terminalFallback;  
-    private static TMP_FontAsset secretFallback;
+    // Default FontAsset
+    // Load from fontpack.bundle
+    // Currently it's chinese's fontpack
+    // In the future I'll replace it all to unifont
+    private static TMP_FontAsset defaultMainFont;
+    private static TMP_FontAsset defaultMuseumFont;
+    private static TMP_FontAsset defaultTerminalFont;
+    private static TMP_FontAsset defaultSecretFont;
 
-    private static readonly List<TMP_FontAsset> createdFonts = new();
-    private static readonly Dictionary<string, TMP_FontAsset> alignedCache = new();
     private static bool sceneHookRegistered;
 
     // Make sure this func is called before LanguageManager.InitializeManager
@@ -54,14 +50,24 @@ public static class FontManager
         }
         MeseumFontAsset = baseFontBundle.LoadAsset<TMP_FontAsset>("GFSGaraldus SDF");
 
-        mainFallback = fontBundle.LoadAsset<TMP_FontAsset>("MainFont");
-        museumFallback = fontBundle.LoadAsset<TMP_FontAsset>("MuseumFont");
-        terminalFallback = fontBundle.LoadAsset<TMP_FontAsset>("TerminalFont");
-        secretFallback = fontBundle.LoadAsset<TMP_FontAsset>("SecretFont");
+        defaultMainFont = fontBundle.LoadAsset<TMP_FontAsset>("MainFont");
+        defaultMuseumFont = fontBundle.LoadAsset<TMP_FontAsset>("MuseumFont");
+        defaultTerminalFont = fontBundle.LoadAsset<TMP_FontAsset>("TerminalFont");
+        defaultSecretFont = fontBundle.LoadAsset<TMP_FontAsset>("SecretFont");
 
-        TMPFontReady = mainFallback != null;
+        TMPFontReady = defaultMainFont != null;
         if (!TMPFontReady)
             Logging.Error("fontPack.bundle is missing the 'MainFont' TMP_FontAsset");
+    }
+
+    // It fills the language's FontAsset section
+    // 
+    private static void ResolveFonts(Lang lang)
+    {
+        lang.MainFontAsset ??= defaultMainFont;
+        lang.MuseumAsset ??= defaultMuseumFont;
+        lang.TerminalAsset ??= defaultTerminalFont;
+        lang.SecretTerminalAsset ??= defaultSecretFont;
     }
 
     private static void ApplyLanguageFallback(ValueChangedEvent<Lang> change)
@@ -69,10 +75,9 @@ public static class FontManager
         if (!TMPFontReady)
             return;
 
-        // Some Unicode characters are shared between multiple languages but have
-        // language-specific glyphs (especially in CJK fonts).
-        // Remove the previous language's fallback fonts before adding the new ones
-        // to ensure the correct glyphs are used.
+        // Some Unicode characters are shared between multiple languages but have language-specific
+        // glyphs (especially in CJK fonts). Remove the previous language's fallbacks before adding the
+        // new ones so the correct glyphs are used.
         RemoveFallbacksOf(change.OldValue);
 
         Lang lang = change.NewValue;
@@ -80,9 +85,6 @@ public static class FontManager
             return;
 
         UseFontFallback = lang.Json.metadata.fonts?.UseFallback ?? false;
-
-        if (mainFallback == null)
-            return;
 
         if (!sceneHookRegistered)
         {
@@ -97,14 +99,13 @@ public static class FontManager
     private static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Lang lang = LanguageManager.Current;
-        if (mainFallback != null && lang != null && !lang.IsEnglish)
+        if (TMPFontReady && lang != null && !lang.IsEnglish)
             RegisterFallbacksForLoadedFonts(lang);
     }
 
     private static void RegisterFallbacksForLoadedFonts(Lang lang)
     {
-        if (mainFallback == null)
-            return;
+        ResolveFonts(lang);
 
         foreach (TMP_FontAsset primary in Resources.FindObjectsOfTypeAll<TMP_FontAsset>())
         {
@@ -112,23 +113,24 @@ public static class FontManager
                 continue;
 
             string name = primary.name?.ToLowerInvariant();
-            if (string.IsNullOrEmpty(name) || name.Contains("_alignedto_") || createdFonts.Contains(primary))
+            if (string.IsNullOrEmpty(name) || name.Contains("_alignedto_"))
                 continue;
-            if (primary == mainFallback || primary == museumFallback || primary == terminalFallback || primary == secretFallback)
+            // don't attach a fallback to one of our own fallback fonts
+            // Or it'll makes the logics as shit as f
+            if (primary == lang.MainFontAsset || primary == lang.MuseumAsset
+                || primary == lang.TerminalAsset || primary == lang.SecretTerminalAsset)
                 continue;
 
             TMP_FontAsset source = null;
             if (name.Contains("tahoma"))
-                source = terminalFallback;
+                source = lang.TerminalAsset;
             else if (name.Contains("bittypix"))
-                source = secretFallback;
+                source = lang.SecretTerminalAsset;
             else if (name.Contains("garaldus") || name.Contains("garamond") || name.Contains("museum"))
-                source = museumFallback;
+                source = lang.MuseumAsset;
             else if (name.Contains("vcr-osd-replayed"))
-                source = mainFallback;
-            else
-                source = mainFallback;
-            
+                source = lang.MainFontAsset;
+
             if (name.Contains("vcr_osd_mono_ui"))
                 TwinFont = primary;
 
@@ -161,21 +163,11 @@ public static class FontManager
 
     private static void RemoveFallbacksOf(Lang lang)
     {
-        alignedCache.Clear();
-
-        foreach (TMP_FontAsset font in createdFonts)
-            if (font != null)
-                UnityEngine.Object.Destroy(font);
-        createdFonts.Clear();
-
         if (lang == null)
             return;
 
         foreach ((TMP_FontAsset font, TMP_FontAsset fallback) in lang.AppliedFallbacks)
             font?.fallbackFontAssetTable?.Remove(fallback);
         lang.AppliedFallbacks.Clear();
-
-        // The four fallbacks are loaded once in LoadFonts and reused for every language;
-        // don't null them here or ApplyLanguageFallback would bail after the first switch.
     }
 }
