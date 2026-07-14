@@ -64,11 +64,6 @@ public class MainPatch : BaseUnityPlugin
 	public bool ready;
 
 	public static string ModFolder => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-
-	public MainPatch()
-	{
-		Instance = this;
-	}
 	
 	public static string GetVersion()
 	{
@@ -125,6 +120,7 @@ public class MainPatch : BaseUnityPlugin
 	/// </summary>
 	private void Awake()
 	{
+		Instance = this;
 		Debug.unityLogger.filterLogType = LogType.Exception;
 
 		Logging.Warn("UltrakULL Loading... | Version v." + InternalVersion);
@@ -135,7 +131,7 @@ public class MainPatch : BaseUnityPlugin
 
 			// Must happen before InitializeManager
 			// These two mf is to register event in LanguageManager
-			// For handling Language switching
+			// For handling Language Switching
 			Logging.Warn("--- Register events ---");
 			FontManager.Initialize();
 			SubtitleLocalizer.Initialize();
