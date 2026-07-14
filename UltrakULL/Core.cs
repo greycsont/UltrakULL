@@ -113,14 +113,7 @@ public static class Core
         else if(levelName.Contains("7-") || levelName.Contains("8-") || levelName.Contains("9-"))
         {
             Logging.Message("Act 3");
-            if(LanguageManager.CurrentLanguage.act3 != null)
-            {
-                Act3.PatchAct3(ref canvasObj);
-            }
-            else
-            {
-                Logging.Warn("Category is not found in the language file!");
-            }
+            Act3.PatchAct3(ref canvasObj);
         }
         else if (levelName.Contains("P-"))
         {
