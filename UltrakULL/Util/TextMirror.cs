@@ -26,6 +26,34 @@ internal static class TextMirror
         return tmp;
     }
 
+    /// <summary>
+    /// If you are worried about why create TMPro as Child
+    /// Please Check 5-S's ./FishCanvas/
+    /// </summary>
+    /// <param name="source"></param>
+    /// <returns></returns>
+    internal static TextMeshProUGUI CreateChild(Text source)
+    {
+        if (source == null) return null;
+
+        var tmpObject = new GameObject($"TMP_for_{source.gameObject.name}_{source.GetInstanceID()}", typeof(RectTransform));
+        tmpObject.transform.SetParent(source.transform, worldPositionStays: false);
+
+        var tmp = tmpObject.AddComponent<TextMeshProUGUI>();
+        var layoutElement = tmpObject.AddComponent<LayoutElement>();
+        layoutElement.ignoreLayout = true;
+
+        var rt = tmp.rectTransform;
+        rt.anchorMin = Vector2.zero;
+        rt.anchorMax = Vector2.one;
+        rt.offsetMin = Vector2.zero;
+        rt.offsetMax = Vector2.zero;
+        rt.pivot = new Vector2(0.5f, 0.5f);
+        rt.localScale = Vector3.one;
+        rt.localRotation = Quaternion.identity;
+        return tmp;
+    }
+
     // Fishing result text ("Fish Caught Label" / "Fish Size Text") animates its scale and uses
     // best-fit sizing; copying those normally leaves the twin squashed. Lock size and scale.
     internal static void ApplyFishingTMP(Text source, TextMeshProUGUI tmp)
