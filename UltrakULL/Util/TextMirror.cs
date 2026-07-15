@@ -55,7 +55,6 @@ internal static class TextMirror
         tmp.fontSize = source.fontSize;
         tmp.fontSizeMax = source.fontSize;
         tmp.fontSizeMin = source.fontSize;
-        tmp.rectTransform.localScale = Vector3.one;
         tmp.ForceMeshUpdate(true);
     }
 
