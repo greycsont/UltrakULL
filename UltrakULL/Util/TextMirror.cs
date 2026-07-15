@@ -9,23 +9,6 @@ namespace UltrakULL;
 // and calls into here. Kept separate so the component itself stays lifecycle-only.
 internal static class TextMirror
 {
-    internal static TextMeshProUGUI CreateSibling(Text source)
-    {
-        if (source == null) return null;
-
-        Transform parent = source.transform.parent;
-        GameObject tmpObject = new GameObject($"TMP_for_{source.gameObject.name}_{source.GetInstanceID()}", typeof(RectTransform));
-        tmpObject.transform.SetParent(parent, worldPositionStays: false);
-        tmpObject.transform.SetSiblingIndex(source.transform.GetSiblingIndex() + 1);
-
-        TextMeshProUGUI tmp = tmpObject.AddComponent<TextMeshProUGUI>();
-        LayoutElement layoutElement = tmpObject.AddComponent<LayoutElement>();
-        layoutElement.ignoreLayout = true;
-
-        CopyRectTransform(source.rectTransform, tmp.rectTransform);
-        return tmp;
-    }
-
     /// <summary>
     /// If you are worried about why create TMPro as Child
     /// Please Check 5-S's ./FishCanvas/
@@ -74,21 +57,6 @@ internal static class TextMirror
         tmp.fontSizeMin = source.fontSize;
         tmp.rectTransform.localScale = Vector3.one;
         tmp.ForceMeshUpdate(true);
-    }
-
-    internal static void CopyRectTransform(RectTransform source, RectTransform destination)
-    {
-        if (source == null || destination == null) return;
-
-        destination.anchorMin = source.anchorMin;
-        destination.anchorMax = source.anchorMax;
-        destination.pivot = source.pivot;
-        destination.anchoredPosition = source.anchoredPosition;
-        destination.sizeDelta = source.sizeDelta;
-        destination.localScale = source.localScale;
-        destination.localEulerAngles = source.localEulerAngles;
-        destination.offsetMin = source.offsetMin;
-        destination.offsetMax = source.offsetMax;
     }
 
     internal static void CopyTextProperties(Text source, TextMeshProUGUI target)
