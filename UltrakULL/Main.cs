@@ -65,10 +65,7 @@ public class MainPatch : BaseUnityPlugin
 
 	public static string ModFolder => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 	
-	public static string GetVersion()
-	{
-		return InternalVersion;
-	}
+	public static string GetVersion() => InternalVersion;
 
 	public void OnApplicationQuit()
 	{
@@ -78,6 +75,46 @@ public class MainPatch : BaseUnityPlugin
 	public void DisableMod()
 	{
 		this.ready = false;
+	}
+
+	/// <summary>
+	/// THIS IS THE ENTRY OF THE MOD!
+	/// PLEASE PUT EVERYTHING WHEN LAUNCHING IN HERE
+	/// </summary>
+	private void Awake()
+	{
+		Instance = this;
+		Debug.unityLogger.filterLogType = LogType.Exception;
+
+		Logging.Warn("UltrakULL Loading... | Version v." + InternalVersion);
+		try
+		{
+			Logging.Warn("--- Loading default fonts ---");
+			FontManager.LoadFonts();
+
+			// Must happen before InitializeManager
+			// These two mf is to register event in LanguageManager
+			// For handling Language Switching
+			Logging.Warn("--- Register events ---");
+			FontManager.Initialize();
+			SubtitleLocalizer.Initialize();
+
+			Logging.Warn("--- Initializing language manager ---");
+			LanguageManager.InitializeManager(InternalVersion);
+			
+			Logging.Warn("--- Patching vanilla game functions ---");
+			new Harmony(InternalName).PatchAll();
+
+			Logging.Warn(" --- All done. Enjoy! ---");
+			SceneManager.sceneLoaded += onSceneLoaded;
+			this.ready = true;
+		}
+		catch (Exception e)
+		{
+			Logging.Fatal("An error occured while initialising!");
+			Logging.Fatal(e.ToString());
+			this.ready = false;
+		}
 	}
 	
 	
@@ -112,46 +149,5 @@ public class MainPatch : BaseUnityPlugin
 		await Task.Delay(250);
 		Core.ApplyPostInitFixes(canvasObj);
 		SubtitledAudioSourcesReplacer.ReplaceSubsAndAudio();
-	}
-
-	/// <summary>
-	/// THIS IS THE ENTRY OF THE MOD!
-	/// PLEASE PUT EVERYTHING WHEN LAUNCHING IN HERE
-	/// </summary>
-	private void Awake()
-	{
-		Instance = this;
-		Debug.unityLogger.filterLogType = LogType.Exception;
-
-		Logging.Warn("UltrakULL Loading... | Version v." + InternalVersion);
-		try
-		{
-			Logging.Warn("--- Loading external fonts ---");
-			FontManager.LoadFonts();
-
-			// Must happen before InitializeManager
-			// These two mf is to register event in LanguageManager
-			// For handling Language Switching
-			Logging.Warn("--- Register events ---");
-			FontManager.Initialize();
-			SubtitleLocalizer.Initialize();
-
-			Logging.Warn("--- Initializing language manager ---");
-			LanguageManager.InitializeManager(InternalVersion);
-			
-			Logging.Warn("--- Patching vanilla game functions ---");
-			Harmony harmony = new Harmony(InternalName);
-			harmony.PatchAll();
-
-			Logging.Warn(" --- All done. Enjoy! ---");
-			SceneManager.sceneLoaded += onSceneLoaded;
-			this.ready = true;
-		}
-		catch (Exception e)
-		{
-			Logging.Fatal("An error occured while initialising!");
-			Logging.Fatal(e.ToString());
-			this.ready = false;
-		}
 	}
 }
