@@ -12,12 +12,16 @@ namespace UltrakULL;
 [DisallowMultipleComponent]
 public class TMPTwin : MonoBehaviour
 {
+    /// <summary>
+    /// For the IntermissionChild and ShadowParent
+    /// Please check 3-2 and 6-2's cutscene
+    /// </summary>
     private enum TwinKind
     {
         Normal,
         Fishing,
-        IntermissionChild,  // gets a manual drop shadow
-        ShadowParent        // no twin: just hide the source, the child carries the text
+        IntermissionChild,
+        ShadowParent
     }
 
     private Text source;
@@ -97,7 +101,9 @@ public class TMPTwin : MonoBehaviour
 
     private void BuildTwin()
     {
-        twin = TextMirror.CreateSibling(source);
+        // Every twin is a stretch-filled child of its source, so it inherits the source's transform
+        // (position/scale/rotation animations carry for free) and needs no rect copying.
+        twin = TextMirror.CreateChild(source);
         if (twin == null) return;
 
         Sync();
@@ -115,7 +121,6 @@ public class TMPTwin : MonoBehaviour
         }
         else
         {
-            TextMirror.CopyRectTransform(source.rectTransform, twin.rectTransform);
             TextMirror.CopyTextProperties(source, twin);
             twin.ForceMeshUpdate();
             MarkRebuild();
