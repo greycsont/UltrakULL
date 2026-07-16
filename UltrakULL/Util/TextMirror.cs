@@ -107,8 +107,16 @@ public static class TextMirror
     {
         if (source == null || tmp == null) return;
 
+        Material mat = tmp.fontMaterial;
+        mat.EnableKeyword(ShaderUtilities.Keyword_Underlay);
+        mat.SetColor(ShaderUtilities.ID_UnderlayColor, new Color(0f, 0f, 0f, 0.25f));
+        mat.SetFloat(ShaderUtilities.ID_UnderlayOffsetY, -0.2f);
+        mat.SetFloat(ShaderUtilities.ID_UnderlayDilate, 0.1f);
+        mat.SetFloat(ShaderUtilities.ID_UnderlaySoftness, 0.25f);
+
         tmp.overflowMode = TextOverflowModes.Overflow;
 
+        
         tmp.ForceMeshUpdate(true);
     }
 
