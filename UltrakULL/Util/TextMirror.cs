@@ -108,10 +108,11 @@ public static class TextMirror
 
         Material mat = tmp.fontMaterial;
         mat.EnableKeyword(ShaderUtilities.Keyword_Underlay);
-        mat.SetColor(ShaderUtilities.ID_UnderlayColor, new Color(0f, 0f, 0f, 0.25f));
+        //1 - (1-0.2267)*(1-0.2225) = 0.398 => 0.4f
+        mat.SetColor(ShaderUtilities.ID_UnderlayColor, new Color(0f, 0f, 0f, 0.4f));
         mat.SetFloat(ShaderUtilities.ID_UnderlayOffsetY, -0.2f);
-        mat.SetFloat(ShaderUtilities.ID_UnderlayDilate, 0.1f);
-        mat.SetFloat(ShaderUtilities.ID_UnderlaySoftness, 0.25f);
+        mat.SetFloat(ShaderUtilities.ID_UnderlayDilate, 0.15f);
+        mat.SetFloat(ShaderUtilities.ID_UnderlaySoftness, 0.15f);
 
         tmp.overflowMode = TextOverflowModes.Overflow;
 
@@ -123,21 +124,41 @@ public static class TextMirror
     /// I saw a video of naming in jai's base library and I saw this GOAT way for naiming
     /// </summary>
     /// <param name="tmp"></param>
-    internal static void Apply_Fish_Size_And_Fishing_Location_Outline(TextMeshProUGUI tmp)
+    internal static void Apply_Fish_Size_Outline(TextMeshProUGUI tmp)
     {
         if (tmp == null) return;
 
         Material mat = tmp.fontMaterial;
         mat.EnableKeyword(ShaderUtilities.Keyword_Outline);
-        mat.SetFloat(ShaderUtilities.ID_FaceDilate, 0.1f);
-        mat.SetFloat(ShaderUtilities.ID_OutlineWidth, 0.1f);
-        mat.SetColor(ShaderUtilities.ID_OutlineColor, new Color(0f, 0f, 0f, 1f));
+        mat.SetFloat(ShaderUtilities.ID_OutlineWidth, 0.075f);
+
+        // Hakita uses two shadow in a single object f
+        mat.SetColor(ShaderUtilities.ID_OutlineColor, new Color(0f, 0f, 0f, 0.6125f));
 
         tmp.overflowMode = TextOverflowModes.Overflow;
 
         
         tmp.ForceMeshUpdate(true);
     }
+
+     internal static void Apply_Fish_Location_Shadow(TextMeshProUGUI tmp)
+    {
+        if (tmp == null) return;
+
+        Material mat = tmp.fontMaterial;
+        mat.EnableKeyword(ShaderUtilities.Keyword_Underlay);
+        mat.SetColor(ShaderUtilities.ID_UnderlayColor, new Color(0f, 0f, 0f, 0.8625f));
+        mat.SetFloat(ShaderUtilities.ID_UnderlayOffsetY, -0.25f);
+        mat.SetFloat(ShaderUtilities.ID_UnderlayDilate, 0.25f);
+
+        tmp.overflowMode = TextOverflowModes.Overflow;
+
+        
+        tmp.ForceMeshUpdate(true);
+    }
+
+
+    
 
 
     private static TextAlignmentOptions ConvertAlignment(TextAnchor anchor) => anchor switch

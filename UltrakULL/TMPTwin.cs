@@ -16,13 +16,15 @@ public class TMPTwin : MonoBehaviour
     private enum TwinKind
     {
         Normal,
-        Fishing,
+        FishingCaught,
+        FishingSize,
+        FishLocation,
         IntermissionChild,
         ShadowParent
     }
 
     private Text source;
-    private TextMeshProUGUI twin;
+    public TextMeshProUGUI twin;
     private TwinKind kind;
     private string lastText;
     private bool detached;
@@ -98,8 +100,6 @@ public class TMPTwin : MonoBehaviour
 
     private void BuildTwin()
     {
-        // Every twin is a stretch-filled child of its source, so it inherits the source's transform
-        // (position/scale/rotation animations carry for free) and needs no rect copying.
         twin = TextMirror.CreateChild(source);
         if (twin == null) return;
 
@@ -116,11 +116,17 @@ public class TMPTwin : MonoBehaviour
         twin.ForceMeshUpdate();
         MarkRebuild();
 
-        if (kind == TwinKind.Fishing) 
-            TextMirror.ApplyFishingTMP(source, twin);
+        if (kind == TwinKind.FishingCaught) 
+            TextMirror.ApplyFishCaughtShadow(twin);
 
         if (kind == TwinKind.IntermissionChild)
             TextMirror.AddIntermissionShadow(twin);
+
+        if (kind == TwinKind.FishingSize)
+            TextMirror.Apply_Fish_Size_Outline(twin);
+
+        if (kind == TwinKind.FishLocation)
+            TextMirror.Apply_Fish_Location_Shadow(twin);
     }
 
     private void HideSource()
@@ -147,12 +153,21 @@ public class TMPTwin : MonoBehaviour
     {
         if (IsIntermissionShadowParent(source)) return TwinKind.ShadowParent;
         if (IsIntermissionShadowChild(source)) return TwinKind.IntermissionChild;
-        if (IsFishingResultText(source)) return TwinKind.Fishing;
+        if (IsFishingResultText(source)) return TwinKind.FishingCaught;
+        if (IsFishingSizeText(source)) return TwinKind.FishingSize;
+        if (IsFishingCircle(source)) return TwinKind.FishLocation;
         return TwinKind.Normal;
     }
 
     private static bool IsFishingResultText(Text source) =>
-        source != null && (source.name == "Fish Caught Label" || source.name == "Fish Size Text");
+        source != null && (source.name == "Fish Caught Label");
+
+    private static bool IsFishingSizeText(Text source) =>
+        source != null && ( source.name == "Fish Size Text");
+
+    private static bool IsFishingCircle(Text source) =>
+        source != null &&
+        AncestorNamesMatch(source.transform, "Text", "Canvas", "CanvasHolder", "Fish Target Circle(Clone)");
 
     // iirc these mf is because the intermission text's shadow is a separate Text child
     private static bool IsIntermissionShadowParent(Text source) =>
