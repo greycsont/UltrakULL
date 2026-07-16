@@ -37,27 +37,6 @@ internal static class TextMirror
         return tmp;
     }
 
-    // Fishing result text ("Fish Caught Label" / "Fish Size Text") animates its scale and uses
-    // best-fit sizing; copying those normally leaves the twin squashed. Lock size and scale.
-    internal static void ApplyFishingTMP(Text source, TextMeshProUGUI tmp)
-    {
-        if (source == null || tmp == null) return;
-
-        TMP_FontAsset twinFont = FontManager.GetTwinFont(source.font != null ? source.font.name : null);
-        if (twinFont != null) tmp.font = twinFont;
-        tmp.text = source.text;
-        tmp.color = source.color;
-        tmp.richText = source.supportRichText;
-        tmp.alignment = ConvertAlignment(source.alignment);
-        tmp.enableWordWrapping = false;
-        tmp.overflowMode = TextOverflowModes.Overflow;
-        tmp.enableAutoSizing = false;
-        tmp.fontSize = source.fontSize;
-        tmp.fontSizeMax = source.fontSize;
-        tmp.fontSizeMin = source.fontSize;
-        tmp.ForceMeshUpdate(true);
-    }
-
     internal static void CopyTextProperties(Text source, TextMeshProUGUI target)
     {
         if (source == null || target == null) return;
@@ -163,6 +142,22 @@ internal static class TextMirror
         tmp.UpdateMeshPadding();
         tmp.ForceMeshUpdate();
     }
+    
+    /// <summary>
+    /// Yes, Word Wrapping is intentional in 5-S
+    /// But tbh only one fish wil wrapping
+    /// </summary>
+    /// <param name="source"></param>
+    /// <param name="tmp"></param>
+    internal static void ApplyFishingTMP(Text source, TextMeshProUGUI tmp)
+    {
+        if (source == null || tmp == null) return;
+
+        tmp.overflowMode = TextOverflowModes.Overflow;
+
+        tmp.ForceMeshUpdate(true);
+    }
+
 
     private static TextAlignmentOptions ConvertAlignment(TextAnchor anchor) => anchor switch
     {

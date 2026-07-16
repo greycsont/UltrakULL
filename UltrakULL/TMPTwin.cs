@@ -115,18 +115,14 @@ public class TMPTwin : MonoBehaviour
 
     private void Sync()
     {
-        if (kind == TwinKind.Fishing)
-        {
-            TextMirror.ApplyFishingTMP(source, twin);
-        }
-        else
-        {
-            TextMirror.CopyTextProperties(source, twin);
-            twin.ForceMeshUpdate();
-            MarkRebuild();
-        }
+        TextMirror.CopyTextProperties(source, twin);
+        twin.ForceMeshUpdate();
+        MarkRebuild();
 
         TextMirror.SyncEffects(source, twin);
+
+        if (kind == TwinKind.Fishing) 
+            TextMirror.ApplyFishingTMP(source, twin);
 
         // Intermission's drop shadow (the game's separate shadow Text is our hidden ShadowParent).
         // Re-applied every sync because CopyTextProperties resets the material.
