@@ -6,9 +6,6 @@ using static UltrakULL.CommonFunctions;
 
 namespace UltrakULL;
 
-// Legacy UI.Text can't use TMP fallback fonts, so for non-English text we mirror each Text into
-// a TextMeshProUGUI "twin" (its font carries FontManager's fallback), hide the original, and let
-// the twin render. The twin's lifecycle is bound to this component; attached by TextToTMPConverter.
 [DisallowMultipleComponent]
 public class TMPTwin : MonoBehaviour
 {
@@ -119,13 +116,9 @@ public class TMPTwin : MonoBehaviour
         twin.ForceMeshUpdate();
         MarkRebuild();
 
-        TextMirror.SyncEffects(source, twin);
-
         if (kind == TwinKind.Fishing) 
             TextMirror.ApplyFishingTMP(source, twin);
 
-        // Intermission's drop shadow (the game's separate shadow Text is our hidden ShadowParent).
-        // Re-applied every sync because CopyTextProperties resets the material.
         if (kind == TwinKind.IntermissionChild)
             TextMirror.AddIntermissionShadow(twin);
     }

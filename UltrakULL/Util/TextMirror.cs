@@ -4,10 +4,7 @@ using UnityEngine.UI;
 
 namespace UltrakULL;
 
-// Pure helpers for mirroring a legacy UnityEngine.UI.Text into a TextMeshProUGUI: building the
-// sibling object and copying properties/effects across. Stateless — TMPTwin owns the lifecycle
-// and calls into here. Kept separate so the component itself stays lifecycle-only.
-internal static class TextMirror
+public static class TextMirror
 {
     /// <summary>
     /// If you are worried about why create TMPro as Child
@@ -15,7 +12,7 @@ internal static class TextMirror
     /// </summary>
     /// <param name="source"></param>
     /// <returns></returns>
-    internal static TextMeshProUGUI CreateChild(Text source)
+    public static TextMeshProUGUI CreateChild(Text source)
     {
         if (source == null) return null;
 
@@ -37,7 +34,7 @@ internal static class TextMirror
         return tmp;
     }
 
-    internal static void CopyTextProperties(Text source, TextMeshProUGUI target)
+    public static void CopyTextProperties(Text source, TextMeshProUGUI target)
     {
         if (source == null || target == null) return;
 
@@ -62,57 +59,14 @@ internal static class TextMirror
         target.fontStyle = ConvertFontStyle(source.fontStyle);
     }
 
-    [NeedRework]
-    internal static void SyncEffects(Text source, TextMeshProUGUI target)
-    {
-        if (source == null || target == null) return;
-
-        Shadow sourceShadow = source.GetComponent<Shadow>();
-        Shadow targetShadow = target.GetComponent<Shadow>();
-        if (sourceShadow != null)
-        {
-            // Outline derives from Shadow, so an existing Outline would match GetComponent<Shadow>();
-            // only reuse a plain Shadow, otherwise replace it.
-            if (targetShadow == null || targetShadow.GetType() != typeof(Shadow))
-            {
-                if (targetShadow != null) Object.Destroy(targetShadow);
-                targetShadow = target.gameObject.AddComponent<Shadow>();
-            }
-            CopyShadowSettings(sourceShadow, targetShadow);
-        }
-        else if (targetShadow != null && targetShadow.GetType() == typeof(Shadow))
-        {
-            Object.Destroy(targetShadow);
-        }
-
-        Outline sourceOutline = source.GetComponent<Outline>();
-        Outline targetOutline = target.GetComponent<Outline>();
-        if (sourceOutline != null)
-        {
-            if (targetOutline == null)
-                targetOutline = target.gameObject.AddComponent<Outline>();
-            CopyShadowSettings(sourceOutline, targetOutline);
-        }
-        else if (targetOutline != null)
-        {
-            Object.Destroy(targetOutline);
-        }
-    }
-
-    private static void CopyShadowSettings(Shadow source, Shadow target)
-    {
-        if (source == null || target == null) return;
-        target.effectColor = source.effectColor;
-        target.effectDistance = source.effectDistance;
-        target.useGraphicAlpha = source.useGraphicAlpha;
-    }
-
-    // Drop shadow for the intermission text. UI.Shadow is inert on TMP, so use TMP's native underlay
-    // on a per-instance material. Re-applied each Sync since CopyTextProperties resets the material.
+    /// <summary>
+    /// It looks alright in 3-2 and 6-2(
+    /// </summary>
+    /// <param name="tmp"></param>
     internal static void AddIntermissionShadow(TextMeshProUGUI tmp)
     {
         if (tmp == null) return;
-        Material mat = tmp.fontMaterial; // instantiates a per-label material copy; leaves shared ones alone
+        Material mat = tmp.fontMaterial;
         mat.EnableKeyword(ShaderUtilities.Keyword_Underlay);
         mat.SetColor(ShaderUtilities.ID_UnderlayColor, new Color(0f, 0f, 0f, 0.75f));
         mat.SetFloat(ShaderUtilities.ID_UnderlayOffsetX, 0.5f);
