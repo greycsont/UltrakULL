@@ -151,6 +151,7 @@ public class TMPTwin : MonoBehaviour
 
     private static TwinKind Classify(Text source)
     {
+        if (!InSpecialScene()) return TwinKind.Normal;
         if (IsIntermissionShadowParent(source)) return TwinKind.ShadowParent;
         if (IsIntermissionShadowChild(source)) return TwinKind.IntermissionChild;
         if (IsFishingResultText(source)) return TwinKind.FishingCaught;
@@ -171,17 +172,20 @@ public class TMPTwin : MonoBehaviour
 
     // iirc these mf is because the intermission text's shadow is a separate Text child
     private static bool IsIntermissionShadowParent(Text source) =>
-        source != null && InIntermission() &&
+        source != null &&
         AncestorNamesMatch(source.transform, "Text", "Panel (1)", "Panel", "PowerUpVignette", "Canvas");
 
     private static bool IsIntermissionShadowChild(Text source) =>
-        source != null && InIntermission() &&
+        source != null &&
         AncestorNamesMatch(source.transform, "Text (1)", "Text", "Panel (1)", "Panel", "PowerUpVignette", "Canvas");
 
-    private static bool InIntermission()
+    private static bool InSpecialScene()
     {
         string scene = GetCurrentSceneName();
-        return scene == "Intermission1" || scene == "Intermission2";
+        return 
+        scene == "Intermission1" 
+        || scene == "Intermission2"
+        || scene == "Level 5-S";
     }
 
     // Walks up from t, matching each transform's name against names in order (names[0] is t itself).
