@@ -101,11 +101,10 @@ public static class TextMirror
     /// Yes, Word Wrapping is intentional in 5-S
     /// But tbh only one fish wil wrapping
     /// </summary>
-    /// <param name="source"></param>
     /// <param name="tmp"></param>
-    internal static void ApplyFishingTMP(Text source, TextMeshProUGUI tmp)
+    internal static void ApplyFishCaughtShadow(TextMeshProUGUI tmp)
     {
-        if (source == null || tmp == null) return;
+        if (tmp == null) return;
 
         Material mat = tmp.fontMaterial;
         mat.EnableKeyword(ShaderUtilities.Keyword_Underlay);
@@ -113,6 +112,26 @@ public static class TextMirror
         mat.SetFloat(ShaderUtilities.ID_UnderlayOffsetY, -0.2f);
         mat.SetFloat(ShaderUtilities.ID_UnderlayDilate, 0.1f);
         mat.SetFloat(ShaderUtilities.ID_UnderlaySoftness, 0.25f);
+
+        tmp.overflowMode = TextOverflowModes.Overflow;
+
+        
+        tmp.ForceMeshUpdate(true);
+    }
+
+    /// <summary>
+    /// I saw a video of naming in jai's base library and I saw this GOAT way for naiming
+    /// </summary>
+    /// <param name="tmp"></param>
+    internal static void Apply_Fish_Size_And_Fishing_Location_Outline(TextMeshProUGUI tmp)
+    {
+        if (tmp == null) return;
+
+        Material mat = tmp.fontMaterial;
+        mat.EnableKeyword(ShaderUtilities.Keyword_Outline);
+        mat.SetFloat(ShaderUtilities.ID_FaceDilate, 0.1f);
+        mat.SetFloat(ShaderUtilities.ID_OutlineWidth, 0.1f);
+        mat.SetColor(ShaderUtilities.ID_OutlineColor, new Color(0f, 0f, 0f, 1f));
 
         tmp.overflowMode = TextOverflowModes.Overflow;
 
