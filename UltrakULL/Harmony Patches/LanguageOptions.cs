@@ -320,7 +320,7 @@ public static class InjectLanguageButton
         void SelectLanguage(string language)
         {
             Logging.Message("Selected language: " + language);
-            LanguageManager.SwitchLanguage(language);
+            LanguageManager.TrySwitchLanguage(language);
         }
 
         Logging.Message("Setting up navigation buttons to hide language page...");

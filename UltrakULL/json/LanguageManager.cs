@@ -12,7 +12,6 @@ using static UltrakULL.CommonFunctions;
 
 namespace UltrakULL.json;
 
-[NeedRework]
 public static class LanguageManager
 {
     public static Dictionary<string, Lang> allLanguages = new Dictionary<string, Lang>();
@@ -21,8 +20,6 @@ public static class LanguageManager
     private static ManualLogSource jsonLogger = Logger.CreateLogSource("LanguageManager");
     public static ConfigFile configFile;
 
-    // Raised after Current has been swapped. OldValue is null on the very first (startup) set.
-    // Subscribe from a module's own init, before InitializeManager runs.
     public static event Action<ValueChangedEvent<Lang>> OnLanguageChanged;
 
 		#region Helper Properties
@@ -173,10 +170,7 @@ public static class LanguageManager
         }
     }
 
-    // Swaps the active language and lets every interested module rebuild its own resources through
-    // OnLanguageChanged. Touches no scene objects, so it is safe to call during startup. Reacting to
-    // a *user* changing language means calling SwitchLanguage instead.
-    public static bool SetCurrentLanguage(string langName)
+    private static bool SetCurrentLanguage(string langName)
     {
         if (!allLanguages.TryGetValue(langName, out Lang lang))
         {
@@ -200,15 +194,21 @@ public static class LanguageManager
         return true;
     }
 
-    // User-initiated switch: swap the language, then refresh the UI that is already on screen.
-    public static void SwitchLanguage(string langName)
+    /// <summary>
+    /// This is the API of changning language
+    /// </summary>
+    /// <param name="langName"></param>
+    public static void TrySwitchLanguage(string langName)
     {
         if (SetCurrentLanguage(langName))
             RefreshLiveUI();
     }
 
-    // Re-runs the scene's replacement wave plus the few components it doesn't catch. Never called
-    // during startup - none of these objects exist that early, which is what used to NRE.
+    /// <summary>
+    /// Reruns the onSceneLoaded and it replaces the current UI
+    /// It still have a lot of issues when switch to English
+    /// That's why HUDMessage used in here(
+    /// </summary>
     private static void RefreshLiveUI()
     {
         MainPatch.Instance.onSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
