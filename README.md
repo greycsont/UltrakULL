@@ -10,6 +10,8 @@ Currently it supports Simplfied Chinese only, WIP
 ## 项目情况
 目前只支持文本相关，配音相关还是1.3.0非异步的那套，纹理替换更是没开始搞（
 
+由于纯懒比所以先拿个处理后的灰喉皮肤当封面占位符（
+
 ## 如何安装
 在安装之前请确保你已经安装过了 UltrakULL 或者说汉化，因为本项目不附带翻译文本文件
 
@@ -29,16 +31,11 @@ Currently it supports Simplfied Chinese only, WIP
 如果有任何问题请先觉得我是vibecoder然后顺从，至于为什么有人都天天拿自己vibecoding给自己声称clearwater完全删除其他所有人的贡献这种事实上的错误，把整个事件朝辱骂开盒极端化这种行为找补我稍微拿这个当下挡箭牌怎么了
 
 ## 以知BUG
-电子血宫的音乐 The Cyber Grind 显示错位 by RewTwn
-
-钓上鱼后的文字没阴影 / outline
-
-钓上鱼后的文字大小不对
-
-钓上鱼后的文字没有打开动画
+u1s1电子血宫那个显示当前播放音乐用的是unity的默认字体啊
+结果自动转成了用VCROSD，但我这真没办法（
 
 ## 字体
-VCROSD的后备字体: 破晓像素体 (我知道这个字体不是特别适配但我找不到更好的了，找到的最好的是方正的那些像素字体但他要花钱授权，而且搞不好如果只买了一部分的授权另一部分没搞定然后一不小心直接赔的倾家荡产。如果找到更好的字体可以联系我)
+VCROSD的后备字体: 文泉驿点阵宋体 12px
 
 武器/电子血宫终端等: 缝合像素字体 10px
 
@@ -79,28 +76,39 @@ r1赢了
 `"最強災厄魔神兇刃暴君暗雲狂鬼凶悪終焉襲撃爆砕莫大破滅殺戮崩壊暗黒妹・六六六" Remix` 这种东西
 
 ## 1.0.1?
-修复了部分风格不会翻译的问题，为什么会有部分风格不走字典查询啊
+- 修复了部分风格不会翻译的问题，为什么会有部分风格不走字典查询啊
 
 ## 1.0.2？
-修复了MirrorReaper和Providence少一行strategy的问题
+- 修复了MirrorReaper和Providence少一行strategy的问题
 
-修复了Power字幕没翻译的问题 `但这个1.0.1时是故意没加的所以不算修复`
+- 修复了Power字幕没翻译的问题 `但这个1.0.1时是故意没加的所以不算修复`
 
-修复了部分风格带颜色富文本但没翻译会被检测为有翻译导致StyleHUD出现神秘`+  x2`之类的问题
+- 修复了部分风格带颜色富文本但没翻译会被检测为有翻译导致StyleHUD出现神秘`+  x2`之类的问题
 
 ## 1.1.0?
-将VCR OSD MONO 配套字体从凤凰点阵体修改为文泉驿点阵宋体 12px
+- 将VCR OSD MONO 配套字体从凤凰点阵体修改为文泉驿点阵宋体 12px
 
-修改了文泉驿点阵宋体 12px和16px/VCROSD fallback font和秘密终端 fallback font 的渲染模式为SDFAA_HINTED，牺牲了一点字体的美观/准确性换来了低分辨率下拥有更高的清晰度
+- 修改了文泉驿点阵宋体 12px和16px/VCROSD fallback font和秘密终端 fallback font 的渲染模式为SDFAA_HINTED，牺牲了一点字体的美观/准确性换来了低分辨率下拥有更高的清晰度
 
-将 缝合像素字体 10px 的baseline增加了5 `bassline drop(`
+- 将 缝合像素字体 10px 的baseline增加了5 `bassline drop(`
 
-修复了关卡选择界面里关卡通关等级文字靠下的问题 `这雷埋得有点深过头了`
+- 修复了关卡选择界面里关卡通关等级文字靠下的问题 `这雷埋得有点深过头了`
 
-修复了3-2和6-2的过场动画结尾字幕没有阴影的问题
+- 修复了3-2和6-2的过场动画结尾字幕没有阴影的问题
 
-LanguageManager Rework(?)，为了兼容其他语言，所以接下来就是大量的breaking change了（
+- LanguageManager Rework(?)，为了兼容其他语言，所以接下来就是大量的breaking change了（
 
 `如果你在意为什么会牺牲美观可以看一下什么是Hinting: https://learn.microsoft.com/en-us/typography/truetype/hinting`
 
 `当然这篇FreeType的更新文档在例子上我觉得更加直观一点：https://freetype.org/freetype2/docs/hinting/subpixel-hinting.html`
+
+## 1.2.0？
+- 修复了电子血宫的音乐 The Cyber Grind 显示错位 issue by RewTwn
+
+- 修复了钓上鱼后的文字没阴影 / outline
+
+- 修复了钓上鱼后的文字大小不对
+
+- 修复了钓上鱼后的文字没有打开动画
+
+- 修改了(?)钓上鱼后的结算文字不会自动换行的问题
