@@ -8,7 +8,6 @@ using UnityEngine;
 
 namespace UltrakULL.Harmony_Patches.Subtitles;
 
-[NeedRework]
 [HarmonyPatch(typeof(PowerVoiceController))]
 public static class PowerSubtitlesSwap
 {
