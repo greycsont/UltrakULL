@@ -24,7 +24,7 @@ public static class NailgunPatch
     /// Since GetComponentInChildren() is a performance breaker
     /// </summary>
     /// <param name="__instance">Nailgun</param>
-    [HarmonyPatch(nameof(Nailgun.Start)), HarmonyPostfix]
+    [HarmonyPatch(nameof(Nailgun.Start))] [HarmonyPostfix]
     public static void StartPostfix(Nailgun __instance)
     {
         var rechargeText = __instance.rechargingOverlay?.GetComponentInChildren<TMP_Text>(true);
@@ -37,7 +37,7 @@ public static class NailgunPatch
     /// This one is for arabic-indic numbers
     /// </summary>
     /// <param name="__instance">Nailgun</param>
-    [HarmonyPatch(nameof(Nailgun.Update)), HarmonyPostfix]
+    [HarmonyPatch(nameof(Nailgun.Update))] [HarmonyPostfix]
     public static void UpdatePostfix(Nailgun __instance)
     {
         var nailgun = __instance;
@@ -56,9 +56,11 @@ public static class NailgunPatch
     
     /// <summary>
     /// Modify the Zap's HUD text
+    /// The Alt ver doesn't have the "DISTANCE:" in front of numbers
+    /// Just take a salt of that
     /// </summary>
     /// <param name="__instance">Nailgun</param>
-    [HarmonyPatch(nameof(Nailgun.UpdateZapHud)), HarmonyPostfix]
+    [HarmonyPatch(nameof(Nailgun.UpdateZapHud))] [HarmonyPostfix]
     public static void Za(Nailgun __instance)
     {
         var nailgun = __instance;
