@@ -1,7 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <!-- Game install location. Override with an env var or Directory.Build.props;
-       the hardcoded value is only a fallback for when nothing else is set. -->
   <PropertyGroup>
     <ULTRAKILLPath Condition="'$(ULTRAKILLPath)' == ''">E:\SteamLibrary\steamapps\common\ULTRAKILL</ULTRAKILLPath>
     <ManagedDir>$(ULTRAKILLPath)\ULTRAKILL_Data\Managed</ManagedDir>
@@ -41,8 +39,14 @@
     <Reference Include="BepInEx"><HintPath>$(BepInExCoreDir)\BepInEx.dll</HintPath></Reference>
     <Reference Include="Assembly-CSharp"><HintPath>$(ManagedDir)\Assembly-CSharp.dll</HintPath></Reference>
     <Reference Include="Newtonsoft.Json"><HintPath>$(ManagedDir)\Newtonsoft.Json.dll</HintPath></Reference>
+    <PackageReference Include="Krafs.Publicizer" Version="2.3.0">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <Reference Include="$(ManagedDir)\UnityEngine*.dll" />
     <Reference Include="$(ManagedDir)\Unity.*.dll" />
+    
+    <Publicize Include="Assembly-CSharp" />
   </ItemGroup>
 
   <!-- Embedded resources -->
