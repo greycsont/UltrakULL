@@ -33,7 +33,8 @@ public static class PauseMenuPatch
 public static class OptionsPatch
 {
     [HarmonyPatch("BuildPage"), HarmonyPostfix]
-    public static void OptionsSetSelectedPostfix(SettingsPageBuilder __instance) {
+    public static void OptionsSetSelectedPostfix(SettingsPageBuilder __instance) 
+    {
         try
         {
             Logging.Debug("Patching Option menu...");
@@ -41,47 +42,46 @@ public static class OptionsPatch
             switch (__instance.name.ToUpper())
             {
                 case "GENERAL":
-                    {
-                        Logging.Debug("GENERAL");
-                        Options.PatchGeneralOptions(optionsObject);
-                        break;
-                    }
+                {
+                    Logging.Debug("GENERAL");
+                    Options.PatchGeneralOptions(optionsObject);
+                    break;
+                }
                 case "CONTROLS":
-                    {
-                        Logging.Debug("CONTROLS");
-                        Options.PatchControlOptions(optionsObject);
-                        break;
-                    }
+                {
+                    Logging.Debug("CONTROLS");
+                    Options.PatchControlOptions(optionsObject);
+                    break;
+                }
                 case "GRAPHICS":
-                    {
-                        Logging.Debug("GRAPHICS");
-                        Options.PatchGraphicsOptions(optionsObject);
-                        break;
-                    }
+                {
+                    Logging.Debug("GRAPHICS");
+                    Options.PatchGraphicsOptions(optionsObject);
+                    break;
+                }
                 case "AUDIO":
-                    {
-                        Logging.Debug("AUDIO");
-                        Options.PatchAudioOptions(optionsObject);
-                        break;
-                    }
+                {
+                    Logging.Debug("AUDIO");
+                    Options.PatchAudioOptions(optionsObject);
+                    break;
+                }
                 case "ASSIST":
-                    {
-                        Logging.Debug("ASSIST");
-                        Options.PatchAssistOptions(optionsObject);
-                        break;
-                    }
+                {
+                    Logging.Debug("ASSIST");
+                    Options.PatchAssistOptions(optionsObject);
+                    break;
+                }
                 case "HUD":
-                    {
-                        Logging.Debug("HUD");
-                        Options.PatchHUDOptions(optionsObject);
-                        break;
-                    }
+                {
+                    Logging.Debug("HUD");
+                    Options.PatchHUDOptions(optionsObject);
+                    break;
+                }
                 default:
-                    {
-                        Logging.Warn("Unknown Option page name: " + __instance.name);
-                        break;
-                    }
-
+                {
+                    Logging.Warn("Unknown Option page name: " + __instance.name);
+                    break;
+                }
             }
         }
         catch (Exception e)
