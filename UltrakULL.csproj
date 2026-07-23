@@ -13,7 +13,6 @@
     <RootNamespace>UltrakULL</RootNamespace>
     <LangVersion>latest</LangVersion>
     <Deterministic>true</Deterministic>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <NoWarn>0168;0169;0219;0414;0618;0649;1998;4014</NoWarn>
   </PropertyGroup>
@@ -45,7 +44,7 @@
     </PackageReference>
     <Reference Include="$(ManagedDir)\UnityEngine*.dll" />
     <Reference Include="$(ManagedDir)\Unity.*.dll" />
-    
+
     <Publicize Include="Assembly-CSharp" />
   </ItemGroup>
 
