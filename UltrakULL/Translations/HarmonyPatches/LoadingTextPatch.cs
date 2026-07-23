@@ -9,29 +9,30 @@ using static UltrakULL.CommonFunctions;
 
 namespace UltrakULL.Harmony_Patches;
 
-[HarmonyPatch(typeof(SceneHelper),"OnSceneLoaded")]
+[HarmonyPatch(typeof(SceneHelper))]
 public class LoadingTextPatch
 {
     public static TextMeshProUGUI loadingText;
     
-    public static void updateLoadingText()
+    public static void UpdateLoadingText()
     {
         if(loadingText != null)
         {
             loadingText.text = LanguageManager.CurrentLanguage.misc.loading;
         }
     }
-    [HarmonyPostfix]
-    public static void LoadingTextPatch_Postfix(Scene scene, LoadSceneMode mode, ref SceneHelper __instance, ref GameObject ___loadingBlocker)
+
+    /// <summary>
+    /// This patch will active after scene loaded
+    /// not when loading blocker enabled
+    /// </summary>
+    /// <param name="__instance"></param>
+    [HarmonyPatch(nameof(SceneHelper.OnSceneLoaded))] [HarmonyPostfix]
+    public static void LoadingTextPatch_Postfix(SceneHelper __instance)
     {
-        if(!isUsingEnglish())
-        {
-            loadingText = GetTextMeshProUGUI(FindDescendant(___loadingBlocker,"Panel","Text"));
+        if(isUsingEnglish()) return;
 
-
-            loadingText.text = LanguageManager.CurrentLanguage.misc.loading;
-        }
-
-        
+        loadingText = GetTextMeshProUGUI(FindDescendant(__instance.loadingBlocker,"Panel","Text"));
+        loadingText.text = LanguageManager.CurrentLanguage.misc.loading;
     }
 }

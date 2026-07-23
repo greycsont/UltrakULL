@@ -214,7 +214,7 @@ public static class LanguageManager
         MainPatch.Instance.onSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
 
         InjectLanguageButton.updateLanguageButtonText();
-        LoadingTextPatch.updateLoadingText();
+        LoadingTextPatch.UpdateLoadingText();
 
         if (GetCurrentSceneName() != "Main Menu")
         {
