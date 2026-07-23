@@ -50,7 +50,7 @@
 
   <!-- Embedded resources -->
   <ItemGroup>
-    <EmbeddedResource Include="Resources\SubtitledSources.json" LogicalName="UltrakULL.SubtitledSources.json" />
+    <EmbeddedResource Include="resources\SubtitledSources.json" LogicalName="UltrakULL.SubtitledSources.json" />
   </ItemGroup>
 
   <!-- Fail early with a clear message if the game path is wrong -->
@@ -63,8 +63,8 @@
        Copy/Move create their destination folders, so no MakeDir step is needed. -->
   <Target Name="Package" AfterTargets="Build">
     <ItemGroup>
-      <_JsonTemplates Include="$(ProjectDir)UltrakULL\json\templates\*.json" />
-      <_AudioTemplates Include="$(ProjectDir)UltrakULL\audio\templates\**\*.*" />
+      <_JsonTemplates Include="$(ProjectDir)templates\languages\*.json" />
+      <_AudioTemplates Include="$(ProjectDir)templates\audio\**\*.*" />
     </ItemGroup>
 
     <Move SourceFiles="$(TargetDir)UltrakULL.dll" DestinationFolder="$(TargetDir)plugins\UltrakULL" />
