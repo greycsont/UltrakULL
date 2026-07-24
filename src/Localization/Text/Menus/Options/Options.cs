@@ -17,35 +17,32 @@ public static partial class Options
 
     private static void PatchOptions(GameObject optionsMenu)
     {
-        if (optionsMenu != null)
-        {
-            PatchNavigation(optionsMenu);
+        PatchNavigation(optionsMenu);
 
-            try
-            {
-                GameObject savesOptions = FindDescendant(optionsMenu, "Save Slots");
-                try { PatchSavesOptions(savesOptions); } catch (Exception e) { Logging.Error("Failed to patch save options."); Logging.Error(e.ToString()); }
-                GameObject colorblindOptions = FindDescendant(optionsMenu, "Pages", "ColorBlindness Options");
-                try { PatchColorsOptions(colorblindOptions); } catch (Exception e) { Logging.Error("Failed to patch color options."); Logging.Error(e.ToString()); }
-                GameObject rumbleOptions = FindDescendant(optionsMenu, "Rumble Settings");
-                try { PatchRumbleOptions(rumbleOptions); } catch (Exception e) { Logging.Error("Failed to patch rumble options."); Logging.Error(e.ToString()); }
-                GameObject advancedOptions = FindDescendant(optionsMenu, "Advanced Options");
-                try { PatchAdvancedOptions(advancedOptions); } catch (Exception e) { Logging.Error("Failed to patch advanced options."); Logging.Error(e.ToString()); }
-                GameObject steamOptions = FindDescendant(optionsMenu, "Leaderboard Manager");
-                try { PatchSteamLeaderboard(steamOptions); } catch (Exception e) { Logging.Error("Failed to patch steam leaderboard."); Logging.Error(e.ToString()); }
-            }
-            catch (Exception e)
-            {
-                Logging.Error("Something went wrong while patching options.");
-                Logging.Error(e.ToString());
-            }
+        SafeRun.Run(
+            "Options: Saves",
+            () => PatchSavesOptions(
+                FindDescendant(optionsMenu, "Save Slots")));
 
-        }
-        else
-        {
-            Logging.Error("An error occured while patching options menu");
-        }
+        SafeRun.Run(
+            "Options: Colors",
+            () => PatchColorsOptions(
+                FindDescendant(optionsMenu, "Pages", "ColorBlindness Options")));
 
+        SafeRun.Run(
+            "Options: Rumble",
+            () => PatchRumbleOptions(
+                FindDescendant(optionsMenu, "Rumble Settings")));
+
+        SafeRun.Run(
+            "Options: Advanced",
+            () => PatchAdvancedOptions(
+                FindDescendant(optionsMenu, "Advanced Options")));
+
+        SafeRun.Run(
+            "Options: Steam leaderboard",
+            () => PatchSteamLeaderboard(
+                FindDescendant(optionsMenu, "Leaderboard Manager")));
     }
 
     public static void Patch(ref GameObject game)
