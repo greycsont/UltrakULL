@@ -1,8 +1,7 @@
-﻿using System;
+using System;
 using HarmonyLib;
 using UltrakULL.json;
 
-using static UltrakULL.CommonFunctions;
 
 namespace UltrakULL.Harmony_Patches;
 
@@ -14,7 +13,7 @@ public static class SpawnMenuPatch
     [HarmonyPrefix]
     public static bool CreateButtons_Prefix(SpawnableObject[] list, ref string sectionName, ref SpawnMenu __instance)
     {
-        if(isUsingEnglish())
+        if(LanguageManager.IsEnglish)
         {
             return true;
         }

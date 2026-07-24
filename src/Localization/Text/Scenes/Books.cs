@@ -1,4 +1,6 @@
-﻿using UltrakULL.json;
+using UltrakULL.json;
+
+using static UltrakULL.SceneObjects;
 
 namespace UltrakULL;
 
@@ -6,7 +8,7 @@ public static class Books
 {
 	public static string GetBookText(string originalText)
 	{
-		string currentSceneName = CommonFunctions.GetCurrentSceneName();
+		string currentSceneName = GetCurrentSceneName();
 		switch (currentSceneName)
 		{
 		case "CreditsMuseum2":

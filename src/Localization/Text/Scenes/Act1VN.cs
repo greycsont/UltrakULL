@@ -1,9 +1,10 @@
-﻿
+
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static UltrakULL.CommonFunctions;
 using UltrakULL.json;
+
+using static UltrakULL.SceneObjects;
 
 namespace UltrakULL;
 

@@ -1,9 +1,8 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using TMPro;
 using UnityEngine.UI;
 using UltrakULL.json;
 
-using static UltrakULL.CommonFunctions;
 using UnityEngine;
 
 
@@ -17,7 +16,7 @@ public static class LocalizeVariationOwnership
     [HarmonyPatch(nameof(VariationInfo.UpdateMoney)), HarmonyPostfix]
     public static void UpdateMoney_Postfix(VariationInfo __instance, int ___money, bool ___alreadyOwned, TMP_Text ___buttonText, TMP_Text ___equipText)
     {
-        if(isUsingEnglish())
+        if(LanguageManager.IsEnglish)
         {
             return;
         }

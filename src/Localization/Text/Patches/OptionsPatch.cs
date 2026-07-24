@@ -1,6 +1,5 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using System;
-using static UltrakULL.CommonFunctions;
 using SettingsMenu.Components;
 using UnityEngine;
 using TMPro;

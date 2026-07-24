@@ -1,11 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using HarmonyLib;
 using TMPro;
 using UltrakULL.json;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UltrakULL.CommonFunctions;
+
+using static UltrakULL.SceneObjects;
 
 namespace UltrakULL.Harmony_Patches;
 

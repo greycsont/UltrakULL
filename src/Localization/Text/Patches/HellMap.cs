@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -10,7 +10,8 @@ using TMPro;
 using UltrakULL.json;
 using UnityEngine;
 
-using static UltrakULL.CommonFunctions;
+
+using static UltrakULL.SceneObjects;
 
 namespace UltrakULL.Harmony_Patches;
 

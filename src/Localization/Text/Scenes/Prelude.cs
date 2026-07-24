@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-using static UltrakULL.CommonFunctions;
 using UltrakULL.json;
+
+using static UltrakULL.SceneObjects;
 
 namespace UltrakULL;
 
@@ -42,6 +43,6 @@ public static class Prelude
         string levelName = PreludeStrings.GetLevelName();
         string levelChallenge = PreludeStrings.GetLevelChallenge(currentLevel);
 
-        PatchResultsScreen(levelName,levelChallenge);
+        ResultsScreenLocalizer.PatchResultsScreen(levelName,levelChallenge);
     }
 }

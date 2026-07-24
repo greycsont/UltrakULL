@@ -1,8 +1,7 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
-using static UltrakULL.CommonFunctions;
 using UltrakULL.json;
 
 namespace UltrakULL.Harmony_Patches;
@@ -18,7 +17,7 @@ public static class LocalizeCustomPatternToggle
     {
         try
         {
-            if(isUsingEnglish())
+            if(LanguageManager.IsEnglish)
             {
                 return false;
             }
@@ -37,7 +36,7 @@ public static class LocalizeCustomPatternToggle
         }
         catch (Exception e)
         {
-            HandleError(e);
+            Logging.Error($"Failed to apply custom Cyber Grind pattern state: {e}");
             return true;
         }
     }

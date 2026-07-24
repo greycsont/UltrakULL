@@ -1,8 +1,9 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using UltrakULL.json;
 using UnityEngine.SceneManagement;
 
-using static UltrakULL.CommonFunctions;
+
+using static UltrakULL.SceneObjects;
 
 namespace UltrakULL.Harmony_Patches;
 
@@ -15,7 +16,7 @@ public static class LocalizeCoinTranslation
     [HarmonyPrefix]
     public static bool CoinsToPoints_MyPatch(CrateCounter __instance, int ___savedCoins)
     {
-        if(isUsingEnglish())
+        if(LanguageManager.IsEnglish)
         {
             return true;
         }

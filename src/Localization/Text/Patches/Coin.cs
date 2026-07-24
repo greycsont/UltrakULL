@@ -1,8 +1,7 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using UltrakULL.json;
 using UnityEngine;
 
-using static UltrakULL.CommonFunctions;
 
 namespace UltrakULL.Harmony_Patches;
 
@@ -14,7 +13,7 @@ public static class LocalizeTranslateStyleStrings
     [HarmonyPrefix]
     public static bool RicoshotPointsCheck_MyPatch(Coin __instance, GameObject ___altBeam, bool ___wasShotByEnemy, StyleHUD ___shud, EnemyIdentifier ___eid)
     {
-        if(isUsingEnglish())
+        if(LanguageManager.IsEnglish)
         {
             return true;
         }

@@ -5,7 +5,6 @@ using UltrakULL.audio;
 using UltrakULL.json;
 using UnityEngine;
 
-using static UltrakULL.CommonFunctions;
 
 namespace UltrakULL.Harmony_Patches.AudioSwaps;
 
@@ -15,7 +14,7 @@ public static class GabrielAudioSwap
     [HarmonyPostfix]
     public static void Gabriel_VoiceSwap(ref Gabriel __instance)
     {
-        if (LanguageManager.configFile.Bind("General", "activeDubbing", "False").Value == "False" || isUsingEnglish())
+        if (LanguageManager.configFile.Bind("General", "activeDubbing", "False").Value == "False" || LanguageManager.IsEnglish)
             return;
 
         ApplyVoiceSwap(__instance);

@@ -1,13 +1,14 @@
-﻿using System;
+using System;
 using HarmonyLib;
 using UnityEngine;
 using UnityEngine.UI;
 
 using UltrakULL.json;
 
-using static UltrakULL.CommonFunctions;
 using System.IO;
 using TMPro;
+
+using static UltrakULL.SceneObjects;
 
 namespace UltrakULL.Harmony_Patches;
 
@@ -90,7 +91,7 @@ public static class LocalizeSaveLoadFailMessage
                 Logging.Warn("Failed to patch Save-Load Fail Message. but this message is fine to ignore.");
                 Logging.Warn(e.ToString());
             }
-            if (isUsingEnglish()) { return; }
+            if (LanguageManager.IsEnglish) { return; }
             ___rootMergeOptionBtnText.text = string.Format("<b>Saves{0}</b>\n{1}", Path.DirectorySeparatorChar, LocalizeSaveSlots.SaveToString(rootSlot.exists, rootSlot.highestLvlNumber, rootSlot.highestDifficulty));
             ___slotOneMergeOptionBtnText.text = string.Format("<b>Saves{0}Slot1{1}</b>\n{2}", Path.DirectorySeparatorChar, Path.DirectorySeparatorChar, LocalizeSaveSlots.SaveToString(slotOneData.exists, slotOneData.highestLvlNumber, slotOneData.highestDifficulty));
         }
@@ -110,7 +111,7 @@ public static class LocalizeSaveSlots
     [HarmonyPatch("UpdateSlotState"), HarmonyPostfix]
     public static void UpdateSlotState_Postfix(SlotRowPanel targetPanel, SaveSlotMenu.SlotData data)
     {
-        if(isUsingEnglish())
+        if(LanguageManager.IsEnglish)
         {
             return;
         }
@@ -160,7 +161,7 @@ public static class LocalizeSaveSlots
     [HarmonyPatch("ClearSlot"), HarmonyPostfix]
     public static void ClearSlotPostfix_MyPatch(int slot, TextMeshProUGUI ___wipeConsentContent)
     {
-        if(isUsingEnglish())
+        if(LanguageManager.IsEnglish)
         {
             return;
         }

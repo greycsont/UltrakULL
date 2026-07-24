@@ -1,11 +1,12 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using TMPro;
 using UltrakULL.json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static UltrakULL.CommonFunctions;
 
+
+using static UltrakULL.SceneObjects;
 
 namespace UltrakULL.Harmony_Patches;
 
@@ -30,7 +31,7 @@ public class LoadingTextPatch
     [HarmonyPatch(nameof(SceneHelper.OnSceneLoaded))] [HarmonyPostfix]
     public static void LoadingTextPatch_Postfix(SceneHelper __instance)
     {
-        if(isUsingEnglish()) return;
+        if(LanguageManager.IsEnglish) return;
 
         loadingText = GetTextMeshProUGUI(FindDescendant(__instance.loadingBlocker,"Panel","Text"));
         loadingText.text = LanguageManager.CurrentLanguage.misc.loading;

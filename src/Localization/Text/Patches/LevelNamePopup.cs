@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using HarmonyLib;
+using UltrakULL.json;
 
-using static UltrakULL.CommonFunctions;
 
 namespace UltrakULL.Harmony_Patches;
 
@@ -13,7 +13,7 @@ public static class LocalizeLevelPopup
     [HarmonyPrefix]
     public static bool NameAppear_MyPatch(LevelNamePopup __instance, ref string ___layerString, ref string ___nameString)
     {
-        if(isUsingEnglish())
+        if(LanguageManager.IsEnglish)
         {
             return true;
         }

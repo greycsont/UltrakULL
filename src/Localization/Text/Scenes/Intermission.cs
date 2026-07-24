@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using static UltrakULL.CommonFunctions;
 using UltrakULL.json;
+
+using static UltrakULL.SceneObjects;
 
 namespace UltrakULL;
 

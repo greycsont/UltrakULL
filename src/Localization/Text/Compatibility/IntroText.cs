@@ -1,9 +1,11 @@
-﻿using HarmonyLib;
+using HarmonyLib;
+using UltrakULL.json;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-using static UltrakULL.CommonFunctions;
+
+using static UltrakULL.SceneObjects;
 
 namespace UltrakULL.Harmony_Patches;
 
@@ -15,7 +17,7 @@ public static class LocalizeIntroText
     [HarmonyPrefix]
     public static bool IntroTextStart_MyPatch(IntroText __instance, TMP_Text ___txt, string ___fullString)
     {
-        if(isUsingEnglish())
+        if(LanguageManager.IsEnglish)
         {
             return true;
         }

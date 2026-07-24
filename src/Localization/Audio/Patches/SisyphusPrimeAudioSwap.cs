@@ -4,7 +4,6 @@ using UltrakULL.audio;
 using UltrakULL.json;
 using UnityEngine;
 
-using static UltrakULL.CommonFunctions;
 
 namespace UltrakULL.Harmony_Patches.AudioSwaps;
 
@@ -14,7 +13,7 @@ public class SisyphusPrimeAudioSwap
     [HarmonyPostfix]
     public static void SisyphusPrimeAudioSwapPatch(ref SisyphusPrime __instance)
     {
-        if (LanguageManager.configFile.Bind<string>("General", "activeDubbing", "False", (ConfigDescription)null).Value == "False" || isUsingEnglish())
+        if (LanguageManager.configFile.Bind<string>("General", "activeDubbing", "False", (ConfigDescription)null).Value == "False" || LanguageManager.IsEnglish)
             return;
 
         ApplyAudioSwap(__instance);

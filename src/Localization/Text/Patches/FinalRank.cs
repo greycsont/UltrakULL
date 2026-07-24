@@ -1,11 +1,10 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using TMPro;
 using UltrakULL.json;
 using UnityEngine.UI;
 
-using static UltrakULL.CommonFunctions;
 
 namespace UltrakULL.Harmony_Patches;
 
@@ -17,7 +16,7 @@ public static class LocalizeFinalRankInfo
     [HarmonyPrefix]
     public static bool SetInfo_MyPatch(int restarts, bool damage, bool majorUsed, bool cheatsUsed, FinalRank __instance, bool ___noRestarts, bool ___majorAssists, bool ___noDamage)
     {
-        if(isUsingEnglish())
+        if(LanguageManager.IsEnglish)
         {
             return true;
         }

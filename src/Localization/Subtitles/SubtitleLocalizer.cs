@@ -7,7 +7,6 @@ using HarmonyLib;
 using UltrakULL.json;
 using UnityEngine;
 
-using static UltrakULL.CommonFunctions;
 
 namespace UltrakULL;
 
@@ -54,7 +53,7 @@ public static class SubtitleLocalizer
     // Called at runtime from the patched boss methods. Empty/untranslated -> keep the English caption.
     public static string Localize(string caption)
     {
-        if (string.IsNullOrEmpty(caption) || isUsingEnglish())
+        if (string.IsNullOrEmpty(caption) || LanguageManager.IsEnglish)
             return caption;
         return map.TryGetValue(caption, out string translated) ? translated : caption;
     }

@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using TMPro;
 using UltrakULL.audio;
 using UnityEngine;
 using UnityEngine.UI;
 using UltrakULL.json;
-using static UltrakULL.CommonFunctions;
+
+using static UltrakULL.SceneObjects;
 
 namespace UltrakULL;
 
@@ -39,7 +40,7 @@ public static class Act1
         string levelChallenge = Act1Strings.GetLevelChallenge(currentLevel);
 
         PatchHellmap(ref canvasObj);
-        PatchResultsScreen(levelName, levelChallenge);
+        ResultsScreenLocalizer.PatchResultsScreen(levelName, levelChallenge);
 
         //"Crane control" and "Test Elevators" panels in 2-1
         if (currentLevel.Contains("2-1"))

@@ -1,10 +1,11 @@
-﻿using TMPro;
+using TMPro;
 using UltrakULL.audio;
 using UltrakULL.json;
 using UnityEngine;
 using UnityEngine.UI;
 
-using static UltrakULL.CommonFunctions;
+
+using static UltrakULL.SceneObjects;
 
 namespace UltrakULL;
 
@@ -46,7 +47,7 @@ public static class PrimeSanctum
         {
             PrimeSanctumStrings primeSanctumChallengeStrings = new PrimeSanctumStrings();
             string levelname = primeSanctumChallengeStrings.GetLevelName();
-            PatchResultsScreen(levelname, "");
+            ResultsScreenLocalizer.PatchResultsScreen(levelname, "");
             
             PatchSecretText(primeSanctumChallengeStrings);
         }
@@ -110,7 +111,7 @@ public static class PrimeSanctum
             
             
             
-            PatchResultsScreen(levelname, "");
+            ResultsScreenLocalizer.PatchResultsScreen(levelname, "");
             
             PatchSecretText(primeSanctumChallengeStrings);
         }

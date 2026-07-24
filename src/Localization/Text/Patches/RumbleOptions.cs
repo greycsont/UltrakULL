@@ -1,6 +1,5 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using UltrakULL.json;
-using static UltrakULL.CommonFunctions;
 
 namespace UltrakULL.Harmony_Patches;
 
@@ -10,7 +9,7 @@ public class RumbleOptionsPatch
     [HarmonyPrefix]
     public static bool RumbleOptionsFullname(RumbleKey key, ref string __result)
     {
-        if(isUsingEnglish())
+        if(LanguageManager.IsEnglish)
         {
             return true;
         }

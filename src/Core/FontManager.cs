@@ -6,6 +6,7 @@ using UltrakULL.json;
 
 namespace UltrakULL;
 
+/// <summary>Loads shared font assets and manages per-language TMP fallbacks.</summary>
 public static class FontManager
 {
     // This part will add in the fucking future

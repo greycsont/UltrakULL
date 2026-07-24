@@ -1,27 +1,30 @@
-﻿using UltrakULL.json;
-using static UltrakULL.CommonFunctions;
+using UltrakULL.json;
+
+using static UltrakULL.SceneObjects;
 
 namespace UltrakULL;
 
 public static class Act1Strings
 {
+    private static string previousHudMessage;
+
     //1-1 - Heart Of The Sunrise
     private static string Level11(string message, string message2, string input)
     {
         string fullMessage = message + message2;
         if (fullMessage.Contains("ITEMS"))
         {
-            PreviousHudMessage = LanguageManager.CurrentLanguage.act1.act1_limboFirst_items1 + " '<color=orange>" + input + "</color>'" + LanguageManager.CurrentLanguage.act1.act1_limboFirst_items2;
+            previousHudMessage = LanguageManager.CurrentLanguage.act1.act1_limboFirst_items1 + " '<color=orange>" + input + "</color>'" + LanguageManager.CurrentLanguage.act1.act1_limboFirst_items2;
             return LanguageManager.CurrentLanguage.act1.act1_limboFirst_items1 + " \"<color=orange>" + input + "</color>\"" + LanguageManager.CurrentLanguage.act1.act1_limboFirst_items2;
         }
         if (fullMessage.Contains("NAILGUN"))
         {
-            PreviousHudMessage = LanguageManager.CurrentLanguage.act1.act1_limboFirst_nailgun1 + " '<color=orange>" + input + "</color>' " + LanguageManager.CurrentLanguage.act1.act1_limboFirst_nailgun2 + "\n" + LanguageManager.CurrentLanguage.act1.act1_limboFirst_nailgun3;
+            previousHudMessage = LanguageManager.CurrentLanguage.act1.act1_limboFirst_nailgun1 + " '<color=orange>" + input + "</color>' " + LanguageManager.CurrentLanguage.act1.act1_limboFirst_nailgun2 + "\n" + LanguageManager.CurrentLanguage.act1.act1_limboFirst_nailgun3;
             return LanguageManager.CurrentLanguage.act1.act1_limboFirst_nailgun1 + " '<color=orange>" + input + "</color>'" + LanguageManager.CurrentLanguage.act1.act1_limboFirst_nailgun2 + "\n" + LanguageManager.CurrentLanguage.act1.act1_limboFirst_nailgun3;
         }
 
         //Band-aid fix
-        return PreviousHudMessage;
+        return previousHudMessage;
     }
     //1-2 - The Burning World
     private static string Level12(string message, string message2)

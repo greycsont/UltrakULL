@@ -1,8 +1,8 @@
 using HarmonyLib;
+using UltrakULL.json;
 using UnityEngine;
 using UnityEngine.UI;
 
-using static UltrakULL.CommonFunctions;
 
 namespace UltrakULL.Harmony_Patches;
 
@@ -17,7 +17,7 @@ public static class TextToTMPConverter
         [HarmonyPostfix]
         public static void Postfix(Text __instance)
         {
-            if (__instance == null || isUsingEnglish()) return;
+            if (__instance == null || LanguageManager.IsEnglish) return;
             if (IsUniverseLibCanvas(__instance)) return;   // don't touch UnityExplorer / UniverseLib debug UI
             if (__instance.GetComponent<TMPTwin>() == null)
                 __instance.gameObject.AddComponent<TMPTwin>();

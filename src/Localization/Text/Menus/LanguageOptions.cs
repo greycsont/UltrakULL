@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,10 +6,11 @@ using UnityEngine.UI;
 using System.IO;
 using TMPro;
 using UltrakULL.json;
-using static UltrakULL.CommonFunctions;
 using static UltrakULL.UIFactory;
 using System.Linq;
 using UnityEngine.EventSystems;
+
+using static UltrakULL.SceneObjects;
 
 namespace UltrakULL.Harmony_Patches;
 

@@ -5,7 +5,6 @@ using UltrakULL.audio;
 using UltrakULL.json;
 using UnityEngine;
 
-using static UltrakULL.CommonFunctions;
 
 namespace UltrakULL.Harmony_Patches.AudioSwaps;
 
@@ -17,7 +16,7 @@ public static class MandaloreAudioSwap
     {
         try
         {
-            if (LanguageManager.configFile.Bind("General", "activeDubbing", "False").Value == "False" || isUsingEnglish())
+            if (LanguageManager.configFile.Bind("General", "activeDubbing", "False").Value == "False" || LanguageManager.IsEnglish)
                 return;
 
             ApplyAudioSwap(__instance);

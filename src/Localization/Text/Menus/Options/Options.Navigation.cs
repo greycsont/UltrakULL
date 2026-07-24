@@ -1,7 +1,8 @@
 using UltrakULL.json;
 using UnityEngine;
-using static UltrakULL.CommonFunctions;
 using static UltrakULL.TextReplacer;
+
+using static UltrakULL.SceneObjects;
 
 namespace UltrakULL;
 

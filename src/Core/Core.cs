@@ -9,7 +9,8 @@ using HarmonyLib;
 using Newtonsoft.Json;
 using TMPro;
 using UltrakULL.json;
-using static UltrakULL.CommonFunctions;
+
+using static UltrakULL.SceneObjects;
 
 namespace UltrakULL;
 
@@ -53,7 +54,7 @@ public static class Core
             }
             default:
             {
-                if (isUsingEnglish())
+                if (LanguageManager.IsEnglish)
                 {
                     Logging.Warn("Current language is English, not patching.");
                     return;

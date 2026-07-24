@@ -1,11 +1,10 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UltrakULL.json;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
-using static UltrakULL.CommonFunctions;
 
 namespace UltrakULL.Harmony_Patches;
 
@@ -16,7 +15,7 @@ public static class LocalizeStyleHud
     [HarmonyPrefix]
     public static bool GetLocalizedName_MyPatch(string id, StyleHUD __instance, Dictionary<string, string> ___idNameDict, ref string __result)
     {
-        if (isUsingEnglish())
+        if (LanguageManager.IsEnglish)
             return true;
 
         string result = StyleBonusStrings.GetLocalizedStyle(id, ___idNameDict.ContainsKey(id));

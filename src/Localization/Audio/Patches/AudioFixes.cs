@@ -1,5 +1,5 @@
 using HarmonyLib;
-using static UltrakULL.CommonFunctions;
+using UltrakULL.json;
 
 namespace UltrakULL.Harmony_Patches.AudioSwaps;
 
@@ -10,7 +10,7 @@ public class RespawnAudioFixer
     [HarmonyPostfix]
     public static async void Respawn_SwapperFix()
     {
-        if (isUsingEnglish()) return;
+        if (LanguageManager.IsEnglish) return;
 
         await System.Threading.Tasks.Task.Delay(500);
         SubtitledAudioSourcesReplacer.ReplaceSubsAndAudio();

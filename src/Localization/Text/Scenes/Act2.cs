@@ -1,11 +1,12 @@
-﻿using TMPro;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 using UltrakULL.audio;
-using static UltrakULL.CommonFunctions;
 using UltrakULL.json;
+
+using static UltrakULL.SceneObjects;
 
 namespace UltrakULL;
 
@@ -31,7 +32,7 @@ public static class Act2
         string levelName = Act2Strings.GetLevelName();
         string levelChallenge = Act2Strings.GetLevelChallenge(currentLevel);
         
-        PatchResultsScreen(levelName, levelChallenge);
+        ResultsScreenLocalizer.PatchResultsScreen(levelName, levelChallenge);
         PatchHellmap(ref canvasObj);
     }
 }

@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using UltrakULL.json;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,7 +6,6 @@ using System;
 using System.Linq;
 using TMPro;
 
-using static UltrakULL.CommonFunctions;
 
 namespace UltrakULL.Harmony_Patches;
 
@@ -18,7 +17,7 @@ public static class Patch_GetMissionName
     [HarmonyPrefix]
     public static bool Prefix_GetMission(int missionNum, ref string __result)
     {
-        if (isUsingEnglish())
+        if (LanguageManager.IsEnglish)
         {
             return true;
         }

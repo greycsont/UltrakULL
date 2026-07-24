@@ -5,8 +5,9 @@ using UltrakULL.json;
 using UnityEngine;
 using UnityEngine.UI;
 
-using static UltrakULL.CommonFunctions;
 using static UltrakULL.TextReplacer;
+
+using static UltrakULL.SceneObjects;
 
 namespace UltrakULL;
 
@@ -497,28 +498,28 @@ public static class DevMuseum
 		}
 		
 		// Last part: Remaining non-__DEV_SPACE_ALL placards (lines 318-420)
-		GameObject gameObject5 = ((Component)CommonFunctions.GetInactiveRootObject("__Room_Large_Lower").transform.GetChild(4)).gameObject;
-		Text textfromGameObject39 = CommonFunctions.GetTextfromGameObject(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(gameObject5, "Wing name (4)"), "Canvas (5)"), "Text"));
-		Text textfromGameObject40 = CommonFunctions.GetTextfromGameObject(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(gameObject5, "Wing name (4)"), "Canvas (5)"), "Text (1)"));
+		GameObject gameObject5 = ((Component)GetInactiveRootObject("__Room_Large_Lower").transform.GetChild(4)).gameObject;
+		Text textfromGameObject39 = GetTextfromGameObject(FindDescendant(FindDescendant(FindDescendant(gameObject5, "Wing name (4)"), "Canvas (5)"), "Text"));
+		Text textfromGameObject40 = GetTextfromGameObject(FindDescendant(FindDescendant(FindDescendant(gameObject5, "Wing name (4)"), "Canvas (5)"), "Text (1)"));
 		TryToReplaceText(textfromGameObject39, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesDaveOshry1);
 		TryToReplaceText(textfromGameObject40, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesDaveOshry2);
-		GameObject gameObject6 = ((Component)CommonFunctions.GetInactiveRootObject("__Room_Large_Lower").transform.GetChild(3)).gameObject;
+		GameObject gameObject6 = ((Component)GetInactiveRootObject("__Room_Large_Lower").transform.GetChild(3)).gameObject;
 		GameObject gameObject7 = ((Component)gameObject6.transform.GetChild(9)).gameObject;
 		GameObject gameObject8 = ((Component)gameObject6.transform.GetChild(10)).gameObject;
-		TryToReplaceText(CommonFunctions.GetTextfromGameObject(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(gameObject7, "Canvas (3)"), "Text")), LanguageManager.CurrentLanguage.devMuseum.museum_plaquesRestRoom);
-		TryToReplaceText(CommonFunctions.GetTextfromGameObject(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(gameObject8, "Canvas (3)"), "Text")), LanguageManager.CurrentLanguage.devMuseum.museum_plaquesTalkRoom);
-		GameObject gameObjectChild39 = CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(CommonFunctions.GetInactiveRootObject("PuzzleScreen (2)"), "Canvas"), "Background"), "Start");
-		TryToReplaceText(((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.FindDescendant(gameObjectChild39, "Text"))), LanguageManager.CurrentLanguage.devMuseum.museum_rocketRace1);
-		TryToReplaceText(((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(gameObjectChild39, "OpenButton"), "Text"))), LanguageManager.CurrentLanguage.devMuseum.museum_rocketRace2);
-		GameObject gameObjectChild40 = CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(CommonFunctions.GetInactiveRootObject("__Room_Theater"), "Ultrakill Projector"), "PuzzleScreen"), "Canvas"), "Background");
-		TryToReplaceText(((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(gameObjectChild40, "PlayButton"), "Text"))), LanguageManager.CurrentLanguage.devMuseum.museum_cinemaPlay);
-		TryToReplaceText(((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(gameObjectChild40, "StopButton"), "Text"))), LanguageManager.CurrentLanguage.devMuseum.museum_cinemaStop);
-	GameObject spoilerBackground1 = CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(CommonFunctions.GetInactiveRootObject("__DEV_SPACE_ALL"), "Prime 1 VA"), "SpoilerBlock"), "PuzzleScreen (1)"), "Canvas"), "Background");
-	GameObject spoilerBackground2 = CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(CommonFunctions.FindDescendant(CommonFunctions.GetInactiveRootObject("__DEV_SPACE_ALL"), "Prime 2 VA"), "SpoilerBlock"), "PuzzleScreen (1)"), "Canvas"), "Background");
-		TryToReplaceText(((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.FindDescendant(spoilerBackground1, "Text"))), new[] { LanguageManager.CurrentLanguage.devMuseum.museum_spoiler1, LanguageManager.CurrentLanguage.devMuseum.museum_spoiler2 }, "<color=red>" + LanguageManager.CurrentLanguage.devMuseum.museum_spoiler1 + "</color>\n" + LanguageManager.CurrentLanguage.devMuseum.museum_spoiler2);
-	TryToReplaceText(((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.FindDescendant(spoilerBackground2, "Text"))), new[] { LanguageManager.CurrentLanguage.devMuseum.museum_spoiler1, LanguageManager.CurrentLanguage.devMuseum.museum_spoiler2 }, "<color=red>" + LanguageManager.CurrentLanguage.devMuseum.museum_spoiler1 + "</color>\n" + LanguageManager.CurrentLanguage.devMuseum.museum_spoiler2);
-	TryToReplaceText(((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.FindDescendant(spoilerBackground1, "OpenButton/Text"))), LanguageManager.CurrentLanguage.devMuseum.museum_spoiler3);
-	TryToReplaceText(((TMP_Text)CommonFunctions.GetTextMeshProUGUI(CommonFunctions.FindDescendant(spoilerBackground2, "OpenButton/Text"))), LanguageManager.CurrentLanguage.devMuseum.museum_spoiler3);
+		TryToReplaceText(GetTextfromGameObject(FindDescendant(FindDescendant(gameObject7, "Canvas (3)"), "Text")), LanguageManager.CurrentLanguage.devMuseum.museum_plaquesRestRoom);
+		TryToReplaceText(GetTextfromGameObject(FindDescendant(FindDescendant(gameObject8, "Canvas (3)"), "Text")), LanguageManager.CurrentLanguage.devMuseum.museum_plaquesTalkRoom);
+		GameObject gameObjectChild39 = FindDescendant(FindDescendant(FindDescendant(GetInactiveRootObject("PuzzleScreen (2)"), "Canvas"), "Background"), "Start");
+		TryToReplaceText(((TMP_Text)GetTextMeshProUGUI(FindDescendant(gameObjectChild39, "Text"))), LanguageManager.CurrentLanguage.devMuseum.museum_rocketRace1);
+		TryToReplaceText(((TMP_Text)GetTextMeshProUGUI(FindDescendant(FindDescendant(gameObjectChild39, "OpenButton"), "Text"))), LanguageManager.CurrentLanguage.devMuseum.museum_rocketRace2);
+		GameObject gameObjectChild40 = FindDescendant(FindDescendant(FindDescendant(FindDescendant(GetInactiveRootObject("__Room_Theater"), "Ultrakill Projector"), "PuzzleScreen"), "Canvas"), "Background");
+		TryToReplaceText(((TMP_Text)GetTextMeshProUGUI(FindDescendant(FindDescendant(gameObjectChild40, "PlayButton"), "Text"))), LanguageManager.CurrentLanguage.devMuseum.museum_cinemaPlay);
+		TryToReplaceText(((TMP_Text)GetTextMeshProUGUI(FindDescendant(FindDescendant(gameObjectChild40, "StopButton"), "Text"))), LanguageManager.CurrentLanguage.devMuseum.museum_cinemaStop);
+	GameObject spoilerBackground1 = FindDescendant(FindDescendant(FindDescendant(FindDescendant(FindDescendant(GetInactiveRootObject("__DEV_SPACE_ALL"), "Prime 1 VA"), "SpoilerBlock"), "PuzzleScreen (1)"), "Canvas"), "Background");
+	GameObject spoilerBackground2 = FindDescendant(FindDescendant(FindDescendant(FindDescendant(FindDescendant(GetInactiveRootObject("__DEV_SPACE_ALL"), "Prime 2 VA"), "SpoilerBlock"), "PuzzleScreen (1)"), "Canvas"), "Background");
+		TryToReplaceText(((TMP_Text)GetTextMeshProUGUI(FindDescendant(spoilerBackground1, "Text"))), new[] { LanguageManager.CurrentLanguage.devMuseum.museum_spoiler1, LanguageManager.CurrentLanguage.devMuseum.museum_spoiler2 }, "<color=red>" + LanguageManager.CurrentLanguage.devMuseum.museum_spoiler1 + "</color>\n" + LanguageManager.CurrentLanguage.devMuseum.museum_spoiler2);
+	TryToReplaceText(((TMP_Text)GetTextMeshProUGUI(FindDescendant(spoilerBackground2, "Text"))), new[] { LanguageManager.CurrentLanguage.devMuseum.museum_spoiler1, LanguageManager.CurrentLanguage.devMuseum.museum_spoiler2 }, "<color=red>" + LanguageManager.CurrentLanguage.devMuseum.museum_spoiler1 + "</color>\n" + LanguageManager.CurrentLanguage.devMuseum.museum_spoiler2);
+	TryToReplaceText(((TMP_Text)GetTextMeshProUGUI(FindDescendant(spoilerBackground1, "OpenButton/Text"))), LanguageManager.CurrentLanguage.devMuseum.museum_spoiler3);
+	TryToReplaceText(((TMP_Text)GetTextMeshProUGUI(FindDescendant(spoilerBackground2, "OpenButton/Text"))), LanguageManager.CurrentLanguage.devMuseum.museum_spoiler3);
 }
 
 	private static void PatchChess()

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
@@ -6,7 +6,6 @@ using UnityEngine;
 using UltrakULL.json;
 using static System.Reflection.Emit.OpCodes;
 using static HarmonyLib.AccessTools;
-using static UltrakULL.CommonFunctions;
 using System.Runtime.CompilerServices;
 using System.Reflection.Emit;
 
@@ -189,7 +188,7 @@ public static class MandaloreSubtitlesSwap
      */
     private static IEnumerable<CodeInstruction> ReplaceLdstr(string subtitles, string color)
         {
-        return IL(
+        return HarmonyInstructions.IL(
         (Ldstr, $"<color=\"#{color}\">"),
         (Call, Method(typeof(LanguageManager), "get_CurrentLanguage")),
         (Ldfld, Field(typeof(JsonFormat), "subtitles")),

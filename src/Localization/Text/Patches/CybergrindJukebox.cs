@@ -1,8 +1,7 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using System.Linq;
 using TMPro;
 using UltrakULL.json;
-using static UltrakULL.CommonFunctions;
 
 
 namespace UltrakULL.Harmony_Patches;
@@ -15,7 +14,7 @@ public class JukeboxPatch
         [HarmonyPrefix]
         public static bool CybergrindJukeboxCompleteLevelRequirementPatch(ref UnlockCondition.HasCompletedLevelChallenge __instance, ref string __result)
         {
-            if(!isUsingEnglish())
+            if(!LanguageManager.IsEnglish)
             {
                 __result = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicCompleteChallengeRequirement + " " + GetMissionName.GetMissionNumberOnly(__instance.levelIndex);
             }
@@ -29,7 +28,7 @@ public class JukeboxPatch
         [HarmonyPrefix]
         public static bool CybergrindJukeboxCompleteLevelRequirementPatch(ref UnlockCondition.HasSeenEnemy __instance, ref string __result)
         {
-            if(!isUsingEnglish())
+            if(!LanguageManager.IsEnglish)
             {
                 __result = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicSeeEnemyRequirement;
             }
@@ -43,7 +42,7 @@ public class JukeboxPatch
         [HarmonyPrefix]
         public static bool CybergrindJukeboxUnlockLevelRequirementPatch(ref UnlockCondition.HasReachedLevel __instance, ref string __result)
         {
-            if(!isUsingEnglish())
+            if(!LanguageManager.IsEnglish)
             {
                 __result = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicUnlockLevelRequirement;
             }
@@ -57,7 +56,7 @@ public class JukeboxPatch
         [HarmonyPrefix]
         public static bool CybergrindJukeboxCompleteLevelRequirementPatch(ref UnlockCondition.HasCompletedLevel __instance, ref string __result)
         {
-            if(!isUsingEnglish())
+            if(!LanguageManager.IsEnglish)
             {
                 __result = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicCompleteLevelRequirement + " " +  GetMissionName.GetMissionNumberOnly(__instance.levelIndex);
             }
@@ -71,7 +70,7 @@ public class JukeboxPatch
         [HarmonyPrefix]
         public static bool CybergrindJukeboxCompleteSecretLevelRequirementPatch(ref UnlockCondition.HasCompletedSecretLevel __instance, ref string __result)
         {
-            if(!isUsingEnglish())
+            if(!LanguageManager.IsEnglish)
             {
                 __result = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicCompleteLevelRequirement + " " + __instance.secretLevelIndex + "-S";
             }
@@ -85,7 +84,7 @@ public class JukeboxPatch
         [HarmonyPostfix]
         public static void Postfix(CustomPatterns __instance)
         {
-            if (isUsingEnglish()) return;
+            if (LanguageManager.IsEnglish) return;
 
             bool mode = MonoSingleton<EndlessGrid>.Instance.customPatternMode;
             TextMeshProUGUI btn = Traverse.Create(__instance).Field("stateButtonText").GetValue<TextMeshProUGUI>();

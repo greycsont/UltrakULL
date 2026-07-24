@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -8,7 +8,8 @@ using BepInEx.Logging;
 using Newtonsoft.Json;
 using UltrakULL.Harmony_Patches;
 using UnityEngine.SceneManagement;
-using static UltrakULL.CommonFunctions;
+
+using static UltrakULL.SceneObjects;
 
 namespace UltrakULL.json;
 
@@ -22,10 +23,11 @@ public static class LanguageManager
 
     public static event Action<ValueChangedEvent<Lang>> OnLanguageChanged;
 
-		#region Helper Properties
-		public static bool IsRightToLeft { get => Current.IsRightToLeft; }
-		public static bool UsingHinduNumbers { get => Current.UsingHinduNumbers; }
-		#endregion
+	#region Helper Properties
+		public static bool IsEnglish => Current?.IsEnglish ?? true;
+		public static bool IsRightToLeft => Current.IsRightToLeft;
+		public static bool UsingHinduNumbers => Current.UsingHinduNumbers;
+	#endregion
 
 	public static void InitializeManager(string modVersion)
     {

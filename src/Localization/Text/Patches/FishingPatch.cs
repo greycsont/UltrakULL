@@ -1,8 +1,9 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using UltrakULL.json;
 using UnityEngine;
 using UnityEngine.UI;
-using static UltrakULL.CommonFunctions;
+
+using static UltrakULL.SceneObjects;
 
 namespace UltrakULL.Harmony_Patches;
 
@@ -12,7 +13,7 @@ public class FishingHUDPatch
     [HarmonyPostfix]
     public static void FishingHUDPatch_Postfix(ref GameObject ___outOfWaterMessage, ref GameObject ___hookedContainer)
     {
-        if(!isUsingEnglish())
+        if(!LanguageManager.IsEnglish)
         {
             Text outOfWaterText = GetTextfromGameObject(FindDescendant(___outOfWaterMessage,"Text"));
             outOfWaterText.text = LanguageManager.CurrentLanguage.fishing.fish_outOfWater;
@@ -30,7 +31,7 @@ public class ShowFishPatch
     [HarmonyPostfix]
     public static void ShowFish_Postfix(ref Text ___fishCaughtText,ref GameObject ___fishSizeContainer,bool show = true, FishObject fish = null)
     {
-        if(isUsingEnglish())
+        if(LanguageManager.IsEnglish)
         {
             return;
         }
@@ -116,7 +117,7 @@ public class DisplayWaterType
     [HarmonyPostfix]
     public static void DisplayWaterType_Postfix(ref FishingRodWeapon __instance, ref FishingRodTarget ___targetingCircle, ref FishDB ___currentFishPool, float ___selectedPower)
     {
-        if(isUsingEnglish())
+        if(LanguageManager.IsEnglish)
         {
             return;
         }
@@ -147,7 +148,7 @@ public class DisplayWaterType
     [HarmonyPostfix]
     public static void DisplayWaterType_Postfix(ref FishDB __instance)
     {
-        if(!isUsingEnglish())
+        if(!LanguageManager.IsEnglish)
         {
             return;
         }
@@ -173,7 +174,7 @@ public class SelectFish
     [HarmonyPrefix]
     public static bool SelectFish_Prefix(ref FishObject fish, FishEncyclopedia __instance)
     {
-        if(isUsingEnglish())
+        if(LanguageManager.IsEnglish)
         {
             return true;
         }

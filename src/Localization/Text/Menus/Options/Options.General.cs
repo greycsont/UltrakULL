@@ -7,8 +7,9 @@ using UnityEngine;
 using UnityEngine.InputSystem.HID;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static UltrakULL.CommonFunctions;
 using static UltrakULL.TextReplacer;
+
+using static UltrakULL.SceneObjects;
 
 namespace UltrakULL;
 

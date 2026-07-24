@@ -1,9 +1,10 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-using static UltrakULL.CommonFunctions;
 using UltrakULL.json;
+
+using static UltrakULL.SceneObjects;
 
 namespace UltrakULL.Harmony_Patches;
 
@@ -19,7 +20,7 @@ public static class LocalizeLevelStatNames
     [HarmonyPostfix]
     public static void LevelStatsStart_Postfix(LevelStats __instance)//, StatsManager ___sman)
     {
-        if(isUsingEnglish())
+        if(LanguageManager.IsEnglish)
         {
             return;
         }
@@ -60,7 +61,7 @@ public static class LocalizeStatsScreen
     [HarmonyPostfix]
     public static void CheckStats_Postfix(LevelStats __instance)
     {
-        if(isUsingEnglish())
+        if(LanguageManager.IsEnglish)
         {
             return;
         }

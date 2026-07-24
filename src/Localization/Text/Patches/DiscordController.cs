@@ -1,9 +1,10 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using System;
 using UnityEngine.SceneManagement;
 using UltrakULL.json;
 
-using static UltrakULL.CommonFunctions;
+
+using static UltrakULL.SceneObjects;
 
 namespace UltrakULL.Harmony_Patches;
 
@@ -17,7 +18,7 @@ public static class PatchDiscordActivity
     {
         if (___activityManager == null) // I don't know how this happens, but it somehow does?
             return false;
-        if(isUsingEnglish())
+        if(LanguageManager.IsEnglish)
         {
             return false;
         }

@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using UltrakULL.json;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,7 +6,6 @@ using System;
 using System.Linq;
 using TMPro;
 
-using static UltrakULL.CommonFunctions;
 
 namespace UltrakULL.Harmony_Patches;
 
@@ -18,7 +17,7 @@ namespace UltrakULL.Harmony_Patches;
 		[HarmonyPostfix]
 		public static void CheckScore_MyPatchPostFix(LevelSelectPanel __instance)
 		{
-			if(isUsingEnglish())
+			if(LanguageManager.IsEnglish)
 			{
 				return;
 			}

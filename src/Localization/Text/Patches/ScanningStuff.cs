@@ -1,9 +1,10 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using TMPro;
 using UltrakULL.json;
 using UnityEngine;
-using static UltrakULL.CommonFunctions;
 using UnityEngine.UI;
+
+using static UltrakULL.SceneObjects;
 
 namespace UltrakULL.Harmony_Patches;
 
@@ -15,7 +16,7 @@ public static class LocalizeScanningText
     [HarmonyPrefix]
     public static bool ScanBook_MyPatch(ref string text, bool noScan, int instanceId, ScanningStuff __instance)
     {
-        if(isUsingEnglish())
+        if(LanguageManager.IsEnglish)
         {
             return true;
         }

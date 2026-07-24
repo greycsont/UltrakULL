@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -6,8 +6,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 using TMPro;
-using static UltrakULL.CommonFunctions;
 using UltrakULL.json;
+
+using static UltrakULL.SceneObjects;
 
 namespace UltrakULL.Harmony_Patches;
 
@@ -29,7 +30,7 @@ public static class CheatsManagerPatch
     [HarmonyPatch("RebuildMenu"), HarmonyPostfix]
     public static void RebuildMenu_Postfix()
     {
-        if(isUsingEnglish())
+        if(LanguageManager.IsEnglish)
         {
             return;
         }
@@ -89,7 +90,7 @@ public static class CheatsManagerPatch
         }
         catch (Exception e)
         {
-            HandleError(e);
+            Logging.Error($"Failed to render localized cheats menu: {e}");
             return true;
         }
     }

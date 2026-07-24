@@ -1,9 +1,8 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using Sandbox;
 using TMPro;
 using UnityEngine;
 using UltrakULL.json;
-using static UltrakULL.CommonFunctions;
 
 namespace UltrakULL.Harmony_Patches;
 

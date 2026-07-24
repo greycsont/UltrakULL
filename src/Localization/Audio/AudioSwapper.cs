@@ -1,11 +1,10 @@
-﻿using System;
+using System;
 using System.IO;
 using BepInEx;
 using UltrakULL.json;
 using UnityEngine;
 using UnityEngine.Networking;
 
-using static UltrakULL.CommonFunctions;
 
 namespace UltrakULL.audio;
 
@@ -16,7 +15,7 @@ public static class AudioSwapper
 
     public static AudioClip SwapClipWithFile(AudioClip sourceClip, string audioFilePath)
     {
-        if(isUsingEnglish())
+        if(LanguageManager.IsEnglish)
         {
             return sourceClip;
         }

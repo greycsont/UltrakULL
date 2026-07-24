@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using UnityEngine.UI;
 using UltrakULL.json;
 using System;
@@ -7,7 +7,8 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
-using static UltrakULL.CommonFunctions;
+
+using static UltrakULL.SceneObjects;
 
 namespace UltrakULL.Harmony_Patches;
 
@@ -19,7 +20,7 @@ public class LevelLeaderboards
         [HarmonyPostfix]
         public static void LevelLeaderboardPatch_Postfix(ref TMP_Text ___anyPercentLabel, ref TMP_Text ___pRankLabel, ref GameObject ___noItemsPanel)
         {
-            if(isUsingEnglish())
+            if(LanguageManager.IsEnglish)
             {
                 return;
             }
@@ -46,7 +47,7 @@ public class LevelLeaderboards
         [HarmonyPostfix]
         public static void LevelLeaderboardEndPatch_Postfix(ref bool ___displayPRank, ref TMP_Text ___leaderboardType, ref GameObject ___loadingPanel)
         {
-            if(isUsingEnglish())
+            if(LanguageManager.IsEnglish)
             {
                 return;
             }

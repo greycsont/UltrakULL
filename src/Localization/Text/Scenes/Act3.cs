@@ -3,7 +3,8 @@ using TMPro;
 using UltrakULL.json;
 using UnityEngine;
 
-using static UltrakULL.CommonFunctions;
+
+using static UltrakULL.SceneObjects;
 
 namespace UltrakULL;
 
@@ -19,10 +20,10 @@ public static class Act3
 
 	public static void PatchAct3(ref GameObject canvasObj)
 	{
-		string currentSceneName = CommonFunctions.GetCurrentSceneName();
+		string currentSceneName = GetCurrentSceneName();
 		string levelName = Act3Strings.GetLevelName();
 		string levelChallenge = Act3Strings.GetLevelChallenge(currentSceneName);
-		CommonFunctions.PatchResultsScreen(levelName, levelChallenge);
+		ResultsScreenLocalizer.PatchResultsScreen(levelName, levelChallenge);
 		PatchHellmap(ref canvasObj);
 		if (currentSceneName.Contains("7-2"))
 		{
@@ -175,7 +176,7 @@ public static class Act3
 		{
 			TextMeshProUGUI textMeshProUGUI18 = GetTextMeshProUGUI(FindDescendant(canvasObj, "HeightMarkerParent", "HeightMarker", "Title"));
 			string act3_fraudFourth_heightMarkerTitle = LanguageManager.CurrentLanguage.act3.act3_fraudFourth_heightMarkerTitle;
-			((TMP_Text)textMeshProUGUI18).text = CommonFunctions.MakeVertical(act3_fraudFourth_heightMarkerTitle);
+			((TMP_Text)textMeshProUGUI18).text = TextFormatter.MakeVertical(act3_fraudFourth_heightMarkerTitle);
 			((TMP_Text)textMeshProUGUI18).ForceMeshUpdate(false, false);
 
 			// Patch "N O P E" text

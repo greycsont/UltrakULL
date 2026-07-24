@@ -1,9 +1,8 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using TMPro;
 using UltrakULL.json;
-using static UltrakULL.CommonFunctions;
 
 namespace UltrakULL.Harmony_Patches;
 
@@ -15,7 +14,7 @@ public static class LocalizeGunColorTypeShop
     [HarmonyPostfix]
     public static void OnEnablePostFix_MyPatch(GunColorTypeGetter __instance, TMP_Text[] ___templateTexts)
     {
-        if(isUsingEnglish())
+        if(LanguageManager.IsEnglish)
         {
             return;
         }

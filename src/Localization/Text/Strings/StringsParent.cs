@@ -1,6 +1,8 @@
 using UltrakULL.json;
 using UnityEngine;
 
+using static UltrakULL.SceneObjects;
+
 namespace UltrakULL;
 
 	public static class StringsParent
@@ -50,10 +52,10 @@ namespace UltrakULL;
 
 		public static string GetMessage(string message, string message2, string input)
 		{
-			string currentSceneName = CommonFunctions.GetCurrentSceneName();
+			string currentSceneName = GetCurrentSceneName();
 			if (input != null && input.Length > 0)
 			{
-				input = CommonFunctions.GetLocalizedInput(input);
+				input = InputNames.Localize(input);
 			}
 			if (message.Contains("WARNING") || message.Contains("fall") || message.Contains("free"))
 			{
@@ -69,7 +71,7 @@ namespace UltrakULL;
 			}
 			if (currentSceneName.Contains("Tutorial"))
 			{
-				GameObject canvasObj = CommonFunctions.GetInactiveRootObject("Canvas");
+				GameObject canvasObj = GetInactiveRootObject("Canvas");
 				new TutorialStrings(ref canvasObj);
 				fullMessage = TutorialStrings.GetMessage(message, message2, input);
 				if (!fullMessage.Contains("Unimplemented string"))
@@ -209,13 +211,13 @@ namespace UltrakULL;
                 message
             );
         }
-        Logging.Warn("Unimplemented string in \"" + CommonFunctions.GetCurrentSceneName() + "\": " + message);
+        Logging.Warn("Unimplemented string in \"" + GetCurrentSceneName() + "\": " + message);
 			return message;
 		}
 
 		public static string GetLevelTip(string tipDescriptionText)
 		{
-			string currentSceneName = CommonFunctions.GetCurrentSceneName();
+			string currentSceneName = GetCurrentSceneName();
 			if (currentSceneName.Contains("0-2"))
 			{
 				return EnsureTranslation(LanguageManager.CurrentLanguage.levelTips.leveltips_preludeSecond1, LanguageManager.CurrentLanguage.levelTips.leveltips_preludeSecond2, "\n\n", tipDescriptionText);

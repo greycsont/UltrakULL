@@ -1,5 +1,4 @@
 using UltrakULL.json;
-using static UltrakULL.CommonFunctions;
 
 namespace UltrakULL;
 

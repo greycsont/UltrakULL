@@ -1,4 +1,4 @@
-﻿using BepInEx;
+using BepInEx;
 using HarmonyLib;
 using System;
 using System.Collections;
@@ -12,8 +12,9 @@ using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Windows;
-using static UltrakULL.CommonFunctions;
 using static UnityEngine.UI.Image;
+
+using static UltrakULL.SceneObjects;
 
 namespace UltrakULL.Harmony_Patches;
 
@@ -45,7 +46,7 @@ public static class LocalizeIntermission
         If this option is not suitable, remove the ▼ between act2_intermission_fourth8 and act2_intermission_fourth9)
         */
 
-        //if (isUsingEnglish()) return true; 
+        //if (LanguageManager.IsEnglish) return true; 
 
         ___txt = __instance.GetComponent<Text>();
         ___txt.verticalOverflow = VerticalWrapMode.Overflow;

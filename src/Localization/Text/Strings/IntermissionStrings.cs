@@ -1,5 +1,6 @@
-﻿using UltrakULL.json;
-using static UltrakULL.CommonFunctions;
+using UltrakULL.json;
+
+using static UltrakULL.SceneObjects;
 
 namespace UltrakULL;
 

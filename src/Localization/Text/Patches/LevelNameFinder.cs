@@ -1,10 +1,9 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using System;
 using TMPro;
 using UltrakULL.json;
 using UnityEngine;
 using UnityEngine.UI;
-using static UltrakULL.CommonFunctions;
 
 namespace UltrakULL.Harmony_Patches;
 
@@ -14,7 +13,7 @@ public static class LevelNameFinderTranslation
     [HarmonyPostfix]
     public static void OnEnable_Postfix(LevelNameFinder __instance, TMP_Text ___txt2)
     {
-        if (isUsingEnglish())
+        if (LanguageManager.IsEnglish)
             return;
 
         if (___txt2 == null)

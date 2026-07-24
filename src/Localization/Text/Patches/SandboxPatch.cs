@@ -1,12 +1,13 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using System;
 using Sandbox;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-using static UltrakULL.CommonFunctions;
 using UltrakULL.json;
+
+using static UltrakULL.SceneObjects;
 
 namespace UltrakULL.Harmony_Patches;
 
@@ -16,7 +17,7 @@ public static class SandboxHudPatch
     [HarmonyPostfix]
     public static void BuildSavesMenu_Postfix(ref SandboxHud __instance, ref SandboxSaveItem ___sandboxSaveTemplate)
     {
-        if(isUsingEnglish())
+        if(LanguageManager.IsEnglish)
         {
             return;
         }
@@ -43,7 +44,7 @@ public static class SandboxWorldOptions
     [HarmonyPostfix]
     public static void sandboxWorldOptions_Postfix(ref WorldOptions __instance, TextMeshProUGUI ___borderStatus, TextMeshProUGUI ___buttonText, bool ___isBorderOn)
     {
-        if(isUsingEnglish())
+        if(LanguageManager.IsEnglish)
         {
             return;
         }
@@ -58,7 +59,7 @@ public static class SandboxAlterOptions
     [HarmonyPatch("CreateTitle"), HarmonyPrefix]
     public static bool sandboxAlterOptionsTitles_Prefix(ref string name)
     {
-        if(isUsingEnglish())
+        if(LanguageManager.IsEnglish)
         {
             return true;
         }
@@ -88,7 +89,7 @@ public static class SandboxAlterOptions
     [HarmonyPatch("CreateBoolRow"), HarmonyPrefix]
     public static void sandboxAlterBoolOptions_Prefix(ref string name, bool initialState, Action<bool> callback, ref string tooltipMessage)
     {
-        if (isUsingEnglish())
+        if (LanguageManager.IsEnglish)
             return;
         switch (name)
         {
@@ -122,7 +123,7 @@ public static class SandboxAlterOptions
     [HarmonyPatch("CreateFloatRow"), HarmonyPrefix]
     public static bool sandboxAlterFloatOptions_Prefix(ref string name)
     {
-        if (isUsingEnglish())
+        if (LanguageManager.IsEnglish)
         {
             return true;
         }
@@ -145,7 +146,7 @@ public static class SandboxAlterOptions
     [HarmonyPatch("CreateVector3Row"), HarmonyPrefix]
     public static bool sandboxAlterVector3Options_Prefix(ref string name)
     {
-        if (isUsingEnglish())
+        if (LanguageManager.IsEnglish)
         {
             return true;
         }
@@ -160,7 +161,7 @@ public static class SandboxAlterOptions
     [HarmonyPatch("CreateEnumRow"), HarmonyPrefix]
     public static bool sandboxAlterEnumOptions_Prefix(ref string name)
     {
-        if (isUsingEnglish())
+        if (LanguageManager.IsEnglish)
         {
             return true;
         }

@@ -1,5 +1,6 @@
 using UltrakULL.json;
-using static UltrakULL.CommonFunctions;
+
+using static UltrakULL.SceneObjects;
 
 namespace UltrakULL;
 
@@ -114,8 +115,8 @@ public static class Act3Strings
 		string text = format + message2;
 		if (text.Contains("WARNING:") && text.Contains("free fall"))
 		{
-			string text2 = (inputs != null && inputs.Length != 0) ? GetLocalizedInput(inputs[0]) : "";
-			string text3 = (inputs != null && inputs.Length > 1) ? GetLocalizedInput(inputs[1]) : "";
+			string text2 = (inputs != null && inputs.Length != 0) ? InputNames.Localize(inputs[0]) : "";
+			string text3 = (inputs != null && inputs.Length > 1) ? InputNames.Localize(inputs[1]) : "";
 			return LanguageManager.CurrentLanguage.act3.act3_fraudFourth_fallWarning_part1 + "\n" + LanguageManager.CurrentLanguage.act3.act3_fraudFourth_fallWarning_part2 + " <color=orange>" + text2 + "</color> " + LanguageManager.CurrentLanguage.act3.act3_fraudFourth_fallWarning_part3 + " <color=orange>" + text3 + "</color>.";
 		}
 		if (text.Contains("The cycle of life"))
@@ -146,7 +147,7 @@ public static class Act3Strings
 
 	public static string GetMessage(string message, string message2, string input)
 	{
-		string currentSceneName = CommonFunctions.GetCurrentSceneName();
+		string currentSceneName = GetCurrentSceneName();
 		_ = message + message2;
 		switch (currentSceneName)
 		{
@@ -210,7 +211,7 @@ public static class Act3Strings
 
 	public static string GetLevelName()
 	{
-		switch (CommonFunctions.GetCurrentSceneName())
+		switch (GetCurrentSceneName())
 		{
 		case "Level 7-1":
 			return "7-1: " + LanguageManager.CurrentLanguage.levelNames.levelName_violenceFirst;

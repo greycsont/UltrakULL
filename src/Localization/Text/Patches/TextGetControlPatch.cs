@@ -1,8 +1,8 @@
 using System;
 using HarmonyLib;
+using UltrakULL.json;
 using TMPro;
 
-using static UltrakULL.CommonFunctions;
 
 namespace UltrakULL.Harmony_Patches;
 
@@ -13,12 +13,12 @@ public static class TextGetControlPatch
 {
     private static string LocalizeBindingString(string bindingString)
     {
-        if (string.IsNullOrEmpty(bindingString) || isUsingEnglish())
+        if (string.IsNullOrEmpty(bindingString) || LanguageManager.IsEnglish)
             return bindingString;
 
         string[] parts = bindingString.Split(new[] { " + " }, StringSplitOptions.None);
         for (int i = 0; i < parts.Length; i++)
-            parts[i] = GetLocalizedInput(parts[i].Trim());
+            parts[i] = InputNames.Localize(parts[i].Trim());
         return string.Join(" + ", parts);
     }
 

@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using System;
 using System.IO;
 using UnityEngine;
@@ -6,8 +6,8 @@ using UnityEngine.SceneManagement;
 using System.Threading.Tasks;
 using UltrakULL.json;
 using BepInEx;
-using static UltrakULL.CommonFunctions;
 using System.Reflection;
+using static UltrakULL.SceneObjects;
 
 /*
  *	UltrakULL (Ultrakill Language Library)
@@ -134,7 +134,7 @@ public class MainPatch : BaseUnityPlugin
 			return;
 		}
 
-		CommonFunctions.ClearObjectCaches(scene, mode);
+		ClearObjectCaches(scene, mode);
 		FontManager.RefreshFallback();                 
 		GameObject canvasObj = GetInactiveRootObject("Canvas");
 		Core.HandleSceneSwitch(scene, ref canvasObj);

@@ -1,11 +1,12 @@
-﻿using System;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static UltrakULL.CommonFunctions;
 using UltrakULL.json;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.DualShock;
+
+using static UltrakULL.SceneObjects;
 
 namespace UltrakULL;
 
@@ -101,7 +102,7 @@ public static class Cheats
             }
             catch(Exception e)
             {
-                HandleError(e, cheatStatus);
+                Logging.Error($"Failed to localize cheat status '{cheatStatus}': {e}");
                 return ("");
             }
         }
@@ -153,7 +154,7 @@ public static class Cheats
         }
         catch(Exception e)
         {
-            HandleError(e,cheatIdentifier) ;
+            Logging.Error($"Failed to localize cheat '{cheatIdentifier}': {e}");
             return "";
         }
     }

@@ -1,5 +1,4 @@
-﻿using HarmonyLib;
-using static UltrakULL.CommonFunctions;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;

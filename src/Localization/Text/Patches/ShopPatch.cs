@@ -1,11 +1,12 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using Sandbox;
 using TMPro;
 using UltrakULL.json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static UltrakULL.CommonFunctions;
+
+using static UltrakULL.SceneObjects;
 
 namespace UltrakULL.Harmony_Patches;
 
@@ -15,7 +16,7 @@ public class ShopPatch
     [HarmonyPostfix]
     public static void shopPatch(ShopZone __instance, ref Canvas ___shopCanvas)
     {
-        if (isUsingEnglish())
+        if (LanguageManager.IsEnglish)
         {
             return;
         }
