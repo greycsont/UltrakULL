@@ -1,46 +1,48 @@
+using System.Collections.Generic;
+using System.Reflection.Emit;
 using HarmonyLib;
 using UltrakULL.json;
-using UnityEngine;
-
 
 namespace UltrakULL.Harmony_Patches;
 
-//@Override
-//Overrides the RicoshotPointsCheck from the Coin class. Used for translating additional style strings that come from ricochets.
-[HarmonyPatch(typeof(Coin), "RicoshotPointsCheck")]
-public static class LocalizeTranslateStyleStrings
+[HarmonyPatch(typeof(Coin))]
+public static class LocalizeCoin
 {
-    [HarmonyPrefix]
-    public static bool RicoshotPointsCheck_MyPatch(Coin __instance, GameObject ___altBeam, bool ___wasShotByEnemy, StyleHUD ___shud, EnemyIdentifier ___eid)
+    [HarmonyPatch(nameof(Coin.RicoshotPointsCheck))] [HarmonyTranspiler]
+    public static IEnumerable<CodeInstruction> RicoshotPointsCheck_Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
     {
-        if(LanguageManager.IsEnglish)
-        {
-            return true;
-        }
-        
-        string text = "";
-        int num = 50;
-        RevolverBeam revolverBeam;
-        if (___altBeam != null && ___altBeam.TryGetComponent<RevolverBeam>(out revolverBeam) && revolverBeam.ultraRicocheter)
-        {
-            text = "<color=orange>" + LanguageManager.CurrentLanguage.style.style_ricoshotUltra + "</color>";
-            num += 50;
-        }
-        if (___wasShotByEnemy)
-        {
-            text += "<color=red>" + LanguageManager.CurrentLanguage.style.style_ricoshotCounter + "</color>";
-            num += 50;
-        }
-        if (__instance.ricochets > 1)
-        {
-            num += __instance.ricochets * 15;
-        }
-        StyleHUD styleHUD = ___shud;
-        int points = num;
-        string pointID = "ultrakill.ricoshot";
-        string prefix = text;
-        styleHUD.AddPoints(points, pointID, __instance.sourceWeapon, ___eid, __instance.ricochets, prefix, "");
+        var localizeRicoshotText = AccessTools.Method(
+            typeof(LocalizeCoin),
+            nameof(LocalizeRicoshotText));
 
-        return false;
+        return new CodeMatcher(instructions, generator)
+            .MatchForward(
+                false,
+                new CodeMatch(OpCodes.Ldstr, "<color=orange>ULTRA</color>"))
+            .ThrowIfNotMatch("Could not find the ULTRA ricoshot text")
+            .Advance(1)
+            .Insert(new CodeInstruction(OpCodes.Call, localizeRicoshotText))
+            .MatchForward(
+                false,
+                new CodeMatch(OpCodes.Ldstr, "<color=red>COUNTER</color>"))
+            .ThrowIfNotMatch("Could not find the COUNTER ricoshot text")
+            .Advance(1)
+            .Insert(new CodeInstruction(OpCodes.Call, localizeRicoshotText))
+            .InstructionEnumeration();
+    }
+
+    private static string LocalizeRicoshotText(string text)
+    {
+        if (LanguageManager.IsEnglish)
+            return text;
+
+        return text switch
+        {
+            "<color=orange>ULTRA</color>" =>
+                $"<color=orange>{LanguageManager.CurrentLanguage.style.style_ricoshotUltra}</color>",
+            "<color=red>COUNTER</color>" =>
+                $"<color=red>{LanguageManager.CurrentLanguage.style.style_ricoshotCounter}</color>",
+            _ => text
+        };
     }
 }

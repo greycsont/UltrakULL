@@ -5,20 +5,18 @@ using UltrakULL.json;
 
 namespace UltrakULL.Harmony_Patches;
 
-[HarmonyPatch]
+[HarmonyPatch(typeof(BossBarManager))]
 public static class LocalizeBossBar
 {
     // Patch for CreateBossBar
-    [HarmonyPatch(typeof(BossBarManager), "CreateBossBar")]
-    [HarmonyPrefix]
+    [HarmonyPatch(nameof(BossBarManager.CreateBossBar))] [HarmonyPrefix]
     public static void CreateBossBar_Prefix(BossHealthBar bossBar)
     {
         LocalizeName(bossBar);
     }
 
     // Patch for UpdateBossBar
-    [HarmonyPatch(typeof(BossBarManager), "UpdateBossBar")]
-    [HarmonyPrefix]
+    [HarmonyPatch(nameof(BossBarManager.UpdateBossBar))] [HarmonyPrefix]
     public static void UpdateBossBar_Prefix(BossHealthBar bossBar)
     {
         LocalizeName(bossBar);
