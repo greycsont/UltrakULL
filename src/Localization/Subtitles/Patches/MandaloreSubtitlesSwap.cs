@@ -1,199 +1,102 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using HarmonyLib;
-using UnityEngine;
-using UltrakULL.json;
-using static System.Reflection.Emit.OpCodes;
-using static HarmonyLib.AccessTools;
-using System.Runtime.CompilerServices;
+using System.Reflection;
 using System.Reflection.Emit;
+using HarmonyLib;
+using UltrakULL.json;
 
 namespace UltrakULL.Harmony_Patches.Subtitles;
 
-/**
- * Mandalore is a tricky one since we can't just use Harmony prefixes here.
- * So we're going to have to replace IL instructions of hardcoded strings with our own.
- */
 [HarmonyPatch(typeof(Mandalore))]
 public static class MandaloreSubtitlesSwap
 {
     private const string MandaloreColor = "FFC49E";
     private const string OwlColor = "9EE6FF";
     private const string WhiteColor = "FFFFFF";
-    private const string MandaloreColour = "<color=#FFC49E>";
-    private const string OwlColour = "<color=#9EE6FF>";
-    private const string WhiteColour = "<color=#FFFFFF>";
 
-    private const int ReplacementInstructionsLength = 5;
-
-    private static readonly Dictionary<string, (string, string)> MandaloreBattleDialogs =
-        new Dictionary<string, (string, string)>
-        {
-            { "now we lost", ("subtitles_mandalore_defeated", OwlColor) },
-            { "Full auto", ("subtitles_mandalore_attack1", WhiteColor) },
-            { "Fuller auto", ("subtitles_mandalore_attack2", WhiteColor) },
-            { "Use the salt", ("subtitles_mandalore_phaseChangeThird1", OwlColor) },
-            { "I'm reaching", ("subtitles_mandalore_phaseChangeThird2", MandaloreColor) },
-            { "Feel my maximum speed", ("subtitles_mandalore_phaseChangeSecond1", MandaloreColor) },
-            { "Slow down", ("subtitles_mandalore_phaseChangeSecond2", OwlColor) },
-            { "I increase my speed", ("subtitles_mandalore_phaseChangeFirst1", OwlColor) },
-            { "Just fucking", ("subtitles_mandalore_phaseChangeFirst2", OwlColor) }
-        };
-
-    [HarmonyPatch("Start"), HarmonyTranspiler]
-    static IEnumerable<CodeInstruction> MandaloreStartTranspiler(IEnumerable<CodeInstruction> instructions)
+    private readonly struct Dialog
     {
-        List<CodeInstruction> codes = new List<CodeInstruction>(instructions);
-        for (int i = 0; i < codes.Count; i++)
+        public readonly string Color;
+        public readonly Func<json.Subtitles, string> GetTranslation;
+
+        public Dialog(string color, Func<json.Subtitles, string> getTranslation)
         {
-            bool isLdstr = (codes[i].opcode == OpCodes.Ldstr);
-            if (isLdstr)
-            {
-                if (((string)codes[i].operand).Contains("You cannot"))
-                {
-                    codes[i].operand = MandaloreColour + LanguageManager.CurrentLanguage.subtitles.subtitles_mandalore_taunt3 + "</color>";
-                }
-                else if (((string)codes[i].operand).Contains("I'm gonna"))
-                {
-                    codes[i].operand = OwlColour + LanguageManager.CurrentLanguage.subtitles.subtitles_mandalore_taunt2 + "</color>";
-                }
-                else if (((string)codes[i].operand).Contains("Why"))
-                {
-                    codes[i].operand = OwlColour + LanguageManager.CurrentLanguage.subtitles.subtitles_mandalore_taunt5 + "</color>";
-                }
-                else if (((string)codes[i].operand).Contains("fucking poison"))
-                {
-                    codes[i].operand = OwlColour + LanguageManager.CurrentLanguage.subtitles.subtitles_mandalore_taunt1 + "</color>";
-                }
-                else if (((string)codes[i].operand).Contains("What"))
-                {
-                    codes[i].operand = MandaloreColour + LanguageManager.CurrentLanguage.subtitles.subtitles_mandalore_intro2 + "</color>";
-                }
-                else if (((string)codes[i].operand).Contains("Hold still"))
-                {
-                    codes[i].operand = MandaloreColour + LanguageManager.CurrentLanguage.subtitles.subtitles_mandalore_taunt4 + "</color>";
-                }
-            }
+            Color = color;
+            GetTranslation = getTranslation;
         }
-        return codes;
     }
-    [HarmonyPatch("Update"), HarmonyTranspiler]
-    static IEnumerable<CodeInstruction> MandaloreUpdateTranspiler(IEnumerable<CodeInstruction> instructions)
+
+    private static readonly Dictionary<string, Dialog> Dialogs = new()
     {
-        List<CodeInstruction> codes = new List<CodeInstruction>(instructions);
-        for (int i = 0; i < codes.Count; i++)
-        {
-            bool isLdstr = (codes[i].opcode == OpCodes.Ldstr);
-            if (isLdstr)
-            {
-                if (((string)codes[i].operand).Contains("now we lost"))
-                {
-                    codes[i].operand = OwlColour + LanguageManager.CurrentLanguage.subtitles.subtitles_mandalore_defeated + "</color>";
-                }
-                else if (((string)codes[i].operand).Contains("Full auto"))
-                {
-                    codes[i].operand = WhiteColour + LanguageManager.CurrentLanguage.subtitles.subtitles_mandalore_attack1 + "</color>";
-                } 
-                else if (((string)codes[i].operand).Contains("Fuller auto"))
-                {
-                    codes[i].operand = WhiteColour + LanguageManager.CurrentLanguage.subtitles.subtitles_mandalore_attack2 + "</color>";
-                }
-                else if (((string)codes[i].operand).Contains("Use the salt"))
-                {
-                    codes[i].operand = OwlColour + LanguageManager.CurrentLanguage.subtitles.subtitles_mandalore_phaseChangeThird1 + "</color>";
-                }
-                else if (((string)codes[i].operand).Contains("I'm reaching"))
-                {
-                    codes[i].operand = MandaloreColour + LanguageManager.CurrentLanguage.subtitles.subtitles_mandalore_phaseChangeThird2 + "</color>";
-                }
-                else if (((string)codes[i].operand).Contains("Feel my maximum speed"))
-                {
-                    codes[i].operand = MandaloreColour + LanguageManager.CurrentLanguage.subtitles.subtitles_mandalore_phaseChangeSecond1 + "</color>";
-                }
-                else if (((string)codes[i].operand).Contains("Slow down"))
-                {
-                    codes[i].operand = OwlColour + LanguageManager.CurrentLanguage.subtitles.subtitles_mandalore_phaseChangeSecond2 + "</color>";
-                }
-                else if (((string)codes[i].operand).Contains("I increase my speed"))
-                {
-                    codes[i].operand = MandaloreColour + LanguageManager.CurrentLanguage.subtitles.subtitles_mandalore_phaseChangeFirst1 + "</color>";
-                }
-                else if (((string)codes[i].operand).Contains("Just fucking"))
-                {
-                    codes[i].operand = OwlColour + LanguageManager.CurrentLanguage.subtitles.subtitles_mandalore_phaseChangeFirst2 + "</color>";
-                }
-            }
-        }
-        return codes;
-    }
-    /*[HarmonyTranspiler]
-    [HarmonyPatch(typeof(Mandalore), "Start")]
-    private static IEnumerable<CodeInstruction> Mandalore_Start(IEnumerable<CodeInstruction> instructions)
-    {
-        var code  = instructions.ToList();
-        var switchOffset = code.FindIndex(instruction => instruction.opcode == Switch);
+        // Start
+        ["<color=#FFC49E>You cannot imagine what you'll face here</color>"] =
+            new(MandaloreColor, subtitles => subtitles.subtitles_mandalore_taunt3),
+        ["<color=#9EE6FF>I'm gonna shoot em with a gun</color>"] =
+            new(OwlColor, subtitles => subtitles.subtitles_mandalore_taunt2),
+        ["<color=#9EE6FF>Why are we in the past</color>"] =
+            new(OwlColor, subtitles => subtitles.subtitles_mandalore_taunt5),
+        ["<color=#9EE6FF>I'm going to fucking poison you</color>"] =
+            new(OwlColor, subtitles => subtitles.subtitles_mandalore_taunt1),
+        ["<color=#FFC49E>What</color>"] =
+            new(MandaloreColor, subtitles => subtitles.subtitles_mandalore_intro2),
+        ["<color=#FFC49E>Hold still</color>"] =
+            new(MandaloreColor, subtitles => subtitles.subtitles_mandalore_taunt4),
 
-        // Second argument is an offset from switch IL instruction, it's a constant
-        //NOTE: Don't touch this order. The game won't like it otherwise
-        ReplaceLdstr(switchOffset, 0x03, "subtitles_mandalore_taunt3", MandaloreColor, code); //works
-        ReplaceLdstr(switchOffset, 0x0C, "subtitles_mandalore_taunt2", OwlColor, code); //works
-        ReplaceLdstr(switchOffset, 0x18, "subtitles_mandalore_taunt5", OwlColor, code); //works
+        // Update
+        ["<color=#9EE6FF>Oh great, now we lost the fight, fantastic</color>"] =
+            new(OwlColor, subtitles => subtitles.subtitles_mandalore_defeated),
+        ["Full auto"] =
+            new(WhiteColor, subtitles => subtitles.subtitles_mandalore_attack1),
+        ["Fuller auto"] =
+            new(WhiteColor, subtitles => subtitles.subtitles_mandalore_attack2),
+        ["<color=#9EE6FF>Use the salt!</color>"] =
+            new(OwlColor, subtitles => subtitles.subtitles_mandalore_phaseChangeThird1),
+        ["<color=#FFC49E>I'm reaching!</color>"] =
+            new(MandaloreColor, subtitles => subtitles.subtitles_mandalore_phaseChangeThird2),
+        ["<color=#FFC49E>Feel my maximum speed!</color>"] =
+            new(MandaloreColor, subtitles => subtitles.subtitles_mandalore_phaseChangeSecond1),
+        ["<color=#9EE6FF>Slow down</color>"] =
+            new(OwlColor, subtitles => subtitles.subtitles_mandalore_phaseChangeSecond2),
+        ["<color=#FFC49E>Through the magic of the Druids, I increase my speed!</color>"] =
+            new(OwlColor, subtitles => subtitles.subtitles_mandalore_phaseChangeFirst1),
+        ["<color=#9EE6FF>Just fucking hit em</color>"] =
+            new(OwlColor, subtitles => subtitles.subtitles_mandalore_phaseChangeFirst2)
+    };
 
-        //TODO: Commented out these two lines for now as they're causing crashes. Waiting for Flazhik to investigate and fix.
-        //ReplaceLdstr(switchOffset, 0x22, "subtitles_mandalore_taunt1", OwlColor, code);
-        //ReplaceLdstr(switchOffset, 0x28, "subtitles_mandalore_intro2", MandaloreColor, code);
-
-        //Commented line is the offset when the above two lines are uncommented. Waiting for fix.
-        //ReplaceLdstr(switchOffset, 0x37, "subtitles_mandalore_taunt4", MandaloreColor, code); //works
-        //ReplaceLdstr(switchOffset, 0x2D, "subtitles_mandalore_taunt4", MandaloreColor, code); //works
-
-        return code;
-    }
-
+    private static readonly MethodInfo LocalizeDialogMethod =
+        AccessTools.Method(typeof(MandaloreSubtitlesSwap), nameof(LocalizeDialog));
 
     [HarmonyTranspiler]
-    [HarmonyPatch(typeof(Mandalore), "Update")]
-    private static IEnumerable<CodeInstruction> Mandalore_Update(IEnumerable<CodeInstruction> instructions)
+    [HarmonyPatch(nameof(Mandalore.Start))]
+    [HarmonyPatch(nameof(Mandalore.Update))]
+    private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
     {
-        var code  = instructions.ToList();
+        var dialog = new CodeMatch(IsDialogInstruction);
+        var matcher = new CodeMatcher(instructions, generator)
+            .MatchForward(false, dialog);
 
-        for (var i = 0; i < code.Count; i++)
-        {
-            if (code[i].opcode != Ldstr)
-                continue;
-
-            var dialogOption = MandaloreBattleDialogs
-                .Where(entry => code[i].operand is string str && str.Contains(entry.Key))
-                .Select(entry => entry.Value)
-                .FirstOrDefault();
-
-            if (dialogOption == default)
-                continue;
-
-            ReplaceLdstr(i, 0, dialogOption.Item1, dialogOption.Item2, code);
-            i += ReplacementInstructionsLength - 1;
-        }
-        return code;
+        return matcher
+            .Repeat(match => match
+                .Advance(1)
+                .InsertAndAdvance(new CodeInstruction(OpCodes.Call, LocalizeDialogMethod)))
+            .InstructionEnumeration();
     }
 
-    private static void ReplaceLdstr(int start, int offset, string subtitles, string color, List<CodeInstruction> instructions)
+    private static bool IsDialogInstruction(CodeInstruction instruction)
     {
-        instructions.RemoveAt(start + offset);
-        instructions.InsertRange(start + offset, ReplaceLdstr(subtitles, color));
+        return instruction.opcode == OpCodes.Ldstr &&
+               instruction.operand is string original &&
+               Dialogs.ContainsKey(original);
     }
 
-    /**
-     * Basically, equivalent to LanguageManager.CurrentLanguage.subtitles.some_subtitles_string + color tags
-     */
-    private static IEnumerable<CodeInstruction> ReplaceLdstr(string subtitles, string color)
-        {
-        return HarmonyInstructions.IL(
-        (Ldstr, $"<color=\"#{color}\">"),
-        (Call, Method(typeof(LanguageManager), "get_CurrentLanguage")),
-        (Ldfld, Field(typeof(JsonFormat), "subtitles")),
-        (Ldfld, Field(typeof(json.Subtitles), subtitles)),
-        (Ldstr, "</color>"),
-        (Call, Method(typeof(string), "Concat", new[] { typeof(string), typeof(string), typeof(string) })));
-        }
+    private static string LocalizeDialog(string original)
+    {
+        if (LanguageManager.IsEnglish || !Dialogs.TryGetValue(original, out Dialog dialog))
+            return original;
+
+        string translation = dialog.GetTranslation(LanguageManager.CurrentLanguage.subtitles);
+        return string.IsNullOrEmpty(translation)
+            ? original
+            : $"<color=#{dialog.Color}>{translation}</color>";
+    }
 }

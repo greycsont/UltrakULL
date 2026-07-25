@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace UltrakULL.Harmony_Patches.Subtitles;
 
-[HarmonyPatch(typeof(GabrielVoice), "Start")]
+[HarmonyPatch(typeof(GabrielVoice))]
 public static class GabrielSubtitlesSwap
 {
-	[HarmonyPostfix]
+	[HarmonyPatch(nameof(GabrielVoice.Start))] [HarmonyPostfix]
 	public static void GabrielVoice_Start(ref GabrielVoice __instance, ref string[] ___taunts, ref string[] ___tauntsSecondPhase)
 	{
 		__instance.phaseChangeSubtitle = SubtitleLocalizer.Localize(__instance.phaseChangeSubtitle);
