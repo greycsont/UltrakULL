@@ -1,6 +1,7 @@
 using System;
 using System.IO;
-using BepInEx;
+using System.Linq;
+using GreyAnnouncer.AudioClipLoad;
 using UltrakULL.json;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -12,23 +13,31 @@ public static class AudioSwapper
 {
     public static string SpeechFolder => LanguageManager.Current?.SpeechFolder ?? "";
 
-
     public static AudioClip SwapClipWithFile(AudioClip sourceClip, string audioFilePath)
     {
-        if(LanguageManager.IsEnglish)
-        {
+        if (LanguageManager.IsEnglish)
             return sourceClip;
-        }
-        string file = "file://" + audioFilePath + ".ogg";
-        Logging.Message("Swapping: " + file);
 
-        UnityWebRequest fileRequest = UnityWebRequestMultimedia.GetAudioClip(file,AudioType.OGGVORBIS);
-        fileRequest.SendWebRequest();
+        string filePath = Directory.GetFiles(
+            Path.GetDirectoryName(audioFilePath),
+            Path.GetFileName(audioFilePath) + ".*").First();
+            
+        var audioType = filePath.TryGetAudioType();
+
+        string fileUrl = new Uri(filePath).AbsoluteUri;
+        Logging.Message("Swapping: " + fileUrl);
+
+        using var fileRequest = UnityWebRequestMultimedia.GetAudioClip(fileUrl, audioType);
+
         try
         {
+            fileRequest.SendWebRequest();
             while (!fileRequest.isDone) {}
 
-            if (fileRequest.isNetworkError || fileRequest.isHttpError) Logging.Warn(fileRequest.error + "\n Expected path: " + audioFilePath + ".ogg");
+            if (fileRequest.result != UnityWebRequest.Result.Success)
+            {
+                Logging.Warn(fileRequest.error + "\nExpected path: " + filePath);
+            }
             else
             {
                 sourceClip = DownloadHandlerAudioClip.GetContent(fileRequest);
