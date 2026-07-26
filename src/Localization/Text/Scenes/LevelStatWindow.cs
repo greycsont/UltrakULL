@@ -8,6 +8,7 @@ using static UltrakULL.SceneObjects;
 
 namespace UltrakULL;
 
+[NeedRework]
 public static class LevelStatWindow
 {
     public static void PatchStats(ref GameObject canvasObj)
