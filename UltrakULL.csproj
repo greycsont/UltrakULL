@@ -34,18 +34,19 @@
   </ItemDefinitionGroup>
 
   <ItemGroup>
-    <Reference Include="0Harmony"><HintPath>$(BepInExCoreDir)\0Harmony.dll</HintPath></Reference>
-    <Reference Include="BepInEx"><HintPath>$(BepInExCoreDir)\BepInEx.dll</HintPath></Reference>
     <Reference Include="Assembly-CSharp"><HintPath>$(ManagedDir)\Assembly-CSharp.dll</HintPath></Reference>
-    <Reference Include="Newtonsoft.Json"><HintPath>$(ManagedDir)\Newtonsoft.Json.dll</HintPath></Reference>
     <PackageReference Include="Krafs.Publicizer" Version="2.3.0">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="BepInEx.Core" Version="5.4.21" PrivateAssets="all" />
+    <PackageReference Include="HarmonyX" Version="2.9.0" PrivateAssets="all" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" PrivateAssets="all" />
     <Reference Include="$(ManagedDir)\UnityEngine*.dll" />
     <Reference Include="$(ManagedDir)\Unity.*.dll" />
 
     <Publicize Include="Assembly-CSharp" />
+    <Publicize Include="Unity.TextMeshPro" />
   </ItemGroup>
 
   <!-- Embedded resources -->
