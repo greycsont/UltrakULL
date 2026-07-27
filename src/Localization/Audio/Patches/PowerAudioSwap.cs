@@ -7,6 +7,11 @@ using UnityEngine;
 
 namespace UltrakULL.Harmony_Patches.AudioSwaps;
 
+/// <summary>
+/// Warning: It's MonoSingleton
+/// So we actually don't need to worry about the performance
+/// Since it only run once after sceneload
+/// </summary>
 [HarmonyPatch(typeof(PowerVoiceController))]
 public static class PowerAudioSwap
 {
