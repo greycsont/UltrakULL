@@ -14,7 +14,6 @@ public static class FontManager
     public static Sprite ArabicUltrakillLogo;
 
     public static bool TMPFontReady;
-    public static bool UseFontFallback;
 
     // These two mf is the game's font
     // No relationship with Languages
@@ -33,32 +32,61 @@ public static class FontManager
     // Make sure this func is called before LanguageManager.InitializeManager
     public static void Initialize()
     {
-        LanguageManager.OnLanguageChanged += ApplyLanguageFallback;
+        LanguageManager.OnLanguageChanged += ApplyLanguageFonts;
     }
 
     public static void LoadFonts()
     {
         Logging.Message("Loading font resource bundle...");
-        var fontBundle = AssetBundle.LoadFromFile(Path.Combine(MainPatch.ModFolder, "fontpack.bundle"));
         var baseFontBundle = AssetBundle.LoadFromFile(Path.Combine(MainPatch.ModFolder, "basegameasset.bundle"));
-        if (fontBundle == null)
-        {
-            Logging.Error("Failed to load fontPack.bundle");
-            return;
-        }
         MeseumFontAsset = baseFontBundle.LoadAsset<TMP_FontAsset>("GFSGaraldus SDF");
+        TMPFontReady = true;
 
-        defaultMainFont = fontBundle.LoadAsset<TMP_FontAsset>("MainFont");
-        defaultMuseumFont = fontBundle.LoadAsset<TMP_FontAsset>("MuseumFont");
-        defaultTerminalFont = fontBundle.LoadAsset<TMP_FontAsset>("TerminalFont");
-        defaultSecretFont = fontBundle.LoadAsset<TMP_FontAsset>("SecretFont");
+        LoadDefaultPack();
 
-        TMPFontReady = defaultMainFont != null;
-        if (!TMPFontReady)
-            Logging.Error("fontPack.bundle is missing the 'MainFont' TMP_FontAsset");
+        void LoadDefaultPack()
+        {
+            var fontBundle = AssetBundle.LoadFromFile(Path.Combine(MainPatch.ModFolder, "fontpack.bundle"));
+            if (fontBundle == null)
+            {
+                Logging.Error("Failed to load fontPack.bundle");
+                return;
+            }
+
+            defaultMainFont = fontBundle.LoadAsset<TMP_FontAsset>("MainFont");
+            defaultMuseumFont = fontBundle.LoadAsset<TMP_FontAsset>("MuseumFont");
+            defaultTerminalFont = fontBundle.LoadAsset<TMP_FontAsset>("TerminalFont");
+            defaultSecretFont = fontBundle.LoadAsset<TMP_FontAsset>("SecretFont");
+
+            TMPFontReady = defaultMainFont != null;
+            if (!TMPFontReady)
+                Logging.Error("fontPack.bundle is missing the 'MainFont' TMP_FontAsset");
+        }
     }
 
-    // It fills the language's FontAsset section
+    public static void LoadLangFonts(Lang lang)
+    {
+        if (lang.FontBundle != null)
+            return;
+
+        var fontBundle = AssetBundle.LoadFromFile(lang.FontBundlePath);
+        if (fontBundle == null)
+        {
+            Logging.Warn($"Failed to load language font bundle: {lang.FontBundlePath}");
+            return;
+        }
+
+        lang.FontBundle = fontBundle;
+        lang.MainFontAsset = fontBundle.LoadAsset<TMP_FontAsset>("MainFont");
+        lang.MuseumAsset = fontBundle.LoadAsset<TMP_FontAsset>("MuseumFont");
+        lang.TerminalAsset = fontBundle.LoadAsset<TMP_FontAsset>("TerminalFont");
+        lang.SecretTerminalAsset = fontBundle.LoadAsset<TMP_FontAsset>("SecretFont");
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="lang"></param>
     private static void ResolveFonts(Lang lang)
     {
         lang.MainFontAsset ??= defaultMainFont;
@@ -67,38 +95,42 @@ public static class FontManager
         lang.SecretTerminalAsset ??= defaultSecretFont;
     }
 
-    private static void ApplyLanguageFallback(ValueChangedEvent<Lang> change)
+    /// <summary>
+    /// Some Unicode characters are shared between multiple languages but have language-specific
+    /// glyphs (especially in CJK fonts). Remove the previous language's fallbacks before adding the
+    /// new ones so the correct glyphs are used.
+    /// </summary>
+    /// <param name="change"></param>
+    private static void ApplyLanguageFonts(ValueChangedEvent<Lang> change)
     {
         if (!TMPFontReady)
             return;
 
-        // Some Unicode characters are shared between multiple languages but have language-specific
-        // glyphs (especially in CJK fonts). Remove the previous language's fallbacks before adding the
-        // new ones so the correct glyphs are used.
         RemoveFallbacksOf(change.OldValue);
 
         Lang lang = change.NewValue;
         if (lang == null || lang.IsEnglish)
             return;
 
-        UseFontFallback = lang.Json.metadata.fonts?.UseFallback ?? false;
+        LoadLangFonts(lang);
+        ResolveFonts(lang);
 
-        RegisterFallbacksForLoadedFonts(lang);
+        if (lang.UseFontFallback)
+            RegisterFallbacksForLoadedFonts(lang);
     }
 
-    // Called by the scene-load pipeline: scenes bring their own TMP_FontAssets, so re-attach the
-    // current language's fallbacks to them on every load.
+    /// <summary>
+    /// Call when sceneloaded
+    /// </summary>
     public static void RefreshFallback()
     {
         Lang lang = LanguageManager.Current;
-        if (TMPFontReady && lang != null && !lang.IsEnglish)
+        if (TMPFontReady && lang != null && !lang.IsEnglish && lang.UseFontFallback)
             RegisterFallbacksForLoadedFonts(lang);
     }
 
     private static void RegisterFallbacksForLoadedFonts(Lang lang)
     {
-        ResolveFonts(lang);
-
         foreach (TMP_FontAsset primary in Resources.FindObjectsOfTypeAll<TMP_FontAsset>())
         {
             if (primary == null)

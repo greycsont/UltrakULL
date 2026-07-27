@@ -5,6 +5,7 @@ using System.Reflection;
 using ArabicSupportUnity;
 using BepInEx;
 using TMPro;
+using UnityEngine;
 
 namespace UltrakULL.json;
 
@@ -21,17 +22,19 @@ public sealed class Lang
     public string DisplayName => Json.metadata.langDisplayName;
     public bool IsEnglish => Json.metadata.langDisplayName == "English";
     public bool IsRightToLeft => Json.metadata.langRTL;
+    public bool UseFontFallback => Json.metadata.fonts?.UseFallback ?? false;
 
     // Isn't this Hindi Number?
     public bool UsingHinduNumbers => Json.metadata.langHinduNumbers;
 
     public string SpeechFolder { get; }
+    public string FontBundlePath { get; }
 
-    // These part will be added on language folder rework
     public TMP_FontAsset MainFontAsset { get; set; }
     public TMP_FontAsset TerminalAsset { get; set; }
     public TMP_FontAsset SecretTerminalAsset { get; set; }
     public TMP_FontAsset MuseumAsset { get; set; }
+    internal AssetBundle FontBundle { get; set; }
 
     // Which fallbacks FontManager pushed into which game fonts while this language was active,
     // so switching away can undo exactly what this language added.
@@ -44,9 +47,12 @@ public sealed class Lang
         Json = json;
         SpeechFolder = Path.Combine(Paths.ConfigPath, "ultrakull", "audio", json.metadata.langName)
                        + Path.DirectorySeparatorChar;
+        FontBundlePath = Path.Combine(Paths.ConfigPath, "ultrakull", "fonts", json.metadata.langName, "fontpack.bundle");
     }
 
     // ArabicFixer.Fix rewrites Json's strings in place, so it must never run twice on the same Lang.
+    // Personally I feels it's not have enough quality as a localization mod
+    // will look at https://github.com/pnarimani/RTLTMPro in the future
     public void EnsureRtlApplied()
     {
         if (!IsRightToLeft || rtlApplied)
