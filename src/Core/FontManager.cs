@@ -3,6 +3,7 @@ using System.IO;
 using TMPro;
 using UnityEngine;
 using UltrakULL.json;
+using System.Text;
 
 namespace UltrakULL;
 
@@ -76,11 +77,22 @@ public static class FontManager
             return;
         }
 
+        var stringbuilder = new StringBuilder();
+
+        foreach (var fontAsset in fontBundle.LoadAllAssets<TMP_FontAsset>())
+        {
+            stringbuilder.AppendLine(fontAsset.name);
+        }
+
+        Logging.Info($"{stringbuilder.ToString()}");
+
         lang.FontBundle = fontBundle;
-        lang.MainFontAsset = fontBundle.LoadAsset<TMP_FontAsset>("MainFont");
-        lang.MuseumAsset = fontBundle.LoadAsset<TMP_FontAsset>("MuseumFont");
-        lang.TerminalAsset = fontBundle.LoadAsset<TMP_FontAsset>("TerminalFont");
-        lang.SecretTerminalAsset = fontBundle.LoadAsset<TMP_FontAsset>("SecretFont");
+
+        var fontNames = lang.Json.metadata.fonts;
+        lang.MainFontAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontNames.MainFont);
+        lang.MuseumAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontNames.MuseumFont);
+        lang.TerminalAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontNames.TerminalFont);
+        lang.SecretTerminalAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontNames.SecretTerminalFont);
     }
 
     /// <summary>
