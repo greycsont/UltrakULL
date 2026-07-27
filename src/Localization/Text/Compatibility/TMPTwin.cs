@@ -104,6 +104,7 @@ public class TMPTwin : MonoBehaviour
         twin = TextMirror.CreateChild(source);
         if (twin == null) return;
 
+        TextMirror.SetFont(source, twin);
         Sync();
 
         HideSource();

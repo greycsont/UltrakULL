@@ -34,12 +34,21 @@ public static class TextMirror
         return tmp;
     }
 
-    public static void CopyTextProperties(Text source, TextMeshProUGUI target)
+    public static void SetFont(Text source, TextMeshProUGUI target)
     {
         if (source == null || target == null) return;
 
         TMP_FontAsset twinFont = FontManager.GetTwinFont(source.font != null ? source.font.name : null);
-        if (twinFont != null) target.font = twinFont;
+        if (twinFont == null) return;
+
+        target.font = twinFont;
+        target.fontSharedMaterial = twinFont.material;
+    }
+
+    public static void CopyTextProperties(Text source, TextMeshProUGUI target)
+    {
+        if (source == null || target == null) return;
+
         target.text = source.text;
         target.fontSize = source.fontSize;
         target.color = source.color;

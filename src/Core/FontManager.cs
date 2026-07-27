@@ -42,7 +42,7 @@ public static class FontManager
         MeseumFontAsset = baseFontBundle.LoadAsset<TMP_FontAsset>("GFSGaraldus SDF");
         TMPFontReady = true;
 
-        LoadDefaultPack();
+        //LoadDefaultPack();
 
         void LoadDefaultPack()
         {
@@ -165,13 +165,24 @@ public static class FontManager
     // Chooses the twin primary for a legacy Text based on the font it originally used.
     public static TMP_FontAsset GetTwinFont(string sourceFontName)
     {
-        if (!string.IsNullOrEmpty(sourceFontName))
-        {
-            string name = sourceFontName.ToLowerInvariant();
-            if (name.Contains("garaldus") || name.Contains("garamond") || name.Contains("museum"))
-                return MeseumFontAsset != null ? MeseumFontAsset : TwinFont;
-        }
-        return TwinFont;
+        string name = sourceFontName?.ToLowerInvariant();
+        bool isMuseum =
+            !string.IsNullOrEmpty(name)
+            && (name.Contains("garaldus")
+                || name.Contains("garamond")
+                || name.Contains("museum"));
+
+        var original = isMuseum
+            ? MeseumFontAsset ?? TwinFont
+            : TwinFont;
+
+        Lang lang = LanguageManager.Current;
+        if (lang == null || lang.IsEnglish || lang.UseFontFallback)
+            return original;
+
+        return isMuseum
+            ? lang.MuseumAsset ?? lang.MainFontAsset ?? original
+            : lang.MainFontAsset ?? original;
     }
 
     private static void AddFallback(Lang lang, TMP_FontAsset primary, TMP_FontAsset fallback)
