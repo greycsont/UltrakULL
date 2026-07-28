@@ -11,12 +11,12 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps;
 public class SisyphusPrimeAudioSwap
 {
     [HarmonyPostfix]
-    public static void SisyphusPrimeAudioSwapPatch(ref SisyphusPrime __instance)
+    public static void SisyphusPrimeAudioSwapPatch(SisyphusPrime __instance)
     {
         if (LanguageManager.configFile.Bind<string>("General", "activeDubbing", "False", (ConfigDescription)null).Value == "False" || LanguageManager.IsEnglish)
             return;
 
-        ApplyAudioSwap(__instance);
+        AudioSwapper.WhenReady(() => ApplyAudioSwap(__instance));
     }
 
     private static void ApplyAudioSwap(SisyphusPrime __instance)

@@ -11,12 +11,12 @@ namespace UltrakULL.Harmony_Patches.AudioSwaps;
 public class MinosPrimeAudioSwap
 {
     [HarmonyPostfix]
-    public static void MinosPrime_VoiceSwap(ref MinosPrime __instance)
+    public static void MinosPrime_VoiceSwap(MinosPrime __instance)
     {
         if (LanguageManager.configFile.Bind("General", "activeDubbing", "False").Value == "False" || LanguageManager.IsEnglish)
             return;
 
-        ApplyVoiceSwap(__instance);
+        AudioSwapper.WhenReady(() => ApplyVoiceSwap(__instance));
     }
 
     private static void ApplyVoiceSwap(MinosPrime __instance)

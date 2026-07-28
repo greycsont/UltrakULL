@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using UltrakULL.json;
 using BepInEx;
 using System.Reflection;
+using UltrakULL.audio;
 using static UltrakULL.SceneObjects;
 
 /*
@@ -85,6 +86,7 @@ public class MainPatch : BaseUnityPlugin
 	{
 		Instance = this;
 		Debug.unityLogger.filterLogType = LogType.Exception;
+		gameObject.hideFlags = HideFlags.DontSaveInEditor;
 
 		Logging.Warn("UltrakULL Loading... | Version v." + InternalVersion);
 		try
@@ -117,7 +119,6 @@ public class MainPatch : BaseUnityPlugin
 		}
 	}
 	
-	
 	/// <summary>
 	/// For everything you want to do it on Scene Switching.
 	/// Please put it to here!
@@ -138,6 +139,7 @@ public class MainPatch : BaseUnityPlugin
 		FontManager.RefreshFallback();                 
 		GameObject canvasObj = GetInactiveRootObject("Canvas");
 		Core.HandleSceneSwitch(scene, ref canvasObj);
+		AudioSwapper.OnSceneLoaded(GetCurrentSceneName());
 
 		RunDeferred(canvasObj);
 	}

@@ -20,21 +20,31 @@ public static class SubtitledAudioSourcesReplacer
     {
         if (!TryLoadMetadata(out var objectReferences)) 
             return;
+
+        var audioReplacements = new List<(AudioSource source, string path)>();
         
         foreach (var objectReference in objectReferences)
         {
             foreach (var gameObject in objectReference.Objects)
             {
-                var subtitledAudioSource = GetObject(gameObject).GetComponent<SubtitledAudioSource>();
-                var audioSource = GetObject(gameObject).GetComponentInChildren<AudioSource>();
+                var target = GetObject(gameObject);
+                var subtitledAudioSource = target.GetComponent<SubtitledAudioSource>();
 
                 if (ActiveDubbingEnabled())
-                    audioSource.clip = SwapClipWithFile(audioSource.clip, Combine(SpeechFolder, objectReference.AudioPath));
+                    audioReplacements.Add((
+                        target.GetComponentInChildren<AudioSource>(),
+                        Combine(SpeechFolder, objectReference.AudioPath)));
                 
                 if (subtitledAudioSource != null)
                     SetPrivate(subtitledAudioSource, typeof(SubtitledAudioSource), "subtitles", objectReference.ToSubtitleData());
             }
         }
+
+        WhenReady(() =>
+        {
+            foreach (var replacement in audioReplacements)
+                replacement.source.clip = SwapClipWithFile(replacement.source.clip, replacement.path);
+        });
     }
 
     private static bool ActiveDubbingEnabled()

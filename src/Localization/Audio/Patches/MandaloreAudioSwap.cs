@@ -14,29 +14,20 @@ public static class MandaloreAudioSwap
     [HarmonyPostfix]
     public static void Mandalore_AudioSwap(Mandalore __instance)
     {
-        try
-        {
-            if (LanguageManager.configFile.Bind("General", "activeDubbing", "False").Value == "False" || LanguageManager.IsEnglish)
-                return;
+        if (LanguageManager.configFile.Bind("General", "activeDubbing", "False").Value == "False" || LanguageManager.IsEnglish)
+            return;
 
-            ApplyAudioSwap(__instance);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.ToString());
-        }
+        AudioSwapper.WhenReady(() => ApplyAudioSwap(__instance));
     }
 
     private static void ApplyAudioSwap(Mandalore __instance)
     {
-        try
-        {
-            if (__instance == null)
-                return;
+        if (__instance == null)
+            return;
 
-            //Mandalore uses an array for MandaloreVoice. voices[0] = Mandalore, voices[1] = Owl.
-            //NOTE - both audio files for Manda & Owl play at the SAME TIME, so each file needs the
-            //relevant period of silence before/after speaking.
+        //Mandalore uses an array for MandaloreVoice. voices[0] = Mandalore, voices[1] = Owl.
+        //NOTE - both audio files for Manda & Owl play at the SAME TIME, so each file needs the
+        //relevant period of silence before/after speaking.
             string mandaloreFolder = AudioSwapper.SpeechFolder + "mandalore" + Path.DirectorySeparatorChar;
 
             //Attack 1 (Full auto)
@@ -95,11 +86,6 @@ public static class MandaloreAudioSwap
                         mandaloreTauntOwl[x] = AudioSwapper.SwapClipWithFile(mandaloreTauntOwl[x], mandaloreFolder + owlTauntLines[x]);
                         break;
                 }
-            }
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.ToString());
         }
     }
 }

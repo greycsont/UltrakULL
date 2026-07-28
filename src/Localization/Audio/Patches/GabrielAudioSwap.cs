@@ -8,17 +8,20 @@ using UnityEngine;
 
 namespace UltrakULL.Harmony_Patches.AudioSwaps;
 
-[HarmonyPatch(typeof(Gabriel), "Start")]
+[HarmonyPatch(typeof(Gabriel))]
 public static class GabrielAudioSwap
 {
-    [HarmonyPostfix]
-    public static void Gabriel_VoiceSwap(ref Gabriel __instance)
+    [HarmonyPatch(nameof(Gabriel.Start))] [HarmonyPostfix]
+    public static void Gabriel_VoiceSwap(Gabriel __instance)
     {
         if (LanguageManager.configFile.Bind("General", "activeDubbing", "False").Value == "False" || LanguageManager.IsEnglish)
             return;
 
-        ApplyVoiceSwap(__instance);
-        ApplyOutroSwap(__instance);
+        AudioSwapper.WhenReady(() =>
+        {
+            ApplyVoiceSwap(__instance);
+            ApplyOutroSwap(__instance);
+        });
     }
 
     private static void ApplyVoiceSwap(Gabriel __instance)
