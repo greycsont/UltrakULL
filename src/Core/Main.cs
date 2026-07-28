@@ -99,6 +99,7 @@ public class MainPatch : BaseUnityPlugin
 			// For handling Language Switching
 			Logging.Warn("--- Register events ---");
 			FontManager.Initialize();
+			TextMeshProFontSwap.Initialize();
 			SubtitleLocalizer.Initialize();
 
 			Logging.Warn("--- Initializing language manager ---");

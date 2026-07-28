@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using HarmonyLib;
 using TMPro;
 using UltrakULL.json;
@@ -32,6 +33,19 @@ namespace UltrakULL;
 [HarmonyPatch(typeof(TextMeshProUGUI))]
 public static class TextMeshProFontSwap
 {
+    private sealed class OriginalFont
+    {
+        public TMP_FontAsset Font;
+        public Material Material;
+    }
+
+    private static readonly Dictionary<TMP_Text, OriginalFont> originalFonts = new();
+
+    public static void Initialize()
+    {
+        LanguageManager.OnLanguageChanged += OnLanguageChanged;
+    }
+
     [HarmonyPatch(nameof(TextMeshProUGUI.OnEnable))] [HarmonyPostfix]
     private static void OnEnable_Postfix(TextMeshProUGUI __instance)
     {
@@ -57,9 +71,32 @@ public static class TextMeshProFontSwap
         if (font == null || font == text.font)
             return;
 
+        originalFonts.TryAdd(text, new OriginalFont
+        {
+            Font = text.font,
+            Material = text.fontSharedMaterial
+        });
+
         var sourceMaterial = text.fontMaterial;
         text.font = font;
         text.fontSharedMaterial = TMP_MaterialManager.GetFallbackMaterial(sourceMaterial, font.material);
+    }
+
+    private static void OnLanguageChanged(ValueChangedEvent<Lang> change)
+    {
+        foreach (var pair in originalFonts)
+        {
+            if (pair.Key == null)
+                continue;
+
+            pair.Key.font = pair.Value.Font;
+            pair.Key.fontSharedMaterial = pair.Value.Material;
+        }
+
+        originalFonts.Clear();
+
+        foreach (var text in Resources.FindObjectsOfTypeAll<TextMeshProUGUI>())
+            Apply(text);
     }
 
     public static TMP_FontAsset GetReplacementFont(TMP_Text text)
