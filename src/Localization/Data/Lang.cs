@@ -29,6 +29,7 @@ public sealed class Lang
 
     public string SpeechFolder { get; }
     public string FontBundlePath { get; }
+    public string TextureFolder { get; }
 
     public TMP_FontAsset MainFontAsset { get; set; }
     public TMP_FontAsset TerminalAsset { get; set; }
@@ -48,6 +49,7 @@ public sealed class Lang
         SpeechFolder = Path.Combine(Paths.ConfigPath, "ultrakull", "audio", json.metadata.langName)
                        + Path.DirectorySeparatorChar;
         FontBundlePath = Path.Combine(Paths.ConfigPath, "ultrakull", "fonts", json.metadata.langName, "fontpack.bundle");
+        TextureFolder = Path.Combine(Paths.ConfigPath, "ultrakull", "textures", json.metadata.langName);
     }
 
     // ArabicFixer.Fix rewrites Json's strings in place, so it must never run twice on the same Lang.
