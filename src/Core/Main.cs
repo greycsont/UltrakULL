@@ -101,6 +101,7 @@ public class MainPatch : BaseUnityPlugin
 			FontManager.Initialize();
 			TextMeshProFontSwap.Initialize();
 			SubtitleLocalizer.Initialize();
+			TextureSwapper.Initialize();
 
 			Logging.Warn("--- Initializing language manager ---");
 			LanguageManager.InitializeManager(InternalVersion);
@@ -152,5 +153,6 @@ public class MainPatch : BaseUnityPlugin
 		await Task.Delay(250);
 		Core.ApplyPostInitFixes(canvasObj);
 		SubtitledAudioSourcesReplacer.ReplaceSubsAndAudio();
+		TextureSwapper.Apply();
 	}
 }
