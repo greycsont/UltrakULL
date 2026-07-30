@@ -1286,7 +1286,7 @@ public class FontsMetadata
     public string MuseumFont = "";
     public string TerminalFont = "";
     public string SecretTerminalFont = "";
-    public bool UseFallback = false;
+    public bool UseFallback = true;
 }
 
 public class Metadata
