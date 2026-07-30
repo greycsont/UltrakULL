@@ -71,13 +71,16 @@ public static class TextMeshProFontSwap
         if (font == null || font == text.font)
             return;
 
+        Material sourceMaterial = text.fontSharedMaterial ?? text.font.material;
+        if (sourceMaterial == null || font.material == null)
+            return;
+
         originalFonts.TryAdd(text, new OriginalFont
         {
             Font = text.font,
             Material = text.fontSharedMaterial
         });
 
-        var sourceMaterial = text.fontMaterial;
         text.font = font;
         text.fontSharedMaterial = TMP_MaterialManager.GetFallbackMaterial(sourceMaterial, font.material);
     }
