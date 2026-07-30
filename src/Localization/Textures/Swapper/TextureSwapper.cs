@@ -31,7 +31,7 @@ public static partial class TextureSwapper
     public static void Apply()
     {
         Scan();
-        //StaticBatchAtlasSwapper.Apply();
+        StaticBatchAtlasSwapper.Apply();
     }
 
     private static void Scan()
