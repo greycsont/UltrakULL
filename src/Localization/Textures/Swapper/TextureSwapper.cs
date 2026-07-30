@@ -14,6 +14,7 @@ public static partial class TextureSwapper
     private static readonly Dictionary<string, int> replacementCount = new()
     {
         ["Image slot(s)"] = 0,
+        ["StyleHUD rank sprite(s)"] = 0,
         ["RawImage(s)"] = 0,
         ["SpriteRenderer(s)"] = 0,
         ["SpriteMask(s)"] = 0,
@@ -45,6 +46,7 @@ public static partial class TextureSwapper
                 replacementCount[key] = 0;
 
             ReplaceImages();
+            ReplaceStyleHud();
             ReplaceRawImages();
             ReplaceSpriteRenderers();
             ReplaceSpriteMasks();

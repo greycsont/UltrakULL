@@ -56,7 +56,7 @@ public static partial class TextureSwapper
 
     private static void ReplaceMaterialTextures()
     {
-        foreach (Material material in Resources.FindObjectsOfTypeAll<Material>())
+        foreach (var material in Resources.FindObjectsOfTypeAll<Material>())
             ReplaceMaterialTextureProperties(material);
     }
 
