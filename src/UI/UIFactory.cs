@@ -4,7 +4,6 @@ using UnityEngine.UI;
 namespace UltrakULL;
 
 // UI element creation helpers. Borrowed from ZedDev's UKUIHelper, with some things
-// modified/removed to prevent errors.
 public static class UIFactory
 {
     public static ColorBlock UkButtonColors = new ColorBlock()

@@ -89,10 +89,14 @@ public static class FontManager
         lang.FontBundle = fontBundle;
 
         var fontNames = lang.Json.metadata.fonts;
-        lang.MainFontAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontNames.MainFont);
-        lang.MuseumAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontNames.MuseumFont);
-        lang.TerminalAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontNames.TerminalFont);
-        lang.SecretTerminalAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontNames.SecretTerminalFont);
+        //lang.MainFontAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontNames.MainFont);
+        //lang.MuseumAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontNames.MuseumFont);
+        //lang.TerminalAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontNames.TerminalFont);
+        //lang.SecretTerminalAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontNames.SecretTerminalFont);
+        lang.MainFontAsset = fontBundle.LoadAsset<TMP_FontAsset>("WenQuanYi.Bitmap.Song.12px");
+        lang.MuseumAsset = fontBundle.LoadAsset<TMP_FontAsset>("WenYuanSerifSC-Regular");
+        lang.TerminalAsset = fontBundle.LoadAsset<TMP_FontAsset>("fusion-pixel-10px-monospaced-zh_hans");
+        lang.SecretTerminalAsset = fontBundle.LoadAsset<TMP_FontAsset>("WenQuanYi.Bitmap.Song.16px");
     }
 
     /// <summary>
