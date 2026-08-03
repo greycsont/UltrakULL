@@ -202,6 +202,9 @@ public static class LanguageManager
     /// <param name="langName"></param>
     public static void TrySwitchLanguage(string langName)
     {
+        if (GetCurrentSceneName() != "Main Menu")
+            MonoSingleton<HudMessageReceiver>.Instance?.SendHudMessage("<color=orange>Language changes will not fully take effect until the current mission is quit or restarted.</color>");
+            
         if (SetCurrentLanguage(langName))
             RefreshLiveUI();
     }
@@ -217,10 +220,5 @@ public static class LanguageManager
 
         InjectLanguageButton.updateLanguageButtonText();
         LoadingTextPatch.UpdateLoadingText();
-
-        if (GetCurrentSceneName() != "Main Menu")
-        {
-            MonoSingleton<HudMessageReceiver>.Instance?.SendHudMessage("<color=orange>Language changes will not fully take effect until the current mission is quit or restarted.</color>");
-        }
     }
 }
