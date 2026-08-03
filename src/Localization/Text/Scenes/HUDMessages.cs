@@ -12,12 +12,6 @@ public static class HUDMessages
 {
     public static string GetHUDToolTip(string message)
     {
-        //Cross-compatibility with V-Ranks, pretty sure every HUD message has at least one time "V-Rank" in them
-        if (message.Contains("V-Rank"))
-        {
-            return message;
-        }
-
         if (message.Contains("PUNCH"))
         {
             return "<color=red>" + LanguageManager.CurrentLanguage.misc.hud_noArm1 + "</color>\n"
