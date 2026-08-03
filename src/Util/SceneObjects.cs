@@ -91,6 +91,12 @@ public static class SceneObjects
         return gameObject == null ? null : gameObject.GetComponent<TextMeshProUGUI>();
     }
 
+    public static T FindComponent<T>(GameObject gameObject, params string[] childPath) where T : Component
+    {
+        var targetObject = FindDescendant(gameObject, childPath);
+        return targetObject != null ? targetObject.GetComponent<T>() : null;
+    }
+
     public static GameObject GetObject(string path)
     {
         string rootPath;
