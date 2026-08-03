@@ -10,10 +10,6 @@ namespace UltrakULL;
 /// <summary>Loads shared font assets and manages per-language TMP fallbacks.</summary>
 public static class FontManager
 {
-    // This part will add in the fucking future
-    public static Sprite[] CustomRankImages;
-    public static Sprite ArabicUltrakillLogo;
-
     public static bool TMPFontReady;
 
     // These two mf is the game's font
