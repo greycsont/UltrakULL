@@ -26,13 +26,11 @@ public static class LocalizeStyleHud
         return false;
     }
 
-    [HarmonyPatch(nameof(StyleHUD.UpdateFreshnessSlider))] [HarmonyPrefix]
-    public static bool UpdateFreshnessSlider_MyPatch(StyleHUD __instance, GunControl ___gc)
+    [HarmonyPatch(nameof(StyleHUD.UpdateFreshnessSlider))] [HarmonyPostfix]
+    public static void UpdateFreshnessSlider_MyPatch(StyleHUD __instance)
     {
-        StyleFreshnessState freshnessState = __instance.GetFreshnessState(___gc.currentWeapon);
+        var freshnessState = __instance.GetFreshnessState(__instance.gc.currentWeapon);
         __instance.freshnessSliderText.text = StyleBonusStrings.GetWeaponFreshness(freshnessState);
-
-        return false;
     }
 }
 
