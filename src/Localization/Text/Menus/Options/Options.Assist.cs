@@ -39,7 +39,8 @@ public static partial class Options
         //Assist Options
         GameObject assistContent = FindDescendant(optionsMenu, "Scroll Rect", "Contents");
 
-        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("--{0}--", LanguageManager.CurrentLanguage.options.assists_minor), assistContent, "-- Minor Assists --", "Text");
+        //-- MINOR ASSISTS --
+        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("-- {0} --", LanguageManager.CurrentLanguage.options.assists_minor), assistContent, "-- Minor Assists --", "Text");
 
         TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_autoAim, assistContent, "Auto Aim", "Text");
 
@@ -73,7 +74,9 @@ public static partial class Options
         //assistEnemySilhouettesOutlinesOnlyText.text = LanguageManager.CurrentLanguage.options.assists_enemySilhouettesOutlinesOnly;
 
         GameObject assistsMajorTitleObject = FindDescendant(assistContent, "-- Major Assists --");
-        TextMeshProUGUI assistsMajorTitle = TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("--{0}--", LanguageManager.CurrentLanguage.options.assists_major), assistsMajorTitleObject, "Text");
+
+        //-- MAJOR ASSISTS --
+        TextMeshProUGUI assistsMajorTitle = TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("-- {0} --", LanguageManager.CurrentLanguage.options.assists_major), assistsMajorTitleObject, "Text");
         if (assistsMajorTitle != null) assistsMajorTitle.fontSize = 20;
         TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_majorActivate, assistsMajorTitleObject, "Enable Group", "Text");
 

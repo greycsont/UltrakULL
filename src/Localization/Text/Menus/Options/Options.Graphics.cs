@@ -44,8 +44,8 @@ public static partial class Options
 
         TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_useFallbackShaders, graphicsContent, "Use Fallback Shaders (Requires Reload)", "Text");
 
-        //--PSX--
-        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("--{0}--\n<size=16>{1}</size>",
+        //-- PSX --
+        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("-- {0} --\n<size=16>{1}</size>",
             LanguageManager.CurrentLanguage.options.graphics_filters,
             LanguageManager.CurrentLanguage.options.graphics_filtersDescription), graphicsContent, "-- PSX --", "Text");
 
@@ -103,8 +103,9 @@ public static partial class Options
         TryReplaceText(colorCompressionDropdownListText[3], LanguageManager.CurrentLanguage.options.graphics_colorCompressionStrong);
         TryReplaceText(colorCompressionDropdownListText[4], LanguageManager.CurrentLanguage.options.graphics_colorCompressionVeryStrong);
         TryReplaceText(colorCompressionDropdownListText[5], LanguageManager.CurrentLanguage.options.graphics_colorCompressionAbsurd);
-
-        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("--{0}--", LanguageManager.CurrentLanguage.options.graphics_performance), graphicsContent, "-- Performance --", "Text");
+        
+        //-- PERFORMANCE --
+        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("-- {0} --", LanguageManager.CurrentLanguage.options.graphics_performance), graphicsContent, "-- Performance --", "Text");
 
         TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_performanceSimpleExplosions, graphicsContent, "Simpler Explosions", "Text");
 
@@ -118,8 +119,8 @@ public static partial class Options
 
         TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_performanceDisableHeatWaves, graphicsContent, "Disable Heat Waves", "Text");
 
-        //--GORE--
-        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("--{0}--\n<size=16>{1}</size>",
+        //-- GORE --
+        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("-- {0} --\n<size=16>{1}</size>",
             LanguageManager.CurrentLanguage.options.graphics_gore,
             LanguageManager.CurrentLanguage.options.graphics_goreNote), graphicsContent, "-- Gore --", "Text");
 

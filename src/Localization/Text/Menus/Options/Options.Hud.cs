@@ -21,6 +21,7 @@ public static partial class Options
         //HUD options
         GameObject hudContent = FindDescendant(optionsMenu, "Scroll Rect", "Contents");
 
+        //--GENERAL--
         TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("--{0}--", LanguageManager.CurrentLanguage.options.category_general), hudContent.transform.GetChild(0).gameObject, "Text");
 
         TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.hud_type, hudContent, "HUD Type", "Text");
@@ -54,6 +55,7 @@ public static partial class Options
         TryReplaceText(iconsDropdownListText[0], LanguageManager.CurrentLanguage.sandbox.sandbox_shop_default);
         TryReplaceText(iconsDropdownListText[1], LanguageManager.CurrentLanguage.sandbox.sandbox_shop_pitr);
 
+        //-- ELEMENTS --
         TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("--{0}--", LanguageManager.CurrentLanguage.options.hud_hudElements), hudContent, "-- Elements --", "Text");
 
         TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.hud_weaponIcon, hudContent, "Weapon Icon", "Text");
@@ -76,9 +78,8 @@ public static partial class Options
         TryReplaceText(speedoMeterTypeDropdownListText[2], LanguageManager.CurrentLanguage.options.hud_speedoMeterTypeHorizonal);
         TryReplaceText(speedoMeterTypeDropdownListText[3], LanguageManager.CurrentLanguage.options.hud_speedoMeterTypeVertical);
         
-        //Crosshair settings
-
-        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("--{0}--", LanguageManager.CurrentLanguage.options.crosshair_title), hudContent, "-- Crosshair --", "Text");
+        //-- CROSSHAIR --
+        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("-- {0} --", LanguageManager.CurrentLanguage.options.crosshair_title), hudContent, "-- Crosshair --", "Text");
 
         TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.crosshair_type, hudContent, "Type", "Text");
 
