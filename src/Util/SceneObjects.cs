@@ -93,7 +93,7 @@ public static class SceneObjects
 
     public static T FindComponent<T>(GameObject gameObject, params string[] childPath) where T : Component
     {
-        var targetObject = FindDescendant(gameObject, childPath);
+        var targetObject = childPath.Length == 0 ? gameObject : FindDescendant(gameObject, childPath);
         return targetObject != null ? targetObject.GetComponent<T>() : null;
     }
 

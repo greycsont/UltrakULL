@@ -221,15 +221,15 @@ public static class DevMuseum
 	private static void PatchPlaques()
 	{
 		// First part: Non-__DEV_SPACE_ALL placards (lines 211-221)
-		TryToReplaceText(GetTextfromGameObject(FindDescendant(GetInactiveRootObject("__Room_Courtyard").transform.GetChild(4).GetChild(0).gameObject, "Canvas (2)", "Text")), LanguageManager.CurrentLanguage.devMuseum.museum_plaquesMuseumTitle);
+		TryReplaceText(GetTextfromGameObject(FindDescendant(GetInactiveRootObject("__Room_Courtyard").transform.GetChild(4).GetChild(0).gameObject, "Canvas (2)", "Text")), LanguageManager.CurrentLanguage.devMuseum.museum_plaquesMuseumTitle);
 		GameObject gameObject = GetInactiveRootObject("__Room_FrontDesk_1").transform.GetChild(1).gameObject;
 		GameObject gameObject2 = gameObject.transform.GetChild(58).gameObject;
 		GameObject gameObject3 = gameObject.transform.GetChild(0).gameObject;
 		GameObject gameObject4 = gameObject.transform.GetChild(1).gameObject;
-		TryToReplaceText(GetTextfromGameObject(FindDescendant(gameObject2, "Canvas (3)", "Text")), LanguageManager.CurrentLanguage.devMuseum.museum_plaquesHakita1);
-		TryToReplaceText(GetTextfromGameObject(FindDescendant(gameObject2, "Canvas (3)", "Text (1)")), LanguageManager.CurrentLanguage.devMuseum.museum_plaquesHakita2);
-		TryToReplaceText(GetTextfromGameObject(FindDescendant(gameObject3, "Canvas (3)", "Text")), LanguageManager.CurrentLanguage.devMuseum.museum_plaquesArtRoom);
-		TryToReplaceText(GetTextfromGameObject(FindDescendant(gameObject4, "Canvas (3)", "Text")), LanguageManager.CurrentLanguage.devMuseum.museum_plaquesNerdRoom);
+		TryReplaceText(GetTextfromGameObject(FindDescendant(gameObject2, "Canvas (3)", "Text")), LanguageManager.CurrentLanguage.devMuseum.museum_plaquesHakita1);
+		TryReplaceText(GetTextfromGameObject(FindDescendant(gameObject2, "Canvas (3)", "Text (1)")), LanguageManager.CurrentLanguage.devMuseum.museum_plaquesHakita2);
+		TryReplaceText(GetTextfromGameObject(FindDescendant(gameObject3, "Canvas (3)", "Text")), LanguageManager.CurrentLanguage.devMuseum.museum_plaquesArtRoom);
+		TryReplaceText(GetTextfromGameObject(FindDescendant(gameObject4, "Canvas (3)", "Text")), LanguageManager.CurrentLanguage.devMuseum.museum_plaquesNerdRoom);
 		
 		// New logic for __DEV_SPACE_ALL placards (lines 222-317)
 		// Find the main container
@@ -295,200 +295,200 @@ public static class DevMuseum
 			// Apply translations based on initial text content
 			if (initialText.Contains("KING GIZZARD"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesKingGizzard1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesKingGizzard2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesKingGizzard1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesKingGizzard2);
 			}
 			else if (initialText.Contains("Stephan Weyte"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesStephanWeyte1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesStephanWeyte2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesStephanWeyte1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesStephanWeyte2);
 			}
 			else if (initialText.Contains("Lenval Brown"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesLenvalBrown1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesLenvalBrown2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesLenvalBrown1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesLenvalBrown2);
 			}
 			else if (initialText.Contains("Keygen Church"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesKeygenChurch1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesKeygenChurch2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesKeygenChurch1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesKeygenChurch2);
 			}
 			else if (initialText.Contains("Meganeko"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesMeganeko1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesMeganeko2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesMeganeko1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesMeganeko2);
 			}
 			else if (initialText.Contains("Salad"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesSalad1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesSalad2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesSalad1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesSalad2);
 			}
 			else if (initialText.Contains("Jacob H.H.R."))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesJacobHHR1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesJacobHHR2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesJacobHHR1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesJacobHHR2);
 			}
 			else if (initialText.Contains("Vvizard"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesVVizard1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesVVizard2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesVVizard1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesVVizard2);
 			}
 			else if (initialText.Contains("Mandalore Herrington"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesMandalore1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesMandalore2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesMandalore1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesMandalore2);
 			}
 			else if (initialText.Contains("Joy Young"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesJoyYoung1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesJoyYoung2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesJoyYoung1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesJoyYoung2);
 			}
 			else if (initialText.Contains("Arsi \"Hakita\" Patala"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesHakita1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesHakita2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesHakita1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesHakita2);
 			}
 			else if (initialText.Contains("Emanuil \"Cabalcrow\" Chizhov"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesCabalcrow1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesCabalcrow2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesCabalcrow1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesCabalcrow2);
 			}
 			else if (initialText.Contains("Ben Moir"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesBenMoir1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesBenMoir2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesBenMoir1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesBenMoir2);
 			}
 			else if (initialText.Contains("Lucas Varney"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesLucasVarney1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesLucasVarney2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesLucasVarney1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesLucasVarney2);
 			}
 			else if (initialText.Contains("Hazeluff"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesHazeluff1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesHazeluff2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesHazeluff1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesHazeluff2);
 			}
 			else if (initialText.Contains("KENNADY RAY"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesKennadyRay1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesKennadyRay2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesKennadyRay1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesKennadyRay2);
 			}
 			else if (initialText.Contains("Heckteck"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesHeckteck1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesHeckteck2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesHeckteck1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesHeckteck2);
 			}
 			else if (initialText.Contains("Maximilian Ovesson"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesMaxOvesson1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesMaxOvesson2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesMaxOvesson1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesMaxOvesson2);
 			}
 			else if (initialText.Contains("RHIANNON MITCHELL"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesRhiannonMitchell1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesRhiannonMitchell2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesRhiannonMitchell1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesRhiannonMitchell2);
 			}
 			else if (initialText.Contains("BigRockBMP"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesBigRockBMP1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesBigRockBMP2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesBigRockBMP1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesBigRockBMP2);
 			}
 			else if (initialText.Contains("JERICHO_RUS"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesJerichoRus1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesJerichoRus2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesJerichoRus1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesJerichoRus2);
 			}
 			else if (initialText.Contains("Francis Xie"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesFrancisXie1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesFrancisXie2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesFrancisXie1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesFrancisXie2);
 			}
 			else if (initialText.Contains("Toni Stigell"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesToniStigell1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesToniStigell2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesToniStigell1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesToniStigell2);
 			}
 			else if (initialText.Contains("FlyingDog"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesFlyingdog1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesFlyingdog2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesFlyingdog1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesFlyingdog2);
 			}
 			else if (initialText.Contains("Samuel James Bryan"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesSamuelJamesBryan1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesSamuelJamesBryan2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesSamuelJamesBryan1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesSamuelJamesBryan2);
 			}
 			else if (initialText.Contains("Additional Music"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesAdditionalMusic);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesAdditionalMusic);
 			}
 			else if (initialText.Contains("VYLET PONY"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesVyletPony1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesVyletPony2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesVyletPony1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesVyletPony2);
 			}
 			else if (initialText.Contains("QUETZAL TIRADO"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesQuetzalTirado1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesQuetzalTirado2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesQuetzalTirado1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesQuetzalTirado2);
 			}
 			else if (initialText.Contains("HEALTH"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesHealth1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesHealth2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesHealth1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesHealth2);
 			}
 			else if (initialText.Contains("Cameron Martin"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesCameronMartin1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesCameronMartin2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesCameronMartin1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesCameronMartin2);
 			}
 			else if (initialText.Contains("Dalia Figueroa"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesDaliaFigueroa1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesDaliaFigueroa2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesDaliaFigueroa1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesDaliaFigueroa2);
 			}
 			else if (initialText.Contains("Tucker Wilkin"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesTuckerWilkin1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesTuckerWilkin2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesTuckerWilkin1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesTuckerWilkin2);
 			}
 			else if (initialText.Contains("Scott Gurney"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesScottGurney1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesScottGurney2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesScottGurney1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesScottGurney2);
 			}
 			else if (initialText.Contains("Aaron Burzynski"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesAaronBurzynski1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesAaronBurzynski2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesAaronBurzynski1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesAaronBurzynski2);
 			}
 			else if (initialText.Contains("Victoria Holland"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesVictoriaHolland1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesVictoriaHolland2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesVictoriaHolland1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesVictoriaHolland2);
 			}
 			else if (initialText.Contains("Gianni Matragrano"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesGianniMatragrano1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesGianniMatragrano2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesGianniMatragrano1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesGianniMatragrano2);
 			}
 			else if (initialText.Contains("PITR"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesPitr1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesPitr2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesPitr1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesPitr2);
 			}
 			else if (initialText.Contains("HECKTECK"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesHeckteck1);
-				TryToReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesHeckteck2);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesHeckteck1);
+				TryReplaceText(text1Component, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesHeckteck2);
 			}
 			else if (initialText.Contains("Additional credits"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesAdditionalCredits);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesAdditionalCredits);
 			}
 			else if (initialText.Contains("Additional ART"))
 			{
-				TryToReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesAdditionalArt);
+				TryReplaceText(textComponent, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesAdditionalArt);
 			}
 			else
 			{
@@ -501,43 +501,43 @@ public static class DevMuseum
 		GameObject gameObject5 = ((Component)GetInactiveRootObject("__Room_Large_Lower").transform.GetChild(4)).gameObject;
 		Text textfromGameObject39 = GetTextfromGameObject(FindDescendant(FindDescendant(FindDescendant(gameObject5, "Wing name (4)"), "Canvas (5)"), "Text"));
 		Text textfromGameObject40 = GetTextfromGameObject(FindDescendant(FindDescendant(FindDescendant(gameObject5, "Wing name (4)"), "Canvas (5)"), "Text (1)"));
-		TryToReplaceText(textfromGameObject39, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesDaveOshry1);
-		TryToReplaceText(textfromGameObject40, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesDaveOshry2);
+		TryReplaceText(textfromGameObject39, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesDaveOshry1);
+		TryReplaceText(textfromGameObject40, LanguageManager.CurrentLanguage.devMuseum.museum_plaquesDaveOshry2);
 		GameObject gameObject6 = ((Component)GetInactiveRootObject("__Room_Large_Lower").transform.GetChild(3)).gameObject;
 		GameObject gameObject7 = ((Component)gameObject6.transform.GetChild(9)).gameObject;
 		GameObject gameObject8 = ((Component)gameObject6.transform.GetChild(10)).gameObject;
-		TryToReplaceText(GetTextfromGameObject(FindDescendant(FindDescendant(gameObject7, "Canvas (3)"), "Text")), LanguageManager.CurrentLanguage.devMuseum.museum_plaquesRestRoom);
-		TryToReplaceText(GetTextfromGameObject(FindDescendant(FindDescendant(gameObject8, "Canvas (3)"), "Text")), LanguageManager.CurrentLanguage.devMuseum.museum_plaquesTalkRoom);
+		TryReplaceText(GetTextfromGameObject(FindDescendant(FindDescendant(gameObject7, "Canvas (3)"), "Text")), LanguageManager.CurrentLanguage.devMuseum.museum_plaquesRestRoom);
+		TryReplaceText(GetTextfromGameObject(FindDescendant(FindDescendant(gameObject8, "Canvas (3)"), "Text")), LanguageManager.CurrentLanguage.devMuseum.museum_plaquesTalkRoom);
 		GameObject gameObjectChild39 = FindDescendant(FindDescendant(FindDescendant(GetInactiveRootObject("PuzzleScreen (2)"), "Canvas"), "Background"), "Start");
-		TryToReplaceText(((TMP_Text)GetTextMeshProUGUI(FindDescendant(gameObjectChild39, "Text"))), LanguageManager.CurrentLanguage.devMuseum.museum_rocketRace1);
-		TryToReplaceText(((TMP_Text)GetTextMeshProUGUI(FindDescendant(FindDescendant(gameObjectChild39, "OpenButton"), "Text"))), LanguageManager.CurrentLanguage.devMuseum.museum_rocketRace2);
+		TryReplaceText(((TMP_Text)GetTextMeshProUGUI(FindDescendant(gameObjectChild39, "Text"))), LanguageManager.CurrentLanguage.devMuseum.museum_rocketRace1);
+		TryReplaceText(((TMP_Text)GetTextMeshProUGUI(FindDescendant(FindDescendant(gameObjectChild39, "OpenButton"), "Text"))), LanguageManager.CurrentLanguage.devMuseum.museum_rocketRace2);
 		GameObject gameObjectChild40 = FindDescendant(FindDescendant(FindDescendant(FindDescendant(GetInactiveRootObject("__Room_Theater"), "Ultrakill Projector"), "PuzzleScreen"), "Canvas"), "Background");
-		TryToReplaceText(((TMP_Text)GetTextMeshProUGUI(FindDescendant(FindDescendant(gameObjectChild40, "PlayButton"), "Text"))), LanguageManager.CurrentLanguage.devMuseum.museum_cinemaPlay);
-		TryToReplaceText(((TMP_Text)GetTextMeshProUGUI(FindDescendant(FindDescendant(gameObjectChild40, "StopButton"), "Text"))), LanguageManager.CurrentLanguage.devMuseum.museum_cinemaStop);
+		TryReplaceText(((TMP_Text)GetTextMeshProUGUI(FindDescendant(FindDescendant(gameObjectChild40, "PlayButton"), "Text"))), LanguageManager.CurrentLanguage.devMuseum.museum_cinemaPlay);
+		TryReplaceText(((TMP_Text)GetTextMeshProUGUI(FindDescendant(FindDescendant(gameObjectChild40, "StopButton"), "Text"))), LanguageManager.CurrentLanguage.devMuseum.museum_cinemaStop);
 	GameObject spoilerBackground1 = FindDescendant(FindDescendant(FindDescendant(FindDescendant(FindDescendant(GetInactiveRootObject("__DEV_SPACE_ALL"), "Prime 1 VA"), "SpoilerBlock"), "PuzzleScreen (1)"), "Canvas"), "Background");
 	GameObject spoilerBackground2 = FindDescendant(FindDescendant(FindDescendant(FindDescendant(FindDescendant(GetInactiveRootObject("__DEV_SPACE_ALL"), "Prime 2 VA"), "SpoilerBlock"), "PuzzleScreen (1)"), "Canvas"), "Background");
-		TryToReplaceText(((TMP_Text)GetTextMeshProUGUI(FindDescendant(spoilerBackground1, "Text"))), new[] { LanguageManager.CurrentLanguage.devMuseum.museum_spoiler1, LanguageManager.CurrentLanguage.devMuseum.museum_spoiler2 }, "<color=red>" + LanguageManager.CurrentLanguage.devMuseum.museum_spoiler1 + "</color>\n" + LanguageManager.CurrentLanguage.devMuseum.museum_spoiler2);
-	TryToReplaceText(((TMP_Text)GetTextMeshProUGUI(FindDescendant(spoilerBackground2, "Text"))), new[] { LanguageManager.CurrentLanguage.devMuseum.museum_spoiler1, LanguageManager.CurrentLanguage.devMuseum.museum_spoiler2 }, "<color=red>" + LanguageManager.CurrentLanguage.devMuseum.museum_spoiler1 + "</color>\n" + LanguageManager.CurrentLanguage.devMuseum.museum_spoiler2);
-	TryToReplaceText(((TMP_Text)GetTextMeshProUGUI(FindDescendant(spoilerBackground1, "OpenButton/Text"))), LanguageManager.CurrentLanguage.devMuseum.museum_spoiler3);
-	TryToReplaceText(((TMP_Text)GetTextMeshProUGUI(FindDescendant(spoilerBackground2, "OpenButton/Text"))), LanguageManager.CurrentLanguage.devMuseum.museum_spoiler3);
+		TryReplaceText(((TMP_Text)GetTextMeshProUGUI(FindDescendant(spoilerBackground1, "Text"))), TextFormatter.Format("<color=red>{0}</color>\n{1}", LanguageManager.CurrentLanguage.devMuseum.museum_spoiler1, LanguageManager.CurrentLanguage.devMuseum.museum_spoiler2));
+	TryReplaceText(((TMP_Text)GetTextMeshProUGUI(FindDescendant(spoilerBackground2, "Text"))), TextFormatter.Format("<color=red>{0}</color>\n{1}", LanguageManager.CurrentLanguage.devMuseum.museum_spoiler1, LanguageManager.CurrentLanguage.devMuseum.museum_spoiler2));
+	TryReplaceText(((TMP_Text)GetTextMeshProUGUI(FindDescendant(spoilerBackground1, "OpenButton/Text"))), LanguageManager.CurrentLanguage.devMuseum.museum_spoiler3);
+	TryReplaceText(((TMP_Text)GetTextMeshProUGUI(FindDescendant(spoilerBackground2, "OpenButton/Text"))), LanguageManager.CurrentLanguage.devMuseum.museum_spoiler3);
 }
 
 	private static void PatchChess()
 	{
 		GameObject gameObjectChild = FindDescendant(GetInactiveRootObject("__Room_Aquarium"), "Geo", "Chess");
 		GameObject gameObjectChild2 = FindDescendant(gameObjectChild, "PuzzleScreen", "Canvas", "Background", "Main Window");
-		TryToReplaceText(GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "Versus Text")), LanguageManager.CurrentLanguage.devMuseum.museum_chessVs);
-		TryToReplaceText(GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "Start New Game Button", "Text")), LanguageManager.CurrentLanguage.devMuseum.museum_chessNewgame);
-		TryToReplaceText(GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "Black", "Black Text")), LanguageManager.CurrentLanguage.devMuseum.museum_chessBlack);
-		TryToReplaceText(GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "White", "White Text")), LanguageManager.CurrentLanguage.devMuseum.museum_chessWhite);
-		TryToReplaceText(GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "Black", "Bot Button", "Text")), LanguageManager.CurrentLanguage.devMuseum.museum_chessBot);
-		TryToReplaceText(GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "Black", "Player Button", "Text")), LanguageManager.CurrentLanguage.devMuseum.museum_chessPlayer);
-		TryToReplaceText(GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "White", "Bot Button", "Text")), LanguageManager.CurrentLanguage.devMuseum.museum_chessBot);
-		TryToReplaceText(GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "White", "Player Button", "Text")), LanguageManager.CurrentLanguage.devMuseum.museum_chessPlayer);
-		TryToReplaceText(GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "Settings", "Main Window", "Close Button", "Text")), LanguageManager.CurrentLanguage.devMuseum.museum_chessSettingsclose);
-		TryToReplaceText(GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "Settings", "Main Window", "Set Elo", "Slider", "Bot Text")), new[] { LanguageManager.CurrentLanguage.devMuseum.museum_chessBot }, LanguageManager.CurrentLanguage.devMuseum.museum_chessBot + ":");
-		TryToReplaceText(GetTextMeshProUGUI(FindDescendant(gameObjectChild, "WhiteWin", "WinText")), LanguageManager.CurrentLanguage.devMuseum.museum_chessWhitewin);
-		TryToReplaceText(GetTextMeshProUGUI(FindDescendant(gameObjectChild, "BlackWin", "WinText")), LanguageManager.CurrentLanguage.devMuseum.museum_chessBlackwin);
+		TryReplaceText(GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "Versus Text")), LanguageManager.CurrentLanguage.devMuseum.museum_chessVs);
+		TryReplaceText(GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "Start New Game Button", "Text")), LanguageManager.CurrentLanguage.devMuseum.museum_chessNewgame);
+		TryReplaceText(GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "Black", "Black Text")), LanguageManager.CurrentLanguage.devMuseum.museum_chessBlack);
+		TryReplaceText(GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "White", "White Text")), LanguageManager.CurrentLanguage.devMuseum.museum_chessWhite);
+		TryReplaceText(GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "Black", "Bot Button", "Text")), LanguageManager.CurrentLanguage.devMuseum.museum_chessBot);
+		TryReplaceText(GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "Black", "Player Button", "Text")), LanguageManager.CurrentLanguage.devMuseum.museum_chessPlayer);
+		TryReplaceText(GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "White", "Bot Button", "Text")), LanguageManager.CurrentLanguage.devMuseum.museum_chessBot);
+		TryReplaceText(GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "White", "Player Button", "Text")), LanguageManager.CurrentLanguage.devMuseum.museum_chessPlayer);
+		TryReplaceText(GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "Settings", "Main Window", "Close Button", "Text")), LanguageManager.CurrentLanguage.devMuseum.museum_chessSettingsclose);
+		TryReplaceText(GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "Settings", "Main Window", "Set Elo", "Slider", "Bot Text")), TextFormatter.Format("{0}:", LanguageManager.CurrentLanguage.devMuseum.museum_chessBot));
+		TryReplaceText(GetTextMeshProUGUI(FindDescendant(gameObjectChild, "WhiteWin", "WinText")), LanguageManager.CurrentLanguage.devMuseum.museum_chessWhitewin);
+		TryReplaceText(GetTextMeshProUGUI(FindDescendant(gameObjectChild, "BlackWin", "WinText")), LanguageManager.CurrentLanguage.devMuseum.museum_chessBlackwin);
 
 	GameObject chessPieces = FindDescendant(gameObjectChild, "ChessPieces");
 
@@ -564,15 +564,15 @@ public static class DevMuseum
 			continue;
 
 		if (tmp.name == "Text (TMP) (1)")
-			TryToReplaceText(tmp, LanguageManager.CurrentLanguage.devMuseum.museum_chessPromotion);
+			TryReplaceText(tmp, LanguageManager.CurrentLanguage.devMuseum.museum_chessPromotion);
 		else if (promotion == "Queen")
-			TryToReplaceText(tmp, LanguageManager.CurrentLanguage.devMuseum.museum_chessQueen);
+			TryReplaceText(tmp, LanguageManager.CurrentLanguage.devMuseum.museum_chessQueen);
 		else if (promotion == "Rook")
-			TryToReplaceText(tmp, LanguageManager.CurrentLanguage.devMuseum.museum_chessRook);
+			TryReplaceText(tmp, LanguageManager.CurrentLanguage.devMuseum.museum_chessRook);
 		else if (promotion == "Bishop")
-			TryToReplaceText(tmp, LanguageManager.CurrentLanguage.devMuseum.museum_chessBishop);
+			TryReplaceText(tmp, LanguageManager.CurrentLanguage.devMuseum.museum_chessBishop);
 		else if (promotion == "Knight")
-			TryToReplaceText(tmp, LanguageManager.CurrentLanguage.devMuseum.museum_chessKnight);
+			TryReplaceText(tmp, LanguageManager.CurrentLanguage.devMuseum.museum_chessKnight);
 	}
 }
 

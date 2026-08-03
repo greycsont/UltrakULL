@@ -1,6 +1,6 @@
-using System.Linq;
 using System.Text.RegularExpressions;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace UltrakULL;
@@ -9,36 +9,33 @@ namespace UltrakULL;
 public static class TextReplacer
 {
     public static bool DebugMode = false;
-    public static void TryToReplaceText(TMP_Text text, string translation)
+
+    public static T TryReplaceText<T>(T target, string translation)
     {
-        if ((text == null || string.IsNullOrEmpty(translation)) && !DebugMode) return;
-        text.text = Penis(text.text, translation);
+        if ((target is null || string.IsNullOrEmpty(translation)) && !DebugMode) return target;
+
+        switch (target)
+        {
+            case TMP_Text text:
+                text.text = Penis(text.text, translation);
+                break;
+            case Text text:
+                text.text = Penis(text.text, translation);
+                break;
+            case TMP_Dropdown.OptionData option:
+                option.text = Penis(option.text, translation);
+                break;
+        }
+
+        return target;
     }
 
-    public static void TryToReplaceText(TMP_Text text, string[] parts, string replacement)
+    public static T TryReplaceText<T>(
+        string translation,
+        GameObject parent,
+        params string[] path) where T : Component
     {
-        if ((text == null || parts.Any(x => string.IsNullOrEmpty(x))) && !DebugMode) return;
-
-        text.text = Penis(text.text, replacement);
-    }
-
-    public static void TryToReplaceText(TMP_Dropdown.OptionData option, string translation)
-    {
-        if ((option == null || string.IsNullOrEmpty(translation)) && !DebugMode) return;
-        option.text = Penis(option.text, translation);
-    }
-
-    public static void TryToReplaceText(Text text, string translation)
-    {
-        if ((text == null || string.IsNullOrEmpty(translation)) && !DebugMode) return;
-        text.text = Penis(text.text, translation);
-    }
-
-    public static void TryToReplaceText(Text text, string[] parts, string replacement)
-    {
-        if ((text == null || parts.Any(x => string.IsNullOrEmpty(x))) && !DebugMode) return;
-
-        text.text = Penis(text.text, replacement);
+        return TryReplaceText(SceneObjects.FindComponent<T>(parent, path), translation);
     }
 
     // fuck you rich text

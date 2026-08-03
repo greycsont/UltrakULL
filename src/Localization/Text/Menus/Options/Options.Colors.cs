@@ -19,89 +19,89 @@ public static partial class Options
     private static void PatchColorsOptions(GameObject optionsMenu)
     {
         //Colors options
-        //TextMeshProUGUI colorsPanel = GetTextMeshProUGUI(FindDescendant(optionsMenu, "Text (1)"));
+        //TextMeshProUGUI colorsPanel = FindComponent<TextMeshProUGUI>(optionsMenu, "Text (1)");
         //colorsPanel.text = "--" + LanguageManager.CurrentLanguage.options.colors_title + "--";
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(optionsMenu, "Scroll Rect", "Contents", "Default", "Text")), LanguageManager.CurrentLanguage.options.colors_reset);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_reset, optionsMenu, "Scroll Rect", "Contents", "Default", "Text");
 
         //HUD Text
         GameObject colorsHudObject = FindDescendant(optionsMenu, "Scroll Rect", "Contents", "HUD");
 
-        TryToReplaceText(GetTextMeshProUGUI(colorsHudObject), new[] { LanguageManager.CurrentLanguage.options.colors_hud }, "--" + LanguageManager.CurrentLanguage.options.colors_hud + "--");
+        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("--{0}--", LanguageManager.CurrentLanguage.options.colors_hud), colorsHudObject);
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(colorsHudObject, "Health", "Text")), LanguageManager.CurrentLanguage.options.colors_hudHealth);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_hudHealth, colorsHudObject, "Health", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(colorsHudObject, "HpText", "Text")), LanguageManager.CurrentLanguage.options.colors_hudHealthNumber);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_hudHealthNumber, colorsHudObject, "HpText", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(colorsHudObject, "AfterImage", "Text")), LanguageManager.CurrentLanguage.options.colors_hudDamage);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_hudDamage, colorsHudObject, "AfterImage", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(colorsHudObject, "AntiHp", "Text")), LanguageManager.CurrentLanguage.options.colors_hudHardDamage);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_hudHardDamage, colorsHudObject, "AntiHp", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(colorsHudObject, "Overheal", "Text")), LanguageManager.CurrentLanguage.options.colors_hudOverheal);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_hudOverheal, colorsHudObject, "Overheal", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(colorsHudObject, "Stamina", "Text")), LanguageManager.CurrentLanguage.options.colors_hudEnergyFull);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_hudEnergyFull, colorsHudObject, "Stamina", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(colorsHudObject, "StaminaCharging", "Text")), LanguageManager.CurrentLanguage.options.colors_hudEnergyPartial);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_hudEnergyPartial, colorsHudObject, "StaminaCharging", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(colorsHudObject, "StaminaEmpty", "Text")), LanguageManager.CurrentLanguage.options.colors_hudEnergyEmpty);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_hudEnergyEmpty, colorsHudObject, "StaminaEmpty", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(colorsHudObject, "RailcannonFull", "Text")), LanguageManager.CurrentLanguage.options.colors_railcannonFull);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_railcannonFull, colorsHudObject, "RailcannonFull", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(colorsHudObject, "RailcannonCharging", "Text")), LanguageManager.CurrentLanguage.options.colors_railcannonPartial);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_railcannonPartial, colorsHudObject, "RailcannonCharging", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(colorsHudObject, "Blue Variation", "Text")), LanguageManager.CurrentLanguage.options.colors_variationBlue);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_variationBlue, colorsHudObject, "Blue Variation", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(colorsHudObject, "Green Variation", "Text")), LanguageManager.CurrentLanguage.options.colors_variationGreen);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_variationGreen, colorsHudObject, "Green Variation", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(colorsHudObject, "Red Variation", "Text")), LanguageManager.CurrentLanguage.options.colors_variationRed);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_variationRed, colorsHudObject, "Red Variation", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(colorsHudObject, "Gold Variation", "Text")), LanguageManager.CurrentLanguage.options.colors_variationGold);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_variationGold, colorsHudObject, "Gold Variation", "Text");
 
         //Enemy names text
         //Later down the line, could be better to get the names from EnemyBios.
         GameObject colorsEnemiesObject = FindDescendant(optionsMenu, "Scroll Rect", "Contents", "Enemies");
 
-        TryToReplaceText(GetTextMeshProUGUI(colorsEnemiesObject), new[] { LanguageManager.CurrentLanguage.options.colors_enemies }, "--" + LanguageManager.CurrentLanguage.options.colors_enemies + "--");
+        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("--{0}--", LanguageManager.CurrentLanguage.options.colors_enemies), colorsEnemiesObject);
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(colorsEnemiesObject, "Filth", "Text")), LanguageManager.CurrentLanguage.enemyNames.enemyname_filth);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_filth, colorsEnemiesObject, "Filth", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(colorsEnemiesObject, "Stray", "Text")), LanguageManager.CurrentLanguage.enemyNames.enemyname_stray);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_stray, colorsEnemiesObject, "Stray", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(colorsEnemiesObject, "Malicious Face", "Text")), LanguageManager.CurrentLanguage.enemyNames.enemyname_malFace);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_malFace, colorsEnemiesObject, "Malicious Face", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(colorsEnemiesObject, "Schism", "Text")), LanguageManager.CurrentLanguage.enemyNames.enemyname_schism);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_schism, colorsEnemiesObject, "Schism", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(colorsEnemiesObject, "Swordsmachine", "Text")), LanguageManager.CurrentLanguage.enemyNames.enemyname_swordsmachine);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_swordsmachine, colorsEnemiesObject, "Swordsmachine", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(colorsEnemiesObject, "Cerberus", "Text")), LanguageManager.CurrentLanguage.enemyNames.enemyname_cerberus);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_cerberus, colorsEnemiesObject, "Cerberus", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(colorsEnemiesObject, "Drone", "Text")), LanguageManager.CurrentLanguage.enemyNames.enemyname_drone);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_drone, colorsEnemiesObject, "Drone", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(colorsEnemiesObject, "Streetcleaner", "Text")), LanguageManager.CurrentLanguage.enemyNames.enemyname_streetCleaner);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_streetCleaner, colorsEnemiesObject, "Streetcleaner", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(colorsEnemiesObject, "Shotgunner", "Text")), LanguageManager.CurrentLanguage.enemyNames.enemyname_soldier);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_soldier, colorsEnemiesObject, "Shotgunner", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(colorsEnemiesObject, "V2", "Text")), LanguageManager.CurrentLanguage.enemyNames.enemyname_v2);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_v2, colorsEnemiesObject, "V2", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(colorsEnemiesObject, "Mindflayer", "Text")), LanguageManager.CurrentLanguage.enemyNames.enemyname_mindFlayer);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_mindFlayer, colorsEnemiesObject, "Mindflayer", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(colorsEnemiesObject, "Virtue", "Text")), LanguageManager.CurrentLanguage.enemyNames.enemyname_virtue);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_virtue, colorsEnemiesObject, "Virtue", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(colorsEnemiesObject, "Stalker", "Text")), LanguageManager.CurrentLanguage.enemyNames.enemyname_stalker);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_stalker, colorsEnemiesObject, "Stalker", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(colorsEnemiesObject, "Sisyphus", "Text")), LanguageManager.CurrentLanguage.enemyNames.enemyname_insurrectionist);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_insurrectionist, colorsEnemiesObject, "Sisyphus", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(colorsEnemiesObject, "Sentry", "Text")), LanguageManager.CurrentLanguage.enemyNames.enemyname_sentry);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_sentry, colorsEnemiesObject, "Sentry", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(colorsEnemiesObject, "Idol", "Text")), LanguageManager.CurrentLanguage.enemyNames.enemyname_idol);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_idol, colorsEnemiesObject, "Idol", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(colorsEnemiesObject, "Ferryman", "Text")), LanguageManager.CurrentLanguage.enemyNames.enemyname_ferryman);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_ferryman, colorsEnemiesObject, "Ferryman", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(colorsEnemiesObject, "Mannequin", "Text")), LanguageManager.CurrentLanguage.enemyNames.enemyname_mannequin);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_mannequin, colorsEnemiesObject, "Mannequin", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(colorsEnemiesObject, "Gutterman", "Text")), LanguageManager.CurrentLanguage.enemyNames.enemyname_gutterman);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_gutterman, colorsEnemiesObject, "Gutterman", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(colorsEnemiesObject, "Guttertank", "Text")), LanguageManager.CurrentLanguage.enemyNames.enemyname_guttertank);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_guttertank, colorsEnemiesObject, "Guttertank", "Text");
 
     }
 }

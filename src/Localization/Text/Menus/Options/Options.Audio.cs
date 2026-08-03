@@ -22,19 +22,19 @@ public static partial class Options
         GameObject audioContent = FindDescendant(optionsMenu, "Container");
 
         //-- Volume --
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(audioContent, "-- Volume --", "Text")), new[] { LanguageManager.CurrentLanguage.options.audio_volume }, "-- " + LanguageManager.CurrentLanguage.options.audio_volume + " --");
+        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("-- {0} --", LanguageManager.CurrentLanguage.options.audio_volume), audioContent, "-- Volume --", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(audioContent, "Master", "Text")), LanguageManager.CurrentLanguage.options.audio_globalVolume);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.audio_globalVolume, audioContent, "Master", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(audioContent, "Sound Effects", "Text")), LanguageManager.CurrentLanguage.options.audio_soundEffectsVolume);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.audio_soundEffectsVolume, audioContent, "Sound Effects", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(audioContent, "Music", "Text")), LanguageManager.CurrentLanguage.options.audio_musicVolume);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.audio_musicVolume, audioContent, "Music", "Text");
 
         //-- MISC --
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(audioContent, "-- Misc --", "Text")), new[] { LanguageManager.CurrentLanguage.options.general_misc }, "-- " + LanguageManager.CurrentLanguage.options.general_misc + " --");
+        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("-- {0} --", LanguageManager.CurrentLanguage.options.general_misc), audioContent, "-- Misc --", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(audioContent, "Subtitles", "Text")), LanguageManager.CurrentLanguage.options.audio_subtitles);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.audio_subtitles, audioContent, "Subtitles", "Text");
         
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(audioContent, "Muffle Music While Underwater", "Text")), LanguageManager.CurrentLanguage.options.audio_muffleMusic);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.audio_muffleMusic, audioContent, "Muffle Music While Underwater", "Text");
     }
 }

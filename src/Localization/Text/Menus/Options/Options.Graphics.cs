@@ -22,115 +22,115 @@ public static partial class Options
         GameObject graphicsContent = FindDescendant(optionsMenu, "Scroll Rect", "Contents");
 
         //--GENERAL--
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(graphicsContent, "-- General --", "Text")), new[] { LanguageManager.CurrentLanguage.options.category_general }, "--" + LanguageManager.CurrentLanguage.options.category_general + "--");
+        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("--{0}--", LanguageManager.CurrentLanguage.options.category_general), graphicsContent, "-- General --", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(graphicsContent, "Resolution", "Text")), LanguageManager.CurrentLanguage.options.graphics_resolution);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_resolution, graphicsContent, "Resolution", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(graphicsContent, "Fullscreen", "Text")), LanguageManager.CurrentLanguage.options.graphics_fullscreen);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_fullscreen, graphicsContent, "Fullscreen", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(graphicsContent, "Target Framerate", "Text")), LanguageManager.CurrentLanguage.options.graphics_maxFps);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_maxFps, graphicsContent, "Target Framerate", "Text");
 
         GameObject fpsObject = FindDescendant(graphicsContent, "Target Framerate", "Dropdown(Clone)");
         TMP_Dropdown fpsDropdown = fpsObject.GetComponent<TMP_Dropdown>();
         List<TMP_Dropdown.OptionData> fpsDropdownListText = fpsDropdown.options;
-        TryToReplaceText(fpsDropdownListText[0], LanguageManager.CurrentLanguage.options.graphics_maxFpsNone);
-        TryToReplaceText(fpsDropdownListText[1], LanguageManager.CurrentLanguage.options.graphics_maxFps2x);
+        TryReplaceText(fpsDropdownListText[0], LanguageManager.CurrentLanguage.options.graphics_maxFpsNone);
+        TryReplaceText(fpsDropdownListText[1], LanguageManager.CurrentLanguage.options.graphics_maxFps2x);
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(graphicsContent, "VSync", "Text")), LanguageManager.CurrentLanguage.options.graphics_vsync);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_vsync, graphicsContent, "VSync", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(graphicsContent, "Field of View", "Text")), LanguageManager.CurrentLanguage.options.graphics_fieldOfVision);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_fieldOfVision, graphicsContent, "Field of View", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(graphicsContent, "Gamma (Brightness)", "Text")), LanguageManager.CurrentLanguage.options.graphics_gamma);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_gamma, graphicsContent, "Gamma (Brightness)", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(graphicsContent, "Use Fallback Shaders (Requires Reload)", "Text")), LanguageManager.CurrentLanguage.options.graphics_useFallbackShaders);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_useFallbackShaders, graphicsContent, "Use Fallback Shaders (Requires Reload)", "Text");
 
         //--PSX--
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(graphicsContent, "-- PSX --", "Text")),
-            new[] { LanguageManager.CurrentLanguage.options.graphics_filters, LanguageManager.CurrentLanguage.options.graphics_filtersDescription },
-            "--" + LanguageManager.CurrentLanguage.options.graphics_filters + "--\n<size=16>" + LanguageManager.CurrentLanguage.options.graphics_filtersDescription + "</size>");
+        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("--{0}--\n<size=16>{1}</size>",
+            LanguageManager.CurrentLanguage.options.graphics_filters,
+            LanguageManager.CurrentLanguage.options.graphics_filtersDescription), graphicsContent, "-- PSX --", "Text");
 
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(graphicsContent, "Downscaling", "Text")), LanguageManager.CurrentLanguage.options.graphics_pixelisation);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_pixelisation, graphicsContent, "Downscaling", "Text");
 
         GameObject resolution = FindDescendant(graphicsContent, "Downscaling", "Dropdown(Clone)");
         TMP_Dropdown resolutionDropdown = resolution.GetComponent<TMP_Dropdown>();
         List<TMP_Dropdown.OptionData> resolutionDropdownListText = resolutionDropdown.options;
 
-        TryToReplaceText(resolutionDropdownListText[0], LanguageManager.CurrentLanguage.options.graphics_pixelisationNone);
-        TryToReplaceText(resolutionDropdownListText[1], LanguageManager.CurrentLanguage.options.graphics_pixelisation720p);
-        TryToReplaceText(resolutionDropdownListText[2], LanguageManager.CurrentLanguage.options.graphics_pixelisation480p);
-        TryToReplaceText(resolutionDropdownListText[3], LanguageManager.CurrentLanguage.options.graphics_pixelisation360p);
-        TryToReplaceText(resolutionDropdownListText[4], LanguageManager.CurrentLanguage.options.graphics_pixelisation240p);
-        TryToReplaceText(resolutionDropdownListText[5], LanguageManager.CurrentLanguage.options.graphics_pixelisation144p);
-        TryToReplaceText(resolutionDropdownListText[6], LanguageManager.CurrentLanguage.options.graphics_pixelisation36p);
+        TryReplaceText(resolutionDropdownListText[0], LanguageManager.CurrentLanguage.options.graphics_pixelisationNone);
+        TryReplaceText(resolutionDropdownListText[1], LanguageManager.CurrentLanguage.options.graphics_pixelisation720p);
+        TryReplaceText(resolutionDropdownListText[2], LanguageManager.CurrentLanguage.options.graphics_pixelisation480p);
+        TryReplaceText(resolutionDropdownListText[3], LanguageManager.CurrentLanguage.options.graphics_pixelisation360p);
+        TryReplaceText(resolutionDropdownListText[4], LanguageManager.CurrentLanguage.options.graphics_pixelisation240p);
+        TryReplaceText(resolutionDropdownListText[5], LanguageManager.CurrentLanguage.options.graphics_pixelisation144p);
+        TryReplaceText(resolutionDropdownListText[6], LanguageManager.CurrentLanguage.options.graphics_pixelisation36p);
 
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(graphicsContent, "Dithering", "Text")), LanguageManager.CurrentLanguage.options.graphics_dithering);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_dithering, graphicsContent, "Dithering", "Text");
 
         SliderValueToText ditheringSlider = FindDescendant(graphicsContent, "Dithering", "Slider Button(Clone)", "Slider", "Text").GetComponentInChildren<SliderValueToText>();
         ditheringSlider.ifMin = LanguageManager.CurrentLanguage.options.graphics_ditheringMinimum;
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(graphicsContent, "Texture Warping", "Text")), LanguageManager.CurrentLanguage.options.graphics_textureWarping);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_textureWarping, graphicsContent, "Texture Warping", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(graphicsContent, "Vertex Warping", "Text")), LanguageManager.CurrentLanguage.options.graphics_vertexWarping);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_vertexWarping, graphicsContent, "Vertex Warping", "Text");
 
         GameObject vertexWarping = FindDescendant(graphicsContent, "Vertex Warping", "Dropdown(Clone)");
         TMP_Dropdown vertexWarpingDropdown = vertexWarping.GetComponent<TMP_Dropdown>();
         List<TMP_Dropdown.OptionData> vertexWarpingDropdownListText = vertexWarpingDropdown.options;
 
-        TryToReplaceText(vertexWarpingDropdownListText[0], LanguageManager.CurrentLanguage.options.graphics_vertexWarpingNone);
-        TryToReplaceText(vertexWarpingDropdownListText[1], LanguageManager.CurrentLanguage.options.graphics_vertexWarpingLight);
-        TryToReplaceText(vertexWarpingDropdownListText[2], LanguageManager.CurrentLanguage.options.graphics_vertexWarpingMedium);
-        TryToReplaceText(vertexWarpingDropdownListText[3], LanguageManager.CurrentLanguage.options.graphics_vertexWarpingStrong);
-        TryToReplaceText(vertexWarpingDropdownListText[4], LanguageManager.CurrentLanguage.options.graphics_vertexWarpingVeryStrong);
-        TryToReplaceText(vertexWarpingDropdownListText[5], LanguageManager.CurrentLanguage.options.graphics_vertexWarpingAbsurd);
+        TryReplaceText(vertexWarpingDropdownListText[0], LanguageManager.CurrentLanguage.options.graphics_vertexWarpingNone);
+        TryReplaceText(vertexWarpingDropdownListText[1], LanguageManager.CurrentLanguage.options.graphics_vertexWarpingLight);
+        TryReplaceText(vertexWarpingDropdownListText[2], LanguageManager.CurrentLanguage.options.graphics_vertexWarpingMedium);
+        TryReplaceText(vertexWarpingDropdownListText[3], LanguageManager.CurrentLanguage.options.graphics_vertexWarpingStrong);
+        TryReplaceText(vertexWarpingDropdownListText[4], LanguageManager.CurrentLanguage.options.graphics_vertexWarpingVeryStrong);
+        TryReplaceText(vertexWarpingDropdownListText[5], LanguageManager.CurrentLanguage.options.graphics_vertexWarpingAbsurd);
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(graphicsContent, "Custom Color Palette", "Text")), LanguageManager.CurrentLanguage.options.graphics_customColorPalette);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_customColorPalette, graphicsContent, "Custom Color Palette", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(graphicsContent, "Color Palette Texture", "Text")), LanguageManager.CurrentLanguage.options.graphics_customPaletteTexture);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_customPaletteTexture, graphicsContent, "Color Palette Texture", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(graphicsContent, "Color Palette Texture", "Action Button(Clone)", "Text")), LanguageManager.CurrentLanguage.options.graphics_customColorPaletteSelect);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_customColorPaletteSelect, graphicsContent, "Color Palette Texture", "Action Button(Clone)", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(graphicsContent, "Color Compression", "Text")), LanguageManager.CurrentLanguage.options.graphics_colorCompression);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_colorCompression, graphicsContent, "Color Compression", "Text");
 
         GameObject colorCompression = FindDescendant(graphicsContent, "Color Compression", "Dropdown(Clone)");
         TMP_Dropdown colorCompressionDropdown = colorCompression.GetComponent<TMP_Dropdown>();
         List<TMP_Dropdown.OptionData> colorCompressionDropdownListText = colorCompressionDropdown.options;
 
-        TryToReplaceText(colorCompressionDropdownListText[0], LanguageManager.CurrentLanguage.options.graphics_colorCompressionNone);
-        TryToReplaceText(colorCompressionDropdownListText[1], LanguageManager.CurrentLanguage.options.graphics_colorCompressionLight);
-        TryToReplaceText(colorCompressionDropdownListText[2], LanguageManager.CurrentLanguage.options.graphics_colorCompressionMedium);
-        TryToReplaceText(colorCompressionDropdownListText[3], LanguageManager.CurrentLanguage.options.graphics_colorCompressionStrong);
-        TryToReplaceText(colorCompressionDropdownListText[4], LanguageManager.CurrentLanguage.options.graphics_colorCompressionVeryStrong);
-        TryToReplaceText(colorCompressionDropdownListText[5], LanguageManager.CurrentLanguage.options.graphics_colorCompressionAbsurd);
+        TryReplaceText(colorCompressionDropdownListText[0], LanguageManager.CurrentLanguage.options.graphics_colorCompressionNone);
+        TryReplaceText(colorCompressionDropdownListText[1], LanguageManager.CurrentLanguage.options.graphics_colorCompressionLight);
+        TryReplaceText(colorCompressionDropdownListText[2], LanguageManager.CurrentLanguage.options.graphics_colorCompressionMedium);
+        TryReplaceText(colorCompressionDropdownListText[3], LanguageManager.CurrentLanguage.options.graphics_colorCompressionStrong);
+        TryReplaceText(colorCompressionDropdownListText[4], LanguageManager.CurrentLanguage.options.graphics_colorCompressionVeryStrong);
+        TryReplaceText(colorCompressionDropdownListText[5], LanguageManager.CurrentLanguage.options.graphics_colorCompressionAbsurd);
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(graphicsContent, "-- Performance --", "Text")), new[] { LanguageManager.CurrentLanguage.options.graphics_performance }, "--" + LanguageManager.CurrentLanguage.options.graphics_performance + "--");
+        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("--{0}--", LanguageManager.CurrentLanguage.options.graphics_performance), graphicsContent, "-- Performance --", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(graphicsContent, "Simpler Explosions", "Text")), LanguageManager.CurrentLanguage.options.graphics_performanceSimpleExplosions);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_performanceSimpleExplosions, graphicsContent, "Simpler Explosions", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(graphicsContent, "Simpler Fire", "Text")), LanguageManager.CurrentLanguage.options.graphics_performanceSimpleFire);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_performanceSimpleFire, graphicsContent, "Simpler Fire", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(graphicsContent, "Simpler Spawn Effects", "Text")), LanguageManager.CurrentLanguage.options.graphics_performanceSimpleSpawn);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_performanceSimpleSpawn, graphicsContent, "Simpler Spawn Effects", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(graphicsContent, "Disable Environmental Particle Effects", "Text")), LanguageManager.CurrentLanguage.options.graphics_performanceDisableEnviParticles);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_performanceDisableEnviParticles, graphicsContent, "Disable Environmental Particle Effects", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(graphicsContent, "Disable Environmental Hit Particles", "Text")), LanguageManager.CurrentLanguage.options.graphics_performanceDisableEnviHitParticles);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_performanceDisableEnviHitParticles, graphicsContent, "Disable Environmental Hit Particles", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(graphicsContent, "Disable Heat Waves", "Text")), LanguageManager.CurrentLanguage.options.graphics_performanceDisableHeatWaves);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_performanceDisableHeatWaves, graphicsContent, "Disable Heat Waves", "Text");
 
         //--GORE--
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(graphicsContent, "-- Gore --", "Text")),
-            new[] { LanguageManager.CurrentLanguage.options.graphics_gore, LanguageManager.CurrentLanguage.options.graphics_goreNote },
-            "--" + LanguageManager.CurrentLanguage.options.graphics_gore + "--\n<size=16>" + LanguageManager.CurrentLanguage.options.graphics_goreNote + "</size>");
+        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("--{0}--\n<size=16>{1}</size>",
+            LanguageManager.CurrentLanguage.options.graphics_gore,
+            LanguageManager.CurrentLanguage.options.graphics_goreNote), graphicsContent, "-- Gore --", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(graphicsContent, "Enable Blood & Gore", "Text")), LanguageManager.CurrentLanguage.options.graphics_goreEnable);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_goreEnable, graphicsContent, "Enable Blood & Gore", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(graphicsContent, "Freeze Gore Physics", "Text")), LanguageManager.CurrentLanguage.options.graphics_goreDisablePhysics);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_goreDisablePhysics, graphicsContent, "Freeze Gore Physics", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(graphicsContent, "Max Bloodstains", "Text")), LanguageManager.CurrentLanguage.options.graphics_goreMaxBloodStains);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_goreMaxBloodStains, graphicsContent, "Max Bloodstains", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(graphicsContent, "Bloodstain Chance", "Text")), LanguageManager.CurrentLanguage.options.graphics_goreBloodChance);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_goreBloodChance, graphicsContent, "Bloodstain Chance", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(graphicsContent, "Max Gore Per Room", "Text")), LanguageManager.CurrentLanguage.options.graphics_goreMaxGore);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_goreMaxGore, graphicsContent, "Max Gore Per Room", "Text");
     }
 }

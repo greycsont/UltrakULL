@@ -21,55 +21,55 @@ public static partial class Options
         //General options
         GameObject generalContent = FindDescendant(generalOptions, "Scroll Rect", "Contents");
         //-- WEAPONS -- 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(generalContent, "-- Weapons --", "Text")), new[] { LanguageManager.CurrentLanguage.options.controls_weapons }, "-- " + LanguageManager.CurrentLanguage.options.controls_weapons + " --");
+        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("-- {0} --", LanguageManager.CurrentLanguage.options.controls_weapons), generalContent, "-- Weapons --", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(generalContent, "Remember Last Used Weapon Variation", "Text")), LanguageManager.CurrentLanguage.options.general_rememberWeapon);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_rememberWeapon, generalContent, "Remember Last Used Weapon Variation", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(generalContent, "Weapon Position", "Text")), LanguageManager.CurrentLanguage.options.general_weaponPosition);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_weaponPosition, generalContent, "Weapon Position", "Text");
 
         //Have to patch directly from the Dropdown.OptionData list.
         GameObject weaponPosList = FindDescendant(generalContent, "Weapon Position", "Dropdown(Clone)");
         TMP_Dropdown weaponPosDropdown = weaponPosList.GetComponent<TMP_Dropdown>();
         List<TMP_Dropdown.OptionData> weaponPosListText = weaponPosDropdown.options;
-        TryToReplaceText(weaponPosListText[0], LanguageManager.CurrentLanguage.options.general_weaponPositionRight);
-        TryToReplaceText(weaponPosListText[1], LanguageManager.CurrentLanguage.options.general_weaponPositionMiddle);
-        TryToReplaceText(weaponPosListText[2], LanguageManager.CurrentLanguage.options.general_weaponPositionLeft);
+        TryReplaceText(weaponPosListText[0], LanguageManager.CurrentLanguage.options.general_weaponPositionRight);
+        TryReplaceText(weaponPosListText[1], LanguageManager.CurrentLanguage.options.general_weaponPositionMiddle);
+        TryReplaceText(weaponPosListText[2], LanguageManager.CurrentLanguage.options.general_weaponPositionLeft);
 
         //-- SCREEN -- goes here
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(generalContent, "-- Screen --", "Text")), new[] { LanguageManager.CurrentLanguage.options.general_screen }, "-- " + LanguageManager.CurrentLanguage.options.general_screen + " --");
+        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("-- {0} --", LanguageManager.CurrentLanguage.options.general_screen), generalContent, "-- Screen --", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(generalContent, "Screenshake", "Text")), LanguageManager.CurrentLanguage.options.general_screenShake);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_screenShake, generalContent, "Screenshake", "Text");
 
         SliderValueToText screenshakeSlider = FindDescendant(generalContent, "Screenshake", "Slider Button(Clone)", "Slider", "Text").GetComponentInChildren<SliderValueToText>();
         screenshakeSlider.ifMin = LanguageManager.CurrentLanguage.options.general_screenShakeMinimum;
         screenshakeSlider.ifMax = LanguageManager.CurrentLanguage.options.general_screenShakeMaximum;
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(generalContent, "Parry Screen Flash", "Text")), LanguageManager.CurrentLanguage.options.general_parryFlash);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_parryFlash, generalContent, "Parry Screen Flash", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(generalContent, "Camera Tilt", "Text")), LanguageManager.CurrentLanguage.options.general_cameraTilt);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_cameraTilt, generalContent, "Camera Tilt", "Text");
 
         //-- MISC --
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(generalContent, "-- Misc --", "Text")), new[] { LanguageManager.CurrentLanguage.options.general_misc }, "-- " + LanguageManager.CurrentLanguage.options.general_misc + " --");
+        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("-- {0} --", LanguageManager.CurrentLanguage.options.general_misc), generalContent, "-- Misc --", "Text");
         
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(generalContent, "Seasonal Events", "Text")), LanguageManager.CurrentLanguage.options.general_seasonalEvent);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_seasonalEvent, generalContent, "Seasonal Events", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(generalContent, "Level Leaderboards", "Text")), LanguageManager.CurrentLanguage.options.general_levelLeaderboards);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_levelLeaderboards, generalContent, "Level Leaderboards", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(generalContent.transform.GetChild(10).gameObject, "Text")), LanguageManager.CurrentLanguage.options.general_restartWarning);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_restartWarning, generalContent.transform.GetChild(10).gameObject, "Text");
 
         GameObject restartWarningList = FindDescendant(generalContent.transform.GetChild(10).gameObject, "Dropdown(Clone)");
         TMP_Dropdown restartWarningDropdown = restartWarningList.GetComponent<TMP_Dropdown>();
         List<TMP_Dropdown.OptionData> restartWarningListText = restartWarningDropdown.options;
-        TryToReplaceText(restartWarningListText[0], LanguageManager.CurrentLanguage.options.general_restartWarningAlwaysOn);
-        TryToReplaceText(restartWarningListText[1], LanguageManager.CurrentLanguage.options.general_restartWarningOnlyCG);
-        TryToReplaceText(restartWarningListText[2], LanguageManager.CurrentLanguage.options.general_restartWarningAlwaysOff);
+        TryReplaceText(restartWarningListText[0], LanguageManager.CurrentLanguage.options.general_restartWarningAlwaysOn);
+        TryReplaceText(restartWarningListText[1], LanguageManager.CurrentLanguage.options.general_restartWarningOnlyCG);
+        TryReplaceText(restartWarningListText[2], LanguageManager.CurrentLanguage.options.general_restartWarningAlwaysOff);
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(generalContent, "Sandbox Save Overwrite Warning", "Text")), LanguageManager.CurrentLanguage.options.general_sandboxOverwrite);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_sandboxOverwrite, generalContent, "Sandbox Save Overwrite Warning", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(generalContent, "Discord Integration", "Text")), LanguageManager.CurrentLanguage.options.general_discordRpc);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_discordRpc, generalContent, "Discord Integration", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(generalContent, "Advanced Options", "Text")), LanguageManager.CurrentLanguage.options.general_advancedOptions);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_advancedOptions, generalContent, "Advanced Options", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(generalContent, "Advanced Options", "Action Button(Clone)", "Text")), LanguageManager.CurrentLanguage.options.general_advancedOptionsCustomize);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_advancedOptionsCustomize, generalContent, "Advanced Options", "Action Button(Clone)", "Text");
     }
 }

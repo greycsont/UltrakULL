@@ -21,19 +21,19 @@ public static partial class Options
         //Save options
         GameObject saveReloadPanel = FindDescendant(optionMenu, "Reload Consent Blocker", "Consent", "Panel");
         
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(saveReloadPanel, "Text")),
-            new[] { LanguageManager.CurrentLanguage.options.save_warning1, LanguageManager.CurrentLanguage.options.save_warning2 },
-            "<color=red>" + LanguageManager.CurrentLanguage.options.save_warning1 + "</color>\n\n" + LanguageManager.CurrentLanguage.options.save_warning2);
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(saveReloadPanel, "Yes", "Text")), LanguageManager.CurrentLanguage.options.save_reloadYes);
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(saveReloadPanel, "No", "Text")), LanguageManager.CurrentLanguage.options.save_reloadNo);
+        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("<color=red>{0}</color>\n\n{1}",
+            LanguageManager.CurrentLanguage.options.save_warning1,
+            LanguageManager.CurrentLanguage.options.save_warning2), saveReloadPanel, "Text");
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.save_reloadYes, saveReloadPanel, "Yes", "Text");
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.save_reloadNo, saveReloadPanel, "No", "Text");
         
         GameObject saveDeletePanel = FindDescendant(optionMenu, "Wipe Consent Blocker", "Consent", "Panel");
         
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(saveDeletePanel, "Yes", "Text")), new[] { LanguageManager.CurrentLanguage.options.save_deleteYes }, "<color=red>" + LanguageManager.CurrentLanguage.options.save_deleteYes + "</color>");
+        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("<color=red>{0}</color>", LanguageManager.CurrentLanguage.options.save_deleteYes), saveDeletePanel, "Yes", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(saveDeletePanel, "No", "Text")), LanguageManager.CurrentLanguage.options.save_deleteNo);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.save_deleteNo, saveDeletePanel, "No", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(optionMenu, "Close", "Text")), LanguageManager.CurrentLanguage.options.save_close);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.save_close, optionMenu, "Close", "Text");
     }
     //general end
 }

@@ -22,49 +22,49 @@ public static partial class Options
         GameObject controlContent = FindDescendant(optionsMenu, "Scroll Rect", "Contents");
 
         //-- GENERAL --
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(controlContent, "-- General --", "Text")), new[] { LanguageManager.CurrentLanguage.options.category_general }, "-- " + LanguageManager.CurrentLanguage.options.category_general + " --");
+        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("-- {0} --", LanguageManager.CurrentLanguage.options.category_general), controlContent, "-- General --", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(controlContent, "Look Sensitivity", "Text")), LanguageManager.CurrentLanguage.options.controls_mouseSensitivity);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_mouseSensitivity, controlContent, "Look Sensitivity", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(controlContent, "Invert X Axis", "Text")), LanguageManager.CurrentLanguage.options.controls_xInversion);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_xInversion, controlContent, "Invert X Axis", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(controlContent, "Invert Y Axis", "Text")), LanguageManager.CurrentLanguage.options.controls_yInversion);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_yInversion, controlContent, "Invert Y Axis", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(controlContent, "Controller Rumble", "Text")), LanguageManager.CurrentLanguage.options.controls_controllerRumble);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_controllerRumble, controlContent, "Controller Rumble", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(controlContent, "Controller Rumble", "Action Button(Clone)", "Text")), LanguageManager.CurrentLanguage.options.controls_controllerRumbleCustomize);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_controllerRumbleCustomize, controlContent, "Controller Rumble", "Action Button(Clone)", "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(controlContent.transform.GetChild(5).gameObject, "Text")), new[] { LanguageManager.CurrentLanguage.options.controls_weapons }, "-- " + LanguageManager.CurrentLanguage.options.controls_weapons + " --");
+        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("-- {0} --", LanguageManager.CurrentLanguage.options.controls_weapons), controlContent.transform.GetChild(5).gameObject, "Text");
 
         GameObject mouseWheelContent = FindDescendant(controlContent, "Scroll Weapons with Mouse Wheel");
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(mouseWheelContent, "Text")), LanguageManager.CurrentLanguage.options.controls_mouseWheelToChangeWeapon);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_mouseWheelToChangeWeapon, mouseWheelContent, "Text");
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(controlContent, "Weapon Scroll Type", "Text")), LanguageManager.CurrentLanguage.options.controls_scrollType);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_scrollType, controlContent, "Weapon Scroll Type", "Text");
 
         //Dropdown here
         GameObject scrollTypeList = FindDescendant(controlContent, "Weapon Scroll Type", "Dropdown(Clone)");
 
         TMP_Dropdown scrollTypeDropdown = scrollTypeList.GetComponent<TMP_Dropdown>();
         List<TMP_Dropdown.OptionData> scrollTypeDropdownText = scrollTypeDropdown.options;
-        TryToReplaceText(scrollTypeDropdownText[0], LanguageManager.CurrentLanguage.options.controls_scrollTypeWeapons);
-        TryToReplaceText(scrollTypeDropdownText[1], LanguageManager.CurrentLanguage.options.controls_scrollTypeVariations);
-        TryToReplaceText(scrollTypeDropdownText[2], LanguageManager.CurrentLanguage.options.controls_scrollTypeAll);
+        TryReplaceText(scrollTypeDropdownText[0], LanguageManager.CurrentLanguage.options.controls_scrollTypeWeapons);
+        TryReplaceText(scrollTypeDropdownText[1], LanguageManager.CurrentLanguage.options.controls_scrollTypeVariations);
+        TryReplaceText(scrollTypeDropdownText[2], LanguageManager.CurrentLanguage.options.controls_scrollTypeAll);
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(controlContent, "Reverse Scroll Direction", "Text")), LanguageManager.CurrentLanguage.options.controls_reverseScroll);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_reverseScroll, controlContent, "Reverse Scroll Direction", "Text");
 
         GameObject redrawBehaviour = FindDescendant(controlContent, "On Swap To Already Drawn Weapon");
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(redrawBehaviour, "Text")), LanguageManager.CurrentLanguage.options.controls_redrawBehaviour);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_redrawBehaviour, redrawBehaviour, "Text");
 
-        TMP_Dropdown redrawBehaviourDropdown = FindDescendant(redrawBehaviour, "Dropdown(Clone)").GetComponent<TMP_Dropdown>();
+        TMP_Dropdown redrawBehaviourDropdown = FindComponent<TMP_Dropdown>(redrawBehaviour, "Dropdown(Clone)");
         List<TMP_Dropdown.OptionData> redrawBehaviourDropdownText = redrawBehaviourDropdown.options;
-        TryToReplaceText(redrawBehaviourDropdownText[0], LanguageManager.CurrentLanguage.options.controls_redrawNext);
-        TryToReplaceText(redrawBehaviourDropdownText[1], LanguageManager.CurrentLanguage.options.controls_redrawFirst);
-        TryToReplaceText(redrawBehaviourDropdownText[2], LanguageManager.CurrentLanguage.options.controls_redrawSame);
+        TryReplaceText(redrawBehaviourDropdownText[0], LanguageManager.CurrentLanguage.options.controls_redrawNext);
+        TryReplaceText(redrawBehaviourDropdownText[1], LanguageManager.CurrentLanguage.options.controls_redrawFirst);
+        TryReplaceText(redrawBehaviourDropdownText[2], LanguageManager.CurrentLanguage.options.controls_redrawSame);
 
-        TryToReplaceText(GetTextMeshProUGUI(FindDescendant(controlContent, "Invert Rocket Controls", "Text")), LanguageManager.CurrentLanguage.options.controls_invertRocketControls);
+        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_invertRocketControls, controlContent, "Invert Rocket Controls", "Text");
 
         //unused after patch 16
-        //TextMeshProUGUI bindsTitle = GetTextMeshProUGUI(FindDescendant(controlContent.transform.GetChild(10).gameObject, "Text"));
+        //TextMeshProUGUI bindsTitle = FindComponent<TextMeshProUGUI>(controlContent.transform.GetChild(10).gameObject, "Text");
         //bindsTitle.text = "-- " + LanguageManager.CurrentLanguage.options.controls_bindings + " --";
 
 
