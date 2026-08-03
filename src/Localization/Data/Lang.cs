@@ -48,7 +48,7 @@ public sealed class Lang
         Json = json;
         SpeechFolder = Path.Combine(Paths.ConfigPath, "ultrakull", "audio", json.metadata.langName)
                        + Path.DirectorySeparatorChar;
-        FontBundlePath = Path.Combine(MainPatch.ModFolder, "fontpack.bundle");
+        FontBundlePath = Path.Combine(Paths.ConfigPath, "ultrakull", "fonts", json.metadata.langName, "fontpack.bundle");
         TextureFolder = Path.Combine(Paths.ConfigPath, "ultrakull", "textures", json.metadata.langName);
     }
 
