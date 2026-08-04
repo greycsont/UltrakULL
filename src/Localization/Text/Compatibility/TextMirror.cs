@@ -110,6 +110,7 @@ public static class TextMirror
         //1 - (1-0.2267)*(1-0.2225) = 0.398 => 0.4f
         tmp.SetUnderlay(new Color(0f, 0f, 0f, 0.4f), offsetY: -0.2f, dilate: 0.15f, softness: 0.15f);
 
+        tmp.enableWordWrapping = false;
         tmp.overflowMode = TextOverflowModes.Overflow;
 
         
