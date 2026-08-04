@@ -75,13 +75,7 @@ public static class TextMirror
     internal static void AddIntermissionShadow(TextMeshProUGUI tmp)
     {
         if (tmp == null) return;
-        Material mat = tmp.fontMaterial;
-        mat.EnableKeyword(ShaderUtilities.Keyword_Underlay);
-        mat.SetColor(ShaderUtilities.ID_UnderlayColor, new Color(0f, 0f, 0f, 0.75f));
-        mat.SetFloat(ShaderUtilities.ID_UnderlayOffsetX, 0.5f);
-        mat.SetFloat(ShaderUtilities.ID_UnderlayOffsetY, -0.5f);
-        mat.SetFloat(ShaderUtilities.ID_UnderlayDilate, 0.1f);
-        mat.SetFloat(ShaderUtilities.ID_UnderlaySoftness, 0f);
+        tmp.SetUnderlay(new Color(0f, 0f, 0f, 0.75f), 0.5f, -0.5f, 0.1f);
 
         // Underlay is enabled after CopyTextProperties() already rebuilt the mesh
         // so recompute padding and rebuild
@@ -102,8 +96,6 @@ public static class TextMirror
          *     }
          * }
          */
-        tmp.UpdateMeshPadding();
-        tmp.ForceMeshUpdate();
     }
     
     /// <summary>
@@ -115,13 +107,8 @@ public static class TextMirror
     {
         if (tmp == null) return;
 
-        Material mat = tmp.fontMaterial;
-        mat.EnableKeyword(ShaderUtilities.Keyword_Underlay);
         //1 - (1-0.2267)*(1-0.2225) = 0.398 => 0.4f
-        mat.SetColor(ShaderUtilities.ID_UnderlayColor, new Color(0f, 0f, 0f, 0.4f));
-        mat.SetFloat(ShaderUtilities.ID_UnderlayOffsetY, -0.2f);
-        mat.SetFloat(ShaderUtilities.ID_UnderlayDilate, 0.15f);
-        mat.SetFloat(ShaderUtilities.ID_UnderlaySoftness, 0.15f);
+        tmp.SetUnderlay(new Color(0f, 0f, 0f, 0.4f), offsetY: -0.2f, dilate: 0.15f, softness: 0.15f);
 
         tmp.overflowMode = TextOverflowModes.Overflow;
 
@@ -154,21 +141,13 @@ public static class TextMirror
     {
         if (tmp == null) return;
 
-        Material mat = tmp.fontMaterial;
-        mat.EnableKeyword(ShaderUtilities.Keyword_Underlay);
-        mat.SetColor(ShaderUtilities.ID_UnderlayColor, new Color(0f, 0f, 0f, 0.8625f));
-        mat.SetFloat(ShaderUtilities.ID_UnderlayOffsetY, -0.25f);
-        mat.SetFloat(ShaderUtilities.ID_UnderlayDilate, 0.25f);
+        tmp.SetUnderlay(new Color(0f, 0f, 0f, 0.8625f), offsetY: -1f, dilate: 0.25f); // -0.25f
 
         tmp.overflowMode = TextOverflowModes.Overflow;
 
         
         tmp.ForceMeshUpdate(true);
     }
-
-
-    
-
 
     private static TextAlignmentOptions ConvertAlignment(TextAnchor anchor) => anchor switch
     {
