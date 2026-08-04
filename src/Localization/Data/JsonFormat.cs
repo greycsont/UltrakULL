@@ -1909,7 +1909,7 @@ public class ShopStrings
     public string shop_colorsCustom;
     public string shop_colorsDone;
     public string shop_colorsStandard;
-    public string shop_colorsAlternative;
+    public string shop_colorsAlternate;
     public string shop_colorsCustomUnlockPrompt;
 
 
