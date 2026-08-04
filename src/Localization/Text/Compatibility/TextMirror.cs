@@ -142,7 +142,7 @@ public static class TextMirror
     {
         if (tmp == null) return;
 
-        tmp.SetUnderlay(new Color(0f, 0f, 0f, 0.8625f), offsetY: -1f, dilate: 0.25f); // -0.25f
+        tmp.SetUnderlay(new Color(0f, 0f, 0f, 0.8625f), offsetY: -0.25f, dilate: 0.25f); // -0.25f
 
         tmp.overflowMode = TextOverflowModes.Overflow;
 
