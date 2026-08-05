@@ -25,7 +25,7 @@ public static class CheatsManagerPatch
 	/// IL_0064: ldfld class [Unity.TextMeshPro]TMPro.TMP_Text CheatMenuItem::longName
 	/// IL_0069: ldloca.s 1
 	/// IL_006b: call instance !0 valuetype [netstandard]System.Collections.Generic.KeyValuePair`2<string, class [netstandard]System.Collections.Generic.List`1<class ICheat>>::get_Key()
-    /// <- INSERT HERE!
+    /// <= INSERT HERE!
 	/// IL_0070: callvirt instance void [Unity.TextMeshPro]TMPro.TMP_Text::set_text(string)
     /// </summary>
     [HarmonyPatch(nameof(CheatsManager.RebuildMenu)), HarmonyTranspiler]
