@@ -108,7 +108,7 @@ public static class TextMirror
         if (tmp == null) return;
 
         //1 - (1-0.2267)*(1-0.2225) = 0.398 => 0.4f
-        tmp.SetUnderlay(new Color(0f, 0f, 0f, 0.4f), offsetY: -0.2f, dilate: 0.15f, softness: 0.15f);
+        tmp.SetUnderlay(new Color(0f, 0f, 0f, 0.4f), offsetY: -0.2f, dilate: 0.3f, softness: 0.15f);
 
         tmp.enableWordWrapping = false;
         tmp.overflowMode = TextOverflowModes.Overflow;
@@ -127,7 +127,7 @@ public static class TextMirror
 
         Material mat = tmp.fontMaterial;
         mat.EnableKeyword(ShaderUtilities.Keyword_Outline);
-        mat.SetFloat(ShaderUtilities.ID_OutlineWidth, 0.075f);
+        mat.SetFloat(ShaderUtilities.ID_OutlineWidth, 0.15f);
 
         // Hakita uses two shadow in a single object f
         mat.SetColor(ShaderUtilities.ID_OutlineColor, new Color(0f, 0f, 0f, 0.6125f));
@@ -142,7 +142,7 @@ public static class TextMirror
     {
         if (tmp == null) return;
 
-        tmp.SetUnderlay(new Color(0f, 0f, 0f, 0.8625f), offsetY: -0.25f, dilate: 0.25f); // -0.25f
+        tmp.SetUnderlay(new Color(0f, 0f, 0f, 0.8625f), offsetY: -0.25f, dilate: 0.4f); // -0.25f
 
         tmp.overflowMode = TextOverflowModes.Overflow;
 

@@ -25,7 +25,7 @@ using UnityEngine;
  * MuseumFont -> I have no idea where it fk used
  * From what I see everything in Museum uses text
  *
- *
+ * Fuck please just check README_EN.md
  */
 
 namespace UltrakULL;
