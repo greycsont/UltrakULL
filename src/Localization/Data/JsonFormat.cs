@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace UltrakULL.json;
@@ -1286,7 +1287,7 @@ public class FontsMetadata
     public string MuseumFont = "";
     public string TerminalFont = "";
     public string SecretTerminalFont = "";
-    public bool UseFallback = true;
+    public bool UseFallback = false;
 }
 
 public class Metadata
@@ -2749,7 +2750,8 @@ public class a3
 {
     public string act3_violenceFirst_doorOpens;
 
-    public string act3_violenceSecond_guttermanTutorial;
+    public string act3_violenceSecond_guttermanTutorial1;
+    public string act3_violenceSecond_guttermanTutorial2;
     public string act3_violenceSecond_guttermanTutorialNoKB;
     public string act3_violenceSecond_biggerBoom;
 
@@ -3384,6 +3386,8 @@ public class Museum
 
 public class Misc
 {
+    public Dictionary<string, Dictionary<string, string>> teleportLevels;
+
     public string hud_noArm1;
     public string hud_noArm2;
     public string hud_majorAssists;

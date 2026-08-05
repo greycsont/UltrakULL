@@ -2558,7 +2558,8 @@
 	"act3": {
 		"act3_violenceFirst_doorOpens": "Une porte s'ouvre.",
 
-		"act3_violenceSecond_guttermanTutorial": "Le <color=orange>BOUCLIER D'UN [Gutterman]</color> peut être <color=orange>BRISÉ</color> avec le <color=red>[KNUCKLEBLASTER]</color>. Changez de bras avec",
+		"act3_violenceSecond_guttermanTutorial1": "Le <color=orange>BOUCLIER D'UN [Gutterman]</color> peut être <color=orange>BRISÉ</color> avec le <color=red>[KNUCKLEBLASTER]</color>. Changez de bras avec '",
+		"act3_violenceSecond_guttermanTutorial2": "'.",
 		"act3_violenceSecond_biggerBoom": "ON VA AVOIR BESOIN D'UN PLUS GROS BOUM",
 		"act3_violenceSecond_gateControlTitle": "PORTAILS",
 		"act3_violenceSecond_gateControlOpen": "OUVERT",

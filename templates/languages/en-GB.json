@@ -2589,7 +2589,8 @@
     "act3": {
         "act3_violenceFirst_doorOpens": "A door opens.",
 
-        "act3_violenceSecond_guttermanTutorial": "The <color=orange>GUTTERMAN SHIELD</color> can be <color=orange>BROKEN</color> with the <color=red>KNUCKLEBLASTER</color>. Swap arms with",
+        "act3_violenceSecond_guttermanTutorial1": "The <color=orange>GUTTERMAN SHIELD</color> can be <color=orange>BROKEN</color> with the <color=red>KNUCKLEBLASTER</color>. Swap arms with '",
+        "act3_violenceSecond_guttermanTutorial2": "'.",
         "act3_violenceSecond_biggerBoom": "WE'RE GONNA NEED A BIGGER BOOM",
         "act3_violenceSecond_gateControlTitle": "GATE CONTROL",
         "act3_violenceSecond_gateControlOpen": "OPEN",
