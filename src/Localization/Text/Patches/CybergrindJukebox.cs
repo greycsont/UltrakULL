@@ -16,7 +16,8 @@ public class JukeboxPatch
         {
             if(!LanguageManager.IsEnglish)
             {
-                __result = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicCompleteChallengeRequirement + " " + GetMissionName.GetMissionNumberOnly(__instance.levelIndex);
+                __result = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicCompleteChallengeRequirement + " " +
+                    LocalizedNumbers.Format(GetMissionName.GetMissionNumberOnly(__instance.levelIndex));
             }
             return false;
         }
@@ -58,7 +59,8 @@ public class JukeboxPatch
         {
             if(!LanguageManager.IsEnglish)
             {
-                __result = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicCompleteLevelRequirement + " " +  GetMissionName.GetMissionNumberOnly(__instance.levelIndex);
+                __result = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicCompleteLevelRequirement + " " +
+                    LocalizedNumbers.Format(GetMissionName.GetMissionNumberOnly(__instance.levelIndex));
             }
             return false;
         }
