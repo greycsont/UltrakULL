@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Reflection;
 
 namespace UltrakULL.json;
@@ -1298,6 +1299,7 @@ public class Metadata
     public string langDisplayName;
     public bool langRTL;
     public string minimumModVersion;
+    [Description("Deprecated and I have no idea why it's hardcoded character f")]
     public bool langHinduNumbers;
     public int tmFontSize = 100;
     public FontsMetadata fonts = new FontsMetadata();

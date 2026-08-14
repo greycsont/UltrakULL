@@ -1,12 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using HarmonyLib;
-using TMPro;
 using UltrakULL.json;
 using UnityEngine;
 
@@ -18,35 +10,7 @@ namespace UltrakULL.Harmony_Patches;
 	[HarmonyPatch(typeof(HellMap), "Start")]
 	public static class HellMap_AwakePatch
 	{
-		private static char FastHinduNumeral(char numeral)
-		{
-			switch ((ushort)numeral) {
-				case 0x0030:
-					return (char)0x0660;
-				case 0x0031:
-					return (char)0x0661;
-				case 0x0032:
-					return (char)0x0662;
-				case 0x0033:
-					return (char)0x0663;
-				case 0x0034:
-					return (char)0x0664;
-				case 0x0035:
-					return (char)0x0665;
-				case 0x0036:
-					return (char)0x0666;
-				case 0x0037:
-					return (char)0x0667;
-				case 0x0038:
-					return (char)0x0668;
-				case 0x0039:
-					return (char)0x0669;
-				default:
-					return numeral;
-			}
-		}
-
-		private static void RtlFixLevel(GameObject root, string levelName, bool useHinduNumerals)
+		private static void RtlFixLevel(GameObject root, string levelName)
 		{
 			char cAct = levelName[0];
 			int iAct = 0;
@@ -94,30 +58,12 @@ namespace UltrakULL.Harmony_Patches;
 
 			rectTransform.anchorMax = new Vector2(0.50f, 1.00f);
 
-			if (useHinduNumerals)
-			{
-				GameObject textObject = FindDescendant(levelObject, "Text");
-				if (textObject == null)
-				{
-					return;
-				}
-				TextMeshProUGUI textMesh = GetTextMeshProUGUI(textObject);
-				if (textMesh == null)
-				{
-					return;
-				}
-				char[] chars = levelName.ToCharArray();
-				chars[0] = FastHinduNumeral(levelName[2]);
-				chars[2] = FastHinduNumeral(levelName[0]);
-				textMesh.text = new string(chars);
-			}
 		}
 
 		[HarmonyPrefix]
 		public static void Prefix(HellMap __instance)
 		{
 			bool isRTL = LanguageManager.IsRightToLeft;
-			bool isHinduNumeral = LanguageManager.CurrentLanguage.metadata.langHinduNumbers;
 
 			if (isRTL)
 			{
@@ -138,7 +84,7 @@ namespace UltrakULL.Harmony_Patches;
 							}
 						}
 
-						RtlFixLevel(root, $"{l}-{m}", isHinduNumeral);
+						RtlFixLevel(root, $"{l}-{m}");
 					}
 				}
 			}

@@ -146,5 +146,5 @@ public static class LevelNames
     }
 
     private static string Format(string missionNumber, string missionName) =>
-        $"{LocalizedNumbers.Format(missionNumber)}: {missionName}";
+        $"{missionNumber}: {missionName}";
 }

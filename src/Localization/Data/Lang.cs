@@ -24,9 +24,6 @@ public sealed class Lang
     public bool IsRightToLeft => Json.metadata.langRTL;
     public bool UseFontFallback => Json.metadata.fonts?.UseFallback ?? false;
 
-    // Isn't this Hindi Number?
-    public bool UsingHinduNumbers => Json.metadata.langHinduNumbers;
-
     public string SpeechFolder { get; }
     public string FontBundlePath { get; }
     public string TextureFolder { get; }

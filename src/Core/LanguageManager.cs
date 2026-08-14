@@ -7,7 +7,6 @@ using BepInEx.Configuration;
 using BepInEx.Logging;
 using Newtonsoft.Json;
 using UltrakULL.Harmony_Patches;
-using UnityEngine.SceneManagement;
 
 using static UltrakULL.SceneObjects;
 
@@ -26,7 +25,6 @@ public static class LanguageManager
 	#region Helper Properties
 		public static bool IsEnglish => Current?.IsEnglish ?? true;
 		public static bool IsRightToLeft => Current.IsRightToLeft;
-		public static bool UsingHinduNumbers => Current.UsingHinduNumbers;
 	#endregion
 
 	public static void InitializeManager(string modVersion)
@@ -209,16 +207,19 @@ public static class LanguageManager
             RefreshLiveUI();
     }
 
-    /// <summary>
-    /// Reruns the onSceneLoaded and it replaces the current UI
-    /// It still have a lot of issues when switch to English
-    /// That's why HUDMessage used in here(
-    /// </summary>
+    /// <summary>Refreshes the UI objects that already exist in the active scene.</summary>
     private static void RefreshLiveUI()
     {
-        MainPatch.Instance.onSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
+        MainPatch.Instance.RefreshCurrentScene();
 
-        InjectLanguageButton.updateLanguageButtonText();
+        LanguageOptions.RefreshText();
         LoadingTextPatch.UpdateLoadingText();
+    }
+
+    public static bool ReloadLanguages()
+    {
+        var previewsLang = Current;
+
+        return false;
     }
 }

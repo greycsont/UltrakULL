@@ -33,27 +33,6 @@ public static class NailgunPatch
     }
 
     /// <summary>
-    /// This one is for arabic-indic numbers
-    /// </summary>
-    /// <param name="__instance">Nailgun</param>
-    [HarmonyPatch(nameof(Nailgun.Update))] [HarmonyPostfix]
-    public static void UpdatePostfix(Nailgun __instance)
-    {
-        var nailgun = __instance;
-        if(nailgun.variation == 1 && LanguageManager.CurrentLanguage.metadata.langHinduNumbers)
-        {
-            if (nailgun.altVersion) 
-            {
-                nailgun.ammoText.text = ArabicFixerTool.FixLine(Mathf.RoundToInt(nailgun.wc.naiSaws).ToString()).ToString();
-            }
-            else
-            {
-                __instance.ammoText.text = ArabicFixerTool.FixLine(Mathf.RoundToInt(nailgun.wc.naiAmmo).ToString()).ToString();
-            }
-        }
-    }
-    
-    /// <summary>
     /// Modify the Zap's HUD text
     /// The Alt ver doesn't have the "DISTANCE:" in front of numbers
     /// Just take a salt of that
