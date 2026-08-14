@@ -252,17 +252,6 @@ public static class MainMenu
 			TextMeshProUGUI underConstructionText = GetTextMeshProUGUI(FindDescendant(umdTextObject, "Under Construction"));
 			underConstructionText.text = LanguageManager.CurrentLanguage.frontend.difficulty_underConstruction;
 
-
-			//No need for UMD header yet as it's not in-game
-			if (LanguageManager.IsRightToLeft)
-			{
-				RtlFixDifficultyButton(brutalTextObject, brutalText);
-				RtlFixDifficultyButton(violentTextObject, violentText);
-				RtlFixDifficultyButton(standardTextObject, standardText);
-				RtlFixDifficultyButton(lenientTextObject, lenientText);
-				RtlFixDifficultyButton(harmlessTextObject, harmlessText);
-			}
-
 			//Tooltip
 			GameObject assistTip = FindDescendant(difficultyObject, "Assist Tip");
 			TextMeshProUGUI assistTipText = GetTextMeshProUGUI(assistTip);
@@ -351,19 +340,6 @@ public static class MainMenu
 			+ LanguageManager.CurrentLanguage.frontend.difficulty_brutalDescription2 + "</color>"
 			+ "\n\n"
 			+ "<b>" + LanguageManager.CurrentLanguage.frontend.difficulty_brutalDescription3 + "<b>";
-			// RTL
-			if (LanguageManager.IsRightToLeft)
-			{
-				harmlessDescriptor.alignment = TextAlignmentOptions.TopRight;
-				harmlessTitle.alignment = TextAlignmentOptions.MidlineRight;
-				lenientDescriptor.alignment = TextAlignmentOptions.TopRight;
-				lenientTitle.alignment = TextAlignmentOptions.MidlineRight;
-				standardDescriptor.alignment = TextAlignmentOptions.TopRight;
-				standardTitle.alignment = TextAlignmentOptions.MidlineRight;
-				violentDescriptor.alignment = TextAlignmentOptions.TopRight;
-				violentTitle.alignment = TextAlignmentOptions.MidlineRight;
-			}
-
 		//UMD stuff isn't in-game yet so the below is commmented out until the devs add them.
 
 		/*UMD title - not in-game yet
@@ -386,107 +362,6 @@ public static class MainMenu
 		{
 			Logging.Error("Failed to patch difficulty text.");
 			Logging.Error(e.ToString());
-		}
-
-	}
-
-	public static void RtlFixActButton(GameObject obj, TextMeshProUGUI txt)
-	{
-		RectTransform rect = txt.rectTransform;
-		if (rect != null)
-		{
-			rect.anchorMax = new Vector2(1.0f, 0.5f);
-			rect.anchorMin = new Vector2(1.0f, 0.5f);
-			rect.anchoredPosition = new Vector3(-388f, 0f, 0f);
-		}
-
-		GameObject act1RankIcon = obj.transform.Find("RankPanel").gameObject;
-		if (act1RankIcon != null)
-		{
-			Image rankImage = act1RankIcon.GetComponent<Image>();
-			if (rankImage != null)
-			{
-				RectTransform rankRect = rankImage.rectTransform;
-				rankRect.anchorMin = new Vector2(0.00f, 0.50f);
-				rankRect.anchorMax = new Vector2(0.00f, 0.50f);
-				rankRect.anchoredPosition = new Vector3(43f, 0f, 0f);
-			}
-		}
-	}
-
-	public static void RtlFixDifficultyButton(GameObject obj, TextMeshProUGUI txt)
-	{
-		RectTransform rect = txt.rectTransform;
-		if (rect != null)
-		{
-			rect.anchorMax = new Vector2(1.0f, 0.5f);
-			rect.anchorMin = new Vector2(1.0f, 0.5f);
-			rect.anchoredPosition = new Vector3(-388f, 0f, 0f);
-		}
-
-		GameObject act1RankIcon = obj.transform.Find("RankPanel").gameObject;
-		if (act1RankIcon != null)
-		{
-			Image rankImage = act1RankIcon.GetComponent<Image>();
-			if (rankImage != null)
-			{
-				RectTransform rankRect = rankImage.rectTransform;
-				if (rankRect != null)
-				{
-					rankRect.anchorMin = new Vector2(0.00f, 0.50f);
-					rankRect.anchorMax = new Vector2(0.00f, 0.50f);
-					rankRect.anchoredPosition = new Vector3(43f, 0f, 0f);
-				}
-			}
-		}
-
-		GameObject progressObject = obj.transform.Find("Progress").gameObject;
-		if (progressObject != null)
-		{
-			TextMeshProUGUI progress = progressObject.GetComponent<TextMeshProUGUI>();
-			if (progress != null)
-			{
-				progress.alignment = TextAlignmentOptions.MidlineLeft;
-				RectTransform rectTrans = progress.rectTransform;
-				if (rectTrans != null)
-				{
-					rectTrans.anchorMin = new Vector2(0.0f, 0.5f);
-					rectTrans.anchorMax = new Vector2(0.0f, 0.5f);
-					GameObject rankPanel = obj.transform.Find("RankPanel")?.gameObject;
-					RectTransform parentRect = obj.GetComponent<RectTransform>();
-					float minDistance = -70f; // Минимальный отступ между Rank и Progress
-					float progressWidth = rectTrans.rect.width;
-					float newX = 0f;
-
-					if (rankPanel != null)
-					{
-						RectTransform rankRect = rankPanel.GetComponent<RectTransform>();
-						if (rankRect != null)
-						{
-							// Вычисляем правый край RankPanel с учетом его позиции и ширины
-							float rankFullRight = rankRect.anchoredPosition.x + (rankRect.rect.width * 1.0f);
-							// Ставим Progress справа от RankPanel (учитываем, что anchor слева)
-							newX = rankFullRight + minDistance;
-						}
-					}
-
-					// Проверка на выход за пределы родителя
-					if (parentRect != null)
-					{
-						float parentRight = parentRect.rect.width;
-						float maxX = parentRight - progressWidth - minDistance;
-						if (newX > maxX)
-						{
-							newX = maxX;
-						}
-					}
-
-					rectTrans.anchoredPosition = new Vector2(newX, 0.0f);
-				}
-			}
-			else
-			{
-			}
 		}
 
 	}
@@ -539,18 +414,6 @@ public static class MainMenu
 		GameObject sandboxObject = FindDescendant(chapterObject, "Sandbox");
 		TextMeshProUGUI sandboxText = GetTextMeshProUGUI(sandboxObject.transform.Find("Name").gameObject);
 		sandboxText.text = LanguageManager.CurrentLanguage.frontend.chapter_sandbox;
-
-		if (LanguageManager.IsRightToLeft)
-		{
-			RtlFixActButton(preludeObject, preludeText);
-			RtlFixActButton(act1Object, act1Text);
-			RtlFixActButton(act2Object, act2Text);
-			RtlFixActButton(act3Object, act3Text);
-			RtlFixActButton(encoreObject, encoreText);
-			RtlFixActButton(sandboxObject, sandboxText);
-			RtlFixActButton(cgObject, cgText);
-			RtlFixActButton(primeObject, primeText);
-		}
 	}
 
 	private static void PatchLevelSelectPrelude(GameObject frontEnd)

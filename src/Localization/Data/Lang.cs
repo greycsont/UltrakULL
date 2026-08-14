@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
-using ArabicSupportUnity;
 using BepInEx;
 using TMPro;
 using UnityEngine;
@@ -38,8 +35,6 @@ public sealed class Lang
     // so switching away can undo exactly what this language added.
     internal readonly List<(TMP_FontAsset font, TMP_FontAsset fallback)> AppliedFallbacks = new();
 
-    private bool rtlApplied;
-
     public Lang(JsonFormat json)
     {
         Json = json;
@@ -49,65 +44,4 @@ public sealed class Lang
         TextureFolder = Path.Combine(Paths.ConfigPath, "ultrakull", "textures", json.metadata.langName);
     }
 
-    // ArabicFixer.Fix rewrites Json's strings in place, so it must never run twice on the same Lang.
-    // Personally I feels it's not have enough quality as a localization mod
-    // will look at https://github.com/pnarimani/RTLTMPro in the future
-    public void EnsureRtlApplied()
-    {
-        if (!IsRightToLeft || rtlApplied)
-            return;
-
-        rtlApplied = true;
-        Logging.Message("Language is an RTL - applying fix!");
-        ApplyRtl(Json);
-    }
-
-    private static void ApplyRtl(JsonFormat language)
-    {
-        List<object> translationComponents = new List<object>
-        {
-            language.frontend,
-            language.tutorial,
-            language.prelude,
-            language.act1,
-            language.act2,
-            language.act3,
-            language.cyberGrind,
-            language.primeSanctum,
-            language.secretLevels,
-            language.intermission,
-            language.pauseMenu,
-            language.options,
-            language.levelNames,
-            language.levelChallenges,
-            language.enemyNames,
-            language.enemyBios,
-            language.shop,
-            language.levelTips,
-            language.books,
-            language.visualnovel,
-            language.subtitles,
-            language.style,
-            language.cheats,
-            language.misc,
-            language.devMuseum
-        };
-
-        foreach (object component in translationComponents)
-        {
-            try
-            {
-                foreach (FieldInfo field in component.GetType().GetFields())
-                {
-                    string original = (string)field.GetValue(component);
-                    if (original != null)
-                        field.SetValue(component, ArabicFixer.Fix(original));
-                }
-            }
-            catch (Exception ex)
-            {
-                Logging.Warn($"ULL caught an exception while trying to fix a RTL language! {ex.Message} \nSource: {ex.Source}\nStack Trace:{ex.StackTrace}");
-            }
-        }
-    }
 }

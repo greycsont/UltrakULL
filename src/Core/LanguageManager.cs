@@ -187,7 +187,6 @@ public static class LanguageManager
         Current = lang;
         Logging.Message("Setting language to " + langName);
 
-        lang.EnsureRtlApplied();
         DumpLastLanguage();
 
         OnLanguageChanged?.Invoke(new ValueChangedEvent<Lang>(previous, lang));
