@@ -1,350 +1,235 @@
-using HarmonyLib;
 using System;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 using System.IO;
+using System.Linq;
+using BepInEx;
 using TMPro;
 using UltrakULL.json;
-using static UltrakULL.UIFactory;
-using System.Linq;
-using UnityEngine.EventSystems;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
-using static UltrakULL.SceneObjects;
+using GameSettingsMenu = SettingsMenu.Components.SettingsMenu;
 
-namespace UltrakULL.Harmony_Patches;
+namespace UltrakULL;
 
-[HarmonyPatch(typeof(OptionsMenuToManager), "Start")]
-public static class InjectLanguageButton
+public static class LanguageOptions
 {
-    public static TextMeshProUGUI languageButtonText;
-    public static TextMeshProUGUI languagePageTitleText;
-    
-    private static List<GameObject> languageButtons = new List<GameObject>();
-    
-    private static GameObject langLocalPage;
-    private static GameObject referenceButtonTemplate;
+    private const string PageName = "Language Page";
 
-    private static void EnsureReferenceButtonTemplate()
+    private static TextMeshProUGUI navigationLabel;
+    private static TextMeshProUGUI pageTitle;
+    private static TextMeshProUGUI openFolderLabel;
+
+    public static void Initialize(GameSettingsMenu settingsMenu)
     {
-        if (referenceButtonTemplate != null)
+        Transform pages = settingsMenu.pageContainer;
+        if (pages.Find(PageName) != null)
             return;
-
-        var optionsParent = FindDescendant(GetInactiveRootObject("Canvas"), "OptionsMenu").transform;
-        var navigationRail = optionsParent.Find("Navigation Rail").gameObject;
-        var buttonPrefab = FindDescendant(navigationRail, "Back");
-
-        referenceButtonTemplate = GameObject.Instantiate(buttonPrefab);
-        referenceButtonTemplate.name = "ReferenceButtonTemplate";
-        referenceButtonTemplate.SetActive(false);
-    }
-    /// <summary>
-    /// Refactored utility method for creating consistent TMP buttons based on a reference button.
-    /// </summary>
-    public static class ButtonUtils
-    {
-        private static readonly ColorBlock defaultColorBlock = new ColorBlock
-        {
-            normalColor = new Color(1f, 1f, 1f, 1f),
-            highlightedColor = new Color(0.5094f, 0.5094f, 0.5094f, 1f),
-            pressedColor = new Color(1f, 0f, 0f, 1f),
-            selectedColor = new Color(0.5094f, 0.5094f, 0.5094f, 1f),
-            disabledColor = new Color(0.7843f, 0.7843f, 0.7843f, 0.502f),
-            colorMultiplier = 1f,
-            fadeDuration = 0.1f
-        };
-
-        public static GameObject CreateTMPButton(
-            Transform parent,
-            string name,
-            string labelText,
-            Action onClick,
-            Color? buttonColor = null,
-            Vector2? size = null,
-            bool richText = true,
-            bool changeSize = true,
-            bool addHighlightSupport = false)
-        {
-            EnsureReferenceButtonTemplate();
-            GameObject buttonObj = GameObject.Instantiate(referenceButtonTemplate, parent);
-            if (buttonObj.GetComponent<HudOpenEffect>() == null)
-            {
-                buttonObj.AddComponent<HudOpenEffect>();
-            }
-            buttonObj.name = name;
-
-            // Reset position/rotation/scale
-            RectTransform rect = buttonObj.GetComponent<RectTransform>();
-            rect.localPosition = Vector3.zero;
-            rect.localRotation = Quaternion.identity;
-            rect.localScale = Vector3.one;
-
-            if (buttonColor.HasValue)
-            {
-                Image img = buttonObj.GetComponent<Image>();
-                if (img != null)
-                    img.color = buttonColor.Value;
-            }
-
-            Button button = buttonObj.GetComponent<Button>();
-            button.onClick = new Button.ButtonClickedEvent();
-            if (onClick != null)
-                button.onClick.AddListener(() => onClick());
-
-            button.interactable = true;
-            button.transition = Selectable.Transition.ColorTint;
-            button.colors = defaultColorBlock;
-            button.navigation = new Navigation { mode = Navigation.Mode.None };
-
-            TextMeshProUGUI text = buttonObj.GetComponentInChildren<TextMeshProUGUI>();
-            if (text != null)
-            {
-                text.text = labelText;
-                text.richText = richText;
-                text.alignment = TextAlignmentOptions.Center;
-
-                if (changeSize)
-                {
-                    text.enableAutoSizing = true;
-                    text.fontSizeMin = 10f;
-                    text.fontSizeMax = 36f;
-                }
-            }
-
-            if (changeSize && size.HasValue)
-            {
-                rect.sizeDelta = size.Value;
-            }
-
-            buttonObj.SetActive(true);
-            EventSystem.current.SetSelectedGameObject(null);
-            if (addHighlightSupport)
-            {
-                var buttonImage = buttonObj.GetComponent<Image>();
-                var highlightParent = buttonObj.GetComponentInParent<ButtonHighlightParent>();
-                if (highlightParent != null && buttonImage != null)
-                {
-                    // Add click reaction to this button
-                    button.onClick.AddListener(() => highlightParent.ChangeButton(buttonImage));
-                }
-            }
-
-            return buttonObj;
-        }
-    }
-
-
-
-    public static void updateLanguageButtonText()
-    {
-        // I LOVE MINESWEEPER
-        if (languageButtonText == null || languagePageTitleText == null)
-            return;
-        languageButtonText.text = LanguageManager.CurrentLanguage.options.language_languages;
-        languagePageTitleText.text = "--" + LanguageManager.CurrentLanguage.options.language_languages + "--";
-    }
-    
-
-
-    
-
-    public static bool Prefix(OptionsMenuToManager __instance)
-    {
-        
-        languageButtons.Clear();
-
-        if (GetCurrentSceneName() == "Main Menu")
-        {
-            Logging.Message("In main menu");
-        }
 
         Logging.Message("Adding language option to options menu...");
 
-        Transform optionsParent = __instance.optionsMenu.transform;
-        Transform navigationRail = optionsParent.Find("Navigation Rail");
-        Transform pagesParent = optionsParent.Find("Pages");
-        Transform generalPage = pagesParent.Find("General");
-        Transform generalScrollRect = generalPage.Find("Scroll Rect");
-        Transform generalContents = generalScrollRect.Find("Contents");
-        RectTransform generalScrollRectTransform = generalScrollRect.GetComponent<RectTransform>();
-        RectTransform generalContentsTransform = generalContents.GetComponent<RectTransform>();
+        Transform navigationRail = settingsMenu.navigationRail;
+        GameObject buttonTemplate = navigationRail.Find("General").gameObject;
+        GameObject languagePage = BuildLanguagePage(settingsMenu.transform, pages, buttonTemplate);
+        GameObject navigationButton = BuildButton(
+            buttonTemplate,
+            navigationRail,
+            "Language",
+            LanguageManager.CurrentLanguage.options.language_title,
+            resizeText: false);
 
+        navigationButton.transform.SetSiblingIndex(7);
+        navigationLabel = navigationButton.GetComponentInChildren<TextMeshProUGUI>();
 
-        Logging.Message("Creating language settings page...");
-        langLocalPage = new GameObject("Language Page", typeof(RectTransform), typeof(CanvasRenderer));
-        langLocalPage.transform.SetParent(pagesParent, false);
-        langLocalPage.SetActive(false);
-        RectTransform pageRect = langLocalPage.GetComponent<RectTransform>();
-        pageRect.sizeDelta = new Vector2(600, 800);
+        ConfigureNavigationButton(settingsMenu, languagePage, navigationButton);
 
-        // ScrollView
-        GameObject scrollView = new GameObject("Scroll Rect", typeof(RectTransform), typeof(ScrollRect), typeof(Image), typeof(Mask));
-        scrollView.transform.SetParent(langLocalPage.transform, false);
-        RectTransform scrollRect = scrollView.GetComponent<RectTransform>();
-        scrollRect.anchorMin = generalScrollRectTransform.anchorMin;
-        scrollRect.anchorMax = generalScrollRectTransform.anchorMax;
-        scrollRect.pivot = generalScrollRectTransform.pivot;
-        scrollRect.anchoredPosition = generalScrollRectTransform.anchoredPosition;
-        scrollRect.sizeDelta = generalScrollRectTransform.sizeDelta;
-        scrollView.GetComponent<Image>().color = new Color(0, 0, 0, 0.5f);
-        scrollView.GetComponent<Mask>().showMaskGraphic = false;
-
-        // ScrollRect settings to limit side-to-side scrolling
-        ScrollRect scrollRectComponent = scrollView.GetComponent<ScrollRect>();
-        scrollRectComponent.horizontal = false; // Disable horizontal scrolling
-        scrollRectComponent.vertical = true; // Enable vertical scrolling
-        scrollRectComponent.verticalScrollbarVisibility = ScrollRect.ScrollbarVisibility.AutoHideAndExpandViewport;
-
-        // Adding a scrollbar
-        Transform referencePage = pagesParent.transform.Find("General");
-        Scrollbar referenceScrollbar = referencePage.GetComponentsInChildren<Scrollbar>().FirstOrDefault();
-        GameObject scrollbar = GameObject.Instantiate(referenceScrollbar.gameObject, langLocalPage.transform);
-        scrollbar.transform.SetParent(langLocalPage.transform, false);
-        RectTransform scrollbarRect = scrollbar.GetComponent<RectTransform>();
-
-        Scrollbar scrollbarComponent = scrollbar.GetComponent<Scrollbar>();
-        scrollbarComponent.direction = Scrollbar.Direction.BottomToTop;
-        scrollRectComponent.verticalScrollbar = scrollbarComponent;
-        scrollRectComponent.scrollSensitivity = 20f;
-
-        // Content Container
-        GameObject content = new GameObject("Contents", typeof(RectTransform), typeof(VerticalLayoutGroup), typeof(ContentSizeFitter));
-        content.transform.SetParent(scrollView.transform, false);
-        RectTransform contentRect = content.GetComponent<RectTransform>();
-        contentRect.anchorMin = generalContentsTransform.anchorMin;
-        contentRect.anchorMax = generalContentsTransform.anchorMax;
-        contentRect.pivot = generalContentsTransform.pivot;
-        contentRect.anchoredPosition = generalContentsTransform.anchoredPosition;
-        contentRect.sizeDelta = generalContentsTransform.sizeDelta;
-
-        VerticalLayoutGroup vGroup = content.GetComponent<VerticalLayoutGroup>();
-        vGroup.spacing = 10;
-        vGroup.childAlignment = TextAnchor.UpperCenter;
-        vGroup.childForceExpandWidth = true;
-        vGroup.childForceExpandHeight = false;
-        vGroup.childControlWidth = true;
-        vGroup.childControlHeight = true;
-
-        ContentSizeFitter fitter = content.GetComponent<ContentSizeFitter>();
-        fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-
-        scrollView.GetComponent<ScrollRect>().content = contentRect;
-
-        GameObject titleObject = GameObject.Instantiate(optionsParent.Find("Text").gameObject, content.transform);
-        titleObject.name = "Title";
-        languagePageTitleText = titleObject.GetComponent<TextMeshProUGUI>();
-        languagePageTitleText.text = "--" + LanguageManager.CurrentLanguage.options.language_languages + "--";
-        languagePageTitleText.alignment = TextAlignmentOptions.Center;
-        languagePageTitleText.fontSize = 24;
-
-        RectTransform titleRect = languagePageTitleText.rectTransform;
-        titleRect.anchorMin = new Vector2(0.5f, 1);
-        titleRect.anchorMax = new Vector2(0.5f, 1);
-        titleRect.pivot = new Vector2(0.5f, 1);
-        titleRect.anchoredPosition = new Vector2(0, -50);
-        titleRect.sizeDelta = new Vector2(400, 50);
-
-        Logging.Message("Creating language menu button...");
-        GameObject languageButton = ButtonUtils.CreateTMPButton(navigationRail, "Language", LanguageManager.CurrentLanguage.options.language_title, () => ShowLanguagePage(), changeSize: false);
-        languageButtonText = GetTextMeshProUGUI(FindDescendant(languageButton, "Text"));
-        RectTransform sourceRect = FindDescendant(navigationRail.gameObject, "General").GetComponent<RectTransform>();
-        RectTransform targetRect = languageButton.GetComponent<RectTransform>();
-        targetRect.sizeDelta = sourceRect.sizeDelta;
-        //targetRect.anchorMin = sourceRect.anchorMin;
-        //targetRect.anchorMax = sourceRect.anchorMax;
-        //targetRect.pivot = sourceRect.pivot;
-
-
-        languageButton.transform.SetSiblingIndex(7);
-        Logging.Message("Adding language selection buttons...");
-        foreach (string language in LanguageManager.allLanguages.Keys)
-        {
-            GameObject langButton = ButtonUtils.CreateTMPButton(content.transform, language, LanguageManager.allLanguages[language].DisplayName, delegate
-            {
-                SelectLanguage(language);
-                foreach (Transform child in content.transform)
-                {
-                    // In the before, Clearwater trying to make UltrakULL as a mod similar to package manager
-                    // But now We are just made is as a lib, i keep the LangBrower check for some1 will check document in future
-                    if (child.name != "Title" && child.name != "LangBrowser" && child.name.Contains("-"))
-                    {
-                        TextMeshProUGUI tC = child.GetComponentInChildren<TextMeshProUGUI>();
-                        if (tC != null && LanguageManager.allLanguages.ContainsKey(child.name))
-                        {
-                            tC.text = LanguageManager.allLanguages[child.name].DisplayName;
-                            if (LanguageManager.CurrentLanguage.metadata.langName == child.name) { tC.text += "\n<size=22>(<color=green>Selected</color>)</size>"; }
-                            else if (tC.text.Contains("<color=green>Selected</color>"))
-                            {
-                                tC.text = LanguageManager.allLanguages[child.name].DisplayName;
-                            }
-                        }
-                    }
-                }
-            });
-
-            TextMeshProUGUI textComponent = langButton.GetComponentInChildren<TextMeshProUGUI>();
-            if (LanguageManager.CurrentLanguage.metadata.langName == language) { textComponent.text += "\n<size=22>(<color=green>Selected</color>)</size>"; }
-        }
-
-        Logging.Message("Creating Open Language Folder button...");
-
-        GameObject openLangFolder = ButtonUtils.CreateTMPButton(content.transform, "openLangFolder", "<color=#03fc07>" + LanguageManager.CurrentLanguage.options.language_openLanguageFolder + "</color>", () => Application.OpenURL(Path.Combine(BepInEx.Paths.ConfigPath, "ultrakull")));
-
-        void ShowLanguagePage()
-        {
-            Logging.Message("Opening Language Settings Page...");
-            EventSystem.current.SetSelectedGameObject(null);
-            foreach (Transform page in pagesParent)
-            {
-                if (page != null)
-                {
-                    page.gameObject.SetActive(false);
-                }
-            }
-            if (langLocalPage != null)
-            {
-                langLocalPage.SetActive(true);
-                foreach (Transform child in navigationRail)
-                {
-                    if (child.TryGetComponent(out Button b))
-                    {
-                        ColorBlock cb = b.colors;
-                        b.colors = cb; // Force update colors (sometimes helps)
-                    }
-                }
-                Transform navRail = FindDescendant(GetInactiveRootObject("Canvas"), "OptionsMenu").transform.Find("Navigation Rail");
-                GameObject langBtn = FindDescendant(navRail.gameObject, "Language");
-                EventSystem.current.SetSelectedGameObject(langBtn);
-            }
-        }
-
-        void SelectLanguage(string language)
-        {
-            Logging.Message("Selected language: " + language);
-            LanguageManager.TrySwitchLanguage(language);
-        }
-
-        Logging.Message("Setting up navigation buttons to hide language page...");
-        foreach (Transform child in navigationRail)
-        {
-            if (child.name != "Language" && child.name != "Saves")
-            {
-                Button navButton = child.GetComponent<Button>();
-                if (navButton != null)
-                {
-                    navButton.onClick.AddListener(() =>
-                    {
-                        if (langLocalPage.activeSelf)
-                        {
-                            Logging.Message("Hiding Language Page as another button was clicked: " + child.name);
-                            langLocalPage.SetActive(false);
-                        }
-                    });
-                }
-            }
-        }
-
-        return true;
+        RefreshText();
     }
 
+    public static void RefreshText()
+    {
+        var options = LanguageManager.CurrentLanguage.options;
+
+        if (navigationLabel != null)
+            navigationLabel.text = options.language_title;
+        if (pageTitle != null)
+            pageTitle.text = $"--{options.language_languages}--";
+        if (openFolderLabel != null)
+            openFolderLabel.text = $"<color=#03fc07>{options.language_openLanguageFolder}</color>";
+    }
+
+    private static GameObject BuildLanguagePage(Transform optionsMenu, Transform pages,
+        GameObject buttonTemplate)
+    {
+        Transform generalPage = pages.Find("General");
+        Transform referenceScroll = generalPage.Find("Scroll Rect");
+        Transform referenceContents = referenceScroll.Find("Contents");
+
+        GameObject page = new(PageName, typeof(RectTransform), typeof(CanvasRenderer));
+        page.transform.SetParent(pages, false);
+        page.GetComponent<RectTransform>().sizeDelta = new Vector2(600f, 800f);
+        page.SetActive(false);
+
+        GameObject scrollObject = new(
+            "Scroll Rect",
+            typeof(RectTransform),
+            typeof(ScrollRect),
+            typeof(Image),
+            typeof(Mask));
+        scrollObject.transform.SetParent(page.transform, false);
+        CopyRect(referenceScroll.GetComponent<RectTransform>(), scrollObject.GetComponent<RectTransform>());
+        scrollObject.GetComponent<Image>().color = new Color(0f, 0f, 0f, 0.5f);
+        scrollObject.GetComponent<Mask>().showMaskGraphic = false;
+
+        ScrollRect scroll = scrollObject.GetComponent<ScrollRect>();
+        scroll.horizontal = false;
+        scroll.vertical = true;
+        scroll.verticalScrollbarVisibility = ScrollRect.ScrollbarVisibility.AutoHideAndExpandViewport;
+        scroll.scrollSensitivity = 20f;
+
+        GameObject contentObject = new(
+            "Contents",
+            typeof(RectTransform),
+            typeof(VerticalLayoutGroup),
+            typeof(ContentSizeFitter));
+        contentObject.transform.SetParent(scrollObject.transform, false);
+        RectTransform contentRect = contentObject.GetComponent<RectTransform>();
+        CopyRect(referenceContents.GetComponent<RectTransform>(), contentRect);
+
+        VerticalLayoutGroup layout = contentObject.GetComponent<VerticalLayoutGroup>();
+        layout.spacing = 10f;
+        layout.childAlignment = TextAnchor.UpperCenter;
+        layout.childForceExpandWidth = true;
+        layout.childForceExpandHeight = false;
+        layout.childControlWidth = true;
+        layout.childControlHeight = true;
+        contentObject.GetComponent<ContentSizeFitter>().verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+        scroll.content = contentRect;
+        Transform content = contentObject.transform;
+
+        Scrollbar scrollbar = UnityEngine.Object.Instantiate(
+            generalPage.GetComponentsInChildren<Scrollbar>().First(),
+            page.transform);
+        scrollbar.direction = Scrollbar.Direction.BottomToTop;
+        scroll.verticalScrollbar = scrollbar;
+
+        GameObject titleObject = UnityEngine.Object.Instantiate(optionsMenu.Find("Text").gameObject, content);
+        titleObject.name = "Title";
+        pageTitle = titleObject.GetComponent<TextMeshProUGUI>();
+        pageTitle.alignment = TextAlignmentOptions.Center;
+        pageTitle.fontSize = 24f;
+        pageTitle.rectTransform.sizeDelta = new Vector2(400f, 50f);
+
+        foreach (var language in LanguageManager.allLanguages)
+        {
+            var languageId = language.Key;
+            BuildButton(
+                buttonTemplate,
+                content,
+                languageId,
+                language.Value.DisplayName,
+                () => SelectLanguage(languageId),
+                size: new Vector2(160f, 40f));
+        }
+
+        openFolderLabel = BuildButton(
+                buttonTemplate,
+                content,
+                "openLangFolder",
+                string.Empty,
+                () => Application.OpenURL(Path.Combine(Paths.ConfigPath, "ultrakull")))
+            .GetComponentInChildren<TextMeshProUGUI>();
+
+        return page;
+    }
+
+    private static GameObject BuildButton(GameObject template, Transform parent,
+        string name, string label, UnityAction onClick = null, bool resizeText = true,
+        Vector2? size = null)
+    {
+        GameObject instance = UnityEngine.Object.Instantiate(template, parent);
+        instance.name = name;
+
+        RectTransform rect = instance.GetComponent<RectTransform>();
+        rect.localPosition = Vector3.zero;
+        rect.localRotation = Quaternion.identity;
+        rect.localScale = Vector3.one;
+        if (size.HasValue)
+            rect.sizeDelta = size.Value;
+
+        Button button = instance.GetComponent<Button>();
+        // The cloned template includes the original button's callbacks.
+        button.onClick = new Button.ButtonClickedEvent();
+        if (onClick != null)
+            button.onClick.AddListener(onClick);
+        button.interactable = true;
+        button.navigation = new Navigation { mode = Navigation.Mode.None };
+
+        TextMeshProUGUI text = instance.GetComponentInChildren<TextMeshProUGUI>();
+        if (text != null)
+        {
+            text.text = label;
+            text.richText = true;
+            text.alignment = TextAlignmentOptions.Center;
+            text.enableAutoSizing = resizeText;
+            if (resizeText)
+            {
+                text.fontSizeMin = 10f;
+                text.fontSizeMax = 36f;
+            }
+        }
+
+        instance.SetActive(true);
+        return instance;
+    }
+
+    private static void SelectLanguage(string languageId)
+    {
+        Logging.Message($"Selected language: {languageId}");
+        LanguageManager.TrySwitchLanguage(languageId);
+    }
+
+    private static void ConfigureNavigationButton(
+        GameSettingsMenu settingsMenu,
+        GameObject languagePage,
+        GameObject navigationButton)
+    {
+        ButtonHighlightParent highlight = settingsMenu.navigationRail.GetComponent<ButtonHighlightParent>();
+        Button button = navigationButton.GetComponent<Button>();
+        Image image = navigationButton.GetComponent<Image>();
+
+        button.onClick.AddListener(() =>
+        {
+            highlight?.ChangeButton(image);
+            settingsMenu.SetActivePage(languagePage);
+        });
+
+        // If Start already ran, append the new button now. Otherwise Start will discover it itself.
+        RegisterNavigationButton(highlight, image);
+    }
+
+    private static void RegisterNavigationButton(ButtonHighlightParent highlight, Image image)
+    {
+        if (highlight?.buttons == null || highlight.buttons.Contains(image))
+            return;
+
+        TMP_Text text = image.GetComponentInChildren<TMP_Text>();
+        int index = highlight.buttons.Length;
+
+        Array.Resize(ref highlight.buttons, index + 1);
+        Array.Resize(ref highlight.buttonTexts, index + 1);
+        Array.Resize(ref highlight.buttonSprites, index + 1);
+        highlight.buttons[index] = image;
+        highlight.buttonTexts[index] = text;
+        highlight.buttonSprites[index] = image.sprite;
+    }
+
+    private static void CopyRect(RectTransform source, RectTransform target)
+    {
+        target.anchorMin = source.anchorMin;
+        target.anchorMax = source.anchorMax;
+        target.pivot = source.pivot;
+        target.anchoredPosition = source.anchoredPosition;
+        target.sizeDelta = source.sizeDelta;
+    }
 }

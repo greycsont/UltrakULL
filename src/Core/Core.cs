@@ -1,13 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using System.Threading.Tasks;
-using HarmonyLib;
-using Newtonsoft.Json;
-using TMPro;
 using UltrakULL.json;
 
 using static UltrakULL.SceneObjects;
@@ -18,7 +10,7 @@ public static class Core
 {
 	public static bool wasLanguageReset = false;
 
-    public static void HandleSceneSwitch(Scene scene,ref GameObject canvas)
+    public static void LocalizeScene(GameObject canvasObj)
     {
         string levelName = GetCurrentSceneName();
 
@@ -29,8 +21,6 @@ public static class Core
             return;
         }
         
-        //Each scene (level) has an object called Canvas. Most game objects are there.
-        GameObject canvasObj = GetInactiveRootObject("Canvas");
         if (!canvasObj)
         {
             Logging.Fatal("UNABLE TO FIND CANVAS IN CURRENT SCENE");
@@ -143,24 +133,4 @@ public static class Core
         }
     }
 
-    public static async void ApplyPostInitFixes(GameObject canvasObj)
-    {
-        await Task.Delay(250);
-        if (GetCurrentSceneName() == "Main Menu")
-        {
-            //Open Language Folder button in Options->Language
-            TextMeshProUGUI openLangFolderText = GetTextMeshProUGUI(
-                FindDescendant(canvasObj,
-                "OptionsMenu", 
-                "Language Page",
-                "Scroll Rect (1)",
-                "Contents",
-                "OpenLangFolder",
-                "Slot Text")
-            );
-            if (openLangFolderText != null)
-                openLangFolderText.text = "<color=#03fc07>Open language folder</color>";
-            
-        }
-    }
 }

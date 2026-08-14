@@ -91,27 +91,11 @@ public class MainPatch : BaseUnityPlugin
 		Logging.Warn("UltrakULL Loading... | Version v." + InternalVersion);
 		try
 		{
-			Logging.Warn("--- Loading default fonts ---");
-			FontManager.LoadFonts();
-
-			// Must happen before InitializeManager
-			// These two mf is to register event in LanguageManager
-			// For handling Language Switching
-			Logging.Warn("--- Register events ---");
-			FontManager.Initialize();
-			TextMeshProFontSwap.Initialize();
-			SubtitleLocalizer.Initialize();
-			TextureSwapper.Initialize();
-
-			Logging.Warn("--- Initializing language manager ---");
-			LanguageManager.InitializeManager(InternalVersion);
-			
-			Logging.Warn("--- Patching vanilla game functions ---");
-			new Harmony(InternalName).PatchAll();
+			InitializeLocalization();
 
 			Logging.Warn(" --- All done. Enjoy! ---");
-			SceneManager.sceneLoaded += onSceneLoaded;
 			this.ready = true;
+			SceneManager.sceneLoaded += OnSceneLoaded;
 		}
 		catch (Exception e)
 		{
@@ -120,16 +104,33 @@ public class MainPatch : BaseUnityPlugin
 			this.ready = false;
 		}
 	}
-	
+
+	private static void InitializeLocalization()
+	{
+		Logging.Warn("--- Loading shared font assets ---");
+		FontManager.LoadFonts();
+
+		// Register listeners before selecting the initial language so every subsystem receives it.
+		Logging.Warn("--- Registering language-change handlers ---");
+		FontManager.Initialize();
+		TextMeshProFontSwap.Initialize();
+		SubtitleLocalizer.Initialize();
+		TextureSwapper.Initialize();
+
+		Logging.Warn("--- Loading languages and selecting the active language ---");
+		LanguageManager.InitializeManager(InternalVersion);
+
+		Logging.Warn("--- Installing game hooks ---");
+		new Harmony(InternalName).PatchAll();
+	}
+
 	/// <summary>
 	/// For everything you want to do it on Scene Switching.
 	/// Please put it to here!
 	/// Because if not it will make the whole logics on Scene Switching into chaotic.
 	/// Love you.
 	/// </summary>
-	/// <param name="scene">scene after loaded</param>
-	/// <param name="mode">the load mode of scene (ULTRAKILL mostly uses Single)</param>
-	public void onSceneLoaded(Scene scene, LoadSceneMode mode)
+	private void ApplySceneLocalization(Scene scene, LoadSceneMode mode, bool clearObjectCaches)
 	{
 		if (!this.ready || LanguageManager.CurrentLanguage == null)
 		{
@@ -137,22 +138,35 @@ public class MainPatch : BaseUnityPlugin
 			return;
 		}
 
-		ClearObjectCaches(scene, mode);
+		if (clearObjectCaches)
+			ClearObjectCaches(scene, mode);
+
 		FontManager.RefreshFallback();                 
 		GameObject canvasObj = GetInactiveRootObject("Canvas");
-		Core.HandleSceneSwitch(scene, ref canvasObj);
+		Core.LocalizeScene(canvasObj);
 		AudioSwapper.OnSceneLoaded(GetCurrentSceneName());
 
-		RunDeferred(canvasObj);
+		RunDeferred(scene.handle);
 	}
 
-	// Some objects only appear a moment after the scene loads, so this second wave waits first.
-	// I have no idea why clearwater do this but it may have some reason so I kept
-	private async void RunDeferred(GameObject canvasObj)
+	private async void RunDeferred(int sceneHandle)
 	{
 		await Task.Delay(250);
-		Core.ApplyPostInitFixes(canvasObj);
+
+		if (SceneManager.GetActiveScene().handle != sceneHandle)
+			return;
+
 		SubtitledAudioSourcesReplacer.ReplaceSubsAndAudio();
 		TextureSwapper.Apply();
+	}
+
+	private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+	{
+		ApplySceneLocalization(scene, mode, clearObjectCaches: true);
+	}
+
+	public void RefreshCurrentScene()
+	{
+		ApplySceneLocalization(SceneManager.GetActiveScene(), LoadSceneMode.Single, clearObjectCaches: false);
 	}
 }
