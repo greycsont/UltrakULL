@@ -44,7 +44,9 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" PrivateAssets="all" />
     <Reference Include="$(ManagedDir)\UnityEngine*.dll" />
     <Reference Include="$(ManagedDir)\Unity.*.dll" />
+    <Reference Include="$(ManagedDir)\plog.dll" />
 
+    <Publicize Include="plog" />
     <Publicize Include="Assembly-CSharp" />
     <Publicize Include="Unity.TextMeshPro" />
   </ItemGroup>
@@ -85,6 +87,11 @@
     <Copy Condition="Exists('$(TargetDir)UltrakULL.pdb')"
           SourceFiles="$(TargetDir)UltrakULL.pdb" DestinationFolder="$(GamePluginDir)" />
     <Message Importance="high" Text="Deployed UltrakULL.dll -> $(GamePluginDir)" />
+  </Target>
+`
+  <Target Name="r" DependsOnTargets="Build">
+    <Exec Command="start &quot;&quot; &quot;$(ULTRAKILLPath)\ULTRAKILL.exe&quot;"
+          WorkingDirectory="$(ULTRAKILLPath)" />
   </Target>
 
   <!-- In Release, strip stray root files so the output folder is a clean drop-in -->
