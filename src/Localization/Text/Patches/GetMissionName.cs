@@ -8,25 +8,6 @@ namespace UltrakULL.Harmony_Patches;
 [HarmonyPatch(typeof(GetMissionName))]
 public static class Patch_GetMissionName
 {
-    
-    [HarmonyPatch(nameof(GetMissionName.GetMissionNumberOnly))] [HarmonyTranspiler]
-    public static IEnumerable<CodeInstruction> TranspileGetMissionNumberOnly(IEnumerable<CodeInstruction> instructions,
-        ILGenerator generator)
-    {
-        var formatter = AccessTools.Method(typeof(LocalizedNumbers), nameof(LocalizedNumbers.Format));
-
-        return new CodeMatcher(instructions, generator)
-            .MatchForward(
-                false,
-                new CodeMatch(OpCodes.Ldstr),
-                new CodeMatch(OpCodes.Ret))
-            .ThrowIfNotMatch("Could not find a string return in GetMissionName.GetMissionNumberOnly")
-            .Repeat(match => match
-                .Advance(1)
-                .InsertAndAdvance(new CodeInstruction(OpCodes.Call, formatter)))
-            .InstructionEnumeration();
-    }
-
     [HarmonyPatch(nameof(GetMissionName.GetMissionNameOnly))] [HarmonyTranspiler]
     public static IEnumerable<CodeInstruction> TranspileGetMissionNameOnly(
         IEnumerable<CodeInstruction> instructions,
