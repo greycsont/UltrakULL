@@ -20,15 +20,6 @@ public static class ResultsScreenLocalizer
         GameObject panel = FindDescendant(
             player, "Main Camera", "HUD Camera", "HUD", "FinishCanvas", "Panel");
 
-        GameObject title = FindDescendant(panel, "Title");
-        TextMeshProUGUI levelName =
-            GetTextMeshProUGUI(FindDescendant(title, "Text"));
-        levelName.text = name;
-
-        LevelNameFinder finder = levelName.GetComponent<LevelNameFinder>();
-        if (finder != null)
-            finder.enabled = false;
-
         GetTextMeshProUGUI(
             FindDescendant(panel, "ff", "Text")).text =
             LanguageManager.CurrentLanguage.misc.stats_time;
