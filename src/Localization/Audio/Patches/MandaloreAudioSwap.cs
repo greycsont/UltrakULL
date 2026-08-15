@@ -14,7 +14,7 @@ public static class MandaloreAudioSwap
     [HarmonyPostfix]
     public static void Mandalore_AudioSwap(Mandalore __instance)
     {
-        if (LanguageManager.configFile.Bind("General", "activeDubbing", "False").Value == "False" || LanguageManager.IsEnglish)
+        if (Settings.activeDubbing.Value == false || LanguageManager.IsEnglish)
             return;
 
         AudioSwapper.WhenReady(() => ApplyAudioSwap(__instance));

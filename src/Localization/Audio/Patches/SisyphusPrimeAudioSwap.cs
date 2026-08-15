@@ -13,7 +13,7 @@ public class SisyphusPrimeAudioSwap
     [HarmonyPostfix]
     public static void SisyphusPrimeAudioSwapPatch(SisyphusPrime __instance)
     {
-        if (LanguageManager.configFile.Bind<string>("General", "activeDubbing", "False", (ConfigDescription)null).Value == "False" || LanguageManager.IsEnglish)
+        if (Settings.activeDubbing.Value == false || LanguageManager.IsEnglish)
             return;
 
         AudioSwapper.WhenReady(() => ApplyAudioSwap(__instance));
