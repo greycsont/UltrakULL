@@ -3,7 +3,7 @@ using BepInEx.Configuration;
 
 namespace UltrakULL;
 
-public static class Setting
+public static class Settings
 {
     public static ConfigEntry<string> lastLanguage;
     public static ConfigEntry<string> activeDubbing;
