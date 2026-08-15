@@ -48,13 +48,8 @@ public static class LanguageManager
             Core.wasLanguageReset = true;
             SetCurrentLanguage("en-GB");
         }
-        
-        LoadSubtitledSourcesConfig();
-    }
 
-    public static void DumpLastLanguage()
-    {
-        configFile.Bind("General", "LastLanguage", "en-GB").Value = CurrentLanguage.metadata.langName; // Thank you copilot
+        LoadSubtitledSourcesConfig();
     }
 
     public static void LoadLanguagesInDirectory(string modVersion, string path)
@@ -187,7 +182,7 @@ public static class LanguageManager
         Current = lang;
         Logging.Message("Setting language to " + langName);
 
-        DumpLastLanguage();
+        Settings.lastLanguage.Value = langName;
 
         OnLanguageChanged?.Invoke(new ValueChangedEvent<Lang>(previous, lang));
         return true;

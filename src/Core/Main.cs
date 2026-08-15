@@ -68,11 +68,6 @@ public class MainPatch : BaseUnityPlugin
 	
 	public static string GetVersion() => InternalVersion;
 
-	public void OnApplicationQuit()
-	{
-		LanguageManager.DumpLastLanguage();
-	}
-
 	public void DisableMod()
 	{
 		this.ready = false;
