@@ -44,6 +44,8 @@ public static class Core
             }
             default:
             {
+                UILayoutOverride.AdjustOptionTextPosition();
+                UILayoutOverride.RemoveTitleWrapInResultScreen();
                 if (LanguageManager.IsEnglish)
                 {
                     Logging.Warn("Current language is English, not patching.");

@@ -156,8 +156,6 @@ public class MainPatch : BaseUnityPlugin
 
 		SubtitledAudioSourcesReplacer.ReplaceSubsAndAudio();
 		TextureSwapper.Apply();
-
-		AdjustUIElements();
 	}
 
 	private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -168,23 +166,5 @@ public class MainPatch : BaseUnityPlugin
 	public void RefreshCurrentScene()
 	{
 		ApplySceneLocalization(SceneManager.GetActiveScene(), LoadSceneMode.Single, clearObjectCaches: false);
-	}
-
-	/// <summary>
-	/// Sry but it's still hardcoded fuck
-	/// </summary>
-	private void AdjustUIElements()
-	{
-		if (GetCurrentSceneName() == "Main Menu")
-			return;
-
-		var canvas = GetInactiveRootObject("Canvas");
-		var optionsMenu = FindDescendant(canvas, "OptionsMenu");
-		var optionTitle = FindDescendant(optionsMenu, "Text")?.GetComponent<RectTransform>();
-
-		if (!optionTitle)
-			return;
-
-		optionTitle.sizeDelta -= new Vector2(0f, 20f);
 	}
 }
