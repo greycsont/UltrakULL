@@ -102,6 +102,9 @@ public class MainPatch : BaseUnityPlugin
 
 	private static void InitializeLocalization()
 	{
+		Logging.Warn("--- Initializing config ---");
+		Settings.InitializeConfig();
+		
 		Logging.Warn("--- Loading shared font assets ---");
 		FontManager.LoadFonts();
 

@@ -18,7 +18,6 @@ public static class LanguageManager
     public static JsonFormat CurrentLanguage => Current.Json;
     public static Lang Current { get; private set; }
     private static ManualLogSource jsonLogger = Logger.CreateLogSource("LanguageManager");
-    public static ConfigFile configFile;
 
     public static event Action<ValueChangedEvent<Lang>> OnLanguageChanged;
 
@@ -31,19 +30,14 @@ public static class LanguageManager
     {
         LoadLanguages(modVersion);
 
-        configFile = new ConfigFile(Path.Combine(Paths.ConfigPath, "ultrakull", "lastLang.cfg"), true);
-
-        string value = configFile.Bind("General", "LastLanguage", "en-GB").Value;
-        string dubValue = configFile.Bind("General","activeDubbing","False").Value;
-
-        if (allLanguages.ContainsKey(value))
+        if (allLanguages.ContainsKey(Settings.lastLanguage.Value))
         {
-            jsonLogger.Log(LogLevel.Message, "Setting language to " + value);
-            SetCurrentLanguage(value);
+            jsonLogger.Log(LogLevel.Message, "Setting language to " + Settings.lastLanguage.Value);
+            SetCurrentLanguage(Settings.lastLanguage.Value);
         }
         else
         {
-            jsonLogger.Log(LogLevel.Message, "Previous lang file is missing from disk: " + value);
+            jsonLogger.Log(LogLevel.Message, "Previous lang file is missing from disk: " + Settings.lastLanguage.Value);
             Logging.Warn("Setting language back to en-GB to avoid problems");
             Core.wasLanguageReset = true;
             SetCurrentLanguage("en-GB");

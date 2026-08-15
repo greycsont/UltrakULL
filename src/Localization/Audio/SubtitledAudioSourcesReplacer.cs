@@ -49,7 +49,7 @@ public static class SubtitledAudioSourcesReplacer
 
     private static bool ActiveDubbingEnabled()
     {
-        return LanguageManager.configFile.Bind("General", "activeDubbing", "False").Value != "False";
+        return Settings.activeDubbing.Value == true;
     }
 
     private static bool TryLoadMetadata(out List<SubtitledObjectReference> references)

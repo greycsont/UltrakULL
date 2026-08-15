@@ -40,7 +40,7 @@ public static class PowerAudioSwap
     internal static bool ShouldReplaceAudio()
     {
         return !LanguageManager.IsEnglish &&
-               LanguageManager.configFile.Bind("General", "activeDubbing", "False").Value != "False";
+               Settings.activeDubbing.Value == true;
     }
 
     internal static AudioClip Replace(AudioClip clip, string name = null)

@@ -12,8 +12,8 @@ public static class AudioSwapper
     {
         AudioLoader.Instance.Clear();
 
-        if (LanguageManager.IsEnglish ||
-            LanguageManager.configFile.Bind("General", "activeDubbing", "False").Value == "False")
+        if (LanguageManager.IsEnglish 
+            || Settings.activeDubbing.Value == false)
             return;
 
         AudioLoader.Instance.PreloadScene(sceneName);

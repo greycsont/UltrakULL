@@ -13,7 +13,7 @@ public class MinosPrimeAudioSwap
     [HarmonyPostfix]
     public static void MinosPrime_VoiceSwap(MinosPrime __instance)
     {
-        if (LanguageManager.configFile.Bind("General", "activeDubbing", "False").Value == "False" || LanguageManager.IsEnglish)
+        if (Settings.activeDubbing.Value == false || LanguageManager.IsEnglish)
             return;
 
         AudioSwapper.WhenReady(() => ApplyVoiceSwap(__instance));

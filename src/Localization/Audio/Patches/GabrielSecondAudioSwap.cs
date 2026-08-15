@@ -13,7 +13,7 @@ public static class GabrielSecondAudioSwap
     [HarmonyPatch(nameof(GabrielSecond.Awake))] [HarmonyPostfix]
     public static void GabrielSecond_VoiceSwap(GabrielSecond __instance)
     {
-        if (LanguageManager.configFile.Bind("General", "activeDubbing", "False").Value == "False" || LanguageManager.IsEnglish)
+        if (Settings.activeDubbing.Value == false || LanguageManager.IsEnglish)
             return;
 
         AudioSwapper.WhenReady(() =>
