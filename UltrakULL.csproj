@@ -88,7 +88,7 @@
           SourceFiles="$(TargetDir)UltrakULL.pdb" DestinationFolder="$(GamePluginDir)" />
     <Message Importance="high" Text="Deployed UltrakULL.dll -> $(GamePluginDir)" />
   </Target>
-`
+
   <Target Name="r" DependsOnTargets="Build">
     <Exec Command="start &quot;&quot; &quot;$(ULTRAKILLPath)\ULTRAKILL.exe&quot;"
           WorkingDirectory="$(ULTRAKILLPath)" />
