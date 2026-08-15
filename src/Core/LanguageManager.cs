@@ -28,22 +28,25 @@ public static class LanguageManager
 
 	public static void InitializeManager(string modVersion)
     {
-        LoadLanguages(modVersion);
-
-        if (allLanguages.ContainsKey(Settings.lastLanguage.Value))
-        {
-            jsonLogger.Log(LogLevel.Message, "Setting language to " + Settings.lastLanguage.Value);
-            SetCurrentLanguage(Settings.lastLanguage.Value);
-        }
-        else
-        {
-            jsonLogger.Log(LogLevel.Message, "Previous lang file is missing from disk: " + Settings.lastLanguage.Value);
-            Logging.Warn("Setting language back to en-GB to avoid problems");
-            Core.wasLanguageReset = true;
-            SetCurrentLanguage("en-GB");
-        }
-
         LoadSubtitledSourcesConfig();
+        LoadLanguages(modVersion);
+        SelectLastLanguage();
+
+        void SelectLastLanguage()
+        {
+            if (allLanguages.ContainsKey(Settings.lastLanguage.Value))
+            {
+                jsonLogger.Log(LogLevel.Message, "Setting language to " + Settings.lastLanguage.Value);
+                SetCurrentLanguage(Settings.lastLanguage.Value);
+            }
+            else
+            {
+                jsonLogger.Log(LogLevel.Message, "Previous lang file is missing from disk: " + Settings.lastLanguage.Value);
+                Logging.Warn("Setting language back to en-GB to avoid problems");
+                Core.wasLanguageReset = true;
+                SetCurrentLanguage("en-GB");
+            }
+        }   
     }
 
     public static void LoadLanguagesInDirectory(string modVersion, string path)
@@ -59,8 +62,13 @@ public static class LanguageManager
             if (TryLoad(file, out JsonFormat lang) && !allLanguages.ContainsKey(lang.metadata.langName) && lang.metadata.langName != "te-mp")
             {
                 allLanguages.Add(lang.metadata.langName, new Lang(lang));
-                if (!ValidateFile(lang, modVersion))
-                    jsonLogger.Log(LogLevel.Debug, "Failed to validate " + lang.metadata.langName);
+                if (Version.Parse(lang.metadata.langVersion)
+                    < Version.Parse(MainPatch.GetVersion()))
+                {
+                    Logging.Warn($"The language file \"{file}\" maybe outdated. It was made for version {lang.metadata.langVersion} of UltrakULL, but the current version is {modVersion}. This may cause problems.");
+                    Logging.Warn($"From what I see is that ClearWater trying to make this mod as a centerized translation mod and you could download translation in a cloud server\n"
+                                 + $"But... I just add a short warning anyway");
+                }
             }
         }
 
@@ -94,67 +102,10 @@ public static class LanguageManager
         }
         catch (Exception e)
         {
-            Logging.Error("Failed to load language file " + pathName + ": " + e.Message);
-            return false;
-        }
-    }
-
-    private static bool ValidateFile(JsonFormat language, string modVersion)
-    {
-        try
-        {
-            //Following conditions to validate a file:
-            //Must be JSON-deserializable
-            //Must have a metadata attribute and a body attribute
-            //Version logged in the JSON file must match or be newer than the current mod version
-            //Will need to implement further sanity checks.
-            //Logging.Message("Checking version...");
-
-            if (!FileMatchesMinimumRequiredVersion(language.metadata.minimumModVersion, modVersion))
-            {
-                Logging.Warn(language.metadata.langName + " was made for an older game version.");
-                return false;
-            }
-
-            Logging.Message("Checking contents...");
-            if (language.metadata != null && language.body != null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        catch (Exception e)
-        {
-            Logging.Error("An error occured while validating. It's possible the language file is not correctly formatted in .json.\n"
-                + "Please use https://jsonlint.com/ to make sure your .json file is correctly formatted!");
-            Logging.Error(e.ToString());
-            return false;
-        }
-    }
-
-    public static bool FileMatchesMinimumRequiredVersion(string requiredModVersion, string actualModVersion)
-    {
-        if (requiredModVersion == "")
-        {
-            Logging.Error("Language file has not defined the minimum mod version required!");
-            return false;
-        }
-
-        Version jsonVersion = new Version(requiredModVersion);
-        Version ultrakullVersion = new Version(actualModVersion);
-        int isCompatible = jsonVersion.CompareTo(ultrakullVersion);
-
-        //JSON version is greater or matches mod version
-        if (jsonVersion == ultrakullVersion || isCompatible > 0)
-        {
-            return true;
-        }
-        //JSON version is lower than mod version
-        else
-        {
+            Logging.Error($"An error occured while validating. It's possible the language file is not correctly formatted in .json.\n"
+                + "Please use https://jsonlint.com/ to make sure your .json file is correctly formatted!\n"
+                + "File: " + pathName 
+                + "\nError: " + e.ToString());
             return false;
         }
     }

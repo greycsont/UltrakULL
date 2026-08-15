@@ -59,7 +59,7 @@ public class MainPatch : BaseUnityPlugin
 {
 	private const string Guid = "clearwater.ultrakill.ultrakull";
 	private const string InternalName = "clearwater.ultrakull.ultrakULL";
-	private const string InternalVersion = "1.3.0";
+	internal const string InternalVersion = "1.3.0";
 
 	public static MainPatch Instance;
 	public bool ready;
@@ -104,7 +104,7 @@ public class MainPatch : BaseUnityPlugin
 	{
 		Logging.Warn("--- Initializing config ---");
 		Settings.InitializeConfig();
-		
+
 		Logging.Warn("--- Loading shared font assets ---");
 		FontManager.LoadFonts();
 
