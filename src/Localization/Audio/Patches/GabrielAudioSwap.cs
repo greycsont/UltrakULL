@@ -29,7 +29,7 @@ public static class GabrielAudioSwap
         if (__instance == null)
             return;
 
-        string gabeFirstFolder = AudioSwapper.SpeechFolder + "gabrielBossFirst" + Path.DirectorySeparatorChar;
+        string gabeFirstFolder = Path.Combine(AudioSwapper.SpeechFolder, "gabrielBossFirst");
 
         var gabeBase = __instance.gabe;
         if (gabeBase == null) return;
@@ -77,20 +77,20 @@ public static class GabrielAudioSwap
             "gabrielTaunt_YouMakeEven"
         };
         for (int x = 0; x < gabeTaunts.Length; x++)
-            gabeTaunts[x] = AudioSwapper.SwapClipWithFile(gabeTaunts[x], gabeFirstFolder + tauntLines[x]);
+            gabeTaunts[x] = AudioSwapper.SwapClipWithFile(gabeTaunts[x], Path.Combine(gabeFirstFolder, tauntLines[x]));
 
         //Phase change
-        voice.phaseChange = AudioSwapper.SwapClipWithFile(voice.phaseChange, gabeFirstFolder + "gabrielPhaseChange");
+        voice.phaseChange = AudioSwapper.SwapClipWithFile(voice.phaseChange, Path.Combine(gabeFirstFolder, "gabrielPhaseChange"));
 
         //Big hurt
         AudioClip[] gabeBigHurt = voice.bigHurt;
         for (int x = 0; x < gabeBigHurt.Length; x++)
-            gabeBigHurt[x] = AudioSwapper.SwapClipWithFile(gabeBigHurt[x], gabeFirstFolder + "gabrielBigHurt" + (x + 1));
+            gabeBigHurt[x] = AudioSwapper.SwapClipWithFile(gabeBigHurt[x], Path.Combine(gabeFirstFolder, "gabrielBigHurt" + (x + 1)));
 
         //Hurt
         AudioClip[] gabeHurt = voice.hurt;
         for (int x = 0; x < gabeHurt.Length; x++)
-            gabeHurt[x] = AudioSwapper.SwapClipWithFile(gabeHurt[x], gabeFirstFolder + "gabrielHurt" + (x + 1));
+            gabeHurt[x] = AudioSwapper.SwapClipWithFile(gabeHurt[x], Path.Combine(gabeFirstFolder, "gabrielHurt" + (x + 1)));
     }
 
     private static void ApplyOutroSwap(Gabriel __instance)
@@ -98,7 +98,7 @@ public static class GabrielAudioSwap
         if (__instance == null)
             return;
 
-        string folder = AudioSwapper.SpeechFolder + "gabrielBossFirst" + Path.DirectorySeparatorChar;
+        string folder = Path.Combine(AudioSwapper.SpeechFolder, "gabrielBossFirst");
 
         GabrielOutro outro = Object.FindObjectOfType<GabrielOutro>(true);
         if (outro == null)
@@ -112,7 +112,7 @@ public static class GabrielAudioSwap
             if (source.clip.name != "gab_BigHurt1")
                 continue;
 
-            source.clip = AudioSwapper.SwapClipWithFile(source.clip, folder + "gabrielBigHurt1");
+            source.clip = AudioSwapper.SwapClipWithFile(source.clip, Path.Combine(folder, "gabrielBigHurt1"));
         }
     }
 }

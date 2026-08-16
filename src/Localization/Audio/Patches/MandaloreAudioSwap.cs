@@ -28,29 +28,29 @@ public static class MandaloreAudioSwap
         //Mandalore uses an array for MandaloreVoice. voices[0] = Mandalore, voices[1] = Owl.
         //NOTE - both audio files for Manda & Owl play at the SAME TIME, so each file needs the
         //relevant period of silence before/after speaking.
-            string mandaloreFolder = AudioSwapper.SpeechFolder + "mandalore" + Path.DirectorySeparatorChar;
+            string mandaloreFolder = Path.Combine(AudioSwapper.SpeechFolder, "mandalore");
 
             //Attack 1 (Full auto)
-            __instance.voiceFull = AudioSwapper.SwapClipWithFile(__instance.voiceFull, mandaloreFolder + "mandaloreFullAuto");
+            __instance.voiceFull = AudioSwapper.SwapClipWithFile(__instance.voiceFull, Path.Combine(mandaloreFolder, "mandaloreFullAuto"));
 
             //Attack 2 (Fuller auto)
-            __instance.voiceFuller = AudioSwapper.SwapClipWithFile(__instance.voiceFuller, mandaloreFolder + "mandaloreFullerAuto");
+            __instance.voiceFuller = AudioSwapper.SwapClipWithFile(__instance.voiceFuller, Path.Combine(mandaloreFolder, "mandaloreFullerAuto"));
 
             //Phase change 1 (speed increase)
-            __instance.voices[0].secondPhase = AudioSwapper.SwapClipWithFile(__instance.voices[0].secondPhase, mandaloreFolder + "mandalorePhaseChange1Manda");
-            __instance.voices[1].secondPhase = AudioSwapper.SwapClipWithFile(__instance.voices[1].secondPhase, mandaloreFolder + "mandalorePhaseChange1Owl");
+            __instance.voices[0].secondPhase = AudioSwapper.SwapClipWithFile(__instance.voices[0].secondPhase, Path.Combine(mandaloreFolder, "mandalorePhaseChange1Manda"));
+            __instance.voices[1].secondPhase = AudioSwapper.SwapClipWithFile(__instance.voices[1].secondPhase, Path.Combine(mandaloreFolder, "mandalorePhaseChange1Owl"));
 
             //Phase change 2 (max speed)
-            __instance.voices[0].thirdPhase = AudioSwapper.SwapClipWithFile(__instance.voices[0].thirdPhase, mandaloreFolder + "mandalorePhaseChange2Manda");
-            __instance.voices[1].thirdPhase = AudioSwapper.SwapClipWithFile(__instance.voices[1].thirdPhase, mandaloreFolder + "mandalorePhaseChange2Owl");
+            __instance.voices[0].thirdPhase = AudioSwapper.SwapClipWithFile(__instance.voices[0].thirdPhase, Path.Combine(mandaloreFolder, "mandalorePhaseChange2Manda"));
+            __instance.voices[1].thirdPhase = AudioSwapper.SwapClipWithFile(__instance.voices[1].thirdPhase, Path.Combine(mandaloreFolder, "mandalorePhaseChange2Owl"));
 
             //Phase change 3 (sanded)
-            __instance.voices[0].finalPhase = AudioSwapper.SwapClipWithFile(__instance.voices[0].finalPhase, mandaloreFolder + "mandalorePhaseChangeFinalManda");
-            __instance.voices[1].finalPhase = AudioSwapper.SwapClipWithFile(__instance.voices[1].finalPhase, mandaloreFolder + "mandalorePhaseChangeFinalOwl");
+            __instance.voices[0].finalPhase = AudioSwapper.SwapClipWithFile(__instance.voices[0].finalPhase, Path.Combine(mandaloreFolder, "mandalorePhaseChangeFinalManda"));
+            __instance.voices[1].finalPhase = AudioSwapper.SwapClipWithFile(__instance.voices[1].finalPhase, Path.Combine(mandaloreFolder, "mandalorePhaseChangeFinalOwl"));
 
             //Defeated
-            __instance.voices[0].death = AudioSwapper.SwapClipWithFile(__instance.voices[0].death, mandaloreFolder + "mandaloreDefeatedManda");
-            __instance.voices[1].death = AudioSwapper.SwapClipWithFile(__instance.voices[1].death, mandaloreFolder + "mandaloreDefeatedOwl");
+            __instance.voices[0].death = AudioSwapper.SwapClipWithFile(__instance.voices[0].death, Path.Combine(mandaloreFolder, "mandaloreDefeatedManda"));
+            __instance.voices[1].death = AudioSwapper.SwapClipWithFile(__instance.voices[1].death, Path.Combine(mandaloreFolder, "mandaloreDefeatedOwl"));
 
             //Respawn taunts
             AudioClip[] mandaloreTauntManda = __instance.voices[0].taunts;
@@ -76,14 +76,14 @@ public static class MandaloreAudioSwap
                 switch (x)
                 {
                     case 1:
-                        mandaloreTauntOwl[x] = AudioSwapper.SwapClipWithFile(mandaloreTauntOwl[x], mandaloreFolder + owlTauntLines[x]);
+                        mandaloreTauntOwl[x] = AudioSwapper.SwapClipWithFile(mandaloreTauntOwl[x], Path.Combine(mandaloreFolder, owlTauntLines[x]));
                         break;
                     case 3:
-                        mandaloreTauntManda[x] = AudioSwapper.SwapClipWithFile(mandaloreTauntManda[x], mandaloreFolder + mandaTauntLines[x]);
+                        mandaloreTauntManda[x] = AudioSwapper.SwapClipWithFile(mandaloreTauntManda[x], Path.Combine(mandaloreFolder, mandaTauntLines[x]));
                         break;
                     default:
-                        mandaloreTauntManda[x] = AudioSwapper.SwapClipWithFile(mandaloreTauntManda[x], mandaloreFolder + mandaTauntLines[x]);
-                        mandaloreTauntOwl[x] = AudioSwapper.SwapClipWithFile(mandaloreTauntOwl[x], mandaloreFolder + owlTauntLines[x]);
+                        mandaloreTauntManda[x] = AudioSwapper.SwapClipWithFile(mandaloreTauntManda[x], Path.Combine(mandaloreFolder, mandaTauntLines[x]));
+                        mandaloreTauntOwl[x] = AudioSwapper.SwapClipWithFile(mandaloreTauntOwl[x], Path.Combine(mandaloreFolder, owlTauntLines[x]));
                         break;
                 }
         }
