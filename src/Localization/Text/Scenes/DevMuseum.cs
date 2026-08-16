@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -13,26 +14,21 @@ namespace UltrakULL;
 
 public static class DevMuseum
 {
+	private static readonly (string keyword, Func<string, string, string, string> build)[] Messages =
+	{
+		("RACE START", (m, m2, input) => LanguageManager.CurrentLanguage.devMuseum.museum_rocketRaceStart),
+		("A R M B O Y", (m, m2, input) => LanguageManager.CurrentLanguage.act2.act2_heresyFirst_armboy),
+		("TIME", (m, m2, input) => LanguageManager.CurrentLanguage.misc.levelstats_time + ": " + m.Split(':')[1]),
+		("Chess", (m, m2, input) => LanguageManager.CurrentLanguage.devMuseum.museum_chessTip),
+	};
+
 	public static string GetMessage(string message, string message2, string input)
 	{
-		if (message.Contains("RACE START"))
-		{
-			return LanguageManager.CurrentLanguage.devMuseum.museum_rocketRaceStart;
-		}
-		if (message.Contains("A R M B O Y"))
-		{
-			return LanguageManager.CurrentLanguage.act2.act2_heresyFirst_armboy;
-		}
-		if (message.Contains("TIME"))
-		{
-			string text = message.Split(':')[1];
-			return LanguageManager.CurrentLanguage.misc.levelstats_time + ": " + text;
-		}
-		if (message.Contains("Chess"))
-		{
-			return LanguageManager.CurrentLanguage.devMuseum.museum_chessTip;
-		}
-		return "Unimplemented string";
+		foreach (var (keyword, build) in Messages)
+			if (message.Contains(keyword))
+				return build(message, message2, input);
+
+		return null;
 	}
 
 	public static string GetMuseumBook(string originalText)
@@ -516,8 +512,8 @@ public static class DevMuseum
 		TryReplaceText(((TMP_Text)GetTextMeshProUGUI(FindDescendant(FindDescendant(gameObjectChild40, "StopButton"), "Text"))), LanguageManager.CurrentLanguage.devMuseum.museum_cinemaStop);
 	GameObject spoilerBackground1 = FindDescendant(FindDescendant(FindDescendant(FindDescendant(FindDescendant(GetInactiveRootObject("__DEV_SPACE_ALL"), "Prime 1 VA"), "SpoilerBlock"), "PuzzleScreen (1)"), "Canvas"), "Background");
 	GameObject spoilerBackground2 = FindDescendant(FindDescendant(FindDescendant(FindDescendant(FindDescendant(GetInactiveRootObject("__DEV_SPACE_ALL"), "Prime 2 VA"), "SpoilerBlock"), "PuzzleScreen (1)"), "Canvas"), "Background");
-		TryReplaceText(((TMP_Text)GetTextMeshProUGUI(FindDescendant(spoilerBackground1, "Text"))), TextFormatter.Format("<color=red>{0}</color>\n{1}", LanguageManager.CurrentLanguage.devMuseum.museum_spoiler1, LanguageManager.CurrentLanguage.devMuseum.museum_spoiler2));
-	TryReplaceText(((TMP_Text)GetTextMeshProUGUI(FindDescendant(spoilerBackground2, "Text"))), TextFormatter.Format("<color=red>{0}</color>\n{1}", LanguageManager.CurrentLanguage.devMuseum.museum_spoiler1, LanguageManager.CurrentLanguage.devMuseum.museum_spoiler2));
+		TryReplaceText(((TMP_Text)GetTextMeshProUGUI(FindDescendant(spoilerBackground1, "Text"))), StringHelper.Format("<color=red>{0}</color>\n{1}", LanguageManager.CurrentLanguage.devMuseum.museum_spoiler1, LanguageManager.CurrentLanguage.devMuseum.museum_spoiler2));
+	TryReplaceText(((TMP_Text)GetTextMeshProUGUI(FindDescendant(spoilerBackground2, "Text"))), StringHelper.Format("<color=red>{0}</color>\n{1}", LanguageManager.CurrentLanguage.devMuseum.museum_spoiler1, LanguageManager.CurrentLanguage.devMuseum.museum_spoiler2));
 	TryReplaceText(((TMP_Text)GetTextMeshProUGUI(FindDescendant(spoilerBackground1, "OpenButton/Text"))), LanguageManager.CurrentLanguage.devMuseum.museum_spoiler3);
 	TryReplaceText(((TMP_Text)GetTextMeshProUGUI(FindDescendant(spoilerBackground2, "OpenButton/Text"))), LanguageManager.CurrentLanguage.devMuseum.museum_spoiler3);
 }
@@ -535,7 +531,7 @@ public static class DevMuseum
 		TryReplaceText(GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "White", "Bot Button", "Text")), LanguageManager.CurrentLanguage.devMuseum.museum_chessBot);
 		TryReplaceText(GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "White", "Player Button", "Text")), LanguageManager.CurrentLanguage.devMuseum.museum_chessPlayer);
 		TryReplaceText(GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "Settings", "Main Window", "Close Button", "Text")), LanguageManager.CurrentLanguage.devMuseum.museum_chessSettingsclose);
-		TryReplaceText(GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "Settings", "Main Window", "Set Elo", "Slider", "Bot Text")), TextFormatter.Format("{0}:", LanguageManager.CurrentLanguage.devMuseum.museum_chessBot));
+		TryReplaceText(GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "Settings", "Main Window", "Set Elo", "Slider", "Bot Text")), StringHelper.Format("{0}:", LanguageManager.CurrentLanguage.devMuseum.museum_chessBot));
 		TryReplaceText(GetTextMeshProUGUI(FindDescendant(gameObjectChild, "WhiteWin", "WinText")), LanguageManager.CurrentLanguage.devMuseum.museum_chessWhitewin);
 		TryReplaceText(GetTextMeshProUGUI(FindDescendant(gameObjectChild, "BlackWin", "WinText")), LanguageManager.CurrentLanguage.devMuseum.museum_chessBlackwin);
 

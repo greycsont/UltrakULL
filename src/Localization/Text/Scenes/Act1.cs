@@ -36,8 +36,8 @@ public static class Act1
     public static void PatchAct1(ref GameObject canvasObj)
     {
         string currentLevel = GetCurrentSceneName();
-        string levelName = Act1Strings.GetLevelName();
-        string levelChallenge = Act1Strings.GetLevelChallenge(currentLevel);
+        string levelName = LevelStrings.GetLevelName();
+        string levelChallenge = LevelStrings.GetLevelChallenge(currentLevel);
 
         PatchHellmap(ref canvasObj);
         ResultsScreenLocalizer.PatchResultsScreen(levelName, levelChallenge);

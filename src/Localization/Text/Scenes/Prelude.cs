@@ -40,8 +40,8 @@ public static class Prelude
             }
         }
         
-        string levelName = PreludeStrings.GetLevelName();
-        string levelChallenge = PreludeStrings.GetLevelChallenge(currentLevel);
+        string levelName = LevelStrings.GetLevelName();
+        string levelChallenge = LevelStrings.GetLevelChallenge(currentLevel);
 
         ResultsScreenLocalizer.PatchResultsScreen(levelName,levelChallenge);
     }

@@ -28,12 +28,12 @@ public static class CutsceneSkipTextPatch
 public static class SendHudMessagePatch
 {
     [HarmonyPrefix]
-    public static bool SendHudMessage_Prefix(ref string newmessage,ref string newinput,ref string newmessage2, int delay = 0, bool silent = false)
+    public static void SendHudMessage_Prefix(ref string newmessage,ref string newinput,ref string newmessage2, int delay = 0, bool silent = false)
     {
         if (!LanguageManager.IsEnglish)
         {
             if ((newmessage != null) && (newmessage2 != null) && (newinput != null))
-            {
+            {                
                 newmessage = StringsParent.GetMessage(newmessage, newmessage2, newinput);
                 newmessage2 = "";
                 newinput = "";
@@ -43,7 +43,6 @@ public static class SendHudMessagePatch
                 newmessage = HUDMessages.GetHUDToolTip(newmessage);
             }
         }
-        return true;
     }
 }
 
@@ -51,31 +50,29 @@ public static class SendHudMessagePatch
 public static class SendHudMessage2Patch
 {
     [HarmonyPrefix]
-    public static bool SendHudMessage2_Prefix(ref string format, ref string[] newinputs, int delay, bool silent, ref bool inputBeenProcessed, bool automaticTimer)
+    public static void SendHudMessage2_Prefix(ref string format, ref string[] newinputs, int delay, bool silent, ref bool inputBeenProcessed, bool automaticTimer)
     {
-        if (!LanguageManager.IsEnglish)
+        if (!LanguageManager.IsEnglish
+            && format != null
+            && format.Contains("WARNING:")
+            && format.Contains("free fall"))
         {
-            // Локализуем каждый input, если они есть
-            if (newinputs != null)
-            {
-                for (int i = 0; i < newinputs.Length; i++)
-                {
-                    newinputs[i] = InputNames.Localize(newinputs[i]);
-                }
-            }
-
-            // Если это сообщение о свободном падении на уровне 8-4, заменяем format на переведённый вариант
-            if (format.Contains("WARNING:") && format.Contains("free fall"))
-            {
-                string translated = Act3Strings.Level84(format, "", newinputs);
-                if (translated != "Unimplemented string")
-                {
-                    format = translated;
-                    newinputs = null; // чтобы оригинальный метод не пытался форматировать снова
-                    inputBeenProcessed = true;
-                }
-            }
+            // {0} {1}
+            format = LevelStrings.FreeFallWarning();
         }
-        return true;
+    }
+}
+
+[HarmonyPatch(typeof(HudMessageReceiver))]
+public static class ShowHudMessageLocalizeInputsPatch
+{
+    [HarmonyPatch(nameof(HudMessageReceiver.ShowHudMessage))] [HarmonyPrefix]
+    private static void TranslateInputs(ref string[] ___inputs, ref bool ___inputPreProcessed)
+    {
+        if (___inputs == null || ___inputs.Length == 0)
+            return;
+
+        for (int i = 0; i < ___inputs.Length; i++)
+            ___inputs[i] = InputNames.Localize(___inputs[i]);
     }
 }

@@ -437,28 +437,28 @@ public static class MainMenu
 		//0-1 challenge
 		GameObject firstObject = FindDescendant(preludeObject, "0-1 Panel");
 		TextMeshProUGUI firstChallenge = GetTextMeshProUGUI(FindDescendant(firstObject,"Panel", "Text"));
-		firstChallenge.text = PreludeStrings.GetLevelChallenge("Level 0-1");
+		firstChallenge.text = LevelStrings.GetLevelChallenge("Level 0-1");
 
 		//0-2 challenge
 		GameObject secondObject = FindDescendant(preludeObject, "0-2 Panel");
 		TextMeshProUGUI secondChallenge = GetTextMeshProUGUI(FindDescendant(secondObject, "Panel (2)", "Text"));
-		secondChallenge.text = PreludeStrings.GetLevelChallenge("Level 0-2");
+		secondChallenge.text = LevelStrings.GetLevelChallenge("Level 0-2");
 
 		//0-3 challenge
 		GameObject thirdObject = FindDescendant(preludeObject, "0-3 Panel");
 		TextMeshProUGUI thirdChallenge = GetTextMeshProUGUI(FindDescendant(thirdObject, "Panel (4)", "Text"));
-		thirdChallenge.text = PreludeStrings.GetLevelChallenge("Level 0-3");
+		thirdChallenge.text = LevelStrings.GetLevelChallenge("Level 0-3");
 
 		//0-4 challenge
 		GameObject fourthObject = FindDescendant(preludeObject, "0-4 Panel");
 		TextMeshProUGUI fourthChallenge = GetTextMeshProUGUI(FindDescendant(fourthObject, "Panel (6)", "Text"));
-		fourthChallenge.text = PreludeStrings.GetLevelChallenge("Level 0-4");
+		fourthChallenge.text = LevelStrings.GetLevelChallenge("Level 0-4");
 
 		//0-5 challenge
 		GameObject fifthObject = FindDescendant(preludeObject, "0-5 Panel");
 
 		TextMeshProUGUI fifthChallenge = GetTextMeshProUGUI(FindDescendant(fifthObject, "Panel (6)", "Text"));
-		fifthChallenge.text = PreludeStrings.GetLevelChallenge("Level 0-5");
+		fifthChallenge.text = LevelStrings.GetLevelChallenge("Level 0-5");
 		
 		//Full intro panel why this is not using the TMPro
 		GameObject fullIntroObject = FindDescendant(FindDescendant(lsPreludeObject, "FullIntroPopup"), "Panel");
@@ -498,16 +498,16 @@ public static class MainMenu
 		GameObject limboContent = FindDescendant(limboObject,"Level Row");
 
 		TextMeshProUGUI limboFirstChallenge = GetTextMeshProUGUI(FindDescendant(limboContent, "1-1 Panel", "Panel", "Text"));
-		limboFirstChallenge.text = Act1Strings.GetLevelChallenge("Level 1-1");
+		limboFirstChallenge.text = LevelStrings.GetLevelChallenge("Level 1-1");
 
 		TextMeshProUGUI limboSecondChallenge = GetTextMeshProUGUI(FindDescendant(limboContent, "1-2 Panel", "Panel (2)", "Text"));
-		limboSecondChallenge.text = Act1Strings.GetLevelChallenge("Level 1-2");
+		limboSecondChallenge.text = LevelStrings.GetLevelChallenge("Level 1-2");
 
 		TextMeshProUGUI limboThirdChallenge = GetTextMeshProUGUI(FindDescendant(limboContent, "1-3 Panel", "Panel (4)", "Text"));
-		limboThirdChallenge.text = Act1Strings.GetLevelChallenge("Level 1-3");
+		limboThirdChallenge.text = LevelStrings.GetLevelChallenge("Level 1-3");
 
 		TextMeshProUGUI limboClimaxChallenge = GetTextMeshProUGUI(FindDescendant(limboContent, "1-4 Panel", "Panel (6)", "Text"));
-		limboClimaxChallenge.text = Act1Strings.GetLevelChallenge("Level 1-4");
+		limboClimaxChallenge.text = LevelStrings.GetLevelChallenge("Level 1-4");
 
 		//Layer 2 - Lust
 		GameObject lustHeader = FindDescendant(lustObject,"Header");
@@ -522,16 +522,16 @@ public static class MainMenu
 
 		//Main levels
 		TextMeshProUGUI lustFirstChallenge = GetTextMeshProUGUI(FindDescendant(lustContent, "2-1 Panel", "Panel", "Text"));
-		lustFirstChallenge.text = Act1Strings.GetLevelChallenge("Level 2-1");
+		lustFirstChallenge.text = LevelStrings.GetLevelChallenge("Level 2-1");
 
 		TextMeshProUGUI lustSecondChallenge = GetTextMeshProUGUI(FindDescendant(lustContent, "2-2 Panel", "Panel (2)", "Text"));
-		lustSecondChallenge.text = Act1Strings.GetLevelChallenge("Level 2-2");
+		lustSecondChallenge.text = LevelStrings.GetLevelChallenge("Level 2-2");
 
 		TextMeshProUGUI lustThirdChallenge = GetTextMeshProUGUI(FindDescendant(lustContent, "2-3 Panel", "Panel (4)", "Text"));
-		lustThirdChallenge.text = Act1Strings.GetLevelChallenge("Level 2-3");
+		lustThirdChallenge.text = LevelStrings.GetLevelChallenge("Level 2-3");
 
 		TextMeshProUGUI lustClimaxChallenge = GetTextMeshProUGUI(FindDescendant(lustContent, "2-4 Panel", "Panel (6)", "Text"));
-		lustClimaxChallenge.text = Act1Strings.GetLevelChallenge("Level 2-4");
+		lustClimaxChallenge.text = LevelStrings.GetLevelChallenge("Level 2-4");
 
 		//Layer 3 - Gluttony
 		GameObject gluttonyHeader = FindDescendant(gluttonyObject,"Header");
@@ -543,10 +543,10 @@ public static class MainMenu
 		GameObject gluttonyContent = FindDescendant(gluttonyObject,"Level Row");
 
 	    TextMeshProUGUI gluttonyFirstChallenge = GetTextMeshProUGUI(FindDescendant(gluttonyContent, "3-1 Panel", "Panel", "Text"));
-		gluttonyFirstChallenge.text = Act1Strings.GetLevelChallenge("Level 3-1");
+		gluttonyFirstChallenge.text = LevelStrings.GetLevelChallenge("Level 3-1");
 
 	    TextMeshProUGUI gluttonySecondChallenge = GetTextMeshProUGUI(FindDescendant(gluttonyContent, "3-2 Panel", "Panel (2)", "Text"));
-		gluttonySecondChallenge.text = Act1Strings.GetLevelChallenge("Level 3-2");
+		gluttonySecondChallenge.text = LevelStrings.GetLevelChallenge("Level 3-2");
 
 	}
 
@@ -572,16 +572,16 @@ public static class MainMenu
 
 
 	    TextMeshProUGUI greedFirstChallenge = GetTextMeshProUGUI(FindDescendant(greedContent, "4-1 Panel", "Panel", "Text"));
-		greedFirstChallenge.text = Act2Strings.GetLevelChallenge("Level 4-1");
+		greedFirstChallenge.text = LevelStrings.GetLevelChallenge("Level 4-1");
 
 	    TextMeshProUGUI greedSecondChallenge = GetTextMeshProUGUI(FindDescendant(greedContent, "4-2 Panel", "Panel (2)", "Text"));
-		greedSecondChallenge.text = Act2Strings.GetLevelChallenge("Level 4-2");
+		greedSecondChallenge.text = LevelStrings.GetLevelChallenge("Level 4-2");
 
 	    TextMeshProUGUI greedThirdChallenge = GetTextMeshProUGUI(FindDescendant(greedContent, "4-3 Panel", "Panel (4)", "Text"));
-		greedThirdChallenge.text = Act2Strings.GetLevelChallenge("Level 4-3");
+		greedThirdChallenge.text = LevelStrings.GetLevelChallenge("Level 4-3");
 
 	    TextMeshProUGUI greedClimaxChallenge = GetTextMeshProUGUI(FindDescendant(greedContent, "4-4 Panel", "Panel (6)", "Text"));
-		greedClimaxChallenge.text = Act2Strings.GetLevelChallenge("Level 4-4");
+		greedClimaxChallenge.text = LevelStrings.GetLevelChallenge("Level 4-4");
 
 		
 		//Layer 5 - Wrath
@@ -597,16 +597,16 @@ public static class MainMenu
 		GameObject wrathContent = FindDescendant(wrathObject,"Level Row");
 
 	    TextMeshProUGUI wrathFirstChallenge = GetTextMeshProUGUI(FindDescendant(wrathContent, "5-1 Panel", "Panel", "Text"));
-		wrathFirstChallenge.text = Act2Strings.GetLevelChallenge("Level 5-1");
+		wrathFirstChallenge.text = LevelStrings.GetLevelChallenge("Level 5-1");
 
 	    TextMeshProUGUI wrathSecondChallenge = GetTextMeshProUGUI(FindDescendant(wrathContent, "5-2 Panel", "Panel (2)", "Text"));
-		wrathSecondChallenge.text = Act2Strings.GetLevelChallenge("Level 5-2");
+		wrathSecondChallenge.text = LevelStrings.GetLevelChallenge("Level 5-2");
 
 	    TextMeshProUGUI wrathThirdChallenge = GetTextMeshProUGUI(FindDescendant(wrathContent, "5-3 Panel", "Panel (4)", "Text"));
-		wrathThirdChallenge.text = Act2Strings.GetLevelChallenge("Level 5-3");
+		wrathThirdChallenge.text = LevelStrings.GetLevelChallenge("Level 5-3");
 
 	    TextMeshProUGUI wrathFourthChallenge = GetTextMeshProUGUI(FindDescendant(wrathContent, "5-4 Panel", "Panel (6)", "Text"));
-		wrathFourthChallenge.text = Act2Strings.GetLevelChallenge("Level 5-4");
+		wrathFourthChallenge.text = LevelStrings.GetLevelChallenge("Level 5-4");
 
 
 		//Layer 6 - Heresy
@@ -620,10 +620,10 @@ public static class MainMenu
 
 		// YES IT'S 1-1 AND 1-2 PANEL FUCK
 	    TextMeshProUGUI heresyFirstChallenge = GetTextMeshProUGUI(FindDescendant(heresyContent, "1-1 Panel", "Panel", "Text"));
-		heresyFirstChallenge.text = Act2Strings.GetLevelChallenge("Level 6-1");
+		heresyFirstChallenge.text = LevelStrings.GetLevelChallenge("Level 6-1");
 
 	    TextMeshProUGUI heresySecondChallenge = GetTextMeshProUGUI(FindDescendant(heresyContent, "1-2 Panel", "Panel (2)", "Text"));
-		heresySecondChallenge.text = Act2Strings.GetLevelChallenge("Level 6-2");
+		heresySecondChallenge.text = LevelStrings.GetLevelChallenge("Level 6-2");
 	}
 	
 	private static void PatchLevelSelectAct3(GameObject frontEnd)
@@ -648,16 +648,16 @@ public static class MainMenu
 
 
 		TextMeshProUGUI violenceFirstChallenge = GetTextMeshProUGUI(FindDescendant(violenceContent, "7-1 Panel", "Panel", "Text"));
-		violenceFirstChallenge.text = Act3Strings.GetLevelChallenge("Level 7-1");
+		violenceFirstChallenge.text = LevelStrings.GetLevelChallenge("Level 7-1");
 
 		TextMeshProUGUI violenceSecondChallenge = GetTextMeshProUGUI(FindDescendant(violenceContent, "7-2 Panel", "Panel (2)", "Text"));
-		violenceSecondChallenge.text = Act3Strings.GetLevelChallenge("Level 7-2");
+		violenceSecondChallenge.text = LevelStrings.GetLevelChallenge("Level 7-2");
 
 		TextMeshProUGUI violenceThirdChallenge = GetTextMeshProUGUI(FindDescendant(violenceContent, "7-3 Panel", "Panel (4)", "Text"));
-		violenceThirdChallenge.text = Act3Strings.GetLevelChallenge("Level 7-3");
+		violenceThirdChallenge.text = LevelStrings.GetLevelChallenge("Level 7-3");
 
 		TextMeshProUGUI violenceClimaxChallenge = GetTextMeshProUGUI(FindDescendant(violenceContent, "7-4 Panel", "Panel (6)", "Text"));
-		violenceClimaxChallenge.text = Act3Strings.GetLevelChallenge("Level 7-4");
+		violenceClimaxChallenge.text = LevelStrings.GetLevelChallenge("Level 7-4");
 
 		
 		//Layer 8 - Fraud
@@ -674,16 +674,16 @@ public static class MainMenu
 
 
 		TextMeshProUGUI fraudFirstChallenge = GetTextMeshProUGUI(FindDescendant(fraudContent, "8-1 Panel", "Panel", "Text"));
-		fraudFirstChallenge.text = Act3Strings.GetLevelChallenge("Level 8-1");
+		fraudFirstChallenge.text = LevelStrings.GetLevelChallenge("Level 8-1");
 
 		TextMeshProUGUI fraudSecondChallenge = GetTextMeshProUGUI(FindDescendant(fraudContent, "8-2 Panel", "Panel (2)", "Text"));
-		fraudSecondChallenge.text = Act3Strings.GetLevelChallenge("Level 8-2");
+		fraudSecondChallenge.text = LevelStrings.GetLevelChallenge("Level 8-2");
 
 		TextMeshProUGUI fraudThirdChallenge = GetTextMeshProUGUI(FindDescendant(fraudContent, "8-3 Panel", "Panel (4)", "Text"));
-		fraudThirdChallenge.text = Act3Strings.GetLevelChallenge("Level 8-3");
+		fraudThirdChallenge.text = LevelStrings.GetLevelChallenge("Level 8-3");
 
 		TextMeshProUGUI fraudClimaxChallenge = GetTextMeshProUGUI(FindDescendant(fraudContent, "8-4 Panel", "Panel (6)", "Text"));
-		fraudClimaxChallenge.text = Act3Strings.GetLevelChallenge("Level 8-4");
+		fraudClimaxChallenge.text = LevelStrings.GetLevelChallenge("Level 8-4");
 
 
 		//Layer 9 - Treachery
@@ -697,10 +697,10 @@ public static class MainMenu
 
 
 	    TextMeshProUGUI treacheryFirstChallenge = GetTextMeshProUGUI(FindDescendant(treacheryContent, "9-1 Panel", "Panel", "Text"));
-		treacheryFirstChallenge.text = Act3Strings.GetLevelChallenge("Level 9-1");
+		treacheryFirstChallenge.text = LevelStrings.GetLevelChallenge("Level 9-1");
 
 	    TextMeshProUGUI treacherySecondChallenge = GetTextMeshProUGUI(FindDescendant(treacheryContent, "9-2 Panel", "Panel (2)", "Text"));
-		treacherySecondChallenge.text = Act3Strings.GetLevelChallenge("Level 9-2");
+		treacherySecondChallenge.text = LevelStrings.GetLevelChallenge("Level 9-2");
 	}
 
 	private static void PatchLevelSelectEncore(GameObject frontEnd)

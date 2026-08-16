@@ -35,42 +35,26 @@ class TutorialStrings
         *HELL IS FULL._½½&
      */
 
+    private static readonly (string keyword, Func<string, string, string, string> build)[] Messages =
+    {
+        ("PUNCH", (m, m2, input) => LanguageManager.CurrentLanguage.tutorial.tutorial_punch1 + "<color=orange>" + input + "</color>" + LanguageManager.CurrentLanguage.tutorial.tutorial_punch2),
+        ("SLIDE", (m, m2, input) => LanguageManager.CurrentLanguage.tutorial.tutorial_slide1 + "<color=orange>" + input + "</color>" + LanguageManager.CurrentLanguage.tutorial.tutorial_slide2),
+        ("DASH", (m, m2, input) => LanguageManager.CurrentLanguage.tutorial.tutorial_dash1 + "<color=#00DFFF>" + input + "</color>" + LanguageManager.CurrentLanguage.tutorial.tutorial_dash2 + "\n" + LanguageManager.CurrentLanguage.tutorial.tutorial_dash3),
+        ("HEALTH", (m, m2, input) => LanguageManager.CurrentLanguage.tutorial.tutorial_health1 + "\n" + LanguageManager.CurrentLanguage.tutorial.tutorial_health2),
+        ("JUMP", (m, m2, input) => LanguageManager.CurrentLanguage.tutorial.tutorial_walljump),
+        ("SHOCKWAVE", (m, m2, input) => LanguageManager.CurrentLanguage.tutorial.tutorial_shockwave1 + "<color=orange>" + input + "</color>" + LanguageManager.CurrentLanguage.tutorial.tutorial_shockwave2 + "\n" + LanguageManager.CurrentLanguage.tutorial.tutorial_shockwave3),
+        ("ORBS", (m, m2, input) => LanguageManager.CurrentLanguage.tutorial.tutorial_orb1 + "\n" + LanguageManager.CurrentLanguage.tutorial.tutorial_orb2),
+    };
+
     public static string GetMessage(string inputMessage, string inputMessage2, string input)
     {
         string fullMessage = inputMessage + inputMessage2;
 
-        if (fullMessage.Contains("PUNCH"))
-        {
-            return LanguageManager.CurrentLanguage.tutorial.tutorial_punch1 + "<color=orange>" + input + "</color>" + LanguageManager.CurrentLanguage.tutorial.tutorial_punch2;
-        }
-        else if (fullMessage.Contains("SLIDE"))
-        {
-            return LanguageManager.CurrentLanguage.tutorial.tutorial_slide1 + "<color=orange>" + input + "</color>" + LanguageManager.CurrentLanguage.tutorial.tutorial_slide2;
-        }
-        else if (fullMessage.Contains("DASH"))
-        {
-            return LanguageManager.CurrentLanguage.tutorial.tutorial_dash1 + "<color=#00DFFF>" + input + "</color>" + LanguageManager.CurrentLanguage.tutorial.tutorial_dash2 + "\n" + LanguageManager.CurrentLanguage.tutorial.tutorial_dash3;
-        }
-        else if (fullMessage.Contains("HEALTH"))
-        {
-            return LanguageManager.CurrentLanguage.tutorial.tutorial_health1 + "\n" + LanguageManager.CurrentLanguage.tutorial.tutorial_health2;
-        }
-        else if (fullMessage.Contains("JUMP"))
-        {
-            return LanguageManager.CurrentLanguage.tutorial.tutorial_walljump;
-        }
-        else if (fullMessage.Contains("SHOCKWAVE"))
-        {
-            return LanguageManager.CurrentLanguage.tutorial.tutorial_shockwave1 + "<color=orange>" + input + "</color>" + LanguageManager.CurrentLanguage.tutorial.tutorial_shockwave2 + "\n" + LanguageManager.CurrentLanguage.tutorial.tutorial_shockwave3;
-        }
-        else if (fullMessage.Contains("ORBS"))
-        {
-            return LanguageManager.CurrentLanguage.tutorial.tutorial_orb1 + "\n" + LanguageManager.CurrentLanguage.tutorial.tutorial_orb2;
-        }
-        else
-        {
-            return "Unimplemented string";
-        }
+        foreach (var (keyword, build) in Messages)
+            if (fullMessage.Contains(keyword))
+                return build(inputMessage, inputMessage2, input);
+
+        return null;
     }
 
     //IMPORTANT CHARACTERS TO USE:

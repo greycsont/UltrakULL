@@ -21,8 +21,8 @@ public static class Act3
 	public static void PatchAct3(ref GameObject canvasObj)
 	{
 		string currentSceneName = GetCurrentSceneName();
-		string levelName = Act3Strings.GetLevelName();
-		string levelChallenge = Act3Strings.GetLevelChallenge(currentSceneName);
+		string levelName = LevelStrings.GetLevelName();
+		string levelChallenge = LevelStrings.GetLevelChallenge(currentSceneName);
 		ResultsScreenLocalizer.PatchResultsScreen(levelName, levelChallenge);
 		PatchHellmap(ref canvasObj);
 		if (currentSceneName.Contains("7-2"))
@@ -176,7 +176,7 @@ public static class Act3
 		{
 			TextMeshProUGUI textMeshProUGUI18 = GetTextMeshProUGUI(FindDescendant(canvasObj, "HeightMarkerParent", "HeightMarker", "Title"));
 			string act3_fraudFourth_heightMarkerTitle = LanguageManager.CurrentLanguage.act3.act3_fraudFourth_heightMarkerTitle;
-			((TMP_Text)textMeshProUGUI18).text = TextFormatter.MakeVertical(act3_fraudFourth_heightMarkerTitle);
+			((TMP_Text)textMeshProUGUI18).text = StringHelper.MakeVertical(act3_fraudFourth_heightMarkerTitle);
 			((TMP_Text)textMeshProUGUI18).ForceMeshUpdate(false, false);
 
 			// Patch "N O P E" text
