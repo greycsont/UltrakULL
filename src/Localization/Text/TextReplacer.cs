@@ -1,4 +1,3 @@
-using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -41,8 +40,7 @@ public static class TextReplacer
     // fuck you rich text
     public static string ReplaceOrKeep(string original, string replacement)
     {
-        string stripped = Regex.Replace(replacement, "<.*?>", "").Trim();
-        return string.IsNullOrEmpty(stripped) ? original : Penis(original, replacement);
+        return StringHelper.IsEmpty(replacement) ? original : Penis(original, replacement);
     }
 
     /// <summary>
