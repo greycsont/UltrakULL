@@ -114,6 +114,7 @@ public class MainPatch : BaseUnityPlugin
 		TextMeshProFontSwap.Initialize();
 		SubtitleLocalizer.Initialize();
 		TextureSwapper.Initialize();
+		UILayoutOverride.Initialize();
 
 		Logging.Warn("--- Loading languages and selecting the active language ---");
 		LanguageManager.InitializeManager(InternalVersion);
@@ -128,7 +129,9 @@ public class MainPatch : BaseUnityPlugin
 	/// Because if not it will make the whole logics on Scene Switching into chaotic.
 	/// Love you.
 	/// </summary>
-	private void ApplySceneLocalization(Scene scene, LoadSceneMode mode, bool clearObjectCaches)
+	/// <param name="sceneEntry">True when the scene was freshly loaded; false when the active
+	/// scene is being re-localized after a language change.</param>
+	private void ApplySceneLocalization(Scene scene, LoadSceneMode mode, bool clearObjectCaches, bool sceneEntry)
 	{
 		if (!this.ready || LanguageManager.CurrentLanguage == null)
 		{
@@ -141,7 +144,7 @@ public class MainPatch : BaseUnityPlugin
 
 		FontManager.RefreshFallback();                 
 		GameObject canvasObj = GetInactiveRootObject("Canvas");
-		Core.LocalizeScene(canvasObj);
+		Core.LocalizeScene(canvasObj, sceneEntry);
 		AudioSwapper.OnSceneLoaded(GetCurrentSceneName());
 
 		RunDeferred(scene.handle);
@@ -160,11 +163,11 @@ public class MainPatch : BaseUnityPlugin
 
 	private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 	{
-		ApplySceneLocalization(scene, mode, clearObjectCaches: true);
+		ApplySceneLocalization(scene, mode, clearObjectCaches: true, sceneEntry: true);
 	}
 
 	public void RefreshCurrentScene()
 	{
-		ApplySceneLocalization(SceneManager.GetActiveScene(), LoadSceneMode.Single, clearObjectCaches: false);
+		ApplySceneLocalization(SceneManager.GetActiveScene(), LoadSceneMode.Single, clearObjectCaches: false, sceneEntry: false);
 	}
 }

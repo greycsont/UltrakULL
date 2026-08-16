@@ -1,7 +1,5 @@
 using System;
-using System.IO;
 using System.Linq;
-using BepInEx;
 using TMPro;
 using UltrakULL.json;
 using UnityEngine;
@@ -137,7 +135,7 @@ public static class LanguageOptions
                 content,
                 "openLangFolder",
                 string.Empty,
-                () => Application.OpenURL(Path.Combine(Paths.ConfigPath, "ultrakull")))
+                () => Application.OpenURL(ConfigPaths.LanguagesDirectory))
             .GetComponentInChildren<TextMeshProUGUI>();
 
         return page;

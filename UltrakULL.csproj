@@ -66,13 +66,21 @@
        Copy/Move create their destination folders, so no MakeDir step is needed. -->
   <Target Name="Package" AfterTargets="Build">
     <ItemGroup>
-      <_JsonTemplates Include="$(ProjectDir)templates\languages\*.json" />
-      <_AudioTemplates Include="$(ProjectDir)templates\audio\**\*.*" />
+      <_BundledLanguageFiles Include="$(ProjectDir)templates\languages\*.json"
+                             Exclude="$(ProjectDir)templates\languages\template.json" />
+      <_LanguageTemplate Include="$(ProjectDir)templates\languages\template.json" />
+      <_LayoutTemplate Include="$(ProjectDir)templates\layouts\template.json" />
+      <_TemplateDocs Include="$(ProjectDir)templates\languages\TemplateChangelog.txt" />
     </ItemGroup>
 
     <Move SourceFiles="$(TargetDir)UltrakULL.dll" DestinationFolder="$(TargetDir)plugins\UltrakULL" />
-    <Copy SourceFiles="@(_JsonTemplates)" DestinationFolder="$(TargetDir)config\ultrakull" />
-    <Copy SourceFiles="@(_AudioTemplates)" DestinationFolder="$(TargetDir)config\ultrakull\audio\%(RecursiveDir)" />
+    <Copy SourceFiles="@(_BundledLanguageFiles)"
+          DestinationFiles="@(_BundledLanguageFiles->'$(TargetDir)config\ultrakull\languages\%(Filename)\language.json')" />
+    <Copy SourceFiles="@(_LanguageTemplate)"
+          DestinationFiles="@(_LanguageTemplate->'$(TargetDir)config\ultrakull\templates\language.json')" />
+    <Copy SourceFiles="@(_LayoutTemplate)"
+          DestinationFiles="@(_LayoutTemplate->'$(TargetDir)config\ultrakull\templates\layout.json')" />
+    <Copy SourceFiles="@(_TemplateDocs)" DestinationFolder="$(TargetDir)config\ultrakull\templates" />
   </Target>
 
   <!-- Copies the .dll and .pdb complied to (ULTRAKILLDIR)/BepInEx/plugins/UltrakULL -->

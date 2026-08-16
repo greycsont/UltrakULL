@@ -1,4 +1,3 @@
-using System.IO;
 using BepInEx.Configuration;
 
 namespace UltrakULL;
@@ -10,7 +9,7 @@ public static class Settings
     public static ConfigFile configFile;
     public static void InitializeConfig()
     {
-        configFile = new ConfigFile(Path.Combine(BepInEx.Paths.ConfigPath, "ultrakull", "lastLang.cfg"), true);
+        configFile = new ConfigFile(ConfigPaths.SettingsFile, true);
         lastLanguage = configFile.Bind("General", "LastLanguage", "en-GB");
         activeDubbing = configFile.Bind("General","activeDubbing", false);
     }

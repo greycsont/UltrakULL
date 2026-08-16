@@ -15,7 +15,19 @@ public sealed class CommandToRegister : CommandRoot, IConsoleLogger
 
     public override Branch BuildTree(Console con)
     {
-        return Branch(Name);
+        return Branch(Name,
+            Leaf("migrate", () =>
+            {
+                var result = LegacyLanguageMigrator.Migrate();
+                Log.Info($"Migrated {result.MigratedLanguages} legacy language package(s).");
+                foreach (string warning in result.Warnings)
+                    Log.Warning(warning);
+                if (result.SkippedLanguages > 0)
+                    Log.Warning($"Skipped {result.SkippedLanguages} language package(s). See messages above.");
+                if (result.MigratedLanguages > 0)
+                    Log.Info($"A copy of every migrated file was kept in \"{result.BackupDirectory}\".");
+                Log.Info("Restart the game before editing or removing the backup.");
+            }));
     }
 
     public Logger Log { get; } = new Logger("ultrakull");

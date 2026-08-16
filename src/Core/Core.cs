@@ -10,7 +10,11 @@ public static class Core
 {
 	public static bool wasLanguageReset = false;
 
-    public static void LocalizeScene(GameObject canvasObj)
+    /// <param name="sceneEntry">
+    /// True when the scene was freshly loaded. Scene-entry-only tweaks
+    /// (like AdjustOptionTextPosition) must not re-run when language change
+    /// </param>
+    public static void LocalizeScene(GameObject canvasObj, bool sceneEntry)
     {
         string levelName = GetCurrentSceneName();
 
@@ -44,12 +48,12 @@ public static class Core
             }
             default:
             {
-                UILayoutOverride.AdjustOptionTextPosition();
-                UILayoutOverride.RemoveTitleWrapInResultScreen();
+                if (sceneEntry)
+                    UILayoutOverride.AdjustOptionTextPosition();
                 if (LanguageManager.IsEnglish)
                 {
                     Logging.Warn("Current language is English, not patching.");
-                    return;
+                    break;
                 }
                 
                 Logging.Message("Regular scene");
@@ -58,6 +62,7 @@ public static class Core
 
                 HandleLevelPatching(levelName, ref canvasObj);
 
+                UILayoutOverride.Apply(levelName);
                 break;
             }
         }

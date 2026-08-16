@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
-using BepInEx;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -22,26 +22,33 @@ public sealed class Lang
     public bool UseFontFallback => Json.metadata.fonts?.UseFallback ?? false;
 
     public string SpeechFolder { get; }
-    public string FontBundlePath { get; }
     public string TextureFolder { get; }
+    public UILayoutProfile Layout { get; }
 
+    internal AssetBundle FontBundle { get; set; }
     public TMP_FontAsset MainFontAsset { get; set; }
     public TMP_FontAsset TerminalAsset { get; set; }
     public TMP_FontAsset SecretTerminalAsset { get; set; }
     public TMP_FontAsset MuseumAsset { get; set; }
-    internal AssetBundle FontBundle { get; set; }
 
     // Which fallbacks FontManager pushed into which game fonts while this language was active,
     // so switching away can undo exactly what this language added.
     internal readonly List<(TMP_FontAsset font, TMP_FontAsset fallback)> AppliedFallbacks = new();
 
-    public Lang(JsonFormat json)
+    public Lang(JsonFormat json, string packageFolder = null, UILayoutProfile layout = null)
     {
         Json = json;
-        SpeechFolder = Path.Combine(Paths.ConfigPath, "ultrakull", "audio", json.metadata.langName)
-                       + Path.DirectorySeparatorChar;
-        FontBundlePath = Path.Combine(MainPatch.ModFolder, "fonts", json.metadata.langName + ".bundle");
-        TextureFolder = Path.Combine(Paths.ConfigPath, "ultrakull", "textures", json.metadata.langName);
+        Layout = layout;
+        SpeechFolder = ResolveDirectory(
+            packageFolder == null ? null : Path.Combine(packageFolder, "audio"),
+            ConfigPaths.GetLegacyAudioDirectory(Name));
+        TextureFolder = ResolveDirectory(
+            packageFolder == null ? null : Path.Combine(packageFolder, "textures"),
+            ConfigPaths.GetLegacyTextureDirectory(Name));
     }
+
+    private static string ResolveDirectory(params string[] candidates)
+        => candidates.FirstOrDefault(Directory.Exists)
+        ?? candidates.First(path => path != null);
 
 }

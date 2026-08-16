@@ -66,10 +66,11 @@ public static class FontManager
         if (lang.FontBundle != null)
             return;
 
-        var fontBundle = AssetBundle.LoadFromFile(lang.FontBundlePath);
+        string fontBundlePath = ConfigPaths.GetFontBundlePath(lang.Name);
+        var fontBundle = AssetBundle.LoadFromFile(fontBundlePath);
         if (fontBundle == null)
         {
-            Logging.Warn($"Failed to load language font bundle: {lang.FontBundlePath}");
+            Logging.Warn($"Failed to load language font bundle: {fontBundlePath}");
             return;
         }
 

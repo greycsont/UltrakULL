@@ -1,5 +1,8 @@
+using System;
+using System.Linq;
 using TMPro;
 using UnityEngine;
+using UltrakULL.json;
 using static UltrakULL.SceneObjects;
 
 
@@ -7,7 +10,12 @@ namespace UltrakULL;
 
 public static class UILayoutOverride
 {
-	public static void AdjustOptionTextPosition()
+    public static void Initialize()
+    {
+        LanguageManager.OnLanguageChanged += _ => Apply(GetCurrentSceneName());
+    }
+
+    public static void AdjustOptionTextPosition()
 	{
         var canvas = GetInactiveRootObject("Canvas");
         var optionsMenu = FindDescendant(canvas, "OptionsMenu");
@@ -19,23 +27,41 @@ public static class UILayoutOverride
         optionTitle.sizeDelta -= new Vector2(0f, 20f);
 	}
 
-    public static void AdjustTitlePositionInStatWindow()
+    /// <summary>
+    /// ATM it's just text wrapping and overflow only
+    /// </summary>
+    /// <param name="sceneName"></param>
+    public static void Apply(string sceneName)
     {
-        
-    }
-
-    public static void RemoveTitleWrapInResultScreen()
-    {
-        var player = GetInactiveRootObject("Player");
-        var title = FindComponent<TextMeshProUGUI>(
-            player,
-            "Main Camera", "HUD Camera", "HUD", "FinishCanvas", "Panel", "Title", "Text");
-
-        if (!title)
+        var adjustments = LanguageManager.Current?.Layout?.adjustments;
+        if (adjustments == null)
             return;
 
-        title.enableWordWrapping = false;
-        title.overflowMode = TextOverflowModes.Overflow;
+        foreach (var adjustment in adjustments)
+        {
+            if (!AppliesToScene(adjustment, sceneName))
+                continue;
+
+            var text = GetObject(adjustment.path)?.GetComponent<TMP_Text>();
+            if (!text)
+                continue;
+
+            if (adjustment.wordWrapping.HasValue)
+                text.enableWordWrapping = adjustment.wordWrapping.Value;
+
+            if (Enum.TryParse(adjustment.overflow, true, out TextOverflowModes overflow))
+                text.overflowMode = overflow;
+        }
     }
 
+    private static bool AppliesToScene(UILayoutAdjustment adjustment, string sceneName)
+    {
+        if (adjustment == null || string.IsNullOrWhiteSpace(adjustment.path))
+            return false;
+
+        return !IsSceneListed(adjustment.exclude)
+            && (adjustment.include == null || adjustment.include.Length == 0 || IsSceneListed(adjustment.include));
+
+        bool IsSceneListed(string[] scenes) => scenes?.Contains(sceneName) == true;
+    }
 }
