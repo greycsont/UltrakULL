@@ -22,7 +22,7 @@ public static partial class Options
         GameObject controlContent = FindDescendant(optionsMenu, "Scroll Rect", "Contents");
 
         //-- GENERAL --
-        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("-- {0} --", LanguageManager.CurrentLanguage.options.category_general), controlContent, "-- General --", "Text");
+        TryReplaceText<TextMeshProUGUI>(StringHelper.Format("-- {0} --", LanguageManager.CurrentLanguage.options.category_general), controlContent, "-- General --", "Text");
 
         TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_mouseSensitivity, controlContent, "Look Sensitivity", "Text");
 
@@ -34,7 +34,7 @@ public static partial class Options
 
         TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_controllerRumbleCustomize, controlContent, "Controller Rumble", "Action Button(Clone)", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("-- {0} --", LanguageManager.CurrentLanguage.options.controls_weapons), controlContent.transform.GetChild(5).gameObject, "Text");
+        TryReplaceText<TextMeshProUGUI>(StringHelper.Format("-- {0} --", LanguageManager.CurrentLanguage.options.controls_weapons), controlContent.transform.GetChild(5).gameObject, "Text");
 
         GameObject mouseWheelContent = FindDescendant(controlContent, "Scroll Weapons with Mouse Wheel");
         TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_mouseWheelToChangeWeapon, mouseWheelContent, "Text");

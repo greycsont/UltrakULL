@@ -22,7 +22,7 @@ public static partial class Options
         GameObject audioContent = FindDescendant(optionsMenu, "Container");
 
         //-- Volume --
-        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("-- {0} --", LanguageManager.CurrentLanguage.options.audio_volume), audioContent, "-- Volume --", "Text");
+        TryReplaceText<TextMeshProUGUI>(StringHelper.Format("-- {0} --", LanguageManager.CurrentLanguage.options.audio_volume), audioContent, "-- Volume --", "Text");
 
         TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.audio_globalVolume, audioContent, "Master", "Text");
 
@@ -31,7 +31,7 @@ public static partial class Options
         TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.audio_musicVolume, audioContent, "Music", "Text");
 
         //-- MISC --
-        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("-- {0} --", LanguageManager.CurrentLanguage.options.general_misc), audioContent, "-- Misc --", "Text");
+        TryReplaceText<TextMeshProUGUI>(StringHelper.Format("-- {0} --", LanguageManager.CurrentLanguage.options.general_misc), audioContent, "-- Misc --", "Text");
 
         TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.audio_subtitles, audioContent, "Subtitles", "Text");
         

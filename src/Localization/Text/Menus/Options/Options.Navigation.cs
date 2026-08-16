@@ -11,11 +11,11 @@ public static partial class Options
 {
     private static void PatchNavigation(GameObject optionsMenu)
     {
-        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("--{0}--", LanguageManager.CurrentLanguage.options.options_title), optionsMenu, "Text");
+        TryReplaceText<TextMeshProUGUI>(StringHelper.Format("--{0}--", LanguageManager.CurrentLanguage.options.options_title), optionsMenu, "Text");
 
         GameObject navigationRail = FindDescendant(optionsMenu, "Navigation Rail");
 
-        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("-- {0} --", LanguageManager.CurrentLanguage.options.category_general), navigationRail, "Text (7)");
+        TryReplaceText<TextMeshProUGUI>(StringHelper.Format("-- {0} --", LanguageManager.CurrentLanguage.options.category_general), navigationRail, "Text (7)");
 
         TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.category_general, navigationRail, "General", "Text");
 
@@ -29,7 +29,7 @@ public static partial class Options
 
         TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.category_saves, navigationRail, "Saves", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("-- {0} --", LanguageManager.CurrentLanguage.options.category_customization), navigationRail, "Text (8)");
+        TryReplaceText<TextMeshProUGUI>(StringHelper.Format("-- {0} --", LanguageManager.CurrentLanguage.options.category_customization), navigationRail, "Text (8)");
 
         TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.category_hud, navigationRail, "HUD", "Text");
 

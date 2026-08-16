@@ -22,7 +22,7 @@ public static partial class Options
         GameObject graphicsContent = FindDescendant(optionsMenu, "Scroll Rect", "Contents");
 
         //--GENERAL--
-        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("--{0}--", LanguageManager.CurrentLanguage.options.category_general), graphicsContent, "-- General --", "Text");
+        TryReplaceText<TextMeshProUGUI>(StringHelper.Format("--{0}--", LanguageManager.CurrentLanguage.options.category_general), graphicsContent, "-- General --", "Text");
 
         TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_resolution, graphicsContent, "Resolution", "Text");
 
@@ -45,7 +45,7 @@ public static partial class Options
         TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_useFallbackShaders, graphicsContent, "Use Fallback Shaders (Requires Reload)", "Text");
 
         //-- PSX --
-        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("-- {0} --\n<size=16>{1}</size>",
+        TryReplaceText<TextMeshProUGUI>(StringHelper.Format("-- {0} --\n<size=16>{1}</size>",
             LanguageManager.CurrentLanguage.options.graphics_filters,
             LanguageManager.CurrentLanguage.options.graphics_filtersDescription), graphicsContent, "-- PSX --", "Text");
 
@@ -105,7 +105,7 @@ public static partial class Options
         TryReplaceText(colorCompressionDropdownListText[5], LanguageManager.CurrentLanguage.options.graphics_colorCompressionAbsurd);
         
         //-- PERFORMANCE --
-        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("-- {0} --", LanguageManager.CurrentLanguage.options.graphics_performance), graphicsContent, "-- Performance --", "Text");
+        TryReplaceText<TextMeshProUGUI>(StringHelper.Format("-- {0} --", LanguageManager.CurrentLanguage.options.graphics_performance), graphicsContent, "-- Performance --", "Text");
 
         TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_performanceSimpleExplosions, graphicsContent, "Simpler Explosions", "Text");
 
@@ -120,7 +120,7 @@ public static partial class Options
         TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_performanceDisableHeatWaves, graphicsContent, "Disable Heat Waves", "Text");
 
         //-- GORE --
-        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("-- {0} --\n<size=16>{1}</size>",
+        TryReplaceText<TextMeshProUGUI>(StringHelper.Format("-- {0} --\n<size=16>{1}</size>",
             LanguageManager.CurrentLanguage.options.graphics_gore,
             LanguageManager.CurrentLanguage.options.graphics_goreNote), graphicsContent, "-- Gore --", "Text");
 

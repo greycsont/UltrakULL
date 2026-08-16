@@ -28,7 +28,7 @@ public static partial class Options
         GameObject colorsHudObject = FindDescendant(optionsMenu, "Scroll Rect", "Contents", "HUD");
 
         //-- HUD --
-        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("-- {0} --", LanguageManager.CurrentLanguage.options.colors_hud), colorsHudObject);
+        TryReplaceText<TextMeshProUGUI>(StringHelper.Format("-- {0} --", LanguageManager.CurrentLanguage.options.colors_hud), colorsHudObject);
 
         TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_hudHealth, colorsHudObject, "Health", "Text");
 
@@ -63,7 +63,7 @@ public static partial class Options
         GameObject colorsEnemiesObject = FindDescendant(optionsMenu, "Scroll Rect", "Contents", "Enemies");
 
         //-- ENEMY SILIHOUETTES --
-        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("-- {0} --", LanguageManager.CurrentLanguage.options.colors_enemies), colorsEnemiesObject);
+        TryReplaceText<TextMeshProUGUI>(StringHelper.Format("-- {0} --", LanguageManager.CurrentLanguage.options.colors_enemies), colorsEnemiesObject);
 
         TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_filth, colorsEnemiesObject, "Filth", "Text");
 

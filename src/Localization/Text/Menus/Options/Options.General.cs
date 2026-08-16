@@ -21,7 +21,7 @@ public static partial class Options
         //General options
         GameObject generalContent = FindDescendant(generalOptions, "Scroll Rect", "Contents");
         //-- WEAPONS -- 
-        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("-- {0} --", LanguageManager.CurrentLanguage.options.controls_weapons), generalContent, "-- Weapons --", "Text");
+        TryReplaceText<TextMeshProUGUI>(StringHelper.Format("-- {0} --", LanguageManager.CurrentLanguage.options.controls_weapons), generalContent, "-- Weapons --", "Text");
 
         TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_rememberWeapon, generalContent, "Remember Last Used Weapon Variation", "Text");
 
@@ -36,7 +36,7 @@ public static partial class Options
         TryReplaceText(weaponPosListText[2], LanguageManager.CurrentLanguage.options.general_weaponPositionLeft);
 
         //-- SCREEN -- goes here
-        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("-- {0} --", LanguageManager.CurrentLanguage.options.general_screen), generalContent, "-- Screen --", "Text");
+        TryReplaceText<TextMeshProUGUI>(StringHelper.Format("-- {0} --", LanguageManager.CurrentLanguage.options.general_screen), generalContent, "-- Screen --", "Text");
 
         TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_screenShake, generalContent, "Screenshake", "Text");
 
@@ -49,7 +49,7 @@ public static partial class Options
         TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_cameraTilt, generalContent, "Camera Tilt", "Text");
 
         //-- MISC --
-        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("-- {0} --", LanguageManager.CurrentLanguage.options.general_misc), generalContent, "-- Misc --", "Text");
+        TryReplaceText<TextMeshProUGUI>(StringHelper.Format("-- {0} --", LanguageManager.CurrentLanguage.options.general_misc), generalContent, "-- Misc --", "Text");
         
         TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_seasonalEvent, generalContent, "Seasonal Events", "Text");
 

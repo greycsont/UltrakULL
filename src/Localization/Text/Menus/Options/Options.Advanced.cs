@@ -21,7 +21,7 @@ public static partial class Options
         var opt = LanguageManager.CurrentLanguage.options;
         GameObject advancedOptions = optionMenu;
 
-        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("--{0}--", opt.advanced_title), advancedOptions, "Title");
+        TryReplaceText<TextMeshProUGUI>(StringHelper.Format("--{0}--", opt.advanced_title), advancedOptions, "Title");
         TryReplaceText<TextMeshProUGUI>(opt.steamLeaderboard_returnButton, advancedOptions, "Close", "Text");
 
         //Cybergrind Reset Confirm

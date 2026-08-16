@@ -23,7 +23,7 @@ public static partial class Options
         GameObject assistMajorAssistPanel = FindDescendant(optionsMenu, "Major Assists Consent", "Panel");
 
         //Major Assist Consent panel
-        TextMeshProUGUI assistDisclaimerText = TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("{0}\n\n{1}\n\n{2}",
+        TextMeshProUGUI assistDisclaimerText = TryReplaceText<TextMeshProUGUI>(StringHelper.Format("{0}\n\n{1}\n\n{2}",
             LanguageManager.CurrentLanguage.options.assists_majorAssistsDisclaimer1,
             LanguageManager.CurrentLanguage.options.assists_majorAssistsDisclaimer2,
             LanguageManager.CurrentLanguage.options.assists_majorAssistsDisclaimer3), assistMajorAssistPanel, "Description Block");
@@ -40,7 +40,7 @@ public static partial class Options
         GameObject assistContent = FindDescendant(optionsMenu, "Scroll Rect", "Contents");
 
         //-- MINOR ASSISTS --
-        TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("-- {0} --", LanguageManager.CurrentLanguage.options.assists_minor), assistContent, "-- Minor Assists --", "Text");
+        TryReplaceText<TextMeshProUGUI>(StringHelper.Format("-- {0} --", LanguageManager.CurrentLanguage.options.assists_minor), assistContent, "-- Minor Assists --", "Text");
 
         TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_autoAim, assistContent, "Auto Aim", "Text");
 
@@ -76,7 +76,7 @@ public static partial class Options
         GameObject assistsMajorTitleObject = FindDescendant(assistContent, "-- Major Assists --");
 
         //-- MAJOR ASSISTS --
-        TextMeshProUGUI assistsMajorTitle = TryReplaceText<TextMeshProUGUI>(TextFormatter.Format("-- {0} --", LanguageManager.CurrentLanguage.options.assists_major), assistsMajorTitleObject, "Text");
+        TextMeshProUGUI assistsMajorTitle = TryReplaceText<TextMeshProUGUI>(StringHelper.Format("-- {0} --", LanguageManager.CurrentLanguage.options.assists_major), assistsMajorTitleObject, "Text");
         if (assistsMajorTitle != null) assistsMajorTitle.fontSize = 20;
         TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_majorActivate, assistsMajorTitleObject, "Enable Group", "Text");
 
