@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace UltrakULL.json;
 
@@ -12,6 +13,7 @@ namespace UltrakULL.json;
 ///                 "include": ["Level 2-3"],
 ///                 "wordWrapping": false,
 ///                 "overflow": "Overflow"
+///                 "sizeDelta": { "x": 0, "y": 0 }
 ///             }
 ///         ]
 ///     }
@@ -30,4 +32,6 @@ public sealed class UILayoutAdjustment
     public string[] exclude;
     public bool? wordWrapping;
     public string overflow;
+    public Vector2? sizeDelta;
+    public bool? autoSizeByLineCount; 
 }

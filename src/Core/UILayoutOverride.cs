@@ -12,7 +12,7 @@ public static class UILayoutOverride
 {
     public static void Initialize()
     {
-        LanguageManager.OnLanguageChanged += _ => Apply(GetCurrentSceneName());
+        //LanguageManager.OnLanguageChanged += _ => Apply(GetCurrentSceneName());
     }
 
     public static void AdjustOptionTextPosition()
@@ -27,10 +27,6 @@ public static class UILayoutOverride
         optionTitle.sizeDelta -= new Vector2(0f, 20f);
 	}
 
-    /// <summary>
-    /// ATM it's just text wrapping and overflow only
-    /// </summary>
-    /// <param name="sceneName"></param>
     public static void Apply(string sceneName)
     {
         var adjustments = LanguageManager.Current?.Layout?.adjustments;
@@ -51,6 +47,11 @@ public static class UILayoutOverride
 
             if (Enum.TryParse(adjustment.overflow, true, out TextOverflowModes overflow))
                 text.overflowMode = overflow;
+
+            if (adjustment.sizeDelta.HasValue)
+                text.rectTransform.sizeDelta += adjustment.autoSizeByLineCount.HasValue && adjustment.autoSizeByLineCount.Value
+                    ? new Vector2(adjustment.sizeDelta.Value.x, text.textInfo.lineCount * adjustment.sizeDelta.Value.y)
+                    : adjustment.sizeDelta.Value;
         }
     }
 
