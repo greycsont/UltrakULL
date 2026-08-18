@@ -28,6 +28,9 @@ public static class ConfigPaths
     /// since I want the fonts fit the game itself as perfect as possible
     /// </summary>
     public static string GetFontBundlePath(string languageId) =>
-        Path.Combine(MainPatch.ModFolder, "fonts", languageId + ".bundle");
+        Path.Combine(MainPatch.ModFolder, "fonts", languageId, languageId + ".bundle");
+
+    public static string GetUIOverridePath(string languageId) =>
+        Path.Combine(MainPatch.ModFolder, "fonts", languageId, "layout.json");
 
 }

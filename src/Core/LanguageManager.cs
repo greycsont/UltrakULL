@@ -117,7 +117,7 @@ public static class LanguageManager
         }
 
         UILayoutProfile layout = null;
-        string layoutPath = packageFolder == null ? null : Path.Combine(packageFolder, "layout.json");
+        string layoutPath = ConfigPaths.GetUIOverridePath(languageId);
         if (layoutPath != null && File.Exists(layoutPath))
             TryLoad(layoutPath, out layout);
 
