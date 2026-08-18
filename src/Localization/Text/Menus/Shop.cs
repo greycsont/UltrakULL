@@ -11,7 +11,7 @@ namespace UltrakULL;
 
 public static class Shop
 {
-    private static void PatchShopFrontEnd(ref GameObject shopObject)
+    private static void PatchShopFrontEnd(GameObject shopObject)
     {
         try
         {
@@ -133,7 +133,7 @@ public static class Shop
     }
     
 
-    private static void PatchWeapons(ref GameObject shopObject)
+    private static void PatchWeapons(GameObject shopObject)
     {
         try
         {
@@ -1058,10 +1058,10 @@ public static class Shop
             
     }
 
-    public static void PatchShopRefactor(ref GameObject shopObject)
+    public static void PatchShopRefactor(GameObject shopObject)
     {
-        PatchShopFrontEnd(ref shopObject);
-        PatchWeapons(ref shopObject);
+        PatchShopFrontEnd(shopObject);
+        PatchWeapons(shopObject);
     }
     
 }

@@ -65,7 +65,7 @@ public class ShopPatch
             GameObject shopObject = ___shopCanvas.gameObject;
 
             //Redirect for the 5-3 end shop.
-            Shop.PatchShopRefactor(ref shopObject);
+            Shop.PatchShopRefactor(shopObject);
         }
     }
 

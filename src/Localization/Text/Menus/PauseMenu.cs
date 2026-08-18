@@ -11,7 +11,7 @@ namespace UltrakULL;
 // Fuck NameSpacing change the name of it
 public static class _PauseMenu
 {
-    public static void PatchPauseMenu(ref GameObject canvasObj)
+    public static void PatchPauseMenu(GameObject canvasObj)
     {
         try
         {

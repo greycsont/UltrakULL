@@ -42,7 +42,7 @@ public static class Core
                 }
 
                 MainMenu.Patch(canvasObj);
-                Options.Patch(ref canvasObj);
+                Options.Patch(canvasObj);
 
                 break;
             }
@@ -58,9 +58,9 @@ public static class Core
                 
                 Logging.Message("Regular scene");
 
-                PatchingBaseElements(ref canvasObj);
+                PatchingBaseElements(canvasObj);
 
-                HandleLevelPatching(levelName, ref canvasObj);
+                LevelPatcher.Patch(levelName, canvasObj);
 
                 UILayoutOverride.Apply(levelName);
                 break;
@@ -68,76 +68,18 @@ public static class Core
         }
     }
 
-    private static void PatchingBaseElements(ref GameObject canvasObj)
+    private static void PatchingBaseElements(GameObject canvasObj)
     {
         Logging.Message("Attempting to patch base elements");
-        try{_PauseMenu.PatchPauseMenu(ref canvasObj);} catch(Exception e){Console.WriteLine(e.ToString());}
-        try{Cheats.PatchCheatConsentPanel(ref canvasObj);;} catch(Exception e){Console.WriteLine(e.ToString());}
-        try{Sandbox.PatchAlterMenu();} catch(Exception e){ Console.WriteLine(e.ToString());}
-        try{HUDMessages.PatchDeathScreen(ref canvasObj);} catch(Exception e){Console.WriteLine(e.ToString());}
-        try{LevelStatWindow.PatchStats(ref canvasObj);} catch(Exception e){Console.WriteLine(e.ToString());}
-        try{HUDMessages.PatchMisc(ref canvasObj);} catch(Exception e){Console.WriteLine(e.ToString());}
-        try{Options.Patch(ref canvasObj);} catch(Exception e){Console.WriteLine(e.ToString());}
+        try{_PauseMenu.PatchPauseMenu(canvasObj);} catch(Exception e){Logging.Error(e.ToString());}
+        try{Cheats.PatchCheatConsentPanel(canvasObj);;} catch(Exception e){Logging.Error(e.ToString());}
+        try{Sandbox.PatchAlterMenu();} catch(Exception e){Logging.Error(e.ToString());}
+        try{HUDMessages.PatchDeathScreen(canvasObj);} catch(Exception e){Logging.Error(e.ToString());}
+        try{LevelStatWindow.PatchStats(canvasObj);} catch(Exception e){Logging.Error(e.ToString());}
+        try{HUDMessages.PatchMisc(canvasObj);} catch(Exception e){Logging.Error(e.ToString());}
+        try{Options.Patch(canvasObj);} catch(Exception e){Logging.Error(e.ToString());}
 
         Logging.Message("Base elements patched");
-    }
-
-    private static void HandleLevelPatching(string levelName, ref GameObject canvasObj)
-    {
-        if (levelName.Contains("Tutorial"))
-        { 
-            Logging.Message("Tutorial");
-        }
-        else if (levelName.Contains("-S"))
-        {
-            Logging.Message("Secret");
-            SecretLevels.Patch(ref canvasObj);
-        }
-        if(levelName.Contains("0-"))
-        { 
-            Logging.Message("Prelude");
-            Prelude.Patch(ref canvasObj);
-        }
-        else if(levelName.Contains("1-") || levelName.Contains("2-") || levelName.Contains("3-"))
-        {
-            Logging.Message("Act 1");
-            Act1.PatchAct1(ref canvasObj);
-        }
-        else if(levelName.Contains("4-") || levelName.Contains("5-") || levelName.Contains("6-"))
-        {
-            Logging.Message("Act 2");
-            Act2.PatchAct2(ref canvasObj);
-        }
-        else if(levelName.Contains("7-") || levelName.Contains("8-") || levelName.Contains("9-"))
-        {
-            Logging.Message("Act 3");
-            Act3.PatchAct3(ref canvasObj);
-        }
-        else if (levelName.Contains("P-"))
-        {
-            Logging.Message("Prime");
-            PrimeSanctum.Patch();
-        }
-        else if (levelName == "uk_construct")
-        { 
-            Logging.Message("Sandbox");
-            Sandbox.Patch(ref canvasObj);
-        }
-        else if (levelName == "Endless")
-        {
-            Logging.Message("CyberGrind");
-            CyberGrind.PatchCg();
-        }
-        else if (levelName.Contains("Intermission") || levelName.Contains("EarlyAccessEnd"))
-        {
-            Logging.Message("Intermission");
-            Intermission.Patch(ref canvasObj);
-        }
-        else if (levelName == "CreditsMuseum2")
-        {
-            Logging.Message("DevMuseum");
-            DevMuseum.Patch();
-        }
     }
 
 }

@@ -71,7 +71,7 @@ class TutorialStrings
     // β - Recalibration yes (automatically shows keyboard or controller button depending on what the player is using)
     // δ - Recalibration no (automatically shows keyboard or controller button depending on what the player is using)
 
-    public void PatchCalibrationWindows(ref GameObject canvasObj)
+    public void PatchCalibrationWindows(GameObject canvasObj)
     {
         try
         {
@@ -274,7 +274,7 @@ class TutorialStrings
         }
     }
 
-    public TutorialStrings(ref GameObject canvasObj)
+    public TutorialStrings(GameObject canvasObj)
     {
         this.IntroFirstPage =
             LanguageManager.CurrentLanguage.tutorial.tutorial_introStartup1 + "#" + LanguageManager.CurrentLanguage.tutorial.tutorial_introStartup2 + "½ \n\n"
@@ -307,7 +307,7 @@ class TutorialStrings
             + "*" + LanguageManager.CurrentLanguage.tutorial.tutorial_introRed2 + "_½½\n"
             + "*" + LanguageManager.CurrentLanguage.tutorial.tutorial_introRed3 + "_½½&";
 
-        PatchCalibrationWindows(ref canvasObj);
+        PatchCalibrationWindows(canvasObj);
 
     }
 }

@@ -24,7 +24,7 @@ public static class LocalizeIntroText
         GameObject canvasObj = GetInactiveRootObject("Canvas");
         ___txt = __instance.GetComponent<TMP_Text>();
 
-        TutorialStrings tutStrings = new TutorialStrings(ref canvasObj);
+        TutorialStrings tutStrings = new TutorialStrings(canvasObj);
         ___fullString = ___txt.text;
 
         if (___fullString[0] == 'B') { ___fullString = tutStrings.IntroFirstPage; }

@@ -68,7 +68,7 @@ public static class Intermission
         }
     }
 
-    public static void Patch(ref GameObject canvasObj)
+    public static void Patch(GameObject canvasObj)
     {
         GameObject intermissionObject = FindDescendant(canvasObj, "PowerUpVignette", "Panel");
 

@@ -46,7 +46,7 @@ public static partial class Options
                 FindDescendant(optionsMenu, "Leaderboard Manager")));
     }
 
-    public static void Patch(ref GameObject game)
+    public static void Patch(GameObject game)
     {
         //Options are in two different locations.
         //On the main menu, it's root/Canvas/OptionsMenu.

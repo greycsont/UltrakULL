@@ -16,7 +16,7 @@ public static class Act1Vn
     //
     //Intro strings
 
-    public static void PatchPrompts(ref GameObject canvasObj)
+    public static void PatchPrompts(GameObject canvasObj)
     {
 
         GameObject choicesBaseObject = FindDescendant(FindDescendant(FindDescendant(canvasObj, "PowerUpVignette"),"Panel"),"Aspect Ratio Mask");

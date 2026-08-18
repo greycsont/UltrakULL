@@ -11,7 +11,7 @@ namespace UltrakULL;
 [NeedRework]
 public static class LevelStatWindow
 {
-    public static void PatchStats(ref GameObject canvasObj)
+    public static void PatchStats(GameObject canvasObj)
     {
         GameObject levelStatsWindow = FindDescendant(canvasObj, "Level Stats Controller", "Level Stats (1)");
         

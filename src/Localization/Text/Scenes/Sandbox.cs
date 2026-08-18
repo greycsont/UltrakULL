@@ -10,7 +10,7 @@ namespace UltrakULL;
 
 public static class Sandbox
 {
-    private static void PatchSandboxDupeMenu(ref GameObject canvasObj)
+    private static void PatchSandboxDupeMenu(GameObject canvasObj)
     {
         GameObject dupeMenu = FindDescendant(canvasObj, "Cheat Menu", "Sandbox Saves");
 
@@ -41,7 +41,7 @@ public static class Sandbox
 
     }
 
-    private static void PatchMisc(ref GameObject canvasObj)
+    private static void PatchMisc(GameObject canvasObj)
     {
         //text mesh pro out of date
         Text navmeshWarning = GetTextfromGameObject(FindDescendant(canvasObj, "Navmesh Warning", "Text (1)"));
@@ -216,10 +216,10 @@ public static class Sandbox
         //Note: Stuff for jump pads, props and enemy boss HP bars are located in SandboxPatches because of dynamic object creation by the game
     }
 
-    public static void Patch(ref GameObject canvasObj)
+    public static void Patch(GameObject canvasObj)
     {
-        PatchSandboxDupeMenu(ref canvasObj);
-        PatchMisc(ref canvasObj);
+        PatchSandboxDupeMenu(canvasObj);
+        PatchMisc(canvasObj);
         PatchAlterMenu();
     }
 

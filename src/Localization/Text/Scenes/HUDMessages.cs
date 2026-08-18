@@ -85,7 +85,7 @@ public static class HUDMessages
         Logging.Warn("Couldn't find string for message: " + message);
         return message;
     }
-    public static void PatchDeathScreen(ref GameObject canvasObj)
+    public static void PatchDeathScreen(GameObject canvasObj)
     {
         try
         {
@@ -127,7 +127,7 @@ public static class HUDMessages
 
 
 
-    public static void PatchMisc(ref GameObject canvasObj)
+    public static void PatchMisc(GameObject canvasObj)
     {
         string currentLevel = GetCurrentSceneName();
         GameObject player = GameObject.Find("Player");

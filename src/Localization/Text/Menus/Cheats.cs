@@ -12,7 +12,7 @@ namespace UltrakULL;
 
 public static class Cheats
 {
-    public static void PatchCheatConsentPanel(ref GameObject canvasObj)
+    public static void PatchCheatConsentPanel(GameObject canvasObj)
     {
         GameObject cheatsMenu = FindDescendant(canvasObj, "Cheat Menu");
         GameObject cheatsConsentObject = FindDescendant(cheatsMenu, "Cheats Consent");

@@ -98,7 +98,7 @@ public static class StringsParent
         if (currentSceneName.Contains("Tutorial"))
         {
             GameObject canvasObj = GetInactiveRootObject("Canvas");
-            new TutorialStrings(ref canvasObj);
+            new TutorialStrings(canvasObj);
             string translated = TutorialStrings.GetMessage(message, message2, input);
             if (translated != null)
                 return translated;
