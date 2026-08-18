@@ -96,6 +96,7 @@ public class MainPatch : BaseUnityPlugin
 		{
 			Logging.Fatal("An error occured while initialising!");
 			Logging.Fatal(e.ToString());
+			Logging.Fatal($"Scene name: {GetCurrentSceneName()}");
 			this.ready = false;
 		}
 	}
