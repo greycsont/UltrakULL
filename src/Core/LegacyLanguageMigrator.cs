@@ -6,95 +6,144 @@ using UltrakULL.json;
 
 namespace UltrakULL;
 
-public sealed class LegacyMigrationResult
-{
-    public int MigratedLanguages { get; internal set; }
-    public int SkippedLanguages { get; internal set; }
-    public string BackupDirectory { get; internal set; }
-    public List<string> Warnings { get; } = new();
-}
 
+// Moves the old flat layout (config/ultrakull/<lang>.json + audio/<lang> +
+//   textures/<lang>) into per-language packages (languages/<lang>/...).
+//
+// Two stages:
+//   1. Mirror EVERYTHING into legacy-backup, structure unchanged.
+//   2. Move each language into its package — no backup logic mixed in.
 public static class LegacyLanguageMigrator
 {
+    // It's used for logging only
+    public struct LegacyMigrationResult{
+        public int MigratedLanguages;
+        public int SkippedLanguages;
+        public IReadOnlyList<string> Warnings;
+        public string BackupDirectory;
+
+        public LegacyMigrationResult(int migrated, int skipped, IReadOnlyList<string> warnings, string backupDirectory)
+        {
+            MigratedLanguages = migrated;
+            SkippedLanguages = skipped;
+            Warnings = warnings;
+            BackupDirectory = backupDirectory;
+        }
+    }
+
     public static LegacyMigrationResult Migrate()
     {
-        var result = new LegacyMigrationResult();
+        int migrated = 0;
+        int skipped = 0;
+        var warnings = new List<string>();
+
+        // If the root directory doesn't exist, there's nothing to migrate.
         if (!Directory.Exists(ConfigPaths.RootDirectory))
-            return result;
+            return new LegacyMigrationResult(0, 0, Array.Empty<string>(), null);
 
-        result.BackupDirectory = ConfigPaths.LegacyBackupDirectory;
+        string backupDirectory = ConfigPaths.LegacyBackupDirectory;
 
+        // Stage 1: mirror the old layout into legacy-backup
+        // Just for safety
+        MirrorLegacyLayout(backupDirectory);
+
+        // Stage 2: move each language stuff into it's own package
         foreach (string sourceFile in Directory.EnumerateFiles(
                      ConfigPaths.RootDirectory, "*.json", SearchOption.TopDirectoryOnly))
         {
             try
             {
-                JsonFormat json = JsonConvert.DeserializeObject<JsonFormat>(File.ReadAllText(sourceFile));
-                string languageId = json?.metadata?.langName;
-
-                if (languageId == "te-mp")
-                {
-                    string templateFile = Path.Combine(ConfigPaths.TemplatesDirectory, "language.json");
-                    if (!File.Exists(templateFile))
-                    {
-                        Directory.CreateDirectory(ConfigPaths.TemplatesDirectory);
-                        BackUpFile(sourceFile, languageId, "language.json", result.BackupDirectory);
-                        File.Move(sourceFile, templateFile);
-                    }
-                    continue;
-                }
-
-                if (!IsSafeLanguageId(languageId))
-                    throw new InvalidDataException("Invalid or missing language id");
-
-                string packageDirectory = Path.Combine(ConfigPaths.LanguagesDirectory, languageId);
-                string languageFile = Path.Combine(packageDirectory, "language.json");
-                string oldAudio = ConfigPaths.GetLegacyAudioDirectory(languageId);
-                string oldTextures = ConfigPaths.GetLegacyTextureDirectory(languageId);
-                string newAudio = Path.Combine(packageDirectory, "audio");
-                string newTextures = Path.Combine(packageDirectory, "textures");
-
-                if (File.Exists(languageFile)
-                    || Directory.Exists(oldAudio) && Directory.Exists(newAudio)
-                    || Directory.Exists(oldTextures) && Directory.Exists(newTextures))
-                    throw new IOException("The destination package already contains data");
-
-                Directory.CreateDirectory(packageDirectory);
-
-                // Copy everything into the backup before moving, so the legacy
-                // layout survives even if a later step fails mid-way.
-                BackUpFile(sourceFile, languageId, "language.json", result.BackupDirectory);
-                MoveDirectoryWithBackup(oldAudio, newAudio, languageId, "audio", result.BackupDirectory);
-                MoveDirectoryWithBackup(oldTextures, newTextures, languageId, "textures", result.BackupDirectory);
-
-                File.Move(sourceFile, languageFile);
-                result.MigratedLanguages++;
+                if (MoveToPackage(sourceFile))
+                    migrated++;
             }
             catch (Exception error)
             {
-                result.SkippedLanguages++;
-                result.Warnings.Add($"Skipped '{sourceFile}': {error.Message}");
+                skipped++;
+                warnings.Add($"Skipped '{sourceFile}': {error.Message}");
             }
         }
 
-        return result;
+        return new LegacyMigrationResult(migrated, skipped, warnings, backupDirectory);
     }
 
-    private static void BackUpFile(string sourceFile, string languageId, string fileName, string backupRoot)
+    // Copies the whole pre-migration layout into legacy-backup with the same
+    //   structure: *.json flat, audio/<lang> and textures/<lang> as subfolders.
+    // Restoring the old layout is just copying this back over config/ultrakull.
+    private static void MirrorLegacyLayout(string backupRoot)
     {
-        string backupDirectory = Path.Combine(backupRoot, languageId);
-        Directory.CreateDirectory(backupDirectory);
-        File.Copy(sourceFile, Path.Combine(backupDirectory, fileName), overwrite: true);
+        Directory.CreateDirectory(backupRoot);
+
+        foreach (string file in Directory.EnumerateFiles(
+                     ConfigPaths.RootDirectory, "*.json", SearchOption.TopDirectoryOnly))
+            File.Copy(file, Path.Combine(backupRoot, Path.GetFileName(file)), overwrite: true);
+
+        CopyDirectoryIfExists(
+            Path.Combine(ConfigPaths.RootDirectory, "audio"),
+            Path.Combine(backupRoot, "audio"));
+        CopyDirectoryIfExists(
+            Path.Combine(ConfigPaths.RootDirectory, "textures"),
+            Path.Combine(backupRoot, "textures"));
     }
 
-    private static void MoveDirectoryWithBackup(
-        string source, string destination, string languageId, string folderName, string backupRoot)
+    // Moves one flat language file (plus its audio/textures) into its package.
+    // Returns true when a language was migrated (te-mp -> template doesn't count).
+    private static bool MoveToPackage(string sourceFile)
     {
-        if (!Directory.Exists(source))
+        JsonFormat json = JsonConvert.DeserializeObject<JsonFormat>(File.ReadAllText(sourceFile));
+        string languageId = json?.metadata?.langName;
+
+        if (languageId == "te-mp")
+        {
+            MoveTemplate(sourceFile);
+            return false;
+        }
+
+        // The id becomes directory names below, so it must be path-safe.
+        if (!IsSafeLanguageId(languageId))
+            throw new InvalidDataException("Invalid or missing language id");
+
+        var packageDirectory = Path.Combine(ConfigPaths.LanguagesDirectory, languageId);
+        var languageFile = Path.Combine(packageDirectory, "language.json");
+        var oldAudio = ConfigPaths.GetLegacyAudioDirectory(languageId);
+        var oldTextures = ConfigPaths.GetLegacyTextureDirectory(languageId);
+        var newAudio = Path.Combine(packageDirectory, "audio");
+        var newTextures = Path.Combine(packageDirectory, "textures");
+
+        // Never overwrite an existing package, or a half-migrated one.
+        if (File.Exists(languageFile)
+            || Directory.Exists(oldAudio) && Directory.Exists(newAudio)
+            || Directory.Exists(oldTextures) && Directory.Exists(newTextures))
+            throw new IOException("The destination package already contains data");
+
+        Directory.CreateDirectory(packageDirectory);
+        MoveDirectoryIfExists(oldAudio, newAudio);
+        MoveDirectoryIfExists(oldTextures, newTextures);
+        File.Move(sourceFile, languageFile);
+        return true;
+    }
+
+    // Moves te-mp.json to templates/language.json, unless one already exists
+    // (don't overwrite a template the user may have edited).
+    private static void MoveTemplate(string sourceFile)
+    {
+        var templateFile = Path.Combine(ConfigPaths.TemplatesDirectory, "language.json");
+        if (File.Exists(templateFile))
             return;
 
-        CopyDirectory(source, Path.Combine(backupRoot, languageId, folderName));
-        Directory.Move(source, destination);
+        Directory.CreateDirectory(ConfigPaths.TemplatesDirectory);
+        File.Move(sourceFile, templateFile);
+    }
+
+    private static void CopyDirectoryIfExists(string source, string destination)
+    {
+        if (Directory.Exists(source))
+            CopyDirectory(source, destination);
+    }
+
+    private static void MoveDirectoryIfExists(string source, string destination)
+    {
+        if (Directory.Exists(source))
+            Directory.Move(source, destination);
     }
 
     private static void CopyDirectory(string source, string destination)
@@ -106,13 +155,9 @@ public static class LegacyLanguageMigrator
             CopyDirectory(directory, Path.Combine(destination, Path.GetFileName(directory)));
     }
 
-    /// <summary>
-    /// Nobody will fucking use this mod for directory traversal payload right?
-    /// Just prevent someone add backslash/slash
-    /// and invalid character for directory/file name, and empty string, and dot/double-dot
-    /// </summary>
-    /// <param name="languageId"></param>
-    /// <returns></returns>
+    // Nobody will fucking use this mod for directory traversal payload right?
+    // Just prevent someone add backslash/slash
+    //   and invalid character for directory/file name, and empty string, and dot/double-dot
     private static bool IsSafeLanguageId(string languageId) =>
         !string.IsNullOrWhiteSpace(languageId)
         && languageId != "."
