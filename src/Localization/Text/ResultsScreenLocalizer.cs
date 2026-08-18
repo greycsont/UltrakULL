@@ -47,5 +47,9 @@ public static class ResultsScreenLocalizer
         GetTextMeshProUGUI(
             FindDescendant(panel, "Total Points", "Text (1)")).text =
             LanguageManager.CurrentLanguage.cyberGrind.cybergrind_total + ":";
+
+        var titleText = FindComponent<TextMeshProUGUI>(panel, "Title", "Text");
+        titleText.overflowMode = TextOverflowModes.Overflow;
+        titleText.enableWordWrapping = false;
     }
 }
