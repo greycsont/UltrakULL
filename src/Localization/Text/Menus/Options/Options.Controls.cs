@@ -12,6 +12,8 @@ using static UltrakULL.SceneObjects;
 
 namespace UltrakULL;
 
+// For the keybinds part, please look at 
+//   ./src/Localization/Text/Patches/ControlBindNames.cs
 public static partial class Options
 {
 

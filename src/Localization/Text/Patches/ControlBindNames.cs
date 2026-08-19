@@ -10,50 +10,45 @@ using static UltrakULL.SceneObjects;
 
 namespace UltrakULL.Harmony_Patches;
 
-[HarmonyPatch(typeof(ControlsOptions), "Rebuild")]
-public class ControlSections
+[HarmonyPatch(typeof(ControlsOptions))]
+public class LocalizeControlSections
 {
-    [HarmonyPostfix]
-    public static void controlSectionsPatch_Postfix(ControlSections __instance, List<GameObject> ___rebindUIObjects)
+    [HarmonyPatch(nameof(ControlsOptions.Rebuild))] [HarmonyPostfix]
+    public static void controlSectionsPatch_Postfix(ControlsOptions __instance)
     {
-        foreach(GameObject section in ___rebindUIObjects)
+        foreach(GameObject section in __instance.rebindUIObjects)
         {
-            if (section.name == "Control Section Template(Clone)")
+            if (section.name != "Control Section Template(Clone)") continue;
+
+            var sectionText = GetTextMeshProUGUI(section);
+
+            sectionText.Localize(sectionText.text switch
             {
-                TextMeshProUGUI sectionText = GetTextMeshProUGUI(section);
-                switch (sectionText.text)
-                {
-                    case "-- MOVEMENT --":
-                    {
-                        sectionText.text = "-- " + LanguageManager.CurrentLanguage.options.controls_movement + " --";
-                        break;
-                    }
-                    case "-- WEAPON --":
-                    {
-                        sectionText.text = "-- " + LanguageManager.CurrentLanguage.options.controls_weapons + " --";
-                        break;
-                    }
-                    case "-- FIST --":
-                    {
-                        sectionText.text = "-- " + LanguageManager.CurrentLanguage.options.controls_fist + " --";
-                        break;
-                    }
-                    case "-- HUD --":
-                    {
-                        sectionText.text = "-- " + LanguageManager.CurrentLanguage.options.category_hud + " --";
-                        break ;
-                    }
-                    default:{ break; }
-                }
-            }
+                "-- MOVEMENT --"
+                    => "-- " + LanguageManager.CurrentLanguage.options.controls_movement + " --",
+                "-- WEAPON --"
+                    => sectionText.text = "-- " + LanguageManager.CurrentLanguage.options.controls_weapons + " --",
+                "-- FIST --"
+                    => sectionText.text = "-- " + LanguageManager.CurrentLanguage.options.controls_fist + " --",
+                "-- HUD --"
+                    => sectionText.text = "-- " + LanguageManager.CurrentLanguage.options.category_hud + " --",
+                _ 
+                    => sectionText.text
+            });
         }
     }
 }
 
 
-[HarmonyPatch(typeof(ControlsOptionsKey),"OnEnable")]
+[HarmonyPatch(typeof(ControlsOptionsKey))]
 public class ControlBindNames
 {
+    [HarmonyPatch(nameof(ControlsOptionsKey.OnEnable))] [HarmonyPostfix]
+    public static void controlBindNamesPatch_Postfix(ControlsOptionsKey __instance)
+    {
+        __instance.actionText.Localize(getActionName(__instance.actionText.text));
+    }
+
     public static string getActionName(string originalText)
     {
         switch (originalText)
@@ -87,13 +82,8 @@ public class ControlBindNames
             default: return originalText;
         }
     }
-    
-    [HarmonyPostfix]
-    public static void controlBindNamesPatch_Postfix(ControlsOptionsKey __instance)
-    {
-        __instance.actionText.text = getActionName(__instance.actionText.text);
-    }
 }
+
 [HarmonyPatch(typeof(ControlsOptionsKey), "GenerateTooltip")]
 public static class BoundMultipleTimes
 {
