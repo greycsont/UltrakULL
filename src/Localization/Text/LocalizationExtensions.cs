@@ -12,16 +12,16 @@ public static class LocalizationExtensions
     //   or returns it untouched when it (or the translation) is null/empty.
     public static T Localize<T>(this T target, string translation) where T : Component
     {
-        if (target == null || StringHelper.IsEmpty(translation))
+        if (target == null)
             return target;
 
         switch (target)
         {
             case TMP_Text tmp:
-                tmp.text = Penis(tmp.text, translation);
+                tmp.text = translation.Or(tmp.text);
                 break;
             case Text text:
-                text.text = Penis(text.text, translation);
+                text.text = translation.Or(text.text);
                 break;
         }
 
@@ -30,16 +30,19 @@ public static class LocalizationExtensions
 
     public static TMP_Dropdown.OptionData Localize(this TMP_Dropdown.OptionData option, string translation)
     {
-        if (option == null || StringHelper.IsEmpty(translation))
+        if (option == null)
             return option;
 
-        option.text = Penis(option.text, translation);
+        option.text = translation.Or(option.text);
         return option;
     }
 
     // Finds a T component below parent by path, then localizes it.
     public static T Localize<T>(this GameObject parent, string translation, params string[] path) where T : Component
         => SceneObjects.FindComponent<T>(parent, path).Localize(translation);
+
+    public static string Or(this string translation, string original)
+        => StringHelper.IsEmpty(translation) ? original : Penis(original, translation);
 
     // I have no idea how to name it
     private static string Penis(string original, string replacement)
