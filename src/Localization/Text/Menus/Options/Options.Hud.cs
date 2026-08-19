@@ -22,107 +22,107 @@ public static partial class Options
         GameObject hudContent = FindDescendant(optionsMenu, "Scroll Rect", "Contents");
 
         //--GENERAL--
-        TryReplaceText<TextMeshProUGUI>(StringHelper.Format("--{0}--", LanguageManager.CurrentLanguage.options.category_general), hudContent.transform.GetChild(0).gameObject, "Text");
+        hudContent.transform.GetChild(0).gameObject.Localize<TextMeshProUGUI>("--{0}--".FormatWith(LanguageManager.CurrentLanguage.options.category_general), "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.hud_type, hudContent, "HUD Type", "Text");
+        hudContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.hud_type, "HUD Type", "Text");
 
         GameObject hudType = FindDescendant(hudContent, "HUD Type", "Dropdown(Clone)");
         TMP_Dropdown hudTypeDropdown = hudType.GetComponent<TMP_Dropdown>();
         List<TMP_Dropdown.OptionData> hudTypeDropdownListText = hudTypeDropdown.options;
 
-        TryReplaceText(hudTypeDropdownListText[0], LanguageManager.CurrentLanguage.options.hud_typeNone);
-        TryReplaceText(hudTypeDropdownListText[1], LanguageManager.CurrentLanguage.options.hud_typeStandard);
-        TryReplaceText(hudTypeDropdownListText[2], LanguageManager.CurrentLanguage.options.hud_typeClassicColor);
-        TryReplaceText(hudTypeDropdownListText[3], LanguageManager.CurrentLanguage.options.hud_typeClassicWhite);
+        hudTypeDropdownListText[0].Localize(LanguageManager.CurrentLanguage.options.hud_typeNone);
+        hudTypeDropdownListText[1].Localize(LanguageManager.CurrentLanguage.options.hud_typeStandard);
+        hudTypeDropdownListText[2].Localize(LanguageManager.CurrentLanguage.options.hud_typeClassicColor);
+        hudTypeDropdownListText[3].Localize(LanguageManager.CurrentLanguage.options.hud_typeClassicWhite);
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.hud_backgroundOpacity, hudContent, "Background Opacity", "Text");
+        hudContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.hud_backgroundOpacity, "Background Opacity", "Text");
 
         SliderValueToText backgroundOpacitySlider = FindDescendant(hudContent, "Background Opacity", "Slider Button(Clone)", "Slider").GetComponentInChildren<SliderValueToText>();
 
         backgroundOpacitySlider.ifMin = LanguageManager.CurrentLanguage.options.hud_backgroundOpacityMinimum;
         backgroundOpacitySlider.ifMax = LanguageManager.CurrentLanguage.options.hud_backgroundOpacityMaximum;
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.hud_alwaysOnTop, hudContent, "Always On Top", "Text");
+        hudContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.hud_alwaysOnTop, "Always On Top", "Text");
 
         GameObject iconsObject = FindDescendant(hudContent, "Cheat & Sandbox Icons");
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.hud_icons, iconsObject, "Text");
+        iconsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.hud_icons, "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.hud_reduceHudMotion, hudContent, "REDUCE HUD MOTION", "Text");
+        hudContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.hud_reduceHudMotion, "REDUCE HUD MOTION", "Text");
 
         TMP_Dropdown iconsDropdown = iconsObject.GetComponentInChildren<TMP_Dropdown>();
         List<TMP_Dropdown.OptionData> iconsDropdownListText = iconsDropdown.options;
 
-        TryReplaceText(iconsDropdownListText[0], LanguageManager.CurrentLanguage.sandbox.sandbox_shop_default);
-        TryReplaceText(iconsDropdownListText[1], LanguageManager.CurrentLanguage.sandbox.sandbox_shop_pitr);
+        iconsDropdownListText[0].Localize(LanguageManager.CurrentLanguage.sandbox.sandbox_shop_default);
+        iconsDropdownListText[1].Localize(LanguageManager.CurrentLanguage.sandbox.sandbox_shop_pitr);
 
         //-- ELEMENTS --
-        TryReplaceText<TextMeshProUGUI>(StringHelper.Format("--{0}--", LanguageManager.CurrentLanguage.options.hud_hudElements), hudContent, "-- Elements --", "Text");
+        hudContent.Localize<TextMeshProUGUI>("--{0}--".FormatWith(LanguageManager.CurrentLanguage.options.hud_hudElements), "-- Elements --", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.hud_weaponIcon, hudContent, "Weapon Icon", "Text");
+        hudContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.hud_weaponIcon, "Weapon Icon", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.hud_armIcon, hudContent, "Arm Icon", "Text");
+        hudContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.hud_armIcon, "Arm Icon", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.hud_railcannonMeter, hudContent, "Railcannon Meter", "Text");
+        hudContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.hud_railcannonMeter, "Railcannon Meter", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.hud_styleMeter, hudContent, "Style Meter", "Text");
+        hudContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.hud_styleMeter, "Style Meter", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.hud_styleInfo, hudContent, "Style Info", "Text");
+        hudContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.hud_styleInfo, "Style Info", "Text");
 
         GameObject speedoMeterDD = FindDescendant(hudContent, "Speedometer");
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.hud_speedoMeterText, speedoMeterDD, "Text");
+        speedoMeterDD.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.hud_speedoMeterText, "Text");
 
         TMP_Dropdown speedoMeterTypeDropdown = speedoMeterDD.GetComponentInChildren<TMP_Dropdown>();
         List<TMP_Dropdown.OptionData> speedoMeterTypeDropdownListText = speedoMeterTypeDropdown.options;
-        TryReplaceText(speedoMeterTypeDropdownListText[0], LanguageManager.CurrentLanguage.options.hud_speedoMeterTypeOff);
-        TryReplaceText(speedoMeterTypeDropdownListText[1], LanguageManager.CurrentLanguage.options.hud_speedoMeterTypeOn);
-        TryReplaceText(speedoMeterTypeDropdownListText[2], LanguageManager.CurrentLanguage.options.hud_speedoMeterTypeHorizonal);
-        TryReplaceText(speedoMeterTypeDropdownListText[3], LanguageManager.CurrentLanguage.options.hud_speedoMeterTypeVertical);
+        speedoMeterTypeDropdownListText[0].Localize(LanguageManager.CurrentLanguage.options.hud_speedoMeterTypeOff);
+        speedoMeterTypeDropdownListText[1].Localize(LanguageManager.CurrentLanguage.options.hud_speedoMeterTypeOn);
+        speedoMeterTypeDropdownListText[2].Localize(LanguageManager.CurrentLanguage.options.hud_speedoMeterTypeHorizonal);
+        speedoMeterTypeDropdownListText[3].Localize(LanguageManager.CurrentLanguage.options.hud_speedoMeterTypeVertical);
         
         //-- CROSSHAIR --
-        TryReplaceText<TextMeshProUGUI>(StringHelper.Format("-- {0} --", LanguageManager.CurrentLanguage.options.crosshair_title), hudContent, "-- Crosshair --", "Text");
+        hudContent.Localize<TextMeshProUGUI>("-- {0} --".FormatWith(LanguageManager.CurrentLanguage.options.crosshair_title), "-- Crosshair --", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.crosshair_type, hudContent, "Type", "Text");
+        hudContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.crosshair_type, "Type", "Text");
 
         GameObject crosshairType = FindDescendant(hudContent, "Type", "Dropdown(Clone)");
         TMP_Dropdown crosshairTypeDropdown = crosshairType.GetComponent<TMP_Dropdown>();
         List<TMP_Dropdown.OptionData> crosshairTypeDropdownListText = crosshairTypeDropdown.options;
 
-        TryReplaceText(crosshairTypeDropdownListText[0], LanguageManager.CurrentLanguage.options.crosshair_typeNone);
-        TryReplaceText(crosshairTypeDropdownListText[1], LanguageManager.CurrentLanguage.options.crosshair_typeSmall);
-        TryReplaceText(crosshairTypeDropdownListText[2], LanguageManager.CurrentLanguage.options.crosshair_typeLarge);
+        crosshairTypeDropdownListText[0].Localize(LanguageManager.CurrentLanguage.options.crosshair_typeNone);
+        crosshairTypeDropdownListText[1].Localize(LanguageManager.CurrentLanguage.options.crosshair_typeSmall);
+        crosshairTypeDropdownListText[2].Localize(LanguageManager.CurrentLanguage.options.crosshair_typeLarge);
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.crosshair_color, hudContent, "Color", "Text");
+        hudContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.crosshair_color, "Color", "Text");
 
         GameObject crosshairColor = FindDescendant(hudContent, "Color", "Dropdown(Clone)");
         TMP_Dropdown crosshairColorDropdown = crosshairColor.GetComponent<TMP_Dropdown>();
         List<TMP_Dropdown.OptionData> crosshairColorDropdownListText = crosshairColorDropdown.options;
 
-        TryReplaceText(crosshairColorDropdownListText[0], LanguageManager.CurrentLanguage.options.crosshair_colorInverted);
-        TryReplaceText(crosshairColorDropdownListText[1], LanguageManager.CurrentLanguage.options.crosshair_colorWhite);
-        TryReplaceText(crosshairColorDropdownListText[2], LanguageManager.CurrentLanguage.options.crosshair_colorGrey);
-        TryReplaceText(crosshairColorDropdownListText[3], LanguageManager.CurrentLanguage.options.crosshair_colorBlack);
-        TryReplaceText(crosshairColorDropdownListText[4], LanguageManager.CurrentLanguage.options.crosshair_colorRed);
-        TryReplaceText(crosshairColorDropdownListText[5], LanguageManager.CurrentLanguage.options.crosshair_colorGreen);
-        TryReplaceText(crosshairColorDropdownListText[6], LanguageManager.CurrentLanguage.options.crosshair_colorBlue);
-        TryReplaceText(crosshairColorDropdownListText[7], LanguageManager.CurrentLanguage.options.crosshair_colorCyan);
-        TryReplaceText(crosshairColorDropdownListText[8], LanguageManager.CurrentLanguage.options.crosshair_colorYellow);
-        TryReplaceText(crosshairColorDropdownListText[9], LanguageManager.CurrentLanguage.options.crosshair_colorMagenta);
+        crosshairColorDropdownListText[0].Localize(LanguageManager.CurrentLanguage.options.crosshair_colorInverted);
+        crosshairColorDropdownListText[1].Localize(LanguageManager.CurrentLanguage.options.crosshair_colorWhite);
+        crosshairColorDropdownListText[2].Localize(LanguageManager.CurrentLanguage.options.crosshair_colorGrey);
+        crosshairColorDropdownListText[3].Localize(LanguageManager.CurrentLanguage.options.crosshair_colorBlack);
+        crosshairColorDropdownListText[4].Localize(LanguageManager.CurrentLanguage.options.crosshair_colorRed);
+        crosshairColorDropdownListText[5].Localize(LanguageManager.CurrentLanguage.options.crosshair_colorGreen);
+        crosshairColorDropdownListText[6].Localize(LanguageManager.CurrentLanguage.options.crosshair_colorBlue);
+        crosshairColorDropdownListText[7].Localize(LanguageManager.CurrentLanguage.options.crosshair_colorCyan);
+        crosshairColorDropdownListText[8].Localize(LanguageManager.CurrentLanguage.options.crosshair_colorYellow);
+        crosshairColorDropdownListText[9].Localize(LanguageManager.CurrentLanguage.options.crosshair_colorMagenta);
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.crosshair_size, hudContent, "Crosshair HUD Size", "Text");
+        hudContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.crosshair_size, "Crosshair HUD Size", "Text");
 
         GameObject crosshairSize = FindDescendant(hudContent, "Crosshair HUD Size", "Dropdown(Clone)");
         TMP_Dropdown crosshairSizeDropdown = crosshairSize.GetComponent<TMP_Dropdown>();
         List<TMP_Dropdown.OptionData> crosshairSizeDropdownListText = crosshairSizeDropdown.options;
 
-        TryReplaceText(crosshairSizeDropdownListText[0], LanguageManager.CurrentLanguage.options.crosshair_sizeNone);
-        TryReplaceText(crosshairSizeDropdownListText[1], LanguageManager.CurrentLanguage.options.crosshair_sizeThin);
-        TryReplaceText(crosshairSizeDropdownListText[2], LanguageManager.CurrentLanguage.options.crosshair_sizeMedium);
-        TryReplaceText(crosshairSizeDropdownListText[3], LanguageManager.CurrentLanguage.options.crosshair_sizeThick);
-        TryReplaceText(crosshairSizeDropdownListText[4], LanguageManager.CurrentLanguage.options.crosshair_sizeVeryThick);
+        crosshairSizeDropdownListText[0].Localize(LanguageManager.CurrentLanguage.options.crosshair_sizeNone);
+        crosshairSizeDropdownListText[1].Localize(LanguageManager.CurrentLanguage.options.crosshair_sizeThin);
+        crosshairSizeDropdownListText[2].Localize(LanguageManager.CurrentLanguage.options.crosshair_sizeMedium);
+        crosshairSizeDropdownListText[3].Localize(LanguageManager.CurrentLanguage.options.crosshair_sizeThick);
+        crosshairSizeDropdownListText[4].Localize(LanguageManager.CurrentLanguage.options.crosshair_sizeVeryThick);
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.crosshair_hudFade, hudContent, "Crosshair HUD Fade", "Text");
+        hudContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.crosshair_hudFade, "Crosshair HUD Fade", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.crosshair_powerupBar, hudContent, "Powerup Meter", "Text");
+        hudContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.crosshair_powerupBar, "Powerup Meter", "Text");
 
     }
 }

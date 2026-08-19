@@ -18,11 +18,11 @@ public static partial class Options
 
     private static void PatchRumbleOptions(GameObject optionMenu)
     {
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.rumble_title, optionMenu, "Text (1)");
+        optionMenu.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.rumble_title, "Text (1)");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.rumble_finalMultiplier, optionMenu, "Total", "Text");
+        optionMenu.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.rumble_finalMultiplier, "Total", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.save_close, optionMenu, "Close", "Text");
+        optionMenu.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.save_close, "Close", "Text");
 
         //Loop through each entry
         GameObject rumbleEntryList = FindDescendant(optionMenu, "Scroll View", "Viewport", "Content");
@@ -32,13 +32,13 @@ public static partial class Options
             {
                 GameObject entry = rumbleEntryList.transform.GetChild(x).gameObject;
                 //Throws an out of bounds error, but still swaps the text correctly...
-                TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.rumble_intensity, entry, "Button", "Text (1)");
+                entry.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.rumble_intensity, "Button", "Text (1)");
 
-                TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.rumble_reset, entry, "Default Button (1)", "Text");
+                entry.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.rumble_reset, "Default Button (1)", "Text");
 
-                TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.rumble_endDelay, entry, "End Delay Container", "Text (2)");
+                entry.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.rumble_endDelay, "End Delay Container", "Text (2)");
 
-                TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.rumble_reset, entry, "End Delay Container", "Default Button", "Text");
+                entry.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.rumble_reset, "End Delay Container", "Default Button", "Text");
             }
         }
         catch (Exception)

@@ -21,55 +21,55 @@ public static partial class Options
         //General options
         GameObject generalContent = FindDescendant(generalOptions, "Scroll Rect", "Contents");
         //-- WEAPONS -- 
-        TryReplaceText<TextMeshProUGUI>(StringHelper.Format("-- {0} --", LanguageManager.CurrentLanguage.options.controls_weapons), generalContent, "-- Weapons --", "Text");
+        generalContent.Localize<TextMeshProUGUI>("-- {0} --".FormatWith(LanguageManager.CurrentLanguage.options.controls_weapons), "-- Weapons --", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_rememberWeapon, generalContent, "Remember Last Used Weapon Variation", "Text");
+        generalContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_rememberWeapon, "Remember Last Used Weapon Variation", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_weaponPosition, generalContent, "Weapon Position", "Text");
+        generalContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_weaponPosition, "Weapon Position", "Text");
 
         //Have to patch directly from the Dropdown.OptionData list.
         GameObject weaponPosList = FindDescendant(generalContent, "Weapon Position", "Dropdown(Clone)");
         TMP_Dropdown weaponPosDropdown = weaponPosList.GetComponent<TMP_Dropdown>();
         List<TMP_Dropdown.OptionData> weaponPosListText = weaponPosDropdown.options;
-        TryReplaceText(weaponPosListText[0], LanguageManager.CurrentLanguage.options.general_weaponPositionRight);
-        TryReplaceText(weaponPosListText[1], LanguageManager.CurrentLanguage.options.general_weaponPositionMiddle);
-        TryReplaceText(weaponPosListText[2], LanguageManager.CurrentLanguage.options.general_weaponPositionLeft);
+        weaponPosListText[0].Localize(LanguageManager.CurrentLanguage.options.general_weaponPositionRight);
+        weaponPosListText[1].Localize(LanguageManager.CurrentLanguage.options.general_weaponPositionMiddle);
+        weaponPosListText[2].Localize(LanguageManager.CurrentLanguage.options.general_weaponPositionLeft);
 
         //-- SCREEN -- goes here
-        TryReplaceText<TextMeshProUGUI>(StringHelper.Format("-- {0} --", LanguageManager.CurrentLanguage.options.general_screen), generalContent, "-- Screen --", "Text");
+        generalContent.Localize<TextMeshProUGUI>("-- {0} --".FormatWith(LanguageManager.CurrentLanguage.options.general_screen), "-- Screen --", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_screenShake, generalContent, "Screenshake", "Text");
+        generalContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_screenShake, "Screenshake", "Text");
 
         SliderValueToText screenshakeSlider = FindDescendant(generalContent, "Screenshake", "Slider Button(Clone)", "Slider", "Text").GetComponentInChildren<SliderValueToText>();
         screenshakeSlider.ifMin = LanguageManager.CurrentLanguage.options.general_screenShakeMinimum;
         screenshakeSlider.ifMax = LanguageManager.CurrentLanguage.options.general_screenShakeMaximum;
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_parryFlash, generalContent, "Parry Screen Flash", "Text");
+        generalContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_parryFlash, "Parry Screen Flash", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_cameraTilt, generalContent, "Camera Tilt", "Text");
+        generalContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_cameraTilt, "Camera Tilt", "Text");
 
         //-- MISC --
-        TryReplaceText<TextMeshProUGUI>(StringHelper.Format("-- {0} --", LanguageManager.CurrentLanguage.options.general_misc), generalContent, "-- Misc --", "Text");
+        generalContent.Localize<TextMeshProUGUI>("-- {0} --".FormatWith(LanguageManager.CurrentLanguage.options.general_misc), "-- Misc --", "Text");
         
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_seasonalEvent, generalContent, "Seasonal Events", "Text");
+        generalContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_seasonalEvent, "Seasonal Events", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_levelLeaderboards, generalContent, "Level Leaderboards", "Text");
+        generalContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_levelLeaderboards, "Level Leaderboards", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_restartWarning, generalContent.transform.GetChild(10).gameObject, "Text");
+        generalContent.transform.GetChild(10).gameObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_restartWarning, "Text");
 
         GameObject restartWarningList = FindDescendant(generalContent.transform.GetChild(10).gameObject, "Dropdown(Clone)");
         TMP_Dropdown restartWarningDropdown = restartWarningList.GetComponent<TMP_Dropdown>();
         List<TMP_Dropdown.OptionData> restartWarningListText = restartWarningDropdown.options;
-        TryReplaceText(restartWarningListText[0], LanguageManager.CurrentLanguage.options.general_restartWarningAlwaysOn);
-        TryReplaceText(restartWarningListText[1], LanguageManager.CurrentLanguage.options.general_restartWarningOnlyCG);
-        TryReplaceText(restartWarningListText[2], LanguageManager.CurrentLanguage.options.general_restartWarningAlwaysOff);
+        restartWarningListText[0].Localize(LanguageManager.CurrentLanguage.options.general_restartWarningAlwaysOn);
+        restartWarningListText[1].Localize(LanguageManager.CurrentLanguage.options.general_restartWarningOnlyCG);
+        restartWarningListText[2].Localize(LanguageManager.CurrentLanguage.options.general_restartWarningAlwaysOff);
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_sandboxOverwrite, generalContent, "Sandbox Save Overwrite Warning", "Text");
+        generalContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_sandboxOverwrite, "Sandbox Save Overwrite Warning", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_discordRpc, generalContent, "Discord Integration", "Text");
+        generalContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_discordRpc, "Discord Integration", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_advancedOptions, generalContent, "Advanced Options", "Text");
+        generalContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_advancedOptions, "Advanced Options", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_advancedOptionsCustomize, generalContent, "Advanced Options", "Action Button(Clone)", "Text");
+        generalContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.general_advancedOptionsCustomize, "Advanced Options", "Action Button(Clone)", "Text");
     }
 }

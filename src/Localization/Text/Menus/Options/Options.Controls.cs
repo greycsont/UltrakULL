@@ -22,46 +22,46 @@ public static partial class Options
         GameObject controlContent = FindDescendant(optionsMenu, "Scroll Rect", "Contents");
 
         //-- GENERAL --
-        TryReplaceText<TextMeshProUGUI>(StringHelper.Format("-- {0} --", LanguageManager.CurrentLanguage.options.category_general), controlContent, "-- General --", "Text");
+        controlContent.Localize<TextMeshProUGUI>("-- {0} --".FormatWith(LanguageManager.CurrentLanguage.options.category_general), "-- General --", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_mouseSensitivity, controlContent, "Look Sensitivity", "Text");
+        controlContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_mouseSensitivity, "Look Sensitivity", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_xInversion, controlContent, "Invert X Axis", "Text");
+        controlContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_xInversion, "Invert X Axis", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_yInversion, controlContent, "Invert Y Axis", "Text");
+        controlContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_yInversion, "Invert Y Axis", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_controllerRumble, controlContent, "Controller Rumble", "Text");
+        controlContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_controllerRumble, "Controller Rumble", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_controllerRumbleCustomize, controlContent, "Controller Rumble", "Action Button(Clone)", "Text");
+        controlContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_controllerRumbleCustomize, "Controller Rumble", "Action Button(Clone)", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(StringHelper.Format("-- {0} --", LanguageManager.CurrentLanguage.options.controls_weapons), controlContent.transform.GetChild(5).gameObject, "Text");
+        controlContent.transform.GetChild(5).gameObject.Localize<TextMeshProUGUI>("-- {0} --".FormatWith(LanguageManager.CurrentLanguage.options.controls_weapons), "Text");
 
         GameObject mouseWheelContent = FindDescendant(controlContent, "Scroll Weapons with Mouse Wheel");
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_mouseWheelToChangeWeapon, mouseWheelContent, "Text");
+        mouseWheelContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_mouseWheelToChangeWeapon, "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_scrollType, controlContent, "Weapon Scroll Type", "Text");
+        controlContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_scrollType, "Weapon Scroll Type", "Text");
 
         //Dropdown here
         GameObject scrollTypeList = FindDescendant(controlContent, "Weapon Scroll Type", "Dropdown(Clone)");
 
         TMP_Dropdown scrollTypeDropdown = scrollTypeList.GetComponent<TMP_Dropdown>();
         List<TMP_Dropdown.OptionData> scrollTypeDropdownText = scrollTypeDropdown.options;
-        TryReplaceText(scrollTypeDropdownText[0], LanguageManager.CurrentLanguage.options.controls_scrollTypeWeapons);
-        TryReplaceText(scrollTypeDropdownText[1], LanguageManager.CurrentLanguage.options.controls_scrollTypeVariations);
-        TryReplaceText(scrollTypeDropdownText[2], LanguageManager.CurrentLanguage.options.controls_scrollTypeAll);
+        scrollTypeDropdownText[0].Localize(LanguageManager.CurrentLanguage.options.controls_scrollTypeWeapons);
+        scrollTypeDropdownText[1].Localize(LanguageManager.CurrentLanguage.options.controls_scrollTypeVariations);
+        scrollTypeDropdownText[2].Localize(LanguageManager.CurrentLanguage.options.controls_scrollTypeAll);
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_reverseScroll, controlContent, "Reverse Scroll Direction", "Text");
+        controlContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_reverseScroll, "Reverse Scroll Direction", "Text");
 
         GameObject redrawBehaviour = FindDescendant(controlContent, "On Swap To Already Drawn Weapon");
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_redrawBehaviour, redrawBehaviour, "Text");
+        redrawBehaviour.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_redrawBehaviour, "Text");
 
         TMP_Dropdown redrawBehaviourDropdown = FindComponent<TMP_Dropdown>(redrawBehaviour, "Dropdown(Clone)");
         List<TMP_Dropdown.OptionData> redrawBehaviourDropdownText = redrawBehaviourDropdown.options;
-        TryReplaceText(redrawBehaviourDropdownText[0], LanguageManager.CurrentLanguage.options.controls_redrawNext);
-        TryReplaceText(redrawBehaviourDropdownText[1], LanguageManager.CurrentLanguage.options.controls_redrawFirst);
-        TryReplaceText(redrawBehaviourDropdownText[2], LanguageManager.CurrentLanguage.options.controls_redrawSame);
+        redrawBehaviourDropdownText[0].Localize(LanguageManager.CurrentLanguage.options.controls_redrawNext);
+        redrawBehaviourDropdownText[1].Localize(LanguageManager.CurrentLanguage.options.controls_redrawFirst);
+        redrawBehaviourDropdownText[2].Localize(LanguageManager.CurrentLanguage.options.controls_redrawSame);
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_invertRocketControls, controlContent, "Invert Rocket Controls", "Text");
+        controlContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_invertRocketControls, "Invert Rocket Controls", "Text");
 
         //unused after patch 16
         //TextMeshProUGUI bindsTitle = FindComponent<TextMeshProUGUI>(controlContent.transform.GetChild(10).gameObject, "Text");

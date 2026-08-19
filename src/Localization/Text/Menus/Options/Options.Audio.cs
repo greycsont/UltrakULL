@@ -22,19 +22,14 @@ public static partial class Options
         GameObject audioContent = FindDescendant(optionsMenu, "Container");
 
         //-- Volume --
-        TryReplaceText<TextMeshProUGUI>(StringHelper.Format("-- {0} --", LanguageManager.CurrentLanguage.options.audio_volume), audioContent, "-- Volume --", "Text");
-
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.audio_globalVolume, audioContent, "Master", "Text");
-
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.audio_soundEffectsVolume, audioContent, "Sound Effects", "Text");
-
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.audio_musicVolume, audioContent, "Music", "Text");
+        audioContent.Localize<TextMeshProUGUI>("-- {0} --".FormatWith(LanguageManager.CurrentLanguage.options.audio_volume), "-- Volume --", "Text");
+        audioContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.audio_globalVolume, "Master", "Text");
+        audioContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.audio_soundEffectsVolume, "Sound Effects", "Text");
+        audioContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.audio_musicVolume, "Music", "Text");
 
         //-- MISC --
-        TryReplaceText<TextMeshProUGUI>(StringHelper.Format("-- {0} --", LanguageManager.CurrentLanguage.options.general_misc), audioContent, "-- Misc --", "Text");
-
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.audio_subtitles, audioContent, "Subtitles", "Text");
-        
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.audio_muffleMusic, audioContent, "Muffle Music While Underwater", "Text");
+        audioContent.Localize<TextMeshProUGUI>("-- {0} --".FormatWith(LanguageManager.CurrentLanguage.options.general_misc), "-- Misc --", "Text");
+        audioContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.audio_subtitles, "Subtitles", "Text");
+        audioContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.audio_muffleMusic, "Muffle Music While Underwater", "Text");
     }
 }

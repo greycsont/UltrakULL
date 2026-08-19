@@ -11,32 +11,32 @@ public static partial class Options
 {
     private static void PatchNavigation(GameObject optionsMenu)
     {
-        TryReplaceText<TextMeshProUGUI>(StringHelper.Format("--{0}--", LanguageManager.CurrentLanguage.options.options_title), optionsMenu, "Text");
+        optionsMenu.Localize<TextMeshProUGUI>("--{0}--".FormatWith(LanguageManager.CurrentLanguage.options.options_title), "Text");
 
         GameObject navigationRail = FindDescendant(optionsMenu, "Navigation Rail");
 
-        TryReplaceText<TextMeshProUGUI>(StringHelper.Format("-- {0} --", LanguageManager.CurrentLanguage.options.category_general), navigationRail, "Text (7)");
+        navigationRail.Localize<TextMeshProUGUI>("-- {0} --".FormatWith(LanguageManager.CurrentLanguage.options.category_general), "Text (7)");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.category_general, navigationRail, "General", "Text");
+        navigationRail.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.category_general, "General", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.category_controls, navigationRail, "Controls", "Text");
+        navigationRail.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.category_controls, "Controls", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.category_graphics, navigationRail, "Video", "Text");
+        navigationRail.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.category_graphics, "Video", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.category_audio, navigationRail, "Audio", "Text");
+        navigationRail.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.category_audio, "Audio", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.category_assists, navigationRail, "Assist", "Text");
+        navigationRail.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.category_assists, "Assist", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.category_saves, navigationRail, "Saves", "Text");
+        navigationRail.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.category_saves, "Saves", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(StringHelper.Format("-- {0} --", LanguageManager.CurrentLanguage.options.category_customization), navigationRail, "Text (8)");
+        navigationRail.Localize<TextMeshProUGUI>("-- {0} --".FormatWith(LanguageManager.CurrentLanguage.options.category_customization), "Text (8)");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.category_hud, navigationRail, "HUD", "Text");
+        navigationRail.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.category_hud, "HUD", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.category_colors, navigationRail, "Colors", "Text");
+        navigationRail.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.category_colors, "Colors", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.options_back, navigationRail, "Back", "Text");
+        navigationRail.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.options_back, "Back", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.save_close, optionsMenu, "Palette Selector", "Close", "Text");
+        optionsMenu.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.save_close, "Palette Selector", "Close", "Text");
     }
 }

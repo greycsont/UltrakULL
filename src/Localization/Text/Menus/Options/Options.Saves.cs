@@ -21,19 +21,18 @@ public static partial class Options
         //Save options
         GameObject saveReloadPanel = FindDescendant(optionMenu, "Reload Consent Blocker", "Consent", "Panel");
         
-        TryReplaceText<TextMeshProUGUI>(StringHelper.Format("<color=red>{0}</color>\n\n{1}",
-            LanguageManager.CurrentLanguage.options.save_warning1,
-            LanguageManager.CurrentLanguage.options.save_warning2), saveReloadPanel, "Text");
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.save_reloadYes, saveReloadPanel, "Yes", "Text");
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.save_reloadNo, saveReloadPanel, "No", "Text");
+        saveReloadPanel.Localize<TextMeshProUGUI>("<color=red>{0}</color>\n\n{1}".FormatWith(LanguageManager.CurrentLanguage.options.save_warning1,
+            LanguageManager.CurrentLanguage.options.save_warning2), "Text");
+        saveReloadPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.save_reloadYes, "Yes", "Text");
+        saveReloadPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.save_reloadNo, "No", "Text");
         
         GameObject saveDeletePanel = FindDescendant(optionMenu, "Wipe Consent Blocker", "Consent", "Panel");
         
-        TryReplaceText<TextMeshProUGUI>(StringHelper.Format("<color=red>{0}</color>", LanguageManager.CurrentLanguage.options.save_deleteYes), saveDeletePanel, "Yes", "Text");
+        saveDeletePanel.Localize<TextMeshProUGUI>("<color=red>{0}</color>".FormatWith(LanguageManager.CurrentLanguage.options.save_deleteYes), "Yes", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.save_deleteNo, saveDeletePanel, "No", "Text");
+        saveDeletePanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.save_deleteNo, "No", "Text");
 
-        TryReplaceText<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.save_close, optionMenu, "Close", "Text");
+        optionMenu.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.save_close, "Close", "Text");
     }
     //general end
 }
