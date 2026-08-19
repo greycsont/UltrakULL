@@ -10,21 +10,17 @@ namespace UltrakULL.Harmony_Patches;
 
 //@Override
 //Overrides ScanBook from the ScanningStuff class, for the "scanning" panel and book translations.
-[HarmonyPatch(typeof(ScanningStuff), "ScanBook")]
+[HarmonyPatch(typeof(ScanningStuff))]
 public static class LocalizeScanningText
 {
-    [HarmonyPrefix]
-    public static bool ScanBook_MyPatch(ref string text, bool noScan, int instanceId, ScanningStuff __instance)
+    [HarmonyPatch(nameof(ScanningStuff.ScanBook))] [HarmonyPrefix]
+    public static void ScanBook_MyPatch(ref string text, ScanningStuff __instance)
     {
         if(LanguageManager.IsEnglish)
         {
-            return true;
+            return;
         }
-        GameObject canvas = GetInactiveRootObject("Canvas");
-
-        TextMeshProUGUI scanningText = GetTextMeshProUGUI(FindDescendant(canvas, "ScanningStuff", "ScanningPanel", "Text"));
-        scanningText.text = LanguageManager.CurrentLanguage.books.books_scanning;
-        text = Books.GetBookText(text);
-        return true;
+        __instance.scanningPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.books.books_scanning, "Text");
+        text = Books.GetBookText(text).Or(text);
     }
 }
