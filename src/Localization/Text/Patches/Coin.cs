@@ -36,7 +36,7 @@ public static class LocalizeCoin
         if (LanguageManager.IsEnglish)
             return text;
 
-        return text switch
+        var result = text switch
         {
             "<color=orange>ULTRA</color>" =>
                 $"<color=orange>{LanguageManager.CurrentLanguage.style.style_ricoshotUltra}</color>",
@@ -44,5 +44,7 @@ public static class LocalizeCoin
                 $"<color=red>{LanguageManager.CurrentLanguage.style.style_ricoshotCounter}</color>",
             _ => text
         };
+
+        return result.Or(text);
     }
 }
