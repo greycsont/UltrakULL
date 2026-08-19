@@ -75,6 +75,10 @@ public static class StringHelper
         }
     }
 
+    // Syntactic sugar over Format: string.FormatWith(args)
+    public static string FormatWith(this string format, params object[] parts)
+        => Format(format, parts);
+
     /// <summary>
     /// Makes Line Vertical: "abc" -> "a\nb\nc". Returns null/empty as-is.
     /// </summary>
