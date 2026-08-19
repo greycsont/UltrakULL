@@ -24,6 +24,6 @@ public static class LocalizeBossBar
 
     private static void LocalizeName(BossHealthBar bossBar)
     {
-        bossBar.bossName = EnemyBios.GetName(bossBar.bossName);
+        bossBar.bossName = EnemyBios.GetName(bossBar.bossName).Or(bossBar.bossName);
     }
 }
