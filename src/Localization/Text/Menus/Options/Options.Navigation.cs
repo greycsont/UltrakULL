@@ -1,7 +1,6 @@
 using UltrakULL.json;
 using TMPro;
 using UnityEngine;
-using static UltrakULL.TextReplacer;
 
 using static UltrakULL.SceneObjects;
 

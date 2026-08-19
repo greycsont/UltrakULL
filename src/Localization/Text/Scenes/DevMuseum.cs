@@ -6,7 +6,6 @@ using UltrakULL.json;
 using UnityEngine;
 using UnityEngine.UI;
 
-using static UltrakULL.TextReplacer;
 
 using static UltrakULL.SceneObjects;
 
