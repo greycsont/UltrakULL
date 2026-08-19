@@ -4,46 +4,11 @@ namespace UltrakULL;
 
 public static class EnemyBios
 {
-	private static bool doubleBoss;
-
-	private static bool IsNullOrEmpty(string str)
-	{
-		return string.IsNullOrEmpty(str);
-	}
-
-	private static string GetEnemyNameWithFallback(string translatedName, string originalName)
-	{
-		if (IsNullOrEmpty(translatedName))
-		{
-			Logging.Warn("Translation for enemy name is null or empty, using original: " + originalName);
-			return originalName;
-		}
-		return translatedName;
-	}
-
-	private static string GetEnemyBioWithFallback(string bioPart1, string originalDescription, string enemyName)
-	{
-		if (IsNullOrEmpty(bioPart1))
-		{
-			Logging.Warn("Translation for enemy bio is null or empty, using original: " + enemyName);
-			return originalDescription ?? enemyName;
-		}
-		return bioPart1;
-	}
-
-	private static string GetEnemyStrategyWithFallback(string strategyPart1, string originalStrategy, string enemyName)
-	{
-		if (IsNullOrEmpty(strategyPart1))
-		{
-			Logging.Warn("Translation for enemy strategy is null or empty, using original: " + enemyName);
-			return originalStrategy ?? enemyName;
-		}
-		return strategyPart1;
-	}
-
+	[NeedRework]
 	public static string GetName(string originalName)
 	{
 		Logging.Debug(originalName);
+
 		if (originalName.ToUpper().Contains("RADIANT"))
 		{
 			if (originalName.ToUpper().Contains("SWORDSMACHINE"))
@@ -58,7 +23,7 @@ public static class EnemyBios
 			{
 				return LanguageManager.CurrentLanguage.enemyNames.enemyname_radiant_hideousMass;
 			}
-			return "Untranslated RADIANT enemy name: " + originalName;
+			return originalName;
 		}
 		switch (originalName.ToUpper())
 		{
@@ -185,24 +150,24 @@ public static class EnemyBios
 		case "GERYON":
 			return LanguageManager.CurrentLanguage.enemyNames.enemyname_geryon;
 		case "PROVIDENCE":
-			return GetEnemyNameWithFallback(LanguageManager.CurrentLanguage.enemyNames.enemyname_boss_providence, originalName);
+			return LanguageManager.CurrentLanguage.enemyNames.enemyname_boss_providence;
 		case "DEATHCATCHER":
-			return GetEnemyNameWithFallback(LanguageManager.CurrentLanguage.enemyNames.enemyname_deathcatcher, originalName);
+			return LanguageManager.CurrentLanguage.enemyNames.enemyname_deathcatcher;
 		case "MIRROR REAPER":
-			return GetEnemyNameWithFallback(LanguageManager.CurrentLanguage.enemyNames.enemyname_boss_mirrorReaper, originalName);
+			return LanguageManager.CurrentLanguage.enemyNames.enemyname_boss_mirrorReaper;
 		case "POWER":
-			return GetEnemyNameWithFallback(LanguageManager.CurrentLanguage.enemyNames.enemyname_power, originalName);
+			return LanguageManager.CurrentLanguage.enemyNames.enemyname_power;
 		case "POWER MANADEL":
 		case "POWER \"MANADEL\"":
-			return GetEnemyNameWithFallback(LanguageManager.CurrentLanguage.enemyNames.enemyname_boss_powerManadel, originalName);
+			return LanguageManager.CurrentLanguage.enemyNames.enemyname_boss_powerManadel;
 		case "POWER \"LEHAHIAH\"":
 		case "POWER LEHAHIAH":
-			return GetEnemyNameWithFallback(LanguageManager.CurrentLanguage.enemyNames.enemyname_boss_powerLehahiah, originalName);
+			return LanguageManager.CurrentLanguage.enemyNames.enemyname_boss_powerLehahiah;
 		case "POWER CHAUAKIAH":
 		case "POWER \"CHAUAKIAH\"":
-			return GetEnemyNameWithFallback(LanguageManager.CurrentLanguage.enemyNames.enemyname_boss_powerChauakiah, originalName);
+			return LanguageManager.CurrentLanguage.enemyNames.enemyname_boss_powerChauakiah;
 		case "GERYON, WATCHER OF THE SKIES":
-			return GetEnemyNameWithFallback(LanguageManager.CurrentLanguage.enemyNames.enemyname_boss_geryon, originalName);
+			return LanguageManager.CurrentLanguage.enemyNames.enemyname_boss_geryon;
 		default:
 			return originalName;
 		}
