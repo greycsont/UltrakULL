@@ -61,7 +61,7 @@ public static class StringHelper
             return null;
 
         foreach (object part in parts)
-            if (part is string text && IsEmpty(text))
+            if (part is null || part is string text && IsEmpty(text))
                 return null;
 
         try
