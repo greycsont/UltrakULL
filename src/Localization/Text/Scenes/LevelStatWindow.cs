@@ -17,12 +17,12 @@ public static class LevelStatWindow
 
         levelStatsWindow.Localize<TextMeshProUGUI>(CurrentLanguage.misc.levelstats_time, "Time Title");
         levelStatsWindow.Localize<TextMeshProUGUI>(
-            GetCurrentSceneName() == "" 
+            GetCurrentSceneName() != "Endless" 
             ? CurrentLanguage.misc.levelstats_kills : CurrentLanguage.cyberGrind.cybergrind_wave, 
             "Kills Title");
 
         levelStatsWindow.Localize<TextMeshProUGUI>(
-            GetCurrentSceneName() == "" 
+            GetCurrentSceneName() != "Endless" 
             ? CurrentLanguage.misc.levelstats_style : CurrentLanguage.cyberGrind.cybergrind_enemiesRemaining, 
             "Style Title");
         levelStatsWindow.Localize<TextMeshProUGUI>(CurrentLanguage.misc.levelstats_secrets, "Secrets Title");
