@@ -10,7 +10,7 @@ public static class LocalizationExtensions
 
     // Localizes a TMP_Text / Text / OptionData target
     //   or returns it untouched when it (or the translation) is null/empty.
-    public static T Localize<T>(this T target, string translation) where T : Component
+    public static T Localize<T>(this T target, string translation, bool uppercase = false) where T : Component
     {
         if (target == null)
             return target;
@@ -18,22 +18,22 @@ public static class LocalizationExtensions
         switch (target)
         {
             case TMP_Text tmp:
-                tmp.text = translation.Or(tmp.text);
+                tmp.text = translation.Or(tmp.text).ToUpperIf(uppercase);
                 break;
             case Text text:
-                text.text = translation.Or(text.text);
+                text.text = translation.Or(text.text).ToUpperIf(uppercase);
                 break;
         }
 
         return target;
     }
 
-    public static TMP_Dropdown.OptionData Localize(this TMP_Dropdown.OptionData option, string translation)
+    public static TMP_Dropdown.OptionData Localize(this TMP_Dropdown.OptionData option, string translation, bool uppercase = false)
     {
         if (option == null)
             return option;
 
-        option.text = translation.Or(option.text);
+        option.text = translation.Or(option.text).ToUpperIf(uppercase);
         return option;
     }
 
@@ -43,6 +43,9 @@ public static class LocalizationExtensions
 
     public static string Or(this string translation, string original)
         => StringHelper.IsEmpty(translation) ? original : Penis(original, translation);
+
+    public static string ToUpperIf(this string text, bool uppercase)
+        => uppercase ? text.ToUpper() : text;
 
     // I have no idea how to name it
     private static string Penis(string original, string replacement)
