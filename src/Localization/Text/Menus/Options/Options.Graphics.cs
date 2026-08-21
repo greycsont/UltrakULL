@@ -44,8 +44,8 @@ public static partial class Options
         graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_useFallbackShaders, "Use Fallback Shaders (Requires Reload)", "Text");
 
         //-- PSX --
-        graphicsContent.Localize<TextMeshProUGUI>("-- {0} --\n<size=16>{1}</size>".FormatWith(LanguageManager.CurrentLanguage.options.graphics_filters,
-            LanguageManager.CurrentLanguage.options.graphics_filtersDescription), "-- PSX --", "Text");
+        graphicsContent.Localize<TextMeshProUGUI>("-- {0} --".FormatWith(LanguageManager.CurrentLanguage.options.graphics_filters)
+            + "\n" + "<size=16>{0}</size>".FormatWith(LanguageManager.CurrentLanguage.options.graphics_filtersDescription), "-- PSX --", "Text");
 
 
         graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_pixelisation, "Downscaling", "Text");
@@ -118,8 +118,8 @@ public static partial class Options
         graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_performanceDisableHeatWaves, "Disable Heat Waves", "Text");
 
         //-- GORE --
-        graphicsContent.Localize<TextMeshProUGUI>("-- {0} --\n<size=16>{1}</size>".FormatWith(LanguageManager.CurrentLanguage.options.graphics_gore,
-            LanguageManager.CurrentLanguage.options.graphics_goreNote), "-- Gore --", "Text");
+        graphicsContent.Localize<TextMeshProUGUI>("-- {0} --".FormatWith(LanguageManager.CurrentLanguage.options.graphics_gore) 
+            + "\n" + "<size=16>{0}</size>".FormatWith(LanguageManager.CurrentLanguage.options.graphics_goreNote), "-- Gore --", "Text");
 
         graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_goreEnable, "Enable Blood & Gore", "Text");
 
