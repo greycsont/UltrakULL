@@ -64,45 +64,45 @@ public static partial class Options
         //-- ENEMY SILIHOUETTES --
         colorsEnemiesObject.Localize<TextMeshProUGUI>("-- {0} --".FormatWith(LanguageManager.CurrentLanguage.options.colors_enemies), path: null);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_filth, path: ["Filth", "Text"]);
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_filth, path: ["Filth", "Text"], uppercase: true);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_stray, path: ["Stray", "Text"]);
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_stray, path: ["Stray", "Text"], uppercase: true);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_malFace, path: ["Malicious Face", "Text"]);
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_malFace, path: ["Malicious Face", "Text"], uppercase: true);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_schism, path: ["Schism", "Text"]);
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_schism, path: ["Schism", "Text"], uppercase: true);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_swordsmachine, path: ["Swordsmachine", "Text"]);
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_swordsmachine, path: ["Swordsmachine", "Text"], uppercase: true);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_cerberus, path: ["Cerberus", "Text"]);
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_cerberus, path: ["Cerberus", "Text"], uppercase: true);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_drone, path: ["Drone", "Text"]);
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_drone, path: ["Drone", "Text"], uppercase: true);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_streetCleaner, path: ["Streetcleaner", "Text"]);
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_streetCleaner, path: ["Streetcleaner", "Text"], uppercase: true);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_soldier, path: ["Shotgunner", "Text"]);
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_soldier, path: ["Shotgunner", "Text"], uppercase: true);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_v2, path: ["V2", "Text"]);
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_v2, path: ["V2", "Text"], uppercase: true);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_mindFlayer, path: ["Mindflayer", "Text"]);
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_mindFlayer, path: ["Mindflayer", "Text"], uppercase: true);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_virtue, path: ["Virtue", "Text"]);
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_virtue, path: ["Virtue", "Text"], uppercase: true);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_stalker, path: ["Stalker", "Text"]);
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_stalker, path: ["Stalker", "Text"], uppercase: true);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_insurrectionist, path: ["Sisyphus", "Text"]);
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_insurrectionist, path: ["Sisyphus", "Text"], uppercase: true);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_sentry, path: ["Sentry", "Text"]);
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_sentry, path: ["Sentry", "Text"], uppercase: true);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_idol, path: ["Idol", "Text"]);
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_idol, path: ["Idol", "Text"], uppercase: true);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_ferryman, path: ["Ferryman", "Text"]);
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_ferryman, path: ["Ferryman", "Text"], uppercase: true);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_mannequin, path: ["Mannequin", "Text"]);
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_mannequin, path: ["Mannequin", "Text"], uppercase: true);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_gutterman, path: ["Gutterman", "Text"]);
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_gutterman, path: ["Gutterman", "Text"], uppercase: true);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_guttertank, path: ["Guttertank", "Text"]);
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_guttertank, path: ["Guttertank", "Text"], uppercase: true);
 
     }
 }
