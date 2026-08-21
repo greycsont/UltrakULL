@@ -20,7 +20,7 @@ public static class LocalizeScanningText
         {
             return;
         }
-        __instance.scanningPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.books.books_scanning, "Text");
+        __instance.scanningPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.books.books_scanning, path: ["Text"]);
         text = Books.GetBookText(text).Or(text);
     }
 }

@@ -38,8 +38,8 @@ public static class LocalizationExtensions
     }
 
     // Finds a T component below parent by path, then localizes it.
-    public static T Localize<T>(this GameObject parent, string translation, params string[] path) where T : Component
-        => SceneObjects.FindComponent<T>(parent, path).Localize(translation);
+    public static T Localize<T>(this GameObject parent, string translation, string[] path, bool uppercase = false) where T : Component
+        => SceneObjects.FindComponent<T>(parent, path).Localize(translation, uppercase);
 
     public static string Or(this string translation, string original)
         => StringHelper.IsEmpty(translation) ? original : Penis(original, translation);

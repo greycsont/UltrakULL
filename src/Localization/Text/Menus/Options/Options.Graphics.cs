@@ -21,13 +21,13 @@ public static partial class Options
         GameObject graphicsContent = FindDescendant(optionsMenu, "Scroll Rect", "Contents");
 
         //--GENERAL--
-        graphicsContent.Localize<TextMeshProUGUI>("--{0}--".FormatWith(LanguageManager.CurrentLanguage.options.category_general), "-- General --", "Text");
+        graphicsContent.Localize<TextMeshProUGUI>("--{0}--".FormatWith(LanguageManager.CurrentLanguage.options.category_general), path: ["-- General --", "Text"]);
 
-        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_resolution, "Resolution", "Text");
+        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_resolution, path: ["Resolution", "Text"]);
 
-        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_fullscreen, "Fullscreen", "Text");
+        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_fullscreen, path: ["Fullscreen", "Text"]);
 
-        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_maxFps, "Target Framerate", "Text");
+        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_maxFps, path: ["Target Framerate", "Text"]);
 
         GameObject fpsObject = FindDescendant(graphicsContent, "Target Framerate", "Dropdown(Clone)");
         TMP_Dropdown fpsDropdown = fpsObject.GetComponent<TMP_Dropdown>();
@@ -35,20 +35,20 @@ public static partial class Options
         fpsDropdownListText[0].Localize(LanguageManager.CurrentLanguage.options.graphics_maxFpsNone);
         fpsDropdownListText[1].Localize(LanguageManager.CurrentLanguage.options.graphics_maxFps2x);
 
-        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_vsync, "VSync", "Text");
+        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_vsync, path: ["VSync", "Text"]);
 
-        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_fieldOfVision, "Field of View", "Text");
+        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_fieldOfVision, path: ["Field of View", "Text"]);
 
-        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_gamma, "Gamma (Brightness)", "Text");
+        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_gamma, path: ["Gamma (Brightness)", "Text"]);
 
-        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_useFallbackShaders, "Use Fallback Shaders (Requires Reload)", "Text");
+        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_useFallbackShaders, path: ["Use Fallback Shaders (Requires Reload)", "Text"]);
 
         //-- PSX --
         graphicsContent.Localize<TextMeshProUGUI>("-- {0} --".FormatWith(LanguageManager.CurrentLanguage.options.graphics_filters)
-            + "\n" + "<size=16>{0}</size>".FormatWith(LanguageManager.CurrentLanguage.options.graphics_filtersDescription), "-- PSX --", "Text");
+            + "\n" + "<size=16>{0}</size>".FormatWith(LanguageManager.CurrentLanguage.options.graphics_filtersDescription), path: ["-- PSX --", "Text"]);
 
 
-        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_pixelisation, "Downscaling", "Text");
+        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_pixelisation, path: ["Downscaling", "Text"]);
 
         GameObject resolution = FindDescendant(graphicsContent, "Downscaling", "Dropdown(Clone)");
         TMP_Dropdown resolutionDropdown = resolution.GetComponent<TMP_Dropdown>();
@@ -63,14 +63,14 @@ public static partial class Options
         resolutionDropdownListText[6].Localize(LanguageManager.CurrentLanguage.options.graphics_pixelisation36p);
 
 
-        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_dithering, "Dithering", "Text");
+        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_dithering, path: ["Dithering", "Text"]);
 
         SliderValueToText ditheringSlider = FindDescendant(graphicsContent, "Dithering", "Slider Button(Clone)", "Slider", "Text").GetComponentInChildren<SliderValueToText>();
         ditheringSlider.ifMin = LanguageManager.CurrentLanguage.options.graphics_ditheringMinimum;
 
-        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_textureWarping, "Texture Warping", "Text");
+        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_textureWarping, path: ["Texture Warping", "Text"]);
 
-        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_vertexWarping, "Vertex Warping", "Text");
+        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_vertexWarping, path: ["Vertex Warping", "Text"]);
 
         GameObject vertexWarping = FindDescendant(graphicsContent, "Vertex Warping", "Dropdown(Clone)");
         TMP_Dropdown vertexWarpingDropdown = vertexWarping.GetComponent<TMP_Dropdown>();
@@ -83,13 +83,13 @@ public static partial class Options
         vertexWarpingDropdownListText[4].Localize(LanguageManager.CurrentLanguage.options.graphics_vertexWarpingVeryStrong);
         vertexWarpingDropdownListText[5].Localize(LanguageManager.CurrentLanguage.options.graphics_vertexWarpingAbsurd);
 
-        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_customColorPalette, "Custom Color Palette", "Text");
+        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_customColorPalette, path: ["Custom Color Palette", "Text"]);
 
-        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_customPaletteTexture, "Color Palette Texture", "Text");
+        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_customPaletteTexture, path: ["Color Palette Texture", "Text"]);
 
-        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_customColorPaletteSelect, "Color Palette Texture", "Action Button(Clone)", "Text");
+        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_customColorPaletteSelect, path: ["Color Palette Texture", "Action Button(Clone)", "Text"]);
 
-        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_colorCompression, "Color Compression", "Text");
+        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_colorCompression, path: ["Color Compression", "Text"]);
 
         GameObject colorCompression = FindDescendant(graphicsContent, "Color Compression", "Dropdown(Clone)");
         TMP_Dropdown colorCompressionDropdown = colorCompression.GetComponent<TMP_Dropdown>();
@@ -103,31 +103,31 @@ public static partial class Options
         colorCompressionDropdownListText[5].Localize(LanguageManager.CurrentLanguage.options.graphics_colorCompressionAbsurd);
         
         //-- PERFORMANCE --
-        graphicsContent.Localize<TextMeshProUGUI>("-- {0} --".FormatWith(LanguageManager.CurrentLanguage.options.graphics_performance), "-- Performance --", "Text");
+        graphicsContent.Localize<TextMeshProUGUI>("-- {0} --".FormatWith(LanguageManager.CurrentLanguage.options.graphics_performance), path: ["-- Performance --", "Text"]);
 
-        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_performanceSimpleExplosions, "Simpler Explosions", "Text");
+        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_performanceSimpleExplosions, path: ["Simpler Explosions", "Text"]);
 
-        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_performanceSimpleFire, "Simpler Fire", "Text");
+        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_performanceSimpleFire, path: ["Simpler Fire", "Text"]);
 
-        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_performanceSimpleSpawn, "Simpler Spawn Effects", "Text");
+        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_performanceSimpleSpawn, path: ["Simpler Spawn Effects", "Text"]);
 
-        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_performanceDisableEnviParticles, "Disable Environmental Particle Effects", "Text");
+        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_performanceDisableEnviParticles, path: ["Disable Environmental Particle Effects", "Text"]);
 
-        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_performanceDisableEnviHitParticles, "Disable Environmental Hit Particles", "Text");
+        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_performanceDisableEnviHitParticles, path: ["Disable Environmental Hit Particles", "Text"]);
 
-        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_performanceDisableHeatWaves, "Disable Heat Waves", "Text");
+        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_performanceDisableHeatWaves, path: ["Disable Heat Waves", "Text"]);
 
         //-- GORE --
-        graphicsContent.Localize<TextMeshProUGUI>("-- {0} --".FormatWith(LanguageManager.CurrentLanguage.options.graphics_gore), "-- Gore --", "Text");
+        graphicsContent.Localize<TextMeshProUGUI>("-- {0} --".FormatWith(LanguageManager.CurrentLanguage.options.graphics_gore), path: ["-- Gore --", "Text"]);
 
-        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_goreEnable, "Enable Blood & Gore", "Text");
+        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_goreEnable, path: ["Enable Blood & Gore", "Text"]);
 
-        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_goreDisablePhysics, "Freeze Gore Physics", "Text");
+        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_goreDisablePhysics, path: ["Freeze Gore Physics", "Text"]);
 
-        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_goreMaxBloodStains, "Max Bloodstains", "Text");
+        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_goreMaxBloodStains, path: ["Max Bloodstains", "Text"]);
 
-        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_goreBloodChance, "Bloodstain Chance", "Text");
+        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_goreBloodChance, path: ["Bloodstain Chance", "Text"]);
 
-        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_goreMaxGore, "Max Gore Per Room", "Text");
+        graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_goreMaxGore, path: ["Max Gore Per Room", "Text"]);
     }
 }

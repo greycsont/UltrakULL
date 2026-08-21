@@ -21,88 +21,88 @@ public static partial class Options
         //TextMeshProUGUI colorsPanel = FindComponent<TextMeshProUGUI>(optionsMenu, "Text (1)");
         //colorsPanel.text = "--" + LanguageManager.CurrentLanguage.options.colors_title + "--";
 
-        optionsMenu.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_reset, "Scroll Rect", "Contents", "Default", "Text");
+        optionsMenu.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_reset, path: ["Scroll Rect", "Contents", "Default", "Text"]);
 
         //HUD Text
         GameObject colorsHudObject = FindDescendant(optionsMenu, "Scroll Rect", "Contents", "HUD");
 
         //-- HUD --
-        colorsHudObject.Localize<TextMeshProUGUI>("-- {0} --".FormatWith(LanguageManager.CurrentLanguage.options.colors_hud));
+        colorsHudObject.Localize<TextMeshProUGUI>("-- {0} --".FormatWith(LanguageManager.CurrentLanguage.options.colors_hud), path: null);
 
-        colorsHudObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_hudHealth, "Health", "Text");
+        colorsHudObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_hudHealth, path: ["Health", "Text"]);
 
-        colorsHudObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_hudHealthNumber, "HpText", "Text");
+        colorsHudObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_hudHealthNumber, path: ["HpText", "Text"]);
 
-        colorsHudObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_hudDamage, "AfterImage", "Text");
+        colorsHudObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_hudDamage, path: ["AfterImage", "Text"]);
 
-        colorsHudObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_hudHardDamage, "AntiHp", "Text");
+        colorsHudObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_hudHardDamage, path: ["AntiHp", "Text"]);
 
-        colorsHudObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_hudOverheal, "Overheal", "Text");
+        colorsHudObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_hudOverheal, path: ["Overheal", "Text"]);
 
-        colorsHudObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_hudEnergyFull, "Stamina", "Text");
+        colorsHudObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_hudEnergyFull, path: ["Stamina", "Text"]);
 
-        colorsHudObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_hudEnergyPartial, "StaminaCharging", "Text");
+        colorsHudObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_hudEnergyPartial, path: ["StaminaCharging", "Text"]);
 
-        colorsHudObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_hudEnergyEmpty, "StaminaEmpty", "Text");
+        colorsHudObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_hudEnergyEmpty, path: ["StaminaEmpty", "Text"]);
 
-        colorsHudObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_railcannonFull, "RailcannonFull", "Text");
+        colorsHudObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_railcannonFull, path: ["RailcannonFull", "Text"]);
 
-        colorsHudObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_railcannonPartial, "RailcannonCharging", "Text");
+        colorsHudObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_railcannonPartial, path: ["RailcannonCharging", "Text"]);
 
-        colorsHudObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_variationBlue, "Blue Variation", "Text");
+        colorsHudObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_variationBlue, path: ["Blue Variation", "Text"]);
 
-        colorsHudObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_variationGreen, "Green Variation", "Text");
+        colorsHudObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_variationGreen, path: ["Green Variation", "Text"]);
 
-        colorsHudObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_variationRed, "Red Variation", "Text");
+        colorsHudObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_variationRed, path: ["Red Variation", "Text"]);
 
-        colorsHudObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_variationGold, "Gold Variation", "Text");
+        colorsHudObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.colors_variationGold, path: ["Gold Variation", "Text"]);
 
         //Enemy names text
         //Later down the line, could be better to get the names from EnemyBios.
         GameObject colorsEnemiesObject = FindDescendant(optionsMenu, "Scroll Rect", "Contents", "Enemies");
 
         //-- ENEMY SILIHOUETTES --
-        colorsEnemiesObject.Localize<TextMeshProUGUI>("-- {0} --".FormatWith(LanguageManager.CurrentLanguage.options.colors_enemies));
+        colorsEnemiesObject.Localize<TextMeshProUGUI>("-- {0} --".FormatWith(LanguageManager.CurrentLanguage.options.colors_enemies), path: null);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_filth, "Filth", "Text");
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_filth, path: ["Filth", "Text"]);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_stray, "Stray", "Text");
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_stray, path: ["Stray", "Text"]);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_malFace, "Malicious Face", "Text");
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_malFace, path: ["Malicious Face", "Text"]);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_schism, "Schism", "Text");
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_schism, path: ["Schism", "Text"]);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_swordsmachine, "Swordsmachine", "Text");
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_swordsmachine, path: ["Swordsmachine", "Text"]);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_cerberus, "Cerberus", "Text");
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_cerberus, path: ["Cerberus", "Text"]);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_drone, "Drone", "Text");
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_drone, path: ["Drone", "Text"]);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_streetCleaner, "Streetcleaner", "Text");
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_streetCleaner, path: ["Streetcleaner", "Text"]);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_soldier, "Shotgunner", "Text");
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_soldier, path: ["Shotgunner", "Text"]);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_v2, "V2", "Text");
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_v2, path: ["V2", "Text"]);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_mindFlayer, "Mindflayer", "Text");
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_mindFlayer, path: ["Mindflayer", "Text"]);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_virtue, "Virtue", "Text");
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_virtue, path: ["Virtue", "Text"]);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_stalker, "Stalker", "Text");
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_stalker, path: ["Stalker", "Text"]);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_insurrectionist, "Sisyphus", "Text");
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_insurrectionist, path: ["Sisyphus", "Text"]);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_sentry, "Sentry", "Text");
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_sentry, path: ["Sentry", "Text"]);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_idol, "Idol", "Text");
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_idol, path: ["Idol", "Text"]);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_ferryman, "Ferryman", "Text");
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_ferryman, path: ["Ferryman", "Text"]);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_mannequin, "Mannequin", "Text");
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_mannequin, path: ["Mannequin", "Text"]);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_gutterman, "Gutterman", "Text");
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_gutterman, path: ["Gutterman", "Text"]);
 
-        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_guttertank, "Guttertank", "Text");
+        colorsEnemiesObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.enemyNames.enemyname_guttertank, path: ["Guttertank", "Text"]);
 
     }
 }

@@ -17,11 +17,11 @@ public static partial class Options
 
     private static void PatchSteamLeaderboard(GameObject optionMenu)
     {
-        optionMenu.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.steamLeaderboard_title, "Title");
+        optionMenu.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.steamLeaderboard_title, path: ["Title"]);
 
-        optionMenu.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.steamLeaderboard_refreshButton, "Refresh Button", "Text");
+        optionMenu.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.steamLeaderboard_refreshButton, path: ["Refresh Button", "Text"]);
 
-        optionMenu.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.steamLeaderboard_returnButton, "Close", "Text");
+        optionMenu.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.steamLeaderboard_returnButton, path: ["Close", "Text"]);
 
         //Loop through each entry
         GameObject SteamEntryList = FindDescendant(optionMenu, "Scroll View", "Viewport", "Content");
@@ -31,13 +31,13 @@ public static partial class Options
             {
                 GameObject entry = SteamEntryList.transform.GetChild(x).gameObject;
 
-                entry.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.steamLeaderboard_anyLabel, "Any Label");
+                entry.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.steamLeaderboard_anyLabel, path: ["Any Label"]);
 
-                entry.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.steamLeaderboard_pLabel, "P Label");
+                entry.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.steamLeaderboard_pLabel, path: ["P Label"]);
 
-                entry.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.steamLeaderboard_reset, "Any Reset", "Text");
+                entry.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.steamLeaderboard_reset, path: ["Any Reset", "Text"]);
 
-                entry.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.steamLeaderboard_reset, "P Reset Button", "Text");
+                entry.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.steamLeaderboard_reset, path: ["P Reset Button", "Text"]);
             }
         }
         catch (Exception e)

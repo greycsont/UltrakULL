@@ -216,15 +216,15 @@ public static class DevMuseum
 	private static void PatchPlaques()
 	{
 		// First part: Non-__DEV_SPACE_ALL placards
-		GetInactiveRootObject("__Room_Courtyard").transform.GetChild(4).GetChild(0).gameObject.Localize<Text>(LanguageManager.CurrentLanguage.devMuseum.museum_plaquesMuseumTitle, "Canvas (2)", "Text");
+		GetInactiveRootObject("__Room_Courtyard").transform.GetChild(4).GetChild(0).gameObject.Localize<Text>(LanguageManager.CurrentLanguage.devMuseum.museum_plaquesMuseumTitle, path: ["Canvas (2)", "Text"]);
 		GameObject gameObject = GetInactiveRootObject("__Room_FrontDesk_1").transform.GetChild(1).gameObject;
 		GameObject gameObject2 = gameObject.transform.GetChild(58).gameObject;
 		GameObject gameObject3 = gameObject.transform.GetChild(0).gameObject;
 		GameObject gameObject4 = gameObject.transform.GetChild(1).gameObject;
-		gameObject2.Localize<Text>(LanguageManager.CurrentLanguage.devMuseum.museum_plaquesHakita1, "Canvas (3)", "Text");
-		gameObject2.Localize<Text>(LanguageManager.CurrentLanguage.devMuseum.museum_plaquesHakita2, "Canvas (3)", "Text (1)");
-		gameObject3.Localize<Text>(LanguageManager.CurrentLanguage.devMuseum.museum_plaquesArtRoom, "Canvas (3)", "Text");
-		gameObject4.Localize<Text>(LanguageManager.CurrentLanguage.devMuseum.museum_plaquesNerdRoom, "Canvas (3)", "Text");
+		gameObject2.Localize<Text>(LanguageManager.CurrentLanguage.devMuseum.museum_plaquesHakita1, path: ["Canvas (3)", "Text"]);
+		gameObject2.Localize<Text>(LanguageManager.CurrentLanguage.devMuseum.museum_plaquesHakita2, path: ["Canvas (3)", "Text (1)"]);
+		gameObject3.Localize<Text>(LanguageManager.CurrentLanguage.devMuseum.museum_plaquesArtRoom, path: ["Canvas (3)", "Text"]);
+		gameObject4.Localize<Text>(LanguageManager.CurrentLanguage.devMuseum.museum_plaquesNerdRoom, path: ["Canvas (3)", "Text"]);
 		
 		// New logic for __DEV_SPACE_ALL placards (lines 222-317)
 		// Find the main container
@@ -501,38 +501,38 @@ public static class DevMuseum
 		GameObject gameObject6 = GetInactiveRootObject("__Room_Large_Lower").transform.GetChild(3).gameObject;
 		GameObject gameObject7 = gameObject6.transform.GetChild(9).gameObject;
 		GameObject gameObject8 = gameObject6.transform.GetChild(10).gameObject;
-		gameObject7.Localize<Text>(LanguageManager.CurrentLanguage.devMuseum.museum_plaquesRestRoom, "Canvas (3)", "Text");
-		gameObject8.Localize<Text>(LanguageManager.CurrentLanguage.devMuseum.museum_plaquesTalkRoom, "Canvas (3)", "Text");
+		gameObject7.Localize<Text>(LanguageManager.CurrentLanguage.devMuseum.museum_plaquesRestRoom, path: ["Canvas (3)", "Text"]);
+		gameObject8.Localize<Text>(LanguageManager.CurrentLanguage.devMuseum.museum_plaquesTalkRoom, path: ["Canvas (3)", "Text"]);
 		GameObject rocketRaceScreen = FindDescendant(GetInactiveRootObject("PuzzleScreen (2)"), "Canvas", "Background", "Start");
-		rocketRaceScreen.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_rocketRace1, "Text");
-		rocketRaceScreen.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_rocketRace2, "OpenButton", "Text");
+		rocketRaceScreen.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_rocketRace1, path: ["Text"]);
+		rocketRaceScreen.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_rocketRace2, path: ["OpenButton", "Text"]);
 		GameObject cinemaScreen = FindDescendant(GetInactiveRootObject("__Room_Theater"), "Ultrakill Projector", "PuzzleScreen", "Canvas", "Background");
-		cinemaScreen.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_cinemaPlay, "PlayButton", "Text");
-		cinemaScreen.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_cinemaStop, "StopButton", "Text");
+		cinemaScreen.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_cinemaPlay, path: ["PlayButton", "Text"]);
+		cinemaScreen.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_cinemaStop, path: ["StopButton", "Text"]);
 		GameObject spoilerBackground1 = FindDescendant(GetInactiveRootObject("__DEV_SPACE_ALL"), "Prime 1 VA", "SpoilerBlock", "PuzzleScreen (1)", "Canvas", "Background");
 		GameObject spoilerBackground2 = FindDescendant(GetInactiveRootObject("__DEV_SPACE_ALL"), "Prime 2 VA", "SpoilerBlock", "PuzzleScreen (1)", "Canvas", "Background");
-		spoilerBackground1.Localize<TextMeshProUGUI>("<color=red>{0}</color>\n{1}".FormatWith( LanguageManager.CurrentLanguage.devMuseum.museum_spoiler1, LanguageManager.CurrentLanguage.devMuseum.museum_spoiler2), "Text");
-		spoilerBackground2.Localize<TextMeshProUGUI>("<color=red>{0}</color>\n{1}".FormatWith( LanguageManager.CurrentLanguage.devMuseum.museum_spoiler1, LanguageManager.CurrentLanguage.devMuseum.museum_spoiler2), "Text");
-		spoilerBackground1.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_spoiler3, "OpenButton/Text");
-		spoilerBackground2.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_spoiler3, "OpenButton/Text");
+		spoilerBackground1.Localize<TextMeshProUGUI>("<color=red>{0}</color>\n{1}".FormatWith( LanguageManager.CurrentLanguage.devMuseum.museum_spoiler1, LanguageManager.CurrentLanguage.devMuseum.museum_spoiler2), path: ["Text"]);
+		spoilerBackground2.Localize<TextMeshProUGUI>("<color=red>{0}</color>\n{1}".FormatWith( LanguageManager.CurrentLanguage.devMuseum.museum_spoiler1, LanguageManager.CurrentLanguage.devMuseum.museum_spoiler2), path: ["Text"]);
+		spoilerBackground1.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_spoiler3, path: ["OpenButton/Text"]);
+		spoilerBackground2.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_spoiler3, path: ["OpenButton/Text"]);
 }
 
 	private static void PatchChess()
 	{
 		GameObject gameObjectChild = FindDescendant(GetInactiveRootObject("__Room_Aquarium"), "Geo", "Chess");
 		GameObject gameObjectChild2 = FindDescendant(gameObjectChild, "PuzzleScreen", "Canvas", "Background", "Main Window");
-		gameObjectChild2.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_chessVs, "Versus Text");
-		gameObjectChild2.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_chessNewgame, "Start New Game Button", "Text");
-		gameObjectChild2.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_chessBlack, "Black", "Black Text");
-		gameObjectChild2.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_chessWhite, "White", "White Text");
-		gameObjectChild2.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_chessBot, "Black", "Bot Button", "Text");
-		gameObjectChild2.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_chessPlayer, "Black", "Player Button", "Text");
-		gameObjectChild2.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_chessBot, "White", "Bot Button", "Text");
-		gameObjectChild2.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_chessPlayer, "White", "Player Button", "Text");
-		gameObjectChild2.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_chessSettingsclose, "Settings", "Main Window", "Close Button", "Text");
-		gameObjectChild2.Localize<TextMeshProUGUI>("{0}:".FormatWith( LanguageManager.CurrentLanguage.devMuseum.museum_chessBot), "Settings", "Main Window", "Set Elo", "Slider", "Bot Text");
-		gameObjectChild.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_chessWhitewin, "WhiteWin", "WinText");
-		gameObjectChild.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_chessBlackwin, "BlackWin", "WinText");
+		gameObjectChild2.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_chessVs, path: ["Versus Text"]);
+		gameObjectChild2.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_chessNewgame, path: ["Start New Game Button", "Text"]);
+		gameObjectChild2.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_chessBlack, path: ["Black", "Black Text"]);
+		gameObjectChild2.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_chessWhite, path: ["White", "White Text"]);
+		gameObjectChild2.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_chessBot, path: ["Black", "Bot Button", "Text"]);
+		gameObjectChild2.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_chessPlayer, path: ["Black", "Player Button", "Text"]);
+		gameObjectChild2.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_chessBot, path: ["White", "Bot Button", "Text"]);
+		gameObjectChild2.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_chessPlayer, path: ["White", "Player Button", "Text"]);
+		gameObjectChild2.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_chessSettingsclose, path: ["Settings", "Main Window", "Close Button", "Text"]);
+		gameObjectChild2.Localize<TextMeshProUGUI>("{0}:".FormatWith( LanguageManager.CurrentLanguage.devMuseum.museum_chessBot), path: ["Settings", "Main Window", "Set Elo", "Slider", "Bot Text"]);
+		gameObjectChild.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_chessWhitewin, path: ["WhiteWin", "WinText"]);
+		gameObjectChild.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_chessBlackwin, path: ["BlackWin", "WinText"]);
 
 	GameObject chessPieces = FindDescendant(gameObjectChild, "ChessPieces");
 

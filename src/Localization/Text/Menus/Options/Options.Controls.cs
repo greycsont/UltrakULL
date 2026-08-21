@@ -23,24 +23,24 @@ public static partial class Options
         GameObject controlContent = FindDescendant(optionsMenu, "Scroll Rect", "Contents");
 
         //-- GENERAL --
-        controlContent.Localize<TextMeshProUGUI>("-- {0} --".FormatWith(LanguageManager.CurrentLanguage.options.category_general), "-- General --", "Text");
+        controlContent.Localize<TextMeshProUGUI>("-- {0} --".FormatWith(LanguageManager.CurrentLanguage.options.category_general), path: ["-- General --", "Text"]);
 
-        controlContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_mouseSensitivity, "Look Sensitivity", "Text");
+        controlContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_mouseSensitivity, path: ["Look Sensitivity", "Text"]);
 
-        controlContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_xInversion, "Invert X Axis", "Text");
+        controlContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_xInversion, path: ["Invert X Axis", "Text"]);
 
-        controlContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_yInversion, "Invert Y Axis", "Text");
+        controlContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_yInversion, path: ["Invert Y Axis", "Text"]);
 
-        controlContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_controllerRumble, "Controller Rumble", "Text");
+        controlContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_controllerRumble, path: ["Controller Rumble", "Text"]);
 
-        controlContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_controllerRumbleCustomize, "Controller Rumble", "Action Button(Clone)", "Text");
+        controlContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_controllerRumbleCustomize, path: ["Controller Rumble", "Action Button(Clone)", "Text"]);
 
-        controlContent.transform.GetChild(5).gameObject.Localize<TextMeshProUGUI>("-- {0} --".FormatWith(LanguageManager.CurrentLanguage.options.controls_weapons), "Text");
+        controlContent.transform.GetChild(5).gameObject.Localize<TextMeshProUGUI>("-- {0} --".FormatWith(LanguageManager.CurrentLanguage.options.controls_weapons), path: ["Text"]);
 
         GameObject mouseWheelContent = FindDescendant(controlContent, "Scroll Weapons with Mouse Wheel");
-        mouseWheelContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_mouseWheelToChangeWeapon, "Text");
+        mouseWheelContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_mouseWheelToChangeWeapon, path: ["Text"]);
 
-        controlContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_scrollType, "Weapon Scroll Type", "Text");
+        controlContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_scrollType, path: ["Weapon Scroll Type", "Text"]);
 
         //Dropdown here
         GameObject scrollTypeList = FindDescendant(controlContent, "Weapon Scroll Type", "Dropdown(Clone)");
@@ -51,10 +51,10 @@ public static partial class Options
         scrollTypeDropdownText[1].Localize(LanguageManager.CurrentLanguage.options.controls_scrollTypeVariations);
         scrollTypeDropdownText[2].Localize(LanguageManager.CurrentLanguage.options.controls_scrollTypeAll);
 
-        controlContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_reverseScroll, "Reverse Scroll Direction", "Text");
+        controlContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_reverseScroll, path: ["Reverse Scroll Direction", "Text"]);
 
         GameObject redrawBehaviour = FindDescendant(controlContent, "On Swap To Already Drawn Weapon");
-        redrawBehaviour.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_redrawBehaviour, "Text");
+        redrawBehaviour.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_redrawBehaviour, path: ["Text"]);
 
         TMP_Dropdown redrawBehaviourDropdown = FindComponent<TMP_Dropdown>(redrawBehaviour, "Dropdown(Clone)");
         List<TMP_Dropdown.OptionData> redrawBehaviourDropdownText = redrawBehaviourDropdown.options;
@@ -62,7 +62,7 @@ public static partial class Options
         redrawBehaviourDropdownText[1].Localize(LanguageManager.CurrentLanguage.options.controls_redrawFirst);
         redrawBehaviourDropdownText[2].Localize(LanguageManager.CurrentLanguage.options.controls_redrawSame);
 
-        controlContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_invertRocketControls, "Invert Rocket Controls", "Text");
+        controlContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.controls_invertRocketControls, path: ["Invert Rocket Controls", "Text"]);
 
         //unused after patch 16
         //TextMeshProUGUI bindsTitle = FindComponent<TextMeshProUGUI>(controlContent.transform.GetChild(10).gameObject, "Text");

@@ -21,17 +21,17 @@ public static partial class Options
         GameObject saveReloadPanel = FindDescendant(optionMenu, "Reload Consent Blocker", "Consent", "Panel");
         
         saveReloadPanel.Localize<TextMeshProUGUI>("<color=red>{0}</color>\n\n{1}".FormatWith(LanguageManager.CurrentLanguage.options.save_warning1,
-            LanguageManager.CurrentLanguage.options.save_warning2), "Text");
-        saveReloadPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.save_reloadYes, "Yes", "Text");
-        saveReloadPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.save_reloadNo, "No", "Text");
+            LanguageManager.CurrentLanguage.options.save_warning2), path: ["Text"]);
+        saveReloadPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.save_reloadYes, path: ["Yes", "Text"]);
+        saveReloadPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.save_reloadNo, path: ["No", "Text"]);
         
         GameObject saveDeletePanel = FindDescendant(optionMenu, "Wipe Consent Blocker", "Consent", "Panel");
         
-        saveDeletePanel.Localize<TextMeshProUGUI>("<color=red>{0}</color>".FormatWith(LanguageManager.CurrentLanguage.options.save_deleteYes), "Yes", "Text");
+        saveDeletePanel.Localize<TextMeshProUGUI>("<color=red>{0}</color>".FormatWith(LanguageManager.CurrentLanguage.options.save_deleteYes), path: ["Yes", "Text"]);
 
-        saveDeletePanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.save_deleteNo, "No", "Text");
+        saveDeletePanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.save_deleteNo, path: ["No", "Text"]);
 
-        optionMenu.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.save_close, "Close", "Text");
+        optionMenu.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.save_close, path: ["Close", "Text"]);
     }
     //general end
 }

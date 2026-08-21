@@ -24,35 +24,35 @@ public static partial class Options
         //Major Assist Consent panel
         TextMeshProUGUI assistDisclaimerText = assistMajorAssistPanel.Localize<TextMeshProUGUI>("{0}\n\n{1}\n\n{2}".FormatWith(LanguageManager.CurrentLanguage.options.assists_majorAssistsDisclaimer1,
             LanguageManager.CurrentLanguage.options.assists_majorAssistsDisclaimer2,
-            LanguageManager.CurrentLanguage.options.assists_majorAssistsDisclaimer3), "Description Block");
+            LanguageManager.CurrentLanguage.options.assists_majorAssistsDisclaimer3), path: ["Description Block"]);
         if (assistDisclaimerText != null) assistDisclaimerText.fontSize = 18;
 
-        TextMeshProUGUI assistDisclaimerConfirmText = assistMajorAssistPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_majorAssistsDisclaimerConfirm, "Summary");
+        TextMeshProUGUI assistDisclaimerConfirmText = assistMajorAssistPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_majorAssistsDisclaimerConfirm, path: ["Summary"]);
         if (assistDisclaimerConfirmText != null) assistDisclaimerConfirmText.fontSize = 24;
 
-        assistMajorAssistPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_majorAssistsDisclaimerConfirmYes, "Yes", "Text");
+        assistMajorAssistPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_majorAssistsDisclaimerConfirmYes, path: ["Yes", "Text"]);
 
-        assistMajorAssistPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_majorAssistsDisclaimerConfirmNo, "No", "Text");
+        assistMajorAssistPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_majorAssistsDisclaimerConfirmNo, path: ["No", "Text"]);
 
         //Assist Options
         GameObject assistContent = FindDescendant(optionsMenu, "Scroll Rect", "Contents");
 
         //-- MINOR ASSISTS --
-        assistContent.Localize<TextMeshProUGUI>("-- {0} --".FormatWith(LanguageManager.CurrentLanguage.options.assists_minor), "-- Minor Assists --", "Text");
+        assistContent.Localize<TextMeshProUGUI>("-- {0} --".FormatWith(LanguageManager.CurrentLanguage.options.assists_minor), path: ["-- Minor Assists --", "Text"]);
 
-        assistContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_autoAim, "Auto Aim", "Text");
+        assistContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_autoAim, path: ["Auto Aim", "Text"]);
 
-        assistContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_autoAimPercent, "Auto Aim Amount", "Text");
+        assistContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_autoAimPercent, path: ["Auto Aim Amount", "Text"]);
 
         SliderValueToText autoAimSlider = FindDescendant(assistContent, "Auto Aim Amount", "Slider Button(Clone)", "Slider", "Text").GetComponentInChildren<SliderValueToText>();
         autoAimSlider.ifMin = LanguageManager.CurrentLanguage.options.assists_autoAimPercentMinimum;
         autoAimSlider.ifMax = LanguageManager.CurrentLanguage.options.assists_autoAimPercentMaximum;
 
-        assistContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_enemySilhouettesOutlines, "Enemy Silhouettes", "Text");
+        assistContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_enemySilhouettesOutlines, path: ["Enemy Silhouettes", "Text"]);
 
         GameObject assistEnemySilhouettes = FindDescendant(assistContent, "Enemy Silhouettes"); 
 
-        assistEnemySilhouettes.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_enemySilhouettes, "Text");
+        assistEnemySilhouettes.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_enemySilhouettes, path: ["Text"]);
 
         GameObject silhouetteList = FindDescendant(assistEnemySilhouettes, "Dropdown(Clone)");
         TMP_Dropdown silhouetteDropdown = silhouetteList.GetComponent<TMP_Dropdown>();
@@ -61,9 +61,9 @@ public static partial class Options
         silhouetteListText[1].Localize(LanguageManager.CurrentLanguage.options.assists_enemySilhouettesOutlinesOnly);
         silhouetteListText[2].Localize(LanguageManager.CurrentLanguage.options.assists_enemySilhouettesFull);
 
-        assistContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_enemySilhouettesDistance, "Activation Distance", "Text");
+        assistContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_enemySilhouettesDistance, path: ["Activation Distance", "Text"]);
 
-        assistContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_enemySilhouettesOutlineThickness, "Outline Thickness", "Text");
+        assistContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_enemySilhouettesOutlineThickness, path: ["Outline Thickness", "Text"]);
 
         SliderValueToText assistEnemySilhouettesDistanceSlider = FindDescendant(assistContent, "Activation Distance", "Slider Button(Clone)", "Slider", "Text").GetComponentInChildren<SliderValueToText>();
         assistEnemySilhouettesDistanceSlider.ifMin = LanguageManager.CurrentLanguage.options.assists_enemySilhouettesDistanceMinimum;
@@ -74,19 +74,19 @@ public static partial class Options
         GameObject assistsMajorTitleObject = FindDescendant(assistContent, "-- Major Assists --");
 
         //-- MAJOR ASSISTS --
-        TextMeshProUGUI assistsMajorTitle = assistsMajorTitleObject.Localize<TextMeshProUGUI>("-- {0} --".FormatWith(LanguageManager.CurrentLanguage.options.assists_major), "Text");
+        TextMeshProUGUI assistsMajorTitle = assistsMajorTitleObject.Localize<TextMeshProUGUI>("-- {0} --".FormatWith(LanguageManager.CurrentLanguage.options.assists_major), path: ["Text"]);
         if (assistsMajorTitle != null) assistsMajorTitle.fontSize = 20;
-        assistsMajorTitleObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_majorActivate, "Enable Group", "Text");
+        assistsMajorTitleObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_majorActivate, path: ["Enable Group", "Text"]);
 
-        assistContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_gameSpeed, "Game Speed", "Text");
+        assistContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_gameSpeed, path: ["Game Speed", "Text"]);
 
-        assistContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_damageTaken, "Damage Taken", "Text");
+        assistContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_damageTaken, path: ["Damage Taken", "Text"]);
 
         GameObject bossOverride = FindDescendant(assistContent, "Boss Fight Difficulty Override");
 
-        assistContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_bossOverride, "Boss Fight Difficulty Override", "Text");
+        assistContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_bossOverride, path: ["Boss Fight Difficulty Override", "Text"]);
 
-        bossOverride.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_bossRestartRequired, "Side Note");
+        bossOverride.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_bossRestartRequired, path: ["Side Note"]);
 
         TMP_Dropdown bossOverrideDropdown = FindComponent<TMP_Dropdown>(bossOverride, "Dropdown(Clone)");
         List<TMP_Dropdown.OptionData> bossOverrideDropdownListText = bossOverrideDropdown.options;
@@ -99,14 +99,14 @@ public static partial class Options
         bossOverrideDropdownListText[5].Localize(LanguageManager.CurrentLanguage.frontend.difficulty_brutal);
         //bossOverrideDropdownListText[6].text = LanguageManager.CurrentLanguage.frontend.difficulty_umd;
 
-        assistContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_infiniteEnergy, "Infinite Stamina", "Text");
+        assistContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_infiniteEnergy, path: ["Infinite Stamina", "Text"]);
 
-        assistContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_disableWhiplashHardDamage, "Disable Whiplash Hard Damage", "Text");
+        assistContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_disableWhiplashHardDamage, path: ["Disable Whiplash Hard Damage", "Text"]);
 
-        assistContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_disableHardDamage, "Disable All Hard Damage", "Text");
+        assistContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_disableHardDamage, path: ["Disable All Hard Damage", "Text"]);
 
-        assistContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_disableWeaponFreshness, "Disable Weapon Freshness", "Text");
+        assistContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_disableWeaponFreshness, path: ["Disable Weapon Freshness", "Text"]);
 
-        assistContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_disablePopupHints, "Disable Assist Popup", "Text");
+        assistContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_disablePopupHints, path: ["Disable Assist Popup", "Text"]);
     }
 }
