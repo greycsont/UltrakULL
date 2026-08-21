@@ -118,8 +118,7 @@ public static partial class Options
         graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_performanceDisableHeatWaves, "Disable Heat Waves", "Text");
 
         //-- GORE --
-        graphicsContent.Localize<TextMeshProUGUI>("-- {0} --".FormatWith(LanguageManager.CurrentLanguage.options.graphics_gore) 
-            + "\n" + "<size=16>{0}</size>".FormatWith(LanguageManager.CurrentLanguage.options.graphics_goreNote), "-- Gore --", "Text");
+        graphicsContent.Localize<TextMeshProUGUI>("-- {0} --".FormatWith(LanguageManager.CurrentLanguage.options.graphics_gore), "-- Gore --", "Text");
 
         graphicsContent.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.graphics_goreEnable, "Enable Blood & Gore", "Text");
 

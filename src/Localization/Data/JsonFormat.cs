@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
+using Newtonsoft.Json;
 
 namespace UltrakULL.json;
 
@@ -181,6 +183,7 @@ public class WashingStrings
 }
 public class CG
 {
+    [Obsolete]
     public string cybergrind_currentWave;
     public string cybergrind_enemiesRemaining;
 
@@ -1912,11 +1915,10 @@ public class ShopStrings
     public string shop_colorsCustom;
     public string shop_colorsDone;
     public string shop_colorsStandard;
+
+    // Renamed from shop_colorsAlternative
     public string shop_colorsAlternate;
     public string shop_colorsCustomUnlockPrompt;
-
-
-
 }
 public class Levels
 {
@@ -2304,7 +2306,6 @@ public class Option
     public string graphics_performanceDisableEnviHitParticles;
     public string graphics_performanceDisableHeatWaves;
     public string graphics_gore;
-    public string graphics_goreNote;
     public string graphics_goreEnable;
     public string graphics_goreDisablePhysics;
     public string graphics_goreMaxBloodStains;
