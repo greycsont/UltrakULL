@@ -46,7 +46,8 @@ public static class TextMeshProFontSwap
         LanguageManager.OnLanguageChanged += OnLanguageChanged;
     }
 
-    [HarmonyPatch(nameof(TextMeshProUGUI.OnEnable))] [HarmonyPostfix]
+    [HarmonyPatch(nameof(TextMeshProUGUI.OnEnable))]
+    [HarmonyPostfix]
     private static void OnEnable_Postfix(TextMeshProUGUI __instance)
     {
         Apply(__instance);
@@ -105,12 +106,12 @@ public static class TextMeshProFontSwap
     public static TMP_FontAsset GetReplacementFont(TMP_Text text)
     {
         string fontName = text.font.name;
-        
+
         return fontName switch
         {
             "VCR_OSD_MONO_1" or "VCR_OSD_MONO_UI" or "vcr-osd-replayed"
                 => LanguageManager.Current?.MainFontAsset,
-            "fs-tahoma-8px SDF" or "fs-tahoma-8px SDF v2"
+            "fs-tahoma-8px SDF" or "fs-tahoma-8px-v2 SDF"
                 => LanguageManager.Current?.TerminalAsset,
             "MeseumFont" => LanguageManager.Current?.MuseumAsset,
             "Bittypix Monospace SDF" => LanguageManager.Current?.SecretTerminalAsset,
