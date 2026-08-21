@@ -65,4 +65,10 @@ public static class UILayoutOverride
 
         bool IsSceneListed(string[] scenes) => scenes?.Contains(sceneName) == true;
     }
+
+    public static void RemoveWordWrap(this TMP_Text text)
+    {
+        text.overflowMode = TextOverflowModes.Overflow;
+        text.enableWordWrapping = false;
+    }
 }
