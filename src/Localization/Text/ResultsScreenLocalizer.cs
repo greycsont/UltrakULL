@@ -2,10 +2,12 @@ using TMPro;
 using UltrakULL.json;
 using UnityEngine;
 
+using static UltrakULL.json.LanguageManager;
 using static UltrakULL.SceneObjects;
 
 namespace UltrakULL;
 
+// See FinalRank.cs for more detail
 public static class ResultsScreenLocalizer
 {
     /// <summary>
@@ -20,33 +22,22 @@ public static class ResultsScreenLocalizer
         GameObject panel = FindDescendant(
             player, "Main Camera", "HUD Camera", "HUD", "FinishCanvas", "Panel");
 
-        GetTextMeshProUGUI(
-            FindDescendant(panel, "ff", "Text")).text =
-            LanguageManager.CurrentLanguage.misc.stats_time;
+        panel.Localize<TextMeshProUGUI>(CurrentLanguage.misc.stats_time, path: ["ff", "Text"]);
+        
+        panel.Localize<TextMeshProUGUI>(CurrentLanguage.misc.stats_kills, path: ["Kills - Info", "Text"]);
 
-        GetTextMeshProUGUI(
-            FindDescendant(panel, "Kills - Info", "Text")).text =
-            LanguageManager.CurrentLanguage.misc.stats_kills;
+        panel.Localize<TextMeshProUGUI>(CurrentLanguage.misc.stats_style, path: ["Style - Info", "Text"]);
 
-        GetTextMeshProUGUI(
-            FindDescendant(panel, "Style - Info", "Text")).text =
-            LanguageManager.CurrentLanguage.misc.stats_style;
+        panel.Localize<TextMeshProUGUI>(CurrentLanguage.misc.stats_secrets, path: ["Secrets -  Title", "Text"]);
 
-        GetTextMeshProUGUI(
-            FindDescendant(panel, "Secrets -  Title", "Text")).text =
-            LanguageManager.CurrentLanguage.misc.stats_secrets;
+        panel.Localize<TextMeshProUGUI>(CurrentLanguage.misc.stats_challenge, path: ["Challenge - Title", "Text"]);
 
-        GetTextMeshProUGUI(
-            FindDescendant(panel, "Challenge - Title", "Text")).text =
-            LanguageManager.CurrentLanguage.misc.stats_challenge;
+        panel.Localize<TextMeshProUGUI>(challenge, path: ["Challenge", "ChallengeText"]);
 
-        GetTextMeshProUGUI(
-            FindDescendant(panel, "Challenge", "ChallengeText")).text =
-            challenge;
+        panel.Localize<TextMeshProUGUI>("{0}:".FormatWith(CurrentLanguage.cyberGrind.cybergrind_total), path: ["Total Points", "Text (1)"]);
 
-        GetTextMeshProUGUI(
-            FindDescendant(panel, "Total Points", "Text (1)")).text =
-            LanguageManager.CurrentLanguage.cyberGrind.cybergrind_total + ":";
+        panel.Localize<TextMeshProUGUI>("+0<color=orange>{0}</color>".FormatWith(CurrentLanguage.shop.shop_moneyCount), 
+            path: ["Total Points", "Text"]);
 
         FindComponent<TextMeshProUGUI>(panel, "Title", "Text").RemoveWordWrap();
     }
