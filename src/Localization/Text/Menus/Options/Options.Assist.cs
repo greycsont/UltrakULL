@@ -25,7 +25,7 @@ public static partial class Options
         TextMeshProUGUI assistDisclaimerText = assistMajorAssistPanel.Localize<TextMeshProUGUI>("{0}\n\n{1}\n\n{2}".FormatWith(LanguageManager.CurrentLanguage.options.assists_majorAssistsDisclaimer1,
             LanguageManager.CurrentLanguage.options.assists_majorAssistsDisclaimer2,
             LanguageManager.CurrentLanguage.options.assists_majorAssistsDisclaimer3), path: ["Description Block"]);
-        if (assistDisclaimerText != null) assistDisclaimerText.fontSize = 18;
+        if (assistDisclaimerText != null) assistDisclaimerText.fontSize = 20;
 
         TextMeshProUGUI assistDisclaimerConfirmText = assistMajorAssistPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.assists_majorAssistsDisclaimerConfirm, path: ["Summary"]);
         if (assistDisclaimerConfirmText != null) assistDisclaimerConfirmText.fontSize = 24;
