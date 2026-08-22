@@ -8,10 +8,10 @@ namespace UltrakULL.Harmony_Patches;
 
 //@Override
 //Overrides OnEnable from the GunColorTypeGetter class. Used for the Soul Orb checker.
-[HarmonyPatch(typeof(GunColorTypeGetter), "OnEnable")]
+[HarmonyPatch(typeof(GunColorTypeGetter))]
 public static class LocalizeGunColorTypeShop
 {
-    [HarmonyPostfix]
+    [HarmonyPatch(nameof(GunColorTypeGetter.OnEnable))] [HarmonyPostfix]
     public static void OnEnablePostFix_MyPatch(GunColorTypeGetter __instance, TMP_Text[] ___templateTexts)
     {
         if(LanguageManager.IsEnglish)
@@ -35,6 +35,8 @@ public static class LocalizeGunColorTypeShop
         }
     }
 }
+
+[NeedRework]
 [HarmonyPatch(typeof(GunColorLock), "OnEnable")]
 public class GunColorLockPatch
 {

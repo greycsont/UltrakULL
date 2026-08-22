@@ -11,7 +11,7 @@ namespace UltrakULL.Harmony_Patches;
 [HarmonyPatch(typeof(PauseMenu))]
 public static class PauseMenuPatch
 {
-    [HarmonyPatch("OnEnable"), HarmonyPostfix]
+    [HarmonyPatch(nameof(PauseMenu.OnEnable)), HarmonyPostfix]
     public static void PauseMenuOnEnablePostfix(TMP_Text ___checkpointText)
     {
         try

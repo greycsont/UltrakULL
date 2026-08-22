@@ -9,10 +9,10 @@ using UltrakULL;
 
 namespace UltrakULL.Harmony_Patches;
 
-[HarmonyPatch(typeof(CutsceneSkipText),"Show")]
+[HarmonyPatch(typeof(CutsceneSkipText))]
 public static class CutsceneSkipTextPatch
 {
-    [HarmonyPostfix]
+    [HarmonyPatch(nameof(CutsceneSkipText.Show))] [HarmonyPostfix]
     public static void CutsceneSkipText_Patch(CutsceneSkipText __instance, ref TMP_Text ___txt)
     {
         Console.WriteLine(___txt.text);
@@ -24,10 +24,10 @@ public static class CutsceneSkipTextPatch
     }
 }
 
-[HarmonyPatch(typeof(HudMessageReceiver),"SendHudMessage")]
+[HarmonyPatch(typeof(HudMessageReceiver))]
 public static class SendHudMessagePatch
 {
-    [HarmonyPrefix]
+    [HarmonyPatch(nameof(HudMessageReceiver.SendHudMessage))] [HarmonyPrefix]
     public static void SendHudMessage_Prefix(ref string newmessage,ref string newinput,ref string newmessage2, int delay = 0, bool silent = false)
     {
         if (!LanguageManager.IsEnglish)
@@ -44,12 +44,8 @@ public static class SendHudMessagePatch
             }
         }
     }
-}
 
-[HarmonyPatch(typeof(HudMessageReceiver),"SendHudMessage2")]
-public static class SendHudMessage2Patch
-{
-    [HarmonyPrefix]
+    [HarmonyPatch(nameof(HudMessageReceiver.SendHudMessage2))] [HarmonyPrefix]
     public static void SendHudMessage2_Prefix(ref string format, ref string[] newinputs, int delay, bool silent, ref bool inputBeenProcessed, bool automaticTimer)
     {
         if (!LanguageManager.IsEnglish
@@ -61,11 +57,7 @@ public static class SendHudMessage2Patch
             format = LevelStrings.FreeFallWarning();
         }
     }
-}
 
-[HarmonyPatch(typeof(HudMessageReceiver))]
-public static class ShowHudMessageLocalizeInputsPatch
-{
     [HarmonyPatch(nameof(HudMessageReceiver.ShowHudMessage))] [HarmonyPrefix]
     private static void TranslateInputs(ref string[] ___inputs, ref bool ___inputPreProcessed)
     {

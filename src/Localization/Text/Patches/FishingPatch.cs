@@ -1,16 +1,17 @@
 using HarmonyLib;
 using UltrakULL.json;
 using UnityEngine;
+using UnityEngine.Animations;
 using UnityEngine.UI;
 
 using static UltrakULL.SceneObjects;
 
 namespace UltrakULL.Harmony_Patches;
 
-[HarmonyPatch(typeof(FishingHUD),"ShowHUD")]
-public class FishingHUDPatch
+[HarmonyPatch(typeof(FishingHUD))]
+public class LocalizeFishingHUD
 {
-    [HarmonyPostfix]
+    [HarmonyPatch(nameof(FishingHUD.ShowHUD))] [HarmonyPostfix]
     public static void FishingHUDPatch_Postfix(ref GameObject ___outOfWaterMessage, ref GameObject ___hookedContainer)
     {
         if(!LanguageManager.IsEnglish)
@@ -23,12 +24,8 @@ public class FishingHUDPatch
         }
         
     }
-}
 
-[HarmonyPatch(typeof(FishingHUD),"ShowFishCaught")]
-public class ShowFishPatch
-{
-    [HarmonyPostfix]
+    [HarmonyPatch(nameof(FishingHUD.ShowFishCaught))] [HarmonyPostfix]
     public static void ShowFish_Postfix(ref Text ___fishCaughtText,ref GameObject ___fishSizeContainer,bool show = true, FishObject fish = null)
     {
         if(LanguageManager.IsEnglish)
@@ -168,10 +165,10 @@ public class DisplayWaterType
     }
 }*/
 
-[HarmonyPatch(typeof(FishEncyclopedia),"SelectFish")]
-public class SelectFish
+[HarmonyPatch(typeof(FishEncyclopedia))]
+public class LocalizeFishEncylopedia
 {
-    [HarmonyPrefix]
+    [HarmonyPatch(nameof(FishEncyclopedia.SelectFish))] [HarmonyPrefix]
     public static bool SelectFish_Prefix(ref FishObject fish, FishEncyclopedia __instance)
     {
         if(LanguageManager.IsEnglish)

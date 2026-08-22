@@ -9,56 +9,56 @@ using TMPro;
 
 namespace UltrakULL.Harmony_Patches;
 
-	//@Override
-	//Overrides checkScore function from the vanilla game. This translates level names, as well as if challenges have been completed or not. POSTFIX.
-	[HarmonyPatch(typeof(LevelSelectPanel), "CheckScore")]
-	public static class LocalizeGameProgressChallenges
+//@Override
+//Overrides checkScore function from the vanilla game. This translates level names, as well as if challenges have been completed or not. POSTFIX.
+[HarmonyPatch(typeof(LevelSelectPanel))]
+public static class LocalizeGameProgressChallenges
+{
+	[HarmonyPatch(nameof(LevelSelectPanel.CheckScore))] [HarmonyPostfix]
+	public static void CheckScore_MyPatchPostFix(LevelSelectPanel __instance)
 	{
-		[HarmonyPostfix]
-		public static void CheckScore_MyPatchPostFix(LevelSelectPanel __instance)
+		if(LanguageManager.IsEnglish)
 		{
-			if(LanguageManager.IsEnglish)
+			return;
+		}
+		int num = __instance.levelNumber;
+		RankData rank = GameProgressSaver.GetRank(num, false);
+		try
+		{
+		// The level name replacement function has been moved to a separate Harmony Patch (GetMissionName.cs)
+		if (rank.levelNumber == __instance.levelNumber || ((__instance.levelNumber == 666 || __instance.levelNumber == 100) && rank.levelNumber == __instance.levelNumber + __instance.levelNumberInLayer - 1))
 			{
-				return;
-			}
-			int num = __instance.levelNumber;
-			RankData rank = GameProgressSaver.GetRank(num, false);
-			try
-			{
-            // The level name replacement function has been moved to a separate Harmony Patch (GetMissionName.cs)
-            if (rank.levelNumber == __instance.levelNumber || ((__instance.levelNumber == 666 || __instance.levelNumber == 100) && rank.levelNumber == __instance.levelNumber + __instance.levelNumberInLayer - 1))
+				if (__instance.challengeIcon)
 				{
-					if (__instance.challengeIcon)
+					if (LanguageManager.CurrentLanguage.frontend.level_challengeCompleted == null)
+						return;
+					if (rank.challenge)
 					{
-						if (LanguageManager.CurrentLanguage.frontend.level_challengeCompleted == null)
-							return;
-						if (rank.challenge)
-						{
-							__instance.challengeIcon.fillCenter = true;
-							TextMeshProUGUI componentInChildren2 = __instance.challengeIcon.GetComponentInChildren<TextMeshProUGUI>();
-							componentInChildren2.text = String.Join(" ", LanguageManager.CurrentLanguage.frontend.level_challengeCompleted.ToList()); //Challenge completed
-						}
-						else
-						{
-							__instance.challengeIcon.fillCenter = false;
-							TextMeshProUGUI componentInChildren3 = __instance.challengeIcon.GetComponentInChildren<TextMeshProUGUI>();
-							componentInChildren3.text = String.Join(" ", LanguageManager.CurrentLanguage.frontend.level_challenge.ToList()); //Challenge not completed
-							componentInChildren3.color = Color.white;
-						}
+						__instance.challengeIcon.fillCenter = true;
+						TextMeshProUGUI componentInChildren2 = __instance.challengeIcon.GetComponentInChildren<TextMeshProUGUI>();
+						componentInChildren2.text = String.Join(" ", LanguageManager.CurrentLanguage.frontend.level_challengeCompleted.ToList()); //Challenge completed
+					}
+					else
+					{
+						__instance.challengeIcon.fillCenter = false;
+						TextMeshProUGUI componentInChildren3 = __instance.challengeIcon.GetComponentInChildren<TextMeshProUGUI>();
+						componentInChildren3.text = String.Join(" ", LanguageManager.CurrentLanguage.frontend.level_challenge.ToList()); //Challenge not completed
+						componentInChildren3.color = Color.white;
 					}
 				}
-				else
-				{
-
-					TextMeshProUGUI componentInChildren3 = __instance.challengeIcon.GetComponentInChildren<TextMeshProUGUI>();
-					componentInChildren3.text = String.Join(" ", LanguageManager.CurrentLanguage.frontend.level_challenge.ToList()); //Challenge not completed
-					componentInChildren3.color = Color.white;
-				}
 			}
-			catch (Exception e)
+			else
 			{
-				Logging.Error("Exception occured :  " + num);
-            Logging.Error(e.ToString());
+
+				TextMeshProUGUI componentInChildren3 = __instance.challengeIcon.GetComponentInChildren<TextMeshProUGUI>();
+				componentInChildren3.text = String.Join(" ", LanguageManager.CurrentLanguage.frontend.level_challenge.ToList()); //Challenge not completed
+				componentInChildren3.color = Color.white;
 			}
 		}
+		catch (Exception e)
+		{
+			Logging.Error("Exception occured :  " + num);
+		Logging.Error(e.ToString());
+		}
 	}
+}

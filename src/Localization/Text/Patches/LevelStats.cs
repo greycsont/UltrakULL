@@ -12,12 +12,12 @@ namespace UltrakULL.Harmony_Patches;
 //@Override
 //Overrides the Start method from LevelStats class to localize level names
 //MAY BE OBSOLETE AND CAN REMOVE.
-[HarmonyPatch(typeof(LevelStats), "Start")]
+[HarmonyPatch(typeof(LevelStats))]
 public static class LocalizeLevelStatNames
 {
     private static StatsManager sman = MonoSingleton<StatsManager>.Instance;
     
-    [HarmonyPostfix]
+    [HarmonyPatch(nameof(LevelStats.Start))] [HarmonyPostfix]
     public static void LevelStatsStart_Postfix(LevelStats __instance)//, StatsManager ___sman)
     {
         if(LanguageManager.IsEnglish)
@@ -49,16 +49,10 @@ public static class LocalizeLevelStatNames
         }
         __instance.levelName.text = LevelNames.GetDiscordLevelName(GetCurrentSceneName());
     }
-}
 
-//@Override
-//Overrides the CheckStats method from the LevelStats class to localize the stats screen
-[HarmonyPatch(typeof(LevelStats), "CheckStats")]
-public static class LocalizeStatsScreen
-{
-    private static StatsManager sman = MonoSingleton<StatsManager>.Instance;
-    
-    [HarmonyPostfix]
+    //@Override
+    //Overrides the CheckStats method from the LevelStats class to localize the stats screen
+    [HarmonyPatch(nameof(LevelStats.CheckStats))] [HarmonyPostfix]
     public static void CheckStats_Postfix(LevelStats __instance)
     {
         if(LanguageManager.IsEnglish)

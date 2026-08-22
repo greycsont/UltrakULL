@@ -3,10 +3,10 @@ using UltrakULL.json;
 
 namespace UltrakULL.Harmony_Patches;
 
-[HarmonyPatch(typeof(RumbleManager), "ResolveFullName")]
+[HarmonyPatch(typeof(RumbleManager))]
 public class RumbleOptionsPatch
 {
-    [HarmonyPrefix]
+    [HarmonyPatch(nameof(RumbleManager.ResolveFullName))] [HarmonyPrefix]
     public static bool RumbleOptionsFullname(RumbleKey key, ref string __result)
     {
         if(LanguageManager.IsEnglish)

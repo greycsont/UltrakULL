@@ -7,10 +7,10 @@ using UnityEngine.UI;
 
 namespace UltrakULL.Harmony_Patches;
 
-[HarmonyPatch(typeof(LevelNameFinder), "OnEnable")]
+[HarmonyPatch(typeof(LevelNameFinder))]
 public static class LevelNameFinderTranslation
 {
-    [HarmonyPostfix]
+    [HarmonyPatch(nameof(LevelNameFinder.OnEnable))] [HarmonyPostfix]
     public static void OnEnable_Postfix(LevelNameFinder __instance, TMP_Text ___txt2)
     {
         if (LanguageManager.IsEnglish)
@@ -27,6 +27,7 @@ public static class LevelNameFinderTranslation
                        ":</color>\n" +
                        LevelNames.GetLevelName(__instance.otherLevelNumber);
     }
+    
     private static string GetPath(Transform current)
     {
         string path = current.name;

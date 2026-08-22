@@ -8,10 +8,10 @@ namespace UltrakULL.Harmony_Patches;
 
 //@Override
 //Overrides the DisplayInfo method from the EnemyInfoPage class. This is to allow swapping out of monster bios in the shop.
-[HarmonyPatch(typeof(EnemyInfoPage), "DisplayInfo", new Type[] { typeof(SpawnableObject) })]
+[HarmonyPatch(typeof(EnemyInfoPage))]
 public static class LocalizeEnemyInfo
 {
-    [HarmonyPostfix]
+    [HarmonyPatch(nameof(EnemyInfoPage.DisplayInfo), new Type[] { typeof(SpawnableObject) })] [HarmonyPostfix]
     public static void DisplayInfo_Postfix(SpawnableObject source, EnemyInfoPage __instance, TMP_Text ___enemyPageTitle, TMP_Text ___enemyPageContent, TMP_Text ___enemyEntryTitle)
     {
         if(LanguageManager.IsEnglish)
