@@ -4,9 +4,26 @@ using TMPro;
 using UnityEngine;
 using UltrakULL.json;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace UltrakULL;
 
+// {
+//     "FontPackName": "",
+//     "MainFont": "",
+//     "TerminalFont": "",
+//     "MuseumFont": "",
+//     "SecretFont": ""
+// }
+// Maybe i should add 5-S's outline value in here?
+public class FontConfig
+{
+    public string FontPackName;
+    public string MainFont;
+    public string TerminalFont;
+    public string MuseumFont;
+    public string SecretFont; 
+}
 /// <summary>Loads shared font assets and manages per-language TMP fallbacks.</summary>
 public static class FontManager
 {
@@ -67,7 +84,8 @@ public static class FontManager
             return;
 
         string fontBundlePath = ConfigPaths.GetFontBundlePath(lang.Name);
-        var fontBundle = AssetBundle.LoadFromFile(fontBundlePath);
+        var fontConfig = JsonConvert.DeserializeObject<FontConfig>(File.ReadAllText(Path.Combine(fontBundlePath, "fontconfig.json")));
+        var fontBundle = AssetBundle.LoadFromFile(Path.Combine(fontBundlePath, fontConfig.FontPackName));
         if (fontBundle == null)
         {
             Logging.Warn($"Failed to load language font bundle: {fontBundlePath}");
@@ -85,15 +103,10 @@ public static class FontManager
 
         lang.FontBundle = fontBundle;
 
-        var fontNames = lang.Json.metadata.fonts;
-        //lang.MainFontAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontNames.MainFont);
-        //lang.MuseumAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontNames.MuseumFont);
-        //lang.TerminalAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontNames.TerminalFont);
-        //lang.SecretTerminalAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontNames.SecretTerminalFont);
-        lang.MainFontAsset = fontBundle.LoadAsset<TMP_FontAsset>(lang.Json.metadata.fonts.MainFont);
-        lang.MuseumAsset = fontBundle.LoadAsset<TMP_FontAsset>(lang.Json.metadata.fonts.MuseumFont);
-        lang.TerminalAsset = fontBundle.LoadAsset<TMP_FontAsset>(lang.Json.metadata.fonts.TerminalFont);
-        lang.SecretTerminalAsset = fontBundle.LoadAsset<TMP_FontAsset>(lang.Json.metadata.fonts.SecretTerminalFont);
+        lang.MainFontAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontConfig.MainFont);
+        lang.TerminalAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontConfig.TerminalFont);
+        lang.MuseumAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontConfig.MuseumFont);
+        lang.SecretTerminalAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontConfig.SecretFont);
     }
 
     /// <summary>
