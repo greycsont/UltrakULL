@@ -32,7 +32,7 @@ public static class FontManager
     // These two mf is the game's font
     // No relationship with Languages
     public static TMP_FontAsset MeseumFontAsset; // Garaldus (museum), loaded from basegameasset.bundle
-    public static TMP_FontAsset TwinFont;        // VCR (default), cached from the game's loaded fonts
+    public static TMP_FontAsset TwinFont;
 
     // Default FontAsset
     // Load from fontpack.bundle
@@ -54,6 +54,7 @@ public static class FontManager
         Logging.Message("Loading font resource bundle...");
         var baseFontBundle = AssetBundle.LoadFromFile(Path.Combine(MainPatch.ModFolder, "basegameasset.bundle"));
         MeseumFontAsset = baseFontBundle.LoadAsset<TMP_FontAsset>("GFSGaraldus SDF");
+        TwinFont = baseFontBundle.LoadAsset<TMP_FontAsset>("VCR_OSD_MONO_TWINFONT");
         TMPFontReady = true;
 
         //LoadDefaultPack();
@@ -180,9 +181,8 @@ public static class FontManager
                 source = lang.MuseumAsset;
             else if (name.Contains("vcr-osd-replayed"))
                 source = lang.MainFontAsset;
-
-            if (name.Contains("vcr_osd_mono_ui"))
-                TwinFont = primary;
+            else if (primary == TwinFont)
+                source = lang.MainFontAsset;
 
             AddFallback(lang, primary, source);
         }
