@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 namespace UltrakULL;
 
@@ -56,4 +57,32 @@ public static class LocalizationExtensions
             original = replacement;
         return original;
     }
+
+    /// <summary>
+    /// Formats a template; empty/tag-only template or parts return null, FormatException is swallowed.
+    /// </summary>
+    public static string Format(string format, params object[] parts)
+    {
+        if (string.IsNullOrEmpty(format) || parts == null || parts.Length == 0)
+            return null;
+
+        foreach (object part in parts)
+            if (part is null || part is string text && StringHelper.IsEmpty(text))
+                return null;
+
+        try
+        {
+            return string.Format(format, parts);
+        }
+        catch (FormatException)
+        {
+            Logging.Warn("Format failed for template: '" + format + "'", true);
+            return null;
+        }
+    }
+
+    // Syntactic sugar over Format: string.FormatWith(args)
+    public static string FormatWith(this string format, params object[] parts)
+        => Format(format, parts);
+
 }
