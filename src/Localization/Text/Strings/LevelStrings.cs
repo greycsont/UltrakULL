@@ -135,10 +135,10 @@ public static class LevelStrings
             new (string keyword, Func<string, string, string, string> build)[]
             {
                 ("PIPE CLIP", (m, m2, input) => T.prelude.prelude_first_pipeClip),
-                ("REVOLVER", (m, m2, input) => T.prelude.prelude_first_revolverPierce1 + " '<color=orange>" + input + "</color>'" + T.prelude.prelude_first_revolverPierce2),
+                ("REVOLVER", (m, m2, input) => T.prelude.prelude_first_revolverPierce1 + "<color=orange>" + input + "</color>" + T.prelude.prelude_first_revolverPierce2),
                 ("DEFLECT", (m, m2, input) => T.prelude.prelude_first_parry),
                 ("HARD DAMAGE", (m, m2, input) => T.prelude.prelude_first_hardDamage1 + "\n" + T.prelude.prelude_first_hardDamage2),
-                ("GROUND SLAM", (m, m2, input) => T.prelude.prelude_first_groundSlam1 + "'<color=orange>" + input + "</color>'" + T.prelude.prelude_first_groundSlam2),
+                ("GROUND SLAM", (m, m2, input) => T.prelude.prelude_first_groundSlam1 + "<color=orange>" + input + "</color>" + T.prelude.prelude_first_groundSlam2),
             }),
         //0-2 - The Meatgrinder
         new LevelEntry("Level 0-2",
@@ -148,7 +148,7 @@ public static class LevelStrings
             {
                 ("POINTS", (m, m2, input) => T.prelude.prelude_second_shop),
                 ("UPDOOR", (m, m2, input) => T.prelude.prelude_second_doorClip),
-                ("EQUIPPED", (m, m2, input) => T.prelude.prelude_second_changeEquipped + "'<color=orange>" + input + "</color>.'"),
+                ("EQUIPPED", (m, m2, input) => T.prelude.prelude_second_changeEquipped + "<color=orange>" + input + "</color>."),
             }),
         //0-3 - Double Down
         new LevelEntry("Level 0-3",
@@ -157,7 +157,7 @@ public static class LevelStrings
             new (string keyword, Func<string, string, string, string> build)[]
             {
                 ("FIREPOWER", (m, m2, input) => "<color=red>" + T.prelude.prelude_third_needShotgun + "</color>"),
-                ("explosive", (m, m2, input) => T.prelude.prelude_third_shotgun1 + "'<color=orange>" + input + "</color>'" + T.prelude.prelude_third_shotgun2 + "\n" + T.prelude.prelude_third_shotgun3),
+                ("explosive", (m, m2, input) => T.prelude.prelude_third_shotgun1 + "<color=orange>" + input + "</color>" + T.prelude.prelude_third_shotgun2 + "\n" + T.prelude.prelude_third_shotgun3),
                 ("pierces", (m, m2, input) => T.prelude.prelude_third_shotgunPierce),
             }),
         //0-4 - A One-Machine Army (no HUD box strings)
@@ -186,13 +186,13 @@ public static class LevelStrings
             {
                 ("ITEMS", (m, m2, input) =>
                 {
-                    level11PreviousMessage = T.act1.act1_limboFirst_items1 + " '<color=orange>" + input + "</color>'" + T.act1.act1_limboFirst_items2;
-                    return T.act1.act1_limboFirst_items1 + " \"<color=orange>" + input + "</color>\"" + T.act1.act1_limboFirst_items2;
+                    level11PreviousMessage = T.act1.act1_limboFirst_items1 + "<color=orange>" + input + "</color>" + T.act1.act1_limboFirst_items2;
+                    return T.act1.act1_limboFirst_items1 + "<color=orange>" + input + "</color>" + T.act1.act1_limboFirst_items2;
                 }),
                 ("NAILGUN", (m, m2, input) =>
                 {
-                    level11PreviousMessage = T.act1.act1_limboFirst_nailgun1 + " '<color=orange>" + input + "</color>' " + T.act1.act1_limboFirst_nailgun2 + "\n" + T.act1.act1_limboFirst_nailgun3;
-                    return T.act1.act1_limboFirst_nailgun1 + " '<color=orange>" + input + "</color>'" + T.act1.act1_limboFirst_nailgun2 + "\n" + T.act1.act1_limboFirst_nailgun3;
+                    level11PreviousMessage = T.act1.act1_limboFirst_nailgun1 + "<color=orange>" + input + "</color>" + T.act1.act1_limboFirst_nailgun2 + "\n" + T.act1.act1_limboFirst_nailgun3;
+                    return T.act1.act1_limboFirst_nailgun1 + "<color=orange>" + input + "</color>" + T.act1.act1_limboFirst_nailgun2 + "\n" + T.act1.act1_limboFirst_nailgun3;
                 }),
             },
             fallback: (m, m2, input) => level11PreviousMessage),
@@ -222,7 +222,7 @@ public static class LevelStrings
                 ("Hank", (m, m2, input) => T.act1.act1_limboFourth_hank1 + "\n" + T.act1.act1_limboFourth_hank2),
                 ("versions", (m, m2, input) => T.misc.hud_alternateVersion),
                 ("ALTERNATE REVOLVER", (m, m2, input) => T.act1.act1_limboFourth_alternateRevolver),
-                ("EQUIPPED", (m, m2, input) => T.act1.act1_limboFourth_newArm + " '<color=orange>" + input + "</color>'"),
+                ("EQUIPPED", (m, m2, input) => T.act1.act1_limboFourth_newArm + "<color=orange>" + input + "</color>"),
             }),
         //1-S - The Witless
         new LevelEntry("Level 1-S",
@@ -238,7 +238,7 @@ public static class LevelStrings
             () => T.levelChallenges.challenges_lustFirst,
             new (string keyword, Func<string, string, string, string> build)[]
             {
-                ("KNUCKLE", (m, m2, input) => T.act1.act1_lustFirst_knuckleblaster1 + " '<color=orange>" + input + "</color>' " + T.act1.act1_lustFirst_knuckleblaster2),
+                ("KNUCKLE", (m, m2, input) => T.act1.act1_lustFirst_knuckleblaster1 + "<color=orange>" + input + "</color>" + T.act1.act1_lustFirst_knuckleblaster2),
                 ("DASH", (m, m2, input) => T.act1.act1_lustFirst_dashJump),
             }),
         //2-2 - Death at 20,000 Volts
@@ -247,7 +247,7 @@ public static class LevelStrings
             () => T.levelChallenges.challenges_lustSecond,
             new (string keyword, Func<string, string, string, string> build)[]
             {
-                ("FEEDBACKER", (m, m2, input) => T.act1.act1_lustSecond_feedbacker1 + "\n" + T.act1.act1_lustSecond_feedbacker2 + " '<color=orange>" + input + "</color>'."),
+                ("FEEDBACKER", (m, m2, input) => T.act1.act1_lustSecond_feedbacker1 + "\n" + T.act1.act1_lustSecond_feedbacker2 + "<color=orange>" + input + "</color>."),
                 ("RAILCANNON", (m, m2, input) => T.act1.act1_lustSecond_railcannon),
                 ("CHECKPOINTS", (m, m2, input) => T.act1.act1_lustSecond_checkPoints),
             }),
@@ -324,7 +324,7 @@ public static class LevelStrings
                 ("You're", (m, m2, input) => T.act2.act2_greedFourth_v2),
                 ("Hold", (m, m2, input) =>
                 {
-                    level44PreviousMessage = T.act2.act2_greedFourth_whiplash1 + " <color=orange>" + input + "</color> " + T.act2.act2_greedFourth_whiplash2;
+                    level44PreviousMessage = T.act2.act2_greedFourth_whiplash1 + "<color=orange>" + input + "</color>" + T.act2.act2_greedFourth_whiplash2;
                     return level44PreviousMessage;
                 }),
                 ("HEAVY", (m, m2, input) =>
@@ -339,7 +339,7 @@ public static class LevelStrings
             () => null,
             new (string keyword, Func<string, string, string, string> build)[]
             {
-                ("HOLD", (m, m2, input) => T.act2.act2_greedSecret_holdToJump1 + " [<color=orange>" + input + "</color>]" + T.act2.act2_greedSecret_holdToJump2),
+                ("HOLD", (m, m2, input) => T.act2.act2_greedSecret_holdToJump1 + "<color=orange>" + input + "</color>" + T.act2.act2_greedSecret_holdToJump2),
             }),
         //5-1
         new LevelEntry("Level 5-1",
