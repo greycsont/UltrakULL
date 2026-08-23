@@ -4,10 +4,10 @@ using UltrakULL.json;
 namespace UltrakULL.Harmony_Patches.AudioSwaps;
 
 // Rebind scene audio after checkpoint restarts.
-[HarmonyPatch(typeof(NewMovement), "Respawn")]
+[HarmonyPatch(typeof(NewMovement))]
 public class RespawnAudioFixer
 {
-    [HarmonyPostfix]
+    [HarmonyPatch(nameof(NewMovement.Respawn))] [HarmonyPostfix]
     public static async void Respawn_SwapperFix()
     {
         if (LanguageManager.IsEnglish) return;
