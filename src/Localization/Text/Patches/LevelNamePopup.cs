@@ -1,6 +1,7 @@
 using System;
 using HarmonyLib;
 using UltrakULL.json;
+using UnityEngine;
 
 
 namespace UltrakULL.Harmony_Patches;
@@ -11,29 +12,22 @@ namespace UltrakULL.Harmony_Patches;
 public static class LocalizeLevelPopup
 {
     [HarmonyPatch(nameof(LevelNamePopup.NameAppear))] [HarmonyPrefix]
-    public static bool NameAppear_MyPatch(LevelNamePopup __instance, ref string ___layerString, ref string ___nameString)
+    public static void NameAppear_MyPatch(LevelNamePopup __instance)
     {
         if(LanguageManager.IsEnglish)
         {
-            return true;
+            return;
         }
-        try
+
+        if (TitleManager.GetName(__instance.nameString) == null)
         {
-            if (TitleManager.GetName(___nameString) == null)
-            {
-                Logging.Warn("There's no translated level name here!");
-                Logging.Warn("Layer Name is:" + ___layerString);
-                Logging.Warn("Level Name is:" + ___nameString);
-                return true;
-            }
-            ___layerString = TitleManager.GetLayer(___layerString);
-            ___nameString = TitleManager.GetName(___nameString);
+            Logging.Warn("There's no translated level name here!");
+            Logging.Warn("Layer Name is:" + __instance.layerString);
+            Logging.Warn("Level Name is:" + __instance.nameString);
+            return;
         }
-        catch (Exception e)
-        {
-            Logging.Warn("Failed to Patch Level Name Popup!");
-            Logging.Warn(e.ToString());
-        }
-        return true;
+
+        __instance.layerString = TitleManager.GetLayer(__instance.layerString);
+        __instance.nameString = TitleManager.GetName(__instance.nameString);
     }
 }
