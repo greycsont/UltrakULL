@@ -9,7 +9,6 @@ namespace UltrakULL.Harmony_Patches;
 
 //@Override
 //Overrides the Toggle function from the CustomPatterns class for the toggle text.
-[PrefixRewrite]
 [HarmonyPatch(typeof(CustomPatterns))]
 public static class LocalizeCustomPatternToggle
 {
