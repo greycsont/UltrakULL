@@ -9,35 +9,20 @@ namespace UltrakULL.Harmony_Patches;
 
 //@Override
 //Overrides the Toggle function from the CustomPatterns class for the toggle text.
-[HarmonyPatch(typeof(CustomPatterns), "Toggle")]
+[PrefixRewrite]
+[HarmonyPatch(typeof(CustomPatterns))]
 public static class LocalizeCustomPatternToggle
 {
-    [HarmonyPrefix]
-    public static bool Toggle_MyPatch(CustomPatterns __instance, Text ___stateButtonText)
+    [HarmonyPatch(nameof(CustomPatterns.Toggle))] [HarmonyPostfix]
+    public static void Toggle_MyPatch(CustomPatterns __instance)
     {
-        try
+        if(LanguageManager.IsEnglish)
         {
-            if(LanguageManager.IsEnglish)
-            {
-                return false;
-            }
-            
-            bool customPatternMode = MonoSingleton<EndlessGrid>.Instance.customPatternMode;
-            MonoSingleton<EndlessGrid>.Instance.customPatternMode = !customPatternMode;
-            ___stateButtonText.text = (customPatternMode ? LanguageManager.CurrentLanguage.misc.state_deactivated : LanguageManager.CurrentLanguage.misc.state_activated);
-            GameObject gameObject = __instance.enableWhenCustom;
-            if (gameObject != null)
-            {
-                gameObject.SetActive(!customPatternMode);
-            }
-            MonoSingleton<PrefsManager>.Instance.SetBoolLocal("cyberGrind.customPool", MonoSingleton<EndlessGrid>.Instance.customPatternMode);
+            return;
+        }
 
-            return false;
-        }
-        catch (Exception e)
-        {
-            Logging.Error($"Failed to apply custom Cyber Grind pattern state: {e}");
-            return true;
-        }
+        __instance.stateButtonText.text = MonoSingleton<EndlessGrid>.Instance.customPatternMode 
+            ? LanguageManager.CurrentLanguage.misc.state_deactivated : LanguageManager.CurrentLanguage.misc.state_activated;
+
     }
 }
