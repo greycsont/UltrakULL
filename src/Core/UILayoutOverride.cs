@@ -24,7 +24,7 @@ public static class UILayoutOverride
         if (!optionTitle)
             return;
 
-        optionTitle.sizeDelta -= new Vector2(0f, 20f);
+        optionTitle.localPosition = new Vector3(optionTitle.localPosition.x, 360f, optionTitle.localPosition.z);
 	}
 
     public static void Apply(string sceneName)
@@ -42,16 +42,8 @@ public static class UILayoutOverride
             if (!text)
                 continue;
 
-            if (adjustment.wordWrapping.HasValue)
-                text.enableWordWrapping = adjustment.wordWrapping.Value;
-
-            if (Enum.TryParse(adjustment.overflow, true, out TextOverflowModes overflow))
-                text.overflowMode = overflow;
-
-            if (adjustment.sizeDelta.HasValue)
-                text.rectTransform.sizeDelta += adjustment.autoSizeByLineCount.HasValue && adjustment.autoSizeByLineCount.Value
-                    ? new Vector2(adjustment.sizeDelta.Value.x, text.textInfo.lineCount * adjustment.sizeDelta.Value.y)
-                    : adjustment.sizeDelta.Value;
+            if (adjustment.localPosition.HasValue)
+                text.rectTransform.localPosition += adjustment.localPosition.Value;
         }
     }
 

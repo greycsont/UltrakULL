@@ -30,8 +30,5 @@ public sealed class UILayoutAdjustment
     public string path;
     public string[] include;
     public string[] exclude;
-    public bool? wordWrapping;
-    public string overflow;
-    public Vector2? sizeDelta;
-    public bool? autoSizeByLineCount; 
+    public Vector3? localPosition; 
 }
