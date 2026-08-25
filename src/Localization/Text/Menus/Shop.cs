@@ -143,7 +143,7 @@ public static class Shop
             //weapons
             GameObject shopWeaponsObject  = FindDescendant(shopPanel, "Weapons");
             
-            GameObject shopWeaponsButtonsObject = FindDescendant(shopPanel, "Weapons", "Weapons Panel").transform.GetChild(4).gameObject;
+            GameObject shopWeaponsButtonsObject = FindDescendant(shopPanel, "Weapons", "Weapons Panel", "Buttons");
             
             TextMeshProUGUI weaponTitleText = GetTextMeshProUGUI(FindDescendant(shopWeaponsObject, "Weapons Panel", "Menu Title"));
             weaponTitleText.text = LanguageManager.CurrentLanguage.shop.shop_weapons;
