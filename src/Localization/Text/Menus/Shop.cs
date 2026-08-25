@@ -13,122 +13,81 @@ public static class Shop
 {
     private static void PatchShopFrontEnd(GameObject shopObject)
     {
-        try
-        {
-            GameObject shopPanel = FindDescendant(shopObject, "Background", "Main Panel");
+        GameObject shopPanel = FindDescendant(shopObject, "Background", "Main Panel");
 
-            //Tip panel
-            GameObject tipPanel = FindDescendant(shopPanel, "Tip of the Day");
-            TextMeshProUGUI tipTitle = GetTextMeshProUGUI(FindDescendant(tipPanel, "Title"));
-            tipTitle.text = LanguageManager.CurrentLanguage.shop.shop_tipofthedayTitle;
+        //Tip panel
+        shopPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_tipofthedayTitle, path: ["Tip of the Day", "Title"]);
 
-            TextMeshProUGUI tipDescription = GetTextMeshProUGUI(FindDescendant(tipPanel, "Panel", "Text Inset", "TipText"));
-            string tipDescriptionText = tipDescription.text;
-            //V-Rank Check, do nothing if "V-Rank" is in them, otherwise replace by the correct text
-            if (tipDescriptionText.Contains("V-Rank")) { tipDescription.text = tipDescriptionText; }
-            else { tipDescription.text = StringsParent.GetLevelTip(tipDescriptionText); }
+        // Tip text: feed its current value to GetLevelTip (unless it's a V-Rank tip).
+        TextMeshProUGUI tipDescription = GetTextMeshProUGUI(FindDescendant(shopPanel, "Tip of the Day", "Panel", "Text Inset", "TipText"));
+        if (tipDescription.text.Contains("V-Rank"))
+            tipDescription.text = tipDescription.text;
+        else
+            tipDescription.text = StringsParent.GetLevelTip(tipDescription.text);
 
-            //--MENU--
-            // removed and replaced with SmileOS 2.0 in patch 16
-            //TextMeshProUGUI menuText = GetTextMeshProUGUI(FindDescendant(shopObject, "Menu Title"));
-            //menuText.text = "--" + LanguageManager.CurrentLanguage.shop.shop_menu + "--";
+        //--MENU--
+        // removed and replaced with SmileOS 2.0 in patch 16
+        //TextMeshProUGUI menuText = GetTextMeshProUGUI(FindDescendant(shopObject, "Menu Title"));
+        //menuText.text = "--" + LanguageManager.CurrentLanguage.shop.shop_menu + "--";
 
-            //Weapons button
-            GameObject mainButtons = FindDescendant(shopPanel, "Main Menu", "Buttons");
+        shopPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weapons, path: ["Main Menu", "Buttons", "WeaponsButton", "Text"]);
 
-            TextMeshProUGUI weaponsButtonTitle = GetTextMeshProUGUI(FindDescendant(mainButtons, "WeaponsButton", "Text"));
-            weaponsButtonTitle.text = LanguageManager.CurrentLanguage.shop.shop_weapons;
+        //Enemies button
+        shopPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_monsters, path: ["Main Menu", "Buttons", "EnemiesButton", "Text"]);
 
-            //Enemies button
-            TextMeshProUGUI enemiesButtonTitle = GetTextMeshProUGUI(FindDescendant(mainButtons, "EnemiesButton", "Text"));
-            enemiesButtonTitle.text = LanguageManager.CurrentLanguage.shop.shop_monsters;
+        //CG buttons
+        shopPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_cybergrind, path: ["Main Menu", "Buttons", "CyberGrindButton", "Text"]);
 
-            //CG buttons
-            TextMeshProUGUI cgButtonTitle = GetTextMeshProUGUI(FindDescendant(mainButtons, "CyberGrindButton", "Text"));
-            cgButtonTitle.text = LanguageManager.CurrentLanguage.shop.shop_cybergrind;
+        shopPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_returnToMission, path: ["Main Menu", "Buttons", "ReturnButton", "Text"]);
 
-            TextMeshProUGUI cgReturnButtonTitle = GetTextMeshProUGUI(FindDescendant(mainButtons, "ReturnButton", "Text"));
-            cgReturnButtonTitle.text = LanguageManager.CurrentLanguage.shop.shop_returnToMission;
+        //Sandbox button
+        shopPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_sandbox, path: ["Main Menu", "Buttons", "SandboxButton", "Text"]);
 
-            //Sandbox button
-            TextMeshProUGUI sandboxButtonTitle = GetTextMeshProUGUI(FindDescendant(mainButtons, "SandboxButton", "Text"));
-            sandboxButtonTitle.text = LanguageManager.CurrentLanguage.shop.shop_sandbox;
-            
-            //Enemies title
-            TextMeshProUGUI enemiesTitle = GetTextMeshProUGUI(FindDescendant(shopPanel, "Enemies", "Enemies Panel", "Title"));
-            enemiesTitle.text = LanguageManager.CurrentLanguage.shop.shop_monsters;
-            
+        //Enemies title
+        shopPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_monsters, path: ["Enemies", "Enemies Panel", "Title"]);
 
-            //Sandbox enter description
-            GameObject sandboxEnter = FindDescendant(shopPanel, "Sandbox", "Sandbox Panel", "Panel");
+        //Sandbox enter description
+        shopPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_sandbox, path: ["Sandbox", "Sandbox Panel", "Title"]);
 
-            TextMeshProUGUI sandboxTitle = GetTextMeshProUGUI(FindDescendant(shopPanel, "Sandbox", "Sandbox Panel", "Title"));
-            sandboxTitle.text = LanguageManager.CurrentLanguage.shop.shop_sandbox;
+        shopPanel.Localize<TextMeshProUGUI>(
+            LanguageManager.CurrentLanguage.shop.shop_sandboxDescription1 + "\n\n"
+            + LanguageManager.CurrentLanguage.shop.shop_sandboxDescription2,
+            path: ["Sandbox", "Sandbox Panel", "Panel", "Text Inset", "Text"]);
 
-            TextMeshProUGUI sandboxEnterDescription = GetTextMeshProUGUI(FindDescendant(sandboxEnter, "Text Inset", "Text"));
+        shopPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_sandboxEnter, path: ["Sandbox", "Sandbox Panel", "Panel", "Enter Button", "Text"]);
 
-            sandboxEnterDescription.text = LanguageManager.CurrentLanguage.shop.shop_sandboxDescription1 + "\n\n"
-                + LanguageManager.CurrentLanguage.shop.shop_sandboxDescription2;
+        //CG enter description
+        shopPanel.Localize<TextMeshProUGUI>(
+            LanguageManager.CurrentLanguage.shop.shop_cybergrindDescription1 + "\n\n"
+            + LanguageManager.CurrentLanguage.shop.shop_cybergrindDescription2 + "\n\n"
+            + LanguageManager.CurrentLanguage.shop.shop_cybergrindDescription3,
+            path: ["The Cyber Grind", "Cyber Grind Panel", "Panel", "Text Inset", "Text"]);
 
-            TextMeshProUGUI sandboxEnterButton = GetTextMeshProUGUI(FindDescendant(sandboxEnter, "Enter Button", "Text"));
-            sandboxEnterButton.text = LanguageManager.CurrentLanguage.shop.shop_sandboxEnter;
+        shopPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_cybergrindEnter, path: ["The Cyber Grind", "Cyber Grind Panel", "Panel", "Enter Button", "Text"]);
 
-            //CG enter description
-            GameObject cgEnter = FindDescendant(shopPanel, "The Cyber Grind", "Cyber Grind Panel", "Panel");
+        //CG exit description
+        shopPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_cybergrindExitTitle, path: ["Return from Cyber Grind", "Return from Cyber Grind Panel", "Title"]);
 
-            TextMeshProUGUI cgEnterTitle = GetTextMeshProUGUI(FindDescendant(shopPanel, "The Cyber Grind", "Cyber Grind Panel", "Title"));
-            cgEnterTitle.text = LanguageManager.CurrentLanguage.shop.shop_cybergrindEnterTitle;
+        shopPanel.Localize<TextMeshProUGUI>(
+            GetCurrentSceneName() == "uk_construct"
+                ? LanguageManager.CurrentLanguage.frontend.mainmenu_quit
+                : LanguageManager.CurrentLanguage.shop.shop_cybergrindExit,
+            path: ["Return from Cyber Grind", "Return from Cyber Grind Panel", "Panel", "Exit Button", "Text"]);
 
-            TextMeshProUGUI cgEnterDescription = GetTextMeshProUGUI(FindDescendant(cgEnter, "Text Inset", "Text"));
+        //Enemies back button
+        shopPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_back, path: ["Enemies", "Back Button", "Text"]);
 
-            cgEnterDescription.text = LanguageManager.CurrentLanguage.shop.shop_cybergrindDescription1 + "\n\n"
-                + LanguageManager.CurrentLanguage.shop.shop_cybergrindDescription2 + "\n\n"
-                + LanguageManager.CurrentLanguage.shop.shop_cybergrindDescription3;
+        //EnemyInfo back button
+        shopPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_back, path: ["Enemies", "Info Screen", "Main Window", "Back Button", "Text"]);
 
-            TextMeshProUGUI cgEnterButton = GetTextMeshProUGUI(FindDescendant(cgEnter, "Enter Button", "Text"));
-            cgEnterButton.text = LanguageManager.CurrentLanguage.shop.shop_cybergrindEnter;
+        //Sandbox back button
+        shopPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_back, path: ["Sandbox", "Back Button", "Text"]);
 
-            //CG exit description
-            GameObject cgExit = FindDescendant(shopPanel, "Return from Cyber Grind", "Return from Cyber Grind Panel");
+        //Enter CG back text
+        shopPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_back, path: ["The Cyber Grind", "Back Button", "Text"]);
 
-            TextMeshProUGUI cgExitTitle = GetTextMeshProUGUI(FindDescendant(cgExit, "Title"));
-            cgExitTitle.text = LanguageManager.CurrentLanguage.shop.shop_cybergrindExitTitle;
-
-            TextMeshProUGUI cgExitButton = GetTextMeshProUGUI(FindDescendant(cgExit, "Panel", "Exit Button", "Text"));
-            if (GetCurrentSceneName() == "uk_construct")
-            {
-                cgExitButton.text = LanguageManager.CurrentLanguage.frontend.mainmenu_quit;
-            }
-            else
-            {
-                cgExitButton.text = LanguageManager.CurrentLanguage.shop.shop_cybergrindExit;
-            }
-
-            //Enemies back button 
-            TextMeshProUGUI enemiesBackText = GetTextMeshProUGUI(FindDescendant(shopPanel, "Enemies", "Back Button", "Text"));
-            enemiesBackText.text = LanguageManager.CurrentLanguage.shop.shop_back;
-
-            //EnemyInfo back button
-            TextMeshProUGUI enemyInfoBackText = GetTextMeshProUGUI(FindDescendant(shopPanel, "Enemies", "Info Screen", "Main Window", "Back Button", "Text"));
-            enemyInfoBackText.text = LanguageManager.CurrentLanguage.shop.shop_back;
-
-            //Sandbox back button
-            TextMeshProUGUI sandboxBackText = GetTextMeshProUGUI(FindDescendant(shopPanel, "Sandbox", "Back Button", "Text"));
-            sandboxBackText.text = LanguageManager.CurrentLanguage.shop.shop_back;
-
-            //Enter CG back text
-            TextMeshProUGUI cgEnterBackButtonText = GetTextMeshProUGUI(FindDescendant(shopPanel, "The Cyber Grind", "Back Button", "Text"));
-            cgEnterBackButtonText.text = LanguageManager.CurrentLanguage.shop.shop_back;
-
-            //Exit CG back text
-            TextMeshProUGUI cgExitBackButtonText = GetTextMeshProUGUI(FindDescendant(shopPanel, "Return from Cyber Grind", "Back Button", "Text"));
-            cgExitBackButtonText.text = LanguageManager.CurrentLanguage.shop.shop_back;
-        }
-        catch (Exception e)
-        {
-            Logging.Error("An error occured while translating shop texts.");
-            Logging.Error(e.ToString());
-        }
+        //Exit CG back text
+        shopPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_back, path: ["Return from Cyber Grind", "Back Button", "Text"]);
 
     }
     
