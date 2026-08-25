@@ -33,11 +33,13 @@ public static partial class Options
                 //Throws an out of bounds error, but still swaps the text correctly...
                 entry.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.rumble_intensity, path: ["Button", "Text (1)"]);
 
-                entry.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.rumble_reset, path: ["Default Button (1)", "Text"]);
+                entry.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.rumble_reset, path: ["Default Button (1)", "Text"])
+                    .ApplyLayout(UILayoutKeys.RumbleReset);
 
                 entry.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.rumble_endDelay, path: ["End Delay Container", "Text (2)"]);
 
-                entry.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.rumble_reset, path: ["End Delay Container", "Default Button", "Text"]);
+                entry.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.options.rumble_reset, path: ["End Delay Container", "Default Button", "Text"])
+                    .ApplyLayout(UILayoutKeys.RumbleReset);
             }
         }
         catch (Exception)

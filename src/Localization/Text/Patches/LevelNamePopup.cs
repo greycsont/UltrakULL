@@ -29,5 +29,7 @@ public static class LocalizeLevelPopup
 
         __instance.layerString = TitleManager.GetLayer(__instance.layerString);
         __instance.nameString = TitleManager.GetName(__instance.nameString);
+
+        __instance.nameText.ApplyLayout(UILayoutKeys.LevelNamePopupText);
     }
 }

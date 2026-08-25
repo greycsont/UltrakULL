@@ -61,8 +61,6 @@ public static class Core
                 PatchingBaseElements(canvasObj);
 
                 LevelPatcher.Patch(levelName, canvasObj);
-
-                UILayoutOverride.Apply(levelName);
                 break;
             }
         }

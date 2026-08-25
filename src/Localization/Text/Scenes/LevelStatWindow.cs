@@ -15,6 +15,8 @@ public static class LevelStatWindow
     {
         GameObject levelStatsWindow = FindDescendant(canvasObj, "Level Stats Controller", "Level Stats (1)");
 
+        FindComponent<TextMeshProUGUI>(levelStatsWindow, "Title").ApplyLayout(UILayoutKeys.LevelStatsTitle);
+
         levelStatsWindow.Localize<TextMeshProUGUI>(CurrentLanguage.misc.levelstats_time, path: ["Time Title"]);
 
         levelStatsWindow.Localize<TextMeshProUGUI>(

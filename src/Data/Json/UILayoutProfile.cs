@@ -7,28 +7,21 @@ namespace UltrakULL.json;
 /// Example layout.json:
 ///
 ///     {
-///         "adjustments": [
-///             {
-///                 "path": "Player/Main Camera/HUD Camera/HUD/FinishCanvas/Panel/Title/Text",
-///                 "include": ["Level 2-3"],
-///                 "wordWrapping": false,
-///                 "overflow": "Overflow"
-///                 "sizeDelta": { "x": 0, "y": 0 }
-///             }
-///         ]
+///         "values": {
+///             "rumble.reset":   { "fontSize": 9 },
+///             "levelName.title":  { "localPosition": { "x": 0, "y": 1, "z": 0 } }
+///         }
 ///     }
 ///
-/// A missing layout.json (or missing adjustments) means no tweaks are applied.
+/// A missing layout.json (or missing key) means no override for that entry
 /// </summary>
 public sealed class UILayoutProfile
 {
-    public List<UILayoutAdjustment> adjustments = new();
+    public Dictionary<string, UILayoutValue> values = new();
 }
 
-public sealed class UILayoutAdjustment
+public sealed class UILayoutValue
 {
-    public string path;
-    public string[] include;
-    public string[] exclude;
-    public Vector3? localPosition; 
+    public float? fontSize;
+    public Vector3? localPosition;
 }
