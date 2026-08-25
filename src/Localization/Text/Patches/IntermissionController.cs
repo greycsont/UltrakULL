@@ -19,7 +19,7 @@ public static class LocalizeIntermission
         If this option is not suitable, remove the ▼ between act2_intermission_fourth8 and act2_intermission_fourth9)
         */
 
-        //if (LanguageManager.IsEnglish) return true; 
+        if (LanguageManager.IsEnglish) return true; 
 
         ___txt = __instance.GetComponent<Text>();
         ___txt.verticalOverflow = VerticalWrapMode.Overflow;
