@@ -4,6 +4,8 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 
+using static UltrakULL.json.LanguageManager;
+
 
 [HarmonyPatch(typeof(CustomPaletteSelector))]
 public static class LocalizeCustomPaletteSelector
@@ -36,12 +38,12 @@ public static class LocalizeCustomPaletteSelector
     {
         return fileName switch
         {
-            "Gamebot Color" => "bot",
-            "Noir" => "or",
-            "Pink and Purple" => "maimaiddx",
-            "Rustic" => "Rust",
-            "Shake" => "11111",
-            "Sin Shitty" => "SLOP",
+            "Gamebot Color" => CurrentLanguage.options.graphics_customColorPaletteGamebotColor,
+            "Noir" => CurrentLanguage.options.graphics_customColorPaletteNoir,
+            "Pink and Purple" => CurrentLanguage.options.graphics_customColorPalettePinkAndPurple,
+            "Rustic" => CurrentLanguage.options.graphics_customColorPaletteRustic,
+            "Shake" => CurrentLanguage.options.graphics_customColorPaletteShake,
+            "Sin Shitty" => CurrentLanguage.options.graphics_customColorPaletteSinShitty,
             _ => fileName
         };
     }
