@@ -180,7 +180,7 @@ public static class StringsParent
                 Logging.Warn($"[StringsParent] Translation missing or empty for uk_construct, falling back to original: '{tip}'");
                 return tip;
             }
-            return part1 + "\n\n<color=#FF4343>↑ ↑ ↓ ↓ ← → ← → B A</color>\n\n" + part2;
+            return part1 + $"\n\n{T.levelTips.levelTips_sandboxCheatCode.Or("<color=#FF4343>↑ ↑ ↓ ↓ ← → ← → B A</color>")}\n\n" + part2;
         }),
         ("0-E", tip => StringHelper.Get(T.levelTips.leveltips_encorePrelude1, T.levelTips.leveltips_encorePrelude2, "\n\n", tip)),
         ("1-E", tip => StringHelper.Get(T.levelTips.leveltips_encoreLimbo, tip)),
