@@ -68,4 +68,10 @@ public static class UILayoutOverride
         text.overflowMode = TextOverflowModes.Overflow;
         text.enableWordWrapping = false;
     }
+
+    public static void AddUpperCase(this TMP_Text text)
+    {
+        // bitwise OR
+        text.fontStyle |= FontStyles.UpperCase;
+    }
 }

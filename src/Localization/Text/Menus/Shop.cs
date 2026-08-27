@@ -128,7 +128,7 @@ public static class Shop
         {
             root.Localize<TextMeshProUGUI>(name(t), path: [w.Window, "Variation Screen", "Variations", $"Variation Panel ({color})", "Variation Name"]);
             root.Localize<TextMeshProUGUI>(name(t), path: [w.Window, $"Variation Info ({color})", "Title"]);
-            root.Localize<TextMeshProUGUI>(name(t), path: [w.Window, $"Variation Info ({color})", "Panel", "Name"]);
+            root.Localize<TextMeshProUGUI>(name(t), path: [w.Window, $"Variation Info ({color})", "Panel", "Name"]).AddUpperCase();
             root.Localize<TextMeshProUGUI>(description(t), path: [w.Window, $"Variation Info ({color})", "Panel", "Description"]);
             root.Localize<TextMeshProUGUI>(t.shop.shop_back, path: [w.Window, $"Variation Info ({color})", "Panel", "Back Button", "Text"]);
         }
