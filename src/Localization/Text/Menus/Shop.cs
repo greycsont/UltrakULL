@@ -126,7 +126,7 @@ public static class Shop
 
         foreach (var (color, name, description) in w.Variations)
         {
-            root.Localize<TextMeshProUGUI>(name(t), path: [w.Window, "Variation Screen", "Variations", $"Variation Panel ({color})", "Variation Name"]);
+            root.Localize<TextMeshProUGUI>(name(t), path: [w.Window, "Variation Screen", "Variations", $"Variation Panel ({color})", "Variation Name"]).AddUpperCase();
             root.Localize<TextMeshProUGUI>(name(t), path: [w.Window, $"Variation Info ({color})", "Title"]);
             root.Localize<TextMeshProUGUI>(name(t), path: [w.Window, $"Variation Info ({color})", "Panel", "Name"]).AddUpperCase();
             root.Localize<TextMeshProUGUI>(description(t), path: [w.Window, $"Variation Info ({color})", "Panel", "Description"]);
@@ -170,7 +170,7 @@ public static class Shop
 
         foreach (var (color, field, desc) in arms)
         {
-            root.Localize<TextMeshProUGUI>(field, path: ["Arm Window", "Variation Screen", "Variations", $"Arm Panel ({color})", "Variation Name"]);
+            root.Localize<TextMeshProUGUI>(field, path: ["Arm Window", "Variation Screen", "Variations", $"Arm Panel ({color})", "Variation Name"]).AddUpperCase();
             root.Localize<TextMeshProUGUI>(field, path: ["Arm Window", $"Arm Info ({color})", "Title"]);
             root.Localize<TextMeshProUGUI>(field, path: ["Arm Window", $"Arm Info ({color})", "Panel", "Name"]).AddUpperCase();
             root.Localize<TextMeshProUGUI>(desc(t), path: ["Arm Window", $"Arm Info ({color})", "Panel", "Description"]);
