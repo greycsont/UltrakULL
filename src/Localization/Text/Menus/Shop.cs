@@ -16,13 +16,13 @@ public static class Shop
 
     private static void PatchShopFrontEnd(GameObject shopObject)
     {
-        GameObject shopPanel = FindDescendant(shopObject, "Background", "Main Panel");
+        var shopPanel = FindDescendant(shopObject, "Background", "Main Panel");
 
         //Tip panel
         shopPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_tipofthedayTitle, path: ["Tip of the Day", "Title"]);
 
         // Tip text: feed its current value to GetLevelTip (unless it's a V-Rank tip).
-        TextMeshProUGUI tipDescription = GetTextMeshProUGUI(FindDescendant(shopPanel, "Tip of the Day", "Panel", "Text Inset", "TipText"));
+        var tipDescription = GetTextMeshProUGUI(FindDescendant(shopPanel, "Tip of the Day", "Panel", "Text Inset", "TipText"));
         if (!tipDescription.text.Contains("V-Rank"))
             tipDescription.text = StringsParent.GetLevelTip(tipDescription.text);
             
@@ -95,7 +95,7 @@ public static class Shop
 
     private static void PatchWeapons(GameObject shopObject)
     {
-        GameObject shopWeaponsObject = FindDescendant(shopObject, "Background", "Main Panel", "Weapons");
+        var shopWeaponsObject = FindDescendant(shopObject, "Background", "Main Panel", "Weapons");
 
         shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weapons, path: ["Weapons Panel", "Menu Title"]);
         shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_back, path: ["Weapons Panel", "Buttons", "BackButton", "Text"]);
@@ -104,485 +104,275 @@ public static class Shop
             BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("plonk.straymode"))
             return;
 
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponsRevolver, path: ["Weapons Panel", "Buttons", "RevolverButton", "Text"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponsShotgun, path: ["Weapons Panel", "Buttons", "ShotgunButton", "Text"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponsNailgun, path: ["Weapons Panel", "Buttons", "NailgunButton", "Text"]);
+        foreach (var w in ShopWeapons)
+            PatchWeapon(shopWeaponsObject, w);
 
-        //Slight problem - not all the text fits in the box.
-        //The longer text is, the more we'll need to reduce the font size to compensate.
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponsRailcannon, path: ["Weapons Panel", "Buttons", "RailcannonButton", "Text"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponsRocketLauncher, path: ["Weapons Panel", "Buttons", "RocketLauncherButton", "Text"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponsArms, path: ["Weapons Panel", "Buttons", "ArmButton", "Text"]);
-
-        // Revolver
-        // Piercer(Blue)
-        // Marksman(Green)
-        // Sharpshooter(Red)
-
-        //Revolver window and descriptions
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponsRevolver, path: ["Revolver Window", "Variation Screen", "Title"]);
-
-        //Piercer
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_revolverPiercer, path: ["Revolver Window", "Variation Screen", "Variations", "Variation Panel (Blue)", "Variation Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_revolverPiercer, path: ["Revolver Window", "Variation Info (Blue)", "Title"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_revolverPiercer, path: ["Revolver Window", "Variation Info (Blue)", "Panel", "Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(
-            LanguageManager.CurrentLanguage.shop.shop_revolverPiercerDescription1 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_revolverPiercerDescription2,
-            path: ["Revolver Window", "Variation Info (Blue)", "Panel", "Description"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_back, path: ["Revolver Window", "Variation Info (Blue)", "Panel", "Back Button", "Text"]);
-
-        //Marksman
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_revolverMarksman, path: ["Revolver Window", "Variation Screen", "Variations", "Variation Panel (Green)", "Variation Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_revolverMarksman, path: ["Revolver Window", "Variation Info (Green)", "Title"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_revolverMarksman, path: ["Revolver Window", "Variation Info (Green)", "Panel", "Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(
-            LanguageManager.CurrentLanguage.shop.shop_revolverMarksmanDescription1 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_revolverMarksmanDescription2 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_revolverMarksmanDescription3,
-            path: ["Revolver Window", "Variation Info (Green)", "Panel", "Description"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_back, path: ["Revolver Window", "Variation Info (Green)", "Panel", "Back Button", "Text"]);
-
-        //Sharpshooter
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_revolverSharpshooter, path: ["Revolver Window", "Variation Screen", "Variations", "Variation Panel (Red)", "Variation Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_revolverSharpshooter, path: ["Revolver Window", "Variation Info (Red)", "Title"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_revolverSharpshooter, path: ["Revolver Window", "Variation Info (Red)", "Panel", "Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(
-            LanguageManager.CurrentLanguage.shop.shop_revolverSharpshooterDescription1 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_revolverSharpshooterDescription2 + "\n\n",
-            path: ["Revolver Window", "Variation Info (Red)", "Panel", "Description"]);
-        //just in case.
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_back, path: ["Revolver Window", "Variation Info (Red)", "Panel", "Back Button", "Text"]);
-
-        //Revolver info & color tabs
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponInfo, path: ["Revolver Window", "Variation Screen", "Variations", "Info and Color Panel", "InfoButton", "Text"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponColors, path: ["Revolver Window", "Variation Screen", "Variations", "Info and Color Panel", "ColorButton", "Text"]);
-
-        //Revolver lore
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponsRevolverInfo, path: ["Revolver Window", "Info Screen", "Title"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponsRevolver, path: ["Revolver Window", "Info Screen", "Main Window", "Name"]);
-
-        shopWeaponsObject.Localize<TextMeshProUGUI>(
-            "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_data + "</color>\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRevolver1 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRevolver2 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRevolver3 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRevolver4 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRevolver5 + "\n\n"
-            + "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_strategy + "</color>\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRevolver6 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRevolver7 + "\n\n"
-            + "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_advancedStrategy + "</color>\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRevolver8 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRevolver9 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRevolver10,
-            path: ["Revolver Window", "Info Screen", "Main Window", "Scroll View", "Viewport", "Text"]);
-
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_back, path: ["Revolver Window", "Info Screen", "Main Window", "Back Button", "Text"]);
-
-        //Revolver preset colors
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponsRevolverColors, path: ["Revolver Window", "Color Screen", "Title"]);
-
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_revolverPreset1, path: ["Revolver Window", "Color Screen", "Main Window", "Window", "Presets", "Template 1", "Text"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_revolverPreset2, path: ["Revolver Window", "Color Screen", "Main Window", "Window", "Presets", "Template 2", "Text"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_revolverPreset3, path: ["Revolver Window", "Color Screen", "Main Window", "Window", "Presets", "Template 3", "Text"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_revolverPreset4, path: ["Revolver Window", "Color Screen", "Main Window", "Window", "Presets", "Template 4", "Text"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_revolverPreset5, path: ["Revolver Window", "Color Screen", "Main Window", "Window", "Presets", "Template 5", "Text"]);
-
-        /*  Patch GunColorTypeGetter.ToggleAlternate() instead
-        TextMeshProUGUI revolverColorSwitchToAlternative = GetTextMeshProUGUI(FindDescendant(FindDescendant(FindDescendant(revolverColorWindow, "Standard"),"AlternateButton"),"Text"));
-        revolverColorSwitchToAlternative.text = LanguageManager.CurrentLanguage.shop.shop_colorsAlternative;
-
-        TextMeshProUGUI revolverColorSwitchToStandard = GetTextMeshProUGUI(FindDescendant(FindDescendant(FindDescendant(revolverColorWindow, "Alternate"), "AlternateButton"), "Text"));
-        revolverColorSwitchToStandard.text = LanguageManager.CurrentLanguage.shop.shop_colorsAlternative;
-        */
-
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_colorsPreset, path: ["Revolver Window", "Color Screen", "Main Window", "Window", "Type Selection", "Preset Button", "Text"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_colorsCustom, path: ["Revolver Window", "Color Screen", "Main Window", "Window", "Type Selection", "Custom Button", "Text"]);
-
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_colorsDone, path: ["Revolver Window", "Color Screen", "Main Window", "Window", "Done", "Text"]);
-
-        //Revolver custom color unlock prompt
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_colorsCustomUnlockPrompt + " " + LanguageManager.CurrentLanguage.shop.shop_weaponsRevolver, path: ["Revolver Window", "Color Screen", "Main Window", "Window", "Custom", "Locked", "Text"]);
-
-        // SHOTGUN
-        // Core Eject(Blue)
-        // Pump Charge(Green)
-        // Sawed-On(Red)
-
-        //Shotgun window and descriptions
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponsShotgun, path: ["Shotgun Window", "Variation Screen", "Title"]);
-
-        //Core Eject
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_shotgunCoreEject, path: ["Shotgun Window", "Variation Screen", "Variations", "Variation Panel (Blue)", "Variation Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_shotgunCoreEject, path: ["Shotgun Window", "Variation Info (Blue)", "Title"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_shotgunCoreEject, path: ["Shotgun Window", "Variation Info (Blue)", "Panel", "Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(
-            LanguageManager.CurrentLanguage.shop.shop_shotgunCoreEjectDescription1 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_shotgunCoreEjectDescription2 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_shotgunCoreEjectDescription3,
-            path: ["Shotgun Window", "Variation Info (Blue)", "Panel", "Description"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_back, path: ["Shotgun Window", "Variation Info (Blue)", "Panel", "Back Button", "Text"]);
-
-        //Pump Charge
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_shotgunPumpCharge, path: ["Shotgun Window", "Variation Screen", "Variations", "Variation Panel (Green)", "Variation Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_shotgunPumpCharge, path: ["Shotgun Window", "Variation Info (Green)", "Title"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_shotgunPumpCharge, path: ["Shotgun Window", "Variation Info (Green)", "Panel", "Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(
-            LanguageManager.CurrentLanguage.shop.shop_shotgunPumpChargeDescription1 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_shotgunPumpChargeDescription2,
-            path: ["Shotgun Window", "Variation Info (Green)", "Panel", "Description"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_back, path: ["Shotgun Window", "Variation Info (Green)", "Panel", "Back Button", "Text"]);
-
-        //Sawed-On
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_shotgunSawedOn, path: ["Shotgun Window", "Variation Screen", "Variations", "Variation Panel (Red)", "Variation Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_shotgunSawedOn, path: ["Shotgun Window", "Variation Info (Red)", "Title"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_shotgunSawedOn, path: ["Shotgun Window", "Variation Info (Red)", "Panel", "Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(
-            LanguageManager.CurrentLanguage.shop.shop_shotgunSawedOnDescription1 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_shotgunSawedOnDescription2 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_shotgunSawedOnDescription3,
-            path: ["Shotgun Window", "Variation Info (Red)", "Panel", "Description"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_back, path: ["Shotgun Window", "Variation Info (Red)", "Panel", "Back Button", "Text"]);
-
-        //Shotgun info & color tabs
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponInfo, path: ["Shotgun Window", "Variation Screen", "Variations", "Info and Color Panel", "InfoButton", "Text"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponColors, path: ["Shotgun Window", "Variation Screen", "Variations", "Info and Color Panel", "ColorButton", "Text"]);
-
-        //Shotgun lore
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponsShotgunInfo, path: ["Shotgun Window", "Info Screen", "Title"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponsShotgun, path: ["Shotgun Window", "Info Screen", "Main Window", "Name"]);
-
-        shopWeaponsObject.Localize<TextMeshProUGUI>(
-            "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_data + "</color>\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreShotgun1 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreShotgun2 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreShotgun3 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreShotgun4 + "\n\n"
-            + "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_strategy + "</color>\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreShotgun5 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreShotgun6 + "\n\n"
-            + "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_advancedStrategy + "</color>\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreShotgun7 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreShotgun8 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreShotgun9,
-            path: ["Shotgun Window", "Info Screen", "Main Window", "Scroll View", "Viewport", "Text"]);
-
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_back, path: ["Shotgun Window", "Info Screen", "Main Window", "Back Button", "Text"]);
-
-        //Shotgun preset colors
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponsShotgunColors, path: ["Shotgun Window", "Color Screen", "Title"]);
-
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_shotgunPreset1, path: ["Shotgun Window", "Color Screen", "Main Window", "Window", "Presets", "Template 1", "Text"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_shotgunPreset2, path: ["Shotgun Window", "Color Screen", "Main Window", "Window", "Presets", "Template 2", "Text"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_shotgunPreset3, path: ["Shotgun Window", "Color Screen", "Main Window", "Window", "Presets", "Template 3", "Text"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_shotgunPreset4, path: ["Shotgun Window", "Color Screen", "Main Window", "Window", "Presets", "Template 4", "Text"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_shotgunPreset5, path: ["Shotgun Window", "Color Screen", "Main Window", "Window", "Presets", "Template 5", "Text"]);
-
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_colorsPreset, path: ["Shotgun Window", "Color Screen", "Main Window", "Window", "Type Selection", "Preset Button", "Text"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_colorsCustom, path: ["Shotgun Window", "Color Screen", "Main Window", "Window", "Type Selection", "Custom Button", "Text"]);
-
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_colorsDone, path: ["Shotgun Window", "Color Screen", "Main Window", "Window", "Done", "Text"]);
-
-        //shotgun custom color unlock prompt
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_colorsCustomUnlockPrompt + " " + LanguageManager.CurrentLanguage.shop.shop_weaponsShotgun, path: ["Shotgun Window", "Color Screen", "Main Window", "Window", "Custom", "Locked", "Text"]);
-
-        // Nailgun
-        // Attractor(Blue)
-        // Overheat(Green)
-        // Jumpstart(Red)
-
-        //Nailgun window and descriptions
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponsNailgun, path: ["Nailgun Window", "Variation Screen", "Title"]);
-
-        //Attractor
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_nailgunMagnet, path: ["Nailgun Window", "Variation Screen", "Variations", "Variation Panel (Blue)", "Variation Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_nailgunMagnet, path: ["Nailgun Window", "Variation Info (Blue)", "Title"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_nailgunMagnet, path: ["Nailgun Window", "Variation Info (Blue)", "Panel", "Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(
-            LanguageManager.CurrentLanguage.shop.shop_nailgunMagnetDescription1 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_nailgunMagnetDescription2,
-            path: ["Nailgun Window", "Variation Info (Blue)", "Panel", "Description"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_back, path: ["Nailgun Window", "Variation Info (Blue)", "Panel", "Back Button", "Text"]);
-
-        //Overheat
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_nailgunOverheat, path: ["Nailgun Window", "Variation Screen", "Variations", "Variation Panel (Green)", "Variation Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_nailgunOverheat, path: ["Nailgun Window", "Variation Info (Green)", "Title"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_nailgunOverheat, path: ["Nailgun Window", "Variation Info (Green)", "Panel", "Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(
-            LanguageManager.CurrentLanguage.shop.shop_nailgunOverheatDescription1 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_nailgunOverheatDescription2,
-            path: ["Nailgun Window", "Variation Info (Green)", "Panel", "Description"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_back, path: ["Nailgun Window", "Variation Info (Green)", "Panel", "Back Button", "Text"]);
-
-        //Jumpstarter
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_nailgunJumpStart, path: ["Nailgun Window", "Variation Screen", "Variations", "Variation Panel (Red)", "Variation Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_nailgunJumpStart, path: ["Nailgun Window", "Variation Info (Red)", "Title"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_nailgunJumpStart, path: ["Nailgun Window", "Variation Info (Red)", "Panel", "Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(
-            LanguageManager.CurrentLanguage.shop.shop_nailgunJumpStartDescription1 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_nailgunJumpStartDescription2,
-            path: ["Nailgun Window", "Variation Info (Red)", "Panel", "Description"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_back, path: ["Nailgun Window", "Variation Info (Red)", "Panel", "Back Button", "Text"]);
-
-        //Nailgun info & color tabs
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponInfo, path: ["Nailgun Window", "Variation Screen", "Variations", "Info and Color Panel", "InfoButton", "Text"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponColors, path: ["Nailgun Window", "Variation Screen", "Variations", "Info and Color Panel", "ColorButton", "Text"]);
-
-        //Nailgun lore
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponsNailgunInfo, path: ["Nailgun Window", "Info Screen", "Title"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponsNailgun, path: ["Nailgun Window", "Info Screen", "Main Window", "Name"]);
-
-        shopWeaponsObject.Localize<TextMeshProUGUI>(
-            "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_data + "</color>\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreNailgun1 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreNailgun2 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreNailgun3 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreNailgun4 + "\n\n"
-            + "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_strategy + "</color>\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreNailgun5 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreNailgun6 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreNailgun7 + "\n\n"
-            + "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_advancedStrategy + "</color>\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreNailgun8 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreNailgun9,
-            path: ["Nailgun Window", "Info Screen", "Main Window", "Scroll View", "Viewport", "Text"]);
-
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_back, path: ["Nailgun Window", "Info Screen", "Main Window", "Back Button", "Text"]);
-
-        //nailgun preset colors
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponsNailgunColors, path: ["Nailgun Window", "Color Screen", "Title"]);
-
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_nailgunPreset1, path: ["Nailgun Window", "Color Screen", "Main Window", "Window", "Presets", "Template 1", "Text"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_nailgunPreset2, path: ["Nailgun Window", "Color Screen", "Main Window", "Window", "Presets", "Template 2", "Text"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_nailgunPreset3, path: ["Nailgun Window", "Color Screen", "Main Window", "Window", "Presets", "Template 3", "Text"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_nailgunPreset4, path: ["Nailgun Window", "Color Screen", "Main Window", "Window", "Presets", "Template 4", "Text"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_nailgunPreset5, path: ["Nailgun Window", "Color Screen", "Main Window", "Window", "Presets", "Template 5", "Text"]);
-
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_colorsPreset, path: ["Nailgun Window", "Color Screen", "Main Window", "Window", "Type Selection", "Preset Button", "Text"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_colorsCustom, path: ["Nailgun Window", "Color Screen", "Main Window", "Window", "Type Selection", "Custom Button", "Text"]);
-
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_colorsDone, path: ["Nailgun Window", "Color Screen", "Main Window", "Window", "Done", "Text"]);
-
-        //nailgun custom color unlock prompt
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_colorsCustomUnlockPrompt + " " + LanguageManager.CurrentLanguage.shop.shop_weaponsNailgun, path: ["Nailgun Window", "Color Screen", "Main Window", "Window", "Custom", "Locked", "Text"]);
-
-        // Railcannon
-        // Electric(Blue)
-        // Screwdriver(Green)
-        // Malicious(Red)
-
-        //Railcannon window and descriptions
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponsRailcannon, path: ["Railcannon Window", "Variation Screen", "Title"]);
-
-        //Electric
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_railcannonElectric, path: ["Railcannon Window", "Variation Screen", "Variations", "Variation Panel (Blue)", "Variation Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_railcannonElectric, path: ["Railcannon Window", "Variation Info (Blue)", "Title"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_railcannonElectric, path: ["Railcannon Window", "Variation Info (Blue)", "Panel", "Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(
-            LanguageManager.CurrentLanguage.shop.shop_railcannonElectricDescription1 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_railcannonElectricDescription2 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_railcannonElectricDescription3,
-            path: ["Railcannon Window", "Variation Info (Blue)", "Panel", "Description"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_back, path: ["Railcannon Window", "Variation Info (Blue)", "Panel", "Back Button", "Text"]);
-
-        //Screwdriver
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_railcannonScrewdriver, path: ["Railcannon Window", "Variation Screen", "Variations", "Variation Panel (Green)", "Variation Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_railcannonScrewdriver, path: ["Railcannon Window", "Variation Info (Green)", "Title"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_railcannonScrewdriver, path: ["Railcannon Window", "Variation Info (Green)", "Panel", "Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(
-            LanguageManager.CurrentLanguage.shop.shop_railcannonScrewdriverDescription1 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_railcannonScrewdriverDescription2,
-            path: ["Railcannon Window", "Variation Info (Green)", "Panel", "Description"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_back, path: ["Railcannon Window", "Variation Info (Green)", "Panel", "Back Button", "Text"]);
-
-        //Malicious
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_railcannonMalicious, path: ["Railcannon Window", "Variation Screen", "Variations", "Variation Panel (Red)", "Variation Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_railcannonMalicious, path: ["Railcannon Window", "Variation Info (Red)", "Title"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_railcannonMalicious, path: ["Railcannon Window", "Variation Info (Red)", "Panel", "Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(
-            LanguageManager.CurrentLanguage.shop.shop_railcannonMaliciousDescription1 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_railcannonMaliciousDescription2,
-            path: ["Railcannon Window", "Variation Info (Red)", "Panel", "Description"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_back, path: ["Railcannon Window", "Variation Info (Red)", "Panel", "Back Button", "Text"]);
-
-        //Railcannon info & color tabs
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponInfo, path: ["Railcannon Window", "Variation Screen", "Variations", "Info and Color Panel", "InfoButton", "Text"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponColors, path: ["Railcannon Window", "Variation Screen", "Variations", "Info and Color Panel", "ColorButton", "Text"]);
-
-        //Railcannon lore
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponsRailcannonInfo, path: ["Railcannon Window", "Info Screen", "Title"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponsRailcannon, path: ["Railcannon Window", "Info Screen", "Main Window", "Name"]);
-
-        shopWeaponsObject.Localize<TextMeshProUGUI>(
-            "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_data + "</color>\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRailcannon1 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRailcannon2 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRailcannon3 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRailcannon4 + "\n\n"
-            + "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_strategy + "</color>\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRailcannon5 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRailcannon6 + "\n\n"
-            + "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_advancedStrategy + "</color>\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRailcannon7 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRailcannon8 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRailcannon9,
-            path: ["Railcannon Window", "Info Screen", "Main Window", "Scroll View", "Viewport", "Text"]);
-
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_back, path: ["Railcannon Window", "Info Screen", "Main Window", "Back Button", "Text"]);
-
-        //Railcannon preset colors
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponsRailcannonColors, path: ["Railcannon Window", "Color Screen", "Title"]);
-
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_railcannonPreset1, path: ["Railcannon Window", "Color Screen", "Main Window", "Window", "Presets", "Template 1", "Text"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_railcannonPreset2, path: ["Railcannon Window", "Color Screen", "Main Window", "Window", "Presets", "Template 2", "Text"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_railcannonPreset3, path: ["Railcannon Window", "Color Screen", "Main Window", "Window", "Presets", "Template 3", "Text"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_railcannonPreset4, path: ["Railcannon Window", "Color Screen", "Main Window", "Window", "Presets", "Template 4", "Text"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_railcannonPreset5, path: ["Railcannon Window", "Color Screen", "Main Window", "Window", "Presets", "Template 5", "Text"]);
-
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_colorsPreset, path: ["Railcannon Window", "Color Screen", "Main Window", "Window", "Type Selection", "Preset Button", "Text"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_colorsCustom, path: ["Railcannon Window", "Color Screen", "Main Window", "Window", "Type Selection", "Custom Button", "Text"]);
-
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_colorsDone, path: ["Railcannon Window", "Color Screen", "Main Window", "Window", "Done", "Text"]);
-
-        //railcannon custom color unlock prompt
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_colorsCustomUnlockPrompt + " " + LanguageManager.CurrentLanguage.shop.shop_weaponsRailcannon, path: ["Railcannon Window", "Color Screen", "Main Window", "Window", "Custom", "Locked", "Text"]);
-
-        // Rocket Launcher
-        // Freezeframe(Blue)
-        // S.R.S Cannon(Green)
-        // Firestarter(Red)
-
-        //Rocket launcher window & descriptions
-        //Rocket launcher window & descriptions
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponsRocketLauncher, path: ["Rocket Launcher Window", "Variation Screen", "Title"]);
-
-        //Freezeframe
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_rocketLauncherFreeze, path: ["Rocket Launcher Window", "Variation Screen", "Variations", "Variation Panel (Blue)", "Variation Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_rocketLauncherFreeze, path: ["Rocket Launcher Window", "Variation Info (Blue)", "Title"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_rocketLauncherFreeze, path: ["Rocket Launcher Window", "Variation Info (Blue)", "Panel", "Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(
-            LanguageManager.CurrentLanguage.shop.shop_rocketLauncherFreezeDescription1 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_rocketLauncherFreezeDescription2,
-            path: ["Rocket Launcher Window", "Variation Info (Blue)", "Panel", "Description"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_back, path: ["Rocket Launcher Window", "Variation Info (Blue)", "Panel", "Back Button", "Text"]);
-
-        //Rocket Launcher green variation
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_rocketLauncherSrsCannon, path: ["Rocket Launcher Window", "Variation Screen", "Variations", "Variation Panel (Green)", "Variation Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_rocketLauncherSrsCannon, path: ["Rocket Launcher Window", "Variation Info (Green)", "Title"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_rocketLauncherSrsCannon, path: ["Rocket Launcher Window", "Variation Info (Green)", "Panel", "Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(
-            LanguageManager.CurrentLanguage.shop.shop_rocketLauncherSrsCannonDescription1 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_rocketLauncherSrsCannonDescription2 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_rocketLauncherSrsCannonDescription3,
-            path: ["Rocket Launcher Window", "Variation Info (Green)", "Panel", "Description"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_back, path: ["Rocket Launcher Window", "Variation Info (Green)", "Panel", "Back Button", "Text"]);
-
-        //Firestarter a.k.a Gasoline
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_rocketLauncherFireStarter, path: ["Rocket Launcher Window", "Variation Screen", "Variations", "Variation Panel (Red)", "Variation Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_rocketLauncherFireStarter, path: ["Rocket Launcher Window", "Variation Info (Red)", "Title"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_rocketLauncherFireStarter, path: ["Rocket Launcher Window", "Variation Info (Red)", "Panel", "Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(
-            LanguageManager.CurrentLanguage.shop.shop_rocketLauncherFireStarterDescription1 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_rocketLauncherFireStarterDescription2,
-            path: ["Rocket Launcher Window", "Variation Info (Red)", "Panel", "Description"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_back, path: ["Rocket Launcher Window", "Variation Info (Red)", "Panel", "Back Button", "Text"]);
-
-        //Rocket launcher info & color tabs
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponInfo, path: ["Rocket Launcher Window", "Variation Screen", "Variations", "Info and Color Panel", "InfoButton", "Text"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponColors, path: ["Rocket Launcher Window", "Variation Screen", "Variations", "Info and Color Panel", "ColorButton", "Text"]);
-
-        //RocketLauncher lore
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponsRocketLauncherInfo, path: ["Rocket Launcher Window", "Info Screen", "Title"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponsRocketLauncher, path: ["Rocket Launcher Window", "Info Screen", "Main Window", "Name"]);
-
-        shopWeaponsObject.Localize<TextMeshProUGUI>(
-            "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_data + "</color>\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher1 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher2 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher3 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher4 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher5 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher6 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher7 + "\n\n"
-            + "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_strategy + "</color>\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher8 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher9 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher10 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher11 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher12 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher13 + "\n\n"
-            + "<color=#FF4343>" + LanguageManager.CurrentLanguage.shop.shop_advancedStrategy + "</color>\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher14 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher15 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_loreRocketLauncher16,
-            path: ["Rocket Launcher Window", "Info Screen", "Main Window", "Scroll View", "Viewport", "Text"]);
-
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_back, path: ["Rocket Launcher Window", "Info Screen", "Main Window", "Back Button", "Text"]);
-
-        //RocketLauncher preset colors
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponsRocketLauncherColors, path: ["Rocket Launcher Window", "Color Screen", "Title"]);
-
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_rocketlauncherPreset1, path: ["Rocket Launcher Window", "Color Screen", "Main Window", "Window", "Presets", "Template 1", "Text"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_rocketlauncherPreset2, path: ["Rocket Launcher Window", "Color Screen", "Main Window", "Window", "Presets", "Template 2", "Text"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_rocketlauncherPreset3, path: ["Rocket Launcher Window", "Color Screen", "Main Window", "Window", "Presets", "Template 3", "Text"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_rocketlauncherPreset4, path: ["Rocket Launcher Window", "Color Screen", "Main Window", "Window", "Presets", "Template 4", "Text"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_rocketlauncherPreset5, path: ["Rocket Launcher Window", "Color Screen", "Main Window", "Window", "Presets", "Template 5", "Text"]);
-
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_colorsPreset, path: ["Rocket Launcher Window", "Color Screen", "Main Window", "Window", "Type Selection", "Preset Button", "Text"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_colorsCustom, path: ["Rocket Launcher Window", "Color Screen", "Main Window", "Window", "Type Selection", "Custom Button", "Text"]);
-
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_colorsDone, path: ["Rocket Launcher Window", "Color Screen", "Main Window", "Window", "Done", "Text"]);
-
-        //rocketlauncher custom color unlock prompt
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_colorsCustomUnlockPrompt + " " + LanguageManager.CurrentLanguage.shop.shop_weaponsRocketLauncher, path: ["Rocket Launcher Window", "Color Screen", "Main Window", "Window", "Custom", "Locked", "Text"]);
         // Arm
-        // Feedbacker(Blue)
-        // Knuckleblaster(Red)
-        // Whiplash(Green)
-        // ???(Yellow)
-
-        //Arm window and descriptions
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_weaponsArms, path: ["Arm Window", "Variation Screen", "Title"]);
-
-        //Feedbacker
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_armFeedbacker, path: ["Arm Window", "Variation Screen", "Variations", "Arm Panel (Blue)", "Variation Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_armFeedbacker, path: ["Arm Window", "Arm Info (Blue)", "Title"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_armFeedbacker, path: ["Arm Window", "Arm Info (Blue)", "Panel", "Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(
-            LanguageManager.CurrentLanguage.shop.shop_armFeedbackerDescription1 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_armFeedbackerDescription2,
-            path: ["Arm Window", "Arm Info (Blue)", "Panel", "Description"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_back, path: ["Arm Window", "Arm Info (Blue)", "Panel", "Back Button", "Text"]);
-
-        //Knuckleblaster
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_armKnuckleblaster, path: ["Arm Window", "Variation Screen", "Variations", "Arm Panel (Red)", "Variation Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_armKnuckleblaster, path: ["Arm Window", "Arm Info (Red)", "Title"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_armKnuckleblaster, path: ["Arm Window", "Arm Info (Red)", "Panel", "Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(
-            LanguageManager.CurrentLanguage.shop.shop_armKnuckleblasterDescription1 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_armKnuckleblasterDescription2,
-            path: ["Arm Window", "Arm Info (Red)", "Panel", "Description"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_back, path: ["Arm Window", "Arm Info (Red)", "Panel", "Back Button", "Text"]);
-
-        //Whiplash
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_armWhiplash, path: ["Arm Window", "Variation Screen", "Variations", "Arm Panel (Green)", "Variation Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_armWhiplash, path: ["Arm Window", "Arm Info (Green)", "Title"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_armWhiplash, path: ["Arm Window", "Arm Info (Green)", "Panel", "Name"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(
-            LanguageManager.CurrentLanguage.shop.shop_armWhiplashDescription1 + "\n\n"
-            + LanguageManager.CurrentLanguage.shop.shop_armWhiplashDescription2,
-            path: ["Arm Window", "Arm Info (Green)", "Panel", "Description"]);
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_back, path: ["Arm Window", "Arm Info (Green)", "Panel", "Back Button", "Text"]);
-
-        //Gold arm (under construction) - Purchase Status shows "under construction" instead of a name
-        shopWeaponsObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.misc.weapons_underConstruction, path: ["Arm Window", "Variation Screen", "Variations", "Arm Panel (Gold)", "Purchase Status"]);
-}
+        PatchArm(shopWeaponsObject);
+    }
 
     public static void PatchShopRefactor(GameObject shopObject)
     {
         PatchShopFrontEnd(shopObject);
         PatchWeapons(shopObject);
+    }
+
+    private static void PatchWeapon(GameObject root, WeaponData w)
+    {
+        var t = LanguageManager.CurrentLanguage;
+
+        root.Localize<TextMeshProUGUI>(w.Title(t), path: ["Weapons Panel", "Buttons", w.Button, "Text"]);
+        root.Localize<TextMeshProUGUI>(w.Title(t), path: [w.Window, "Variation Screen", "Title"]);
+
+        foreach (var (color, name, description) in w.Variations)
+        {
+            root.Localize<TextMeshProUGUI>(name(t), path: [w.Window, "Variation Screen", "Variations", $"Variation Panel ({color})", "Variation Name"]);
+            root.Localize<TextMeshProUGUI>(name(t), path: [w.Window, $"Variation Info ({color})", "Title"]);
+            root.Localize<TextMeshProUGUI>(name(t), path: [w.Window, $"Variation Info ({color})", "Panel", "Name"]);
+            root.Localize<TextMeshProUGUI>(description(t), path: [w.Window, $"Variation Info ({color})", "Panel", "Description"]);
+            root.Localize<TextMeshProUGUI>(t.shop.shop_back, path: [w.Window, $"Variation Info ({color})", "Panel", "Back Button", "Text"]);
+        }
+
+        // info & color tabs (shared across weapons)
+        root.Localize<TextMeshProUGUI>(t.shop.shop_weaponInfo, path: [w.Window, "Variation Screen", "Variations", "Info and Color Panel", "InfoButton", "Text"]);
+        root.Localize<TextMeshProUGUI>(t.shop.shop_weaponColors, path: [w.Window, "Variation Screen", "Variations", "Info and Color Panel", "ColorButton", "Text"]);
+
+        // lore
+        root.Localize<TextMeshProUGUI>(w.InfoTitle(t), path: [w.Window, "Info Screen", "Title"]);
+        root.Localize<TextMeshProUGUI>(w.Title(t), path: [w.Window, "Info Screen", "Main Window", "Name"]);
+        root.Localize<TextMeshProUGUI>(w.Lore(t), path: [w.Window, "Info Screen", "Main Window", "Scroll View", "Viewport", "Text"]);
+        root.Localize<TextMeshProUGUI>(t.shop.shop_back, path: [w.Window, "Info Screen", "Main Window", "Back Button", "Text"]);
+
+        // preset colors
+        root.Localize<TextMeshProUGUI>(w.ColorsTitle(t), path: [w.Window, "Color Screen", "Title"]);
+        for (int i = 0; i < w.Presets.Length; i++)
+            root.Localize<TextMeshProUGUI>(w.Presets[i](t), path: [w.Window, "Color Screen", "Main Window", "Window", "Presets", $"Template {i + 1}", "Text"]);
+
+        // This part should not be blocked when add compability with ohter mods
+        root.Localize<TextMeshProUGUI>(t.shop.shop_colorsPreset, path: [w.Window, "Color Screen", "Main Window", "Window", "Type Selection", "Preset Button", "Text"]);
+        root.Localize<TextMeshProUGUI>(t.shop.shop_colorsCustom, path: [w.Window, "Color Screen", "Main Window", "Window", "Type Selection", "Custom Button", "Text"]);
+        root.Localize<TextMeshProUGUI>(t.shop.shop_colorsDone, path: [w.Window, "Color Screen", "Main Window", "Window", "Done", "Text"]);
+        root.Localize<TextMeshProUGUI>(t.shop.shop_colorsCustomUnlockPrompt + " " + w.Title(t), path: [w.Window, "Color Screen", "Main Window", "Window", "Custom", "Locked", "Text"]);
+    }
+
+    private static void PatchArm(GameObject root)
+    {
+        var t = LanguageManager.CurrentLanguage;
+
+        root.Localize<TextMeshProUGUI>(t.shop.shop_weaponsArms, path: ["Arm Window", "Variation Screen", "Title"]);
+
+        (string Color, string Field, Func<JsonFormat, string> Description)[] arms =
+        {
+            ("Blue", t.shop.shop_armFeedbacker, t => t.shop.shop_armFeedbackerDescription1 + "\n\n" + t.shop.shop_armFeedbackerDescription2),
+            ("Red", t.shop.shop_armKnuckleblaster, t => t.shop.shop_armKnuckleblasterDescription1 + "\n\n" + t.shop.shop_armKnuckleblasterDescription2),
+            ("Green", t.shop.shop_armWhiplash, t => t.shop.shop_armWhiplashDescription1 + "\n\n" + t.shop.shop_armWhiplashDescription2),
+        };
+
+        foreach (var (color, field, desc) in arms)
+        {
+            root.Localize<TextMeshProUGUI>(field, path: ["Arm Window", "Variation Screen", "Variations", $"Arm Panel ({color})", "Variation Name"]);
+            root.Localize<TextMeshProUGUI>(field, path: ["Arm Window", $"Arm Info ({color})", "Title"]);
+            root.Localize<TextMeshProUGUI>(field, path: ["Arm Window", $"Arm Info ({color})", "Panel", "Name"]);
+            root.Localize<TextMeshProUGUI>(desc(t), path: ["Arm Window", $"Arm Info ({color})", "Panel", "Description"]);
+            root.Localize<TextMeshProUGUI>(t.shop.shop_back, path: ["Arm Window", $"Arm Info ({color})", "Panel", "Back Button", "Text"]);
+        }
+
+        // Gold arm (under construction) - Purchase Status shows "under construction"
+        root.Localize<TextMeshProUGUI>(t.misc.weapons_underConstruction, path: ["Arm Window", "Variation Screen", "Variations", "Arm Panel (Gold)", "Purchase Status"]);
+    }
+
+    private static readonly WeaponData[] ShopWeapons =
+    {
+        new()
+        {
+            Window = "Revolver Window",
+            Button = "RevolverButton",
+            Title = t => t.shop.shop_weaponsRevolver,
+            InfoTitle = t => t.shop.shop_weaponsRevolverInfo,
+            ColorsTitle = t => t.shop.shop_weaponsRevolverColors,
+            Variations =
+            [
+                ("Blue", t => t.shop.shop_revolverPiercer,
+                    t => t.shop.shop_revolverPiercerDescription1 + "\n\n" + t.shop.shop_revolverPiercerDescription2),
+                ("Green", t => t.shop.shop_revolverMarksman,
+                    t => t.shop.shop_revolverMarksmanDescription1 + "\n\n" + t.shop.shop_revolverMarksmanDescription2 + "\n\n" + t.shop.shop_revolverMarksmanDescription3),
+                ("Red", t => t.shop.shop_revolverSharpshooter,
+                    t => t.shop.shop_revolverSharpshooterDescription1 + "\n\n" + t.shop.shop_revolverSharpshooterDescription2 + "\n\n"),
+            ],
+            Lore = t => "<color=#FF4343>" + t.shop.shop_data + "</color>\n"
+                + t.shop.shop_loreRevolver1 + "\n\n"
+                + t.shop.shop_loreRevolver2 + "\n\n"
+                + t.shop.shop_loreRevolver3 + "\n\n"
+                + t.shop.shop_loreRevolver4 + "\n\n"
+                + t.shop.shop_loreRevolver5 + "\n\n"
+                + "<color=#FF4343>" + t.shop.shop_strategy + "</color>\n"
+                + t.shop.shop_loreRevolver6 + "\n\n"
+                + t.shop.shop_loreRevolver7 + "\n\n"
+                + "<color=#FF4343>" + t.shop.shop_advancedStrategy + "</color>\n"
+                + t.shop.shop_loreRevolver8 + "\n\n"
+                + t.shop.shop_loreRevolver9 + "\n\n"
+                + t.shop.shop_loreRevolver10,
+            Presets =
+            [
+                t => t.shop.shop_revolverPreset1, t => t.shop.shop_revolverPreset2, t => t.shop.shop_revolverPreset3,
+                t => t.shop.shop_revolverPreset4, t => t.shop.shop_revolverPreset5,
+            ],
+        },
+        new()
+        {
+            Window = "Shotgun Window",
+            Button = "ShotgunButton",
+            Title = t => t.shop.shop_weaponsShotgun,
+            InfoTitle = t => t.shop.shop_weaponsShotgunInfo,
+            ColorsTitle = t => t.shop.shop_weaponsShotgunColors,
+            Variations =
+            [
+                ("Blue", t => t.shop.shop_shotgunCoreEject,
+                    t => t.shop.shop_shotgunCoreEjectDescription1 + "\n\n" + t.shop.shop_shotgunCoreEjectDescription2 + "\n\n" + t.shop.shop_shotgunCoreEjectDescription3),
+                ("Green", t => t.shop.shop_shotgunPumpCharge,
+                    t => t.shop.shop_shotgunPumpChargeDescription1 + "\n\n" + t.shop.shop_shotgunPumpChargeDescription2),
+                ("Red", t => t.shop.shop_shotgunSawedOn,
+                    t => t.shop.shop_shotgunSawedOnDescription1 + "\n\n" + t.shop.shop_shotgunSawedOnDescription2 + "\n\n" + t.shop.shop_shotgunSawedOnDescription3),
+            ],
+            Lore = t => "<color=#FF4343>" + t.shop.shop_data + "</color>\n"
+                + t.shop.shop_loreShotgun1 + "\n\n"
+                + t.shop.shop_loreShotgun2 + "\n\n"
+                + t.shop.shop_loreShotgun3 + "\n\n"
+                + t.shop.shop_loreShotgun4 + "\n\n"
+                + "<color=#FF4343>" + t.shop.shop_strategy + "</color>\n"
+                + t.shop.shop_loreShotgun5 + "\n\n"
+                + t.shop.shop_loreShotgun6 + "\n\n"
+                + "<color=#FF4343>" + t.shop.shop_advancedStrategy + "</color>\n"
+                + t.shop.shop_loreShotgun7 + "\n\n"
+                + t.shop.shop_loreShotgun8 + "\n\n"
+                + t.shop.shop_loreShotgun9,
+            Presets =
+            [
+                t => t.shop.shop_shotgunPreset1, t => t.shop.shop_shotgunPreset2, t => t.shop.shop_shotgunPreset3,
+                t => t.shop.shop_shotgunPreset4, t => t.shop.shop_shotgunPreset5,
+            ],
+        },
+        new()
+        {
+            Window = "Nailgun Window",
+            Button = "NailgunButton",
+            Title = t => t.shop.shop_weaponsNailgun,
+            InfoTitle = t => t.shop.shop_weaponsNailgunInfo,
+            ColorsTitle = t => t.shop.shop_weaponsNailgunColors,
+            Variations =
+            [
+                ("Blue", t => t.shop.shop_nailgunMagnet,
+                    t => t.shop.shop_nailgunMagnetDescription1 + "\n\n" + t.shop.shop_nailgunMagnetDescription2),
+                ("Green", t => t.shop.shop_nailgunOverheat,
+                    t => t.shop.shop_nailgunOverheatDescription1 + "\n\n" + t.shop.shop_nailgunOverheatDescription2),
+                ("Red", t => t.shop.shop_nailgunJumpStart,
+                    t => t.shop.shop_nailgunJumpStartDescription1 + "\n\n" + t.shop.shop_nailgunJumpStartDescription2),
+            ],
+            Lore = t => "<color=#FF4343>" + t.shop.shop_data + "</color>\n"
+                + t.shop.shop_loreNailgun1 + "\n\n"
+                + t.shop.shop_loreNailgun2 + "\n\n"
+                + t.shop.shop_loreNailgun3 + "\n\n"
+                + t.shop.shop_loreNailgun4 + "\n\n"
+                + "<color=#FF4343>" + t.shop.shop_strategy + "</color>\n"
+                + t.shop.shop_loreNailgun5 + "\n\n"
+                + t.shop.shop_loreNailgun6 + "\n\n"
+                + t.shop.shop_loreNailgun7 + "\n\n"
+                + "<color=#FF4343>" + t.shop.shop_advancedStrategy + "</color>\n"
+                + t.shop.shop_loreNailgun8 + "\n\n"
+                + t.shop.shop_loreNailgun9,
+            Presets =
+            [
+                t => t.shop.shop_nailgunPreset1, t => t.shop.shop_nailgunPreset2, t => t.shop.shop_nailgunPreset3,
+                t => t.shop.shop_nailgunPreset4, t => t.shop.shop_nailgunPreset5,
+            ],
+        },
+        new()
+        {
+            Window = "Railcannon Window",
+            Button = "RailcannonButton",
+            Title = t => t.shop.shop_weaponsRailcannon,
+            InfoTitle = t => t.shop.shop_weaponsRailcannonInfo,
+            ColorsTitle = t => t.shop.shop_weaponsRailcannonColors,
+            Variations =
+            [
+                ("Blue", t => t.shop.shop_railcannonElectric,
+                    t => t.shop.shop_railcannonElectricDescription1 + "\n\n" + t.shop.shop_railcannonElectricDescription2 + "\n\n" + t.shop.shop_railcannonElectricDescription3),
+                ("Green", t => t.shop.shop_railcannonScrewdriver,
+                    t => t.shop.shop_railcannonScrewdriverDescription1 + "\n\n" + t.shop.shop_railcannonScrewdriverDescription2),
+                ("Red", t => t.shop.shop_railcannonMalicious,
+                    t => t.shop.shop_railcannonMaliciousDescription1 + "\n\n" + t.shop.shop_railcannonMaliciousDescription2),
+            ],
+            Lore = t => "<color=#FF4343>" + t.shop.shop_data + "</color>\n"
+                + t.shop.shop_loreRailcannon1 + "\n\n"
+                + t.shop.shop_loreRailcannon2 + "\n\n"
+                + t.shop.shop_loreRailcannon3 + "\n\n"
+                + t.shop.shop_loreRailcannon4 + "\n\n"
+                + "<color=#FF4343>" + t.shop.shop_strategy + "</color>\n"
+                + t.shop.shop_loreRailcannon5 + "\n\n"
+                + t.shop.shop_loreRailcannon6 + "\n\n"
+                + "<color=#FF4343>" + t.shop.shop_advancedStrategy + "</color>\n"
+                + t.shop.shop_loreRailcannon7 + "\n\n"
+                + t.shop.shop_loreRailcannon8 + "\n\n"
+                + t.shop.shop_loreRailcannon9,
+            Presets =
+            [
+                t => t.shop.shop_railcannonPreset1, t => t.shop.shop_railcannonPreset2, t => t.shop.shop_railcannonPreset3,
+                t => t.shop.shop_railcannonPreset4, t => t.shop.shop_railcannonPreset5,
+            ],
+        },
+        new()
+        {
+            Window = "Rocket Launcher Window",
+            Button = "RocketLauncherButton",
+            Title = t => t.shop.shop_weaponsRocketLauncher,
+            InfoTitle = t => t.shop.shop_weaponsRocketLauncherInfo,
+            ColorsTitle = t => t.shop.shop_weaponsRocketLauncherColors,
+            Variations =
+            [
+                ("Blue", t => t.shop.shop_rocketLauncherFreeze,
+                    t => t.shop.shop_rocketLauncherFreezeDescription1 + "\n\n" + t.shop.shop_rocketLauncherFreezeDescription2),
+                ("Green", t => t.shop.shop_rocketLauncherSrsCannon,
+                    t => t.shop.shop_rocketLauncherSrsCannonDescription1 + "\n\n" + t.shop.shop_rocketLauncherSrsCannonDescription2 + "\n\n" + t.shop.shop_rocketLauncherSrsCannonDescription3),
+                ("Red", t => t.shop.shop_rocketLauncherFireStarter,
+                    t => t.shop.shop_rocketLauncherFireStarterDescription1 + "\n\n" + t.shop.shop_rocketLauncherFireStarterDescription2),
+            ],
+            Lore = t => "<color=#FF4343>" + t.shop.shop_data + "</color>\n"
+                + t.shop.shop_loreRocketLauncher1 + "\n\n"
+                + t.shop.shop_loreRocketLauncher2 + "\n\n"
+                + t.shop.shop_loreRocketLauncher3 + "\n\n"
+                + t.shop.shop_loreRocketLauncher4 + "\n\n"
+                + t.shop.shop_loreRocketLauncher5 + "\n\n"
+                + t.shop.shop_loreRocketLauncher6 + "\n\n"
+                + t.shop.shop_loreRocketLauncher7 + "\n\n"
+                + "<color=#FF4343>" + t.shop.shop_strategy + "</color>\n"
+                + t.shop.shop_loreRocketLauncher8 + "\n\n"
+                + t.shop.shop_loreRocketLauncher9 + "\n\n"
+                + t.shop.shop_loreRocketLauncher10 + "\n\n"
+                + t.shop.shop_loreRocketLauncher11 + "\n\n"
+                + t.shop.shop_loreRocketLauncher12 + "\n\n"
+                + t.shop.shop_loreRocketLauncher13 + "\n\n"
+                + "<color=#FF4343>" + t.shop.shop_advancedStrategy + "</color>\n"
+                + t.shop.shop_loreRocketLauncher14 + "\n\n"
+                + t.shop.shop_loreRocketLauncher15 + "\n\n"
+                + t.shop.shop_loreRocketLauncher16,
+            Presets =
+            [
+                t => t.shop.shop_rocketlauncherPreset1, t => t.shop.shop_rocketlauncherPreset2, t => t.shop.shop_rocketlauncherPreset3,
+                t => t.shop.shop_rocketlauncherPreset4, t => t.shop.shop_rocketlauncherPreset5,
+            ],
+        },
+    };
+
+    private sealed class WeaponData
+    {
+        public string Window = "";
+        public string Button = "";
+        public Func<JsonFormat, string> Title = _ => "";
+        public Func<JsonFormat, string> InfoTitle = _ => "";
+        public Func<JsonFormat, string> ColorsTitle = _ => "";
+        public (string Color, Func<JsonFormat, string> Name, Func<JsonFormat, string> Description)[] Variations = [];
+        public Func<JsonFormat, string> Lore = _ => "";
+        public Func<JsonFormat, string>[] Presets = [];
     }
     
 }
