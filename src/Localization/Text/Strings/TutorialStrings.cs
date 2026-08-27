@@ -102,10 +102,10 @@ class TutorialStrings
             calibrationAudioMusic.text = LanguageManager.CurrentLanguage.options.audio_musicVolume;
 
             TextMeshProUGUI calibrationAudioDone = GetTextMeshProUGUI(FindDescendant(calibrationAudioWindow, "Bone (1)", "Text"));
-            calibrationAudioDone.text = LanguageManager.CurrentLanguage.shop.shop_colorsDone;
+            calibrationAudioDone.text = LanguageManager.CurrentLanguage.tutorial.tutorial_audioCalibrationDone;
             
             TextMeshProUGUI calibrationAudioDoneAlt = GetTextMeshProUGUI(FindDescendant(calibrationAudioWindow, "Done", "Text"));
-            calibrationAudioDoneAlt.text = LanguageManager.CurrentLanguage.shop.shop_colorsDone;
+            calibrationAudioDoneAlt.text = LanguageManager.CurrentLanguage.tutorial.tutorial_audioCalibrationDone;
 
             //Audio warning
             TextMeshProUGUI calibrationMasterAudioWarningPrompt = GetTextMeshProUGUI(FindDescendant(calibrationAudioWindowWarning, "Text (No Master)"));
