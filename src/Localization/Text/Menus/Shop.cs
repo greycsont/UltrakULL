@@ -159,6 +159,7 @@ public static class Shop
     {
         var t = LanguageManager.CurrentLanguage;
 
+        root.Localize<TextMeshProUGUI>(t.shop.shop_weaponsArms, path: ["Weapons Panel", "Buttons", "ArmButton", "Text"]);
         root.Localize<TextMeshProUGUI>(t.shop.shop_weaponsArms, path: ["Arm Window", "Variation Screen", "Title"]);
 
         (string Color, string Field, Func<JsonFormat, string> Description)[] arms =
