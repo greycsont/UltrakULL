@@ -78,7 +78,7 @@ public class ControlBindNames
             case "PUNCH (FEEDBACKER)": { return LanguageManager.CurrentLanguage.options.controls_punchFeedbacker; }
             case "PUNCH (KNUCKLEBLASTER)": { return LanguageManager.CurrentLanguage.options.controls_punchKnuckleblaster; }
             case "HOOK": { return LanguageManager.CurrentLanguage.options.controls_whiplash; }
-            case "STATS": { return LanguageManager.CurrentLanguage.sandbox.sandbox_shop_stats; }
+            case "STATS": { return LanguageManager.CurrentLanguage.options.controls_stats; }
             default: return originalText;
         }
     }
