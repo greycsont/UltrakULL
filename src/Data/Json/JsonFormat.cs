@@ -3118,6 +3118,7 @@ public class Museum
     public string museum_bookAdditionalCredits7;
     public string museum_bookAdditionalCredits8;
     public string museum_bookAdditionalCredits9;
+    public string museum_bookAdditionalCreditsForFonts;
     
     public string museum_bookStephanWeyte1;
     public string museum_bookStephanWeyte2;
