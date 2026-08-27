@@ -2560,7 +2560,7 @@ public class Tutorial
     public string tutorial_audioCalibrationSFXWarning3;
     public string tutorial_audioCalibrationWarningPromptYes;
     public string tutorial_audioCalibrationWarningPromptNo;
-    public string tutorial_audioCalibrationConfirm;
+    public string tutorial_audioCalibrationDone;
 
     public string tutorial_videoCalibrationTitle;
     public string tutorial_videoCalibrationPcDescription;
