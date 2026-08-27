@@ -2076,6 +2076,7 @@ public class LevelTips
     public string leveltips_cybergrind;
     public string leveltips_sandbox1;
     public string leveltips_sandbox2;
+    public string levelTips_sandboxCheatCode;
 
     public string leveltips_devMuseum;
 }
@@ -2256,6 +2257,7 @@ public class Option
     public string controls_punchKnuckleblaster;
     public string controls_whiplash;
     public string controls_boundMultiple;
+    public string controls_stats;
 
     public string graphics_resolution;
     public string graphics_fullscreen;
@@ -2290,6 +2292,12 @@ public class Option
     public string graphics_customColorPalette;
     public string graphics_customPaletteTexture;
     public string graphics_customColorPaletteSelect;
+    public string graphics_customColorPaletteGamebotColor;
+    public string graphics_customColorPaletteNoir;
+    public string graphics_customColorPalettePinkAndPurple;
+    public string graphics_customColorPaletteRustic;
+    public string graphics_customColorPaletteShake;
+    public string graphics_customColorPaletteSinShitty;
 
     public string graphics_colorCompression;
     public string graphics_colorCompressionNone;
@@ -2332,6 +2340,7 @@ public class Option
     public string hud_backgroundOpacityMaximum;
     public string hud_alwaysOnTop;
     public string hud_icons;
+    public string hud_iconsDefault;
     public string hud_reduceHudMotion;
     public string hud_weaponIcon;
     public string hud_armIcon;
@@ -2551,6 +2560,7 @@ public class Tutorial
     public string tutorial_audioCalibrationSFXWarning3;
     public string tutorial_audioCalibrationWarningPromptYes;
     public string tutorial_audioCalibrationWarningPromptNo;
+    public string tutorial_audioCalibrationConfirm;
 
     public string tutorial_videoCalibrationTitle;
     public string tutorial_videoCalibrationPcDescription;
