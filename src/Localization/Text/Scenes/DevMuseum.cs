@@ -160,7 +160,7 @@ public static class DevMuseum
 		}
 		if (originalText.Contains("KENNADY RAY</color> - VOICE OF POWER</b>"))
 		{
-			return "<b><color=#FF00A1>" + LanguageManager.CurrentLanguage.devMuseum.museum_bookPower1 + "</color></b>\n\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookPower2 + "\n\n<color=#FF00A1><i>\"" + LanguageManager.CurrentLanguage.devMuseum.museum_bookPower3 + "\"</i></color>";
+			return "<b><color=#FF00A1>" + LanguageManager.CurrentLanguage.devMuseum.museum_bookPower1 + "</color></b>\n\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookPower2 + "\n\n<color=#FF00A1><i>" + LanguageManager.CurrentLanguage.devMuseum.museum_bookPower3 + "</i></color>";
 		}
 		if (originalText.Contains("VYLET PONY</color> - GUEST COMPOSER</b>"))
 		{
@@ -168,7 +168,7 @@ public static class DevMuseum
 		}
 		if (originalText.Contains("DOMENICO ANTONAZZO</color> - RIGGING</b>"))
 		{
-			return "<b><color=#979283>" + LanguageManager.CurrentLanguage.devMuseum.museum_bookAdditionalArt1 + "</color></b>\n\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookAdditionalArt2 + "\n\n<color=#979283><i>\"" + LanguageManager.CurrentLanguage.devMuseum.museum_bookAdditionalArt3 + "\"</i></color>\n\n<b><color=#c7a6ef>" + LanguageManager.CurrentLanguage.devMuseum.museum_bookAdditionalArt4 + "</color></b>\n\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookAdditionalArt5 + "\n\n<color=#c7a6ef><i>\"" + LanguageManager.CurrentLanguage.devMuseum.museum_bookAdditionalArt6 + "\"</i></color>\n\n<b><color=#b12b39>" + LanguageManager.CurrentLanguage.devMuseum.museum_bookAdditionalArt7 + "</color></b>\n\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookAdditionalArt8 + "\n\n<color=#b12b39><i>\"" + LanguageManager.CurrentLanguage.devMuseum.museum_bookAdditionalArt9 + "\"</i></color>";
+			return "<b><color=#979283>" + LanguageManager.CurrentLanguage.devMuseum.museum_bookAdditionalArt1 + "</color></b>\n\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookAdditionalArt2 + "\n\n<color=#979283><i>" + LanguageManager.CurrentLanguage.devMuseum.museum_bookAdditionalArt3 + "</i></color>\n\n<b><color=#c7a6ef>" + LanguageManager.CurrentLanguage.devMuseum.museum_bookAdditionalArt4 + "</color></b>\n\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookAdditionalArt5 + "\n\n<color=#c7a6ef><i>" + LanguageManager.CurrentLanguage.devMuseum.museum_bookAdditionalArt6 + "</i></color>\n\n<b><color=#b12b39>" + LanguageManager.CurrentLanguage.devMuseum.museum_bookAdditionalArt7 + "</color></b>\n\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookAdditionalArt8 + "\n\n<color=#b12b39><i>" + LanguageManager.CurrentLanguage.devMuseum.museum_bookAdditionalArt9 + "</i></color>";
 		}
 		if (originalText.Contains("FILTH</color>"))
 		{
