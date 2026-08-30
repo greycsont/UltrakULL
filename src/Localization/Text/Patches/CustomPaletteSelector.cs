@@ -3,7 +3,7 @@ using System.IO;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
-
+using UltrakULL;
 using static UltrakULL.json.LanguageManager;
 
 
@@ -36,7 +36,9 @@ public static class LocalizeCustomPaletteSelector
 
     private static string LocalizePaletteName(string fileName)
     {
-        return fileName switch
+        if (IsEnglish) return fileName;
+        
+        var newFileName = fileName switch
         {
             "Gamebot Color" => CurrentLanguage.options.graphics_customColorPaletteGamebotColor,
             "Noir" => CurrentLanguage.options.graphics_customColorPaletteNoir,
@@ -46,5 +48,7 @@ public static class LocalizeCustomPaletteSelector
             "Sin Shitty" => CurrentLanguage.options.graphics_customColorPaletteSinShitty,
             _ => fileName
         };
+
+        return newFileName.Or(fileName);
     }
 }
