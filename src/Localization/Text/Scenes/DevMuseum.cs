@@ -164,7 +164,7 @@ public static class DevMuseum
 		}
 		if (originalText.Contains("VYLET PONY</color> - GUEST COMPOSER</b>"))
 		{
-			return "<b><color=#A26ADE>" + LanguageManager.CurrentLanguage.devMuseum.museum_bookVylet1 + "</color></b>\n\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookVylet2 + "\n\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookVylet3 + "\n\n<color=#A26ADE><i>\"" + LanguageManager.CurrentLanguage.devMuseum.museum_bookVylet4 + "\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookVylet5 + "\"</i></color>";
+			return "<b><color=#A26ADE>" + LanguageManager.CurrentLanguage.devMuseum.museum_bookVylet1 + "</color></b>\n\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookVylet2 + "\n\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookVylet3 + "\n\n<color=#A26ADE><i>" + LanguageManager.CurrentLanguage.devMuseum.museum_bookVylet4 + "\n" + LanguageManager.CurrentLanguage.devMuseum.museum_bookVylet5 + "</i></color>";
 		}
 		if (originalText.Contains("DOMENICO ANTONAZZO</color> - RIGGING</b>"))
 		{
