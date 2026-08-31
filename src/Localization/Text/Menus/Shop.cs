@@ -47,16 +47,21 @@ public static class Shop
         //Enemies title
         shopPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_monsters, path: ["Enemies", "Enemies Panel", "Title"]);
 
-        //Sandbox enter description
+        //Sandbox title
         shopPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_sandbox, path: ["Sandbox", "Sandbox Panel", "Title"]);
 
+        //Sandbox Description
         shopPanel.Localize<TextMeshProUGUI>(
             LanguageManager.CurrentLanguage.shop.shop_sandboxDescription1 + "\n\n"
             + LanguageManager.CurrentLanguage.shop.shop_sandboxDescription2,
             path: ["Sandbox", "Sandbox Panel", "Panel", "Text Inset", "Text"]);
 
+        //Sandbox ENTER button
         shopPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_sandboxEnter, path: ["Sandbox", "Sandbox Panel", "Panel", "Enter Button", "Text"]);
 
+        //CG title
+        shopPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_cybergrindEnterTitle, path: ["The Cyber Grind", "Cyber Grind Panel", "Title"]);
+        
         //CG enter description
         shopPanel.Localize<TextMeshProUGUI>(
             LanguageManager.CurrentLanguage.shop.shop_cybergrindDescription1 + "\n\n"
