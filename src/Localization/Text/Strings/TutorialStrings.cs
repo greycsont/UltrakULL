@@ -293,7 +293,7 @@ class TutorialStrings
 
             + "+" + LanguageManager.CurrentLanguage.tutorial.tutorial_calibrationComplete1 + "_ \n"
             + "+" + LanguageManager.CurrentLanguage.tutorial.tutorial_calibrationComplete2 + "_ \n"
-            + "(±" + LanguageManager.CurrentLanguage.tutorial.tutorial_introReminder + " _)½ \n\n"
+            + "(±" + LanguageManager.CurrentLanguage.tutorial.tutorial_introReminder1 + "_" + LanguageManager.CurrentLanguage.tutorial.tutorial_introReminder2 + ")½ \n\n"
 
             + "+" + LanguageManager.CurrentLanguage.tutorial.tutorial_systemsOperational + "_½ \n"
             + LanguageManager.CurrentLanguage.tutorial.tutorial_introLoadStatus + "§";

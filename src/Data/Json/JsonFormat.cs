@@ -2546,7 +2546,8 @@ public class Tutorial
     public string tutorial_calibrationMechanics;
     public string tutorial_calibrationComplete1;
     public string tutorial_calibrationComplete2;
-    public string tutorial_introReminder;
+    public string tutorial_introReminder1;
+    public string tutorial_introReminder2;
     public string tutorial_systemsOperational;
     public string tutorial_introLoadStatus;
     public string tutorial_introStatusUpdate;
