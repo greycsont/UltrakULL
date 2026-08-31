@@ -222,7 +222,7 @@ public static class LevelStrings
                 ("Hank", (m, m2, input) => T.act1.act1_limboFourth_hank1 + "\n" + T.act1.act1_limboFourth_hank2),
                 ("versions", (m, m2, input) => T.misc.hud_alternateVersion),
                 ("ALTERNATE REVOLVER", (m, m2, input) => T.act1.act1_limboFourth_alternateRevolver),
-                ("EQUIPPED", (m, m2, input) => T.act1.act1_limboFourth_newArm + "<color=orange>" + input + "</color>"),
+                ("EQUIPPED", (m, m2, input) => T.act1.act1_limboFourth_newArm1 + "<color=orange>" + input + "</color>" + T.act1.act1_limboFourth_newArm2),
             }),
         //1-S - The Witless
         new LevelEntry("Level 1-S",

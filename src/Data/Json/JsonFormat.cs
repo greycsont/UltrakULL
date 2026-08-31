@@ -2690,7 +2690,8 @@ public class a1
     public string act1_limboFourth_hank1;
     public string act1_limboFourth_hank2;
     public string act1_limboFourth_alternateRevolver;
-    public string act1_limboFourth_newArm;
+    public string act1_limboFourth_newArm1;
+    public string act1_limboFourth_newArm2;
 
     public string act1_limboSecret_noclipSkip;
 
