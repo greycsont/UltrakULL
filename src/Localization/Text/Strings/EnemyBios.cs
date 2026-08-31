@@ -41,6 +41,7 @@ public static class EnemyBios
 			return LanguageManager.CurrentLanguage.enemyNames.enemyname_boss_insurrectionistRude;
 		case "INSURRECTIONIST DEFAULT":
 		case "INSURRECTIONIST":
+			return LanguageManager.CurrentLanguage.enemyNames.enemyname_insurrectionist;
 		case "SISYPHEAN INSURRECTIONIST":
 			return LanguageManager.CurrentLanguage.enemyNames.enemyname_boss_insurrectionist;
 		case "FILTH":
