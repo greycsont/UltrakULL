@@ -7,10 +7,10 @@ using UnityEngine;
 
 namespace UltrakULL.Harmony_Patches;
 
-[HarmonyPatch(typeof(Speedometer), "FixedUpdate")]
+[HarmonyPatch(typeof(Speedometer))]
 public static class SpeedometerPatch
 {
-    [HarmonyPrefix]
+    [HarmonyPatch(nameof(Speedometer.FixedUpdate))] [HarmonyPrefix]
     public static bool FixedUpdate_Prefix(TimeSince ___lastUpdate, bool ___classicVersion, TextMeshProUGUI ___textMesh, int ___type)
     {
         float num = 0f;

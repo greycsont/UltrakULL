@@ -9,6 +9,7 @@ using static UltrakULL.SceneObjects;
 
 namespace UltrakULL;
 
+// You can find teleport menu by Press L by default in any level with cheats on
 [HarmonyPatch(typeof(TeleportCheat))]
 public static class LocalizeTeleportCheat
 {

@@ -8,6 +8,7 @@ namespace UltrakULL.Harmony_Patches;
 
 //@Override
 //Overrides Check from the vanilla game. Used for persistant difficulty strings across all scenes.
+//Used in MainMenu, result screen etc.
 [HarmonyPatch(typeof(DifficultyTitle), "Check")]
 public static class LocalizeGameProgressCheck
 {

@@ -8,6 +8,7 @@ using static UltrakULL.SceneObjects;
 namespace UltrakULL;
 
 // See FinalRank.cs for more detail
+// And DifficultTitle.cs
 public static class ResultsScreenLocalizer
 {
     /// <summary>

@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 namespace UltrakULL.Harmony_Patches;
 
+// This patch is for:
+//  Sandbox and Cybergrind's shops
 [HarmonyPatch(typeof(LevelNameFinder))]
 public static class LevelNameFinderTranslation
 {
