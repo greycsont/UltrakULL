@@ -36,7 +36,7 @@ public class SubtitledObjectReference
 
     private static string ColorIfNecessary(string line, string color)
     {
-        if (color == null)
+        if (color == null || StringHelper.IsEmpty(line))
             return line;
 
         return "<color=#" + color + ">" + line + "</color>";

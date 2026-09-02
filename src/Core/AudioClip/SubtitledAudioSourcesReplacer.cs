@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using BepInEx;
 using UltrakULL.json;
 using UnityEngine;
@@ -36,7 +37,12 @@ public static class SubtitledAudioSourcesReplacer
                         Combine(SpeechFolder, objectReference.AudioPath)));
                 
                 if (subtitledAudioSource != null)
-                    SetPrivate(subtitledAudioSource, typeof(SubtitledAudioSource), "subtitles", objectReference.ToSubtitleData());
+                {
+                    var subtitleData = objectReference.ToSubtitleData();
+
+                    if (subtitleData.lines.Any(line => !StringHelper.IsEmpty(line.subtitle)))
+                        SetPrivate(subtitledAudioSource, typeof(SubtitledAudioSource), "subtitles", subtitleData);
+                }
             }
         }
 
