@@ -117,29 +117,26 @@ public static class FinalRank_PointsShow_Patch
     [HarmonyPatch(nameof(FinalRank.PointsShow))] [HarmonyTranspiler]
     static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
     {
-        foreach (var code in instructions)
-        {
-            if (code.opcode == OpCodes.Ldstr && (string)code.operand == "<color=orange>P</color>")
-            {
-                code.operand =
-                    "<color=orange>"
-                    + LanguageManager.CurrentLanguage.shop.shop_moneyCount
-                    + "</color>";
-            }
+        var matcher = new CodeMatcher(instructions);
 
-            yield return code;
+        while (true)
+        {
+            matcher.MatchForward(false, new CodeMatch(OpCodes.Ldstr, "<color=orange>P</color>"));
+
+            if (matcher.IsInvalid)
+                break;
+
+            matcher.Advance(1);
+            matcher.Insert(new CodeInstruction(OpCodes.Call, LocalizePInResultsScreen.fp_LocalizeP));
         }
+
+        return matcher.InstructionEnumeration();
     }
 }
 
 [HarmonyPatch(typeof(FinalCyberRank))]
 public static class LocalizeFinalCyberRank
 {
-    private static MethodInfo localizemethod = AccessTools.Method(
-        typeof(LocalizeFinalCyberRank),
-        nameof(LocalizeFinalCyberRank.LocalizeP)
-    );
-
     [HarmonyPatch(nameof(FinalCyberRank.PointsShow))] [HarmonyTranspiler]
     public static IEnumerable<CodeInstruction> PointShowPatch(IEnumerable<CodeInstruction> instructions)
     {
@@ -153,7 +150,7 @@ public static class LocalizeFinalCyberRank
                 break;
 
             matcher.Advance(1);
-            matcher.Insert(new CodeInstruction(OpCodes.Call, localizemethod));
+            matcher.Insert(new CodeInstruction(OpCodes.Call, LocalizePInResultsScreen.fp_LocalizeP));
         }
 
         return matcher.InstructionEnumeration();
@@ -172,12 +169,19 @@ public static class LocalizeFinalCyberRank
                 break;
 
             matcher.Advance(1);
-            matcher.Insert(new CodeInstruction(OpCodes.Call, localizemethod));
+            matcher.Insert(new CodeInstruction(OpCodes.Call, LocalizePInResultsScreen.fp_LocalizeP));
         }
 
         return matcher.InstructionEnumeration();
     }
+}
 
+public static class LocalizePInResultsScreen
+{
+    public static MethodInfo fp_LocalizeP = AccessTools.Method(
+        typeof(LocalizePInResultsScreen),
+        nameof(LocalizePInResultsScreen.LocalizeP)
+    );
     public static string LocalizeP(string P)
     {
         return (
