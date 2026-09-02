@@ -24,7 +24,7 @@ public static class Shop
         // Tip text: feed its current value to GetLevelTip (unless it's a V-Rank tip).
         var tipDescription = GetTextMeshProUGUI(FindDescendant(shopPanel, "Tip of the Day", "Panel", "Text Inset", "TipText"));
         if (!tipDescription.text.Contains("V-Rank"))
-            tipDescription.text = StringsParent.GetLevelTip(tipDescription.text);
+            tipDescription.text = LevelTipStrings.GetLevelTip(tipDescription.text);
             
         //--MENU--
         // removed and replaced with SmileOS 2.0 in patch 16

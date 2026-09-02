@@ -34,7 +34,7 @@ public static class SendHudMessagePatch
         {
             if ((newmessage != null) && (newmessage2 != null) && (newinput != null))
             {                
-                newmessage = StringsParent.GetMessage(newmessage, newmessage2, newinput);
+                newmessage = HudMessageStrings.GetMessage(newmessage, newmessage2, newinput);
                 newmessage2 = "";
                 newinput = "";
             }

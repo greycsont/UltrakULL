@@ -62,13 +62,13 @@ public static class HUDMessages
         //For some reason 5-S passes through this function instead of passing through HudMessage. So we'll do this
         if (GetCurrentSceneName() == "Level 5-S")
         {
-            return StringsParent.GetMessage(message, "", "");
+            return HudMessageStrings.GetMessage(message, "", "");
         }
 
         //chessTip
         if (GetCurrentSceneName() == "CreditsMuseum2")
         {
-            return StringsParent.GetMessage(message, "", "");
+            return HudMessageStrings.GetMessage(message, "", "");
         }
 
 

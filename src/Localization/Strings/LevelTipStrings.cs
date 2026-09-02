@@ -1,129 +1,17 @@
 using System;
 using UltrakULL.json;
-using UnityEngine;
 
 using static UltrakULL.SceneObjects;
 
 namespace UltrakULL;
 
 /// <summary>
-/// Global HUD-message router. Order: common keyword messages -> scene
-/// specials (Tutorial, DevMuseum) -> the single LevelStrings table -> remaining
-/// common messages. All lookups keep their original precedence (arrays, not
-/// dictionaries).
+/// Tip of the day
+/// Used in each level's shop in first room
 /// </summary>
-public static class StringsParent
+public static class LevelTipStrings
 {
     private static JsonFormat T => LanguageManager.CurrentLanguage;
-
-    // Common messages checked BEFORE the scene routing.
-    private static readonly (string keyword, Func<string, string, string, string> build)[] PreSceneMessages =
-    {
-        ("versions", (m, m2, input) => StringHelper.Get(T.misc.hud_alternateVersion, m)),
-        ("ALTERNATE NAILGUN", (m, m2, input) => StringHelper.Get(T.act2.act2_greedFourth_alternateNailgun, m)),
-    };
-
-    // Scene routing: first matching route wins; a null result falls through.
-
-    // Common messages checked AFTER the scene routing.
-    private static readonly (string keyword, Func<string, string, string, string> build)[] PostSceneMessages =
-    {
-        ("V-Rank", (m, m2, input) => m),
-        ("PUNCH", (m, m2, input) =>
-        {
-            string part1 = T.misc.hud_noArm1;
-            string part2 = T.misc.hud_noArm2;
-            if (StringHelper.IsEmpty(part1) || StringHelper.IsEmpty(part2))
-            {
-                Logging.Warn($"[StringsParent] Translation missing or empty for PUNCH, falling back to original: '{m}'");
-                return m;
-            }
-            return "<color=red>" + part1 + "</color>\n" + part2;
-        }),
-        ("MAJOR", (m, m2, input) =>
-        {
-            string translated = T.misc.hud_majorAssists;
-            if (StringHelper.IsEmpty(translated))
-            {
-                Logging.Warn($"[StringsParent] Translation missing or empty for MAJOR, falling back to original: '{m}'");
-                return m;
-            }
-            return "<color=#4C99E6>" + translated + "</color>";
-        }),
-        ("200", (m, m2, input) => StringHelper.Get(T.misc.hud_overhealOrb1, T.misc.hud_overhealOrb2, "\n", m)),
-        ("ERROR", (m, m2, input) =>
-        {
-            string translated = T.misc.hud_itemGrabError;
-            if (StringHelper.IsEmpty(translated))
-            {
-                Logging.Warn($"[StringsParent] Translation missing or empty for ERROR, falling back to original: '{m}'");
-                return m;
-            }
-            return "<color=red>" + translated + "</color>";
-        }),
-        ("TAB", (m, m2, input) => StringHelper.Get(T.misc.hud_levelStats1, T.misc.hud_levelStats2, "\n", m)),
-        ("Whoops", (m, m2, input) => StringHelper.Get(T.misc.hud_outOfBounds, m)),
-        ("CLASH", (m, m2, input) => StringHelper.Get(T.misc.hud_clashMode, m)),
-        ("DRONE HAUNTING", (m, m2, input) => StringHelper.Get(T.misc.hud_droneHaunting, m)),
-        ("EQUIPPED", (m, m2, input) => StringHelper.Get(T.misc.hud_weaponVariation, m)),
-        ("Altered", (m, m2, input) =>
-        {
-            string translated = T.misc.enemyAlter_alteredDestroyed;
-            if (StringHelper.IsEmpty(translated))
-            {
-                Logging.Warn($"[StringsParent] Translation missing or empty for Altered, falling back to original: '{m}'");
-                return m;
-            }
-            return "<color=red>" + translated + "</color>";
-        }),
-        ("INSUFFICIENT LIGHT", (m, m2, input) => StringHelper.Get(T.primeSanctum.primeSanctum_first_insufficientlight, m)),
-        ("=>", (m, m2, input) => m),
-        ("You have found a <color=orange>SECRET MISSION</color>.", (m, m2, input) => StringHelper.Get(T.misc.secretMissionFound, m)),
-    };
-
-    public static string GetMessage(string message, string message2, string input)
-    {
-        string currentSceneName = GetCurrentSceneName();
-        if (input != null && input.Length > 0)
-            input = InputNames.Localize(input);
-
-        if (message.Contains("WARNING") || message.Contains("fall") || message.Contains("free"))
-            Logging.Warn("[StringsParent] Level: " + currentSceneName + " | message: '" + message + "' | message2: '" + message2 + "' | input: '" + input + "'");
-
-        foreach (var (keyword, build) in PreSceneMessages)
-            if (message.Contains(keyword))
-                return build(message, message2, input);
-
-        // Tutorial (has a canvas-patching side effect).
-        if (currentSceneName.Contains("Tutorial"))
-        {
-            GameObject canvasObj = GetInactiveRootObject("Canvas");
-            new TutorialStrings(canvasObj);
-            string translated = TutorialStrings.GetMessage(message, message2, input);
-            if (translated != null)
-                return translated;
-        }
-
-        // DevMuseum.
-        if (currentSceneName.Contains("CreditsMuseum2"))
-        {
-            string translated = DevMuseum.GetMessage(message, message2, input);
-            if (translated != null)
-                return translated;
-        }
-
-        // Every level (Prelude, Acts 1-3, Encores) lives in one table now.
-        string levelMessage = LevelStrings.GetMessage(message, message2, input);
-        if (levelMessage != null)
-            return levelMessage;
-
-        foreach (var (keyword, build) in PostSceneMessages)
-            if (message.Contains(keyword))
-                return build(message, message2, input);
-
-        Logging.Warn("No translation for \"" + message + "\" in \"" + currentSceneName + "\"");
-        return message;
-    }
 
     private static readonly (string prefix, Func<string, string> build)[] LevelTips =
     {
@@ -177,7 +65,7 @@ public static class StringsParent
             string part2 = T.levelTips.leveltips_sandbox2;
             if (StringHelper.IsEmpty(part1) || StringHelper.IsEmpty(part2))
             {
-                Logging.Warn($"[StringsParent] Translation missing or empty for uk_construct, falling back to original: '{tip}'");
+                Logging.Warn($"[LevelTipStrings] Translation missing or empty for uk_construct, falling back to original: '{tip}'");
                 return tip;
             }
             return part1 + $"\n\n<color=#FF4343>{T.levelTips.levelTips_sandboxCheatCode.Or("↑ ↑ ↓ ↓ ← → ← → B A")}</color>\n\n" + part2;
