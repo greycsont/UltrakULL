@@ -27,7 +27,7 @@ public static class HudMessageStrings
     // Generic keyword table, checked after the scene routing (Tutorial /
     // DevMuseum / LevelStrings). Must stay behind LevelStrings: keywords like
     // EQUIPPED have per-level meanings that take priority over the generic one.
-    private static readonly (string keyword, Func<string, string, string, string> build)[] PostSceneMessages =
+    private static readonly (string keyword, Func<string, string, string, string> build)[] Messages =
     {
         // 1-3? (also handled by LevelStrings 1-4/4-4/7-2 with the same result)
         ("versions", (m, m2, input) => StringHelper.Get(T.misc.hud_alternateVersion, m)),
@@ -96,6 +96,8 @@ public static class HudMessageStrings
         // P-1
         ("INSUFFICIENT LIGHT", (m, m2, input) => StringHelper.Get(T.primeSanctum.primeSanctum_first_insufficientlight, m)),
         ("=>", (m, m2, input) => m),
+        // Start Cybergrind with no pattern selected
+        ("NO PATTERNS", (m, m2, input) => StringHelper.Get(T.cyberGrind.cybergrind_noPatternsSelected, m)),
         // When entering the secret mission
         ("You have found a <color=orange>SECRET MISSION</color>.", (m, m2, input) => StringHelper.Get(T.misc.secretMissionFound, m)),
     };
@@ -130,7 +132,7 @@ public static class HudMessageStrings
         if (levelMessage != null)
             return levelMessage;
 
-        foreach (var (keyword, build) in PostSceneMessages)
+        foreach (var (keyword, build) in Messages)
             if (message.Contains(keyword))
                 return build(message, message2, input);
 
