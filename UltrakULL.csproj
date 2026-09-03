@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <ULTRAKILLPath Condition="'$(ULTRAKILLPath)' == ''">E:\SteamLibrary\steamapps\common\ULTRAKILL</ULTRAKILLPath>
@@ -69,7 +69,6 @@
       <_BundledLanguageFiles Include="$(ProjectDir)templates\languages\*.json"
                              Exclude="$(ProjectDir)templates\languages\template.json" />
       <_LanguageTemplate Include="$(ProjectDir)templates\languages\template.json" />
-      <_LayoutTemplate Include="$(ProjectDir)templates\layouts\template.json" />
       <_TemplateDocs Include="$(ProjectDir)templates\languages\TemplateChangelog.txt" />
     </ItemGroup>
 
@@ -78,8 +77,6 @@
           DestinationFiles="@(_BundledLanguageFiles->'$(TargetDir)config\ultrakull\languages\%(Filename)\language.json')" />
     <Copy SourceFiles="@(_LanguageTemplate)"
           DestinationFiles="@(_LanguageTemplate->'$(TargetDir)config\ultrakull\templates\language.json')" />
-    <Copy SourceFiles="@(_LayoutTemplate)"
-          DestinationFiles="@(_LayoutTemplate->'$(TargetDir)config\ultrakull\templates\layout.json')" />
     <Copy SourceFiles="@(_TemplateDocs)" DestinationFolder="$(TargetDir)config\ultrakull\templates" />
   </Target>
 
