@@ -13,23 +13,6 @@ namespace UltrakULL;
 
 public static class DevMuseum
 {
-	private static readonly (string keyword, Func<string, string, string, string> build)[] Messages =
-	{
-		("RACE START", (m, m2, input) => LanguageManager.CurrentLanguage.devMuseum.museum_rocketRaceStart),
-		("A R M B O Y", (m, m2, input) => LanguageManager.CurrentLanguage.act2.act2_heresyFirst_armboy),
-		("TIME", (m, m2, input) => LanguageManager.CurrentLanguage.misc.levelstats_time + ": " + m.Split(':')[1]),
-		("Chess", (m, m2, input) => LanguageManager.CurrentLanguage.devMuseum.museum_chessTip),
-	};
-
-	public static string GetMessage(string message, string message2, string input)
-	{
-		foreach (var (keyword, build) in Messages)
-			if (message.Contains(keyword))
-				return build(message, message2, input);
-
-		return null;
-	}
-
 	public static string GetMuseumBook(string originalText)
 	{
 		if (originalText.Contains("HAKITA</color> - CREATOR OF ULTRAKILL</b>"))

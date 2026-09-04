@@ -15,101 +15,116 @@ public static class HudMessageStrings
     // Tutorial
     private static readonly (string keyword, Func<string, string, string, string> build)[] TutorialMessages =
     {
-        ("PUNCH", (m, m2, input) => T.tutorial.tutorial_punch1 + "<color=orange>" + input + "</color>" + T.tutorial.tutorial_punch2),
-        ("SLIDE", (m, m2, input) => T.tutorial.tutorial_slide1 + "<color=orange>" + input + "</color>" + T.tutorial.tutorial_slide2),
-        ("DASH", (m, m2, input) => T.tutorial.tutorial_dash1 + "<color=#00DFFF>" + input + "</color>" + T.tutorial.tutorial_dash2 + "\n" + T.tutorial.tutorial_dash3),
-        ("HEALTH", (m, m2, input) => T.tutorial.tutorial_health1 + "\n" + T.tutorial.tutorial_health2),
-        ("JUMP", (m, m2, input) => T.tutorial.tutorial_walljump),
-        ("SHOCKWAVE", (m, m2, input) => T.tutorial.tutorial_shockwave1 + "<color=orange>" + input + "</color>" + T.tutorial.tutorial_shockwave2 + "\n" + T.tutorial.tutorial_shockwave3),
-        ("ORBS", (m, m2, input) => T.tutorial.tutorial_orb1 + "\n" + T.tutorial.tutorial_orb2),
+        ("Press '<color=orange>{0}</color>' to <color=orange>PUNCH</color>.", (m, m2, input) => T.tutorial.tutorial_punch1 + "<color=orange>" + input + "</color>" + T.tutorial.tutorial_punch2),
+        ("Hold '<color=orange>{0}</color>' to <color=orange>SLIDE</color>.", (m, m2, input) => T.tutorial.tutorial_slide1 + "<color=orange>" + input + "</color>" + T.tutorial.tutorial_slide2),
+        ("Press '<color=#00DFFF>{0}</color>' to <color=#00DFFF>DASH</color> through danger.$Consumes <color=#00DFFF>STAMINA</color>. Can be performed in air.", (m, m2, input) => T.tutorial.tutorial_dash1 + "<color=#00DFFF>" + input + "</color>" + T.tutorial.tutorial_dash2 + "\n" + T.tutorial.tutorial_dash3),
+        ("Deal close range damage to douse yourself in <color=red>FRESH BLOOD</color>. <color=red>THIS IS THE ONLY WAY TO REGAIN HEALTH</color>.", (m, m2, input) => T.tutorial.tutorial_health1 + "\n" + T.tutorial.tutorial_health2),
+        ("<color=orange>JUMP</color> while near a <color=orange>WALL</color> to <color=orange>WALL JUMP</color>. (Max. 3 times)", (m, m2, input) => T.tutorial.tutorial_walljump),
+        ("Press '<color=orange>{0}</color>' in the air to <color=orange>GROUND SLAM</color>.$Hold for <color=orange>SHOCKWAVE</color>.", (m, m2, input) => T.tutorial.tutorial_shockwave1 + "<color=orange>" + input + "</color>" + T.tutorial.tutorial_shockwave2 + "\n" + T.tutorial.tutorial_shockwave3),
+        ("Most levels have secret <color=#00ffffff>SOUL ORBS</color>.$Touch them to get a <color=orange>POINT BONUS</color>.", (m, m2, input) => T.tutorial.tutorial_orb1 + "\n" + T.tutorial.tutorial_orb2),
     };
 
-    // Generic keyword table, checked after the scene routing (Tutorial /
-    // DevMuseum / LevelStrings). Must stay behind LevelStrings: keywords like
-    // EQUIPPED have per-level meanings that take priority over the generic one.
+    private static readonly (string keyword, Func<string, string, string, string> build)[] DevMuseumMessages =
+	{
+		("A R M B O Y ! ! !", (m, m2, input) => LanguageManager.CurrentLanguage.act2.act2_heresyFirst_armboy),
+	};
+
+    /// <summary>
+    /// These part of the messages can be found in the code
+    /// There's a note shows which function contains it
+    /// And CrateCounter was in a different class
+    /// </summary>
     private static readonly (string keyword, Func<string, string, string, string> build)[] Messages =
     {
-        // 1-3? (also handled by LevelStrings 1-4/4-4/7-2 with the same result)
-        ("versions", (m, m2, input) => StringHelper.Get(T.misc.hud_alternateVersion, m)),
-        // 4-4
-        ("ALTERNATE NAILGUN", (m, m2, input) => StringHelper.Get(T.act2.act2_greedFourth_alternateNailgun, m)),
-        // ClearWater's V-rank mod
-        ("V-Rank", (m, m2, input) => m),
         // Press punch when not equip any arm
-        ("PUNCH", (m, m2, input) =>
-        {
-            string part1 = T.misc.hud_noArm1;
-            string part2 = T.misc.hud_noArm2;
-            if (StringHelper.IsEmpty(part1) || StringHelper.IsEmpty(part2))
-            {
-                Logging.Warn($"[HudMessageStrings] Translation missing or empty for PUNCH, falling back to original: '{m}'");
-                return m;
-            }
-            return "<color=red>" + part1 + "</color>\n" + part2;
-        }),
+        // FistControl.Update()
+        ("<color=red>CAN'T PUNCH IF YOU HAVE NO ARM EQUIPPED, DUMBASS</color>\nArms can be re-equipped at the shop", (m, m2, input) => "<color=red>" + T.misc.hud_noArm1 + "</color>\n" + T.misc.hud_noArm2),
+        
         // When level's timer starts without tick DISABLE ASSIST Popup in Major Assists
-        ("MAJOR", (m, m2, input) =>
-        {
-            string translated = T.misc.hud_majorAssists;
-            if (StringHelper.IsEmpty(translated))
-            {
-                Logging.Warn($"[HudMessageStrings] Translation missing or empty for MAJOR, falling back to original: '{m}'");
-                return m;
-            }
-            return "<color=#4C99E6>" + translated + "</color>";
-        }),
+        // StatsManager.StartTimer()
+        // StatsManager.MajorUsed()
+        ("<color=#4C99E6>MAJOR ASSISTS ARE ENABLED.</color>", (m, m2, input) => "<color=#4C99E6>" + T.misc.hud_majorAssists + "</color>"),
+        
         // Red Orb
-        ("200", (m, m2, input) => StringHelper.Get(T.misc.hud_overhealOrb1, T.misc.hud_overhealOrb2, "\n", m)),
+        // Bonus.OnTriggerEnter()
+        ("<color=red>RED SOUL ORBS</color> give <color=green>200 HEALTH</color>. \nOverheal cannot be regained with blood.", (m, m2, input) => T.misc.hud_overhealOrb1 + "\n" + T.misc.hud_overhealOrb2),
+        
         // Trying to whiplash the skull that opens the door and you are opposite side of the door
-        // Mainly happens in 7-1's skip
-        ("ERROR", (m, m2, input) =>
-        {
-            string translated = T.misc.hud_itemGrabError;
-            if (StringHelper.IsEmpty(translated))
-            {
-                Logging.Warn($"[HudMessageStrings] Translation missing or empty for ERROR, falling back to original: '{m}'");
-                return m;
-            }
-            return "<color=red>" + translated + "</color>";
-        }),
+        // HookArm.ItemGrabError()
+        ("<color=red>ERROR: BLOCKING DOOR WOULD CLOSE</color>", (m, m2, input) => "<color=red>" + T.misc.hud_itemGrabError + "</color>"),
+        
         // LevelStatsEnabler.LevelStatsTutorial()
-        ("TAB", (m, m2, input) => StringHelper.Get(T.misc.hud_levelStats1, T.misc.hud_levelStats2, "\n", m)),
+        ("Hold <color=orange>TAB</color> to see current stats when <color=orange>REPLAYING</color> a level.\n<color=orange>DOUBLE TAP</color> to keep open.", (m, m2, input) => T.misc.hud_levelStats1 + "\n" + T.misc.hud_levelStats2),
+        
         // Out of bound
-        ("Whoops", (m, m2, input) => StringHelper.Get(T.misc.hud_outOfBounds, m)),
-        // 4-S's end: <color=orange>CLASH MODE</color> CHEAT UNLOCKED
-        ("CLASH", (m, m2, input) => StringHelper.Get(T.misc.hud_clashMode, m)),
+        // OutOfBounds.OnTriggerEnter()
+        // TeleportPlayer.PerformTheTeleport()
+        ("Whoops, sorry about that.", (m, m2, input) => T.misc.hud_outOfBounds),
+        
+        // 4-S's end
+        // PlatformerDancer.DanceEnd()
+        ("<color=orange>CLASH MODE</color> CHEAT UNLOCKED", (m, m2, input) => T.misc.hud_clashMode),
+        
         // 7-S: <color=orange>DRONE HAUNTING</color> CHEAT UNLOCKED
-        ("DRONE HAUNTING", (m, m2, input) => StringHelper.Get(T.misc.hud_droneHaunting, m)),
+        ("<color=orange>DRONE HAUNTING</color> CHEAT UNLOCKED", (m, m2, input) => T.misc.hud_droneHaunting),
+        
         // First variant bought in shop
-        ("EQUIPPED", (m, m2, input) => StringHelper.Get(T.misc.hud_weaponVariation, m)),
+        // ShopZone.TurnOff()
+        ("Cycle through <color=orange>EQUIPPED</color> variations with '<color=orange>{0}</color>'.", (m, m2, input) => T.misc.hud_weaponVariation),
+        
         // Sandbox: when you editing a destoried object
-        ("Altered", (m, m2, input) =>
-        {
-            string translated = T.misc.enemyAlter_alteredDestroyed;
-            if (StringHelper.IsEmpty(translated))
-            {
-                Logging.Warn($"[HudMessageStrings] Translation missing or empty for Altered, falling back to original: '{m}'");
-                return m;
-            }
-            return "<color=red>" + translated + "</color>";
-        }),
+        // Sandbox.SandboxAlterMenu.Update()
+        ("<color=red>Altered object was destroyed.</color>", (m, m2, input) => "<color=red>" + T.misc.enemyAlter_alteredDestroyed + "</color>"),
+        
         // P-1
-        ("INSUFFICIENT LIGHT", (m, m2, input) => StringHelper.Get(T.primeSanctum.primeSanctum_first_insufficientlight, m)),
-        ("=>", (m, m2, input) => m),
+        ("<color=red>WARNING:</color> INSUFFICIENT LIGHT. $<color=orange>RECOMMENDATION:</color> Return and take the torch.", (m, m2, input) => T.primeSanctum.primeSanctum_first_insufficientlight),
+        
         // Start Cybergrind with no pattern selected
-        ("NO PATTERNS", (m, m2, input) => StringHelper.Get(T.cyberGrind.cybergrind_noPatternsSelected, m)),
+        // EndlessGrid.DisplayNoPatternWarning()
+        ("NO PATTERNS SELECTED.", (m, m2, input) => T.cyberGrind.cybergrind_noPatternsSelected),
+        
         // When entering the secret mission
-        ("You have found a <color=orange>SECRET MISSION</color>.", (m, m2, input) => StringHelper.Get(T.misc.secretMissionFound, m)),
+        // But it should be in the scene, I put it here atm because i'm lazy
+        ("You have found a <color=orange>SECRET MISSION</color>.", (m, m2, input) => T.misc.secretMissionFound),
+
+        // 5-S
+        // BaitItem.OnTriggerEnter()
+        ("<color=red>This bait didn't work here!</color>", (m, m2, input) => T.fishing.fish_baitNotWork),
+        ("A fish took the bait.", (m, m2, input) => T.fishing.fish_baitTaken),
+
+        // FishCooker.OnTriggerEnter()
+        ("Too small for this fish.\n:^(", (m, m2, input) => T.fishing.fish_tooSmall),
+        ("Cooking failed.", (m, m2, input) => T.fishing.fish_cookingFailed),
+
+        // FishingRodWeapon.Update()
+        ("Fishing interrupted", (m, m2, input) => T.fishing.fish_interrupted),
+        ("Nothing seems to be biting here...", (m, m2, input) => T.fishing.fish_noFishBiting),
+
+        // DevMuseum
+        // ChessManager.SetUpNewGame()
+        ("Chess pieces can be moved with the <color=orange>mover arm</color>.", (m, m2, input) => LanguageManager.CurrentLanguage.devMuseum.museum_chessTip),
+
+        // RaceRingTracker.Start()
+        // Short reminder - this class adds HudMessage at runtime
+        ("RACE START", (m, m2, input) => LanguageManager.CurrentLanguage.devMuseum.museum_rocketRaceStart),
+
+        // RaceRingTracker.Victory()
+		("TIME", (m, m2, input) => LanguageManager.CurrentLanguage.misc.levelstats_time + ": " + m.Split(':')[1]),
+
+        // There's a SpreadGasoline.Enable() that shows a message
+        // But I couldn't find the cheat in the game
     };
 
     public static string GetMessage(string message, string message2, string input)
     {
+        // An empty message is deliberate (e.g. Level 4-4 repeats the previous
+        // one) - don't route or warn about it.
+        if (string.IsNullOrEmpty(message))
+            return null;
+
         string currentSceneName = GetCurrentSceneName();
         if (input != null && input.Length > 0)
             input = InputNames.Localize(input);
-
-        if (message.Contains("WARNING") || message.Contains("fall") || message.Contains("free"))
-            Logging.Warn("[HudMessageStrings] Level: " + currentSceneName + " | message: '" + message + "' | message2: '" + message2 + "' | input: '" + input + "'");
 
         // Tutorial
         if (currentSceneName.Contains("Tutorial"))
@@ -122,9 +137,9 @@ public static class HudMessageStrings
         // DevMuseum.
         if (currentSceneName.Contains("CreditsMuseum2"))
         {
-            string translated = DevMuseum.GetMessage(message, message2, input);
-            if (translated != null)
-                return translated;
+            foreach (var (keyword, build) in DevMuseumMessages)
+                if (message.Contains(keyword))
+                    return build(message, message2, input);
         }
 
         // Every level (Prelude, Acts 1-3, Encores)
@@ -137,6 +152,6 @@ public static class HudMessageStrings
                 return build(message, message2, input);
 
         Logging.Warn("No translation for \"" + message + "\" in \"" + currentSceneName + "\"");
-        return message;
+        return null;
     }
 }
