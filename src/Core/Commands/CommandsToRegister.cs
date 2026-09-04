@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using GameConsole;
 using GameConsole.CommandTree;
 using plog;
@@ -27,6 +28,38 @@ public sealed class CommandToRegister : CommandRoot, IConsoleLogger
                 if (result.MigratedLanguages > 0)
                     Log.Info($"A copy of every migrated file was kept in \"{result.BackupDirectory}\".");
                 Log.Info("Restart the game before editing or removing the backup.");
+            }),
+            Leaf("dhm", () =>
+            {
+                Logging.Info("=========================");
+                foreach (var root in UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects())
+                {
+                    foreach (var hm in root.GetComponentsInChildren<HudMessage>(true))
+                    {
+                        string key = hm.actionReference == null ? "-" : hm.actionReference.action.id.ToString();
+                        Logging.Info($"\n[HudMsgScan] obj='{hm.gameObject.name}' (active={hm.gameObject.activeInHierarchy})" +
+                                    $"\n  msg ='{hm.message}'\n  m2  ='{hm.message2}'" +
+                                    $"\n  fm = '{GetFullMessage(hm)}'" +
+                                    $"\n  advanced={hm.advancedMessage} action={key}" +
+                                    $"\n  ------------------------------");
+                    }
+                }
+
+                static string GetFullMessage(HudMessage hm)
+                {
+                    if (hm.advancedMessage)
+                    {
+                        return hm.message;
+                    }
+                    else if (hm.actionReference == null)
+                    {
+                        return hm.message;
+                    }
+                    else
+                    {
+                        return hm.message + "{0}" + hm.message2;
+                    }
+                }
             }));
     }
 
