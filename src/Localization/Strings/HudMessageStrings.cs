@@ -126,7 +126,7 @@ public static class HudMessageStrings
         if (currentSceneName.Contains("Tutorial"))
         {
             foreach (var (keyword, build) in TutorialMessages)
-                if (message.Contains(keyword))
+                if (message.Equals(keyword))
                     return build();
         }
 
@@ -134,7 +134,7 @@ public static class HudMessageStrings
         if (currentSceneName.Contains("CreditsMuseum2"))
         {
             foreach (var (keyword, build) in DevMuseumMessages)
-                if (message.Contains(keyword))
+                if (message.Equals(keyword))
                     return build();
         }
 
@@ -144,7 +144,7 @@ public static class HudMessageStrings
             return levelMessage;
 
         foreach (var (keyword, build) in Messages)
-            if (message.Contains(keyword))
+            if (message.Equals(keyword))
                 return build();
 
         Logging.Warn("No translation for \"" + message + "\" in \"" + currentSceneName + "\"");

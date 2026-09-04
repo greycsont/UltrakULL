@@ -23,7 +23,7 @@ public static class LevelStrings
                 continue;
 
             foreach (var (keyword, build) in level.Messages)
-                if (message.Contains(keyword))
+                if (message.Equals(keyword))
                     return build();
 
             return null;
