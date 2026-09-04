@@ -55,9 +55,7 @@ public static class SendHudMessagePatch
     {
         if (LanguageManager.IsEnglish)
             return;
-
-        var input = newinputs is { Length: > 0 } ? newinputs[0] : null;
-        var translated = HudMessageStrings.GetMessage(format, "", input);
+        var translated = HudMessageStrings.GetMessage(format);
 
         format = translated.Or(format);
     }
