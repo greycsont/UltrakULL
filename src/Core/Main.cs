@@ -55,6 +55,7 @@ using static UltrakULL.SceneObjects;
 namespace UltrakULL;
 
 [BepInPlugin(Guid, InternalName, InternalVersion)]
+[BepInDependency("com.eternalUnion.angryLevelLoader", BepInDependency.DependencyFlags.SoftDependency)]
 public class MainPatch : BaseUnityPlugin
 {
 	private const string Guid = "clearwater.ultrakill.ultrakull";
