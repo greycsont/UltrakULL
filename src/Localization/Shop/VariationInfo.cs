@@ -68,6 +68,9 @@ public static class LocalizeVariationOwnership
     [HarmonyPatch(typeof(VariationInfo), "SetEquipStatusText"), HarmonyPostfix]
     public static void SetEquipStatusTextPostFix(ref TMP_Text ___equipText, int ___equipStatus)
     {
+        if (LanguageManager.IsEnglish)
+            return;
+            
         switch (___equipStatus)
         {
             case 0:
