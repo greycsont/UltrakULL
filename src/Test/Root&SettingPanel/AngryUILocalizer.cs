@@ -111,27 +111,6 @@ public static class AngryUILocalizer
         settings["s_deleteOldBundles"].displayName = s.deleteOldBundles;            // "Delete Old Bundles"
 
 
-        ApplyHeaders(settings, HeaderPairs(angry));
-    }
-
-    private static void ApplyHeaders(ConfigPanel panel, (string original, string translation)[] headers)
-    {
-        if (panel == null)
-            return;
-
-        foreach (var field in panel.GetAllFields())
-        {
-            if (field is not ConfigHeader header)
-                continue;
-
-            foreach (var (original, translation) in headers)
-            {
-                if (header.text == original && !StringHelper.IsEmpty(translation))
-                {
-                    header.text = translation;
-                    break;
-                }
-            }
-        }
+        AngryUtil.ApplyHeaders(settings, HeaderPairs(angry));
     }
 }
