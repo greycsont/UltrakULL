@@ -14,13 +14,12 @@ public class RootPanel
 {
     public string onlineLevels;        // "Online Levels"
     public string onlineLevelsHeader;  // "--Online Levels--"
-    public string open;                // "Open"（行按钮，通用）
+    public string open;                // "Open"
     public string leaderboardBannedMods; // "Leaderboard banned mods"
     public string pendingRecords;      // "Pending records"
     public string sendPendingRecords;  // "Send Pending Records"
     public string changelog;           // "Changelog"
     public string settings;            // "Settings"
-    public string settingsHeader;      // "--Settings--"
     public string scanForLevels;       // "Scan For Levels"
     public string viewReports;         // "View Reports"
     public string levelBundles;        // "Level Bundles"
@@ -41,6 +40,7 @@ public class PanelHeaders
 // p_settings
 public class SettingPanel
 {
+    public string settingsHeader;          // "--Settings--"
     public string openLevelsFolder;      // "Open Levels Folder"
     public string openScriptsFolder;     // "Open Scripts Folder"
     public string reloadFile;            // "Reload File"

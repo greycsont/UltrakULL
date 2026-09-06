@@ -28,13 +28,13 @@ public sealed class Lang
             sendPendingRecords = "发送待处理记录",
             changelog = "更新日志",
             settings = "设置",
-            settingsHeader = "--设置--",
             scanForLevels = "扫描关卡",
             viewReports = "查看报告",
             levelBundles = "关卡包",
         },
         settingPanel = new SettingPanel()
         {
+            settingsHeader = "--设置--",
             openLevelsFolder = "打开关卡目录",
             openScriptsFolder = "打开脚本目录",
             reloadFile = "重载文件",
