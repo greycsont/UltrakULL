@@ -20,21 +20,26 @@ public static class PowerAudioSwap
     {
         if (!ShouldReplaceAudio())
             return;
+        AudioSwapper.WhenReady(() =>
+        {
+            if (__instance == null)
+                return;
 
-        Replace(__instance.intro);
-        Replace(__instance.enrage);
-        Replace(__instance.taunt);
-        Replace(__instance.cheapShot);
-        Replace(__instance.hurt);
-        Replace(__instance.hurtBig);
-        Replace(__instance.death);
-        Replace(__instance.rapier);
-        Replace(__instance.greatsword);
-        Replace(__instance.spear);
-        Replace(__instance.spearThrow);
-        Replace(__instance.glaive);
-        Replace(__instance.glaiveThrow);
-        __instance.fallScream = Replace(__instance.fallScream, "pow_ScreamContinuous");
+            Replace(__instance.intro);
+            Replace(__instance.enrage);
+            Replace(__instance.taunt);
+            Replace(__instance.cheapShot);
+            Replace(__instance.hurt);
+            Replace(__instance.hurtBig);
+            Replace(__instance.death);
+            Replace(__instance.rapier);
+            Replace(__instance.greatsword);
+            Replace(__instance.spear);
+            Replace(__instance.spearThrow);
+            Replace(__instance.glaive);
+            Replace(__instance.glaiveThrow);
+            __instance.fallScream = Replace(__instance.fallScream, "pow_ScreamContinuous");
+        });
     }
 
     internal static bool ShouldReplaceAudio()
