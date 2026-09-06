@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <ULTRAKILLPath Condition="'$(ULTRAKILLPath)' == ''">E:\SteamLibrary\steamapps\common\ULTRAKILL</ULTRAKILLPath>
@@ -45,6 +45,35 @@
     <Reference Include="$(ManagedDir)\UnityEngine*.dll" />
     <Reference Include="$(ManagedDir)\Unity.*.dll" />
     <Reference Include="$(ManagedDir)\plog.dll" />
+
+    <Reference Include="AngryLevelLoader.AssetBundleProvider">
+      <HintPath>./libs/AngryLevelLoader/AngryLevelLoader.AssetBundleProvider.dll</HintPath>
+    </Reference>
+
+    <Reference Include="AngryLevelLoader">
+      <HintPath>./libs/AngryLevelLoader/AngryLevelLoader.dll</HintPath>
+    </Reference>
+
+    <Reference Include="AngryUiComponents">
+      <HintPath>./libs/AngryLevelLoader/AngryUiComponents.dll</HintPath>
+    </Reference>
+
+    <Reference Include="RudeLevelScripts.Essentials">
+      <HintPath>./libs/AngryLevelLoader/RudeLevelScripts.Essentials.dll</HintPath>
+    </Reference>
+
+    <Reference Include="PluginConfigurator">
+      <HintPath>./libs/AngryLevelLoader/PluginConfigurator.dll</HintPath>
+    </Reference>
+    <Reference Include="PluginConfiguratorComponents">
+      <HintPath>./libs/AngryLevelLoader/PluginConfiguratorComponents.dll</HintPath>
+    </Reference>
+
+    <publicize Include="AngryLevelLoader" />
+    <publicize Include="AngryLevelLoader.AssetBundleProvider" />
+    <publicize Include="AngryUiComponents" />
+    <publicize Include="RudeLevelScripts.Essentials" />
+    <publicize Include="PluginConfigurator" />
 
     <Publicize Include="plog" />
     <Publicize Include="Assembly-CSharp" />
