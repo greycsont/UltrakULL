@@ -89,6 +89,13 @@ public sealed class Lang
             dangerZone = "危险区域",
             difficultyOverrideWarning = "难度已被游戏模式覆盖\n警告：部分关卡可能与游戏模式不兼容",
         },
+        bundlePanel = new BundlePanel
+        {
+            by = "作者:",
+            reloadFile = "重新加载文件",
+            forceReloadFile = "强制重新加载文件",
+            levels = "关卡",
+        },
         onlineSearchInfo = "显示在 {1} 里的 {0} 个结果",
     };
     public string Name => Json.metadata.langName;

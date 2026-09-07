@@ -9,7 +9,7 @@ namespace UltrakULL;
 public static class OnlineStatusFilterFieldPatch
 {
     [HarmonyPatch(nameof(OnlineStatusFilterField.OnCreateUI))] [HarmonyPostfix]
-    public static void LocalizeButtons(OnlineStatusFilterField __instance)
+    public static void LocalizeOnlineStatusFilter(OnlineStatusFilterField __instance)
     {
         var status = LanguageManager.Current?.angry?.bundleStatus;
 
