@@ -6,6 +6,7 @@ public class AngryLevelSettingTranslation
     public SortingOption sortingOption;
     public BundleStatus bundleStatus;
     public PanelHeaders headers;
+    public BundlePanel bundlePanel;
     public string onlineSearchInfo; // "Showing {0} of {1} bundles"
 }
 
@@ -100,9 +101,10 @@ public class OnlineLevels
     public string update;
 }
 
-public class InstalledLevels
+public class BundlePanel
 {
     public string by;
     public string reloadFile;
     public string forceReloadFile;
+    public string levels;
 }
