@@ -10,6 +10,7 @@ public static class BundleSortFieldPatch
     [HarmonyPatch(nameof(BundleSortField.OnCreateUI))] [HarmonyPostfix]
     public static void LocalizeButtons(BundleSortField __instance)
     {
+        if (LanguageManager.IsEnglish) return;
         var sort = LanguageManager.Current?.angry?.sortingOption;
 
         __instance.currentUi.nameText.text = sort.name;

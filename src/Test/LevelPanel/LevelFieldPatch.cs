@@ -15,6 +15,7 @@ public static class LevelFieldPatch
     [HarmonyPatch(nameof(LevelField.OnCreateUI))] [HarmonyPostfix]
     public static void LocalizeButtons(LevelField __instance)
     {
+        if (LanguageManager.IsEnglish) return;
         if (!__instance.inited) return;
         
         var ui = __instance.currentUi;

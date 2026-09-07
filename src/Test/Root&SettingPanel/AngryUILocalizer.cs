@@ -18,6 +18,7 @@ public static class ConfigManagerPatch
     [HarmonyPatch(nameof(ConfigManager.InitializeConfig))] [HarmonyPostfix]
     public static void LocalizeMainAndSettingPanel()
     {
+        if (LanguageManager.IsEnglish) return;
         AngryUILocalizer.Localize();
     }
 }

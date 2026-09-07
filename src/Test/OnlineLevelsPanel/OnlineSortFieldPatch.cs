@@ -10,6 +10,7 @@ public static class OnlineSortFieldPatch
     [HarmonyPatch(nameof(OnlineSortField.OnCreateUI))] [HarmonyPostfix]
     public static void LocalizeButtons(OnlineSortField __instance)
     {
+        if (LanguageManager.IsEnglish) return;
         var sort = LanguageManager.Current?.angry?.sortingOption;
 
         __instance.currentUi.nameText.text = sort.name;

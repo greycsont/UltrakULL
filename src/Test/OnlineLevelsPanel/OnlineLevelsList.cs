@@ -14,6 +14,7 @@ public static class OnlineLevelsListPatch
     [HarmonyPatch(nameof(OnlineLevelsList.Init))] [HarmonyPostfix]
     public static void LocalizeOnlineLevelListPanel()
     {
+        if (LanguageManager.IsEnglish) return;
         OnlineLevelsListLocalizer.LocalizeOnlineLevelsList();
     }
 }
