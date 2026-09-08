@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Newtonsoft.Json;
 using TMPro;
 using UnityEngine;
 
@@ -106,6 +107,7 @@ public sealed class Lang
 
     public string SpeechFolder { get; }
     public string TextureFolder { get; }
+    public string AngryLevelFolder { get; }
     public UILayoutProfile Layout { get; }
 
     internal AssetBundle FontBundle { get; set; }
@@ -128,6 +130,12 @@ public sealed class Lang
         TextureFolder = ResolveDirectory(
             packageFolder == null ? null : Path.Combine(packageFolder, "textures"),
             ConfigPaths.GetLegacyTextureDirectory(Name));
+        AngryLevelFolder = ResolveDirectory(
+            packageFolder == null ? null : Path.Combine(packageFolder, "angry"),
+            ConfigPaths.GetLegacyAngryDirectory(Name)
+        );
+
+        JsonConvert.DeserializeObject<AngryLevelBundleTranslationData>(Path.Combine(AngryLevelFolder, "angry.json"));
     }
 
     private static string ResolveDirectory(params string[] candidates)

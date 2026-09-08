@@ -22,6 +22,9 @@ public static class ConfigPaths
     public static string GetLegacyTextureDirectory(string languageId) =>
         Path.Combine(RootDirectory, "textures", languageId);
 
+    public static string GetLegacyAngryDirectory(string languageId) =>
+        Path.Combine(RootDirectory, "angry", languageId);
+
     /// <summary>
     /// Font bundles ship with the mod itself (BepInEx/plugins/UltrakULL/fonts),
     /// unlike languages/audio/textures which are user data under config/ultrakull.
