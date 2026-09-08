@@ -73,7 +73,6 @@
     <publicize Include="AngryLevelLoader.AssetBundleProvider" />
     <publicize Include="AngryUiComponents" />
     <publicize Include="RudeLevelScripts.Essentials" />
-    <publicize Include="PluginConfigurator" />
 
     <Publicize Include="plog" />
     <Publicize Include="Assembly-CSharp" />
