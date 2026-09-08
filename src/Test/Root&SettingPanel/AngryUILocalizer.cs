@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using AngryLevelLoader.Managers;
 using AngryLevelLoader.UserInterface;
 using PluginConfig.API;
@@ -8,9 +9,10 @@ using PluginConfig.API.Functionals;
 using HarmonyLib;
 using UltrakULL.json;
 
-namespace UltrakULL;
 
 using cm = AngryLevelLoader.Managers.ConfigManager;
+
+namespace UltrakULL;
 
 [HarmonyPatch(typeof(ConfigManager))]
 public static class ConfigManagerPatch
@@ -25,6 +27,7 @@ public static class ConfigManagerPatch
 
 public static class AngryUILocalizer
 {
+    public static AngryLevelSettingTranslation angry => LanguageManager.Current.angry;
     private static (string original, string translation)[] HeaderPairs(AngryLevelSettingTranslation angry)
     {
         var h = angry.headers;
@@ -54,6 +57,11 @@ public static class AngryUILocalizer
     public static void LocalizeRootPanel(AngryLevelSettingTranslation angry)
     {
         var root = angry.rootPanel;
+
+        cm.config.rootPanel.onPannelOpenEvent += _ =>
+        {
+            LocalizeNewLevel.LocalizeNewLevelLine();
+        };
 
         OnlineLevelsList.onlineLevelsPanel.displayName = root.onlineLevels;       // "Online Levels"
         OnlineLevelsList.onlineLevelsPanel.headerText = root.onlineLevelsHeader;

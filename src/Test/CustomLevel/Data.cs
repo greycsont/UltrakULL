@@ -1,4 +1,3 @@
-
 public class AngryLevelSettingTranslation
 {
     public RootPanel rootPanel;
@@ -24,6 +23,8 @@ public class RootPanel
     public string scanForLevels;       // "Scan For Levels"
     public string viewReports;         // "View Reports"
     public string levelBundles;        // "Level Bundles"
+    public string newLevelNotifier;    // "New level: {0}"
+    public string newUpdateNotifier;   // "Update Available for {0}"
 }
 
 // Why ConfigHeader doesn't need guid
@@ -41,6 +42,7 @@ public class PanelHeaders
 // p_settings
 public class SettingPanel
 {
+
     public string settingsHeader;          // "--Settings--"
     public string openLevelsFolder;      // "Open Levels Folder"
     public string openScriptsFolder;     // "Open Scripts Folder"
@@ -73,7 +75,7 @@ public class SettingPanel
     public string deleteOldBundles;       // "Delete Old Bundles"
 }
 
-// It's using by two component:
+// It's used by two component:
 // AngryBundleSortFieldComponent / AngryOnlineSortFieldComponent
 public class SortingOption
 {
@@ -107,4 +109,9 @@ public class BundlePanel
     public string reloadFile;
     public string forceReloadFile;
     public string levels;
+    public string resetStats;
+    public string resetSecrets;
+    public string resetLevelVars;
+    public string resetBundleVars;
+    public string resetUserVars;
 }

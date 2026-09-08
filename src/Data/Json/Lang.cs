@@ -32,6 +32,8 @@ public sealed class Lang
             scanForLevels = "扫描关卡",
             viewReports = "查看报告",
             levelBundles = "关卡包",
+            newLevelNotifier = "新关卡：{0}",
+            newUpdateNotifier = "更新可用：{0}"
         },
         settingPanel = new SettingPanel()
         {
@@ -135,7 +137,7 @@ public sealed class Lang
             ConfigPaths.GetLegacyAngryDirectory(Name)
         );
 
-        JsonConvert.DeserializeObject<AngryLevelBundleTranslationData>(Path.Combine(AngryLevelFolder, "angry.json"));
+        //JsonConvert.DeserializeObject<AngryLevelBundleTranslationData>(Path.Combine(AngryLevelFolder, "angry.json"));
     }
 
     private static string ResolveDirectory(params string[] candidates)
