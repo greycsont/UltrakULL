@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using System.Threading.Tasks;
 using UltrakULL.json;
 using BepInEx;
+using BepInEx.Bootstrap;
 using System.Reflection;
 using UltrakULL.audio;
 using static UltrakULL.SceneObjects;
@@ -130,20 +131,44 @@ public class MainPatch : BaseUnityPlugin
 	private static void LoadPatches()
     {
         var harmony = new Harmony(Guid);
-		
+		TriggerEngine.Init(harmony);
+
         foreach (var type in typeof(MainPatch).Assembly.GetTypes())
         {
-            if (type.GetCustomAttribute<HarmonyPatch>() != null)
-            {
-                try
-                {
-                    harmony.PatchAll(type);
-                }
-                catch (Exception e)
-                {
-                    Logging.Error($"Error when patching {type.Name}, {e}");
-                }
-            }
+			var mod = type.GetCustomAttribute<PatchForMod>();
+
+			if (mod != null)
+			{
+				if (!Chainloader.PluginInfos.ContainsKey(mod.Guid))
+					continue;
+
+				if (string.IsNullOrEmpty(mod.ClassName))
+				{
+					harmony.PatchAll(type);
+					continue;
+				}
+
+				TriggerEngine.Bind(type, new MethodTrigger
+				{
+					className = mod.ClassName,
+					methodName = mod.MethodName,
+					argTypes = mod.Args,
+				});
+
+				continue;
+			}
+
+			if (type.GetCustomAttribute<HarmonyPatch>() != null) 
+			{
+				try
+				{
+					harmony.PatchAll(type);
+				}
+				catch(Exception e)
+				{
+					Logging.Error($"Failed to patch {type} : {e}");
+				}
+			}
 		}
 	}
 
