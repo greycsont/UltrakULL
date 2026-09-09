@@ -5,6 +5,7 @@ using UltrakULL.json;
 
 namespace UltrakULL;
 
+[PatchForMod(DependencyGuid.ANGRY_LEVEL_LOADER)]
 [HarmonyPatch(typeof(OnlineStatusFilterField))]
 public static class OnlineStatusFilterFieldPatch
 {

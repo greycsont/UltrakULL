@@ -8,7 +8,7 @@ using UltrakULL.json;
 
 namespace UltrakULL;
 
-
+[PatchForMod(DependencyGuid.ANGRY_LEVEL_LOADER)]
 [HarmonyPatch(typeof(OnlineLevelsList))]
 public static class CheckNewLevelTextPatch
 {

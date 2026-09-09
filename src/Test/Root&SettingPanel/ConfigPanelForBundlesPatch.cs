@@ -4,7 +4,7 @@ using UltrakULL.json;
 
 namespace UltrakULL;
 
-
+[PatchForMod(DependencyGuid.ANGRY_LEVEL_LOADER)]
 [HarmonyPatch(typeof(ConfigPanelForBundles))]
 public static class ConfigPanelForBundlesPatch
 {
