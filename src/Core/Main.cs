@@ -135,39 +135,41 @@ public class MainPatch : BaseUnityPlugin
 
         foreach (var type in typeof(MainPatch).Assembly.GetTypes())
         {
-			var mod = type.GetCustomAttribute<PatchForMod>();
-
-			if (mod != null)
+			try
 			{
-				if (!Chainloader.PluginInfos.ContainsKey(mod.Guid))
-					continue;
+				var mod = type.GetCustomAttribute<PatchForMod>();
 
-				if (string.IsNullOrEmpty(mod.ClassName))
+				if (mod != null)
 				{
-					harmony.PatchAll(type);
+					if (!Chainloader.PluginInfos.ContainsKey(mod.Guid))
+						continue;
+
+					if (string.IsNullOrEmpty(mod.ClassName))
+					{
+						harmony.PatchAll(type);
+						continue;
+					}
+
+					TriggerEngine.Bind(type, new MethodTrigger
+					{
+						className = mod.ClassName,
+						methodName = mod.MethodName,
+						argTypes = mod.Args,
+					});
+
 					continue;
 				}
 
-				TriggerEngine.Bind(type, new MethodTrigger
-				{
-					className = mod.ClassName,
-					methodName = mod.MethodName,
-					argTypes = mod.Args,
-				});
-
+				if (type.GetCustomAttribute<HarmonyPatch>() != null)
+					harmony.PatchAll(type);
+			}
+			catch (TypeLoadException)
+			{
 				continue;
 			}
-
-			if (type.GetCustomAttribute<HarmonyPatch>() != null) 
+			catch (Exception e)
 			{
-				try
-				{
-					harmony.PatchAll(type);
-				}
-				catch(Exception e)
-				{
-					Logging.Error($"Failed to patch {type} : {e}");
-				}
+				Logging.Error($"Failed to inspect {type}: {e}");
 			}
 		}
 	}
