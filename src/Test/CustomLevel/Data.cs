@@ -6,6 +6,7 @@ public class AngryLevelSettingTranslation
     public BundleStatus bundleStatus;
     public PanelHeaders headers;
     public BundlePanel bundlePanel;
+    public OnlineLevel onlineLevel;
     public string onlineSearchInfo; // "Showing {0} of {1} bundles"
 }
 
@@ -94,7 +95,7 @@ public class BundleStatus
 }
 
 
-public class OnlineLevels
+public class OnlineLevel
 {
     public string author;
     public string size;
