@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace UltrakULL;
 
-[PatchForMod("com.eternalUnion.angryLevelLoader", "AngryLevelLoader.Managers.ConfigManager", "InitializeConfig")]
+[PatchForMod(DependencyGuid.ANGRY_LEVEL_LOADER, "AngryLevelLoader.Managers.ConfigManager", "InitializeConfig")]
 [HarmonyPatch(typeof(OnlineLevelField))]
 public static class OnlineLevelFieldPatch
 {
