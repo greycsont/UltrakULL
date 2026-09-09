@@ -1,6 +1,7 @@
 using HarmonyLib;
 using System;
 using System.IO;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Threading.Tasks;
@@ -122,7 +123,28 @@ public class MainPatch : BaseUnityPlugin
 		LanguageManager.InitializeManager(InternalVersion);
 
 		Logging.Warn("--- Installing game hooks ---");
-		new Harmony(InternalName).PatchAll();
+		LoadPatches();
+	}
+
+
+	private static void LoadPatches()
+    {
+        var harmony = new Harmony(Guid);
+		
+        foreach (var type in typeof(MainPatch).Assembly.GetTypes())
+        {
+            if (type.GetCustomAttribute<HarmonyPatch>() != null)
+            {
+                try
+                {
+                    harmony.PatchAll(type);
+                }
+                catch (Exception e)
+                {
+                    Logging.Error($"Error when patching {type.Name}, {e}");
+                }
+            }
+		}
 	}
 
 	/// <summary>
