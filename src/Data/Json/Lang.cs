@@ -99,6 +99,12 @@ public sealed class Lang
             forceReloadFile = "强制重新加载文件",
             levels = "关卡",
         },
+        onlineLevel = new OnlineLevel
+        {
+            install = "安装",
+            update = "更新",
+            changelog = "更新日志",
+        },
         onlineSearchInfo = "显示在 {1} 里的 {0} 个结果",
     };
     public string Name => Json.metadata.langName;
