@@ -78,6 +78,10 @@ public sealed class Lang
         },
         bundleStatus = new BundleStatus()
         {
+            networkError = "网络错误",
+            fileWasModified = "文件被篡改",
+            locked = "已锁定",
+            validationError = "验证失败",
             notInstalled = "未安装",
             installed = "已安装",
             updateAvailable = "有更新",
@@ -104,10 +108,6 @@ public sealed class Lang
             size = "文件大小：",
             author = "作者：",
             outdateOrLocked = "（已过期/已锁定）",
-            networkError = "网络错误",
-            fileWasModified = "文件被篡改",
-            locked = "已锁定",
-            validationError = "验证失败",
             install = "安装",
             update = "更新",
             changelog = "更新日志",

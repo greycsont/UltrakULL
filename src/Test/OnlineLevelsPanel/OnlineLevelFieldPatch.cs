@@ -33,7 +33,7 @@ public static class OnlineLevelFieldPatch
         var status = LanguageManager.Current.angry.bundleStatus;
 
         var t = __instance.currentUi.infoText.text;
-        t = t.Replace("<color=red>(OUTDATED/LOCKED)</color>", $"<color=red>{onlineLevel.locked}</color>");
+        t = t.Replace("<color=red>(OUTDATED/LOCKED)</color>", $"<color=red>{onlineLevel.outdateOrLocked}</color>");
         t = t.Replace("Author: ", $"{onlineLevel.author}");
         t = t.Replace("Size: ", $"{onlineLevel.size}");
 
@@ -46,14 +46,13 @@ public static class OnlineLevelFieldPatch
         if (LanguageManager.IsEnglish) return;
 
         var status = LanguageManager.Current.angry.bundleStatus;
-        var onlineLevel = LanguageManager.Current.angry.onlineLevel;
 
         __result = __result switch
         {
-            "<color=red><b>Network error</b></color>"     => $"<color=red><b>{onlineLevel.networkError}</b></color>",
-            "<color=red><b>Validation error</b></color>"  => $"<color=red><b>{onlineLevel.validationError}</b></color>",
-            "<color=red><b>File was modified</b></color>" => $"$<color=red><b>{onlineLevel.fileWasModified}</b></color>",
-            "<color=red><b>Locked</b></color>"            => $"<color=red><b>{onlineLevel.locked}</b></color>",
+            "<color=red><b>Network error</b></color>"     => $"<color=red><b>{status.networkError}</b></color>",
+            "<color=red><b>Validation error</b></color>"  => $"<color=red><b>{status.validationError}</b></color>",
+            "<color=red><b>File was modified</b></color>" => $"$<color=red><b>{status.fileWasModified}</b></color>",
+            "<color=red><b>Locked</b></color>"            => $"<color=red><b>{status.locked}</b></color>",
             "<color=red>Not installed</color>"            => $"<color=red>{status.notInstalled}</color>",
             "<color=#00FFFF>Update available</color>"     => $"<color=#00FFFF>{status.updateAvailable}</color>",
             "<color=#00FF00>Installed</color>"            => $"<color=#00FF00>{status.installed}</color>",

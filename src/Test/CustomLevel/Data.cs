@@ -89,18 +89,6 @@ public class SortingOption
 
 public class BundleStatus
 {
-    public string notInstalled;
-    public string installed;
-    public string updateAvailable;
-}
-
-
-public class OnlineLevel
-{
-    public string size; // "Size: "
-    public string author;  // "Author: "
-    public string outdateOrLocked;  // "(OUTDATE/LOCKED)"
-
     // OnlineLevelField.cs line 630
     // Occur when download failure and not been canceled by itself
     public string networkError;  // "Network error"
@@ -112,7 +100,19 @@ public class OnlineLevel
     // OnlineLevelField.cs line 661
     // Occur when BundleInfo.guid != AngryBundleData.bundleGuid
     public string validationError;  // "Validation error"
+    
     public string locked;  // "Locked"
+    public string notInstalled;
+    public string installed;
+    public string updateAvailable;
+}
+
+
+public class OnlineLevel
+{
+    public string size; // "Size: "
+    public string author;  // "Author: "
+    public string outdateOrLocked;  // "(OUTDATE/LOCKED)"
     public string install; // INSTALL
     public string changelog; // CHANGELOG
     public string update;  // UPDATE
