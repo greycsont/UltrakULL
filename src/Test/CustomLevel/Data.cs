@@ -97,11 +97,25 @@ public class BundleStatus
 
 public class OnlineLevel
 {
-    public string author;
-    public string size;
-    public string install;
-    public string changelog;
-    public string update;
+    public string size; // "Size: "
+    public string author;  // "Author: "
+    public string outdateOrLocked;  // "(OUTDATE/LOCKED)"
+
+    // OnlineLevelField.cs line 630
+    // Occur when download failure and not been canceled by itself
+    public string networkError;  // "Network error"
+
+    // OnlineLevelField.cs line 688
+    // Occur when MD5 hash of downloaded file are not equal to the catalog's MD5 hash
+    public string fileWasModified;  // "File was modified"
+
+    // OnlineLevelField.cs line 661
+    // Occur when BundleInfo.guid != AngryBundleData.bundleGuid
+    public string validationError;  // "Validation error"
+    public string locked;  // "Locked"
+    public string install; // INSTALL
+    public string changelog; // CHANGELOG
+    public string update;  // UPDATE
 }
 
 public class BundlePanel
