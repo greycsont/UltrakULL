@@ -62,10 +62,7 @@ public class SettingPanel
     public string certificateIgnore; // "Certificate ignore"
     public string compatibility;           // "Compatibility"
     public string reloadAlwaysGoToMainMenu; // "Quick reload in main menu"
-    public string bundleFavSort;          // "Sort by fav"
-    public string bundleSortingMode;      // "Bundle sorting"
     public string dangerZone;              // "Danger Zone"
-
     public string dataPath;               // "Data Path"
     public string moveData;               // "Move Data"
     public string deleteOldBundles;       // "Delete Old Bundles"
@@ -107,7 +104,7 @@ public class GameModeCategory
     public string gamemode;  // "GAMEMODE"
     public string none;  // "None"
     public string noMonsters; // "No Monsters"
-    public string noMonstersAndWeapons;
+    public string noMonstersAndWeapons;  // "No Monsters/Weapons"
 }
 
 

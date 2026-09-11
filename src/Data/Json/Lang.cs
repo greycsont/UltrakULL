@@ -68,8 +68,6 @@ public sealed class Lang
             updateIgnoreCustomBuilds = "忽略自定义构建的更新",
             certificateIgnore = "忽略证书",
             reloadAlwaysGoToMainMenu = "主菜单快速重载",
-            bundleFavSort = "按收藏排序",
-            bundleSortingMode = "关卡包排序方式",
             postRecordsToLeaderboards = "向排行榜提交记录",
             dataPath = "数据路径",
             moveData = "移动数据",

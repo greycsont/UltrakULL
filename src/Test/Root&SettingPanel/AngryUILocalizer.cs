@@ -100,8 +100,6 @@ public static class AngryUILocalizer
         cm.scriptUpdateIgnoreCustom.displayName = s.updateIgnoreCustomBuilds;      // "Ignore updates for custom builds"
         cm.scriptCertificateIgnoreField.displayName = s.certificateIgnore;         // "Certificate ignore"
         cm.reloadAlwaysGoToMainMenu.displayName = s.reloadAlwaysGoToMainMenu;            // "Quick reload in main menu"
-        cm.bundleFavSort.displayName = s.bundleFavSort;                                  // "Sort by fav"
-        cm.bundleSortingMode.displayName = s.bundleSortingMode;                          // "Bundle sorting"
         InternalConfigManager.leaderboardToggle.displayName = s.postRecordsToLeaderboards;       // "Post records to leaderboards"
 
         var settings = InternalConfigManager.internalConfig?.rootPanel?["p_settings"] as ConfigPanel;
