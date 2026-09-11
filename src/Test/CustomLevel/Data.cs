@@ -102,7 +102,7 @@ public class BundleStatus
     public string updateAvailable;
 }
 
-public class GameMode
+public class GameModeCategory
 {
     public string gamemode;  // "GAMEMODE"
     public string none;  // "None"
@@ -115,7 +115,7 @@ public class OnlineLevel
 {
     public string size; // "Size: "
     public string author;  // "Author: "
-    public string outdateOrLocked;  // "(OUTDATE/LOCKED)"
+    public string outdateAndLocked;  // "(OUTDATE/LOCKED)"
     public string install; // INSTALL
     public string changelog; // CHANGELOG
     public string changelog_header;  // "Changelog"

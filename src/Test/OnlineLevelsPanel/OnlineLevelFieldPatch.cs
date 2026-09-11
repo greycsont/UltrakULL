@@ -33,7 +33,7 @@ public static class OnlineLevelFieldPatch
         var status = LanguageManager.Current.angry.bundleStatus;
 
         var t = __instance.currentUi.infoText.text;
-        t = t.Replace("<color=red>(OUTDATED/LOCKED)</color>", $"<color=red>{onlineLevel.outdateOrLocked}</color>");
+        t = t.Replace("<color=red>(OUTDATED/LOCKED)</color>", $"<color=red>{onlineLevel.outdateAndLocked}</color>");
         t = t.Replace("Author: ", $"{onlineLevel.author}");
         t = t.Replace("Size: ", $"{onlineLevel.size}");
 

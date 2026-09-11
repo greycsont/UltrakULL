@@ -104,7 +104,7 @@ public sealed class Lang
         {
             size = "文件大小：",
             author = "作者：",
-            outdateOrLocked = "（已过期/已锁定）",
+            outdateAndLocked = "（已过期/已锁定）",
             install = "安装",
             update = "更新",
             changelog = "更新日志",
