@@ -1,7 +1,10 @@
+using System.IO;
 using System.Security.Cryptography;
 using GameConsole;
 using GameConsole.CommandTree;
+using Newtonsoft.Json;
 using plog;
+using UltrakULL.json;
 
 namespace UltrakULL;
 
@@ -60,7 +63,34 @@ public sealed class CommandToRegister : CommandRoot, IConsoleLogger
                         return hm.message + "{0}" + hm.message2;
                     }
                 }
-            }));
+            }),
+            Branch("gene",
+                Leaf("angry", () =>
+                {
+                        var lang = LanguageManager.Current;
+                        string folder = lang.AngryLevelFolder;
+                        string path = Path.Combine(folder, "angry.json");
+
+                        try
+                        {
+                            Directory.CreateDirectory(folder);
+
+                            if (File.Exists(path))
+                            {
+                                Log.Warning($"Already exists, skipped: {path}");
+                                return;
+                            }
+
+                            File.WriteAllText(path,
+                                JsonConvert.SerializeObject(lang.angry, Formatting.Indented));
+                            Log.Info($"Written: {path}");
+                        }
+                        catch (System.Exception e)
+                        {
+                            Log.Error($"Failed to export angry ui: {e}");
+                        }
+                })
+            ));
     }
 
     public Logger Log { get; } = new Logger("ultrakull");
