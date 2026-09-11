@@ -4,7 +4,6 @@ public class AngryLevelSettingTranslation
     public SettingPanel settingPanel;
     public SortingOption sortingOption;
     public BundleStatus bundleStatus;
-    public PanelHeaders headers;
     public BundlePanel bundlePanel;
     public OnlineLevel onlineLevel;
     public string onlineSearchInfo; // "Showing {0} of {1} bundles"
@@ -19,7 +18,7 @@ public class RootPanel
     public string leaderboardBannedMods; // "Leaderboard banned mods"
     public string pendingRecords;      // "Pending records"
     public string sendPendingRecords;  // "Send Pending Records"
-    public string changelog;           // "Changelog"
+    public string difficultyOverrideWarning; // "Difficulty is overridden by gamemode\nWarning: ..."
     public string settings;            // "Settings"
     public string scanForLevels;       // "Scan For Levels"
     public string viewReports;         // "View Reports"
@@ -28,49 +27,45 @@ public class RootPanel
     public string newUpdateNotifier;   // "Update Available for {0}"
 }
 
-// Why ConfigHeader doesn't need guid
-public class PanelHeaders
-{
-    public string userInterface;           // "User Interface"
-    public string leaderboards;            // "Leaderboards"
-    public string online;                  // "Online"
-    public string scripts;                 // "Scripts"
-    public string compatibility;           // "Compatibility"
-    public string dangerZone;              // "Danger Zone"
-    public string difficultyOverrideWarning; // "Difficulty is overridden by gamemode\nWarning: ..."
-}
-
 // p_settings
 public class SettingPanel
-{
-
+{    
     public string settingsHeader;          // "--Settings--"
+    public string changelog;           // "Changelog"
     public string openLevelsFolder;      // "Open Levels Folder"
     public string openScriptsFolder;     // "Open Scripts Folder"
     public string reloadFile;            // "Reload File"
     public string reloadScript;          // "Reload Script"
     public string unityLogLevel;         // "Unity log level"
+    public string userInterface;           // "User Interface"
     public string customLevelButtonPosition; // "Custom level button position"
     public string customLevelButtonFrameColor; // "Custom level button frame color"
     public string customLevelButtonTextColor;  // "Custom level button text color"
     public string customLevelButtonColors;     // panel "Custom level button colors"
+    public string leaderboards;            // "Leaderboards"
+    public string postRecordsToLeaderboards;      // "Post records to leaderboards"
     public string showLeaderboardOnLevelEnd;   // "Show leaderboard on level end"
     public string showLeaderboardOnSecretLevelEnd; // "Show leaderboard on secret level end"
     public string defaultLeaderboardCategory;  // "Default leaderboard category"
     public string defaultLeaderboardDifficulty; // "Default leaderboard difficulty"
     public string defaultLeaderboardFilter;    // "Default leaderboard filter"
+    public string online;                  // "Online"
     public string refreshCatalogOnBoot;   // "Refresh online catalog on boot"
     public string useDevelopmentBranch;   // "Use development chanel"
     public string useLocalServer;         // "Use local server"
     public string levelUpdateNotifier;    // "Notify on level updates"
     public string levelUpdateIgnoreCustomBuilds; // "Ignore updates for custom build"
     public string newLevelNotifierToggle; // "Notify on new level release"
-    public string scriptUpdateIgnoreCustomBuilds; // "Ignore updates for custom builds"
-    public string scriptCertificateIgnore; // "Certificate ignore"
+    
+    public string scripts;                 // "Scripts"
+    public string updateIgnoreCustomBuilds; // "Ignore updates for custom builds"
+    public string certificateIgnore; // "Certificate ignore"
+    public string compatibility;           // "Compatibility"
     public string reloadAlwaysGoToMainMenu; // "Quick reload in main menu"
     public string bundleFavSort;          // "Sort by fav"
     public string bundleSortingMode;      // "Bundle sorting"
-    public string leaderboardToggle;      // "Post records to leaderboards"
+    public string dangerZone;              // "Danger Zone"
+
     public string dataPath;               // "Data Path"
     public string moveData;               // "Move Data"
     public string deleteOldBundles;       // "Delete Old Bundles"
@@ -105,6 +100,14 @@ public class BundleStatus
     public string notInstalled;
     public string installed;
     public string updateAvailable;
+}
+
+public class GameMode
+{
+    public string gamemode;  // "GAMEMODE"
+    public string none;  // "None"
+    public string noMonsters; // "No Monsters"
+    public string noMonstersAndWeapons;
 }
 
 

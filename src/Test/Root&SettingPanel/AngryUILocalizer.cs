@@ -29,21 +29,6 @@ public static class ConfigManagerPatch
 public static class AngryUILocalizer
 {
     public static AngryLevelSettingTranslation angry => LanguageManager.Current.angry;
-    private static (string original, string translation)[] HeaderPairs(AngryLevelSettingTranslation angry)
-    {
-        var h = angry.headers;
-        return new[]
-        {
-            ("User Interface", h.userInterface),
-            ("Leaderboards", h.leaderboards),
-            ("Online", h.online),
-            ("Scripts", h.scripts),
-            ("Compatibility", h.compatibility),
-            ("Danger Zone", h.dangerZone),
-            ("Difficulty is overridden by gamemode\nWarning: Some levels may not be compatible with gamemodes",
-             h.difficultyOverrideWarning),
-        };
-    }
 
     public static void Localize()
     {
@@ -70,7 +55,6 @@ public static class AngryUILocalizer
         cm.bannedModsPanel.displayName = root.leaderboardBannedMods;              // "Leaderboard banned mods"
         cm.pendingRecords.displayName = root.pendingRecords;                      // "Pending records"
         cm.sendPendingRecords.displayName = root.sendPendingRecords;              // "Send Pending Records"
-        cm.changelogButton.displayName = root.changelog;                          // "Changelog"
 
         (cm.config.rootPanel["settingsAndReload"] as ButtonArrayField)?.SetButtonText(0, root.settings); // "Settings"
         (cm.config.rootPanel["settingsAndReload"] as ButtonArrayField)?.SetButtonText(1, root.scanForLevels); // "Scan For Levels"
@@ -78,12 +62,20 @@ public static class AngryUILocalizer
         cm.reportsButton.displayName = root.viewReports;                          // "View Reports"
 
         cm.levelBundlesHeader.displayName = root.levelBundles;
+
+        var headerPairs = new[]
+        {
+            ("Difficulty is overridden by gamemode\nWarning: Some levels may not be compatible with gamemodes", root.difficultyOverrideWarning), 
+        };
+
+        AngryUtil.ApplyHeaders(cm.config.rootPanel, headerPairs);
     }
 
     public static void LocalizeSettingPanel(AngryLevelSettingTranslation angry)
     {
         var s = angry.settingPanel;
 
+        cm.changelogButton.displayName = s.changelog;                          // "Changelog"
         cm.openButtons.SetButtonText(0, s.openLevelsFolder);   // "Open Levels Folder"
         cm.openButtons.SetButtonText(1, s.openScriptsFolder);  // "Open Scripts Folder"
         cm.reloadFileKeybind.displayName = s.reloadFile;       // "Reload File"
@@ -105,12 +97,12 @@ public static class AngryUILocalizer
         cm.levelUpdateNotifierToggle.displayName = s.levelUpdateNotifier;                // "Notify on level updates"
         cm.levelUpdateIgnoreCustomBuilds.displayName = s.levelUpdateIgnoreCustomBuilds;  // "Ignore updates for custom build"
         cm.newLevelNotifierToggle.displayName = s.newLevelNotifierToggle;                // "Notify on new level release"
-        cm.scriptUpdateIgnoreCustom.displayName = s.scriptUpdateIgnoreCustomBuilds;      // "Ignore updates for custom builds"
-        cm.scriptCertificateIgnoreField.displayName = s.scriptCertificateIgnore;         // "Certificate ignore"
+        cm.scriptUpdateIgnoreCustom.displayName = s.updateIgnoreCustomBuilds;      // "Ignore updates for custom builds"
+        cm.scriptCertificateIgnoreField.displayName = s.certificateIgnore;         // "Certificate ignore"
         cm.reloadAlwaysGoToMainMenu.displayName = s.reloadAlwaysGoToMainMenu;            // "Quick reload in main menu"
         cm.bundleFavSort.displayName = s.bundleFavSort;                                  // "Sort by fav"
         cm.bundleSortingMode.displayName = s.bundleSortingMode;                          // "Bundle sorting"
-        InternalConfigManager.leaderboardToggle.displayName = s.leaderboardToggle;       // "Post records to leaderboards"
+        InternalConfigManager.leaderboardToggle.displayName = s.postRecordsToLeaderboards;       // "Post records to leaderboards"
 
         var settings = InternalConfigManager.internalConfig?.rootPanel?["p_settings"] as ConfigPanel;
 
@@ -120,7 +112,16 @@ public static class AngryUILocalizer
         settings["s_changeDataPath"].displayName = s.moveData;                      // "Move Data"
         settings["s_deleteOldBundles"].displayName = s.deleteOldBundles;            // "Delete Old Bundles"
 
+        var headerPairs = new []
+        {
+            ("User Interface", s.userInterface),
+            ("Leaderboards", s.leaderboards),
+            ("Online", s.online),
+            ("Scripts", s.scripts),
+            ("Compatibility", s.compatibility),
+            ("Danger Zone", s.dangerZone),
+        };
 
-        AngryUtil.ApplyHeaders(settings, HeaderPairs(angry));
+        AngryUtil.ApplyHeaders(settings, headerPairs);
     }
 }
