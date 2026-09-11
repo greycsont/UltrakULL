@@ -111,6 +111,9 @@ public sealed class Lang
             install = "安装",
             update = "更新",
             changelog = "更新日志",
+            changelog_header = "更新日志",
+            changelog_cancel = "取消",
+            changelog_update = "更新",
         },
         onlineSearchInfo = "显示在 {1} 里的 {0} 个结果",
     };

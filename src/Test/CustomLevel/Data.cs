@@ -115,7 +115,10 @@ public class OnlineLevel
     public string outdateOrLocked;  // "(OUTDATE/LOCKED)"
     public string install; // INSTALL
     public string changelog; // CHANGELOG
-    public string update;  // UPDATE
+    public string changelog_header;  // "Changelog"
+    public string changelog_cancel;  // "Cancel"
+    public string changelog_update;  // "Update"
+    public string update;  // "UPDATE"
 }
 
 public class BundlePanel
