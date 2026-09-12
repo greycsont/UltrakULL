@@ -1,8 +1,10 @@
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using GameConsole;
 using GameConsole.CommandTree;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using plog;
 using UltrakULL.json;
 
@@ -81,9 +83,29 @@ public sealed class CommandToRegister : CommandRoot, IConsoleLogger
                                 return;
                             }
 
-                            File.WriteAllText(path,
-                                JsonConvert.SerializeObject(lang.angry, Formatting.Indented));
-                            Log.Info($"Written: {path}");
+                            var settings = new AngryLevelSettingTranslation();
+                            FillSections(settings);
+
+                            JObject template = JObject.FromObject(settings);
+                            foreach (JToken token in template.Descendants().Where(t => t.Type == JTokenType.Null).ToList())
+                                token.Replace("");
+
+                            File.WriteAllText(path, template.ToString(Formatting.Indented));
+                            Log.Info($"Written template: {path}");
+
+                            static void FillSections(object obj)
+                            {
+                                foreach (var field in obj.GetType().GetFields())
+                                {
+                                    object value = field.GetValue(obj);
+
+                                    if (value == null && field.FieldType.IsClass && field.FieldType != typeof(string))
+                                        field.SetValue(obj, value = System.Activator.CreateInstance(field.FieldType));
+
+                                    if (value != null && field.FieldType != typeof(string))
+                                        FillSections(value);
+                                }
+                            }
                         }
                         catch (System.Exception e)
                         {

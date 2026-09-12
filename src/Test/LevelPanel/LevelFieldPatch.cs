@@ -20,7 +20,7 @@ public static class LevelFieldPatch
         if (!__instance.inited) return;
         
         var ui = __instance.currentUi;
-        var T = LanguageManager.CurrentLanguage;
+        var angry = LanguageManager.Current.angry;
 
         foreach (var header in ui.headers)
         {
@@ -29,17 +29,17 @@ public static class LevelFieldPatch
 
             var translation = header.name switch
             {
-                "TimeHeader"   => T?.misc?.levelstats_time,
-                "KillHeader"   => T?.misc?.levelstats_kills,
-                "StyleHeader"  => T?.misc?.levelstats_style,
-                "SecretsHeader" => T?.misc?.levelstats_secrets,
+                "TimeHeader"   => angry.levelPanel.time,
+                "KillHeader"   => angry.levelPanel.kills,
+                "StyleHeader"  => angry.levelPanel.style,
+                "SecretsHeader" => angry.levelPanel.secrets,
                 _ => null,
             };
 
             header.text = translation.Or(header.text);
         }
 
-        __instance.currentUi.challengeContainer.gameObject.Localize<Text>(T?.misc?.levelstats_challenge, path: ["Header"]);
+        __instance.currentUi.challengeContainer.gameObject.Localize<Text>(angry.levelPanel.challenge, path: ["Header"]);
     
     }
 }

@@ -15,7 +15,7 @@ public static class BundleContainerPatch
     public static void LocalizeBundleContainer(BundleContainer __instance)
     {
         if (LanguageManager.IsEnglish) return;
-        var level = LanguageManager.Current.angry.bundlePanel;
+        var level = LanguageManager.Current.angry.levelPanel;
         (__instance.rootPanel[__instance.rootPanel.guid + "_reloadButtons"] as ButtonArrayField)?.SetButtonText(0, level.reloadFile);
         (__instance.rootPanel[__instance.rootPanel.guid + "_reloadButtons"] as ButtonArrayField)?.SetButtonText(1, level.forceReloadFile);
 

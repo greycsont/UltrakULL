@@ -2,9 +2,10 @@ public class AngryLevelSettingTranslation
 {
     public RootPanel rootPanel;
     public SettingPanel settingPanel;
+    public Category category;
     public SortingOption sortingOption;
     public BundleStatus bundleStatus;
-    public BundlePanel bundlePanel;
+    public LevelPanel levelPanel;
     public OnlineLevel onlineLevel;
     public string onlineSearchInfo; // "Showing {0} of {1} bundles"
 }
@@ -18,6 +19,7 @@ public class RootPanel
     public string leaderboardBannedMods; // "Leaderboard banned mods"
     public string pendingRecords;      // "Pending records"
     public string sendPendingRecords;  // "Send Pending Records"
+    public string gamemode;  // "GAMEMODE"
     public string difficultyOverrideWarning; // "Difficulty is overridden by gamemode\nWarning: ..."
     public string settings;            // "Settings"
     public string scanForLevels;       // "Scan For Levels"
@@ -99,14 +101,12 @@ public class BundleStatus
     public string updateAvailable;
 }
 
-public class GameModeCategory
+public class Category
 {
-    public string gamemode;  // "GAMEMODE"
     public string none;  // "None"
     public string noMonsters; // "No Monsters"
     public string noMonstersAndWeapons;  // "No Monsters/Weapons"
 }
-
 
 public class OnlineLevel
 {
@@ -121,15 +121,14 @@ public class OnlineLevel
     public string update;  // "UPDATE"
 }
 
-public class BundlePanel
+public class LevelPanel
 {
-    public string by;
+    public string time;
+    public string kills;
+    public string style;
+    public string secrets;
+    public string challenge;
     public string reloadFile;
     public string forceReloadFile;
     public string levels;
-    public string resetStats;
-    public string resetSecrets;
-    public string resetLevelVars;
-    public string resetBundleVars;
-    public string resetUserVars;
 }

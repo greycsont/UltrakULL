@@ -15,8 +15,12 @@ public static class DifficultyFieldPatch
         if (LanguageManager.IsEnglish) return;
         if (!__instance.inited) return;
 
+        var angry = LanguageManager.Current.angry;
+
         __instance.currentUi.gameObject.Localize<Text>(LanguageManager.CurrentLanguage.frontend.difficulty_title, path:["DifficultyText"]);
 
+        __instance.currentUi.gameObject.Localize<Text>(angry.rootPanel.gamemode, path:["GamemodeText"]);
+        
         var difficultyDropdown = __instance.currentUi.difficultyList;
 
         foreach (var option in difficultyDropdown.options)
@@ -32,6 +36,20 @@ public static class DifficultyFieldPatch
             };
 
             option.text = translatedDiff.Or(option.text);
+        }
+
+        var gamemodeDropdown = __instance.currentUi.gamemodeList;
+        foreach (var mode in gamemodeDropdown.options)
+        {
+            var translatedMode = mode.text switch
+            {
+                "None" => angry.category.none,
+                "No Monsters" => angry.category.noMonsters,
+                "No Monsters/Weapons" => angry.category.noMonstersAndWeapons,
+                _ => mode.text,
+            };
+
+            mode.text = translatedMode.Or(mode.text);
         }
 
 
