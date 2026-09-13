@@ -28,10 +28,7 @@ public static class _PauseMenu
             //Checkpoint
             TextMeshProUGUI checkpointText = GetTextMeshProUGUI(FindDescendant(pauseMenu, "Restart Checkpoint", "Text"));
             checkpointText.text = LanguageManager.CurrentLanguage.pauseMenu.pause_respawn;
-            if (GetCurrentSceneName().Contains("Intermission"))
-            {
-                checkpointText.text = LanguageManager.CurrentLanguage.pauseMenu.pause_skip;
-            }
+
             //Restart mission
             TextMeshProUGUI restartText = GetTextMeshProUGUI(FindDescendant(pauseMenu, "Restart Mission", "Text"));
             restartText.text = LanguageManager.CurrentLanguage.pauseMenu.pause_restart;

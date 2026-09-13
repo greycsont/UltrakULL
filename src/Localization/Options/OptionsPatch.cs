@@ -8,26 +8,6 @@ using UltrakULL.json;
 namespace UltrakULL.Harmony_Patches;
 
 
-[HarmonyPatch(typeof(PauseMenu))]
-public static class PauseMenuPatch
-{
-    [HarmonyPatch(nameof(PauseMenu.OnEnable)), HarmonyPostfix]
-    public static void PauseMenuOnEnablePostfix(TMP_Text ___checkpointText)
-    {
-        try
-        {
-            if (___checkpointText.text.Contains("SKIP"))
-            {
-                ___checkpointText.text = LanguageManager.CurrentLanguage.pauseMenu.pause_skip;
-            }
-        }
-        catch (Exception e)
-        { 
-            Logging.Warn("Failed to patch SKIP button in pause menu");
-            Logging.Warn(e.ToString());
-        }
-    }
-}
 [HarmonyPatch(typeof(SettingsMenu.Components.SettingsPageBuilder))]
 public static class OptionsPatch
 {
