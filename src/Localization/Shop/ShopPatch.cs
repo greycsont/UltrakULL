@@ -60,12 +60,10 @@ public class ShopPatch
                 primeEndText.text = pss.GetSecretText();
                 return;
             }
-
-            TextMeshProUGUI origTip = GetTextMeshProUGUI(FindDescendant(___shopCanvas.gameObject, "Background", "Main Panel", "Tip of the Day", "Panel", "Text Inset", "TipText"));
             GameObject shopObject = ___shopCanvas.gameObject;
 
             //Redirect for the 5-3 end shop.
-            Shop.PatchShopRefactor(shopObject);
+            Shop.PatchShopRefactor(__instance, shopObject);
         }
     }
 

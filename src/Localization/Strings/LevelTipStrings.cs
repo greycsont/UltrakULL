@@ -35,16 +35,7 @@ public static class LevelTipStrings
         ("4-4", tip => StringHelper.Get(T.levelTips.leveltips_greedFourth, tip)),
         ("5-1", tip => StringHelper.Get(T.levelTips.leveltips_wrathFirst, tip)),
         ("5-2", tip => StringHelper.Get(T.levelTips.leveltips_wrathSecond, tip)),
-        ("5-3", tip =>
-        {
-            string trimmedTip = tip.Trim();
-            string brokenTip = T.levelTips.leveltips_wrathThirdBroken;
-
-            if (trimmedTip == "Ow." || trimmedTip == brokenTip)
-                return StringHelper.Get(brokenTip, tip);
-
-            return StringHelper.Get(T.levelTips.leveltips_wrathThird, tip);
-        }),
+        ("5-3", tip => StringHelper.Get(T.levelTips.leveltips_wrathThird, tip)),
         ("5-4", tip => StringHelper.Get(T.levelTips.leveltips_wrathFourth1, T.levelTips.leveltips_wrathFourth2, "\n", tip)),
         ("6-1", tip => StringHelper.Get(T.levelTips.leveltips_heresyFirst1, T.levelTips.leveltips_heresyFirst2, "\n", tip)),
         ("6-2", tip => StringHelper.Get(T.levelTips.leveltips_heresySecond1, T.levelTips.leveltips_heresySecond2, "\n", tip)),

@@ -51,6 +51,12 @@ public static partial class LevelPatcher
         elevatorButton.text = LanguageManager.CurrentLanguage.act1.act1_lustFirst_elevator;
     }
 
+    private static void PatchLevel5_3(GameObject canvasObj)
+    {
+        var rotate = GetInactiveRootObject("Rotated");
+        rotate.Localize<TMP_Text>(LanguageManager.CurrentLanguage.levelTips.leveltips_wrathThirdBroken, path: ["1 - Hallway", "Shop", "Canvas", "Background", "Main Panel", "Tip of the Day", "Panel", "Text Inset", "TipText"]);
+    }
+
     // ===== Complex level-specific patches (Act 3) =====
 
     private static void PatchLevel7_2(GameObject canvasObj)

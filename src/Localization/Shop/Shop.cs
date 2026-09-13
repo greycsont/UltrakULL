@@ -14,7 +14,7 @@ namespace UltrakULL;
 public static class Shop
 {
 
-    private static void PatchShopFrontEnd(GameObject shopObject)
+    private static void PatchShopFrontEnd(ShopZone shopZone, GameObject shopObject)
     {
         var shopPanel = FindDescendant(shopObject, "Background", "Main Panel");
 
@@ -22,8 +22,8 @@ public static class Shop
         shopPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_tipofthedayTitle, path: ["Tip of the Day", "Title"]);
 
         // Tip text: feed its current value to GetLevelTip (unless it's a V-Rank tip).
-        var tipDescription = GetTextMeshProUGUI(FindDescendant(shopPanel, "Tip of the Day", "Panel", "Text Inset", "TipText"));
-        if (!tipDescription.text.Contains("V-Rank"))
+        var tipDescription = shopZone.tipOfTheDay;
+        if (tipDescription != null)
             tipDescription.text = LevelTipStrings.GetLevelTip(tipDescription.text);
             
         //--MENU--
@@ -116,9 +116,9 @@ public static class Shop
         PatchArm(shopWeaponsObject);
     }
 
-    public static void PatchShopRefactor(GameObject shopObject)
+    public static void PatchShopRefactor(ShopZone shopZone, GameObject shopObject)
     {
-        PatchShopFrontEnd(shopObject);
+        PatchShopFrontEnd(shopZone, shopObject);
         PatchWeapons(shopObject);
     }
 

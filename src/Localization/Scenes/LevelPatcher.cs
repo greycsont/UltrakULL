@@ -55,7 +55,7 @@ public static partial class LevelPatcher
         ("Level 4-4", PatchHellmapAct2, null),
         ("Level 5-1", PatchHellmapAct2, null),
         ("Level 5-2", PatchHellmapAct2, null),
-        ("Level 5-3", PatchHellmapAct2, null),
+        ("Level 5-3", PatchHellmapAct2, PatchLevel5_3),
         ("Level 5-4", PatchHellmapAct2, null),
         ("Level 6-1", PatchHellmapAct2, null),
         ("Level 6-2", PatchHellmapAct2, null),
