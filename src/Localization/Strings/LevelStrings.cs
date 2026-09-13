@@ -560,8 +560,6 @@ public static class LevelStrings
         public Func<string> LevelName { get; }
         public Func<string> Challenge { get; }
         public (string keyword, Func<string> build)[] Messages { get; }
-
-        /// <summary>Tip of the day shown in the level's shop; null when this level has none.</summary>
         public Func<string> Tip { get; }
     }
 }
