@@ -143,7 +143,7 @@ public static class Shop
         root.Localize<TextMeshProUGUI>(t.shop.shop_weaponColors, path: [w.Window, "Variation Screen", "Variations", "Info and Color Panel", "ColorButton", "Text"]);
 
         // lore
-        root.Localize<TextMeshProUGUI>(w.InfoTitle(t), path: [w.Window, "Info Screen", "Title"]);
+        root.Localize<TextMeshProUGUI>(w.InfoTitle(t), path: [w.Window, "Info Screen", "Title"]).AddWidthAndHeight(110, 0);
         root.Localize<TextMeshProUGUI>(w.Title(t), path: [w.Window, "Info Screen", "Main Window", "Name"]);
         root.Localize<TextMeshProUGUI>(w.Lore(t), path: [w.Window, "Info Screen", "Main Window", "Scroll View", "Viewport", "Text"]);
         root.Localize<TextMeshProUGUI>(t.shop.shop_back, path: [w.Window, "Info Screen", "Main Window", "Back Button", "Text"]);

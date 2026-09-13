@@ -74,4 +74,9 @@ public static class UILayoutOverride
         // bitwise OR
         text.fontStyle |= FontStyles.UpperCase;
     }
+
+    public static void AddWidthAndHeight(this TMP_Text text, float width = 0, float height = 0)
+    {
+        text.rectTransform.sizeDelta += new Vector2(width, 0);
+    }
 }
