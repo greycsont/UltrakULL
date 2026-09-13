@@ -1,3 +1,7 @@
+
+namespace UltrakULL;
+
+
 public class AngryLevelSettingTranslation
 {
     public RootPanel rootPanel;
