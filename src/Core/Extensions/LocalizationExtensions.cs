@@ -39,14 +39,16 @@ public static class LocalizationExtensions
     }
 
     // Finds a T component below parent by path, then localizes it.
-    public static T Localize<T>(this GameObject parent, string translation, string[] path, bool uppercase = false) where T : Component
+    public static T Localize<T>(this GameObject parent, string translation, string[] path, bool uppercase = false, bool saveToCache = true) where T : Component
         => SceneObjects.FindComponent<T>(parent, path).Localize(translation, uppercase);
 
     public static string Or(this string translation, string original)
         => StringHelper.IsEmpty(translation) ? original : Penis(original, translation);
 
+
     public static string ToUpperIf(this string text, bool uppercase)
         => uppercase ? text.ToUpper() : text;
+
 
     // I have no idea how to name it
     private static string Penis(string original, string replacement)
