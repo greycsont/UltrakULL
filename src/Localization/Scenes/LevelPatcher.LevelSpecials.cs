@@ -192,4 +192,31 @@ public static partial class LevelPatcher
         if (nopeText != null && !string.IsNullOrEmpty(nopeTranslation))
             nopeText.text = nopeTranslation;
     }
+
+    private static void PatchLevel0_E(GameObject canvasObj)
+    {
+        canvasObj.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.encore.encorePrelude_heatResistanceWarn, 
+            path: ["HurtScreen", "Heat Resistance", "Warning"]).enableWordWrapping = false;
+
+        canvasObj.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.encore.encorePrelude_heatResistanceText, 
+            path: ["HurtScreen", "Heat Resistance", "Flavor Text"]);
+
+        canvasObj.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.encore.encorePrelude_heatResistanceTitle, 
+            path: ["HurtScreen", "Heat Resistance", "Meter", "Label"]);
+
+        canvasObj.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.encore.encorePrelude_heatResistanceRepaired, 
+            path: ["HurtScreen", "Heat Fixed", "Warning"]).enableWordWrapping = false;
+
+        canvasObj.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.encore.encorePrelude_heatResistanceRepairedText, 
+            path: ["HurtScreen", "Heat Fixed", "Flavor Text"]);
+
+        canvasObj.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.encore.encorePrelude_heatResistanceRepairedText, 
+            path: ["HurtScreen", "Heat Fixed", "Meter", "Label"]);
+    }
+
+    private static void PatchLevel1_E(GameObject canvasObj)
+    {
+        canvasObj.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.encore.encoreLimbo_warningText,
+            path: ["11 - Skull Room", "11 Nonstuff", "Room", "Cube (24)", "Canvas", "Text (TMP)"]);
+    }
 }

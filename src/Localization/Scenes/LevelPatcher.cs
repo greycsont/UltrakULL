@@ -71,8 +71,8 @@ public static partial class LevelPatcher
         ("Level 9-1", PatchHellmapAct3, null),
         ("Level 9-2", PatchHellmapAct3, null),
         // ===== Encores =====
-        ("Level 0-E", null, null),
-        ("Level 1-E", null, null),
+        ("Level 0-E", null, PatchLevel0_E),
+        ("Level 1-E", null, PatchLevel1_E),
         ("Level 2-E", null, null),
         ("Level 3-E", null, null),
         ("Level 4-E", null, null),
