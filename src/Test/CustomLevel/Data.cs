@@ -4,13 +4,13 @@ namespace UltrakULL;
 
 public class AngryLevelSettingTranslation
 {
-    public RootPanel rootPanel;
-    public SettingPanel settingPanel;
-    public Category category;
-    public SortingOption sortingOption;
-    public BundleStatus bundleStatus;
-    public LevelPanel levelPanel;
-    public OnlineLevel onlineLevel;
+    public RootPanel rootPanel = new();
+    public SettingPanel settingPanel = new();
+    public Category category = new();
+    public SortingOption sortingOption = new();
+    public BundleStatus bundleStatus = new();
+    public LevelPanel levelPanel = new();
+    public OnlineLevel onlineLevel = new();
     public string onlineSearchInfo; // "Showing {0} of {1} bundles"
 }
 
