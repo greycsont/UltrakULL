@@ -13,13 +13,14 @@ public static class DifficultyFieldPatch
     public static void LocalizeButtons(DifficultyField __instance)
     {
         if (LanguageManager.IsEnglish) return;
+        if (!LanguageManager.IsAngryTranslationLoaded) return;
         if (!__instance.inited) return;
 
         var angry = LanguageManager.Current.angry;
 
         __instance.currentUi.gameObject.Localize<Text>(LanguageManager.CurrentLanguage.frontend.difficulty_title, path:["DifficultyText"]);
 
-        __instance.currentUi.gameObject.Localize<Text>(angry.rootPanel.gamemode, path:["GamemodeText"]);
+        __instance.currentUi.gameObject.Localize<Text>(angry.angryUi.rootPanel.gamemode, path:["GamemodeText"]);
         
         var difficultyDropdown = __instance.currentUi.difficultyList;
 
@@ -43,9 +44,9 @@ public static class DifficultyFieldPatch
         {
             var translatedMode = mode.text switch
             {
-                "None" => angry.category.none,
-                "No Monsters" => angry.category.noMonsters,
-                "No Monsters/Weapons" => angry.category.noMonstersAndWeapons,
+                "None" => angry.angryUi.category.none,
+                "No Monsters" => angry.angryUi.category.noMonsters,
+                "No Monsters/Weapons" => angry.angryUi.category.noMonstersAndWeapons,
                 _ => mode.text,
             };
 

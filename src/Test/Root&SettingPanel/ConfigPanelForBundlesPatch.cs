@@ -12,7 +12,9 @@ public static class ConfigPanelForBundlesPatch
     public static void LocalizeOpenButton(ConfigPanelForBundles __instance)
     {
         if (LanguageManager.IsEnglish) return;
-        var open = LanguageManager.Current?.angry?.rootPanel?.open;
+        if (!LanguageManager.IsAngryTranslationLoaded) return;
+
+        var open = LanguageManager.Current?.angry?.angryUi.rootPanel?.open;
 
         __instance.buttonText = open;
     }

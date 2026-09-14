@@ -17,6 +17,7 @@ public static class LevelFieldPatch
     public static void LocalizeButtons(LevelField __instance)
     {
         if (LanguageManager.IsEnglish) return;
+        if (!LanguageManager.IsAngryTranslationLoaded) return;
         if (!__instance.inited) return;
         
         var ui = __instance.currentUi;
@@ -29,17 +30,17 @@ public static class LevelFieldPatch
 
             var translation = header.name switch
             {
-                "TimeHeader"   => angry.levelPanel.time,
-                "KillHeader"   => angry.levelPanel.kills,
-                "StyleHeader"  => angry.levelPanel.style,
-                "SecretsHeader" => angry.levelPanel.secrets,
+                "TimeHeader"   => angry.angryUi.levelPanel.time,
+                "KillHeader"   => angry.angryUi.levelPanel.kills,
+                "StyleHeader"  => angry.angryUi.levelPanel.style,
+                "SecretsHeader" => angry.angryUi.levelPanel.secrets,
                 _ => null,
             };
 
             header.text = translation.Or(header.text);
         }
 
-        __instance.currentUi.challengeContainer.gameObject.Localize<Text>(angry.levelPanel.challenge, path: ["Header"]);
+        __instance.currentUi.challengeContainer.gameObject.Localize<Text>(angry.angryUi.levelPanel.challenge, path: ["Header"]);
     
     }
 }

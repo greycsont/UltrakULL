@@ -28,19 +28,15 @@ public static class ConfigManagerPatch
 
 public static class AngryUILocalizer
 {
-    public static AngryLevelSettingTranslation angry => LanguageManager.Current.angry;
-
     public static void Localize()
     {
-        var angry = LanguageManager.Current?.angry;
-        if (angry == null)
-            return;
+        var angry = LanguageManager.Current?.angry.angryUi;
 
         LocalizeRootPanel(angry);
         LocalizeSettingPanel(angry);
     }
 
-    public static void LocalizeRootPanel(AngryLevelSettingTranslation angry)
+    public static void LocalizeRootPanel(AngryUi angry)
     {
         var root = angry.rootPanel;
 
@@ -71,7 +67,7 @@ public static class AngryUILocalizer
         AngryUtil.ApplyHeaders(cm.config.rootPanel, headerPairs);
     }
 
-    public static void LocalizeSettingPanel(AngryLevelSettingTranslation angry)
+    public static void LocalizeSettingPanel(AngryUi angry)
     {
         var s = angry.settingPanel;
 

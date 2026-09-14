@@ -83,7 +83,7 @@ public sealed class CommandToRegister : CommandRoot, IConsoleLogger
                                 return;
                             }
 
-                            var settings = new AngryLevelSettingTranslation();
+                            var settings = new AngryUi();
                             FillSections(settings);
 
                             JObject template = JObject.FromObject(settings);

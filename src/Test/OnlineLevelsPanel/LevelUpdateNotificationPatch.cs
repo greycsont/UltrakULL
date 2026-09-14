@@ -23,11 +23,12 @@ public static class LevelUpdateNotificationPatch
     public static void Localize(ref RectTransform panel)
     {
         if (LanguageManager.IsEnglish) return;
+        if (!LanguageManager.IsAngryTranslationLoaded) return;
 
         var ui = panel.GetComponentInChildren<AngryLevelUpdateNotificationComponent>(true);
         if (ui == null) return;
 
-        var onlineLevel = LanguageManager.Current.angry.onlineLevel;
+        var onlineLevel = LanguageManager.Current.angry.angryUi.onlineLevel;
         ui.gameObject.Localize<Text>(onlineLevel.changelog_header, path: ["ConcretePanel", "Text (1)"]);
         ui.cancel.gameObject.Localize<Text>(onlineLevel.changelog_cancel, path: ["Text"]);
         ui.update.gameObject.Localize<Text>(onlineLevel.changelog_update, path: ["Text"]);

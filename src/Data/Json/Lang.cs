@@ -18,10 +18,11 @@ public sealed class Lang
 {
     public JsonFormat Json { get;}
 
-    public AngryLevelSettingTranslation angry = new AngryLevelSettingTranslation();
+    public AngryTranslation angry = new ();
     public string Name => Json.metadata.langName;
     public string DisplayName => Json.metadata.langDisplayName;
     public bool IsEnglish => Json.metadata.langDisplayName == "English";
+    public bool IsAngryTranslationLoaded { get; set; } = false;
     public bool IsRightToLeft => Json.metadata.langRTL;
     public bool UseFontFallback => Json.metadata.fonts?.UseFallback ?? false;
 
@@ -61,17 +62,20 @@ public sealed class Lang
     private void LoadAngryUi(string folder)
     {
         string path = Path.Combine(folder, "angry.json");
-        if (!File.Exists(path))
-            return;
+        if (File.Exists(path))
+        {
+            try
+            {
+                JsonConvert.PopulateObject(File.ReadAllText(path), angry);
+                IsAngryTranslationLoaded = true;
+                return;
+            }
+            catch (Exception e)
+            {
+                Logging.Error($"Failed to load angry ui '{path}': {e}");
+            }
+        }
 
-        try
-        {
-            JsonConvert.PopulateObject(File.ReadAllText(path), angry);
-        }
-        catch (Exception e)
-        {
-            Logging.Error($"Failed to load angry ui '{path}': {e}");
-        }
     }
 
     private static string ResolveDirectory(params string[] candidates)

@@ -17,6 +17,7 @@ public static class OnlineLevelsListPatch
     public static void LocalizeOnlineLevelListPanel()
     {
         if (LanguageManager.IsEnglish) return;
+        if (!LanguageManager.IsAngryTranslationLoaded) return;
         OnlineLevelsListLocalizer.LocalizeOnlineLevelsList();
     }
 }
@@ -32,7 +33,7 @@ public static class OnlineLevelsListLocalizer
             {
                 var angry = LanguageManager.Current.angry;
                 string[] searchResult = {oll.onlineLevels.Values.Count(v => !v.hidden).ToString(), OnlineCatalogManager.Catalog.Levels.Count.ToString()};
-                oll.searchInfo.text = string.Format(angry.onlineSearchInfo.Or("Showing {0} of {1} bundles"), searchResult);
+                oll.searchInfo.text = string.Format(angry.angryUi.onlineSearchInfo.Or("Showing {0} of {1} bundles"), searchResult);
             }
         };
     }

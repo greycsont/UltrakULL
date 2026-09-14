@@ -42,6 +42,7 @@ public static class LanguageManager
 	#region Helper Properties
 		public static bool IsEnglish => Current?.IsEnglish ?? true;
 		public static bool IsRightToLeft => Current.IsRightToLeft;
+        public static bool IsAngryTranslationLoaded => Current?.IsAngryTranslationLoaded ?? false;
 	#endregion
 
 	public static void InitializeManager(string modVersion)

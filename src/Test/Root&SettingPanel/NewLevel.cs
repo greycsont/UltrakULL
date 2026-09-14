@@ -16,6 +16,7 @@ public static class CheckNewLevelTextPatch
     public static void LocalizeNewLevelTextPanel()
     {
         if (LanguageManager.IsEnglish) return;
+        if (!LanguageManager.IsAngryTranslationLoaded) return;
         LocalizeNewLevel.LocalizeNewLevelLine();
     }
 }
@@ -25,6 +26,6 @@ public static class LocalizeNewLevel
     public static void LocalizeNewLevelLine()
     {
         AngryUtil.LocalizeNotifierHeader(ConfigManager.newLevelNotifier,
-            "<color=#00FF00>", "New level: ", LanguageManager.Current.angry.rootPanel.newLevelNotifier);
+            "<color=#00FF00>", "New level: ", LanguageManager.Current.angry.angryUi.rootPanel.newLevelNotifier);
     }
 }

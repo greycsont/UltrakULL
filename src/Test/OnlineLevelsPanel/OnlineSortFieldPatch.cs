@@ -12,7 +12,8 @@ public static class OnlineSortFieldPatch
     public static void LocalizeButtons(OnlineSortField __instance)
     {
         if (LanguageManager.IsEnglish) return;
-        var sort = LanguageManager.Current?.angry?.sortingOption;
+        if (!LanguageManager.IsAngryTranslationLoaded) return;
+        var sort = LanguageManager.Current?.angry?.angryUi.sortingOption;
 
         __instance.currentUi.nameText.text = sort.name;
         __instance.currentUi.authorText.text = sort.author;

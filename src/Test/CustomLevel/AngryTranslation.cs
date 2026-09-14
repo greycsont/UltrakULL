@@ -1,8 +1,14 @@
 
 namespace UltrakULL;
 
+public class AngryTranslation
+{
+    public AngryUi angryUi = new();
+    public AngryBundles angryBundles = new();
+}
 
-public class AngryLevelSettingTranslation
+
+public class AngryUi
 {
     public RootPanel rootPanel = new();
     public SettingPanel settingPanel = new();

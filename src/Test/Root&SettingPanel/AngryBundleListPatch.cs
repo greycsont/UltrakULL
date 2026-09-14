@@ -37,8 +37,8 @@ public static class AngryBundleListPatch
     public static void LocalizeLevelBundleHeaderAndSearchInfo(int filterCount, int totalCount)
     {
         var angry = LanguageManager.Current.angry;
-        ConfigManager.levelBundlesHeader.text = angry.rootPanel.levelBundles.Or(ConfigManager.levelBundlesHeader.text);
-		ConfigManager.searchInfo.text = string.Format(angry.onlineSearchInfo.Or("Showing {0} of {1} bundles"), filterCount, totalCount);
+        ConfigManager.levelBundlesHeader.text = angry.angryUi.rootPanel.levelBundles.Or(ConfigManager.levelBundlesHeader.text);
+		ConfigManager.searchInfo.text = string.Format(angry.angryUi.onlineSearchInfo.Or("Showing {0} of {1} bundles"), filterCount, totalCount);
     }
 
 
@@ -46,9 +46,10 @@ public static class AngryBundleListPatch
     public static void LocalizeDisplayedFolder()
     {
         if (LanguageManager.IsEnglish) return;
+        if (!LanguageManager.IsAngryTranslationLoaded) return;
 
         var folder = AngryBundleList.displayedFolder;
-        string header = LanguageManager.Current.angry.rootPanel.levelBundles;
+        string header = LanguageManager.Current.angry.angryUi.rootPanel.levelBundles;
 
         if (folder == AngryBundleList.rootFolder)
             ConfigManager.levelBundlesHeader.text = header;

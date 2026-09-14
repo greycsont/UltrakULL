@@ -13,7 +13,8 @@ public static class OnlineStatusFilterFieldPatch
     public static void LocalizeOnlineStatusFilter(OnlineStatusFilterField __instance)
     {
         if (LanguageManager.IsEnglish) return;
-        var status = LanguageManager.Current?.angry?.bundleStatus;
+        if (!LanguageManager.IsAngryTranslationLoaded) return;
+        var status = LanguageManager.Current?.angry?.angryUi.bundleStatus;
 
         __instance.currentUi.installed.GetComponentInChildren<TMP_Text>(true).Localize(status.installed);
         __instance.currentUi.notInstalled.GetComponentInChildren<TMP_Text>(true).Localize(status.notInstalled);

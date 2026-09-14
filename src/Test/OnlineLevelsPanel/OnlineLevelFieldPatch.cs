@@ -14,9 +14,10 @@ public static class OnlineLevelFieldPatch
     public static void LocalizeOnlineLevelListPanel(OnlineLevelField __instance)
     {
         if (LanguageManager.IsEnglish) return;
+        if (!LanguageManager.IsAngryTranslationLoaded) return;
         if (!__instance.inited) return;
 
-        var onlineLevel = LanguageManager.Current.angry.onlineLevel;
+        var onlineLevel = LanguageManager.Current.angry.angryUi.onlineLevel;
 
         __instance.currentUi.changelog.GetComponentInChildren<Text>(true).Localize(onlineLevel.changelog);
         __instance.currentUi.update.GetComponentInChildren<Text>(true).Localize(onlineLevel.update);
@@ -27,10 +28,11 @@ public static class OnlineLevelFieldPatch
     public static void LocalizeOnlineLevelFieldTitle(OnlineLevelField __instance)
     {
         if (LanguageManager.IsEnglish) return;
+        if (!LanguageManager.IsAngryTranslationLoaded) return;
         if (__instance.currentUi == null) return;
 
-        var onlineLevel = LanguageManager.Current.angry.onlineLevel;
-        var status = LanguageManager.Current.angry.bundleStatus;
+        var onlineLevel = LanguageManager.Current.angry.angryUi.onlineLevel;
+        var status = LanguageManager.Current.angry.angryUi.bundleStatus;
 
         var t = __instance.currentUi.infoText.text;
         t = t.Replace("<color=red>(OUTDATED/LOCKED)</color>", $"<color=red>{onlineLevel.outdateAndLocked}</color>");
@@ -44,8 +46,9 @@ public static class OnlineLevelFieldPatch
     public static void LocalizeStatusString(ref string __result)
     {
         if (LanguageManager.IsEnglish) return;
+        if (!LanguageManager.IsAngryTranslationLoaded) return;
 
-        var status = LanguageManager.Current.angry.bundleStatus;
+        var status = LanguageManager.Current.angry.angryUi.bundleStatus;
 
         __result = __result switch
         {

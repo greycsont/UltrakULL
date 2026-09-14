@@ -16,6 +16,7 @@ public static class CheckNewLevelUpdatePatch
     public static void LocalizeNewLevelUpdatePanel()
     {
         if (LanguageManager.IsEnglish) return;
+        if (!LanguageManager.IsAngryTranslationLoaded) return;
         LocalizeUpdateAvailable.LocalizeLevelUpdateLine();
     }
 }
@@ -25,7 +26,7 @@ public static class LocalizeUpdateAvailable
     public static void LocalizeLevelUpdateLine()
     {
         AngryUtil.LocalizeNotifierHeader(ConfigManager.levelUpdateNotifier,
-            "<color=#00FFFF>", "Update available for ", LanguageManager.Current.angry.rootPanel.newUpdateNotifier);
+            "<color=#00FFFF>", "Update available for ", LanguageManager.Current.angry.angryUi.rootPanel.newUpdateNotifier);
     }
 
 }
