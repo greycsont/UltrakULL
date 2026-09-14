@@ -6,7 +6,7 @@ public class AngryBundles
     /// <summary>
     /// Guid -> bundle
     /// </summary>
-    public Dictionary<string, AngryBundle> Bundles = new Dictionary<string, AngryBundle>();
+    public Dictionary<string, AngryBundle> bundles = new Dictionary<string, AngryBundle>();
 }
 
 /// <summary>
@@ -17,12 +17,12 @@ public class AngryBundle
     /// <summary>
     /// The name of the bundle
     /// </summary>
-    public string BundleName;
+    public string bundleName;
 
     /// <summary>
     /// Level Id -> AngryLevelTranslationData
     /// </summary>
-    public Dictionary<string, AngryLevel> Levels = new Dictionary<string, AngryLevel>();
+    public Dictionary<string, AngryLevel> levels = new Dictionary<string, AngryLevel>();
 }
 
 /// <summary>
@@ -33,7 +33,7 @@ public class AngryLevel
     /// <summary>
     /// Name of the level shown in the bundle
     /// </summary>
-    public string LevelNameInBundle;
+    public string levelNameInBundle;
 
     /// <summary>
     /// LevelInfo.LayerName
@@ -41,42 +41,42 @@ public class AngryLevel
     /// used in Title drop
     /// Layer /// xxx or whatever
     /// </summary>
-    public string LevelLayer;
+    public string levelLayer;
 
     /// <summary>
     /// LevelInfo.LevelName
     /// Name of the level
     /// used in Title drop
     /// </summary>
-    public string LevelName;
+    public string levelName;
 
     /// <summary>
     /// LevelInfo.TipOfTheDay
     /// Tip of the day
     /// Used in Shop at the FirstRoom
     /// </summary>
-    public string TipOfTheDay;
+    public string tipOfTheDay;
 
     /// <summary>
     /// Challenge of the level
     /// </summary>
-    public string Challenge;
+    public string challenge;
 
     /// <summary>
     /// Notes of the translator
     /// could be contact information or sth
     /// </summary>
-    public string TranslatorNotes;
+    public string translatorNotes;
 
     /// <summary>
     /// HudMessages
     /// the key is the original's hudmessage, value is the translated
     /// </summary>
-    public Dictionary<string, string> HudMessages = new();
+    public Dictionary<string, string> hudMessages = new();
 
     /// <summary>
     /// Boooks
     /// the key is the original book's information, value is the translated
     /// </summary>
-    public Dictionary<string, string> Books = new();
+    public Dictionary<string, string> books = new();
 }
