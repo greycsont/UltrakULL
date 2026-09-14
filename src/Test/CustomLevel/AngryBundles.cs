@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 
 
-public class AngryLevelsTranslation
+public class AngryBundles
 {
     /// <summary>
     /// Guid -> bundle
@@ -72,11 +72,11 @@ public class AngryLevel
     /// HudMessages
     /// the key is the original's hudmessage, value is the translated
     /// </summary>
-    public Dictionary<string, string> HudMessages;
+    public Dictionary<string, string> HudMessages = new();
 
     /// <summary>
     /// Boooks
     /// the key is the original book's information, value is the translated
     /// </summary>
-    public Dictionary<string, string> Books;
+    public Dictionary<string, string> Books = new();
 }
