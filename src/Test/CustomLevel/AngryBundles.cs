@@ -20,7 +20,7 @@ public class AngryBundle
     public string bundleName;
 
     /// <summary>
-    /// Level Id -> AngryLevelTranslationData
+    /// AngryLevelLoader.DataTypes.LevelInfo.LevelId -> AngryLevel
     /// </summary>
     public Dictionary<string, AngryLevel> levels = new Dictionary<string, AngryLevel>();
 }
@@ -31,12 +31,13 @@ public class AngryBundle
 public class AngryLevel
 {
     /// <summary>
+    /// AngryLevelLoader.DataTypes.LevelInfo.LevelName
     /// Name of the level shown in the bundle
     /// </summary>
     public string levelNameInBundle;
 
     /// <summary>
-    /// LevelInfo.LayerName
+    /// StockLevelInfo.LayerName
     /// Layer of the level
     /// used in Title drop
     /// Layer /// xxx or whatever
@@ -44,20 +45,21 @@ public class AngryLevel
     public string levelLayer;
 
     /// <summary>
-    /// LevelInfo.LevelName
+    /// StockLevelInfo.LevelName
     /// Name of the level
     /// used in Title drop
     /// </summary>
     public string levelName;
 
     /// <summary>
-    /// LevelInfo.TipOfTheDay
+    /// StockLevelInfo.TipOfTheDay
     /// Tip of the day
     /// Used in Shop at the FirstRoom
     /// </summary>
     public string tipOfTheDay;
 
     /// <summary>
+    /// AngryLevelLoader.DataTypes.LevelInfo.levelChallengeText
     /// Challenge of the level
     /// </summary>
     public string challenge;
