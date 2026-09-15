@@ -22,6 +22,7 @@ public static class ConfigManagerPatch
     public static void LocalizeMainAndSettingPanel()
     {
         if (LanguageManager.IsEnglish) return;
+        if (!LanguageManager.IsAngryTranslationLoaded) return;
         AngryUILocalizer.Localize();
     }
 }
