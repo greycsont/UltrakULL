@@ -210,13 +210,13 @@ public static partial class LevelPatcher
         canvasObj.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.encore.encorePrelude_heatResistanceRepairedText, 
             path: ["HurtScreen", "Heat Fixed", "Flavor Text"]);
 
-        canvasObj.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.encore.encorePrelude_heatResistanceRepairedText, 
+        canvasObj.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.encore.encorePrelude_heatResistanceTitle, 
             path: ["HurtScreen", "Heat Fixed", "Meter", "Label"]);
     }
 
     private static void PatchLevel1_E(GameObject canvasObj)
     {
-        canvasObj.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.encore.encoreLimbo_warningText,
-            path: ["11 - Skull Room", "11 Nonstuff", "Room", "Cube (24)", "Canvas", "Text (TMP)"]);
+        GetInactiveRootObject("11 - Skull Room").Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.encore.encoreLimbo_warningText,
+            path: ["11 Nonstuff", "Room", "Cube (24)", "Canvas", "Text (TMP)"]);
     }
 }
