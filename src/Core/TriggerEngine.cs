@@ -21,6 +21,7 @@ public static class TriggerEngine
 {
     private static Harmony? _harmony;
     private static readonly Dictionary<MethodBase, List<Type>> _types = new();
+    private static readonly Dictionary<MethodBase, Action> _actions = new();
     private static readonly HashSet<MethodBase> _patched = new();
 
     public static void Init(Harmony harmony) => _harmony = harmony;
@@ -30,23 +31,34 @@ public static class TriggerEngine
     /// Bind a type needs to patch to a method
     /// (One method only patch once cuz why you f need to patch twice waste process power)
     /// </summary>
-    /// <param name="typeNeedsPatch">the type </param>
-    public static void Bind(Type typeNeedsPatch, MethodTrigger trigger)
+    /// <param name="typeNeedsPatch">the type to patch</param>
+    /// <param name="trigger">the method to trigger the action and patch</param>
+    /// <param name="action">the method runs when the trigger method is called</param>
+    public static void Bind(Type typeNeedsPatch, MethodTrigger trigger, Action action = null)
     {
         var method = Resolve(trigger);
         if (method == null) return; // Resolve already logged the why
 
-        if (!_types.TryGetValue(method, out var list))
-            _types[method] = list = new List<Type>();
-        list.Add(typeNeedsPatch);
+        if (typeNeedsPatch != null)
+        {
+            if (!_types.TryGetValue(method, out var list))
+                _types[method] = list = new List<Type>();
+            list.Add(typeNeedsPatch);
+        }
 
-        // one patch per method, later rules just reuse the same postfix
+        if (action != null)
+            _actions[method] = action;
+
         if (_patched.Add(method))
         {
             var postfix = new HarmonyMethod(typeof(TriggerEngine), nameof(Bridge));
             _harmony!.Patch(method, postfix: postfix);
         }
     }
+
+    /// <summary>I'm re-invent harmony patch f</summary>
+    public static void Bind(MethodTrigger trigger, Action action)
+        => Bind(null, trigger, action);
 
     /// <summary>
     /// Gets the methodbase via
@@ -95,7 +107,22 @@ public static class TriggerEngine
 
     private static void Bridge(MethodBase __originalMethod)
     {
+        if (_actions.TryGetValue(__originalMethod, out var action))
+        {
+            _actions.Remove(__originalMethod);
+            try
+            {
+                action();
+            }
+            catch (Exception e)
+            {
+                Logging.Error($"Trigger action failed for {__originalMethod}: {e}");
+            }
+        }
+
         if (!_types.TryGetValue(__originalMethod, out var rules)) return;
+        _types.Remove(__originalMethod);
+
         foreach (var rule in rules)
         {
             try
@@ -107,6 +134,5 @@ public static class TriggerEngine
                 Logging.Error($"Failed to patch {rule}: {e}");
             }
         }
-        _types.Remove(__originalMethod);
     }
 }

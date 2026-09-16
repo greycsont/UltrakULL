@@ -105,9 +105,6 @@ public static partial class LevelPatcher
             return;
         }
 
-        // Normal levels + encores: name/challenge on the results screen, then
-        //   the act's hellmap and any level-specific patch.
-        // Idk maybe I should add rude levels()
         string name = LevelStrings.GetLevelName();
         string challenge = LevelStrings.GetLevelChallenge(levelName);
         ResultsScreenLocalizer.PatchResultsScreen(name, challenge);

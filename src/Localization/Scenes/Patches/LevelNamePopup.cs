@@ -19,6 +19,10 @@ public static class LocalizeLevelPopup
             return;
         }
 
+        if (AngrySceneTracker.InAngryLevel)
+            Logging.Message($"layer='{__instance.layerString}' name='{__instance.nameString}' " +
+                            $"(translated: layer='{AngryLevelText.Layer()}' name='{AngryLevelText.Title()}')");
+
         if (TitleManager.GetName(__instance.nameString) == null)
         {
             Logging.Warn("There's no translated level name here!");
@@ -27,8 +31,8 @@ public static class LocalizeLevelPopup
             return;
         }
 
-        __instance.layerString = TitleManager.GetLayer(__instance.layerString);
-        __instance.nameString = TitleManager.GetName(__instance.nameString);
+        __instance.layerString = TitleManager.GetLayer(__instance.layerString).Or(__instance.layerString);
+        __instance.nameString = TitleManager.GetName(__instance.nameString).Or(__instance.nameString);
 
         __instance.nameText.ApplyLayout(UILayoutKeys.LevelNamePopupText);
     }

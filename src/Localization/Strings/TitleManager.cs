@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 
 using UltrakULL.json;
@@ -13,6 +13,9 @@ public static class TitleManager
 {
     public static string GetName(string inputName)
     {
+        if (AngrySceneTracker.InAngryLevel)
+            return AngryLevelText.Title();
+
         //Prelude titles
         if (inputName.Contains("INTO THE FIRE")) { return LanguageManager.CurrentLanguage.levelNames.levelName_preludeFirst; }
         if (inputName.Contains("THE MEATGRINDER")) { return LanguageManager.CurrentLanguage.levelNames.levelName_preludeSecond; }
@@ -81,13 +84,16 @@ public static class TitleManager
         if (inputName.Contains("PRIME THIRD")) { return LanguageManager.CurrentLanguage.levelNames.levelName_primeThird; }
 
         Logging.Warn("No translation strings are specified for “" + inputName + "”. Returning the original name");
-        return inputName;
+        return null;
     }
 
     public static string GetLayer(string inputTitle)
     {
+        if (AngrySceneTracker.InAngryLevel)
+            return AngryLevelText.Layer();
+
         if (SceneHelper.IsPlayingCustom)
-            return inputTitle;
+            return null;
 
         string layer = "";
         string number = "";
@@ -142,16 +148,9 @@ public static class TitleManager
         else if (inputTitle.Contains("ENCORE"))
             number = LanguageManager.CurrentLanguage.frontend.chapter_encore;
 
-        string[] split = inputTitle.Split(new string[] { "///" }, StringSplitOptions.None);
-
-        string originalLayer = split.Length > 0 ? split[0].Trim() : "";
-        string originalNumber = split.Length > 1 ? split[1].Trim() : "";
-
-        if (string.IsNullOrEmpty(layer))
-            layer = originalLayer;
-
-        if (string.IsNullOrEmpty(number))
-            number = originalNumber;
+        // Nobody will add rich text in the these string right?
+        if (string.IsNullOrEmpty(layer) || string.IsNullOrEmpty(number))
+            return null;
 
         return layer + " /// " + number;
     }

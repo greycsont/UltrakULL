@@ -132,7 +132,7 @@ public class MainPatch : BaseUnityPlugin
     {
         var harmony = new Harmony(Guid);
 		TriggerEngine.Init(harmony);
-
+		AngrySceneTracker.Init();
         foreach (var type in typeof(MainPatch).Assembly.GetTypes())
         {
 			try
@@ -195,6 +195,7 @@ public class MainPatch : BaseUnityPlugin
 
 		FontManager.RefreshFallback();                 
 		GameObject canvasObj = GetInactiveRootObject("Canvas");
+		AngrySceneTracker.ReadCurrentScene();
 		Core.LocalizeScene(canvasObj, sceneEntry);
 		AudioSwapper.OnSceneLoaded(GetCurrentSceneName());
 

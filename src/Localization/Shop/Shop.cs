@@ -21,10 +21,11 @@ public static class Shop
         //Tip panel
         shopPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_tipofthedayTitle, path: ["Tip of the Day", "Title"]);
 
-        // Tip of the day
         var tipDescription = shopZone.tipOfTheDay;
+
         if (tipDescription != null)
-            tipDescription.text = LevelStrings.GetLevelTip().Or(tipDescription.text);
+            tipDescription.Localize(AngryLevelText.Tip()
+                ?? LevelStrings.GetLevelTip());
             
         //--MENU--
         // removed and replaced with SmileOS 2.0 in patch 16
