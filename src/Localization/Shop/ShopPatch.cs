@@ -51,7 +51,6 @@ public class ShopPatch
                 return;
             }
 
-            //Redirect for the 5-3 end shop.
             Shop.PatchShopRefactor(__instance);
         }
     }
