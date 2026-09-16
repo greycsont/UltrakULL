@@ -387,14 +387,20 @@ public static class MainMenu
 		preludeText.text = LanguageManager.CurrentLanguage.frontend.chapter_prelude;
 
 		GameObject act1Object = FindDescendant(chapterObject, "Act I");
+		var act1MenuActSelect = act1Object.GetComponent<MenuActSelect>();
+		act1MenuActSelect.nameWhenDisabled = LanguageManager.CurrentLanguage.frontend.chapter_act1_lock.Or(act1MenuActSelect.nameWhenDisabled);
 		TextMeshProUGUI act1Text = GetTextMeshProUGUI(act1Object.transform.Find("Name").gameObject);
 		act1Text.text = LanguageManager.CurrentLanguage.frontend.chapter_act1;
 
 		GameObject act2Object = FindDescendant(chapterObject, "Act II");
+		var act2MenuActSelect = act2Object.GetComponent<MenuActSelect>();
+		act2MenuActSelect.nameWhenDisabled = LanguageManager.CurrentLanguage.frontend.chapter_act2_lock.Or(act2MenuActSelect.nameWhenDisabled);
 		TextMeshProUGUI act2Text = GetTextMeshProUGUI(act2Object.transform.Find("Name").gameObject);
 		act2Text.text = LanguageManager.CurrentLanguage.frontend.chapter_act2;
 
 		GameObject act3Object = FindDescendant(chapterObject, "Act III");
+		var act3MenuActSelect = act3Object.GetComponent<MenuActSelect>();
+		act3MenuActSelect.nameWhenDisabled = LanguageManager.CurrentLanguage.frontend.chapter_act3_lock.Or(act3MenuActSelect.nameWhenDisabled);
 		TextMeshProUGUI act3Text = GetTextMeshProUGUI(act3Object.transform.Find("Name").gameObject);
 		act3Text.text = LanguageManager.CurrentLanguage.frontend.chapter_act3;
 
