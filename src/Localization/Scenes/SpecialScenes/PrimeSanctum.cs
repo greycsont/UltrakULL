@@ -11,7 +11,7 @@ namespace UltrakULL;
 
 public static class PrimeSanctum
 {
-    private static void PatchSecretText(PrimeSanctumStrings strings)
+    private static void PatchSecretText()
     {
         string currentLevel = GetCurrentSceneName();
 
@@ -33,7 +33,7 @@ public static class PrimeSanctum
         if (secretText != null)
         {
             secretText.fontSize = 18;
-            secretText.text = strings.GetSecretText();
+            secretText.text = PrimeSanctumStrings.GetSecretText();
         }
 
         
@@ -45,17 +45,12 @@ public static class PrimeSanctum
 
         if (currentLevel.Contains("P-1"))
         {
-            PrimeSanctumStrings primeSanctumChallengeStrings = new PrimeSanctumStrings();
-            string levelname = primeSanctumChallengeStrings.GetLevelName();
-            ResultsScreenLocalizer.PatchResultsScreen(levelname, "");
-            
-            PatchSecretText(primeSanctumChallengeStrings);
+            ResultsScreenLocalizer.PatchResultsScreen("", "");
+
+            PatchSecretText();
         }
         else if (currentLevel.Contains("P-2"))
         {
-            PrimeSanctumStrings primeSanctumChallengeStrings = new PrimeSanctumStrings();
-            string levelname = primeSanctumChallengeStrings.GetLevelName();
-            
             //First lock buttons
             GameObject firstLockObject = FindDescendant(GetInactiveRootObject("Main Section"),"Inside","8 - Elevator","8 Stuff", "InteractiveScreenWithStand", "InteractiveScreen","Canvas", "Background");
             
@@ -111,9 +106,9 @@ public static class PrimeSanctum
             
             
             
-            ResultsScreenLocalizer.PatchResultsScreen(levelname, "");
-            
-            PatchSecretText(primeSanctumChallengeStrings);
+            ResultsScreenLocalizer.PatchResultsScreen("", "");
+
+            PatchSecretText();
         }
     }
 }

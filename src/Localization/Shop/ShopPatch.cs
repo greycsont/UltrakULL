@@ -56,8 +56,7 @@ public class ShopPatch
             {
                 Logging.Warn("Prime end testament, getting text");
                 TextMeshProUGUI primeEndText = GetTextMeshProUGUI(FindDescendant(___shopCanvas.gameObject, "Background", "Main Window", "Scroll View", "Viewport", "Text"));
-                PrimeSanctumStrings pss = new PrimeSanctumStrings();
-                primeEndText.text = pss.GetSecretText();
+                primeEndText.text = PrimeSanctumStrings.GetSecretText();
                 return;
             }
             GameObject shopObject = ___shopCanvas.gameObject;
