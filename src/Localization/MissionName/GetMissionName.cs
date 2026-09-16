@@ -38,4 +38,13 @@ public static class Patch_GetMissionName
 
         return LevelNames.GetMissionNameOnly(missionNum, original);
     }
+
+    [HarmonyPatch(nameof(GetMissionName.GetMission))] [HarmonyPostfix]
+    public static void LocalizeAngryMissionName(ref string __result)
+    {
+        if (!AngrySceneTracker.InAngryLevel)
+            return;
+
+        __result = AngryLevelText.Name().Or(__result);
+    }
 }
