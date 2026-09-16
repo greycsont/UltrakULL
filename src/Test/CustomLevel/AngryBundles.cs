@@ -64,6 +64,8 @@ public class AngryLevel
     /// </summary>
     public string challenge;
 
+    /*
+
     /// <summary>
     /// Notes of the translator
     /// could be contact information or sth
@@ -81,4 +83,5 @@ public class AngryLevel
     /// the key is the original book's information, value is the translated
     /// </summary>
     public Dictionary<string, string> books = new();
+    */
 }
