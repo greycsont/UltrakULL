@@ -14,9 +14,9 @@ namespace UltrakULL;
 public static class Shop
 {
 
-    private static void PatchShopFrontEnd(ShopZone shopZone, GameObject shopObject)
+    private static void PatchShopFrontEnd(ShopZone shopZone)
     {
-        var shopPanel = FindDescendant(shopObject, "Background", "Main Panel");
+        var shopPanel = FindDescendant(shopZone.shopCanvas.gameObject, "Background", "Main Panel");
 
         //Tip panel
         shopPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_tipofthedayTitle, path: ["Tip of the Day", "Title"]);
@@ -117,10 +117,10 @@ public static class Shop
         PatchArm(shopWeaponsObject);
     }
 
-    public static void PatchShopRefactor(ShopZone shopZone, GameObject shopObject)
+    public static void PatchShopRefactor(ShopZone shopZone)
     {
-        PatchShopFrontEnd(shopZone, shopObject);
-        PatchWeapons(shopObject);
+        PatchShopFrontEnd(shopZone);
+        PatchWeapons(shopZone.shopCanvas.gameObject);
     }
 
     private static void PatchWeapon(GameObject root, WeaponData w)
