@@ -34,7 +34,7 @@ public class AngryLevel
     /// AngryLevelLoader.DataTypes.LevelInfo.LevelName
     /// Name of the level shown in the bundle
     /// </summary>
-    public string levelNameInBundle;
+    public string levelName;
 
     /// <summary>
     /// StockLevelInfo.LayerName
@@ -49,7 +49,7 @@ public class AngryLevel
     /// Name of the level
     /// used in Title drop
     /// </summary>
-    public string levelName;
+    public string levelTitle;
 
     /// <summary>
     /// StockLevelInfo.TipOfTheDay
