@@ -36,6 +36,16 @@ public static class AngryLevelText
     /// </summary>
     public static string Challenge() => Current()?.challenge;
 
+    /// <summary>
+    /// The hudmessage on that level
+    /// </summary>
+    public static List<Match> HudMessages() => Current()?.hudMessages;
+
+    /// <summary>
+    /// The translated books of current custom level
+    /// </summary>
+    public static List<Match> Books() => Current()?.books;
+
     public static AngryLevel Current()
     {
         if (string.IsNullOrEmpty(BundleGuid) || string.IsNullOrEmpty(LevelId))

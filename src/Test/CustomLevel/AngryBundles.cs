@@ -64,24 +64,28 @@ public class AngryLevel
     /// </summary>
     public string challenge;
 
-    /*
-
     /// <summary>
     /// Notes of the translator
     /// could be contact information or sth
     /// </summary>
     public string translatorNotes;
 
-    /// <summary>
-    /// HudMessages
-    /// the key is the original's hudmessage, value is the translated
-    /// </summary>
-    public Dictionary<string, string> hudMessages = new();
 
     /// <summary>
-    /// Boooks
-    /// the key is the original book's information, value is the translated
+    /// HudMessages
+    /// match holds a signature of the original message, text is the translation
     /// </summary>
-    public Dictionary<string, string> books = new();
-    */
+    public List<Match> hudMessages = new();
+
+    /// <summary>
+    /// Books
+    /// match holds a signature of the original book's text, text is the translation
+    /// </summary>
+    public List<Match> books = new();
+}
+
+public class Match
+{
+    public string match;
+    public string text;
 }
