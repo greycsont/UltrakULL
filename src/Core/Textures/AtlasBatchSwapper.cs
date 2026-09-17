@@ -13,6 +13,13 @@ namespace UltrakULL;
 /// </summary>
 internal static class StaticBatchAtlasSwapper
 {
+    /// <summary>
+    /// The image before the static batching
+    /// </summary>
+    /// <param name="name">name of the file</param>
+    /// <param name="width">width of the image</param>
+    /// <param name="height">height of the image</param>
+    /// <param name="pixels">the colours of every pixel</param>
     private readonly struct Template(string name, int width, int height, Color32[] pixels)
     {
         public readonly string Name = name;
@@ -25,6 +32,11 @@ internal static class StaticBatchAtlasSwapper
     {
         public readonly Texture2D Texture = texture;
         public readonly Color32[] OriginalPixels = originalPixels;
+
+        /// <summary>
+        /// The name of the file need to replace
+        ///   and the position of replace's starting point
+        /// </summary>
         public readonly List<(string Name, RectInt Rect)> Regions = new();
     }
 
@@ -37,7 +49,7 @@ internal static class StaticBatchAtlasSwapper
     }
 
     private static readonly List<Template> pendingTemplates = new();
-    private static readonly List<AtlasState> atlases = new();
+    private static readonly Dictionary<Texture2D, AtlasState> atlases = new();
     private static readonly HashSet<string> diagnostics = new();
     private static int optimizerId;
     private static bool resolving;
@@ -47,13 +59,18 @@ internal static class StaticBatchAtlasSwapper
     /// </summary>
     internal static void Capture(StaticSceneOptimizer optimizer)
     {
+        ReleaseAtlases();
         pendingTemplates.Clear();
+
+        // the textures mutated in the last scene are still translated, put the originals back
+        TextureSwapper.RestoreMutatedTextures();
+
         optimizerId = optimizer != null ? optimizer.GetInstanceID() : 0;
         if (optimizer == null || LanguageManager.IsEnglish)
             return;
 
-        var seen = new HashSet<Texture2D>();
-        List<MeshRenderer> renderers = optimizer.staticMRends;
+        var seenBefore = new HashSet<Texture2D>();
+        var renderers = optimizer.staticMRends;
         if (renderers == null)
         {
             WarnOnce("no-renderers",
@@ -62,13 +79,17 @@ internal static class StaticBatchAtlasSwapper
             return;
         }
 
+        // Capture all renderer's material
         foreach (MeshRenderer renderer in renderers)
+        {
             CaptureRenderer(renderer);
+        }
 
         Logging.Message(
             $"Captured {pendingTemplates.Count} named " +
             $"pre-batch template(s) from {renderers.Count} renderer(s).", true);
 
+        /// func used in here
         void CaptureRenderer(MeshRenderer renderer)
         {
             if (renderer == null)
@@ -80,23 +101,45 @@ internal static class StaticBatchAtlasSwapper
 
         void CaptureMaterial(Material material)
         {
-            foreach (var entry in GetMainTextures(material)) {
-                Texture2D texture = entry.Texture;
-                if (!seen.Add(texture)
-                    || !TextureSwapper.TryGetFile(texture.name, out _))
+            foreach (var entry in GetMainTextures(material)) 
+            {
+                var texture = entry.Texture;
+
+                // the material may point at the swapped texture, get the original object back
+                var source = TextureSwapper.GetOriginalTexture(texture);
+                var template = source != null ? source : texture;
+                string name = source != null ? source.name : texture.name;
+
+                // If it's seen before or has no png in the pack, skip it
+                if (!seenBefore.Add(texture) || !TextureSwapper.TryGetFile(name, out _))
                     continue;
 
-                Color32[] pixels = ReadPixels(texture);
+                Color32[] pixels = ReadPixels(template);
                 if (pixels == null) {
                     WarnOnce($"template-read:{texture.GetInstanceID()}",
                         $"Cannot read source template " +
-                        $"'{texture.name}' ({texture.width}x{texture.height}).");
+                        $"'{name}' ({template.width}x{template.height}).");
                     continue;
                 }
-                pendingTemplates.Add(new Template(
-                    texture.name, texture.width, texture.height, pixels));
+
+                pendingTemplates.Add(new Template(name, template.width, template.height, pixels));
             }
         }
+    }
+
+    private static void ReleaseAtlases()
+    {
+        foreach (AtlasState state in atlases.Values)
+        {
+            if (state.Texture != null
+                && state.OriginalPixels.Length == state.Texture.width * state.Texture.height)
+            {
+                state.Texture.SetPixels32(state.OriginalPixels);
+                state.Texture.Apply(false, false);
+            }
+        }
+
+        atlases.Clear();
     }
 
     /// <summary>
@@ -112,24 +155,29 @@ internal static class StaticBatchAtlasSwapper
             yield break;
 
         resolving = true;
-        var newAtlases = CollectAtlases(optimizer);
-        if (newAtlases.Count == 0)
+        // Get the atlas of current scene
+        List<AtlasState> sceneAtlases = GetOrCreateAtlases(optimizer);
+        if (sceneAtlases.Count == 0)
         {
             WarnOnce($"missing-atlas:{optimizerId}",
-                "Optimizer finished, but no anonymous runtime " +
+                "Optimizer finished, but no runtime " +
                 "Texture2D was found on its batch materials.");
             resolving = false;
             yield break;
         }
 
-        foreach (AtlasState atlas in newAtlases)
+        Template[] pending = pendingTemplates.ToArray();
+        var found = new HashSet<string>();
+        // Search in every atlas this scene has; each one keeps the regions it owns
+        foreach (AtlasState sceneAtlas in sceneAtlases)
         {
-            Template[] templates = pendingTemplates.ToArray();
-            Color32[] source = atlas.OriginalPixels;
-            int sourceWidth = atlas.Texture.width;
-            int sourceHeight = atlas.Texture.height;
+            Color32[] source = sceneAtlas.OriginalPixels;
+            int sourceWidth = sceneAtlas.Texture.width;
+            int sourceHeight = sceneAtlas.Texture.height;
+
+            // Using the template to find it's location
             Task<List<(Template Template, RectInt Rect)>> task = Task.Run(
-                () => FindRegions(source, sourceWidth, sourceHeight, templates));
+                () => FindRegions(source, sourceWidth, sourceHeight, pending));
             while (!task.IsCompleted)
                 yield return null;
 
@@ -144,19 +192,26 @@ internal static class StaticBatchAtlasSwapper
             foreach (var result in task.Result)
             {
                 if (result.Rect.width <= 0)
-                {
-                    WarnOnce($"not-found:{optimizerId}:{result.Template.Name}",
-                        $"'{result.Template.Name}' was not found " +
-                        $"in atlas '{atlas.Texture.name}' {sourceWidth}x{sourceHeight}.");
                     continue;
-                }
-                atlas.Regions.Add((result.Template.Name, result.Rect));
+
+                // add the name of position to sceneAtlas
+                sceneAtlas.Regions.Add((result.Template.Name, result.Rect));
+                found.Add(result.Template.Name);
                 Logging.Message(
                     $"Located '{result.Template.Name}' at " +
                     $"({result.Rect.x},{result.Rect.y}) {result.Rect.width}x" +
                     $"{result.Rect.height}.", true);
             }
-            atlases.Add(atlas);
+        }
+
+        foreach (Template template in pending)
+        {
+            if (found.Contains(template.Name))
+                continue;
+
+            WarnOnce($"not-found:{optimizerId}:{template.Name}",
+                $"'{template.Name}' was not found in " +
+                $"{sceneAtlases.Count} runtime atlas(es).");
         }
 
         pendingTemplates.Clear();
@@ -169,22 +224,24 @@ internal static class StaticBatchAtlasSwapper
     /// </summary>
     internal static void Apply()
     {
-        foreach (AtlasState atlas in atlases)
+        int changed = 0;
+        foreach (AtlasState state in atlases.Values)
         {
-            if (atlas.Texture == null
-                || atlas.OriginalPixels.Length != atlas.Texture.width * atlas.Texture.height)
+            if (state.Texture == null
+                || state.OriginalPixels.Length != state.Texture.width * state.Texture.height)
                 continue;
 
-            atlas.Texture.SetPixels32(atlas.OriginalPixels);
+            // Reset the atlas to original one
+            state.Texture.SetPixels32(state.OriginalPixels);
             if (LanguageManager.IsEnglish)
             {
-                atlas.Texture.Apply(false, false);
+                state.Texture.Apply(false, false);
                 continue;
             }
 
-            int changed = 0;
-            foreach (var region in atlas.Regions)
+            foreach (var region in state.Regions)
             {
+                // Get the files to replace the region
                 if (!TextureSwapper.TryGetFile(region.Name, out TextureSwapper.ReplacementFile file))
                     continue;
 
@@ -198,14 +255,16 @@ internal static class StaticBatchAtlasSwapper
                     continue;
                 }
 
-                Texture2D replacement = new(2, 2, TextureFormat.RGBA32, false);
                 try
                 {
-                    if (!ImageConversion.LoadImage(replacement, file.Bytes, false))
+                    // Get the pixel of the image
+                    Color32[] replacementPixels = DecodePixels(file.Bytes);
+                    if (replacementPixels == null)
                         continue;
-                    atlas.Texture.SetPixels32(
+                    // Sets the region to the pixel of image
+                    state.Texture.SetPixels32(
                         region.Rect.x, region.Rect.y, region.Rect.width,
-                        region.Rect.height, replacement.GetPixels32());
+                        region.Rect.height, replacementPixels);
                     changed++;
                 }
                 catch (Exception ex)
@@ -213,25 +272,19 @@ internal static class StaticBatchAtlasSwapper
                     WarnOnce($"apply:{region.Name}:{file.Path}",
                         $"Failed to apply '{file.Path}': {ex.Message}");
                 }
-                finally
-                {
-                    Object.Destroy(replacement);
-                }
             }
-            atlas.Texture.Apply(false, false);
-            if (changed > 0)
-                Logging.Message(
-                    $"Applied {changed} cached region(s) to " +
-                    $"'{atlas.Texture.name}' without rescanning.", true);
+            state.Texture.Apply(false, false);
         }
+
+        if (changed > 0)
+            Logging.Message(
+                $"Applied {changed} cached region(s) to " +
+                $"{atlases.Count} atlas(es) without rescanning.", true);
     }
 
-    /// <summary>
-    /// Collect atlases generated by static batching
-    /// </summary>
-    private static List<AtlasState> CollectAtlases(StaticSceneOptimizer optimizer)
+    private static List<AtlasState> GetOrCreateAtlases(StaticSceneOptimizer optimizer)
     {
-        var result = new List<AtlasState>();
+        var found = new List<AtlasState>();
         var seen = new HashSet<Texture2D>();
         Material[] materials =
         {
@@ -246,18 +299,26 @@ internal static class StaticBatchAtlasSwapper
                 if (!seen.Add(entry.Texture))
                     continue;
 
+                if (atlases.TryGetValue(entry.Texture, out AtlasState cached))
+                {
+                    found.Add(cached);
+                    continue;
+                }
+
                 Color32[] pixels = ReadPixels(entry.Texture);
                 if (pixels == null)
                     continue;
                     
-                result.Add(new AtlasState(entry.Texture, pixels));
+                var state = new AtlasState(entry.Texture, pixels);
+                atlases[entry.Texture] = state;
+                found.Add(state);
                 Logging.Message(
                     $"Runtime atlas candidate: material " +
                     $"'{material.name}', {entry.Property}, texture '{entry.Texture.name}' " +
                     $"{entry.Texture.width}x{entry.Texture.height}.", true);
             }
         }
-        return result;
+        return found;
     }
 
     /// <summary>
@@ -387,6 +448,23 @@ internal static class StaticBatchAtlasSwapper
             }
         }
         return true;
+    }
+
+    private static Color32[] DecodePixels(byte[] png)
+    {
+        Texture2D decoded = new(2, 2, TextureFormat.RGBA32, false);
+        try
+        {
+            return ImageConversion.LoadImage(decoded, png, false) ? decoded.GetPixels32() : null;
+        }
+        catch (Exception)
+        {
+            return null;
+        }
+        finally
+        {
+            Object.Destroy(decoded);
+        }
     }
 
     private static Color32[] ReadPixels(Texture source)

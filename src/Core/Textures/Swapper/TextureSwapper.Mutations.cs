@@ -93,7 +93,7 @@ public static partial class TextureSwapper
         }
     }
 
-    private static void RestoreMutatedTextures()
+    internal static void RestoreMutatedTextures()
     {
         foreach (var item in mutatedTextures)
         {

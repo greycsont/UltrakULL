@@ -90,6 +90,12 @@ public static partial class TextureSwapper
     private static Texture GetCanonicalTexture(Texture value) =>
         textureReplacementCache.GetOriginal(value);
 
+    internal static Texture2D GetOriginalTexture(Texture2D current)
+    {
+        var original = textureReplacementCache.GetOriginal(current) as Texture2D;
+        return original != null && original != current ? original : null;
+    }
+
     private static Texture GetDesiredMaterialTexture(Material material, string property,
         Texture original, ReplacementFile file)
     {
