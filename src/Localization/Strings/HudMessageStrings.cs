@@ -25,9 +25,9 @@ public static class HudMessageStrings
     };
 
     private static readonly (string keyword, Func<string> build)[] DevMuseumMessages =
-	{
-		("A R M B O Y ! ! !", () => LanguageManager.CurrentLanguage.act2.act2_heresyFirst_armboy),
-	};
+    {
+        ("A R M B O Y ! ! !", () => LanguageManager.CurrentLanguage.act2.act2_heresyFirst_armboy),
+    };
 
     /// <summary>
     /// These part of the messages can be found in the code
@@ -119,6 +119,15 @@ public static class HudMessageStrings
         // one) - don't route or warn about it.
         if (string.IsNullOrEmpty(message))
             return null;
+
+        if (AngrySceneTracker.InAngryLevel)
+        {
+            foreach (var kvp in AngryLevelText.HudMessages())
+            {
+                if (kvp.match.Equals(message))
+                    return kvp.text;
+            }
+        }
 
         string currentSceneName = GetCurrentSceneName();
 
