@@ -83,6 +83,7 @@ public class FishingStrings
     public string fish_book8;
     public string fish_book9;
     public string fish_book10;
+    public string fish_book11;
 
     public string fish_rodFar;
     public string fish_rodClose;
