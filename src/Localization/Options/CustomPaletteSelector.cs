@@ -3,9 +3,9 @@ using System.IO;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
-using UltrakULL;
 using static UltrakULL.json.LanguageManager;
 
+namespace UltrakULL;
 
 [HarmonyPatch(typeof(CustomPaletteSelector))]
 public static class LocalizeCustomPaletteSelector
@@ -21,11 +21,11 @@ public static class LocalizeCustomPaletteSelector
         nameof(LocalizeCustomPaletteSelector.LocalizePaletteName)
     );
 
-    [HarmonyPatch(nameof(CustomPaletteSelector.BuildMenu))] [HarmonyTranspiler]
+    [HarmonyPatch(nameof(CustomPaletteSelector.BuildMenu))]
+    [HarmonyTranspiler]
     public static IEnumerable<CodeInstruction> BuildPageTranspiler(IEnumerable<CodeInstruction> instructions)
     {
         var codeMatcher = new CodeMatcher(instructions);
-    
         return codeMatcher.MatchForward(false,
             new CodeMatch(i => i.Calls(PathWithoutExtensionMethodInfo)))
         .Advance(1)
@@ -37,7 +37,6 @@ public static class LocalizeCustomPaletteSelector
     private static string LocalizePaletteName(string fileName)
     {
         if (IsEnglish) return fileName;
-        
         var newFileName = fileName switch
         {
             "Gamebot Color" => CurrentLanguage.options.graphics_customColorPaletteGamebotColor,
