@@ -73,11 +73,20 @@ class TutorialStrings
             TextMeshProUGUI calibrationAudioMaster = GetTextMeshProUGUI(FindDescendant(calibrationAudioWindow, "Master Volume (1)", "Text"));
             calibrationAudioMaster.text = LanguageManager.CurrentLanguage.options.audio_globalVolume;
 
+            var masterSlider = FindComponent<SliderValueToText>(calibrationAudioWindow, "Master Volume (1)", "Button", "Slider (1)", "Text (2)");
+            masterSlider.ifMin = LanguageManager.CurrentLanguage.tutorial.tutorial_audioCalibrationSliderOff.Or(masterSlider.ifMin);
+
             TextMeshProUGUI calibrationAudioSFX = GetTextMeshProUGUI(FindDescendant(calibrationAudioWindow, "SFX Volume (1)", "Text"));
             calibrationAudioSFX.text = LanguageManager.CurrentLanguage.options.audio_soundEffectsVolume;
 
+            var sfxSlider = FindComponent<SliderValueToText>(calibrationAudioWindow, "SFX Volume (1)", "Button", "Slider (1)", "Text (2)");
+            sfxSlider.ifMin = LanguageManager.CurrentLanguage.tutorial.tutorial_audioCalibrationSliderOff.Or(sfxSlider.ifMin);
+
             TextMeshProUGUI calibrationAudioMusic = GetTextMeshProUGUI(FindDescendant(calibrationAudioWindow, "Music Volume (1)", "Text"));
             calibrationAudioMusic.text = LanguageManager.CurrentLanguage.options.audio_musicVolume;
+
+            var musicSlider = FindComponent<SliderValueToText>(calibrationAudioWindow, "Music Volume (1)", "Button", "Slider (1)", "Text (2)");
+            musicSlider.ifMin = LanguageManager.CurrentLanguage.tutorial.tutorial_audioCalibrationSliderOff.Or(musicSlider.ifMin);
 
             TextMeshProUGUI calibrationAudioDone = GetTextMeshProUGUI(FindDescendant(calibrationAudioWindow, "Bone (1)", "Text"));
             calibrationAudioDone.text = LanguageManager.CurrentLanguage.tutorial.tutorial_audioCalibrationDone;

@@ -2566,6 +2566,8 @@ public class Tutorial
     public string tutorial_audioCalibrationWarningPromptNo;
     public string tutorial_audioCalibrationDone;
 
+    public string tutorial_audioCalibrationSliderOff;
+
     public string tutorial_videoCalibrationTitle;
     public string tutorial_videoCalibrationPcDescription;
     public string tutorial_videoCalibrationPsxDescription;
