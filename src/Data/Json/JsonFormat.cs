@@ -2709,6 +2709,7 @@ public class a1
 
     public string act1_lustSecond_feedbacker1;
     public string act1_lustSecond_feedbacker2;
+    public string act1_lustSecond_feedbacker3;
     public string act1_lustSecond_railcannon;
     public string act1_lustSecond_checkPoints;
 

@@ -231,7 +231,7 @@ public static class LevelStrings
             () => T.levelChallenges.challenges_lustSecond,
             new (string keyword, Func<string> build)[]
             {
-                ("Only the <color=#40E7FF>FEEDBACKER</color> (<color=#40E7FF>Blue arm</color>) can <color=orange>PARRY PROJECTILES</color>. Swap arms with '<color=orange>{0}</color>'.", () => T.act1.act1_lustSecond_feedbacker1 + "\n" + T.act1.act1_lustSecond_feedbacker2 + "<color=orange>{0}</color>."),
+                ("Only the <color=#40E7FF>FEEDBACKER</color> (<color=#40E7FF>Blue arm</color>) can <color=orange>PARRY PROJECTILES</color>. Swap arms with '<color=orange>{0}</color>'.", () => T.act1.act1_lustSecond_feedbacker1 + "\n" + T.act1.act1_lustSecond_feedbacker2 + "<color=orange>{0}</color>" + T.act1.act1_lustSecond_feedbacker3),
                 ("<color=#40E7FF>RAILCANNON</color>: <color=orange>RECHARGES</color> even when <color=orange>UNEQUIPPED</color>. Switch weapons to keep fighting between shots.", () => T.act1.act1_lustSecond_railcannon),
                 ("<color=#FF52FF>CIRCULAR CHECKPOINTS</color> can be reused to keep your progress.", () => T.act1.act1_lustSecond_checkPoints),
             },
