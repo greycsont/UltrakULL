@@ -718,7 +718,6 @@ public static class MainMenu
 		//Encore title
 		TextMeshProUGUI preludeTitleText = GetTextMeshProUGUI(FindDescendant(encoreHeader, "Text"));
 		preludeTitleText.text = LanguageManager.CurrentLanguage.frontend.chapter_encore;
-		preludeTitleText.fontSize = 36;
 		
 	}
 
