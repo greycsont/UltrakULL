@@ -77,7 +77,7 @@ public static class SubtitleLocalizer
         return result;
     }
 
-    public static IEnumerable<CodeInstruction> InjectLocalize2(IEnumerable<CodeInstruction> instructions, MethodInfo localize)
+    public static IEnumerable<CodeInstruction> InjectLocalize2(IEnumerable<CodeInstruction> instructions, MethodInfo localize, OpCode? anchorOpcode)
     {
         // new Pos = (callPos + 2 - m.Pos) - 1 = callPos + 1
         // Since function localize itself are count as a line
@@ -89,7 +89,7 @@ public static class SubtitleLocalizer
             {
                 int callPos = m.Pos;
 
-                m.SearchBack(i => i.opcode == OpCodes.Ldstr);
+                m.SearchBack(i => i.opcode == (anchorOpcode ?? OpCodes.Ldstr));
                 if (m.IsInvalid || callPos - m.Pos > 8)            // holy magic number
                 {
                     Logging.Warn("InjectLocalize: no nearby ldstr before DisplaySubtitle, skipped.");
