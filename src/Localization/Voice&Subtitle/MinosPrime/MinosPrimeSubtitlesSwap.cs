@@ -7,7 +7,6 @@ namespace UltrakULL.Harmony_Patches.Subtitles;
 public class MinosPrimeSubtitlesSwap
 {
 	[HarmonyTranspiler]
-	[HarmonyPatch(nameof(MinosPrime.Update))]
 	[HarmonyPatch(nameof(MinosPrime.Combo))]
 	[HarmonyPatch(nameof(MinosPrime.Boxing))]
 	[HarmonyPatch(nameof(MinosPrime.RiderKick))]
