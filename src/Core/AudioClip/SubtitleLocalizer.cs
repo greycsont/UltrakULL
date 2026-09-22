@@ -77,7 +77,7 @@ public static class SubtitleLocalizer
         return result;
     }
 
-    public static IEnumerable<CodeInstruction> InjectLocalize2(IEnumerable<CodeInstruction> instructions, MethodInfo localize, OpCode? anchorOpcode)
+    public static IEnumerable<CodeInstruction> InjectLocalize2(IEnumerable<CodeInstruction> instructions, MethodInfo localize, OpCode? anchorOpcode = null)
     {
         // new Pos = (callPos + 2 - m.Pos) - 1 = callPos + 1
         // Since function localize itself are count as a line
