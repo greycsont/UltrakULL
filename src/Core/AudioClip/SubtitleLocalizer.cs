@@ -22,6 +22,9 @@ public static class SubtitleLocalizer
     private static readonly MethodInfo DisplaySubtitle = AccessTools.Method(
         typeof(SubtitleController), "DisplaySubtitle", new[] { typeof(string), typeof(AudioSource), typeof(bool) });
 
+    private static readonly MethodInfo DisplaySubtitleOverride = AccessTools.Method(
+        typeof(SubtitleController), "DisplaySubtitle", new[] { typeof(string), typeof(float), typeof(GameObject) });
+
     private static readonly MethodInfo LocalizeMethod = AccessTools.Method(typeof(SubtitleLocalizer), nameof(Localize));
 
     // Make sure this func is called before LanguageManager.InitializeManager
@@ -72,6 +75,33 @@ public static class SubtitleLocalizer
                 result.Add(new CodeInstruction(OpCodes.Call, LocalizeMethod));
         }
         return result;
+    }
+
+    public static IEnumerable<CodeInstruction> InjectLocalize2(IEnumerable<CodeInstruction> instructions, MethodInfo localize)
+    {
+        // new Pos = (callPos + 2 - m.Pos) - 1 = callPos + 1
+        // Since function localize itself are count as a line
+        return new CodeMatcher(instructions)
+            .MatchForward(false, 
+                new CodeMatch(i => i.Calls(DisplaySubtitle) || i.Calls(DisplaySubtitleOverride))
+            )
+            .Repeat(m =>
+            {
+                int callPos = m.Pos;
+
+                m.SearchBack(i => i.opcode == OpCodes.Ldstr);
+                if (m.IsInvalid || callPos - m.Pos > 8)            // holy magic number
+                {
+                    Logging.Warn("InjectLocalize: no nearby ldstr before DisplaySubtitle, skipped.");
+                    m.Advance(1);
+                    return;
+                }
+
+                m.Advance(1)
+                .Insert(new CodeInstruction(OpCodes.Call, localize))
+                .Advance(callPos + 2 - m.Pos);
+            })
+            .InstructionEnumeration();
     }
 
     private static bool IsDisplaySubtitleCall(CodeInstruction instruction)

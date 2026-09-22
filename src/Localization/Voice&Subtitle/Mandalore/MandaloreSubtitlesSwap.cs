@@ -69,17 +69,9 @@ public static class MandaloreSubtitlesSwap
     [HarmonyTranspiler]
     [HarmonyPatch(nameof(Mandalore.Start))]
     [HarmonyPatch(nameof(Mandalore.Update))]
-    private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
+    private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
     {
-        var dialog = new CodeMatch(IsDialogInstruction);
-        var matcher = new CodeMatcher(instructions, generator)
-            .MatchForward(false, dialog);
-
-        return matcher
-            .Repeat(match => match
-                .Advance(1)
-                .InsertAndAdvance(new CodeInstruction(OpCodes.Call, LocalizeDialogMethod)))
-            .InstructionEnumeration();
+        return SubtitleLocalizer.InjectLocalize2(instructions, LocalizeDialogMethod);
     }
 
     private static bool IsDialogInstruction(CodeInstruction instruction)
