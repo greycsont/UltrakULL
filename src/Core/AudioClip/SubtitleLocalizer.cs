@@ -7,14 +7,12 @@ using HarmonyLib;
 using UltrakULL.json;
 using UnityEngine;
 
-
 namespace UltrakULL;
 
-// Shared English -> current-language subtitle table. Each boss subtitle swap keeps patching its own
-// methods, but instead of per-method key logic they all inject a single `call Localize` on the caption
-// right before SubtitleController.DisplaySubtitle. Localize looks the English caption up in the table
-// at runtime (so it follows language switches); only non-empty translations are stored, so an
-// untranslated line keeps its original English text.
+/// <summary>
+/// An IL helper for localize the character's subtitle
+/// e.g. Power, Mandalore, Minos, Sisyphus and Gabriel
+/// </summary>
 public static class SubtitleLocalizer
 {
     private static readonly MethodInfo DisplaySubtitle = AccessTools.Method(
