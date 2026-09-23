@@ -104,6 +104,23 @@ public static class SubtitleLocalizer
             .InstructionEnumeration();
     }
 
+    public static IEnumerable<CodeInstruction> InjectLocalize3(IEnumerable<CodeInstruction> instructions, MethodInfo localize, int position = -2)
+    {
+        return new CodeMatcher(instructions)
+            .MatchForward(false,
+                new CodeMatch(i => i.Calls(DisplaySubtitle) || i.Calls(DisplaySubtitleOverride))
+            )
+            .Repeat(m =>
+            {
+                int callPos = m.Pos;
+
+                m.Advance(position)
+                .Insert(new CodeInstruction(OpCodes.Call, localize))
+                .Advance(callPos + 2 - m.Pos);
+            })
+            .InstructionEnumeration();
+    }
+
     private static bool IsDisplaySubtitleCall(CodeInstruction instruction)
         => instruction.opcode == OpCodes.Callvirt && CodeInstructionExtensions.OperandIs(instruction, DisplaySubtitle);
 }
