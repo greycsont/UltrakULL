@@ -18,10 +18,18 @@ public static class GabrielSubtitlesSwap
     );
 
 
-    [HarmonyTranspiler]
-    [HarmonyPatch(nameof(GabrielVoice.PhaseChange))]
-    [HarmonyPatch(nameof(GabrielVoice.TauntNow))]
-    public static IEnumerable<CodeInstruction> GabrielSubtitleTranspiler(IEnumerable<CodeInstruction> instructions)
+    [HarmonyPatch(nameof(GabrielVoice.PhaseChange))] [HarmonyTranspiler]
+    public static IEnumerable<CodeInstruction> GabrielPhaseChangeSubtitleTranspiler(IEnumerable<CodeInstruction> instructions)
+    {
+        return new CodeMatcher(SubtitleLocalizer.InjectLocalize2(instructions, LocalizeTauntSubtitleMethodInfo, OpCodes.Ldfld))
+            .MatchForward(false, new CodeMatch(i => i.Calls(LocalizeTauntSubtitleMethodInfo)))
+            .Insert(new CodeInstruction(OpCodes.Ldarg_0))
+            .InstructionEnumeration();
+
+    }
+
+    [HarmonyPatch(nameof(GabrielVoice.TauntNow))] [HarmonyTranspiler]
+    public static IEnumerable<CodeInstruction> GabrielTauntSubtitleTranspiler(IEnumerable<CodeInstruction> instructions)
     {
         return new CodeMatcher(SubtitleLocalizer.InjectLocalize2(instructions, LocalizeTauntSubtitleMethodInfo, OpCodes.Ldelem_Ref))
             .MatchForward(false, new CodeMatch(i => i.Calls(LocalizeTauntSubtitleMethodInfo)))
