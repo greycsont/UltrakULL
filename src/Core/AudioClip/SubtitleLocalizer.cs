@@ -92,8 +92,8 @@ public static class SubtitleLocalizer
                 m.SearchBack(i => i.opcode == (anchorOpcode ?? OpCodes.Ldstr));
                 if (m.IsInvalid || callPos - m.Pos > 8)            // holy magic number
                 {
-                    Logging.Warn("InjectLocalize: no nearby ldstr before DisplaySubtitle, skipped.");
-                    m.Advance(1);
+                    Logging.Warn($"InjectLocalize: no nearby {anchorOpcode ?? OpCodes.Ldstr} before DisplaySubtitle, skipped.");
+                    m.Start().Advance(callPos + 1);     // while (Invalid) {Pos += direction} => Pos = -1 
                     return;
                 }
 
