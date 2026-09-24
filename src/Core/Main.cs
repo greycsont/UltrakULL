@@ -116,7 +116,6 @@ public class MainPatch : BaseUnityPlugin
 		Logging.Warn("--- Registering language-change handlers ---");
 		FontManager.Initialize();
 		TextMeshProFontSwap.Initialize();
-		SubtitleLocalizer.Initialize();
 		TextureSwapper.Initialize();
 		UILayoutOverride.Initialize();
 
