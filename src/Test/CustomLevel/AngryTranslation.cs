@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 
 namespace UltrakULL;
 
@@ -129,6 +131,20 @@ public class OnlineLevel
     public string changelog_cancel;  // "Cancel"
     public string changelog_update;  // "Update"
     public string update;  // "UPDATE"
+}
+
+public class ScriptUpdateNotifications
+{
+    public string header; // "Missing Or Outdated Scripts"
+
+    [JsonProperty("cancel")]
+    public string b_cancel;  // "Cancel"
+
+    [JsonProperty("update")]
+    public string b_update;  // "Update"
+
+    [JsonProperty("continue")]
+    public string b_continue;  // "Continue"
 }
 
 public class LevelPanel
