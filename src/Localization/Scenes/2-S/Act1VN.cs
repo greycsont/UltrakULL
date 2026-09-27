@@ -262,7 +262,7 @@ public static class Act1Vn
             return LanguageManager.CurrentLanguage.visualnovel.visualnovel_fallenResponseFourth + "▼";
         }
 
-        if (inputString.Contains("UGH?"))
+        if (inputString.Contains("UGH"))
         {
             return LanguageManager.CurrentLanguage.visualnovel.visualnovel_fallenResponseFifth + "▼";
         }
