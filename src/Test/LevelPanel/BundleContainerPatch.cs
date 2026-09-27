@@ -7,7 +7,6 @@ using AngryLevelLoader.DataTypes;
 
 namespace UltrakULL;
 
-[PatchForMod(DependencyGuid.ANGRY_LEVEL_LOADER)]
 [HarmonyPatch(typeof(BundleContainer))]
 public static class BundleContainerPatch
 {

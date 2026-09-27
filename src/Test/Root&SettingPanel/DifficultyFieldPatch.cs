@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 namespace UltrakULL;
 
-[PatchForMod(DependencyGuid.ANGRY_LEVEL_LOADER)]
 [HarmonyPatch(typeof(DifficultyField))]
 public static class DifficultyFieldPatch
 {

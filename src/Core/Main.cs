@@ -10,6 +10,8 @@ using BepInEx;
 using BepInEx.Bootstrap;
 using System.Reflection;
 using UltrakULL.audio;
+using UltrakULL.API;
+using System.Linq;
 using static UltrakULL.SceneObjects;
 
 /*
@@ -63,6 +65,11 @@ public class MainPatch : BaseUnityPlugin
 	private const string Guid = "clearwater.ultrakill.ultrakull";
 	private const string InternalName = "clearwater.ultrakull.ultrakULL";
 	internal const string InternalVersion = "1.3.0";
+
+	public static Dictionary<string, string> OptionModuleNames = new()
+	{
+		[DependencyGuid.ANGRY_LEVEL_LOADER] = "UltrakULL.angry"
+	};
 
 	public static MainPatch Instance;
 	public bool ready;
@@ -124,6 +131,9 @@ public class MainPatch : BaseUnityPlugin
 
 		Logging.Warn("--- Installing game hooks ---");
 		LoadPatches();
+
+		Logging.Warn("--- Loading optional modules ---");
+		LoadPatchModules();
 	}
 
 
@@ -132,45 +142,53 @@ public class MainPatch : BaseUnityPlugin
         var harmony = new Harmony(Guid);
 		TriggerEngine.Init(harmony);
 		AngrySceneTracker.Init();
-        foreach (var type in typeof(MainPatch).Assembly.GetTypes())
+		foreach (var type in typeof(MainPatch).Assembly.GetTypes())
         {
 			try
 			{
-				var mod = type.GetCustomAttribute<PatchForMod>();
-
-				if (mod != null)
-				{
-					if (!Chainloader.PluginInfos.ContainsKey(mod.Guid))
-						continue;
-
-					if (string.IsNullOrEmpty(mod.ClassName))
-					{
-						harmony.PatchAll(type);
-						continue;
-					}
-
-					TriggerEngine.Bind(type, new MethodTrigger
-					{
-						className = mod.ClassName,
-						methodName = mod.MethodName,
-						argTypes = mod.Args,
-					});
-
-					continue;
-				}
-
 				if (type.GetCustomAttribute<HarmonyPatch>() != null)
 					harmony.PatchAll(type);
-			}
-			catch (TypeLoadException)
-			{
-				continue;
 			}
 			catch (Exception e)
 			{
 				Logging.Error($"Failed to inspect {type}: {e}");
 			}
 		}
+	}
+
+	private static readonly List<IPatchModule> modules = new List<IPatchModule>();
+
+	private static void LoadPatchModules()
+	{
+		foreach (var kvp in OptionModuleNames)
+		{
+			if (!Chainloader.PluginInfos.ContainsKey(kvp.Key))
+				continue;
+
+			try
+			{
+				var moduleAssembly = AppDomain.CurrentDomain
+					.GetAssemblies()
+					.FirstOrDefault(assembly => assembly.GetName().Name == kvp.Value)
+					?? Assembly.LoadFrom(Path.Combine(ModFolder, kvp.Value + ".dll"));
+
+				foreach (var type in moduleAssembly.GetTypes())
+				{
+					if (!typeof(IPatchModule).IsAssignableFrom(type) || type.IsAbstract || type.IsInterface)
+						continue;
+
+					var module = (IPatchModule)Activator.CreateInstance(type);
+					module.PatchAll();
+					modules.Add(module);
+					Logging.Message($"{module.Name} Loaded");
+				}
+			}
+			catch (Exception e)
+			{
+				Logging.Error($"Failed to load optional module: {e}");
+			}
+		}
+
 	}
 
 	/// <summary>

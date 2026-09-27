@@ -1,0 +1,99 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <ULTRAKILLPath Condition="'$(ULTRAKILLPath)' == ''">E:\SteamLibrary\steamapps\common\ULTRAKILL</ULTRAKILLPath>
+    <ManagedDir>$(ULTRAKILLPath)\ULTRAKILL_Data\Managed</ManagedDir>
+    <DeployToGame Condition="'$(DeployToGame)' == ''">true</DeployToGame>
+    <GamePluginDir>$(ULTRAKILLPath)\BepInEx\plugins\UltrakULL</GamePluginDir>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AssemblyName>UltrakULL.angry</AssemblyName>
+    <RootNamespace>UltrakULL.Angry</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <Deterministic>true</Deterministic>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <NoWarn>0168;0169;0219;0414;0618;0649;1998;4014</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <Optimize>false</Optimize>
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+  </PropertyGroup>
+
+  <ItemDefinitionGroup>
+    <Reference>
+      <Private>false</Private>
+    </Reference>
+  </ItemDefinitionGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\UltrakULL.csproj" Private="false" />
+    <ProjectReference Include="..\API\UltrakULL.API.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp"><HintPath>$(ManagedDir)\Assembly-CSharp.dll</HintPath></Reference>
+    <PackageReference Include="Krafs.Publicizer" Version="2.3.0">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="BepInEx.Core" Version="5.4.21" PrivateAssets="all" />
+    <PackageReference Include="HarmonyX" Version="2.9.0" PrivateAssets="all" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" PrivateAssets="all" />
+    <Reference Include="$(ManagedDir)\UnityEngine*.dll" />
+    <Reference Include="$(ManagedDir)\Unity.*.dll" />
+    <Reference Include="$(ManagedDir)\plog.dll" />
+
+    <Reference Include="AngryLevelLoader.AssetBundleProvider">
+      <HintPath>..\..\libs\AngryLevelLoader\AngryLevelLoader.AssetBundleProvider.dll</HintPath>
+    </Reference>
+
+    <Reference Include="AngryLevelLoader">
+      <HintPath>..\..\libs\AngryLevelLoader\AngryLevelLoader.dll</HintPath>
+    </Reference>
+
+    <Reference Include="AngryUiComponents">
+      <HintPath>..\..\libs\AngryLevelLoader\AngryUiComponents.dll</HintPath>
+    </Reference>
+
+    <Reference Include="RudeLevelScripts.Essentials">
+      <HintPath>..\..\libs\AngryLevelLoader\RudeLevelScripts.Essentials.dll</HintPath>
+    </Reference>
+
+    <Reference Include="PluginConfigurator">
+      <HintPath>..\..\libs\AngryLevelLoader\PluginConfigurator.dll</HintPath>
+    </Reference>
+
+    <Reference Include="PluginConfiguratorComponents">
+      <HintPath>..\..\libs\AngryLevelLoader\PluginConfiguratorComponents.dll</HintPath>
+    </Reference>
+
+    <publicize Include="AngryLevelLoader" />
+    <publicize Include="AngryLevelLoader.AssetBundleProvider" />
+    <publicize Include="AngryUiComponents" />
+    <publicize Include="RudeLevelScripts.Essentials" />
+  </ItemGroup>
+
+  <Target Name="CheckGamePath" BeforeTargets="BeforeBuild">
+    <Error Condition="!Exists('$(ManagedDir)')"
+           Text="ULTRAKILL not found at '$(ULTRAKILLPath)'. Set the ULTRAKILLPath property to your install location." />
+  </Target>
+
+  <Target Name="Package" AfterTargets="Build">
+    <Copy SourceFiles="$(TargetDir)UltrakULL.angry.dll" DestinationFolder="$(ProjectDir)..\..\bin\$(Configuration)\plugins\UltrakULL" />
+  </Target>
+
+  <Target Name="DeployToGame" AfterTargets="Package"
+          Condition="'$(DeployToGame)' == 'true' AND Exists('$(ULTRAKILLPath)\BepInEx')">
+    <Copy SourceFiles="$(TargetDir)UltrakULL.angry.dll" DestinationFolder="$(GamePluginDir)" />
+    <Message Importance="high" Text="Deployed UltrakULL.angry.dll -> $(GamePluginDir)" />
+  </Target>
+
+</Project>

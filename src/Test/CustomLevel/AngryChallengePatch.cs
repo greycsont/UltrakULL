@@ -5,7 +5,6 @@ using TMPro;
 
 namespace UltrakULL;
 
-[PatchForMod(DependencyGuid.ANGRY_LEVEL_LOADER)]
 [HarmonyPatch(typeof(StatsManager_SendInfo_Patch))]
 public static class AngryChallengePatch
 {

@@ -34,6 +34,13 @@
   </ItemDefinitionGroup>
 
   <ItemGroup>
+    <Compile Remove="src\Test\**" />
+    <Compile Remove="src\Angry\**" />
+    <Compile Remove="src\API\**" />
+    <ProjectReference Include="src\API\UltrakULL.API.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="Assembly-CSharp"><HintPath>$(ManagedDir)\Assembly-CSharp.dll</HintPath></Reference>
     <PackageReference Include="Krafs.Publicizer" Version="2.3.0">
         <PrivateAssets>all</PrivateAssets>
@@ -100,7 +107,7 @@
       <_TemplateDocs Include="$(ProjectDir)templates\languages\TemplateChangelog.txt" />
     </ItemGroup>
 
-    <Move SourceFiles="$(TargetDir)UltrakULL.dll" DestinationFolder="$(TargetDir)plugins\UltrakULL" />
+    <Copy SourceFiles="$(TargetDir)UltrakULL.dll;$(TargetDir)UltrakULL.API.dll" DestinationFolder="$(TargetDir)plugins\UltrakULL" />
     <Copy SourceFiles="@(_BundledLanguageFiles)"
           DestinationFiles="@(_BundledLanguageFiles->'$(TargetDir)config\ultrakull\languages\%(Filename)\language.json')" />
     <Copy SourceFiles="@(_LanguageTemplate)"
@@ -116,15 +123,11 @@
 
   <Target Name="DeployToGame" AfterTargets="Package"
           Condition="'$(DeployToGame)' == 'true' AND Exists('$(ULTRAKILLPath)\BepInEx')">
-    <Copy SourceFiles="$(TargetDir)plugins\UltrakULL\UltrakULL.dll" DestinationFolder="$(GamePluginDir)" />
+          
+    <Copy SourceFiles="$(TargetDir)plugins\UltrakULL\UltrakULL.dll;$(TargetDir)plugins\UltrakULL\UltrakULL.API.dll" DestinationFolder="$(GamePluginDir)" />
     <Copy Condition="Exists('$(TargetDir)UltrakULL.pdb')"
           SourceFiles="$(TargetDir)UltrakULL.pdb" DestinationFolder="$(GamePluginDir)" />
     <Message Importance="high" Text="Deployed UltrakULL.dll -> $(GamePluginDir)" />
-  </Target>
-
-  <Target Name="r" DependsOnTargets="Build">
-    <Exec Command="start &quot;&quot; &quot;$(ULTRAKILLPath)\ULTRAKILL.exe&quot;"
-          WorkingDirectory="$(ULTRAKILLPath)" />
   </Target>
 
   <!-- In Release, strip stray root files so the output folder is a clean drop-in -->

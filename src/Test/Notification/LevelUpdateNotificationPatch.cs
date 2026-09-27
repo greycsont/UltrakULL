@@ -14,7 +14,6 @@ using System.IO;
 
 namespace UltrakULL;
 
-[PatchForMod(DependencyGuid.ANGRY_LEVEL_LOADER)]
 [HarmonyPatch(typeof(LevelUpdateNotification))]
 public static class LevelUpdateNotificationPatch
 {

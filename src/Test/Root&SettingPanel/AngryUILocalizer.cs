@@ -14,7 +14,6 @@ using cm = AngryLevelLoader.Managers.ConfigManager;
 
 namespace UltrakULL;
 
-[PatchForMod(DependencyGuid.ANGRY_LEVEL_LOADER)]
 [HarmonyPatch(typeof(ConfigManager))]
 public static class ConfigManagerPatch
 {
