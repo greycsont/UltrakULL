@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UltrakULL", "UltrakULL.cspr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UltrakULL.API", "src\API\UltrakULL.API.csproj", "{7C4E1A20-6B3D-4F1E-9C58-2A1D0E5B1001}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UltrakULL.angry", "src\Test\UltrakULL.angry.csproj", "{7C4E1A20-6B3D-4F1E-9C58-2A1D0E5B1002}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UltrakULL.angry", "src\Angry\UltrakULL.angry.csproj", "{7C4E1A20-6B3D-4F1E-9C58-2A1D0E5B1002}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
