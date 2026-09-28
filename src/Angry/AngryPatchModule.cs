@@ -25,7 +25,13 @@ public class AngryPatchModule : IPatchModule
             if (!AngrySceneManager.isInCustomLevel)
                 return null;
 
-            return (AngrySceneManager.currentBundleContainer.bundleGuid, AngrySceneManager.currentLevelContainer.levelId);
+            var currentBundle = AngrySceneManager.currentBundleContainer;
+            var currentLevel = AngrySceneManager.currentLevelContainer;
+
+            return (currentBundle.bundleGuid, 
+                    currentBundle.BundleAuthor,
+                    currentBundle.BundleName,
+                    currentLevel.levelId);
         };
 
         foreach (var type in typeof(AngryPatchModule).Assembly.GetTypes())
