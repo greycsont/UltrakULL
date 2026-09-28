@@ -5,6 +5,16 @@ namespace UltrakULL;
 public class AngryBundles
 {
     /// <summary>
+    /// Format of credit when angry's level name popup
+    /// {0} - {1}\nFrom {2}\n Translated by {3}
+    /// {0}: author
+    /// {1}: level name
+    /// {2}: bundle name
+    /// {3}: translator name
+    /// </summary>
+    public string creditFormat;
+
+    /// <summary>
     /// Guid -> bundle
     /// </summary>
     public Dictionary<string, AngryBundle> bundles = new Dictionary<string, AngryBundle>();
