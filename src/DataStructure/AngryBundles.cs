@@ -76,10 +76,10 @@ public class AngryLevel
     public string challenge;
 
     /// <summary>
-    /// Notes of the translator
+    /// Credits of the translator
     /// could be contact information or sth
     /// </summary>
-    public string translatorNotes;
+    public string translator;
 
 
     /// <summary>
