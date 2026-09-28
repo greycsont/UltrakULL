@@ -45,12 +45,12 @@ public static class AngryLevelText
     /// <summary>
     /// The hudmessage on that level
     /// </summary>
-    public static List<Match> HudMessages() => Current()?.hudMessages;
+    public static List<Match> HudMessages() => Current()?.hudMessages ?? new List<Match>();
 
     /// <summary>
     /// The translated books of current custom level
     /// </summary>
-    public static List<Match> Books() => Current()?.books;
+    public static List<Match> Books() => Current()?.books ?? new List<Match>();
 
     public static AngryLevel Current()
     {
@@ -64,6 +64,9 @@ public static class AngryLevelText
         if (!bundles.TryGetValue(BundleGuid, out AngryBundle bundle) || bundle?.levels == null)
             return null;
 
-        return bundle.levels.TryGetValue(LevelId, out AngryLevel level) ? level : null;
+        if (!bundle.levels.TryGetValue(LevelId, out AngryLevel level))
+            return null;
+
+        return string.IsNullOrEmpty(level.translator) ? null : level;
     }
 }
