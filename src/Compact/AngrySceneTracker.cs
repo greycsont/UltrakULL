@@ -6,7 +6,7 @@ public static class AngrySceneTracker
 {
     public static bool InAngryLevel { get; private set; }
 
-    public static Func<(string BundleGuid, string BundleAuthor, string BundleName, string LevelId)?> ReadCurrentLevel;
+    public static Func<(string BundleGuid, string BundleAuthor, string BundleName, string LevelId, string LevelName)?> ReadCurrentLevel;
 
     public static void ReadCurrentScene()
     {
@@ -17,6 +17,7 @@ public static class AngrySceneTracker
             current?.BundleGuid, 
             current?.BundleAuthor,
             current?.BundleName,
-            current?.LevelId);
+            current?.LevelId,
+            current?.LevelName);
     }
 }

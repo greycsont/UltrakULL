@@ -9,13 +9,15 @@ public static class AngryLevelText
     public static string BundleAuthor { get; private set; }
     public static string BundleName { get; private set; }
     public static string LevelId { get; private set; }
+    public static string LevelName { get; private set; }
 
-    public static void SetCurrent(string bundleGuid, string bundleAuthor, string bundleName, string levelId)
+    public static void SetCurrent(string bundleGuid, string bundleAuthor, string bundleName, string levelId, string levelName)
     {
         BundleGuid = bundleGuid;
         BundleAuthor = bundleAuthor;
         BundleName = bundleName;
         LevelId = levelId;
+        LevelName = levelName;
     }
 
     public static string Name() => Current()?.levelName;

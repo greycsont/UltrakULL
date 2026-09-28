@@ -34,7 +34,8 @@ public class AngryPatchModule : IPatchModule
             return (currentBundle.bundleGuid, 
                     currentBundle.BundleAuthor,
                     currentBundle.BundleName,
-                    currentLevel.levelId);
+                    currentLevel.levelId,
+                    currentLevel.LevelName);
         };
 
         foreach (var type in typeof(AngryPatchModule).Assembly.GetTypes())
