@@ -22,6 +22,9 @@ public class AngryPatchModule : IPatchModule
 
         AngrySceneTracker.ReadCurrentLevel = () =>
         {
+            if (ConfigManager.config == null)
+                return null;
+
             if (!AngrySceneManager.isInCustomLevel)
                 return null;
 
