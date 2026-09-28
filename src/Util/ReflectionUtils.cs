@@ -4,17 +4,8 @@ using HarmonyLib;
 
 namespace UltrakULL;
 
-public partial class ReflectionUtils
+public static class ReflectionUtils
 {
-    private static readonly BindingFlags BindingFlagsFields =
-        BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
-
-    public static void SetPrivate<T, V>(T instance, Type classType, string field, V value)
-    {
-        FieldInfo privateField = classType.GetField(field, BindingFlagsFields);
-        privateField.SetValue(instance, value);
-    }
-
     public static MemberInfo GetMember(Type owner, string name)
     {
         if (owner == null)

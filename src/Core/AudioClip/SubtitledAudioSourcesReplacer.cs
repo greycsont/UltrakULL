@@ -41,7 +41,7 @@ public static class SubtitledAudioSourcesReplacer
                     var subtitleData = objectReference.ToSubtitleData();
 
                     if (subtitleData.lines.Any(line => !StringHelper.IsEmpty(line.subtitle)))
-                        SetPrivate(subtitledAudioSource, typeof(SubtitledAudioSource), "subtitles", subtitleData);
+                        subtitledAudioSource.subtitles = subtitleData;
                 }
             }
         }
