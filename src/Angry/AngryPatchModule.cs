@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using AngryLevelLoader.Managers;
 using HarmonyLib;
 using UltrakULL.API;
 
@@ -18,6 +19,14 @@ public class AngryPatchModule : IPatchModule
             return;
 
         harmony = new Harmony("greycsont.ultrakull.angry");
+
+        AngrySceneTracker.ReadCurrentLevel = () =>
+        {
+            if (!AngrySceneManager.isInCustomLevel)
+                return null;
+
+            return (AngrySceneManager.currentBundleContainer.bundleGuid, AngrySceneManager.currentLevelContainer.levelId);
+        };
 
         foreach (var type in typeof(AngryPatchModule).Assembly.GetTypes())
         {
