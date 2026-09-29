@@ -64,31 +64,6 @@ public sealed class CommandToRegister : CommandRoot, IConsoleLogger
                         // The language's angry.json, or an empty object if the file doesn't exist yet.
                         JObject root = LoadAngryFile(out string path);
 
-                        // Old test version had the UI sections at the root, before AngryTranslation existed.
-                        if (root["angryUi"] == null)
-                        {
-                            var ui = new JObject();
-
-                            // ToArray: root loses properties while we loop over them.
-                            foreach (string key in root.Properties().Select(property => property.Name).ToArray())
-                            {
-                                // ignore the angryBundles stuff
-                                if (key == "angryBundles")
-                                    continue;
-                                
-                                ui[key] = root[key];   // assigning clones the value, the original stays in root
-                                root.Remove(key);      // ...so it can be dropped from root here
-                            }
-
-                            // If the ui have sth add from root (angryUi)
-                            //   it'll write it under angryUi object
-                            if (ui.HasValues)
-                            {
-                                root["angryUi"] = ui;
-                                Log.Info("Moved the flat UI sections under \"angryUi\".");
-                            }
-                        }
-
                         if (root["angryUi"] is JObject uiNode)
                             FillGaps(uiNode, BlankOf(new AngryUi()));   // adds the missing keys only
                         else
