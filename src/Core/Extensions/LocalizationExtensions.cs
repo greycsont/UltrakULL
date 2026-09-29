@@ -2,6 +2,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using UnityEngine.Video;
+using System.IO;
+using UltrakULL.json;
+using System.Linq;
 
 namespace UltrakULL;
 
@@ -45,7 +49,6 @@ public static class LocalizationExtensions
     public static string Or(this string translation, string original)
         => StringHelper.IsEmpty(translation) ? original : Penis(original, translation);
 
-
     public static string ToUpperIf(this string text, bool uppercase)
         => uppercase ? text.ToUpper() : text;
 
@@ -58,6 +61,26 @@ public static class LocalizationExtensions
         else
             original = replacement;
         return original;
+    }
+
+    public static VideoPlayer ReplaceUrl(this VideoPlayer videoPlayer)
+    {
+        if (videoPlayer == null || videoPlayer.clip == null)
+            return videoPlayer;
+
+        string folder = LanguageManager.Current.VideoFolder;
+        if (!Directory.Exists(folder))
+            return videoPlayer;
+
+        string path = Directory.GetFiles(folder).FirstOrDefault(
+            file => string.Equals(Path.GetFileNameWithoutExtension(file), videoPlayer.clip.name));
+
+        if (path == null)
+            return videoPlayer;
+
+        videoPlayer.url = path;
+        videoPlayer.Prepare();
+        return videoPlayer;
     }
 
     /// <summary>

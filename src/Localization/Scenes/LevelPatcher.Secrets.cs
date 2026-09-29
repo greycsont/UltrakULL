@@ -6,6 +6,7 @@ using UnityEngine;
 using UltrakULL.json;
 
 using static UltrakULL.SceneObjects;
+using UnityEngine.Video;
 
 namespace UltrakULL;
 
@@ -245,6 +246,8 @@ public static partial class LevelPatcher
         GameObject fishingTerminalBackButton = FindDescendant(fishingTerminal, "Fish Info", "Window", "Back Button");
         TextMeshProUGUI fishingTerminalBackButtonText = GetTextMeshProUGUI(FindDescendant(fishingTerminalBackButton, "Text"));
         fishingTerminalBackButtonText.text = LanguageManager.CurrentLanguage.shop.shop_back;
+
+        FindComponent<VideoPlayer>(GetInactiveRootObject("Exit Lobby Interior"), "Table top", "TV", "Screen").ReplaceUrl();
     }
 
     private static void Patch7S(GameObject canvasObj)

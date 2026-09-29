@@ -24,6 +24,9 @@ public static class ConfigPaths
 
     public static string GetLegacyAngryDirectory(string languageId) =>
         Path.Combine(RootDirectory, "angry", languageId);
+    
+    public static string GetLegacyVideoDirectory(string languageID) =>
+        Path.Combine(RootDirectory, "video", languageID);
 
     /// <summary>
     /// Font bundles ship with the mod itself (BepInEx/plugins/UltrakULL/fonts),

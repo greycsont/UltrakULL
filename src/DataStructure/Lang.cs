@@ -29,6 +29,7 @@ public sealed class Lang
     public string SpeechFolder { get; }
     public string TextureFolder { get; }
     public string AngryLevelFolder { get; }
+    public string VideoFolder { get; }
     public UILayoutProfile Layout { get; }
 
     internal AssetBundle FontBundle { get; set; }
@@ -54,6 +55,10 @@ public sealed class Lang
         AngryLevelFolder = ResolveDirectory(
             packageFolder == null ? null : Path.Combine(packageFolder, "angry"),
             ConfigPaths.GetLegacyAngryDirectory(Name)
+        );
+        VideoFolder = ResolveDirectory(
+            packageFolder == null ? null : Path.Combine(packageFolder, "video"),
+            ConfigPaths.GetLegacyVideoDirectory(Name)
         );
 
         LoadAngryUi(AngryLevelFolder);
