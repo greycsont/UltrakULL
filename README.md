@@ -7,6 +7,11 @@ Currently it supports Simplfied Chinese only, WIP
 
 目前只支持简体中文，还在开发中（
 
+## 如何安装
+在安装之前请确保你已经安装过了 UltrakULL 或者说汉化，因为本项目不附带翻译文本文件
+
+关于手动安装... 检查 BepInEx/plugins 下有没有 UltrakULL 相关文件夹，删了把这个扔进去就好了 
+
 ## 已知BUG
 u1s1电子血宫那个显示当前播放音乐用的是unity的默认字体啊
 结果自动转成了用VCROSD，但我这真没办法（
