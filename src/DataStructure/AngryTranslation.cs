@@ -133,8 +133,8 @@ public class OnlineLevel
 
 public class Notifications
 {
-    public ScriptUpdateNotification scriptUpdateNotification;
-    public LevelUpdateNotification levelUpdateNotification;
+    public ScriptUpdateNotification scriptUpdateNotification = new();
+    public LevelUpdateNotification levelUpdateNotification = new();
 }
 
 public class ScriptUpdateNotification
