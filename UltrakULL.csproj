@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <ULTRAKILLPath Condition="'$(ULTRAKILLPath)' == ''">E:\SteamLibrary\steamapps\common\ULTRAKILL</ULTRAKILLPath>
@@ -128,15 +128,6 @@
     <Copy Condition="Exists('$(TargetDir)UltrakULL.pdb')"
           SourceFiles="$(TargetDir)UltrakULL.pdb" DestinationFolder="$(GamePluginDir)" />
     <Message Importance="high" Text="Deployed UltrakULL.dll -> $(GamePluginDir)" />
-  </Target>
-
-  <!-- In Release, strip stray root files so the output folder is a clean drop-in -->
-  <Target Name="CleanRoot" AfterTargets="Package" Condition="'$(Configuration)' == 'Release'">
-    <RemoveDir Directories="$(TargetDir)net472;$(TargetDir)publish" />
-    <ItemGroup>
-      <_StrayRootFiles Include="$(TargetDir)*.*" />
-    </ItemGroup>
-    <Delete Files="@(_StrayRootFiles)" />
   </Target>
 
 </Project>
