@@ -168,8 +168,7 @@ public class MainPatch : BaseUnityPlugin
 			{
 				var moduleAssembly = AppDomain.CurrentDomain
 					.GetAssemblies()
-					.FirstOrDefault(assembly => assembly.GetName().Name == kvp.Value)
-					?? Assembly.LoadFrom(Path.Combine(ModFolder, kvp.Value + ".dll"));
+					.FirstOrDefault(assembly => assembly.GetName().Name == kvp.Value);
 
 				foreach (var type in moduleAssembly.GetTypes())
 				{
