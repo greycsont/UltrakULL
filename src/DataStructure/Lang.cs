@@ -24,7 +24,7 @@ public sealed class Lang
     public bool IsEnglish => Json.metadata.langDisplayName == "English";
     public bool IsAngryTranslationLoaded { get; set; } = false;
     public bool IsRightToLeft => Json.metadata.langRTL;
-    public bool UseFontFallback => Json.metadata.fonts?.UseFallback ?? false;
+    public bool UseFontFallback { get; set; } = false;
 
     public string SpeechFolder { get; }
     public string TextureFolder { get; }

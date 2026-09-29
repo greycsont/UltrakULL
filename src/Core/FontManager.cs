@@ -23,6 +23,7 @@ public class FontConfig
     public string TerminalFont;
     public string MuseumFont;
     public string SecretFont; 
+    public bool UseFallback;
 }
 /// <summary>Loads shared font assets and manages per-language TMP fallbacks.</summary>
 public static class FontManager
@@ -103,7 +104,7 @@ public static class FontManager
         Logging.Info($"{stringbuilder.ToString()}");
 
         lang.FontBundle = fontBundle;
-
+        lang.UseFontFallback = fontConfig.UseFallback;
         lang.MainFontAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontConfig.MainFont);
         lang.TerminalAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontConfig.TerminalFont);
         lang.MuseumAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontConfig.MuseumFont);
