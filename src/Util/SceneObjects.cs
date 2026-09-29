@@ -121,4 +121,16 @@ public static class SceneObjects
             ? rootPart
             : rootPart.transform.Find(restPath).gameObject;
     }
+
+    public static Canvas FindCanvas()
+    {
+        var scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+        foreach (var root in scene.GetRootGameObjects())
+        {
+            var canvas = root.GetComponent<Canvas>();
+            if (canvas != null)
+                return canvas;
+        }
+        return null;
+    }
 }
