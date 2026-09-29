@@ -40,7 +40,7 @@ public class AngryPatchModule : IPatchModule
 
         foreach (var type in typeof(AngryPatchModule).Assembly.GetTypes())
         {
-            var mod = type.GetCustomAttribute<PatchForMod>();
+            var mod = type.GetCustomAttribute<PatchTrigger>();
 
             if (mod != null && !string.IsNullOrEmpty(mod.ClassName))
             {

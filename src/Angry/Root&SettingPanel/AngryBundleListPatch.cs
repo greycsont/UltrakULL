@@ -8,7 +8,7 @@ using UltrakULL.json;
 
 namespace UltrakULL;
 
-[PatchForMod("AngryLevelLoader.Plugin", "ScanForLevels")]
+[PatchTrigger("AngryLevelLoader.Plugin", "ScanForLevels")]
 [HarmonyPatch(typeof(AngryBundleList))]
 public static class AngryBundleListPatch
 {

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace UltrakULL;
 
-[PatchForMod("AngryLevelLoader.Managers.ConfigManager", "InitializeConfig")]
+[PatchTrigger("AngryLevelLoader.Managers.ConfigManager", "InitializeConfig")]
 [HarmonyPatch(typeof(OnlineLevelField))]
 public static class OnlineLevelFieldPatch
 {
