@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using HarmonyLib;
 using AngryLevelLoader.Fields;
 using UltrakULL.json;
-using AngryLevelLoader.Notifications;
 using System.Collections;
 using System.Reflection.Emit;
 using Mono.Cecil.Cil;
@@ -14,11 +13,11 @@ using System.IO;
 
 namespace UltrakULL;
 
-[HarmonyPatch(typeof(LevelUpdateNotification))]
+[HarmonyPatch(typeof(AngryLevelLoader.Notifications.LevelUpdateNotification))]
 public static class LevelUpdateNotificationPatch
 {
 
-    [HarmonyPatch(nameof(LevelUpdateNotification.OnUI))] [HarmonyPostfix]
+    [HarmonyPatch(nameof(AngryLevelLoader.Notifications.LevelUpdateNotification.OnUI))] [HarmonyPostfix]
     public static void Localize(ref RectTransform panel)
     {
         if (LanguageManager.IsEnglish) return;
@@ -27,9 +26,9 @@ public static class LevelUpdateNotificationPatch
         var ui = panel.GetComponentInChildren<AngryLevelUpdateNotificationComponent>(true);
         if (ui == null) return;
 
-        var onlineLevel = LanguageManager.Current.angry.angryUi.onlineLevel;
-        ui.gameObject.Localize<Text>(onlineLevel.changelog_header, path: ["ConcretePanel", "Text (1)"]);
-        ui.cancel.gameObject.Localize<Text>(onlineLevel.changelog_cancel, path: ["Text"]);
-        ui.update.gameObject.Localize<Text>(onlineLevel.changelog_update, path: ["Text"]);
+        var levelUpdateNotification = LanguageManager.Current.angry.angryUi.notifications.levelUpdateNotification;
+        ui.gameObject.Localize<Text>(levelUpdateNotification.header, path: ["ConcretePanel", "Text (1)"]);
+        ui.cancel.gameObject.Localize<Text>(levelUpdateNotification.b_cancel, path: ["Text"]);
+        ui.update.gameObject.Localize<Text>(levelUpdateNotification.b_update, path: ["Text"]);
     }
 }

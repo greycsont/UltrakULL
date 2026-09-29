@@ -6,20 +6,22 @@ using UltrakULL.json;
 
 namespace UltrakULL;
 
-[HarmonyPatch(typeof(ScriptUpdateNotification))]
+[HarmonyPatch(typeof(AngryLevelLoader.Notifications.ScriptUpdateNotification))]
 public static class ScriptUpdateNotificationPatch
 {
-    [HarmonyPatch(nameof(ScriptUpdateNotification.OnUI))] [HarmonyPostfix]
-    public static void Localize(ScriptUpdateNotification __instance)
+    [HarmonyPatch(nameof(AngryLevelLoader.Notifications.ScriptUpdateNotification.OnUI))] [HarmonyPostfix]
+    public static void Localize(AngryLevelLoader.Notifications.ScriptUpdateNotification __instance)
     {
         if (LanguageManager.IsEnglish) return;
         if (!LanguageManager.IsAngryTranslationLoaded) return;
         
         var ui = __instance.ui;
 
-        ui.gameObject.Localize<Text>("脚本更新", path: ["ConcretePanel", "Text (1)"]);
-        ui.cancel.gameObject.Localize<Text>("取消", path: ["Text"]);
-        ui.update.gameObject.Localize<Text>("更新", path: ["Text"]);
-        ui.continueButton.gameObject.Localize<Text>("继续", path: ["Text"]);
+        var scriptUpdateNotification = LanguageManager.Current.angry.angryUi.notifications.scriptUpdateNotification;
+
+        ui.gameObject.Localize<Text>(scriptUpdateNotification.header, path: ["ConcretePanel", "Text (1)"]);
+        ui.cancel.gameObject.Localize<Text>(scriptUpdateNotification.b_cancel, path: ["Text"]);
+        ui.update.gameObject.Localize<Text>(scriptUpdateNotification.b_update, path: ["Text"]);
+        ui.continueButton.gameObject.Localize<Text>(scriptUpdateNotification.b_continue, path: ["Text"]);
     }
 }

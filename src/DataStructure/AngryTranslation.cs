@@ -19,6 +19,7 @@ public class AngryUi
     public BundleStatus bundleStatus = new();
     public LevelPanel levelPanel = new();
     public OnlineLevel onlineLevel = new();
+    public Notifications notifications = new();
     public string onlineSearchInfo; // "Showing {0} of {1} bundles"
 }
 
@@ -127,13 +128,16 @@ public class OnlineLevel
     public string outdateAndLocked;  // "(OUTDATE/LOCKED)"
     public string install; // INSTALL
     public string changelog; // CHANGELOG
-    public string changelog_header;  // "Changelog"
-    public string changelog_cancel;  // "Cancel"
-    public string changelog_update;  // "Update"
     public string update;  // "UPDATE"
 }
 
-public class ScriptUpdateNotifications
+public class Notifications
+{
+    public ScriptUpdateNotification scriptUpdateNotification;
+    public LevelUpdateNotification levelUpdateNotification;
+}
+
+public class ScriptUpdateNotification
 {
     public string header; // "Missing Or Outdated Scripts"
 
@@ -145,6 +149,17 @@ public class ScriptUpdateNotifications
 
     [JsonProperty("continue")]
     public string b_continue;  // "Continue"
+}
+
+public class LevelUpdateNotification
+{
+    public string header;  // "Changelog"
+
+    [JsonProperty("cancel")]
+    public string b_cancel;  // "Cancel"
+
+    [JsonProperty("update")]
+    public string b_update;  // "Update"
 }
 
 public class LevelPanel
