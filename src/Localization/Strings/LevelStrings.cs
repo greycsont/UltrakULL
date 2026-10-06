@@ -69,14 +69,10 @@ public static class LevelStrings
             if (level.LevelId != sceneName)
                 continue;
 
-            string name = level.LevelName();
-            if (StringHelper.IsEmpty(name))
-                return sceneName;
-
-            return sceneName.Substring("Level ".Length) + ": " + name;
+            return level.LevelName();
         }
 
-        return sceneName;
+        return null;
     }
 
     /// <summary>
@@ -89,12 +85,11 @@ public static class LevelStrings
         {
             if (level.LevelId != sceneName)
                 continue;
-
-            string challenge = level.Challenge();
-            return StringHelper.IsEmpty(challenge) ? sceneName : challenge;
+            
+            return level.Challenge();
         }
 
-        return sceneName;
+        return null;
     }
 
     private static readonly LevelEntry[] Levels =
