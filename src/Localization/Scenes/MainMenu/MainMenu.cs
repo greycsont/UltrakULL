@@ -6,6 +6,7 @@ using UltrakULL.json;
 using System.Data;
 using System.Threading.Tasks;
 
+using static UltrakULL.json.LanguageManager;
 using static UltrakULL.SceneObjects;
 
 namespace UltrakULL;
@@ -15,331 +16,157 @@ public static class MainMenu
 	//Patches all text strings in the title menu.
 	private static void PatchMainMenu(GameObject mainMenu)
 	{
-		try
-		{
-			GameObject titleObject = FindDescendant(mainMenu, "Main Menu (1)", "LeftSide");
+		GameObject titleObject = FindDescendant(mainMenu, "Main Menu (1)", "LeftSide");
 
-			//Early access tag
-			TextMeshProUGUI earlyAccessText = GetTextMeshProUGUI(FindDescendant(titleObject, "Text (3)", "Text"));
-			earlyAccessText.text = LanguageManager.CurrentLanguage.frontend.mainmenu_earlyAccess;
-			TextMeshProUGUI earlyAccessBackground = GetTextMeshProUGUI(FindDescendant(titleObject, "Text (3)"));
-			earlyAccessBackground.text = "<mark=#000000>" + LanguageManager.CurrentLanguage.frontend.mainmenu_earlyAccess;
+		//Early access tag
+		titleObject.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.mainmenu_earlyAccess, path: ["Text (3)", "Text"]);
 
-			//V1 Initialization strings
-			TextMeshProUGUI v1InitText = GetTextMeshProUGUI(FindDescendant(titleObject, "Text (2)", "Text (1)"));
-			v1InitText.text = LanguageManager.CurrentLanguage.frontend.mainmenu_v1Init;
-			TextMeshProUGUI v1InitBackground = GetTextMeshProUGUI(FindDescendant(titleObject, "Text (2)")); // Yep. Background is a TMP too. 
-			v1InitBackground.text = "<mark=#000000>" + LanguageManager.CurrentLanguage.frontend.mainmenu_v1Init;
+		//Early access tag background
+		titleObject.Localize<TextMeshProUGUI>("<mark=#000000>{0}".FormatWith(CurrentLanguage.frontend.mainmenu_earlyAccess), path: ["Text (3)"]);
 
-			//Init Socials
-			TextMeshProUGUI initSocialsText = GetTextMeshProUGUI(FindDescendant(titleObject, "Panel", "Text (2)", "Text"));
-			initSocialsText.text = LanguageManager.CurrentLanguage.frontend.mainmenu_initSocials;
-			TextMeshProUGUI initSocialsBackground = GetTextMeshProUGUI(FindDescendant(titleObject, "Panel", "Text (2)")); // Yep. Background is a TMP too. 
-			initSocialsBackground.text = "<mark=#000000>" + LanguageManager.CurrentLanguage.frontend.mainmenu_initSocials;
+		//V1 initialization
+		titleObject.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.mainmenu_v1Init, path: ["Text (2)", "Text (1)"]);
 
-			GameObject holidayObject = FindDescendant(titleObject, "Holiday Greetings"); 
-			//Halloween
-			TextMeshProUGUI halloweenText = GetTextMeshProUGUI(FindDescendant(holidayObject, "Text (Halloween)"));
-			halloweenText.text = LanguageManager.CurrentLanguage.frontend.mainmenu_halloween;
+		//V1 initialization background
+		titleObject.Localize<TextMeshProUGUI>("<mark=#000000>{0}".FormatWith(CurrentLanguage.frontend.mainmenu_v1Init), path: ["Text (2)"]);
 
-			//Easter
-			TextMeshProUGUI easterText = GetTextMeshProUGUI(FindDescendant(holidayObject, "Text (Easter)"));
-			easterText.text = LanguageManager.CurrentLanguage.frontend.mainmenu_easter;
+		//Init socials
+		titleObject.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.mainmenu_initSocials, path: ["Panel", "Text (2)", "Text"]);
 
-			//Christmas
-			TextMeshProUGUI christmasText = GetTextMeshProUGUI(FindDescendant(holidayObject, "Text (Christmas)"));
-			christmasText.text = LanguageManager.CurrentLanguage.frontend.mainmenu_christmas;
+		//Init socials background
+		titleObject.Localize<TextMeshProUGUI>("<mark=#000000>{0}".FormatWith(CurrentLanguage.frontend.mainmenu_initSocials), path: ["Panel", "Text (2)"]);
 
-			//Play button
-			TextMeshProUGUI playButtonText = GetTextMeshProUGUI(FindDescendant(titleObject, "Continue", "Text"));
-			playButtonText.text = LanguageManager.CurrentLanguage.frontend.mainmenu_play;
+		//Halloween
+		titleObject.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.mainmenu_halloween, path: ["Holiday Greetings", "Text (Halloween)"]);
 
-			//Options button
-			TextMeshProUGUI optionsButtontext = GetTextMeshProUGUI(FindDescendant(titleObject, "Options", "Text"));
-			optionsButtontext.text = LanguageManager.CurrentLanguage.frontend.mainmenu_options;
+		//Easter
+		titleObject.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.mainmenu_easter, path: ["Holiday Greetings", "Text (Easter)"]);
 
-			//Credits button
-			TextMeshProUGUI creditsButtontext = GetTextMeshProUGUI(FindDescendant(titleObject, "Credits", "Text"));
-			creditsButtontext.text = LanguageManager.CurrentLanguage.frontend.mainmenu_credits;
+		//Christmas
+		titleObject.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.mainmenu_christmas, path: ["Holiday Greetings", "Text (Christmas)"]);
 
-			//Quit button
-			TextMeshProUGUI quitButtontext = GetTextMeshProUGUI(FindDescendant(titleObject, "Quit", "Text"));
-			quitButtontext.text = LanguageManager.CurrentLanguage.frontend.mainmenu_quit;
-		}
-		catch (Exception e)
-		{
-			Logging.Error("An error occured while patching main menu. Check the console for details.");
-			Logging.Error(e.ToString());
-		}
+		//Play button
+		titleObject.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.mainmenu_play, path: ["Continue", "Text"]);
+
+		//Options button
+		titleObject.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.mainmenu_options, path: ["Options", "Text"]);
+
+		//Credits button
+		titleObject.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.mainmenu_credits, path: ["Credits", "Text"]);
+
+		//Quit button
+		titleObject.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.mainmenu_quit, path: ["Quit", "Text"]);
 	}
 
 	private static void PatchPopUps(GameObject mainMenu)
 	{
-		try
-		{
-			GameObject aboutEncoreObject = FindDescendant(FindDescendant(mainMenu, "EncorePopUp (1)"), "Image");
+		//About Encore title
+		mainMenu.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.aboutEncoreTitle, path: ["EncorePopUp (1)", "Image", "Text (TMP) (1)"]);
 
-			//About Encore Title
-			TextMeshProUGUI aboutEncoreTitleText = GetTextMeshProUGUI(FindDescendant(aboutEncoreObject, "Text (TMP) (1)"));
-			if (LanguageManager.CurrentLanguage.frontend.aboutEncoreTitle != "")
-			{
-				aboutEncoreTitleText.text = LanguageManager.CurrentLanguage.frontend.aboutEncoreTitle;
-			}
-			else 
-			{
-			Logging.Warn("No aboutEncoreTitle text found in the language file. Using default: " + aboutEncoreTitleText.text);
-			}
-			//About Encore Main text
-			TextMeshProUGUI aboutEncoreMainText = GetTextMeshProUGUI(FindDescendant(aboutEncoreObject, "Text (TMP)"));
-			if (LanguageManager.CurrentLanguage.frontend.aboutEncoreMain != "")
-			{
-				aboutEncoreMainText.text = LanguageManager.CurrentLanguage.frontend.aboutEncoreMain;
-			}
-			else 
-			{ 
-				Logging.Warn("No aboutEncoreMain text found in the language file. Using default: " + aboutEncoreMainText.text); 
-			}
+		//About Encore main text
+		mainMenu.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.aboutEncoreMain, path: ["EncorePopUp (1)", "Image", "Text (TMP)"]);
 
-			//About Encore Button //Umm, id dont know, need to translate "Ok" button, but... OK
-			GameObject aboutEncoreButtonTextObject = FindDescendant(aboutEncoreObject, "General (1)", "Text");
-			TextMeshProUGUI aboutEncoreButtonText = GetTextMeshProUGUI(aboutEncoreButtonTextObject);
-			if (LanguageManager.CurrentLanguage.frontend.aboutEncoreButton != "")
-			{
-				aboutEncoreButtonText.text = LanguageManager.CurrentLanguage.frontend.aboutEncoreButton;
-			}
-			else
-			{
-				Logging.Warn("No aboutEncoreButton text found in the language file. Using default: " + aboutEncoreButtonText.text);
-			}
+		//About Encore button
+		mainMenu.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.aboutEncoreButton, path: ["EncorePopUp (1)", "Image", "General (1)", "Text"]);
 
-			//Encore available PopUp
-			GameObject encoreAvailableObject = FindDescendant(mainMenu, "EncorePopUp", "Image");
+		//Encore available main text
+		mainMenu.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.encoreAvailableMainText, path: ["EncorePopUp", "Image", "Text (TMP)"]);
 
-			//Encore available Main text
-			TextMeshProUGUI encoreAvailableMainText = GetTextMeshProUGUI(FindDescendant(encoreAvailableObject, "Text (TMP)"));
-			if (LanguageManager.CurrentLanguage.frontend.encoreAvailableMainText != "")
-			{
-				encoreAvailableMainText.text = LanguageManager.CurrentLanguage.frontend.encoreAvailableMainText;
-			}
-			else
-			{
-				Logging.Warn("No encoreAvailableMainText text found in the language file. Using default: " + encoreAvailableMainText.text);
-			}
-
-			//Encore available Button //Umm, id dont know, need to translate "Ok" button, but... OK
-			GameObject encoreAvailableButtonTextObject = FindDescendant(encoreAvailableObject, "General (1)", "Text");
-			TextMeshProUGUI encoreAvailableButtonText = GetTextMeshProUGUI(encoreAvailableButtonTextObject);
-			if (LanguageManager.CurrentLanguage.frontend.encoreAvailableButton != "")
-			{
-				encoreAvailableButtonText.text = LanguageManager.CurrentLanguage.frontend.encoreAvailableButton;
-			}
-			else
-			{
-				Logging.Warn("No encoreAvailableButton text found in the language file. Using default: " + encoreAvailableButtonText.text);
-			}
-
-		}
-		catch (Exception e)
-		{
-			Logging.Error("An error occured while patching PopUp's. Check the console for details.");
-			Logging.Error(e.ToString());
-		}
+		//Encore available button
+		mainMenu.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.encoreAvailableButton, path: ["EncorePopUp", "Image", "General (1)", "Text"]);
 	}
-
-
-/*public static void ChangeTitle(GameObject mainMenu) // This feature is currently disabled because there is a more global texture replacement feature (＞﹏＜)
-	{
-		try
-		{
-			Logging.Warn("Attempting to change the main menu's title image");
-			GameObject trueMainMenu = FindDescendant(FindDescendant(mainMenu, "Main Menu (1)"), "LeftSide");
-			GameObject titleObject = FindDescendant(trueMainMenu, "Title");
-			GameObject titleObjectArabic = null;
-			string currentLangName = LanguageManager.CurrentLanguage.metadata.langName;
-			bool usingArabicLogo = false;
-
-		if (currentLangName.Substring(currentLangName.Length - 2).ToUpper() == "AR" && Core.ArabicUltrakillLogo != null)
-			{
-				if (titleObjectArabic == null)
-				{
-					GameObject.Instantiate(titleObject, titleObject.transform.position, Quaternion.identity, trueMainMenu.transform);
-				}
-				titleObjectArabic = FindDescendant(trueMainMenu, "Title(Clone)");
-				titleObjectArabic.GetComponent<Image>().sprite = Core.ArabicUltrakillLogo;
-				usingArabicLogo = true;
-			}
-			else
-			{
-				usingArabicLogo = false;
-		}
-		if (titleObjectArabic != null)
-		{
-				if (usingArabicLogo)
-				{
-					trueMainMenu.GetComponent<ObjectActivateInSequence>().objectsToActivate[0] = titleObjectArabic;
-				titleObject.SetActive(false);
-					titleObjectArabic.SetActive(true);
-				}
-				else
-			{
-				trueMainMenu.GetComponent<ObjectActivateInSequence>().objectsToActivate[0] = titleObject;
-				titleObject.SetActive(true);
-					titleObjectArabic.SetActive(false);
-				}
-		}
-	}
-	catch (Exception e)
-	{
-		Logging.Error("An error occured while switching the title. Check the console for details.");
-		Logging.Error(e.ToString());
-	}
-}*/
 
 	//Patches all text strings in the difficulty selection menu.
 	private static void PatchDifficultyMenu(GameObject frontEnd)
 	{
-		try
-		{
-			GameObject difficultyObject = FindDescendant(frontEnd, "Difficulty Select (1)","Interactables");
+		GameObject difficultyObject = FindDescendant(frontEnd, "Difficulty Select (1)", "Interactables");
 
-			//Difficulty header text (note: this can't fit much without reducing the default font size.)
-			TextMeshProUGUI difficultyText = GetTextMeshProUGUI(difficultyObject.transform.Find("Title").gameObject);
-			difficultyText.text = "--" + LanguageManager.CurrentLanguage.frontend.difficulty_title + "--";
+		//Difficulty header text (note: this can't fit much without reducing the default font size.)
+		difficultyObject.Localize<TextMeshProUGUI>("--{0}--".FormatWith(CurrentLanguage.frontend.difficulty_title), path: ["Title"]);
 
-			//Easy header text
-			GameObject easyObject = difficultyObject.transform.Find("Easy").gameObject;
-			TextMeshProUGUI easyText = GetTextMeshProUGUI(easyObject);
-			easyText.text =LanguageManager.CurrentLanguage.frontend.difficulty_easy;
+		//Easy header text
+		difficultyObject.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.difficulty_easy, path: ["Easy"]);
 
-			//Normal header text
-			TextMeshProUGUI normalText = GetTextMeshProUGUI(difficultyObject.transform.Find("Normal").gameObject);
-			normalText.text = LanguageManager.CurrentLanguage.frontend.difficulty_normal;
+		//Normal header text
+		difficultyObject.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.difficulty_normal, path: ["Normal"]);
 
-			//Hard header text
-			TextMeshProUGUI hardText = GetTextMeshProUGUI(difficultyObject.transform.Find("Hard").gameObject);
-			hardText.text = LanguageManager.CurrentLanguage.frontend.difficulty_hard;
+		//Hard header text
+		difficultyObject.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.difficulty_hard, path: ["Hard"]);
 
-			//Harmless header
-			GameObject harmlessTextObject = FindDescendant(difficultyObject, "Casual Easy");
-			TextMeshProUGUI harmlessText = GetTextMeshProUGUI(harmlessTextObject.transform.Find("Name").gameObject);
-			harmlessText.text = LanguageManager.CurrentLanguage.frontend.difficulty_harmless;
+		//Harmless header
+		difficultyObject.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.difficulty_harmless, path: ["Casual Easy", "Name"]);
 
-			//Lenient header
-			GameObject lenientTextObject = FindDescendant(difficultyObject, "Casual Hard");
-			TextMeshProUGUI lenientText = GetTextMeshProUGUI(lenientTextObject.transform.Find("Name").gameObject);
-			lenientText.text = LanguageManager.CurrentLanguage.frontend.difficulty_lenient;
+		//Lenient header
+		difficultyObject.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.difficulty_lenient, path: ["Casual Hard", "Name"]);
 
-			//Standard header
-			GameObject standardTextObject = FindDescendant(difficultyObject, "Standard");
-			TextMeshProUGUI standardText = GetTextMeshProUGUI(standardTextObject.transform.Find("Name").gameObject);
-			standardText.text = LanguageManager.CurrentLanguage.frontend.difficulty_standard + " <color=orange>*</color>";
+		//Standard header
+		difficultyObject.Localize<TextMeshProUGUI>("{0} <color=orange>*</color>".FormatWith(CurrentLanguage.frontend.difficulty_standard), path: ["Standard", "Name"]);
 
-			//Violent header
-			GameObject violentTextObject = FindDescendant(difficultyObject, "Violent");
-			TextMeshProUGUI violentText = GetTextMeshProUGUI(violentTextObject.transform.Find("Name").gameObject);
-			violentText.text = LanguageManager.CurrentLanguage.frontend.difficulty_violent;
+		//Violent header
+		difficultyObject.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.difficulty_violent, path: ["Violent", "Name"]);
 
-			//Brutal header
-			GameObject brutalTextObject = FindDescendant(difficultyObject, "Brutal");
-			TextMeshProUGUI brutalText = GetTextMeshProUGUI(brutalTextObject.transform.Find("Name").gameObject);
-			brutalText.text = LanguageManager.CurrentLanguage.frontend.difficulty_brutal;
+		//Brutal header
+		difficultyObject.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.difficulty_brutal, path: ["Brutal", "Name"]);
 
-			//UKMD header
-			GameObject umdTextObject = FindDescendant(difficultyObject, "V1 Must Die");
-			TextMeshProUGUI umdText = GetTextMeshProUGUI(umdTextObject.transform.Find("Name").gameObject);
-			umdText.text = LanguageManager.CurrentLanguage.frontend.difficulty_umd;
+		//UKMD header
+		difficultyObject.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.difficulty_umd, path: ["V1 Must Die", "Name"]);
 
-			TextMeshProUGUI underConstructionText = GetTextMeshProUGUI(FindDescendant(umdTextObject, "Under Construction"));
-			underConstructionText.text = LanguageManager.CurrentLanguage.frontend.difficulty_underConstruction;
+		//UKMD under construction
+		difficultyObject.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.difficulty_underConstruction, path: ["V1 Must Die", "Under Construction"]);
 
-			//Tooltip
-			GameObject assistTip = FindDescendant(difficultyObject, "Assist Tip");
-			TextMeshProUGUI assistTipText = GetTextMeshProUGUI(assistTip);
-			assistTipText.text = LanguageManager.CurrentLanguage.frontend.difficulty_tweakReminder;
-		}
-		catch (Exception e)
-		{
-			Logging.Error("Failed to patch difficulty menu.");
-			Logging.Error(e.ToString());
-		}
+		//Tooltip
+		difficultyObject.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.difficulty_tweakReminder, path: ["Assist Tip"]);
 	}
 
-	//Same as above.
+//Same as above.
 	private static void PatchDifficultyDescriptors(GameObject frontEnd)
 	{
-		try
-		{
-			GameObject difficultyObject = FindDescendant(frontEnd, "Difficulty Select (1)", "Interactables");
+		GameObject difficultyObject = FindDescendant(frontEnd, "Difficulty Select (1)", "Interactables");
 
-			//Harmless title
-			GameObject harmlessObject = FindDescendant(difficultyObject, "Harmless Info");
-			TextMeshProUGUI harmlessTitle = GetTextMeshProUGUI(harmlessObject.transform.Find("Title (1)").gameObject);
-			harmlessTitle.text = "--" + LanguageManager.CurrentLanguage.frontend.difficulty_harmless + "--";
+		//Harmless title
+		difficultyObject.Localize<TextMeshProUGUI>("--{0}--".FormatWith(CurrentLanguage.frontend.difficulty_harmless), path: ["Harmless Info", "Title (1)"]);
 
 		//Harmless descriptor
-			TextMeshProUGUI harmlessDescriptor = GetTextMeshProUGUI(harmlessObject.transform.Find("Text").gameObject);
-			harmlessDescriptor.text =
-				LanguageManager.CurrentLanguage.frontend.difficulty_harmlessDescription1
-				+ "\n\n"
-				+ LanguageManager.CurrentLanguage.frontend.difficulty_harmlessDescription2
-				+ "\n\n"
-				+ "<color=green>" + LanguageManager.CurrentLanguage.frontend.difficulty_harmlessDescription3 + "</color>";
+		difficultyObject.Localize<TextMeshProUGUI>("{0}\n\n{1}\n\n<color=green>{2}</color>".FormatWith(
+			CurrentLanguage.frontend.difficulty_harmlessDescription1,
+			CurrentLanguage.frontend.difficulty_harmlessDescription2,
+			CurrentLanguage.frontend.difficulty_harmlessDescription3), path: ["Harmless Info", "Text"]);
 
-			//Lenient title
-			GameObject lenientObject = FindDescendant(difficultyObject, "Lenient Info");
-			TextMeshProUGUI lenientTitle = GetTextMeshProUGUI(lenientObject.transform.Find("Title (1)").gameObject);
-			lenientTitle.text = "--" + LanguageManager.CurrentLanguage.frontend.difficulty_lenient + "--";
+		//Lenient title
+		difficultyObject.Localize<TextMeshProUGUI>("--{0}--".FormatWith(CurrentLanguage.frontend.difficulty_lenient), path: ["Lenient Info", "Title (1)"]);
 
-			//Lenient descriptor
-			TextMeshProUGUI lenientDescriptor = GetTextMeshProUGUI(lenientObject.transform.Find("Text").gameObject);
-			lenientDescriptor.text =
-				LanguageManager.CurrentLanguage.frontend.difficulty_lenientDescription1
-				+ "\n\n"
-				+ LanguageManager.CurrentLanguage.frontend.difficulty_lenientDescription2
-				+ "\n\n"
-				+ "<color=yellow>" + LanguageManager.CurrentLanguage.frontend.difficulty_lenientDescription3 + "</color>";
+		//Lenient descriptor
+		difficultyObject.Localize<TextMeshProUGUI>("{0}\n\n{1}\n\n<color=yellow>{2}</color>".FormatWith(
+			CurrentLanguage.frontend.difficulty_lenientDescription1,
+			CurrentLanguage.frontend.difficulty_lenientDescription2,
+			CurrentLanguage.frontend.difficulty_lenientDescription3), path: ["Lenient Info", "Text"]);
 
-			//Standard title
-			GameObject standardObject = FindDescendant(difficultyObject, "Standard Info");
-			TextMeshProUGUI standardTitle = GetTextMeshProUGUI(standardObject.transform.Find("Title (1)").gameObject);
-			standardTitle.text = "--" + LanguageManager.CurrentLanguage.frontend.difficulty_standard + "--";
+		//Standard title
+		difficultyObject.Localize<TextMeshProUGUI>("--{0}--".FormatWith(CurrentLanguage.frontend.difficulty_standard), path: ["Standard Info", "Title (1)"]);
 
-			//Standard descriptor
-			TextMeshProUGUI standardDescriptor = GetTextMeshProUGUI(standardObject.transform.Find("Text").gameObject);
-			standardDescriptor.text =
-				LanguageManager.CurrentLanguage.frontend.difficulty_standardDescription1
-				+ "\n\n"
-				+ LanguageManager.CurrentLanguage.frontend.difficulty_standardDescription2
-				+ "\n\n"
-				+ "<color=orange>" + LanguageManager.CurrentLanguage.frontend.difficulty_standardDescription3 + "</color>";
+		//Standard descriptor
+		difficultyObject.Localize<TextMeshProUGUI>("{0}\n\n{1}\n\n<color=orange>{2}</color>".FormatWith(
+			CurrentLanguage.frontend.difficulty_standardDescription1,
+			CurrentLanguage.frontend.difficulty_standardDescription2,
+			CurrentLanguage.frontend.difficulty_standardDescription3), path: ["Standard Info", "Text"]);
 
-			//Violent title
-			GameObject violentObject = FindDescendant(difficultyObject, "Violent Info");
-			TextMeshProUGUI violentTitle = GetTextMeshProUGUI(violentObject.transform.Find("Title (1)").gameObject);
-			violentTitle.text = "--" + LanguageManager.CurrentLanguage.frontend.difficulty_violent + "--";
+		//Violent title
+		difficultyObject.Localize<TextMeshProUGUI>("--{0}--".FormatWith(CurrentLanguage.frontend.difficulty_violent), path: ["Violent Info", "Title (1)"]);
 
-			//Violent descriptor
-			TextMeshProUGUI violentDescriptor = GetTextMeshProUGUI(violentObject.transform.Find("Text").gameObject);
-			violentDescriptor.text =
-			LanguageManager.CurrentLanguage.frontend.difficulty_violentDescription1
-				+ "\n\n"
-				+ LanguageManager.CurrentLanguage.frontend.difficulty_violentDescription2
-			+ "\n\n"
-				+ "<color=red>" + LanguageManager.CurrentLanguage.frontend.difficulty_violentDescription3 + "</color>";
+		//Violent descriptor
+		difficultyObject.Localize<TextMeshProUGUI>("{0}\n\n{1}\n\n<color=red>{2}</color>".FormatWith(
+			CurrentLanguage.frontend.difficulty_violentDescription1,
+			CurrentLanguage.frontend.difficulty_violentDescription2,
+			CurrentLanguage.frontend.difficulty_violentDescription3), path: ["Violent Info", "Text"]);
 
-			//Brutal title
-			GameObject brutalObject = FindDescendant(difficultyObject, "Brutal Info");
-			TextMeshProUGUI brutalTitle = GetTextMeshProUGUI(brutalObject.transform.Find("Title (1)").gameObject);
-			brutalTitle.text = "--" + LanguageManager.CurrentLanguage.frontend.difficulty_brutal + "--";
+		//Brutal title
+		difficultyObject.Localize<TextMeshProUGUI>("--{0}--".FormatWith(CurrentLanguage.frontend.difficulty_brutal), path: ["Brutal Info", "Title (1)"]);
 
-			//Brutal descriptor
-			TextMeshProUGUI brutalDescriptor = GetTextMeshProUGUI(brutalObject.transform.Find("Text").gameObject);
-			brutalDescriptor.text =
-				"<color=white>" + LanguageManager.CurrentLanguage.frontend.difficulty_brutalDescription1
-			+ "\n\n"
-			+ LanguageManager.CurrentLanguage.frontend.difficulty_brutalDescription2 + "</color>"
-			+ "\n\n"
-			+ "<b>" + LanguageManager.CurrentLanguage.frontend.difficulty_brutalDescription3 + "<b>";
+		//Brutal descriptor
+		difficultyObject.Localize<TextMeshProUGUI>("<color=white>{0}\n\n{1}</color>\n\n<b>{2}<b>".FormatWith(
+			CurrentLanguage.frontend.difficulty_brutalDescription1,
+			CurrentLanguage.frontend.difficulty_brutalDescription2,
+			CurrentLanguage.frontend.difficulty_brutalDescription3), path: ["Brutal Info", "Text"]);
 		//UMD stuff isn't in-game yet so the below is commmented out until the devs add them.
 
 		/*UMD title - not in-game yet
@@ -356,130 +183,91 @@ public static class MainMenu
 				+ "\n\n"
 				+ "<color=red>" + LanguageManager.CurrentLanguage.frontend.difficulty_umdDescription3 + "</color>";
 			*/
-
-		}
-		catch (Exception e)
-		{
-			Logging.Error("Failed to patch difficulty text.");
-			Logging.Error(e.ToString());
-		}
-
 	}
 
 	private static void PatchChapterSelect(GameObject frontEnd)
 	{
 		GameObject chapterObject = FindDescendant(frontEnd, "Chapter Select", "Chapters");
-		TextMeshProUGUI chapterText = GetTextMeshProUGUI(FindDescendant(frontEnd, "Chapter Select", "Title (1)"));
-		chapterText.text = "--" + LanguageManager.CurrentLanguage.frontend.chapter_title + "--";
 
-		//Start patching the Primary and Secondary chapters type titles
-		GameObject primaryObject = FindDescendant(chapterObject, "Primary", "Title");
-		TextMeshProUGUI primaryText = GetTextMeshProUGUI(primaryObject);
-		primaryText.text = LanguageManager.CurrentLanguage.frontend.chapter_type_primary;
+		//Chapter select title
+		frontEnd.Localize<TextMeshProUGUI>("--{0}--".FormatWith(CurrentLanguage.frontend.chapter_title), path: ["Chapter Select", "Title (1)"]);
 
-		GameObject secondaryObject = FindDescendant(chapterObject, "Secondary", "Title");
-		TextMeshProUGUI secondaryText = GetTextMeshProUGUI(secondaryObject);
-		secondaryText.text = LanguageManager.CurrentLanguage.frontend.chapter_type_secondary;
-		// End patching the Primary and Secondary chapters type titles
+		//Primary chapters type title
+		chapterObject.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.chapter_type_primary, path: ["Primary", "Title"]);
 
-		GameObject preludeObject = FindDescendant(chapterObject, "Prelude");
-		TextMeshProUGUI preludeText = GetTextMeshProUGUI(preludeObject.transform.Find("Name").gameObject);
-		preludeText.text = LanguageManager.CurrentLanguage.frontend.chapter_prelude;
+		//Secondary chapters type title
+		chapterObject.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.chapter_type_secondary, path: ["Secondary", "Title"]);
 
+		//Prelude
+		chapterObject.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.chapter_prelude, path: ["Prelude", "Name"]);
+
+		//Act I
+		chapterObject.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.chapter_act1, path: ["Act I", "Name"]);
 		GameObject act1Object = FindDescendant(chapterObject, "Act I");
 		var act1MenuActSelect = act1Object.GetComponent<MenuActSelect>();
-		act1MenuActSelect.nameWhenDisabled = LanguageManager.CurrentLanguage.frontend.chapter_act1_lock.Or(act1MenuActSelect.nameWhenDisabled);
-		TextMeshProUGUI act1Text = GetTextMeshProUGUI(act1Object.transform.Find("Name").gameObject);
-		act1Text.text = LanguageManager.CurrentLanguage.frontend.chapter_act1;
+		act1MenuActSelect.nameWhenDisabled = CurrentLanguage.frontend.chapter_act1_lock.Or(act1MenuActSelect.nameWhenDisabled);
 
+		//Act II
+		chapterObject.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.chapter_act2, path: ["Act II", "Name"]);
 		GameObject act2Object = FindDescendant(chapterObject, "Act II");
 		var act2MenuActSelect = act2Object.GetComponent<MenuActSelect>();
-		act2MenuActSelect.nameWhenDisabled = LanguageManager.CurrentLanguage.frontend.chapter_act2_lock.Or(act2MenuActSelect.nameWhenDisabled);
-		TextMeshProUGUI act2Text = GetTextMeshProUGUI(act2Object.transform.Find("Name").gameObject);
-		act2Text.text = LanguageManager.CurrentLanguage.frontend.chapter_act2;
+		act2MenuActSelect.nameWhenDisabled = CurrentLanguage.frontend.chapter_act2_lock.Or(act2MenuActSelect.nameWhenDisabled);
 
+		//Act III
+		chapterObject.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.chapter_act3, path: ["Act III", "Name"]);
 		GameObject act3Object = FindDescendant(chapterObject, "Act III");
 		var act3MenuActSelect = act3Object.GetComponent<MenuActSelect>();
-		act3MenuActSelect.nameWhenDisabled = LanguageManager.CurrentLanguage.frontend.chapter_act3_lock.Or(act3MenuActSelect.nameWhenDisabled);
-		TextMeshProUGUI act3Text = GetTextMeshProUGUI(act3Object.transform.Find("Name").gameObject);
-		act3Text.text = LanguageManager.CurrentLanguage.frontend.chapter_act3;
+		act3MenuActSelect.nameWhenDisabled = CurrentLanguage.frontend.chapter_act3_lock.Or(act3MenuActSelect.nameWhenDisabled);
 
-		GameObject encoreObject = FindDescendant(chapterObject, "Encore");
-		TextMeshProUGUI encoreText = GetTextMeshProUGUI(encoreObject.transform.Find("Name").gameObject);
-		encoreText.text = LanguageManager.CurrentLanguage.frontend.chapter_encore;
+		//Encore
+		chapterObject.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.chapter_encore, path: ["Encore", "Name"]);
 
+		//Prime
+		chapterObject.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.chapter_prime, path: ["Prime", "Name"]);
 
-		GameObject primeObject = FindDescendant(chapterObject, "Prime");
-		TextMeshProUGUI primeText = GetTextMeshProUGUI(primeObject.transform.Find("Name").gameObject);
-		primeText.text = LanguageManager.CurrentLanguage.frontend.chapter_prime;
+		//The Cyber Grind
+		chapterObject.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.chapter_cyberGrind, path: ["The Cyber Grind", "Name"]);
 
-		GameObject cgObject = FindDescendant(chapterObject, "The Cyber Grind");
-		TextMeshProUGUI cgText = GetTextMeshProUGUI(cgObject.transform.Find("Name").gameObject);
-		cgText.text = LanguageManager.CurrentLanguage.frontend.chapter_cyberGrind;
-
-		GameObject sandboxObject = FindDescendant(chapterObject, "Sandbox");
-		TextMeshProUGUI sandboxText = GetTextMeshProUGUI(sandboxObject.transform.Find("Name").gameObject);
-		sandboxText.text = LanguageManager.CurrentLanguage.frontend.chapter_sandbox;
+		//Sandbox
+		chapterObject.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.chapter_sandbox, path: ["Sandbox", "Name"]);
 	}
 
 	private static void PatchLevelSelectPrelude(GameObject frontEnd)
 	{
 		GameObject lsPreludeObject = FindDescendant(frontEnd, "Level Select (Prelude)");
-		
-		GameObject preludeHeader = FindDescendant(lsPreludeObject,"Overture","Header");
 
 		//Prelude title
-		TextMeshProUGUI preludeTitleText = GetTextMeshProUGUI(FindDescendant(preludeHeader,"Text"));
-		preludeTitleText.text = LanguageManager.CurrentLanguage.frontend.layer_prelude;
-		preludeTitleText.fontSize = 36;
+		lsPreludeObject.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.layer_prelude, path: ["Overture", "Header", "Text"]).fontSize = 36;
 
 		//Prelude secret mission title
-		TextMeshProUGUI secretText = GetTextMeshProUGUI(FindDescendant(preludeHeader, "Secret Mission", "Text").gameObject);
-		secretText.text = LanguageManager.CurrentLanguage.frontend.chapter_secretMission;
-		
+		lsPreludeObject.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.chapter_secretMission, path: ["Overture", "Header", "Secret Mission", "Text"]);
 
-		GameObject preludeObject = FindDescendant(FindDescendant(lsPreludeObject, "Overture"),"Level Row");
-		
 		//0-1 challenge
-		GameObject firstObject = FindDescendant(preludeObject, "0-1 Panel");
-		TextMeshProUGUI firstChallenge = GetTextMeshProUGUI(FindDescendant(firstObject,"Panel", "Text"));
-		firstChallenge.text = LevelStrings.GetLevelChallenge("Level 0-1");
+		lsPreludeObject.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 0-1"), path: ["Overture", "Level Row", "0-1 Panel", "Panel", "Text"]);
 
 		//0-2 challenge
-		GameObject secondObject = FindDescendant(preludeObject, "0-2 Panel");
-		TextMeshProUGUI secondChallenge = GetTextMeshProUGUI(FindDescendant(secondObject, "Panel (2)", "Text"));
-		secondChallenge.text = LevelStrings.GetLevelChallenge("Level 0-2");
+		lsPreludeObject.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 0-2"), path: ["Overture", "Level Row", "0-2 Panel", "Panel (2)", "Text"]);
 
 		//0-3 challenge
-		GameObject thirdObject = FindDescendant(preludeObject, "0-3 Panel");
-		TextMeshProUGUI thirdChallenge = GetTextMeshProUGUI(FindDescendant(thirdObject, "Panel (4)", "Text"));
-		thirdChallenge.text = LevelStrings.GetLevelChallenge("Level 0-3");
+		lsPreludeObject.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 0-3"), path: ["Overture", "Level Row", "0-3 Panel", "Panel (4)", "Text"]);
 
 		//0-4 challenge
-		GameObject fourthObject = FindDescendant(preludeObject, "0-4 Panel");
-		TextMeshProUGUI fourthChallenge = GetTextMeshProUGUI(FindDescendant(fourthObject, "Panel (6)", "Text"));
-		fourthChallenge.text = LevelStrings.GetLevelChallenge("Level 0-4");
+		lsPreludeObject.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 0-4"), path: ["Overture", "Level Row", "0-4 Panel", "Panel (6)", "Text"]);
 
 		//0-5 challenge
-		GameObject fifthObject = FindDescendant(preludeObject, "0-5 Panel");
+		lsPreludeObject.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 0-5"), path: ["Overture", "Level Row", "0-5 Panel", "Panel (6)", "Text"]);
 
-		TextMeshProUGUI fifthChallenge = GetTextMeshProUGUI(FindDescendant(fifthObject, "Panel (6)", "Text"));
-		fifthChallenge.text = LevelStrings.GetLevelChallenge("Level 0-5");
-		
-		//Full intro panel why this is not using the TMPro
-		GameObject fullIntroObject = FindDescendant(FindDescendant(lsPreludeObject, "FullIntroPopup"), "Panel");
+		//Full intro text (this one is not using TMP)
+		lsPreludeObject.Localize<Text>(CurrentLanguage.frontend.level_fullIntroPrompt, path: ["FullIntroPopup", "Panel", "Text"]);
 
-		Text fullIntroText = GetTextfromGameObject(fullIntroObject.transform.Find("Text").gameObject);
-		fullIntroText.text = LanguageManager.CurrentLanguage.frontend.level_fullIntroPrompt;
+		//Full intro yes button
+		lsPreludeObject.Localize<Text>(CurrentLanguage.frontend.level_fullIntroPromptYes, path: ["FullIntroPopup", "Panel", "Button (1)", "Text"]);
 
-		UnityEngine.UI.Text fullIntroYesText = GetTextfromGameObject(FindDescendant(fullIntroObject, "Button (1)").transform.Find("Text").gameObject);
-		fullIntroYesText.text = LanguageManager.CurrentLanguage.frontend.level_fullIntroPromptYes;
+		//Full intro no button
+		lsPreludeObject.Localize<Text>(CurrentLanguage.frontend.level_fullIntroPromptNo, path: ["FullIntroPopup", "Panel", "Button", "Text"]);
 
-		Text fullIntroNoText = GetTextfromGameObject(FindDescendant(fullIntroObject, "Button").transform.Find("Text").gameObject);
-		fullIntroNoText.text = LanguageManager.CurrentLanguage.frontend.level_fullIntroPromptNo;
-
-		Text fullIntroCancelText = GetTextfromGameObject(FindDescendant(fullIntroObject, "Button (2)").transform.Find("Text").gameObject);
-		fullIntroCancelText.text = LanguageManager.CurrentLanguage.frontend.level_fullIntroPromptCancel;
+		//Full intro cancel button
+		lsPreludeObject.Localize<Text>(CurrentLanguage.frontend.level_fullIntroPromptCancel, path: ["FullIntroPopup", "Panel", "Button (2)", "Text"]);
 	}
 
 	//Patches all text strings in the Act 1 menu.
@@ -487,266 +275,184 @@ public static class MainMenu
 	{
 		GameObject act1Object = FindDescendant(frontEnd, "Level Select (Act I)", "Scroll Rect", "Contents");
 
-		GameObject limboObject = FindDescendant(act1Object, "Layer 1 Limbo");
-		GameObject lustObject = FindDescendant(act1Object, "Layer 2 Lust");
-		GameObject gluttonyObject = FindDescendant(act1Object, "Layer 3 Gluttony");
+		//Layer 1 - Limbo title
+		act1Object.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.layer_limbo, path: ["Layer 1 Limbo", "Header", "Text"]);
 
-		//Layer 1 - Limbo
-		GameObject limboHeader = FindDescendant(limboObject,"Header");
+		//Layer 1 - Limbo secret mission
+		act1Object.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.chapter_secretMission, path: ["Layer 1 Limbo", "Header", "Secret Mission", "Text"]);
 
-		TextMeshProUGUI limboTitle = GetTextMeshProUGUI(FindDescendant(limboHeader, "Text"));
-		limboTitle.text = LanguageManager.CurrentLanguage.frontend.layer_limbo;
+		//1-1 challenge
+		act1Object.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 1-1"), path: ["Layer 1 Limbo", "Level Row", "1-1 Panel", "Panel", "Text"]);
 
-		TextMeshProUGUI limboSecretMissionText = GetTextMeshProUGUI(FindDescendant(limboHeader, "Secret Mission", "Text"));
-		limboSecretMissionText.text = LanguageManager.CurrentLanguage.frontend.chapter_secretMission;
+		//1-2 challenge
+		act1Object.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 1-2"), path: ["Layer 1 Limbo", "Level Row", "1-2 Panel", "Panel (2)", "Text"]);
 
-		//Main levels
-		GameObject limboContent = FindDescendant(limboObject,"Level Row");
+		//1-3 challenge
+		act1Object.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 1-3"), path: ["Layer 1 Limbo", "Level Row", "1-3 Panel", "Panel (4)", "Text"]);
 
-		TextMeshProUGUI limboFirstChallenge = GetTextMeshProUGUI(FindDescendant(limboContent, "1-1 Panel", "Panel", "Text"));
-		limboFirstChallenge.text = LevelStrings.GetLevelChallenge("Level 1-1");
+		//1-4 challenge
+		act1Object.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 1-4"), path: ["Layer 1 Limbo", "Level Row", "1-4 Panel", "Panel (6)", "Text"]);
 
-		TextMeshProUGUI limboSecondChallenge = GetTextMeshProUGUI(FindDescendant(limboContent, "1-2 Panel", "Panel (2)", "Text"));
-		limboSecondChallenge.text = LevelStrings.GetLevelChallenge("Level 1-2");
+		//Layer 2 - Lust title
+		act1Object.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.layer_lust, path: ["Layer 2 Lust", "Header", "Text"]);
 
-		TextMeshProUGUI limboThirdChallenge = GetTextMeshProUGUI(FindDescendant(limboContent, "1-3 Panel", "Panel (4)", "Text"));
-		limboThirdChallenge.text = LevelStrings.GetLevelChallenge("Level 1-3");
+		//Layer 2 - Lust secret mission
+		act1Object.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.chapter_secretMission, path: ["Layer 2 Lust", "Header", "Secret Mission", "Text"]);
 
-		TextMeshProUGUI limboClimaxChallenge = GetTextMeshProUGUI(FindDescendant(limboContent, "1-4 Panel", "Panel (6)", "Text"));
-		limboClimaxChallenge.text = LevelStrings.GetLevelChallenge("Level 1-4");
+		//2-1 challenge
+		act1Object.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 2-1"), path: ["Layer 2 Lust", "Level Row", "2-1 Panel", "Panel", "Text"]);
 
-		//Layer 2 - Lust
-		GameObject lustHeader = FindDescendant(lustObject,"Header");
+		//2-2 challenge
+		act1Object.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 2-2"), path: ["Layer 2 Lust", "Level Row", "2-2 Panel", "Panel (2)", "Text"]);
 
-		TextMeshProUGUI lustTitle = GetTextMeshProUGUI(FindDescendant(lustHeader, "Text"));
-		lustTitle.text = LanguageManager.CurrentLanguage.frontend.layer_lust;
+		//2-3 challenge
+		act1Object.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 2-3"), path: ["Layer 2 Lust", "Level Row", "2-3 Panel", "Panel (4)", "Text"]);
 
-		TextMeshProUGUI lustSecretMissionText = GetTextMeshProUGUI(FindDescendant(lustHeader, "Secret Mission", "Text"));
-		lustSecretMissionText.text = LanguageManager.CurrentLanguage.frontend.chapter_secretMission;
-		
-		GameObject lustContent = FindDescendant(lustObject,"Level Row");
+		//2-4 challenge
+		act1Object.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 2-4"), path: ["Layer 2 Lust", "Level Row", "2-4 Panel", "Panel (6)", "Text"]);
 
-		//Main levels
-		TextMeshProUGUI lustFirstChallenge = GetTextMeshProUGUI(FindDescendant(lustContent, "2-1 Panel", "Panel", "Text"));
-		lustFirstChallenge.text = LevelStrings.GetLevelChallenge("Level 2-1");
+		//Layer 3 - Gluttony title
+		act1Object.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.layer_gluttony, path: ["Layer 3 Gluttony", "Header", "Text"]);
 
-		TextMeshProUGUI lustSecondChallenge = GetTextMeshProUGUI(FindDescendant(lustContent, "2-2 Panel", "Panel (2)", "Text"));
-		lustSecondChallenge.text = LevelStrings.GetLevelChallenge("Level 2-2");
+		//3-1 challenge
+		act1Object.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 3-1"), path: ["Layer 3 Gluttony", "Level Row", "3-1 Panel", "Panel", "Text"]);
 
-		TextMeshProUGUI lustThirdChallenge = GetTextMeshProUGUI(FindDescendant(lustContent, "2-3 Panel", "Panel (4)", "Text"));
-		lustThirdChallenge.text = LevelStrings.GetLevelChallenge("Level 2-3");
-
-		TextMeshProUGUI lustClimaxChallenge = GetTextMeshProUGUI(FindDescendant(lustContent, "2-4 Panel", "Panel (6)", "Text"));
-		lustClimaxChallenge.text = LevelStrings.GetLevelChallenge("Level 2-4");
-
-		//Layer 3 - Gluttony
-		GameObject gluttonyHeader = FindDescendant(gluttonyObject,"Header");
-
-	    TextMeshProUGUI gluttonyTitle = GetTextMeshProUGUI(FindDescendant(gluttonyHeader, "Text"));
-		gluttonyTitle.text = LanguageManager.CurrentLanguage.frontend.layer_gluttony;
-		
-		//Main levels
-		GameObject gluttonyContent = FindDescendant(gluttonyObject,"Level Row");
-
-	    TextMeshProUGUI gluttonyFirstChallenge = GetTextMeshProUGUI(FindDescendant(gluttonyContent, "3-1 Panel", "Panel", "Text"));
-		gluttonyFirstChallenge.text = LevelStrings.GetLevelChallenge("Level 3-1");
-
-	    TextMeshProUGUI gluttonySecondChallenge = GetTextMeshProUGUI(FindDescendant(gluttonyContent, "3-2 Panel", "Panel (2)", "Text"));
-		gluttonySecondChallenge.text = LevelStrings.GetLevelChallenge("Level 3-2");
-
+		//3-2 challenge
+		act1Object.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 3-2"), path: ["Layer 3 Gluttony", "Level Row", "3-2 Panel", "Panel (2)", "Text"]);
 	}
 
 	private static void PatchLevelSelectAct2(GameObject frontEnd)
 	{
 		GameObject act2Object = FindDescendant(frontEnd, "Level Select (Act II)", "Scroll Rect", "Contents");
 
-		GameObject greedObject = FindDescendant(act2Object, "Layer 4 Greed");
-		GameObject wrathObject = FindDescendant(act2Object, "Layer 5 Wrath");
-		GameObject heresyObject = FindDescendant(act2Object, "Layer 6 Heresy");
+		//Layer 4 - Greed title
+		act2Object.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.layer_greed, path: ["Layer 4 Greed", "Header", "Text"]);
 
-		//Layer 4 - Greed
-		GameObject greedHeader = FindDescendant(greedObject,"Header");
+		//Layer 4 - Greed secret mission
+		act2Object.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.chapter_secretMission, path: ["Layer 4 Greed", "Header", "Secret Mission", "Text"]);
 
-	    TextMeshProUGUI greedTitle = GetTextMeshProUGUI(FindDescendant(greedHeader, "Text"));
-		greedTitle.text = LanguageManager.CurrentLanguage.frontend.layer_greed;
+		//4-1 challenge
+		act2Object.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 4-1"), path: ["Layer 4 Greed", "Level Row", "4-1 Panel", "Panel", "Text"]);
 
-	    TextMeshProUGUI greedSecretMissionText = GetTextMeshProUGUI(FindDescendant(greedHeader, "Secret Mission", "Text"));
-		greedSecretMissionText.text = LanguageManager.CurrentLanguage.frontend.chapter_secretMission;
-		
-		//Main levels
-		GameObject greedContent = FindDescendant(greedObject,"Level Row");
+		//4-2 challenge
+		act2Object.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 4-2"), path: ["Layer 4 Greed", "Level Row", "4-2 Panel", "Panel (2)", "Text"]);
 
+		//4-3 challenge
+		act2Object.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 4-3"), path: ["Layer 4 Greed", "Level Row", "4-3 Panel", "Panel (4)", "Text"]);
 
-	    TextMeshProUGUI greedFirstChallenge = GetTextMeshProUGUI(FindDescendant(greedContent, "4-1 Panel", "Panel", "Text"));
-		greedFirstChallenge.text = LevelStrings.GetLevelChallenge("Level 4-1");
+		//4-4 challenge
+		act2Object.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 4-4"), path: ["Layer 4 Greed", "Level Row", "4-4 Panel", "Panel (6)", "Text"]);
 
-	    TextMeshProUGUI greedSecondChallenge = GetTextMeshProUGUI(FindDescendant(greedContent, "4-2 Panel", "Panel (2)", "Text"));
-		greedSecondChallenge.text = LevelStrings.GetLevelChallenge("Level 4-2");
+		//Layer 5 - Wrath title
+		act2Object.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.layer_wrath, path: ["Layer 5 Wrath", "Header", "Text"]);
 
-	    TextMeshProUGUI greedThirdChallenge = GetTextMeshProUGUI(FindDescendant(greedContent, "4-3 Panel", "Panel (4)", "Text"));
-		greedThirdChallenge.text = LevelStrings.GetLevelChallenge("Level 4-3");
+		//Layer 5 - Wrath secret mission
+		act2Object.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.chapter_secretMission, path: ["Layer 5 Wrath", "Header", "Secret Mission", "Text"]);
 
-	    TextMeshProUGUI greedClimaxChallenge = GetTextMeshProUGUI(FindDescendant(greedContent, "4-4 Panel", "Panel (6)", "Text"));
-		greedClimaxChallenge.text = LevelStrings.GetLevelChallenge("Level 4-4");
+		//5-1 challenge
+		act2Object.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 5-1"), path: ["Layer 5 Wrath", "Level Row", "5-1 Panel", "Panel", "Text"]);
 
-		
-		//Layer 5 - Wrath
-		GameObject wrathHeader =  FindDescendant(wrathObject, "Header");
+		//5-2 challenge
+		act2Object.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 5-2"), path: ["Layer 5 Wrath", "Level Row", "5-2 Panel", "Panel (2)", "Text"]);
 
-	    TextMeshProUGUI wrathTitle = GetTextMeshProUGUI(FindDescendant(wrathHeader, "Text"));
-		wrathTitle.text = LanguageManager.CurrentLanguage.frontend.layer_wrath;
+		//5-3 challenge
+		act2Object.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 5-3"), path: ["Layer 5 Wrath", "Level Row", "5-3 Panel", "Panel (4)", "Text"]);
 
-	    TextMeshProUGUI wrathSecretMissionText = GetTextMeshProUGUI(FindDescendant(wrathHeader, "Secret Mission", "Text"));
-		wrathSecretMissionText.text = LanguageManager.CurrentLanguage.frontend.chapter_secretMission;
-		
-		//Main levels
-		GameObject wrathContent = FindDescendant(wrathObject,"Level Row");
+		//5-4 challenge
+		act2Object.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 5-4"), path: ["Layer 5 Wrath", "Level Row", "5-4 Panel", "Panel (6)", "Text"]);
 
-	    TextMeshProUGUI wrathFirstChallenge = GetTextMeshProUGUI(FindDescendant(wrathContent, "5-1 Panel", "Panel", "Text"));
-		wrathFirstChallenge.text = LevelStrings.GetLevelChallenge("Level 5-1");
+		//Layer 6 - Heresy title
+		act2Object.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.layer_heresy, path: ["Layer 6 Heresy", "Header", "Text"]);
 
-	    TextMeshProUGUI wrathSecondChallenge = GetTextMeshProUGUI(FindDescendant(wrathContent, "5-2 Panel", "Panel (2)", "Text"));
-		wrathSecondChallenge.text = LevelStrings.GetLevelChallenge("Level 5-2");
+		//6-1 challenge (YES IT'S THE 1-1 PANEL)
+		act2Object.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 6-1"), path: ["Layer 6 Heresy", "Level Row", "1-1 Panel", "Panel", "Text"]);
 
-	    TextMeshProUGUI wrathThirdChallenge = GetTextMeshProUGUI(FindDescendant(wrathContent, "5-3 Panel", "Panel (4)", "Text"));
-		wrathThirdChallenge.text = LevelStrings.GetLevelChallenge("Level 5-3");
-
-	    TextMeshProUGUI wrathFourthChallenge = GetTextMeshProUGUI(FindDescendant(wrathContent, "5-4 Panel", "Panel (6)", "Text"));
-		wrathFourthChallenge.text = LevelStrings.GetLevelChallenge("Level 5-4");
-
-
-		//Layer 6 - Heresy
-		GameObject heresyHeader = FindDescendant(heresyObject,"Header");
-
-	    TextMeshProUGUI heresyTitle = GetTextMeshProUGUI(FindDescendant(heresyHeader, "Text"));
-		heresyTitle.text = LanguageManager.CurrentLanguage.frontend.layer_heresy;
-		
-		//Main levels
-		GameObject heresyContent = FindDescendant(heresyObject,"Level Row");
-
-		// YES IT'S 1-1 AND 1-2 PANEL FUCK
-	    TextMeshProUGUI heresyFirstChallenge = GetTextMeshProUGUI(FindDescendant(heresyContent, "1-1 Panel", "Panel", "Text"));
-		heresyFirstChallenge.text = LevelStrings.GetLevelChallenge("Level 6-1");
-
-	    TextMeshProUGUI heresySecondChallenge = GetTextMeshProUGUI(FindDescendant(heresyContent, "1-2 Panel", "Panel (2)", "Text"));
-		heresySecondChallenge.text = LevelStrings.GetLevelChallenge("Level 6-2");
+		//6-2 challenge (YES IT'S THE 1-2 PANEL)
+		act2Object.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 6-2"), path: ["Layer 6 Heresy", "Level Row", "1-2 Panel", "Panel (2)", "Text"]);
 	}
-	
+
 	private static void PatchLevelSelectAct3(GameObject frontEnd)
 	{
 		GameObject act3Object = FindDescendant(frontEnd, "Level Select (Act III)", "Scroll Rect", "Contents");
 
-		GameObject violenceObject = FindDescendant(act3Object, "Layer 7 Violence");
-		GameObject fraudObject = FindDescendant(act3Object, "Layer 8 Fraud");
-		GameObject treacheryObject = FindDescendant(act3Object, "Layer 9 Treachery");
+		//Layer 7 - Violence title
+		act3Object.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.layer_violence, path: ["Layer 7 Violence", "Header", "Text"]);
 
-		//Layer 7 - Violence
-		GameObject violenceHeader = FindDescendant(violenceObject,"Header");
+		//Layer 7 - Violence secret mission
+		act3Object.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.chapter_secretMission, path: ["Layer 7 Violence", "Header", "Secret Mission", "Text"]);
 
-	    TextMeshProUGUI violenceTitle = GetTextMeshProUGUI(FindDescendant(violenceHeader, "Text"));
-		violenceTitle.text = LanguageManager.CurrentLanguage.frontend.layer_violence;
+		//7-1 challenge
+		act3Object.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 7-1"), path: ["Layer 7 Violence", "Level Row", "7-1 Panel", "Panel", "Text"]);
 
-	    TextMeshProUGUI violenceSecretMissionText = GetTextMeshProUGUI(FindDescendant(violenceHeader, "Secret Mission", "Text"));
-		violenceSecretMissionText.text = LanguageManager.CurrentLanguage.frontend.chapter_secretMission;
-		
-		//Main levels
-		GameObject violenceContent = FindDescendant(violenceObject,"Level Row");
+		//7-2 challenge
+		act3Object.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 7-2"), path: ["Layer 7 Violence", "Level Row", "7-2 Panel", "Panel (2)", "Text"]);
 
+		//7-3 challenge
+		act3Object.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 7-3"), path: ["Layer 7 Violence", "Level Row", "7-3 Panel", "Panel (4)", "Text"]);
 
-		TextMeshProUGUI violenceFirstChallenge = GetTextMeshProUGUI(FindDescendant(violenceContent, "7-1 Panel", "Panel", "Text"));
-		violenceFirstChallenge.text = LevelStrings.GetLevelChallenge("Level 7-1");
+		//7-4 challenge
+		act3Object.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 7-4"), path: ["Layer 7 Violence", "Level Row", "7-4 Panel", "Panel (6)", "Text"]);
 
-		TextMeshProUGUI violenceSecondChallenge = GetTextMeshProUGUI(FindDescendant(violenceContent, "7-2 Panel", "Panel (2)", "Text"));
-		violenceSecondChallenge.text = LevelStrings.GetLevelChallenge("Level 7-2");
+		//Layer 8 - Fraud title
+		act3Object.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.layer_fraud, path: ["Layer 8 Fraud", "Header", "Text"]);
 
-		TextMeshProUGUI violenceThirdChallenge = GetTextMeshProUGUI(FindDescendant(violenceContent, "7-3 Panel", "Panel (4)", "Text"));
-		violenceThirdChallenge.text = LevelStrings.GetLevelChallenge("Level 7-3");
+		//Layer 8 - Fraud secret mission
+		act3Object.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.chapter_secretMission, path: ["Layer 8 Fraud", "Header", "Secret Mission", "Text"]);
 
-		TextMeshProUGUI violenceClimaxChallenge = GetTextMeshProUGUI(FindDescendant(violenceContent, "7-4 Panel", "Panel (6)", "Text"));
-		violenceClimaxChallenge.text = LevelStrings.GetLevelChallenge("Level 7-4");
+		//8-1 challenge
+		act3Object.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 8-1"), path: ["Layer 8 Fraud", "Level Row", "8-1 Panel", "Panel", "Text"]);
 
-		
-		//Layer 8 - Fraud
-		GameObject fraudHeader = FindDescendant(fraudObject,"Header");
+		//8-2 challenge
+		act3Object.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 8-2"), path: ["Layer 8 Fraud", "Level Row", "8-2 Panel", "Panel (2)", "Text"]);
 
-		TextMeshProUGUI fraudTitle = GetTextMeshProUGUI(FindDescendant(fraudHeader, "Text"));
-		fraudTitle.text = LanguageManager.CurrentLanguage.frontend.layer_fraud;
+		//8-3 challenge
+		act3Object.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 8-3"), path: ["Layer 8 Fraud", "Level Row", "8-3 Panel", "Panel (4)", "Text"]);
 
-		TextMeshProUGUI fraudSecretMissionText = GetTextMeshProUGUI(FindDescendant(fraudHeader, "Secret Mission", "Text"));
-		fraudSecretMissionText.text = LanguageManager.CurrentLanguage.frontend.chapter_secretMission;
-		
-		//Main levels
-		GameObject fraudContent = FindDescendant(fraudObject,"Level Row");
+		//8-4 challenge
+		act3Object.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 8-4"), path: ["Layer 8 Fraud", "Level Row", "8-4 Panel", "Panel (6)", "Text"]);
 
+		//Layer 9 - Treachery title
+		act3Object.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.layer_treachery, path: ["Layer 9 Treachery", "Header", "Text"]);
 
-		TextMeshProUGUI fraudFirstChallenge = GetTextMeshProUGUI(FindDescendant(fraudContent, "8-1 Panel", "Panel", "Text"));
-		fraudFirstChallenge.text = LevelStrings.GetLevelChallenge("Level 8-1");
+		//9-1 challenge
+		act3Object.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 9-1"), path: ["Layer 9 Treachery", "Level Row", "9-1 Panel", "Panel", "Text"]);
 
-		TextMeshProUGUI fraudSecondChallenge = GetTextMeshProUGUI(FindDescendant(fraudContent, "8-2 Panel", "Panel (2)", "Text"));
-		fraudSecondChallenge.text = LevelStrings.GetLevelChallenge("Level 8-2");
-
-		TextMeshProUGUI fraudThirdChallenge = GetTextMeshProUGUI(FindDescendant(fraudContent, "8-3 Panel", "Panel (4)", "Text"));
-		fraudThirdChallenge.text = LevelStrings.GetLevelChallenge("Level 8-3");
-
-		TextMeshProUGUI fraudClimaxChallenge = GetTextMeshProUGUI(FindDescendant(fraudContent, "8-4 Panel", "Panel (6)", "Text"));
-		fraudClimaxChallenge.text = LevelStrings.GetLevelChallenge("Level 8-4");
-
-
-		//Layer 9 - Treachery
-		GameObject treacheryHeader = FindDescendant(treacheryObject,"Header");
-
-	    TextMeshProUGUI treacheryTitle = GetTextMeshProUGUI(FindDescendant(treacheryHeader, "Text"));
-		treacheryTitle.text = LanguageManager.CurrentLanguage.frontend.layer_treachery;
-		
-		//Main levels
-		GameObject treacheryContent = FindDescendant(treacheryObject,"Level Row");
-
-
-	    TextMeshProUGUI treacheryFirstChallenge = GetTextMeshProUGUI(FindDescendant(treacheryContent, "9-1 Panel", "Panel", "Text"));
-		treacheryFirstChallenge.text = LevelStrings.GetLevelChallenge("Level 9-1");
-
-	    TextMeshProUGUI treacherySecondChallenge = GetTextMeshProUGUI(FindDescendant(treacheryContent, "9-2 Panel", "Panel (2)", "Text"));
-		treacherySecondChallenge.text = LevelStrings.GetLevelChallenge("Level 9-2");
+		//9-2 challenge
+		act3Object.Localize<TextMeshProUGUI>(LevelStrings.GetLevelChallenge("Level 9-2"), path: ["Layer 9 Treachery", "Level Row", "9-2 Panel", "Panel (2)", "Text"]);
 	}
 
 	private static void PatchLevelSelectEncore(GameObject frontEnd)
 	{
 		GameObject lsEncoreObject = FindDescendant(frontEnd, "Level Select (Encore)", "Scroll Rect", "Contents");
 
-		GameObject encoreHeader = FindDescendant(lsEncoreObject, "Encores", "Header");
-
 		//Encore title
-		TextMeshProUGUI preludeTitleText = GetTextMeshProUGUI(FindDescendant(encoreHeader, "Text"));
-		preludeTitleText.text = LanguageManager.CurrentLanguage.frontend.chapter_encore;
-		
+		lsEncoreObject.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.chapter_encore, path: ["Encores", "Header", "Text"]);
 	}
 
 	private static void PatchLevelSelectPrime(GameObject frontEnd)
 	{
-		GameObject primeObject = FindDescendant(frontEnd, "Level Select (Prime)", "Prime Sanctums", "Header");
-		TextMeshProUGUI primeTitle = GetTextMeshProUGUI(FindDescendant(primeObject, "Text"));
-		primeTitle.text = LanguageManager.CurrentLanguage.frontend.layer_prime;
+		//Prime layer title
+		frontEnd.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.layer_prime, path: ["Level Select (Prime)", "Prime Sanctums", "Header", "Text"]);
 	}
 
 	private static void PatchTextArroundV1(GameObject mainMenu)
 	{
 		GameObject textV1 = FindDescendant(mainMenu, "Main Menu (1)", "BackgroundSwapper", "Text (TMP)", "V1Text");
-		TextMeshProUGUI wingModule = GetTextMeshProUGUI(FindDescendant(textV1, "Text (TMP)"));
-		TextMeshProUGUI armModuleFactory = GetTextMeshProUGUI(FindDescendant(textV1, "Text (TMP) (1)"));
-		TextMeshProUGUI armModuleFeedbacker = GetTextMeshProUGUI(FindDescendant(textV1, "Text (TMP) (2)"));
-		TextMeshProUGUI visualCortexModule = GetTextMeshProUGUI(FindDescendant(textV1, "Text (TMP) (3)"));
-		TextMeshProUGUI legModule = GetTextMeshProUGUI(FindDescendant(textV1, "Text (TMP) (4)"));
 
-		if (!string.IsNullOrEmpty(LanguageManager.CurrentLanguage.frontend.wingModule))
-			wingModule.text = LanguageManager.CurrentLanguage.frontend.wingModule;
-		if (!string.IsNullOrEmpty(LanguageManager.CurrentLanguage.frontend.armModuleFactory))
-			armModuleFactory.text = LanguageManager.CurrentLanguage.frontend.armModuleFactory;
-		if (!string.IsNullOrEmpty(LanguageManager.CurrentLanguage.frontend.armModuleFeedbacker))
-			armModuleFeedbacker.text = LanguageManager.CurrentLanguage.frontend.armModuleFeedbacker;
-		if (!string.IsNullOrEmpty(LanguageManager.CurrentLanguage.frontend.visualCortexModule))
-			visualCortexModule.text = LanguageManager.CurrentLanguage.frontend.visualCortexModule;
-		if (!string.IsNullOrEmpty(LanguageManager.CurrentLanguage.frontend.legModule))
-			legModule.text = LanguageManager.CurrentLanguage.frontend.legModule;
+		//Wing module
+		textV1.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.wingModule, path: ["Text (TMP)"]);
+
+		//Arm module - factory
+		textV1.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.armModuleFactory, path: ["Text (TMP) (1)"]);
+
+		//Arm module - feedbacker
+		textV1.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.armModuleFeedbacker, path: ["Text (TMP) (2)"]);
+
+		//Visual cortex module
+		textV1.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.visualCortexModule, path: ["Text (TMP) (3)"]);
+
+		//Leg module
+		textV1.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.legModule, path: ["Text (TMP) (4)"]);
 	}
 
 	public static void Patch(GameObject frontEnd)
