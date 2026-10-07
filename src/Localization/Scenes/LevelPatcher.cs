@@ -85,6 +85,10 @@ public static partial class LevelPatcher
 
     public static void Patch(string levelName, GameObject canvasObj)
     {
+        string name = LevelStrings.GetLevelName(levelName);
+        string challenge = LevelStrings.GetLevelChallenge(levelName);
+        ResultsScreenLocalizer.PatchResultsScreen(name, challenge);
+        
         if (SpecialScenes.TryGetValue(levelName, out Action<GameObject> special))
         {
             special(canvasObj);
@@ -104,10 +108,6 @@ public static partial class LevelPatcher
             Intermission.Patch(canvasObj);
             return;
         }
-
-        string name = LevelStrings.GetLevelName(levelName);
-        string challenge = LevelStrings.GetLevelChallenge(levelName);
-        ResultsScreenLocalizer.PatchResultsScreen(name, challenge);
 
         foreach (var (id, hellmap, levelSpecial) in Levels)
         {

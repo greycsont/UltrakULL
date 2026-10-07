@@ -19,26 +19,30 @@ public static partial class LevelPatcher
         GameObject testamentRoom;
         switch (levelName)
         {
-            case "Level 0-S": testamentRoom = GameObject.Find("FinalRoom SecretExit"); PatchTestament(testamentRoom); break;
-            case "Level 1-S": testamentRoom = GameObject.Find("5 - Finale"); PatchTestament(testamentRoom); break;
+            case "Level 0-S":
+                testamentRoom = GameObject.Find("FinalRoom SecretExit");
+                PatchTestament(testamentRoom);
+                break;
+            case "Level 1-S":
+                testamentRoom = GameObject.Find("5 - Finale");
+                PatchTestament(testamentRoom);
+                break;
             case "Level 2-S": Act1Vn.PatchPrompts(canvasObj); break;
-            case "Level 4-S": testamentRoom = GetInactiveRootObject("4 - Boulder Run"); PatchTestament(testamentRoom); break;
-            case "Level 5-S": testamentRoom = GetInactiveRootObject("FinalRoom SecretExit"); PatchTestament(testamentRoom); Patch5S(canvasObj); break;
-            case "Level 7-S": testamentRoom = GetInactiveRootObject("FinalRoom SecretExit"); PatchTestament(testamentRoom); Patch7S(canvasObj); break;
+            case "Level 4-S":
+                testamentRoom = GetInactiveRootObject("4 - Boulder Run");
+                PatchTestament(testamentRoom);
+                break;
+            case "Level 5-S":
+                testamentRoom = GetInactiveRootObject("FinalRoom SecretExit");
+                PatchTestament(testamentRoom);
+                Patch5S(canvasObj);
+                break;
+            case "Level 7-S":
+                testamentRoom = GetInactiveRootObject("FinalRoom SecretExit");
+                PatchTestament(testamentRoom);
+                Patch7S(canvasObj);
+                break;
         }
-
-        GameObject player = GetInactiveRootObject("Player");
-        GameObject secretLevelResults = FindDescendant(player, "Main Camera", "HUD Camera", "HUD", "FinishCanvas");
-        GameObject secretLevelResultsPanel = secretLevelResults.transform.GetChild(2).gameObject;
-
-        TextMeshProUGUI secretLevelResultsName = GetTextMeshProUGUI(FindDescendant(secretLevelResultsPanel, "Title", "Text"));
-        secretLevelResultsName.text = GetSecretLevelName(levelName);
-
-        TextMeshProUGUI secretLevelResultsInfo = GetTextMeshProUGUI(FindDescendant(secretLevelResultsPanel, "Time - Info", "Text"));
-        secretLevelResultsInfo.text = LanguageManager.CurrentLanguage.secretLevels.secretLevels_complete1;
-
-        TextMeshProUGUI secretLevelComplete = GetTextMeshProUGUI(FindDescendant(secretLevelResultsPanel, "Time - Rank", "Text"));
-        secretLevelComplete.text = LanguageManager.CurrentLanguage.secretLevels.secretLevels_complete2;
     }
 
     private static void PatchTestament(GameObject testamentRoom)
@@ -246,6 +250,10 @@ public static partial class LevelPatcher
         GameObject fishingTerminalBackButton = FindDescendant(fishingTerminal, "Fish Info", "Window", "Back Button");
         TextMeshProUGUI fishingTerminalBackButtonText = GetTextMeshProUGUI(FindDescendant(fishingTerminalBackButton, "Text"));
         fishingTerminalBackButtonText.text = LanguageManager.CurrentLanguage.shop.shop_back;
+
+        var exitLobby = GetInactiveRootObject("Exit Lobby Interior");
+        exitLobby.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.fishing.fish_leaderboard, 
+            path: ["Fish Scores", "Canvas", "Border", "TipBox", "Panel", "Title"]);
 
         FindComponent<VideoPlayer>(GetInactiveRootObject("Exit Lobby Interior"), "Table top", "TV", "Screen").ReplaceUrl();
     }
