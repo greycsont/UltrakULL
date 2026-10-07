@@ -101,15 +101,18 @@ public static class SceneObjects
             restPath = pathParts[1];
         }
 
-        List<GameObject> roots = new();
-        SceneManager.GetActiveScene().GetRootGameObjects(roots);
-        GameObject rootPart = roots.FirstOrDefault(child => child.name == rootPath);
+        var rootPart = GetInactiveRootObject(rootPath);
         if (rootPart == null)
             return null;
 
         return restPath == null
             ? rootPart
             : rootPart.transform.Find(restPath).gameObject;
+    }
+
+    public static GameObject GetObject(params string[] path)
+    {
+        return GetObject(string.Join("/", path));
     }
 
     public static Canvas FindCanvas()
