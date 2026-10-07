@@ -17,7 +17,6 @@ public static partial class LevelPatcher
 
     private static void PatchSecret(string levelName, GameObject canvasObj)
     {
-        GameObject testamentRoom;
         switch (levelName)
         {
             case "Level 0-S":
