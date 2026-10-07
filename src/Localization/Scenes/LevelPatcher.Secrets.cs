@@ -6,6 +6,7 @@ using UnityEngine;
 using UltrakULL.json;
 
 using static UltrakULL.SceneObjects;
+using static UltrakULL.json.LanguageManager;
 using UnityEngine.Video;
 
 namespace UltrakULL;
@@ -227,105 +228,66 @@ public static partial class LevelPatcher
 
     private static void Patch5S(GameObject canvasObj)
     {
-        GameObject powerGauge = FindDescendant(GetInactiveRootObject("FishingCanvas"), "Power Meter");
-        TextMeshProUGUI distanceFar = GetTextMeshProUGUI(FindDescendant(powerGauge, "Text (TMP)"));
-        distanceFar.text = LanguageManager.CurrentLanguage.fishing.fish_rodFar;
-        TextMeshProUGUI distanceClose = GetTextMeshProUGUI(FindDescendant(powerGauge, "Text (TMP) (1)"));
-        distanceClose.text = LanguageManager.CurrentLanguage.fishing.fish_rodClose;
+        var powerGauge = GetObject("FishingCanvas", "Power Meter");
+        
+        powerGauge.Localize<TextMeshProUGUI>(CurrentLanguage.fishing.fish_rodFar,
+            path: ["Text (TMP)"]);
+        
+        powerGauge.Localize<TextMeshProUGUI>(CurrentLanguage.fishing.fish_rodClose,
+            path: ["Text (TMP) (1)"]);
 
-        //Localize buttons in Balancing Minigame
-        GameObject balancingMinigame = FindDescendant(GetInactiveRootObject("FishingCanvas"), "Struggle Mini Game", "Balancing Minigame");
-        TextMeshProUGUI RMB = GetTextMeshProUGUI(FindDescendant(balancingMinigame, "Text (TMP)"));
-        RMB.text = GetAbbreviation(LanguageManager.CurrentLanguage.inputStrings.input_RMB);
-        TextMeshProUGUI LMB = GetTextMeshProUGUI(FindDescendant(balancingMinigame, "Text (TMP) (1)"));
-        LMB.text = GetAbbreviation(LanguageManager.CurrentLanguage.inputStrings.input_LMB);
+        // Localize buttons in Balancing Minigame
+        var balancingMinigame = GetObject("FinishCanvas", "Struggle Mini Game", "Balancing Minigame");
+        
+        balancingMinigame.Localize<TextMeshProUGUI>(CurrentLanguage.inputStrings.input_RMB,
+            path: ["Text (TMP)"]);
 
-        GameObject fishingLeaderboard = FindDescendant(GetInactiveRootObject("Exit Lobby Interior"), "Fish Scores", "Canvas", "Border", "TipBox", "Panel");
-        TextMeshProUGUI fishingLeaderboardTitle = GetTextMeshProUGUI(FindDescendant(fishingLeaderboard, "Title"));
-        fishingLeaderboardTitle.text = LanguageManager.CurrentLanguage.fishing.fish_leaderboard;
+        balancingMinigame.Localize<TextMeshProUGUI>(CurrentLanguage.inputStrings.input_LMB,
+            path: ["Text (TMP) (1)"]);
+        
+        // Leaderboard title
+        var fishingLeaderboard = GetObject("Exit Lobby Interior", "Fish Scores", "Canvas", "Border", "TipBox", "Panel");
 
-        GameObject fishingTerminal = FindDescendant(GetInactiveRootObject("Fishing Enc Terminal"), "Canvas", "Background", "Main Window");
-        TextMeshProUGUI fishingTerminalTitle = GetTextMeshProUGUI(FindDescendant(fishingTerminal, "Title"));
-        fishingTerminalTitle.text = LanguageManager.CurrentLanguage.fishing.fish_terminalTitle;
-        GameObject fishingTerminalBackButton = FindDescendant(fishingTerminal, "Fish Info", "Window", "Back Button");
-        TextMeshProUGUI fishingTerminalBackButtonText = GetTextMeshProUGUI(FindDescendant(fishingTerminalBackButton, "Text"));
-        fishingTerminalBackButtonText.text = LanguageManager.CurrentLanguage.shop.shop_back;
+        fishingLeaderboard.Localize<TextMeshProUGUI>(CurrentLanguage.fishing.fish_leaderboard,
+            path: ["Title"]);
 
-        var exitLobby = GetInactiveRootObject("Exit Lobby Interior");
-        exitLobby.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.fishing.fish_leaderboard, 
-            path: ["Fish Scores", "Canvas", "Border", "TipBox", "Panel", "Title"]);
+        var fishingTerminal = GetObject("Fishing Enc Terminal", "Canvas", "Background", "Main Window");
 
-        FindComponent<VideoPlayer>(GetInactiveRootObject("Exit Lobby Interior"), "Table top", "TV", "Screen").ReplaceUrl();
+        fishingTerminal.Localize<TextMeshProUGUI>(CurrentLanguage.fishing.fish_terminalTitle,
+            path: ["Title"]);
+
+        fishingTerminal.Localize<TextMeshProUGUI>(CurrentLanguage.shop.shop_back,
+            path: ["Fish Info", "Window", "Back Button"]);
+
+        FindComponent<VideoPlayer>(GetObject("Exit Lobby Interior", "Table top", "TV", "Screen")).ReplaceUrl();
     }
 
     private static void Patch7S(GameObject canvasObj)
     {
-        try
-        {
-            //BloodCleanText
-            GameObject washcanvas = GameObject.Find("WashingCanvas");
-            TextMeshProUGUI BloodCleanText = GetTextMeshProUGUI(FindDescendant(washcanvas, "Painter Completion Meter", "Slider Group", "Blood Cleaned"));
-            BloodCleanText.text = LanguageManager.CurrentLanguage.washing.wash_bloodClean;
-            GameObject chklst = FindDescendant(washcanvas, "CheckList");
+        var washingCanvas = GetObject("WashingCanvas");
+        washingCanvas.Localize<TextMeshProUGUI>(CurrentLanguage.washing.wash_bloodClean,
+            path: ["Painter Completion Meter", "Slider Group", "Blood Cleaned"]);
 
-            TextMeshProUGUI LitterCount = GetTextMeshProUGUI(FindDescendant(chklst, "Litter", "Litter Count:"));
-            LitterCount.text = LanguageManager.CurrentLanguage.washing.wash_littercount;
+        washingCanvas.Localize<TextMeshProUGUI>(CurrentLanguage.washing.wash_littercount,
+            path: ["CheckList", "Litter", "Litter Count:"]);
+        
+        var fakeexitCanvas = GetObject("Fake Exit", "PuzzleScreen", "Canvas");
+        
+        var promptText = "<size=12><color=#7f0000><u><b>" + CurrentLanguage.washing.wash_fakeexittext1 + "</u></b></color></size>\n\n"
+                         + CurrentLanguage.washing.wash_fakeexittext2 + "\n"
+                         + CurrentLanguage.washing.wash_fakeexittext3 + "\n"
+                         + CurrentLanguage.washing.wash_fakeexittext4 + "\n"
+                         + CurrentLanguage.washing.wash_fakeexittext5 + "\n"
+                         + CurrentLanguage.washing.wash_fakeexittext6;
+        
+        var thankYouText = "<size=12><color=#7f0000><u><b>" + CurrentLanguage.washing.wash_exitOpenText1 + "</u></b></color></size>\n\n"
+                           + CurrentLanguage.washing.wash_exitOpenText2 + "\n\n"
+                           + CurrentLanguage.washing.wash_exitOpenText3;
+        
+        fakeexitCanvas.Localize<TextMeshProUGUI>(promptText,
+            path: ["Cleaning Prompt Text"]);
 
-            //Faxeexittext
-            GameObject fakeexitCanvas = FindDescendant(GetInactiveRootObject("Fake Exit"), "PuzzleScreen", "Canvas");
-            TextMeshProUGUI fakeexittext = GetTextMeshProUGUI(FindDescendant(fakeexitCanvas, "Cleaning Prompt Text"));
-            fakeexittext.text = "<size=12><color=#7f0000><u><b>" + LanguageManager.CurrentLanguage.washing.wash_fakeexittext1 + "</u></b></color></size>\n\n"
-            + LanguageManager.CurrentLanguage.washing.wash_fakeexittext2 + "\n"
-            + LanguageManager.CurrentLanguage.washing.wash_fakeexittext3 + "\n"
-            + LanguageManager.CurrentLanguage.washing.wash_fakeexittext4 + "\n"
-            + LanguageManager.CurrentLanguage.washing.wash_fakeexittext5 + "\n"
-            + LanguageManager.CurrentLanguage.washing.wash_fakeexittext6;
-
-            TextMeshProUGUI thxtext = GetTextMeshProUGUI(FindDescendant(fakeexitCanvas, "Thank You Text"));
-            thxtext.text = "<size=12><color=#7f0000><u><b>" + LanguageManager.CurrentLanguage.washing.wash_exitOpenText1 + "</u></b></color></size>\n\n"
-            + LanguageManager.CurrentLanguage.washing.wash_exitOpenText2 + "\n\n"
-            + LanguageManager.CurrentLanguage.washing.wash_exitOpenText3;
-        }
-        catch (Exception e)
-        {
-            Logging.Warn("Failed to Patch 7-S");
-            if (LanguageManager.CurrentLanguage.washing == null)
-            { Logging.Warn("Category is missing from the language file! Please Update the language file!"); return; }
-            Logging.Warn(e.ToString());
-        }
-    }
-
-    private static string GetSecretLevelName(string currentLevel)
-    {
-        switch (currentLevel)
-        {
-            case ("Level 0-S"): { return "0-S: " + LanguageManager.CurrentLanguage.levelNames.levelName_preludeSecret; }
-            case ("Level 1-S"): { return "1-S: " + LanguageManager.CurrentLanguage.levelNames.levelName_limboSecret; }
-            case ("Level 2-S"): { return "2-S: " + LanguageManager.CurrentLanguage.levelNames.levelName_lustSecret; }
-            case ("Level 4-S"): { return "4-S: " + LanguageManager.CurrentLanguage.levelNames.levelName_greedSecret; }
-            case ("Level 5-S"): { return "5-S: " + LanguageManager.CurrentLanguage.levelNames.levelName_wrathSecret; }
-            case ("Level 7-S"): { return "7-S: " + LanguageManager.CurrentLanguage.levelNames.levelName_violenceSecret; }
-            default: { return "UNKNOWN"; }
-        }
-    }
-
-    private static string GetAbbreviation(string input)
-    {
-        if (string.IsNullOrWhiteSpace(input))
-            return string.Empty;
-
-        string[] words = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-
-        StringBuilder abbreviation = new StringBuilder();
-
-        foreach (string word in words)
-        {
-            if (!string.IsNullOrWhiteSpace(word) && word.Length > 0)
-            {
-                abbreviation.Append(char.ToUpper(word[0]));
-            }
-        }
-
-        return abbreviation.ToString();
+        fakeexitCanvas.Localize<TextMeshProUGUI>(thankYouText,
+            path: ["Thank You Text"]);
     }
 }
