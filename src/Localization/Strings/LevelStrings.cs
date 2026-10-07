@@ -32,15 +32,14 @@ public static class LevelStrings
         return null;
     }
 
-    public static string GetLevelName()
+    public static string GetLevelName(string sceneName)
     {
-        string sceneName = GetCurrentSceneName();
         return LevelNameFor(sceneName);
     }
 
-    public static string GetLevelChallenge(string currentLevel)
+    public static string GetLevelChallenge(string sceneName)
     {
-        return ChallengeFor(currentLevel);
+        return ChallengeFor(sceneName);
     }
 
     public static string GetLevelTip()

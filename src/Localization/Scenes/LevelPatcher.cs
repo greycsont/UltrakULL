@@ -105,7 +105,7 @@ public static partial class LevelPatcher
             return;
         }
 
-        string name = LevelStrings.GetLevelName();
+        string name = LevelStrings.GetLevelName(levelName);
         string challenge = LevelStrings.GetLevelChallenge(levelName);
         ResultsScreenLocalizer.PatchResultsScreen(name, challenge);
 
