@@ -36,12 +36,12 @@ public static partial class LevelPatcher
             case "Level 5-S":
                 testamentRoom = GetInactiveRootObject("FinalRoom SecretExit");
                 PatchTestament(testamentRoom);
-                Patch5S(canvasObj);
+                PatchLevel5_S(canvasObj);
                 break;
             case "Level 7-S":
                 testamentRoom = GetInactiveRootObject("FinalRoom SecretExit");
                 PatchTestament(testamentRoom);
-                Patch7S(canvasObj);
+                PatchLevel7_S(canvasObj);
                 break;
         }
     }
@@ -226,7 +226,7 @@ public static partial class LevelPatcher
         }
     }
 
-    private static void Patch5S(GameObject canvasObj)
+    private static void PatchLevel5_S(GameObject canvasObj)
     {
         var powerGauge = GetObject("FishingCanvas", "Power Meter");
         
@@ -262,7 +262,7 @@ public static partial class LevelPatcher
         FindComponent<VideoPlayer>(GetObject("Exit Lobby Interior", "Table top", "TV", "Screen")).ReplaceUrl();
     }
 
-    private static void Patch7S(GameObject canvasObj)
+    private static void PatchLevel7_S(GameObject canvasObj)
     {
         var washingCanvas = GetObject("WashingCanvas");
         washingCanvas.Localize<TextMeshProUGUI>(CurrentLanguage.washing.wash_bloodClean,
