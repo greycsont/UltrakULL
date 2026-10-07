@@ -9,31 +9,21 @@ namespace UltrakULL;
 
 public static class SceneObjects
 {
-    private static readonly Dictionary<string, GameObject> RootObjectCache = new();
     private static readonly Dictionary<(GameObject, string), GameObject> ChildCache = new();
 
     public static void ClearObjectCaches(Scene scene, LoadSceneMode mode)
     {
-        RootObjectCache.Clear();
         ChildCache.Clear();
     }
 
     public static GameObject GetInactiveRootObject(string objectName)
     {
-        if (RootObjectCache.TryGetValue(objectName, out GameObject cached))
-        {
-            if (cached != null)
-                return cached;
-            RootObjectCache.Remove(objectName);
-        }
-
         List<GameObject> roots = new();
         SceneManager.GetActiveScene().GetRootGameObjects(roots);
         foreach (GameObject root in roots)
         {
             if (root != null && root.name == objectName)
             {
-                RootObjectCache[objectName] = root;
                 return root;
             }
         }
