@@ -121,7 +121,7 @@ public static class EnemyBios
 			"GERYON" => CurrentLanguage.enemyNames.enemyname_geryon,
 			"MIRROR REAPER" => CurrentLanguage.enemyNames.enemyname_boss_mirrorReaper,
 			"DEATHCATCHER" => CurrentLanguage.enemyNames.enemyname_deathcatcher,
-			_ => objectName,
+			_ => null,
 		};
 	}
 
@@ -143,11 +143,11 @@ public static class EnemyBios
 			"SUPREME ANGEL" => CurrentLanguage.enemyNames.enemyname_type_supremeAngel,
 			"???" => "???",
 			"PRIME SOUL" => CurrentLanguage.enemyNames.enemyname_type_primeSoul,
-			_ => originaltype,
+			_ => null,
 		};
 	}
 
-	public static string GetDescription(string originalenemy, string originalDescription = null)
+	public static string GetDescription(string originalenemy)
 	{
 		return originalenemy.ToUpper() switch
 		{
@@ -189,11 +189,11 @@ public static class EnemyBios
 			"GERYON" => CurrentLanguage.enemyBios.enemyBios_geryon_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_geryon_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_geryon_3 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_geryon_4,
 			"MIRROR REAPER" => CurrentLanguage.enemyBios.enemyBios_mirrorReaper_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_mirrorReaper_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_mirrorReaper_3,
 			"DEATHCATCHER" => CurrentLanguage.enemyBios.enemyBios_deathcatcher_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_deathcatcher_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_deathcatcher_3,
-			_ => originalDescription ?? originalenemy,
+			_ => null,
 		};
 	}
 
-	public static string GetStrategy(string originalenemy, string originalStrategy = null)
+	public static string GetStrategy(string originalenemy)
 	{
 		return originalenemy.ToUpper() switch
 		{
@@ -235,7 +235,7 @@ public static class EnemyBios
 			"GERYON" => "- " + CurrentLanguage.enemyBios.enemyBios_geryon_strategy1 + "\n\n\n- " + CurrentLanguage.enemyBios.enemyBios_geryon_strategy2 + "\n\n\n- " + CurrentLanguage.enemyBios.enemyBios_geryon_strategy3,
 			"MIRROR REAPER" => "- " + CurrentLanguage.enemyBios.enemyBios_mirrorReaper_strategy1 + "\n\n\n- " + CurrentLanguage.enemyBios.enemyBios_mirrorReaper_strategy2 + "\n\n\n- " + CurrentLanguage.enemyBios.enemyBios_mirrorReaper_strategy3 + "\n\n\n- " + CurrentLanguage.enemyBios.enemyBios_mirrorReaper_strategy4,
 			"DEATHCATCHER" => "- " + CurrentLanguage.enemyBios.enemyBios_deathcatcher_strategy1 + "\n\n\n- " + CurrentLanguage.enemyBios.enemyBios_deathcatcher_strategy2 + "\n\n\n- " + CurrentLanguage.enemyBios.enemyBios_deathcatcher_strategy3,
-			_ => originalStrategy ?? originalenemy,
+			_ => null,
 		};
 	}
 }

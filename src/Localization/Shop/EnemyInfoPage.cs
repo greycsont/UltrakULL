@@ -12,33 +12,29 @@ namespace UltrakULL.Harmony_Patches;
 public static class LocalizeEnemyInfo
 {
     [HarmonyPatch(nameof(EnemyInfoPage.DisplayInfo), new Type[] { typeof(SpawnableObject) })] [HarmonyPostfix]
-    public static void DisplayInfo_Postfix(SpawnableObject source, EnemyInfoPage __instance, TMP_Text ___enemyPageTitle, TMP_Text ___enemyPageContent, TMP_Text ___enemyEntryTitle)
+    public static void DisplayInfo_Postfix(SpawnableObject source, EnemyInfoPage __instance)
     {
-        if(LanguageManager.IsEnglish)
+        if (LanguageManager.IsEnglish)
         {
             return;
         }
 
-        string enemyName = EnemyBios.GetShopName(source.objectName);
+        var enemyName = EnemyBios.GetShopName(source.objectName);
 
         Logging.Warn("Enemy Name in SHOP: " + enemyName);
-        string enemyType = EnemyBios.GetType(source.type);
-        string enemyDescription = EnemyBios.GetDescription(source.objectName);
-        string enemyStrategy = EnemyBios.GetStrategy(source.objectName);
+        var enemyType = EnemyBios.GetType(source.type);
+        var enemyDescription = EnemyBios.GetDescription(source.objectName);
+        var enemyStrategy = EnemyBios.GetStrategy(source.objectName);
         
+        __instance.enemyPageTitle.text = enemyName.Or(source.objectName);
+        __instance.enemyEntryTitle.text = enemyName.Or(source.objectName);
+        
+        var enemyInfo = "</s><color=#FF4343>" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_type.Or("TYPE:") + "</color> " 
+                      + enemyType.Or(source.type) + "\n\n<color=#FF4343>" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_data.Or("DATA:") + "</color>\n";
 
-        ___enemyPageTitle.text = enemyName;
-        ___enemyEntryTitle.text = enemyName;
-        string text = "</s><color=#FF4343>" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_type + "</color> " + enemyType + "\n\n<color=#FF4343>" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_data + "</color>\n";
-        if (MonoSingleton<BestiaryData>.Instance.GetEnemy(source.enemyType) > 1)
-        {
-            text += enemyDescription;
-        }
-        else
-        {
-            text += "???";
-        }
-        text = text + "\n\n</s><color=#FF4343>" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_strategy + "</color>\n" + enemyStrategy;
-        ___enemyPageContent.text = text;
+        __instance.enemyPageContent.text = 
+            enemyInfo + (BestiaryData.Instance?.GetEnemy(source.enemyType) <= 1 ? "???" : enemyDescription.Or(source.description)) 
+                      + "\n\n</s><color=#FF4343>" + LanguageManager.CurrentLanguage.enemyBios.enemyBios_strategy.Or("STRATEGY:") + "</color>\n" 
+                      + enemyStrategy.Or(source.strategy);
     }
 }
