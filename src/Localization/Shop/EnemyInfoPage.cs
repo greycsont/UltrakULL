@@ -19,15 +19,7 @@ public static class LocalizeEnemyInfo
             return;
         }
 
-        string enemyName;
-        if (___enemyPageTitle.text == "SWORDSMACHINE" || ___enemyPageTitle.text == "INSURRECTIONIST")
-        {
-            source.objectName += " DEFAULT";
-            enemyName = EnemyBios.GetName(source.objectName);
-            if (source.objectName == "SWORDSMACHINE DEFAULT") { source.objectName = "SWORDSMACHINE"; }
-            if (source.objectName == "INSURRECTIONIST DEFAULT") { source.objectName = "INSURRECTIONIST"; }
-        }
-        else { enemyName = EnemyBios.GetName(source.objectName); }
+        string enemyName = EnemyBios.GetShopName(source.objectName);
 
         Logging.Warn("Enemy Name in SHOP: " + enemyName);
         string enemyType = EnemyBios.GetType(source.type);

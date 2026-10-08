@@ -14,12 +14,11 @@ public static class EnemyBios
 			var n when n.Contains("RADIANT") && n.Contains("HIDEOUS MASS") => CurrentLanguage.enemyNames.enemyname_radiant_hideousMass,
 			var n when n.Contains("RADIANT") => originalName,
 			"SWORDSMACHINE" => CurrentLanguage.enemyNames.enemyname_swordsmachine,
-			"SWORDSMACHINE DEFAULT" => CurrentLanguage.enemyNames.enemyname_swordsmachine,
 			"SWORDSMACHINE \"AGONY\"" => CurrentLanguage.enemyNames.enemyname_boss_swordsmachineAgony,
 			"SWORDSMACHINE \"TUNDRA\"" => CurrentLanguage.enemyNames.enemyname_boss_swordsmachineTundra,
 			"INSURRECTIONIST \"ANGRY\"" => CurrentLanguage.enemyNames.enemyname_boss_insurrectionistAngry,
 			"INSURRECTIONIST \"RUDE\"" => CurrentLanguage.enemyNames.enemyname_boss_insurrectionistRude,
-			"INSURRECTIONIST DEFAULT" or "INSURRECTIONIST" => CurrentLanguage.enemyNames.enemyname_insurrectionist,
+			"INSURRECTIONIST" => CurrentLanguage.enemyNames.enemyname_insurrectionist,
 			"SISYPHEAN INSURRECTIONIST" => CurrentLanguage.enemyNames.enemyname_boss_insurrectionist,
 			"FILTH" => CurrentLanguage.enemyNames.enemyname_filth,
 			"STRAY" => CurrentLanguage.enemyNames.enemyname_stray,
@@ -80,6 +79,52 @@ public static class EnemyBios
 		};
 	}
 
+	public static string GetShopName(string objectName)
+	{
+		return objectName.ToUpper() switch
+		{
+			"FILTH" => CurrentLanguage.enemyNames.enemyname_filth,
+			"STRAY" => CurrentLanguage.enemyNames.enemyname_stray,
+			"SCHISM" => CurrentLanguage.enemyNames.enemyname_schism,
+			"SOLDIER" => CurrentLanguage.enemyNames.enemyname_soldier,
+			"IDOL" => CurrentLanguage.enemyNames.enemyname_idol,
+			"THE CORPSE OF KING MINOS" => CurrentLanguage.enemyNames.enemyname_boss_corpseOfKingMinos,
+			"STALKER" => CurrentLanguage.enemyNames.enemyname_stalker,
+			"INSURRECTIONIST" => CurrentLanguage.enemyNames.enemyname_insurrectionist,
+			"FERRYMAN" => CurrentLanguage.enemyNames.enemyname_ferryman,
+			"SWORDSMACHINE" => CurrentLanguage.enemyNames.enemyname_swordsmachine,
+			"DRONE" => CurrentLanguage.enemyNames.enemyname_drone,
+			"STREETCLEANER" => CurrentLanguage.enemyNames.enemyname_streetCleaner,
+			"V2" => CurrentLanguage.enemyNames.enemyname_v2,
+			"MINDFLAYER" => CurrentLanguage.enemyNames.enemyname_mindFlayer,
+			"V2 (2ND)" => CurrentLanguage.enemyNames.enemyname_v2Second,
+			"SENTRY" => CurrentLanguage.enemyNames.enemyname_sentry,
+			"GUTTERMAN" => CurrentLanguage.enemyNames.enemyname_gutterman,
+			"GUTTERTANK" => CurrentLanguage.enemyNames.enemyname_guttertank,
+			"EARTHMOVER" => CurrentLanguage.enemyNames.enemyname_earthmover,
+			"MALICIOUS FACE" => CurrentLanguage.enemyNames.enemyname_malFace,
+			"CERBERUS" => CurrentLanguage.enemyNames.enemyname_cerberus,
+			"HIDEOUS MASS" => CurrentLanguage.enemyNames.enemyname_hideousMass,
+			"LEVIATHAN" => CurrentLanguage.enemyNames.enemyname_leviathan,
+			"MANNEQUIN" => CurrentLanguage.enemyNames.enemyname_mannequin,
+			"<S>MINOTAUR" => "<s>" + CurrentLanguage.enemyNames.enemyname_minotaur + "</s>",
+			"GABRIEL, JUDGE OF HELL" => CurrentLanguage.enemyNames.enemyname_boss_gabriel,
+			"GABRIEL, APOSTATE OF HATE" => CurrentLanguage.enemyNames.enemyname_boss_gabrielSecond,
+			"VIRTUE" => CurrentLanguage.enemyNames.enemyname_virtue,
+			"SOMETHING WICKED" => CurrentLanguage.enemyNames.enemyname_somethingWicked,
+			"FLESH PRISON" => CurrentLanguage.enemyNames.enemyname_boss_fleshPrison,
+			"MINOS PRIME" => CurrentLanguage.enemyNames.enemyname_boss_minosPrime,
+			"FLESH PANOPTICON" => CurrentLanguage.enemyNames.enemyname_boss_fleshPanopticon,
+			"SISYPHUS PRIME" => CurrentLanguage.enemyNames.enemyname_boss_sisyphusPrime,
+			"PROVIDENCE" => CurrentLanguage.enemyNames.enemyname_boss_providence,
+			"POWER" => CurrentLanguage.enemyNames.enemyname_power,
+			"GERYON" => CurrentLanguage.enemyNames.enemyname_geryon,
+			"MIRROR REAPER" => CurrentLanguage.enemyNames.enemyname_boss_mirrorReaper,
+			"DEATHCATCHER" => CurrentLanguage.enemyNames.enemyname_deathcatcher,
+			_ => objectName,
+		};
+	}
+
 	public static string GetType(string originaltype)
 	{
 		return originaltype.ToUpper() switch
@@ -130,7 +175,7 @@ public static class EnemyBios
 			"HIDEOUS MASS" => CurrentLanguage.enemyBios.enemyBios_hideousMass_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_hideousMass_2,
 			"LEVIATHAN" => CurrentLanguage.enemyBios.enemyBios_leviathan_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_leviathan_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_leviathan_3 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_leviathan_4,
 			"MANNEQUIN" => CurrentLanguage.enemyBios.enemyBios_mannequin_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_mannequin_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_mannequin_3 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_mannequin_4 + "\n\n" + CurrentLanguage.enemyBios.enemyBios_mannequin_5,
-			"MINOTAUR" or "<S>MINOTAUR" or "<s>MINOTAUR" => CurrentLanguage.enemyBios.enemyBios_minotaur_1 + "\n\n\n...\n\n\n...\n\n\n...\n\n\n<s><color=red>" + CurrentLanguage.enemyBios.enemyBios_minotaur_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_minotaur_3 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_minotaur_4 + "</color></s>",
+			"<S>MINOTAUR" => CurrentLanguage.enemyBios.enemyBios_minotaur_1 + "\n\n\n...\n\n\n...\n\n\n...\n\n\n<s><color=red>" + CurrentLanguage.enemyBios.enemyBios_minotaur_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_minotaur_3 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_minotaur_4 + "</color></s>",
 			"GABRIEL, JUDGE OF HELL" => CurrentLanguage.enemyBios.enemyBios_gabriel_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_gabriel_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_gabriel_3,
 			"GABRIEL, APOSTATE OF HATE" => CurrentLanguage.enemyBios.enemyBios_gabrielSecond_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_gabrielSecond_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_gabrielSecond_3 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_gabrielSecond_4,
 			"VIRTUE" => CurrentLanguage.enemyBios.enemyBios_virtue_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_virtue_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_virtue_3 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_virtue_4 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_virtue_5,
@@ -176,7 +221,7 @@ public static class EnemyBios
 			"CERBERUS" => "- " + CurrentLanguage.enemyBios.enemyBios_cerberus_strategy1 + "\n\n\n- " + CurrentLanguage.enemyBios.enemyBios_cerberus_strategy2 + "\n\n\n- " + CurrentLanguage.enemyBios.enemyBios_cerberus_strategy3,
 			"HIDEOUS MASS" => "- " + CurrentLanguage.enemyBios.enemyBios_hideousMass_strategy1 + "\n\n\n- " + CurrentLanguage.enemyBios.enemyBios_hideousMass_strategy2 + "\n\n\n- " + CurrentLanguage.enemyBios.enemyBios_hideousMass_strategy3 + "\n\n\n- " + CurrentLanguage.enemyBios.enemyBios_hideousMass_strategy4,
 			"MANNEQUIN" => "- " + CurrentLanguage.enemyBios.enemyBios_mannequin_strategy1 + "\n\n\n- " + CurrentLanguage.enemyBios.enemyBios_mannequin_strategy2 + "\n\n\n- " + CurrentLanguage.enemyBios.enemyBios_mannequin_strategy3,
-			"MINOTAUR" or "<S>MINOTAUR" or "<s>MINOTAUR" => "- " + CurrentLanguage.enemyBios.enemyBios_minotaur_strategy1 + "\n\n\n- " + CurrentLanguage.enemyBios.enemyBios_minotaur_strategy2,
+			"<S>MINOTAUR" => "- " + CurrentLanguage.enemyBios.enemyBios_minotaur_strategy1 + "\n\n\n- " + CurrentLanguage.enemyBios.enemyBios_minotaur_strategy2,
 			"GABRIEL, JUDGE OF HELL" => "- " + CurrentLanguage.enemyBios.enemyBios_gabriel_strategy1 + "\n\n\n- " + CurrentLanguage.enemyBios.enemyBios_gabriel_strategy2,
 			"GABRIEL, APOSTATE OF HATE" => "- " + CurrentLanguage.enemyBios.enemyBios_gabrielSecond_strategy1 + "\n\n\n- " + CurrentLanguage.enemyBios.enemyBios_gabrielSecond_strategy2 + "\n\n\n- " + CurrentLanguage.enemyBios.enemyBios_gabrielSecond_strategy3,
 			"VIRTUE" => "- " + CurrentLanguage.enemyBios.enemyBios_virtue_strategy1 + "\n\n\n- " + CurrentLanguage.enemyBios.enemyBios_virtue_strategy2,
