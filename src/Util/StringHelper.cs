@@ -20,38 +20,6 @@ public static class StringHelper
     }
 
     /// <summary>
-    /// Returns translated, or original when the translation is empty/tag-only.
-    /// </summary>
-    public static string Get(string translated, string original)
-    {
-        return IsEmpty(translated) ? original : translated;
-    }
-
-    /// <summary>
-    /// Joins two parts; falls back to original if any is empty/tag-only.
-    /// </summary>
-    public static string Get(string part1, string part2, string separator, string original)
-    {
-        if (IsEmpty(part1) || IsEmpty(part2))
-            return original;
-
-        return part1 + separator + part2;
-    }
-
-    /// <summary>
-    /// Joins three parts; falls back to original if any is empty/tag-only.
-    /// </summary>
-    public static string Get(
-        string part1, string part2, string part3,
-        string separator1, string separator2, string original)
-    {
-        if (IsEmpty(part1) || IsEmpty(part2) || IsEmpty(part3))
-            return original;
-
-        return part1 + separator1 + part2 + separator2 + part3;
-    }
-
-    /// <summary>
     /// Makes Line Vertical: "abc" -> "a\nb\nc". Returns null/empty as-is.
     /// </summary>
     public static string MakeVertical(string input)
