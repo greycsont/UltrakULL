@@ -13,33 +13,6 @@ namespace UltrakULL;
 
 public static partial class LevelPatcher
 {
-    // ===== Secret levels =====
-
-    private static void PatchSecret(string levelName, GameObject canvasObj)
-    {
-        switch (levelName)
-        {
-            case "Level 0-S":
-                PatchLevel0_S();
-                break;
-            case "Level 1-S":
-                PatchLevel1_S();
-                break;
-            case "Level 2-S": 
-                Act1Vn.PatchPrompts(canvasObj); 
-                break;
-            case "Level 4-S":
-                PatchLevel5_S();
-                break;
-            case "Level 5-S":
-                PatchLevel5_S();
-                break;
-            case "Level 7-S":
-                PatchLevel7_S();
-                break;
-        }
-    }
-
     private static void PatchLevel0_S()
     {
         var testamentTerminal = GetObject("FinalRoom SecretExit", "Room", "Testament Shop (1)");

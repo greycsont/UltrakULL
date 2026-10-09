@@ -29,7 +29,7 @@ public static partial class LevelPatcher
     };
 
     // Level id -> (act hellmap, level-specific patch)
-    private static readonly (string id, Action<GameObject> hellmap, Action<GameObject> special)[] Levels =
+    private static readonly (string id, Action<GameObject> hellmap, Action special)[] Levels =
     {
         // ===== Prelude (no hellmap) =====
         ("Level 0-1", null, PatchLevel0_1),
@@ -81,6 +81,13 @@ public static partial class LevelPatcher
         ("Level 7-E", null, null),
         ("Level 8-E", null, null),
         ("Level 9-E", null, null),
+        // ===== Secret Levels =====
+        ("Level 0-S", null, PatchLevel0_S),
+        ("Level 1-S", null, PatchLevel1_S),
+        ("Level 2-S", null, Act1Vn.PatchPrompts),
+        ("Level 4-S", null, PatchLevel4_S),
+        ("Level 5-S", null, PatchLevel5_S),
+        ("Level 7-S", null, PatchLevel7_S),
     };
 
     public static void Patch(string levelName, GameObject canvasObj)
@@ -92,13 +99,6 @@ public static partial class LevelPatcher
         if (SpecialScenes.TryGetValue(levelName, out Action<GameObject> special))
         {
             special(canvasObj);
-            return;
-        }
-
-        // Secrets have their own results panel (PatchSecret), not the normal one.
-        if (levelName.EndsWith("-S"))
-        {
-            PatchSecret(levelName, canvasObj);
             return;
         }
 
@@ -115,7 +115,7 @@ public static partial class LevelPatcher
                 continue;
 
             hellmap?.Invoke(canvasObj);
-            levelSpecial?.Invoke(canvasObj);
+            levelSpecial?.Invoke();
             return;
         }
 

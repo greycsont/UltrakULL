@@ -16,11 +16,10 @@ public static class Act1Vn
     //
     //Intro strings
 
-    public static void PatchPrompts(GameObject canvasObj)
+    public static void PatchPrompts()
     {
-
-        GameObject choicesBaseObject = FindDescendant(FindDescendant(FindDescendant(canvasObj, "PowerUpVignette"),"Panel"),"Aspect Ratio Mask");
-
+        var choicesBaseObject = GetObject("Canvas", "PowerUpVignette", "Panel", "Aspect Ratio Mask");
+        
         GameObject fallenChoices = FindDescendant(choicesBaseObject, "Fallen");
 
         //Annoyingly both choice box objects in the Fallen sections are named the same. So we'll do this to pick up both of them.
