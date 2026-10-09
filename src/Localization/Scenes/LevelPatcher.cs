@@ -29,7 +29,7 @@ public static partial class LevelPatcher
     };
 
     // Level id -> (act hellmap, level-specific patch)
-    private static readonly (string id, Action<GameObject> hellmap, Action special)[] Levels =
+    private static readonly (string id, Action hellmap, Action special)[] Levels =
     {
         // ===== Prelude (no hellmap) =====
         ("Level 0-1", null, PatchLevel0_1),
@@ -114,7 +114,7 @@ public static partial class LevelPatcher
             if (id != levelName)
                 continue;
 
-            hellmap?.Invoke(canvasObj);
+            hellmap?.Invoke();
             levelSpecial?.Invoke();
             return;
         }

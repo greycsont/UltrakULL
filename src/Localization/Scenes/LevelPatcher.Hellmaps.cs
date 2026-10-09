@@ -3,34 +3,43 @@ using UnityEngine;
 using UltrakULL.json;
 
 using static UltrakULL.SceneObjects;
-
+using static UltrakULL.json.LanguageManager;
 namespace UltrakULL;
 
 public static partial class LevelPatcher
 {
     // ===== Hellmaps (one per act) =====
 
-    private static void PatchHellmapAct1(GameObject canvasObj)
+    private static void PatchHellmapAct1()
     {
-        GameObject hellMapObject = FindDescendant(canvasObj, "Hellmap", "Hellmap Act 1");
-        GetTextMeshProUGUI(FindDescendant(hellMapObject, "Text")).text = LanguageManager.CurrentLanguage.misc.hellmap_limbo;
-        GetTextMeshProUGUI(FindDescendant(hellMapObject, "Text (1)")).text = LanguageManager.CurrentLanguage.misc.hellmap_lust;
-        GetTextMeshProUGUI(FindDescendant(hellMapObject, "Text (2)")).text = LanguageManager.CurrentLanguage.misc.hellmap_gluttony;
+        var hellMapObject = GetObject("Canvas", "Hellmap", "Hellmap Act 1");
+        hellMapObject.Localize<TextMeshProUGUI>(CurrentLanguage.misc.hellmap_limbo,
+            path: ["Text"]);
+        hellMapObject.Localize<TextMeshProUGUI>(CurrentLanguage.misc.hellmap_lust,
+            path: ["Text (1)"]);
+        hellMapObject.Localize<TextMeshProUGUI>(CurrentLanguage.misc.hellmap_gluttony,
+            path: ["Text (2)"]);
     }
 
-    private static void PatchHellmapAct2(GameObject canvasObj)
+    private static void PatchHellmapAct2()
     {
-        GameObject hellMapObject = FindDescendant(canvasObj, "Hellmap", "Hellmap Act 2");
-        GetTextMeshProUGUI(FindDescendant(hellMapObject, "Text")).text = LanguageManager.CurrentLanguage.misc.hellmap_greed;
-        GetTextMeshProUGUI(FindDescendant(hellMapObject, "Text (1)")).text = LanguageManager.CurrentLanguage.misc.hellmap_wrath;
-        GetTextMeshProUGUI(FindDescendant(hellMapObject, "Text (2)")).text = LanguageManager.CurrentLanguage.misc.hellmap_heresy;
+        var hellMapObject = GetObject("Canvas", "Hellmap", "Hellmap Act 2");
+        hellMapObject.Localize<TextMeshProUGUI>(CurrentLanguage.misc.hellmap_greed,
+            path: ["Text"]);
+        hellMapObject.Localize<TextMeshProUGUI>(CurrentLanguage.misc.hellmap_wrath,
+            path: ["Text (1)"]);
+        hellMapObject.Localize<TextMeshProUGUI>(CurrentLanguage.misc.hellmap_heresy,
+            path: ["Text (2)"]);
     }
 
-    private static void PatchHellmapAct3(GameObject canvasObj)
+    private static void PatchHellmapAct3()
     {
-        GameObject hellMapObject = FindDescendant(canvasObj, "Hellmap", "Hellmap Act 3");
-        GetTextMeshProUGUI(FindDescendant(hellMapObject, "Text")).text = LanguageManager.CurrentLanguage.misc.hellmap_violence;
-        GetTextMeshProUGUI(FindDescendant(hellMapObject, "Text (1)")).text = LanguageManager.CurrentLanguage.misc.hellmap_fraud;
-        GetTextMeshProUGUI(FindDescendant(hellMapObject, "Text (2)")).text = LanguageManager.CurrentLanguage.misc.hellmap_treachery;
+        var hellMapObject = GetObject("Canvas", "Hellmap", "Hellmap Act 3");
+        hellMapObject.Localize<TextMeshProUGUI>(CurrentLanguage.misc.hellmap_violence,
+            path: ["Text"]);
+        hellMapObject.Localize<TextMeshProUGUI>(CurrentLanguage.misc.hellmap_fraud,
+            path: ["Text (1)"]);
+        hellMapObject.Localize<TextMeshProUGUI>(CurrentLanguage.misc.hellmap_treachery,
+            path: ["Text (2)"]);;
     }
 }
