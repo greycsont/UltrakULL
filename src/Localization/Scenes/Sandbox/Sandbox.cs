@@ -216,10 +216,11 @@ public static class Sandbox
         //Note: Stuff for jump pads, props and enemy boss HP bars are located in SandboxPatches because of dynamic object creation by the game
     }
 
-    public static void Patch(GameObject canvasObj)
+    public static void Patch()
     {
-        PatchSandboxDupeMenu(canvasObj);
-        PatchMisc(canvasObj);
+        var canvas = GetObject("Canvas");
+        PatchSandboxDupeMenu(canvas);
+        PatchMisc(canvas);
         PatchAlterMenu();
     }
 

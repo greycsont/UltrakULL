@@ -18,14 +18,14 @@ namespace UltrakULL;
 public static partial class LevelPatcher
 {
     // Scene names that don't follow the "Level X-x" pattern.
-    private static readonly Dictionary<string, Action<GameObject>> SpecialScenes = new()
+    private static readonly Dictionary<string, Action> SpecialScenes = new()
     {
-        ["uk_construct"] = obj => Sandbox.Patch(obj),
-        ["Endless"] = _ => CyberGrind.PatchCg(),
-        ["CreditsMuseum2"] = _ => DevMuseum.Patch(),
-        ["Level P-1"] = _ => PrimeSanctum.Patch(),
-        ["Level P-2"] = _ => PrimeSanctum.Patch(),
-        ["Level P-3"] = _ => PrimeSanctum.Patch(),
+        ["uk_construct"] = Sandbox.Patch,
+        ["Endless"] = CyberGrind.PatchCg,
+        ["CreditsMuseum2"] = DevMuseum.Patch,
+        ["Level P-1"] = PrimeSanctum.Patch,
+        ["Level P-2"] = PrimeSanctum.Patch,
+        ["Level P-3"] = PrimeSanctum.Patch,
     };
 
     // Level id -> (act hellmap, level-specific patch)
@@ -96,16 +96,16 @@ public static partial class LevelPatcher
         string challenge = LevelStrings.GetLevelChallenge(levelName);
         ResultsScreenLocalizer.PatchResultsScreen(name, challenge);
         
-        if (SpecialScenes.TryGetValue(levelName, out Action<GameObject> special))
+        if (SpecialScenes.TryGetValue(levelName, out Action special))
         {
-            special(canvasObj);
+            special();
             return;
         }
 
         // Intermission (after 3-2, 6-2 and 8-4 at 17d4)
         if (levelName.Contains("Intermission") || levelName.Contains("EarlyAccessEnd"))
         {
-            Intermission.Patch(canvasObj);
+            Intermission.Patch();
             return;
         }
 

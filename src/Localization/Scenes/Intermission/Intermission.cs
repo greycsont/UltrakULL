@@ -9,8 +9,9 @@ namespace UltrakULL;
 
 public static class Intermission
 {
-    private static void Act1Int(GameObject intermissionObject)
+    private static void Act1Int()
     {
+        var intermissionObject = GetObject("Canvas", "PowerUpVignette", "Panel");
         //ACT 1
         //Two text elements to patch: Foreground and background shadow.
         Text toBeContinued = GetTextfromGameObject(FindDescendant(intermissionObject, "Panel (1)", "Text", "Text (1)"));
@@ -31,8 +32,10 @@ public static class Intermission
         act1EndInsert.text = LanguageManager.CurrentLanguage.intermission.act1_intermission_insert;
     }
 
-    private static void Act2Int(GameObject intermissionObject)
+    private static void Act2Int()
     {
+        var intermissionObject = GetObject("Canvas", "PowerUpVignette", "Panel");
+        
         Text toBeContinued = GetTextfromGameObject(FindDescendant(intermissionObject, "Panel (1)", "Text", "Text (1)"));
         toBeContinued.text = LanguageManager.CurrentLanguage.intermission.act2_intermission_tobecontinued;
 
@@ -51,8 +54,10 @@ public static class Intermission
         act2EndInsert.text = LanguageManager.CurrentLanguage.intermission.act1_intermission_insert;
     }
 
-    private static void EarlyAccessEnd(GameObject intermissionObject)
+    private static void EarlyAccessEnd()
     {
+        var intermissionObject = GetObject("Canvas", "UnderwaterOverlay", "Panel");
+        
         GameObject earlyAccessEnd = FindDescendant(intermissionObject, "Skippables");
         if (earlyAccessEnd != null)
         {
@@ -68,15 +73,15 @@ public static class Intermission
         }
     }
 
-    public static void Patch(GameObject canvasObj)
+    public static void Patch()
     {
-        GameObject intermissionObject = FindDescendant(canvasObj, "PowerUpVignette", "Panel");
+        var intermissionObject = FindDescendant(canvasObj, "PowerUpVignette", "Panel");
 
         switch (GetCurrentSceneName())
         {
-            case "Intermission1": { Act1Int(intermissionObject);  break; }
-            case "Intermission2": { Act2Int(intermissionObject);  break; }
-            case "EarlyAccessEnd": { EarlyAccessEnd(FindDescendant(canvasObj, "UnderwaterOverlay", "Panel")); break; }
+            case "Intermission1": { Act1Int();  break; }
+            case "Intermission2": { Act2Int();  break; }
+            case "EarlyAccessEnd": { EarlyAccessEnd(); break; }
         }
     }
 }
