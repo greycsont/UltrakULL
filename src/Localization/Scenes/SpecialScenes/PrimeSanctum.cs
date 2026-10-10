@@ -45,8 +45,6 @@ public static class PrimeSanctum
 
         if (currentLevel.Contains("P-1"))
         {
-            ResultsScreenLocalizer.PatchResultsScreen("", "");
-
             PatchSecretText();
         }
         else if (currentLevel.Contains("P-2"))
@@ -103,10 +101,6 @@ public static class PrimeSanctum
             TextMeshProUGUI secondLockAsIfText = GetTextMeshProUGUI(FindDescendant(secondLockAsIf.transform.GetChild(7).gameObject, "Text (TMP)"));
             secondLockAsIfText.text =
                 "<color=red>" + LanguageManager.CurrentLanguage.primeSanctum.primeSanctum_second_lockNo2 + "\n</color>";
-            
-            
-            
-            ResultsScreenLocalizer.PatchResultsScreen("", "");
 
             PatchSecretText();
         }
