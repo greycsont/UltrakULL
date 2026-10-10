@@ -121,16 +121,48 @@ public static partial class LevelPatcher
         hub.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.act3.act3_fraudSecond_errorResetPower,
             path: ["4 Nonstuff", "InteractiveScreen (1)", "Canvas", "Background (Off)", "Text (TMP)"]);
         
-        LocalizeOutOfOrder(GetObject("4 - Hub", "4 Nonstuff", "Elevators", "ElevatorSet"));
-        LocalizeOutOfOrder(GetObject("4 - Hub", "4 Nonstuff", "Elevators", "ElevatorSet (1)"));
-        void LocalizeOutOfOrder(GameObject elevator)
-        {
-            var allTexts = elevator.GetComponentsInChildren<TextMeshProUGUI>(true);
-            foreach (var text in allTexts)
-            {
-                text.Localize(LanguageManager.CurrentLanguage.act3.act3_fraudSecond_outOfOrder);
-            }
-        }
+        var outOfOrder = LanguageManager.CurrentLanguage.act3.act3_fraudSecond_outOfOrder;
+
+        var elevatorSet = GetObject("4 - Hub", "4 Nonstuff", "Elevators", "ElevatorSet");
+
+        // "OUT OF ORDER"
+        elevatorSet.Localize<TextMeshProUGUI>(outOfOrder,
+            path: ["Elevator", "InteractiveScreen", "Canvas", "Background", "3 (Off)", "Text (TMP)"]);
+
+        // "OUT\nOF\nORDER"
+        elevatorSet.Localize<TextMeshProUGUI>(outOfOrder,
+            path: ["ElevatorStop (2)", "InteractiveScreen (3)", "Canvas", "Background", "Text (TMP)"]);
+
+        var elevatorSet1 = GetObject("4 - Hub", "4 Nonstuff", "Elevators", "ElevatorSet (1)");
+
+        // "OUT OF ORDER"
+        elevatorSet1.Localize<TextMeshProUGUI>(outOfOrder,
+            path: ["Elevator", "InteractiveScreen", "Canvas", "Background", "4 (Off)", "Text (TMP)"]);
+
+        // "OUT OF ORDER"
+        elevatorSet1.Localize<TextMeshProUGUI>(outOfOrder,
+            path: ["Elevator", "InteractiveScreen", "Canvas", "Background", "2 (Off)", "Text (TMP)"]);
+
+        // "OUT OF ORDER"
+        elevatorSet1.Localize<TextMeshProUGUI>(outOfOrder,
+            path: ["Elevator", "InteractiveScreen", "Canvas", "Background", "1 (Off)", "Text (TMP)"]);
+
+        // "OUT\nOF\nORDER"
+        elevatorSet1.Localize<TextMeshProUGUI>(outOfOrder,
+            path: ["ElevatorStop", "InteractiveScreen", "Canvas", "Background", "Text (TMP)"]);
+
+        // "OUT\nOF\nORDER"
+        elevatorSet1.Localize<TextMeshProUGUI>(outOfOrder,
+            path: ["ElevatorStop (1)", "InteractiveScreen (1)", "Canvas", "Background", "Text (TMP)"]);
+
+        // "OUT\nOF\nORDER"
+        elevatorSet1.Localize<TextMeshProUGUI>(outOfOrder,
+            path: ["ElevatorStop (2)", "InteractiveScreen (2)", "Canvas", "Background", "Text (TMP)"]);
+
+        // "OUT\nOF\nORDER"
+        elevatorSet1.Localize<TextMeshProUGUI>(outOfOrder,
+            path: ["ElevatorStop (3)", "InteractiveScreen (3)", "Canvas", "Background", "Text (TMP)"]);
+        
     }
 
     private static void PatchLevel8_3()
