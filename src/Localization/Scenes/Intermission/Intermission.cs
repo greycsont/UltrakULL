@@ -9,7 +9,7 @@ namespace UltrakULL;
 
 public static class Intermission
 {
-    private static void Act1Int()
+    public static void Act1Int()
     {
         var intermissionObject = GetObject("Canvas", "PowerUpVignette", "Panel");
         //ACT 1
@@ -32,7 +32,7 @@ public static class Intermission
         act1EndInsert.text = LanguageManager.CurrentLanguage.intermission.act1_intermission_insert;
     }
 
-    private static void Act2Int()
+    public static void Act2Int()
     {
         var intermissionObject = GetObject("Canvas", "PowerUpVignette", "Panel");
         
@@ -54,7 +54,7 @@ public static class Intermission
         act2EndInsert.text = LanguageManager.CurrentLanguage.intermission.act1_intermission_insert;
     }
 
-    private static void EarlyAccessEnd()
+    public static void EarlyAccessEnd()
     {
         var intermissionObject = GetObject("Canvas", "UnderwaterOverlay", "Panel");
         
@@ -70,18 +70,6 @@ public static class Intermission
 
             TextMeshProUGUI earlyAccessQuitToMenu = GetTextMeshProUGUI(FindDescendant(earlyAccessEnd, "Quit Mission", "Text"));
             earlyAccessQuitToMenu.text = LanguageManager.CurrentLanguage.intermission.act1_intermission_returnToMenu;
-        }
-    }
-
-    public static void Patch()
-    {
-        var intermissionObject = FindDescendant(canvasObj, "PowerUpVignette", "Panel");
-
-        switch (GetCurrentSceneName())
-        {
-            case "Intermission1": { Act1Int();  break; }
-            case "Intermission2": { Act2Int();  break; }
-            case "EarlyAccessEnd": { EarlyAccessEnd(); break; }
         }
     }
 }

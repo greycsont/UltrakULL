@@ -8,86 +8,80 @@ using static UltrakULL.SceneObjects;
 
 namespace UltrakULL;
 
-// THE single entry point for level patching. Routes a scene name to:
-//   - the level's results screen (name + challenge, via LevelStrings),
-//   - its act's hellmap (per-level in the Levels table),
-//   - any level-specific patch (7-2's door control panel etc.),
-//   - secret-level handling (testament + results panel).
-// Split across partial files by concern: Hellmaps, Secrets, LevelSpecials.
-// Prime (P-1..P-3) stays independent in PrimeSanctum.
+
 public static partial class LevelPatcher
 {
-    // Scene names that don't follow the "Level X-x" pattern.
-    private static readonly Dictionary<string, Action> SpecialScenes = new()
+    private static readonly Dictionary<string, (Action hellmap, Action patch)> Scenes = new()
     {
-        ["uk_construct"] = Sandbox.Patch,
-        ["Endless"] = CyberGrind.PatchCg,
-        ["CreditsMuseum2"] = DevMuseum.Patch,
-        ["Level P-1"] = PrimeSanctum.Patch,
-        ["Level P-2"] = PrimeSanctum.Patch,
-        ["Level P-3"] = PrimeSanctum.Patch,
-    };
-
-    // Level id -> (act hellmap, level-specific patch)
-    private static readonly (string id, Action hellmap, Action special)[] Levels =
-    {
-        // ===== Prelude (no hellmap) =====
-        ("Level 0-1", null, PatchLevel0_1),
-        ("Level 0-2", null, null),
-        ("Level 0-3", null, null),
-        ("Level 0-4", null, null),
-        ("Level 0-5", null, null),
+        // ===== Prelude =====
+        ["Level 0-1"] = (null, PatchLevel0_1),
+        ["Level 0-2"] = (null, null),
+        ["Level 0-3"] = (null, null),
+        ["Level 0-4"] = (null, null),
+        ["Level 0-5"] = (null, null),
         // ===== Act 1 =====
-        ("Level 1-1", PatchHellmapAct1, null),
-        ("Level 1-2", PatchHellmapAct1, null),
-        ("Level 1-3", PatchHellmapAct1, null),
-        ("Level 1-4", PatchHellmapAct1, null),
-        ("Level 2-1", PatchHellmapAct1, PatchLevel2_1),
-        ("Level 2-2", PatchHellmapAct1, null),
-        ("Level 2-3", PatchHellmapAct1, null),
-        ("Level 2-4", PatchHellmapAct1, null),
-        ("Level 3-1", PatchHellmapAct1, null),
-        ("Level 3-2", PatchHellmapAct1, null),
+        ["Level 1-1"] = (PatchHellmapAct1, null),
+        ["Level 1-2"] = (PatchHellmapAct1, null),
+        ["Level 1-3"] = (PatchHellmapAct1, null),
+        ["Level 1-4"] = (PatchHellmapAct1, null),
+        ["Level 2-1"] = (PatchHellmapAct1, PatchLevel2_1),
+        ["Level 2-2"] = (PatchHellmapAct1, null),
+        ["Level 2-3"] = (PatchHellmapAct1, null),
+        ["Level 2-4"] = (PatchHellmapAct1, null),
+        ["Level 3-1"] = (PatchHellmapAct1, null),
+        ["Level 3-2"] = (PatchHellmapAct1, null),
         // ===== Act 2 =====
-        ("Level 4-1", PatchHellmapAct2, null),
-        ("Level 4-2", PatchHellmapAct2, null),
-        ("Level 4-3", PatchHellmapAct2, null),
-        ("Level 4-4", PatchHellmapAct2, null),
-        ("Level 5-1", PatchHellmapAct2, null),
-        ("Level 5-2", PatchHellmapAct2, null),
-        ("Level 5-3", PatchHellmapAct2, PatchLevel5_3),
-        ("Level 5-4", PatchHellmapAct2, null),
-        ("Level 6-1", PatchHellmapAct2, null),
-        ("Level 6-2", PatchHellmapAct2, null),
+        ["Level 4-1"] = (PatchHellmapAct2, null),
+        ["Level 4-2"] = (PatchHellmapAct2, null),
+        ["Level 4-3"] = (PatchHellmapAct2, null),
+        ["Level 4-4"] = (PatchHellmapAct2, null),
+        ["Level 5-1"] = (PatchHellmapAct2, null),
+        ["Level 5-2"] = (PatchHellmapAct2, null),
+        ["Level 5-3"] = (PatchHellmapAct2, PatchLevel5_3),
+        ["Level 5-4"] = (PatchHellmapAct2, null),
+        ["Level 6-1"] = (PatchHellmapAct2, null),
+        ["Level 6-2"] = (PatchHellmapAct2, null),
         // ===== Act 3 =====
-        ("Level 7-1", PatchHellmapAct3, null),
-        ("Level 7-2", PatchHellmapAct3, PatchLevel7_2),
-        ("Level 7-3", PatchHellmapAct3, PatchLevel7_3),
-        ("Level 7-4", PatchHellmapAct3, PatchLevel7_4),
-        ("Level 8-1", PatchHellmapAct3, null),
-        ("Level 8-2", PatchHellmapAct3, PatchLevel8_2),
-        ("Level 8-3", PatchHellmapAct3, PatchLevel8_3),
-        ("Level 8-4", PatchHellmapAct3, PatchLevel8_4),
-        ("Level 9-1", PatchHellmapAct3, null),
-        ("Level 9-2", PatchHellmapAct3, null),
+        ["Level 7-1"] = (PatchHellmapAct3, null),
+        ["Level 7-2"] = (PatchHellmapAct3, PatchLevel7_2),
+        ["Level 7-3"] = (PatchHellmapAct3, PatchLevel7_3),
+        ["Level 7-4"] = (PatchHellmapAct3, PatchLevel7_4),
+        ["Level 8-1"] = (PatchHellmapAct3, null),
+        ["Level 8-2"] = (PatchHellmapAct3, PatchLevel8_2),
+        ["Level 8-3"] = (PatchHellmapAct3, PatchLevel8_3),
+        ["Level 8-4"] = (PatchHellmapAct3, PatchLevel8_4),
+        ["Level 9-1"] = (PatchHellmapAct3, null),
+        ["Level 9-2"] = (PatchHellmapAct3, null),
         // ===== Encores =====
-        ("Level 0-E", null, PatchLevel0_E),
-        ("Level 1-E", null, PatchLevel1_E),
-        ("Level 2-E", null, null),
-        ("Level 3-E", null, null),
-        ("Level 4-E", null, null),
-        ("Level 5-E", null, null),
-        ("Level 6-E", null, null),
-        ("Level 7-E", null, null),
-        ("Level 8-E", null, null),
-        ("Level 9-E", null, null),
+        ["Level 0-E"] = (null, PatchLevel0_E),
+        ["Level 1-E"] = (null, PatchLevel1_E),
+        ["Level 2-E"] = (null, null),
+        ["Level 3-E"] = (null, null),
+        ["Level 4-E"] = (null, null),
+        ["Level 5-E"] = (null, null),
+        ["Level 6-E"] = (null, null),
+        ["Level 7-E"] = (null, null),
+        ["Level 8-E"] = (null, null),
+        ["Level 9-E"] = (null, null),
         // ===== Secret Levels =====
-        ("Level 0-S", null, PatchLevel0_S),
-        ("Level 1-S", null, PatchLevel1_S),
-        ("Level 2-S", null, Act1Vn.PatchPrompts),
-        ("Level 4-S", null, PatchLevel4_S),
-        ("Level 5-S", null, PatchLevel5_S),
-        ("Level 7-S", null, PatchLevel7_S),
+        ["Level 0-S"] = (null, PatchLevel0_S),
+        ["Level 1-S"] = (null, PatchLevel1_S),
+        ["Level 2-S"] = (null, Act1Vn.PatchPrompts),
+        ["Level 4-S"] = (null, PatchLevel4_S),
+        ["Level 5-S"] = (null, PatchLevel5_S),
+        ["Level 7-S"] = (null, PatchLevel7_S),
+        // ===== Prime Sanctum =====
+        ["Level P-1"] = (null, PrimeSanctum.Patch),
+        ["Level P-2"] = (null, PrimeSanctum.Patch),
+        ["Level P-3"] = (null, PrimeSanctum.Patch),
+        // ===== Intermission =====
+        ["Intermission1"] = (null, Intermission.Act1Int),
+        ["Intermission2"] = (null, Intermission.Act2Int),
+        ["EarlyAccessEnd"] = (null, Intermission.EarlyAccessEnd),
+        // ===== Special Scene =====
+        ["uk_construct"] = (null, Sandbox.Patch),
+        ["Endless"] = (null, CyberGrind.PatchCg),
+        ["CreditsMuseum2"] = (null, DevMuseum.Patch),
     };
 
     public static void Patch(string levelName, GameObject canvasObj)
@@ -96,26 +90,10 @@ public static partial class LevelPatcher
         string challenge = LevelStrings.GetLevelChallenge(levelName);
         ResultsScreenLocalizer.PatchResultsScreen(name, challenge);
         
-        if (SpecialScenes.TryGetValue(levelName, out Action special))
+        if (Scenes.TryGetValue(levelName, out var scene))
         {
-            special();
-            return;
-        }
-
-        // Intermission (after 3-2, 6-2 and 8-4 at 17d4)
-        if (levelName.Contains("Intermission") || levelName.Contains("EarlyAccessEnd"))
-        {
-            Intermission.Patch();
-            return;
-        }
-
-        foreach (var (id, hellmap, levelSpecial) in Levels)
-        {
-            if (id != levelName)
-                continue;
-
-            hellmap?.Invoke();
-            levelSpecial?.Invoke();
+            scene.hellmap?.Invoke();
+            scene.patch?.Invoke();
             return;
         }
 
