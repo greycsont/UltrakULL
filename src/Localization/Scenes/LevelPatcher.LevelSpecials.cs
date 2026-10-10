@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 using UltrakULL.json;
-
+using UnityEngine.UI;
 using static UltrakULL.SceneObjects;
 
 namespace UltrakULL;
@@ -68,29 +68,32 @@ public static partial class LevelPatcher
         gateControl1.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.act3.act3_violenceSecond_gateControlClosed,
             path: ["D", "Closed", "Text (TMP)"]);
         
-        GameObject gameObjectChild2 = FindDescendant(GetInactiveRootObject("Outdoors"), "10 - Ambush Station", "10 Nonstuff", "InteractiveScreenWithStand", "InteractiveScreen", "Canvas", "Background");
-        TextMeshProUGUI textMeshProUGUI9 = GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "Text (TMP) (1)"));
-        TextMeshProUGUI textMeshProUGUI10 = GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "Button (Open)", "Text (TMP)"));
-        TextMeshProUGUI textMeshProUGUI11 = GetTextMeshProUGUI(FindDescendant(gameObjectChild2, "Button (Closed)", "Text (TMP)"));
-        textMeshProUGUI9.text = LanguageManager.CurrentLanguage.act3.act3_violenceSecond_cartGateControlTitle;
-        textMeshProUGUI10.text = LanguageManager.CurrentLanguage.act3.act3_violenceSecond_cartGateControlOpen;
-        textMeshProUGUI11.text = LanguageManager.CurrentLanguage.act3.act3_violenceSecond_cartGateControlClosed;
-        GameObject gameObjectChild3 = FindDescendant(GetInactiveRootObject("Outdoors"), "11 - Bomb Station", "11 Nonstuff", "Bomb Mechanisms", "InteractiveScreenWithStand", "InteractiveScreen", "Canvas");
-        TextMeshProUGUI textMeshProUGUI12 = GetTextMeshProUGUI(FindDescendant(gameObjectChild3, "Text (TMP)"));
-        TextMeshProUGUI[] componentsInChildren = FindDescendant(gameObjectChild3, "UsableButtons").GetComponentsInChildren<TextMeshProUGUI>(true);
-        TextMeshProUGUI textMeshProUGUI13 = GetTextMeshProUGUI(FindDescendant(FindDescendant(gameObjectChild3, "UsableButtons"), "Error"));
-        TextMeshProUGUI textMeshProUGUI14 = GetTextMeshProUGUI(FindDescendant(gameObjectChild3, "Done"));
-        textMeshProUGUI12.text = LanguageManager.CurrentLanguage.act3.act3_violenceSecond_payloadControlTitle;
-        TextMeshProUGUI[] array = componentsInChildren;
-        foreach (TextMeshProUGUI val in array)
+        var stationControl = GetObject("Outdoors", "10 - Ambush Station", "10 Nonstuff", "InteractiveScreenWithStand", "InteractiveScreen", "Canvas", "Background");
+        stationControl.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.act3.act3_violenceSecond_cartGateControlTitle,
+            path: ["Text (TMP) (1)"]);
+        
+        stationControl.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.act3.act3_violenceSecond_cartGateControlOpen,
+            path: ["Button (Open)", "Text (TMP)"]);
+        
+        stationControl.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.act3.act3_violenceSecond_cartGateControlClosed,
+            path: ["Button (Closed)", "Text (TMP)"]);
+        
+        var bombMechControl = GetObject("Outdoors", "11 - Bomb Station", "11 Nonstuff", "Bomb Mechanisms", "InteractiveScreenWithStand", "InteractiveScreen", "Canvas");
+        bombMechControl.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.act3.act3_violenceSecond_payloadControlTitle,
+            path: ["Text (TMP)"]);
+        
+        bombMechControl.Localize<TextMeshProUGUI>("{0}<size=12>\n{1}".FormatWith(
+                LanguageManager.CurrentLanguage.act3.act3_violenceSecond_payloadControlError1, 
+                LanguageManager.CurrentLanguage.act3.act3_violenceSecond_payloadControlError2),
+            path: ["UsableButtons", "Error"]);
+        
+        bombMechControl.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.act3.act3_violenceSecond_payloadControlHell,
+            path: ["Done"]);
+        
+        foreach (var tmp in FindDescendant(bombMechControl, "UsableButtons").GetComponentsInChildren<TextMeshProUGUI>(true))
         {
-            if (((TMP_Text)val).text.Contains("LOWER"))
-            {
-                ((TMP_Text)val).text = LanguageManager.CurrentLanguage.act3.act3_violenceSecond_payloadControlLower;
-            }
+            tmp.Localize(LanguageManager.CurrentLanguage.act3.act3_violenceSecond_payloadControlLower);
         }
-        ((TMP_Text)textMeshProUGUI13).text = LanguageManager.CurrentLanguage.act3.act3_violenceSecond_payloadControlError1 + "<size=12>\n" + LanguageManager.CurrentLanguage.act3.act3_violenceSecond_payloadControlError2;
-        ((TMP_Text)textMeshProUGUI14).text = LanguageManager.CurrentLanguage.act3.act3_violenceSecond_payloadControlHell;
     }
 
     private static void PatchLevel7_3()
