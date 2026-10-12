@@ -1,7 +1,7 @@
 using TMPro;
 using UltrakULL.json;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 using static UltrakULL.json.LanguageManager;
 using static UltrakULL.SceneObjects;
 
@@ -15,15 +15,16 @@ public static class ResultsScreenLocalizer
     /// YES, ALL GODDAMN LEVEL NEED IT FUCK
     /// May change to patch each sceneload for customlevel stuff?
     /// </summary>
-    /// <param name="name"></param>
-    /// <param name="challenge"></param>
-    public static void PatchResultsScreen(string name, string challenge)
+    /// <param name="levelName">Display name, e.g. "0-1: INTO THE FIRE"</param>
+    /// <param name="challenge">Challenge text for the current level</param>
+    /// <param name="isSecret">Is current level are secret level e.g. Level 0-S etc</param>
+    public static void PatchResultsScreen(string levelName, string challenge, bool isSecret)
     {
         var panel = FinalRank.Instance?.gameObject;
 
         panel.Localize<TextMeshProUGUI>(CurrentLanguage.misc.stats_time, 
             path: ["ff", "Text"]);
-        
+
         panel.Localize<TextMeshProUGUI>(CurrentLanguage.misc.stats_kills, 
             path: ["Kills - Info", "Text"]);
 
@@ -46,8 +47,14 @@ public static class ResultsScreenLocalizer
             path: ["Total Points", "Text"]);
 
         FindComponent<TextMeshProUGUI>(panel, "Title", "Text").RemoveWordWrap();
-        
-        // These two are for the secret level
+
+        // Secret levels use their own results panel: its title plus the completion labels.
+        if (!isSecret)
+            return;
+
+        panel.Localize<TextMeshProUGUI>(levelName,
+            path: ["Title", "Text"]);
+
         panel.Localize<TextMeshProUGUI>(CurrentLanguage.secretLevels.secretLevels_complete1,
             path: ["Time - Info", "Text"]);
 

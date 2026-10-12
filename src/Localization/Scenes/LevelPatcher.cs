@@ -84,19 +84,21 @@ public static partial class LevelPatcher
         ["CreditsMuseum2"] = (null, DevMuseum.Patch),
     };
 
-    public static void Patch(string levelName, GameObject canvasObj)
+    public static void Patch(string sceneName, GameObject canvasObj)
     {
-        string name = LevelStrings.GetLevelName(levelName);
-        string challenge = LevelStrings.GetLevelChallenge(levelName);
-        ResultsScreenLocalizer.PatchResultsScreen(name, challenge);
-        
-        if (Scenes.TryGetValue(levelName, out var scene))
+        string challenge = LevelStrings.GetLevelChallenge(sceneName);
+        bool isSecret = LevelStrings.IsSecretLevel(sceneName);
+        string levelName = LevelStrings.LevelNameFor(sceneName);
+
+        ResultsScreenLocalizer.PatchResultsScreen(levelName, challenge, isSecret);
+
+        if (!Scenes.TryGetValue(sceneName, out var scene))
         {
-            scene.hellmap?.Invoke();
-            scene.patch?.Invoke();
+            Logging.Warn("No patch defined for scene: " + sceneName);
             return;
         }
 
-        Logging.Warn("No patch defined for scene: " + levelName);
+        scene.hellmap?.Invoke();
+        scene.patch?.Invoke();
     }
 }

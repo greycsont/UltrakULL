@@ -1,13 +1,14 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UltrakULL.json;
 using static UltrakULL.SceneObjects;
 
 namespace UltrakULL;
 
 /// <summary>
-/// HudMessage
-/// A component that sends message to HudMessageReceiver when triggered
-/// This class contains all message that found by ultrakull dhm command
+/// This class contains most of the strings about the 
+///   levels, e.g. HudMessages, level names, challenges, tips, etc.
 /// </summary>
 public static class LevelStrings
 {
@@ -15,19 +16,12 @@ public static class LevelStrings
 
     public static string GetMessage(string message)
     {
-        string levelId = GetCurrentSceneName();
-
-        foreach (var level in Levels)
-        {
-            if (level.LevelId != levelId)
-                continue;
-
-            foreach (var (keyword, build) in level.Messages)
-                if (message.Equals(keyword))
-                    return build();
-
+        if (!ByScene.TryGetValue(GetCurrentSceneName(), out var level))
             return null;
-        }
+
+        foreach (var (keyword, build) in level.Messages)
+            if (message.Equals(keyword))
+                return build();
 
         return null;
     }
@@ -44,58 +38,29 @@ public static class LevelStrings
 
     public static string GetLevelTip()
     {
-        string sceneName = GetCurrentSceneName();
-
-        foreach (var level in Levels)
-        {
-            if (level.LevelId != sceneName)
-                continue;
-
-            return level.Tip?.Invoke();
-        }
-
-        return null;
+        return ByScene.TryGetValue(GetCurrentSceneName(), out var level) ? level.Tip?.Invoke() : null;
     }
 
-    /// <summary>
-    /// "0-1: <name>" from the translated field, or the original scene name when
-    /// the field is empty/missing/unknown.
-    /// </summary>
     public static string LevelNameFor(string sceneName)
     {
-        foreach (var level in Levels)
-        {
-            if (level.LevelId != sceneName)
-                continue;
-
-            return level.LevelName();
-        }
-
-        return null;
+        return ByScene.TryGetValue(sceneName, out var level) ? level.LevelName : null;
     }
 
-    /// <summary>
-    /// The translated challenge for the level, or the original scene name when
-    /// the field is empty/missing/unknown.
-    /// </summary>
     public static string ChallengeFor(string sceneName)
     {
-        foreach (var level in Levels)
-        {
-            if (level.LevelId != sceneName)
-                continue;
-            
-            return level.Challenge();
-        }
+        return ByScene.TryGetValue(sceneName, out var level) ? level.Challenge() : null;
+    }
 
-        return null;
+    public static bool IsSecretLevel(string sceneName)
+    {
+        return ByScene.TryGetValue(sceneName, out var level) && level.IsSecret;
     }
 
     private static readonly LevelEntry[] Levels =
     {
         // ===== Prelude =====
         //0-1 - Into The Fire
-        new LevelEntry("Level 0-1",
+        new LevelEntry("Level 0-1", "0-1", false,
             () => T.levelNames.levelName_preludeFirst,
             () => T.levelChallenges.challenges_preludeFirst,
             new (string keyword, Func<string> build)[]
@@ -107,7 +72,7 @@ public static class LevelStrings
                 ("<color=orange>GROUND SLAM</color> (<color=orange>{0}</color>) deals damage on direct hit.", () => T.prelude.prelude_first_groundSlam1 + "<color=orange>{0}</color>" + T.prelude.prelude_first_groundSlam2),
             }),
         //0-2 - The Meatgrinder
-        new LevelEntry("Level 0-2",
+        new LevelEntry("Level 0-2", "0-2", false,
             () => T.levelNames.levelName_preludeSecond,
             () => T.levelChallenges.challenges_preludeSecond,
             new (string keyword, Func<string> build)[]
@@ -119,7 +84,7 @@ public static class LevelStrings
             },
             () => T.levelTips.leveltips_preludeSecond1 + "\n\n" + T.levelTips.leveltips_preludeSecond2),
         //0-3 - Double Down
-        new LevelEntry("Level 0-3",
+        new LevelEntry("Level 0-3", "0-3", false,
             () => T.levelNames.levelName_preludeThird,
             () => T.levelChallenges.challenges_preludeThird,
             new (string keyword, Func<string> build)[]
@@ -130,18 +95,18 @@ public static class LevelStrings
             },
             () => T.levelTips.leveltips_preludeThird1 + "\n\n" + T.levelTips.leveltips_preludeThird2 + "\n\n" + T.levelTips.leveltips_preludeThird3),
         //0-4 - A One-Machine Army (no HUD box strings)
-        new LevelEntry("Level 0-4",
+        new LevelEntry("Level 0-4", "0-4", false,
             () => T.levelNames.levelName_preludeFourth,
             () => T.levelChallenges.challenges_preludeFourth,
             tip: () => T.levelTips.leveltips_preludeFourth1 + "\n\n" + T.levelTips.leveltips_preludeFourth2),
         //0-5 - Cerberus (no HUD box strings)
-        new LevelEntry("Level 0-5",
+        new LevelEntry("Level 0-5", "0-5", false,
             () => T.levelNames.levelName_preludeFifth,
             () => T.levelChallenges.challenges_preludeFifth,
             tip: () => T.levelTips.leveltips_preludeFifth),
         //0-S - Something Wicked (no translated name/challenge)
-        new LevelEntry("Level 0-S",
-            () => null,
+        new LevelEntry("Level 0-S", "0-S", true,
+            () => T.levelNames.levelName_preludeSecret,
             () => null,
             new (string keyword, Func<string> build)[]
             {
@@ -151,7 +116,7 @@ public static class LevelStrings
 
         // ===== Act 1 =====
         //1-1 - Heart Of The Sunrise
-        new LevelEntry("Level 1-1",
+        new LevelEntry("Level 1-1", "1-1", false,
             () => T.levelNames.levelName_limboFirst,
             () => T.levelChallenges.challenges_limboFirst,
             new (string keyword, Func<string> build)[]
@@ -168,7 +133,7 @@ public static class LevelStrings
             },
             () => T.levelTips.leveltips_limboFirst),
         //1-2 - The Burning World
-        new LevelEntry("Level 1-2",
+        new LevelEntry("Level 1-2", "1-2", false,
             () => T.levelNames.levelName_limboSecond,
             () => T.levelChallenges.challenges_limboSecond,
             new (string keyword, Func<string> build)[]
@@ -178,7 +143,7 @@ public static class LevelStrings
             },
             () => T.levelTips.leveltips_limboSecond),
         //1-3 - Hall Of Sacred Remains
-        new LevelEntry("Level 1-3",
+        new LevelEntry("Level 1-3", "1-3", false,
             () => T.levelNames.levelName_limboThird,
             () => T.levelChallenges.challenges_limboThird,
             new (string keyword, Func<string> build)[]
@@ -188,7 +153,7 @@ public static class LevelStrings
             },
             () => T.levelTips.leveltips_limboThird1 + "\n\n" + T.levelTips.leveltips_limboThird2),
         //1-4 - Clair De Lune
-        new LevelEntry("Level 1-4",
+        new LevelEntry("Level 1-4", "1-4", false,
             () => T.levelNames.levelName_limboFourth,
             () => T.levelChallenges.challenges_limboFourth,
             new (string keyword, Func<string> build)[]
@@ -202,7 +167,7 @@ public static class LevelStrings
             },
             () => T.levelTips.leveltips_limboFourth),
         //1-S - The Witless
-        new LevelEntry("Level 1-S",
+        new LevelEntry("Level 1-S", "1-S", true,
             () => T.levelNames.levelName_limboSecret,
             () => null,
             new (string keyword, Func<string> build)[]
@@ -210,7 +175,7 @@ public static class LevelStrings
                 ("\"LOOKS LIKE YOU'RE AT WIT'S END\"$T. HAKITA", () => T.act1.act1_limboSecret_noclipSkip),
             }),
         //2-1 - Bridgeburner
-        new LevelEntry("Level 2-1",
+        new LevelEntry("Level 2-1", "2-1", false,
             () => T.levelNames.levelName_lustFirst,
             () => T.levelChallenges.challenges_lustFirst,
             new (string keyword, Func<string> build)[]
@@ -220,7 +185,7 @@ public static class LevelStrings
             },
             () => T.levelTips.leveltips_lustFirst),
         //2-2 - Death at 20,000 Volts
-        new LevelEntry("Level 2-2",
+        new LevelEntry("Level 2-2", "2-2", false,
             () => T.levelNames.levelName_lustSecond,
             () => T.levelChallenges.challenges_lustSecond,
             new (string keyword, Func<string> build)[]
@@ -231,7 +196,7 @@ public static class LevelStrings
             },
             () => T.levelTips.leveltips_lustSecond1 + " " + T.levelTips.leveltips_lustSecond2 + "\n\n" + T.levelTips.leveltips_lustSecond3),
         //2-3 - Sheer Heart Attack
-        new LevelEntry("Level 2-3",
+        new LevelEntry("Level 2-3", "2-3", false,
             () => T.levelNames.levelName_lustThird,
             () => T.levelChallenges.challenges_lustThird,
             new (string keyword, Func<string> build)[]
@@ -240,7 +205,7 @@ public static class LevelStrings
             },
             () => T.levelTips.leveltips_lustThird),
         //2-4 - Court Of The Corpse King
-        new LevelEntry("Level 2-4",
+        new LevelEntry("Level 2-4", "2-4", false,
             () => T.levelNames.levelName_lustFourth,
             () => T.levelChallenges.challenges_lustFourth,
             new (string keyword, Func<string> build)[]
@@ -249,11 +214,11 @@ public static class LevelStrings
             },
             () => T.levelTips.leveltips_lustFourth1 + "\n\n" + T.levelTips.leveltips_lustFourth2),
         //2-S
-        new LevelEntry("Level 2-S",
+        new LevelEntry("Level 2-S", "2-S", true,
             () => T.levelNames.levelName_lustSecret,
             () => null),
         //3-1 - Belly Of The Beast
-        new LevelEntry("Level 3-1",
+        new LevelEntry("Level 3-1", "3-1", false,
             () => T.levelNames.levelName_gluttonyFirst,
             () => T.levelChallenges.challenges_gluttonyFirst,
             new (string keyword, Func<string> build)[]
@@ -262,14 +227,14 @@ public static class LevelStrings
             },
             () => T.levelTips.leveltips_gluttonyFirst),
         //3-2 - In The Flesh
-        new LevelEntry("Level 3-2",
+        new LevelEntry("Level 3-2", "3-2", false,
             () => T.levelNames.levelName_gluttonySecond,
             () => T.levelChallenges.challenges_gluttonySecond,
             tip: () => T.levelTips.leveltips_gluttonySecond1 + "\n\n" + T.levelTips.leveltips_gluttonySecond2),
 
         // ===== Act 2 =====
         //4-1
-        new LevelEntry("Level 4-1",
+        new LevelEntry("Level 4-1", "4-1", false,
             () => T.levelNames.levelName_greedFirst,
             () => T.levelChallenges.challenges_greedFirst,
             new (string keyword, Func<string> build)[]
@@ -278,7 +243,7 @@ public static class LevelStrings
             },
             () => T.levelTips.leveltips_greedFirst),
         //4-2
-        new LevelEntry("Level 4-2",
+        new LevelEntry("Level 4-2", "4-2", false,
             () => T.levelNames.levelName_greedSecond,
             () => T.levelChallenges.challenges_greedSecond,
             new (string keyword, Func<string> build)[]
@@ -288,7 +253,7 @@ public static class LevelStrings
             },
             tip: () => T.levelTips.leveltips_greedSecond),
         //4-3
-        new LevelEntry("Level 4-3",
+        new LevelEntry("Level 4-3", "4-3", false,
             () => T.levelNames.levelName_greedThird,
             () => T.levelChallenges.challenges_greedThird,
             new (string keyword, Func<string> build)[]
@@ -300,7 +265,7 @@ public static class LevelStrings
             },
             () => T.levelTips.leveltips_greedThird),
         //4-4
-        new LevelEntry("Level 4-4",
+        new LevelEntry("Level 4-4", "4-4", false,
             () => T.levelNames.levelName_greedFourth,
             () => T.levelChallenges.challenges_greedFourth,
             new (string keyword, Func<string> build)[]
@@ -320,15 +285,15 @@ public static class LevelStrings
             },
             () => T.levelTips.leveltips_greedFourth),
         //4-S
-        new LevelEntry("Level 4-S",
-            () => null,
+        new LevelEntry("Level 4-S", "4-S", true,
+            () => T.levelNames.levelName_greedSecret,
             () => null,
             new (string keyword, Func<string> build)[]
             {
                 ("HOLD [<color=orange>{0}</color>] TO BOUNCE HIGHER", () => T.act2.act2_greedSecret_holdToJump1 + "<color=orange>{0}</color>" + T.act2.act2_greedSecret_holdToJump2),
             }),
         //5-1
-        new LevelEntry("Level 5-1",
+        new LevelEntry("Level 5-1", "5-1", false,
             () => T.levelNames.levelName_wrathFirst,
             () => T.levelChallenges.challenges_wrathFirst,
             new (string keyword, Func<string> build)[]
@@ -342,7 +307,7 @@ public static class LevelStrings
             },
             () => T.levelTips.leveltips_wrathFirst),
         //5-2
-        new LevelEntry("Level 5-2",
+        new LevelEntry("Level 5-2", "5-2", false,
             () => T.levelNames.levelName_wrathSecond,
             () => T.levelChallenges.challenges_wrathSecond,
             new (string keyword, Func<string> build)[]
@@ -355,7 +320,7 @@ public static class LevelStrings
             },
             () => T.levelTips.leveltips_wrathSecond),
         //5-3
-        new LevelEntry("Level 5-3",
+        new LevelEntry("Level 5-3", "5-3", false,
             () => T.levelNames.levelName_wrathThird,
             () => T.levelChallenges.challenges_wrathThird,
             new (string keyword, Func<string> build)[]
@@ -367,20 +332,20 @@ public static class LevelStrings
             },
             () => T.levelTips.leveltips_wrathThird),
         //5-4
-        new LevelEntry("Level 5-4",
+        new LevelEntry("Level 5-4", "5-4", false,
             () => T.levelNames.levelName_wrathFourth,
             () => T.levelChallenges.challenges_wrathFourth,
             tip: () => T.levelTips.leveltips_wrathFourth1 + "\n" + T.levelTips.leveltips_wrathFourth2),
         //5-S (fishing)
-        new LevelEntry("Level 5-S",
-            () => null,
+        new LevelEntry("Level 5-S", "5-S", true,
+            () => T.levelNames.levelName_wrathSecret,
             () => null,
             new (string keyword, Func<string> build)[]
             {
                 ("\"It's a living.\"", () => T.fishing.fish_living)
             }),
         //6-1
-        new LevelEntry("Level 6-1",
+        new LevelEntry("Level 6-1", "6-1", false,
             () => T.levelNames.levelName_heresyFirst,
             () => T.levelChallenges.challenges_heresyFirst,
             new (string keyword, Func<string> build)[]
@@ -389,14 +354,14 @@ public static class LevelStrings
             },
             () => T.levelTips.leveltips_heresyFirst1 + "\n" + T.levelTips.leveltips_heresyFirst2),
         //6-2
-        new LevelEntry("Level 6-2",
+        new LevelEntry("Level 6-2", "6-2", false,
             () => T.levelNames.levelName_heresySecond,
             () => T.levelChallenges.challenges_heresySecond,
             tip: () => T.levelTips.leveltips_heresySecond1 + "\n" + T.levelTips.leveltips_heresySecond2),
 
         // ===== Act 3 =====
         //7-1
-        new LevelEntry("Level 7-1",
+        new LevelEntry("Level 7-1", "7-1", false,
             () => T.levelNames.levelName_violenceFirst,
             () => T.levelChallenges.challenges_violenceFirst,
             new (string keyword, Func<string> build)[]
@@ -405,7 +370,7 @@ public static class LevelStrings
             },
             () => T.levelTips.leveltips_violenceFirst),
         //7-2
-        new LevelEntry("Level 7-2",
+        new LevelEntry("Level 7-2", "7-2", false,
             () => T.levelNames.levelName_violenceSecond,
             () => T.levelChallenges.challenges_violenceSecond,
             new (string keyword, Func<string> build)[]
@@ -422,7 +387,7 @@ public static class LevelStrings
             },
             () => T.levelTips.leveltips_violenceSecond),
         //7-3
-        new LevelEntry("Level 7-3",
+        new LevelEntry("Level 7-3", "7-3", false,
             () => T.levelNames.levelName_violenceThird,
             () => T.levelChallenges.challenges_violenceThird,
             new (string keyword, Func<string> build)[]
@@ -431,7 +396,7 @@ public static class LevelStrings
             },
             () => T.levelTips.leveltips_violenceThird),
         //7-4
-        new LevelEntry("Level 7-4",
+        new LevelEntry("Level 7-4", "7-4", false,
             () => T.levelNames.levelName_violenceFourth,
             () => T.levelChallenges.challenges_violenceFourth,
             new (string keyword, Func<string> build)[]
@@ -440,17 +405,17 @@ public static class LevelStrings
             },
             () => T.levelTips.leveltips_violenceFourth),
         //7-S
-        new LevelEntry("Level 7-S",
-            () => null,
+        new LevelEntry("Level 7-S", "7-S", true,
+            () => T.levelNames.levelName_violenceSecret,
             () => null,
             tip: () => T.levelTips.leveltips_violenceSecret),
         //8-1
-        new LevelEntry("Level 8-1",
+        new LevelEntry("Level 8-1", "8-1", false,
             () => T.levelNames.levelName_fraudFirst,
             () => T.levelChallenges.challenges_fraudFirst,
             tip: () => T.levelTips.leveltips_fraudFirst),
         //8-2
-        new LevelEntry("Level 8-2",
+        new LevelEntry("Level 8-2", "8-2", false,
             () => T.levelNames.levelName_fraudSecond,
             () => T.levelChallenges.challenges_fraudSecond,
             new (string keyword, Func<string> build)[]
@@ -461,7 +426,7 @@ public static class LevelStrings
             },
             () => T.levelTips.leveltips_fraudSecond),
         //8-3
-        new LevelEntry("Level 8-3",
+        new LevelEntry("Level 8-3", "8-3", false,
             () => T.levelNames.levelName_fraudThird,
             () => T.levelChallenges.challenges_fraudThird,
             new (string keyword, Func<string> build)[]
@@ -470,7 +435,7 @@ public static class LevelStrings
             },
             () => T.levelTips.leveltips_fraudThird),
         //8-4
-        new LevelEntry("Level 8-4",
+        new LevelEntry("Level 8-4", "8-4", false,
             () => T.levelNames.levelName_fraudFourth,
             () => T.levelChallenges.challenges_fraudFourth,
             new (string keyword, Func<string> build)[]
@@ -483,23 +448,23 @@ public static class LevelStrings
                         + T.act3.act3_fraudFourth_fallWarning_part3 + " <color=orange>{1}</color>."),
             },
             () => T.levelTips.leveltips_fraudFourth),
-        //8-S
-        new LevelEntry("Level 8-S",
+        //8-S - not released yet, so LevelTitle stays null
+        new LevelEntry("Level 8-S", "8-S", true,
             () => null,
             () => null),
         //9-1
-        new LevelEntry("Level 9-1",
+        new LevelEntry("Level 9-1", "9-1", false,
             () => T.levelNames.levelName_treacheryFirst,
             () => T.levelChallenges.challenges_treacheryFirst,
             tip: () => T.levelTips.leveltips_treacheryFirst),
         //9-2
-        new LevelEntry("Level 9-2",
+        new LevelEntry("Level 9-2", "9-2", false,
             () => T.levelNames.levelName_treacherySecond,
             () => T.levelChallenges.challenges_treacherySecond,
             tip: () => T.levelTips.leveltips_treacherySecond),
 
         // ===== Encores =====
-        new LevelEntry("Level 0-E",
+        new LevelEntry("Level 0-E", "0-E", false,
             () => T.levelNames.levelName_encorePrelude,
             () => "There are no Challenges for this level.",
             new (string keyword, Func<string> build)[]
@@ -507,51 +472,67 @@ public static class LevelStrings
                 ("<color=orange>RADIANT</color> enemies have increased health and speed.", () => T.encore.encorePrelude_aboutRadiantEnemies),
             },
             () => T.levelTips.leveltips_encorePrelude1 + "\n\n" + T.levelTips.leveltips_encorePrelude2),
-        new LevelEntry("Level 1-E",
+        new LevelEntry("Level 1-E", "1-E", false,
             () => T.levelNames.levelName_encoreLimbo,
             () => "There are no Challenges for this level.",
             tip: () => T.levelTips.leveltips_encoreLimbo),
 
         // ===== Levels that only have a tip (no name/challenge/HUD strings) =====
-        new LevelEntry("Level 2-E", () => null, () => null, tip: () => T.levelTips.leveltips_encoreLust),
-        new LevelEntry("Level 3-E", () => null, () => null, tip: () => T.levelTips.leveltips_encoreGluttony),
-        new LevelEntry("Level 4-E", () => null, () => null, tip: () => T.levelTips.leveltips_encoreGreed),
-        new LevelEntry("Level 5-E", () => null, () => null, tip: () => T.levelTips.leveltips_encoreWrath),
-        new LevelEntry("Level 6-E", () => null, () => null, tip: () => T.levelTips.leveltips_encoreHeresy),
-        new LevelEntry("Level 7-E", () => null, () => null, tip: () => T.levelTips.leveltips_encoreViolence),
-        new LevelEntry("Level 8-E", () => null, () => null, tip: () => T.levelTips.leveltips_encoreFraud),
-        new LevelEntry("Level 9-E", () => null, () => null, tip: () => T.levelTips.leveltips_encoreTreachery),
-        new LevelEntry("Level P-1", () => null, () => null,
+        new LevelEntry("Level 2-E", "2-E", false, () => null, () => null, tip: () => T.levelTips.leveltips_encoreLust),
+        new LevelEntry("Level 3-E", "3-E", false, () => null, () => null, tip: () => T.levelTips.leveltips_encoreGluttony),
+        new LevelEntry("Level 4-E", "4-E", false, () => null, () => null, tip: () => T.levelTips.leveltips_encoreGreed),
+        new LevelEntry("Level 5-E", "5-E", false, () => null, () => null, tip: () => T.levelTips.leveltips_encoreWrath),
+        new LevelEntry("Level 6-E", "6-E", false, () => null, () => null, tip: () => T.levelTips.leveltips_encoreHeresy),
+        new LevelEntry("Level 7-E", "7-E", false, () => null, () => null, tip: () => T.levelTips.leveltips_encoreViolence),
+        new LevelEntry("Level 8-E", "8-E", false, () => null, () => null, tip: () => T.levelTips.leveltips_encoreFraud),
+        new LevelEntry("Level 9-E", "9-E", false, () => null, () => null, tip: () => T.levelTips.leveltips_encoreTreachery),
+        new LevelEntry("Level P-1", "P-1", false, () => null, () => null,
             tip: () => T.levelTips.leveltips_primeFirst1 + "\n\n" + T.levelTips.leveltips_primeFirst2),
-        new LevelEntry("Level P-2", () => null, () => null, tip: () => T.levelTips.leveltips_primeSecond),
-        new LevelEntry("Level P-3", () => null, () => null, tip: () => T.levelTips.leveltips_primeThird),
+        new LevelEntry("Level P-2", "P-2", false, () => null, () => null, tip: () => T.levelTips.leveltips_primeSecond),
+        new LevelEntry("Level P-3", "P-3", false, () => null, () => null, tip: () => T.levelTips.leveltips_primeThird),
 
-        new LevelEntry("uk_construct", () => null, () => null, tip: () =>
+        new LevelEntry("uk_construct", null, false, () => null, () => null, tip: () =>
             T.levelTips.leveltips_sandbox1
             + "\n\n<color=#FF4343>" + T.levelTips.levelTips_sandboxCheatCode.Or("↑ ↑ ↓ ↓ ← → ← → B A") + "</color>\n\n"
             + T.levelTips.leveltips_sandbox2),
-        new LevelEntry("Endless", () => null, () => null, tip: () => T.levelTips.leveltips_cybergrind),
-        new LevelEntry("CreditsMuseum2", () => null, () => null, tip: () => T.levelTips.leveltips_devMuseum),
+        new LevelEntry("Endless", null, false, () => null, () => null, tip: () => T.levelTips.leveltips_cybergrind),
+        new LevelEntry("CreditsMuseum2", null, false, () => null, () => null, tip: () => T.levelTips.leveltips_devMuseum),
     };
+
+    private static readonly Dictionary<string, LevelEntry> ByScene =
+        Levels.ToDictionary(level => level.LevelId);
 
     private sealed class LevelEntry
     {
         public LevelEntry(
             string levelId,
-            Func<string> levelName,
+            string levelNumber,
+            bool isSecret,
+            Func<string> levelTitle,
             Func<string> challenge,
             (string keyword, Func<string> build)[] messages = null,
             Func<string> tip = null)
         {
             LevelId = levelId;
-            LevelName = levelName;
+            LevelNumber = levelNumber;
+            IsSecret = isSecret;
+            LevelTitle = levelTitle;
             Challenge = challenge;
             Messages = messages ?? Array.Empty<(string, Func<string>)>();
             Tip = tip;
         }
 
         public string LevelId { get; }
-        public Func<string> LevelName { get; }
+
+        public string LevelNumber { get; }
+
+        public bool IsSecret { get; }
+
+        public Func<string> LevelTitle { get; }
+
+        public string LevelName =>
+            LevelNumber == null ? LevelTitle() : "{0}: {1}".FormatWith(LevelNumber, LevelTitle());
+
         public Func<string> Challenge { get; }
         public (string keyword, Func<string> build)[] Messages { get; }
         public Func<string> Tip { get; }
