@@ -78,10 +78,10 @@ public static class Sandbox
 
         TextMeshProUGUI sandboxShopTimeOfDayLoading =
             GetTextMeshProUGUI(FindDescendant(sandboxShopTimeOfDay, "Panel", "Loading", "Title"));
-        sandboxShopTimeOfDayLoading.text = LanguageManager.CurrentLanguage.misc.loading;
+        sandboxShopTimeOfDayLoading.text = LanguageManager.CurrentLanguage.sandbox.sandbox_shop_loading;
 
         TextMeshProUGUI sandboxShopTimeOfDayClose = GetTextMeshProUGUI(FindDescendant(sandboxShopTimeOfDay, "Panel", "Close Button", "Text"));
-        sandboxShopTimeOfDayClose.text = LanguageManager.CurrentLanguage.options.save_close;
+        sandboxShopTimeOfDayClose.text = LanguageManager.CurrentLanguage.sandbox.sandbox_shop_close;
         
         //World options
         GameObject sandboxShopWorldOptions = FindDescendant(sandboxShopCanvas, "World Options");
@@ -89,7 +89,7 @@ public static class Sandbox
         sandboxShopWorldOptionsTitle.text =
             LanguageManager.CurrentLanguage.sandbox.sandbox_shop_worldOptionsTitle;
         TextMeshProUGUI sandboxWorldOptionsClose = GetTextMeshProUGUI(FindDescendant(sandboxShopWorldOptions, "Panel", "Close Button","Text"));
-        sandboxWorldOptionsClose.text = LanguageManager.CurrentLanguage.options.save_close;
+        sandboxWorldOptionsClose.text = LanguageManager.CurrentLanguage.sandbox.sandbox_shop_close;
         
         GameObject sandboxShopWorldOptionsMapBorder = FindDescendant(sandboxShopWorldOptions, "Panel", "Options", "Map Border");
         TextMeshProUGUI sandboxShopWorldOptionsMapBorderTitle = GetTextMeshProUGUI(FindDescendant(sandboxShopWorldOptionsMapBorder, "Title Text"));

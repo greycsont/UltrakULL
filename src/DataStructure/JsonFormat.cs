@@ -3024,6 +3024,8 @@ public class ShopStrings
     public string shop_cybergrind;
     [DefaultValue("Return To Mission")]
     public string shop_returnToMission;
+    [DefaultValue("Return")]
+    public string shop_returnToMissionReturn;
     [DefaultValue("Sandbox")]
     public string shop_sandbox;
     [DefaultValue("SOUL ORBS")]
@@ -6540,6 +6542,11 @@ public class SandboxStrings
     public string sandbox_shop_worldOptions;
     [DefaultValue("Icons")]
     public string sandbox_shop_icons;
+
+    [DefaultValue("Close")]
+    public string sandbox_shop_close;
+    [DefaultValue("Loading...")]
+    public string sandbox_shop_loading;
 
     [DefaultValue("STATS")]
     public string sandbox_shop_stats;

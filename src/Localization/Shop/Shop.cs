@@ -77,7 +77,7 @@ public static class Shop
 
         shopPanel.Localize<TextMeshProUGUI>(
             GetCurrentSceneName() == "uk_construct"
-                ? LanguageManager.CurrentLanguage.frontend.mainmenu_quit
+                ? LanguageManager.CurrentLanguage.shop.shop_returnToMissionReturn
                 : LanguageManager.CurrentLanguage.shop.shop_cybergrindExit,
             path: ["Return from Cyber Grind", "Return from Cyber Grind Panel", "Panel", "Exit Button", "Text"]);
 
