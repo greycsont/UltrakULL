@@ -65,18 +65,27 @@ public static class UILayoutOverride
 
     public static void RemoveWordWrap(this TMP_Text text)
     {
+        if (text == null)
+            return;
+
         text.overflowMode = TextOverflowModes.Overflow;
         text.enableWordWrapping = false;
     }
 
     public static void AddUpperCase(this TMP_Text text)
     {
+        if (text == null)
+            return;
+
         // bitwise OR
         text.fontStyle |= FontStyles.UpperCase;
     }
 
     public static void AddWidthAndHeight(this TMP_Text text, float width = 0, float height = 0)
     {
+        if (text == null)
+            return;
+
         text.rectTransform.sizeDelta += new Vector2(width, 0);
     }
 }
