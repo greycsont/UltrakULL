@@ -135,6 +135,7 @@ public class Notifications
 {
     public ScriptUpdateNotification scriptUpdateNotification = new();
     public LevelUpdateNotification levelUpdateNotification = new();
+    public DeleteBundleNotification deleteBundleNotification = new();
 }
 
 public class ScriptUpdateNotification
@@ -160,6 +161,25 @@ public class LevelUpdateNotification
 
     [JsonProperty("update")]
     public string b_update;  // "Update"
+}
+
+public class DeleteBundleNotification
+{
+    public string header;
+
+    public string body; // "Do you want to delete <color=aqua>{0}</color>?\n\nFile will be deleted permanently!\n\n(Level ranks will not be affected)"
+    
+    [JsonProperty("cancel")]
+    public string b_cancel;  // "Cancel"
+    
+    [JsonProperty("delete")] // "Delete"
+    public string b_delete;
+
+    [JsonProperty("deleteWithTimeRemaining")]
+    public string deleteWithTimeRemaining; // "Delete ({0})"
+
+    [JsonProperty("deletingBundle")]
+    public string b_deletingBundle; // "Deleting bundle..."
 }
 
 public class LevelPanel
