@@ -49,7 +49,6 @@ public static class TextMirror
     {
         if (source == null || target == null) return;
 
-        target.text = source.text;
         target.fontSize = source.fontSize;
         target.color = source.color;
         target.richText = source.supportRichText;

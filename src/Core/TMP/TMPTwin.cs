@@ -115,6 +115,7 @@ public class TMPTwin : MonoBehaviour
     private void Sync()
     {
         TextMirror.CopyTextProperties(source, twin);
+        SetTwinText();
         twin.ForceMeshUpdate();
         MarkRebuild();
 
@@ -129,6 +130,13 @@ public class TMPTwin : MonoBehaviour
 
         if (kind == TwinKind.FishLocation)
             TextMirror.Apply_Fish_Location_Shadow(twin);
+    }
+
+    // I hate unity's stupid compability
+    // The tmp don't even support some presets of the text's colour tag
+    private void SetTwinText()
+    {
+        twin.text = lastText;
     }
 
     private void HideSource()
