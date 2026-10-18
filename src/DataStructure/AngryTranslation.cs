@@ -96,18 +96,19 @@ public class SortingOption
 
 public class BundleStatus
 {
-    // OnlineLevelField.cs line 630
     // Occur when download failure and not been canceled by itself
     public string networkError;  // "Network error"
 
-    // OnlineLevelField.cs line 688
     // Occur when MD5 hash of downloaded file are not equal to the catalog's MD5 hash
     public string fileWasModified;  // "File was modified"
 
-    // OnlineLevelField.cs line 661
     // Occur when BundleInfo.guid != AngryBundleData.bundleGuid
     public string validationError;  // "Validation error"
-    
+
+    // Occur when the bundle's download link are not start with
+    //   https://raw.githubusercontent.com
+    public string invalidLink; // "Invalid Link"
+
     public string locked;  // "Locked"
     public string notInstalled;
     public string installed;

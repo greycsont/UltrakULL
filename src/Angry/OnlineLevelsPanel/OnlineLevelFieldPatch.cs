@@ -55,6 +55,7 @@ public static class OnlineLevelFieldPatch
             "<color=red><b>Network error</b></color>"     => $"<color=red><b>{status.networkError}</b></color>",
             "<color=red><b>Validation error</b></color>"  => $"<color=red><b>{status.validationError}</b></color>",
             "<color=red><b>File was modified</b></color>" => $"$<color=red><b>{status.fileWasModified}</b></color>",
+            "<color=red><b>Invalid Link</b></color>"      => $"<color=red><b>{status.invalidLink}</b></color>",
             "<color=red><b>Locked</b></color>"            => $"<color=red><b>{status.locked}</b></color>",
             "<color=red>Not installed</color>"            => $"<color=red>{status.notInstalled}</color>",
             "<color=#00FFFF>Update available</color>"     => $"<color=#00FFFF>{status.updateAvailable}</color>",
