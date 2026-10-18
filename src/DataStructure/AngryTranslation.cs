@@ -161,6 +161,14 @@ public class LevelUpdateNotification
 
     [JsonProperty("update")]
     public string b_update;  // "Update"
+
+    public string latestVersion; // "Latest Version"
+
+    public string currentVersion; // "Current Version"
+
+    public string pastVersion;  // "Past Version"
+
+    public string dateFormat;  // "MM/dd/yyyy"
 }
 
 public class DeleteBundleNotification
