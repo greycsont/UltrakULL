@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -136,8 +137,24 @@ public class TMPTwin : MonoBehaviour
     // The tmp don't even support some presets of the text's colour tag
     private void SetTwinText()
     {
-        twin.text = lastText;
+        twin.text = ConvertColorTag(source.text);
     }
+
+    // <color=(one or more characters (+) does not contain '>' ([^>]))>
+    private static readonly Regex ColorTag = new("<color=([^>]+)>");
+    
+    // It's named as color tag because unity named it as color
+    //   otherwise I'm more prefer to use colour(
+    private static string ConvertColorTag(string text) =>
+        ColorTag.Replace(text, match =>
+        {
+            // characters inside the bracket
+            string value = match.Groups[1].Value;
+
+            return ColorUtility.TryParseHtmlString(value, out Color color)
+                ? "<color=#" + ColorUtility.ToHtmlStringRGBA(color) + ">"
+                : match.Value;
+        });
 
     private void HideSource()
     {
