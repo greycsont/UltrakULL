@@ -19,7 +19,7 @@ public static class CyberGrind
         //Get the object containing all the wave board strings.
         //If there's a better way of doing this someone let me know
 
-        GameObject coreGame = GameObject.Find("Everything");
+        GameObject coreGame = GetObject("Everything");
         List<GameObject> everythingList = new List<GameObject>();
 
         foreach(Transform child in coreGame.transform)
@@ -36,23 +36,18 @@ public static class CyberGrind
         GameObject cgBoard = cubeCanvasList[1];
 
         //Patch all the strings here.
-        Text waveText = GetTextfromGameObject(FindDescendant(cgBoard, "Wave Title"));
-        waveText.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_wave;
+        cgBoard.Localize<Text>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_wave,
+            path: ["Wave Title"]);
 
-        Text enemiesLeftText = GetTextfromGameObject(FindDescendant(cgBoard, "Enemies Left Title"));
-        enemiesLeftText.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_enemiesRemaining;
+        cgBoard.Localize<Text>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_enemiesRemaining,
+            path: ["Enemies Left Title"]);
 
     }
 
     private static void PatchResults()
     {
-        GameObject level = GameObject.Find("Player");
+        GameObject level = GetObject("Player");
 
-        GameObject resultsPanel = FindDescendant(level, "FinishCanvas (1)", "Panel");
-        GameObject lastResult = FindDescendant(resultsPanel, "Panel");
-        GameObject bestResult = FindDescendant(resultsPanel, "Panel (1)","Filler");
-        GameObject pointsPanel = FindDescendant(resultsPanel, "Total Points");
-        GameObject leaderboardsPanel = FindDescendant(resultsPanel, "Cyber Grind Leaderboards");
 
         //Both result panels use the same strings, so declare them here to avoid redundancy.
         string wave = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_wave;
@@ -62,167 +57,158 @@ public static class CyberGrind
 
 
         //Title
-        TextMeshProUGUI titleText= GetTextMeshProUGUI(FindDescendant(resultsPanel, "Title", "Text"));
-        titleText.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_cgTitle;
+        level.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_cgTitle,
+            path: ["FinishCanvas (1)", "Panel", "Title", "Text"]);
 
         //Last result panel
-        TextMeshProUGUI lastTitle = GetTextMeshProUGUI(FindDescendant(lastResult, "Text"));
-        lastTitle.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_previousRun;
+        level.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_previousRun,
+            path: ["FinishCanvas (1)", "Panel", "Panel", "Text"]);
 
-        TextMeshProUGUI lastWave = GetTextMeshProUGUI(FindDescendant(lastResult, "Wave - Info", "Text"));
-        lastWave.text = wave;
+        level.Localize<TextMeshProUGUI>(wave,
+            path: ["FinishCanvas (1)", "Panel", "Panel", "Wave - Info", "Text"]);
 
-        TextMeshProUGUI lastKills = GetTextMeshProUGUI(FindDescendant(lastResult, "Kills - Info", "Text"));
-        lastKills.text = kills;
+        level.Localize<TextMeshProUGUI>(kills,
+            path: ["FinishCanvas (1)", "Panel", "Panel", "Kills - Info", "Text"]);
 
-        TextMeshProUGUI lastStyle = GetTextMeshProUGUI(FindDescendant(lastResult, "Style - Info", "Text"));
-        lastStyle.text = style;
+        level.Localize<TextMeshProUGUI>(style,
+            path: ["FinishCanvas (1)", "Panel", "Panel", "Style - Info", "Text"]);
 
-        TextMeshProUGUI lastTime = GetTextMeshProUGUI(FindDescendant(lastResult, "Time - Info", "Text"));
-        lastTime.text = time;
+        level.Localize<TextMeshProUGUI>(time,
+            path: ["FinishCanvas (1)", "Panel", "Panel", "Time - Info", "Text"]);
 
         //Best result panel
-        TextMeshProUGUI bestTitle = GetTextMeshProUGUI(FindDescendant(bestResult, "Text (1)"));
-        bestTitle.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_bestRun;
+        level.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_bestRun,
+            path: ["FinishCanvas (1)", "Panel", "Panel (1)","Filler", "Text (1)"]);
 
-        TextMeshProUGUI bestWave = GetTextMeshProUGUI(FindDescendant(bestResult, "Wave - Info (1)", "Text"));
-        bestWave.text = wave;
+        level.Localize<TextMeshProUGUI>(wave,
+            path: ["FinishCanvas (1)", "Panel", "Panel (1)","Filler", "Wave - Info (1)", "Text"]);
 
-        TextMeshProUGUI bestKills = GetTextMeshProUGUI(FindDescendant(bestResult, "Kills - Info (1)", "Text"));
-        bestKills.text = kills;
+        level.Localize<TextMeshProUGUI>(kills,
+            path: ["FinishCanvas (1)", "Panel", "Panel (1)","Filler", "Kills - Info (1)", "Text"]);
 
-        TextMeshProUGUI bestStyle = GetTextMeshProUGUI(FindDescendant(bestResult, "Style - Info (1)", "Text"));
-        bestStyle.text = style;
+        level.Localize<TextMeshProUGUI>(style,
+            path: ["FinishCanvas (1)", "Panel", "Panel (1)","Filler", "Style - Info (1)", "Text"]);
 
-        TextMeshProUGUI bestTime = GetTextMeshProUGUI(FindDescendant(bestResult, "Time - Info (1)", "Text"));
-        bestTime.text = time;
+        level.Localize<TextMeshProUGUI>(time,
+            path: ["FinishCanvas (1)", "Panel", "Panel (1)","Filler", "Time - Info (1)", "Text"]);
 
         //Points panel
-        TextMeshProUGUI totalPointsText = GetTextMeshProUGUI(FindDescendant(pointsPanel, "Text (1)"));
-        totalPointsText.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_total;
+        level.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_total,
+            path: ["FinishCanvas (1)", "Panel", "Total Points", "Text (1)"]);
 
-        TextMeshProUGUI totalPoints = GetTextMeshProUGUI(FindDescendant(pointsPanel, "Text"));
-        totalPoints.text = "+0" + "<color=orange>" + LanguageManager.CurrentLanguage.shop.shop_moneyCount + "</color>";
+        level.Localize<TextMeshProUGUI>("+0" + "<color=orange>" + LanguageManager.CurrentLanguage.shop.shop_moneyCount + "</color>",
+            path: ["FinishCanvas (1)", "Panel", "Total Points", "Text"]);
 
         //Leaderboards
 
         string connecting = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_connectingToSteam;
 
-        GameObject friendScores = FindDescendant(leaderboardsPanel, "Friend High Scores");
-        GameObject globalScores = FindDescendant(leaderboardsPanel, "Global High Scores");
 
-        TextMeshProUGUI friendScoresTitle = GetTextMeshProUGUI(FindDescendant(friendScores, "Text"));
-        friendScoresTitle.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_friendScores;
+        level.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_friendScores,
+            path: ["FinishCanvas (1)", "Panel", "Cyber Grind Leaderboards", "Friend High Scores", "Text"]);
 
-        TextMeshProUGUI globalScoresTitle = GetTextMeshProUGUI(FindDescendant(globalScores, "Text"));
-        globalScoresTitle.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_globalScores;
+        level.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_globalScores,
+            path: ["FinishCanvas (1)", "Panel", "Cyber Grind Leaderboards", "Global High Scores", "Text"]);
 
-        TextMeshProUGUI friendsConnectingText = GetTextMeshProUGUI(FindDescendant(friendScores, "Connecting"));
-        friendsConnectingText.text = connecting;
+        level.Localize<TextMeshProUGUI>(connecting,
+            path: ["FinishCanvas (1)", "Panel", "Cyber Grind Leaderboards", "Friend High Scores", "Connecting"]);
 
-        TextMeshProUGUI globalConnectingText = GetTextMeshProUGUI(FindDescendant(globalScores, "Connecting"));
-        globalConnectingText.text = connecting;
+        level.Localize<TextMeshProUGUI>(connecting,
+            path: ["FinishCanvas (1)", "Panel", "Cyber Grind Leaderboards", "Global High Scores", "Connecting"]);
 
 
     }
 
     private static void PatchTerminal()
     {
-        GameObject level = GameObject.Find("FirstRoom");
-        GameObject cgTerminal = FindDescendant(level, "Room", "Cybergrind Shop", "Canvas");
 
-        GameObject cgTerminalMainPanel = FindDescendant(cgTerminal, "Background", "Main Panel");
+        GameObject cgTerminalMainPanel = GetObject("FirstRoom", "Room", "Cybergrind Shop", "Canvas", "Background", "Main Panel");
 
         //Terminal description(I just ripped off from shop.cs lol)
-        GameObject tipPanel = FindDescendant(cgTerminalMainPanel, "Stats");
-        TextMeshProUGUI cgTerminalTipboxTitle = GetTextMeshProUGUI(FindDescendant(tipPanel, "Title"));
-        cgTerminalTipboxTitle.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_settings;
+        cgTerminalMainPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_settings,
+            path: ["Stats", "Title"]);
 
-        TextMeshProUGUI cgTerminalTipboxDescription = GetTextMeshProUGUI(FindDescendant(tipPanel, "Panel", "Text Inset", "Text"));
-        cgTerminalTipboxDescription.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_settingsDescription;
+        cgTerminalMainPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_settingsDescription,
+            path: ["Stats", "Panel", "Text Inset", "Text"]);
 
         //Main menu
-        GameObject mainButtons = FindDescendant(cgTerminalMainPanel, "Main Menu", "Buttons");
 
-        TextMeshProUGUI cgTerminalThemesText = GetTextMeshProUGUI(FindDescendant(mainButtons, "Themes Button", "Text"));
-        cgTerminalThemesText.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themes;
+        cgTerminalMainPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themes,
+            path: ["Main Menu", "Buttons", "Themes Button", "Text"]);
 
-        TextMeshProUGUI cgTerminalMusicText = GetTextMeshProUGUI(FindDescendant(mainButtons, "Music Button", "Text"));
-        cgTerminalMusicText.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_music;
+        cgTerminalMainPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_music,
+            path: ["Main Menu", "Buttons", "Music Button", "Text"]);
 
-        TextMeshProUGUI cgTerminalPatternsText = GetTextMeshProUGUI(FindDescendant(mainButtons, "Patterns Button", "Text"));
-        cgTerminalPatternsText.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_patterns;
+        cgTerminalMainPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_patterns,
+            path: ["Main Menu", "Buttons", "Patterns Button", "Text"]);
 
-        TextMeshProUGUI cgTerminalWaveText = GetTextMeshProUGUI(FindDescendant(mainButtons, "Waves Button", "Text"));
-        cgTerminalWaveText.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_waves;
+        cgTerminalMainPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_waves,
+            path: ["Main Menu", "Buttons", "Waves Button", "Text"]);
 
         //Themes
-        GameObject cgTerminalThemes = FindDescendant(cgTerminalMainPanel, "Themes","Preset Panel");
+        GameObject cgTerminalThemes = GetObject("FirstRoom", "Room", "Cybergrind Shop", "Canvas", "Background", "Main Panel", "Themes", "Preset Panel");
 
-        TextMeshProUGUI cgTerminalThemesTitle = GetTextMeshProUGUI(FindDescendant(cgTerminalThemes, "Title"));
-        cgTerminalThemesTitle.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesTitle;
+        cgTerminalThemes.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesTitle,
+            path: ["Title"]);
 
-        GameObject cgTerminalThemesPanel = FindDescendant(cgTerminalThemes, "Panel");
 
-        TextMeshProUGUI cgTerminalThemesDescription = GetTextMeshProUGUI(FindDescendant(cgTerminalThemesPanel, "Text"));
-        cgTerminalThemesDescription.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesDescription;
+        cgTerminalThemes.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesDescription,
+            path: ["Panel", "Text"]);
         
-        GameObject cgTerminalThemesButton = FindDescendant(cgTerminalThemesPanel, "Buttons");
 
-        TextMeshProUGUI cgTerminalThemesLight = GetTextMeshProUGUI(FindDescendant(cgTerminalThemesButton, "Light Button", "Text"));
-        cgTerminalThemesLight.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesLight;
+        cgTerminalThemes.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesLight,
+            path: ["Panel", "Buttons", "Light Button", "Text"]);
 
-        TextMeshProUGUI cgTerminalThemesDark = GetTextMeshProUGUI(FindDescendant(cgTerminalThemesButton, "Dark Button", "Text"));
-        cgTerminalThemesDark.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesDark;
+        cgTerminalThemes.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesDark,
+            path: ["Panel", "Buttons", "Dark Button", "Text"]);
 
-        TextMeshProUGUI cgTerminalThemesCustom = GetTextMeshProUGUI(FindDescendant(cgTerminalThemesButton, "Custom Button", "Text"));
-        cgTerminalThemesCustom.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustom;
+        cgTerminalThemes.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustom,
+            path: ["Panel", "Buttons", "Custom Button", "Text"]);
 
-        TextMeshProUGUI cgTerminalThemesBack = GetTextMeshProUGUI(FindDescendant(cgTerminalThemes.transform.parent.gameObject, "Back Button", "Text"));
-        cgTerminalThemesBack.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomBack;
+        cgTerminalThemes.transform.parent.gameObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomBack,
+            path: ["Back Button", "Text"]);
 
         //Playlist
-        GameObject cgMusic = FindDescendant(cgTerminalMainPanel, "Playlist","Panel");
+        GameObject cgMusic = GetObject("FirstRoom", "Room", "Cybergrind Shop", "Canvas", "Background", "Main Panel", "Playlist", "Panel");
         
-        TextMeshProUGUI cgMusicTitle = GetTextMeshProUGUI(FindDescendant(cgMusic.transform.parent.gameObject,"Title"));
-        cgMusicTitle.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicTitle;
+        cgMusic.transform.parent.gameObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicTitle,
+            path: ["Title"]);
         
-        TextMeshProUGUI cgMusicClose = GetTextMeshProUGUI(FindDescendant(cgMusic, "Close Button","Text"));
-        cgMusicClose.text = LanguageManager.CurrentLanguage.devMuseum.museum_chessSettingsclose;
+        cgMusic.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_chessSettingsclose,
+            path: ["Close Button","Text"]);
 
         //Songs Type Selection(+ button in playlist will show this up)
-        GameObject cgMusicTypeCanvas = FindDescendant(cgTerminalMainPanel, "Songs Type Selection", "Panel");
+        GameObject cgMusicTypeCanvas = GetObject("FirstRoom", "Room", "Cybergrind Shop", "Canvas", "Background", "Main Panel", "Songs Type Selection", "Panel");
 
-        TextMeshProUGUI cgMusicTypeTitle = GetTextMeshProUGUI(FindDescendant(cgMusicTypeCanvas.transform.parent.gameObject, "Title"));
-        cgMusicTypeTitle.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicType;
+        cgMusicTypeCanvas.transform.parent.gameObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicType,
+            path: ["Title"]);
 
-        GameObject cgMusicTypeButtons = FindDescendant(cgMusicTypeCanvas, "Inset", "Type Selection Buttons");
-        TextMeshProUGUI cgMusicTypeULTRAKILL = GetTextMeshProUGUI(FindDescendant(cgMusicTypeButtons, "Soundtrack Button", "Text"));
-        cgMusicTypeULTRAKILL.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicSoundtrack;
+        cgMusicTypeCanvas.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicSoundtrack,
+            path: ["Inset", "Type Selection Buttons", "Soundtrack Button", "Text"]);
 
-        TextMeshProUGUI cgMusicTypeCustom = GetTextMeshProUGUI(FindDescendant(cgMusicTypeButtons, "Custom Button", "Text"));
-        cgMusicTypeCustom.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustom;
+        cgMusicTypeCanvas.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustom,
+            path: ["Inset", "Type Selection Buttons", "Custom Button", "Text"]);
 
-        TextMeshProUGUI cgMusicTypeClose = GetTextMeshProUGUI(FindDescendant(cgMusicTypeCanvas, "Close Button", "Text"));
-        cgMusicTypeClose.text = LanguageManager.CurrentLanguage.devMuseum.museum_chessSettingsclose;
+        cgMusicTypeCanvas.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_chessSettingsclose,
+            path: ["Close Button", "Text"]);
 
-        GameObject cgMusicSoundtrack = FindDescendant(cgTerminalMainPanel, "Songs Soundtrack", "Panel");
-        TextMeshProUGUI cgMusicSoundtrackTitle = GetTextMeshProUGUI(FindDescendant(cgMusicSoundtrack.transform.parent.gameObject, "Title"));
-        cgMusicSoundtrackTitle.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicSoundtrack;
+        GameObject cgMusicSoundtrack = GetObject("FirstRoom", "Room", "Cybergrind Shop", "Canvas", "Background", "Main Panel", "Songs Soundtrack", "Panel");
+        cgMusicSoundtrack.transform.parent.gameObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicSoundtrack,
+            path: ["Title"]);
 
-        TextMeshProUGUI cgMusicSoundtrackClose = GetTextMeshProUGUI(FindDescendant(cgMusicSoundtrack, "Close Button", "Text"));
-        cgMusicSoundtrackClose.text = LanguageManager.CurrentLanguage.devMuseum.museum_chessSettingsclose;
+        cgMusicSoundtrack.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_chessSettingsclose,
+            path: ["Close Button", "Text"]);
 
-        GameObject cgMusicSoundtrackAddMenu = FindDescendant(cgMusicSoundtrack,"Inset","Songs");
+        GameObject cgMusicSoundtrackAddMenu = GetObject("FirstRoom", "Room", "Cybergrind Shop", "Canvas", "Background", "Main Panel", "Songs Soundtrack", "Panel", "Inset", "Songs");
 
         //CustomMusic
-        GameObject cgCustomMusic = FindDescendant(cgTerminalMainPanel, "Songs Custom", "Panel");
+        GameObject cgCustomMusic = GetObject("FirstRoom", "Room", "Cybergrind Shop", "Canvas", "Background", "Main Panel", "Songs Custom", "Panel");
 
-        TextMeshProUGUI cgCustomMusicTitle = GetTextMeshProUGUI(FindDescendant(cgCustomMusic.transform.parent.gameObject, "Title"));
-        cgCustomMusicTitle.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustom;
+        cgCustomMusic.transform.parent.gameObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustom,
+            path: ["Title"]);
 
-        TextMeshProUGUI cgCustomMusicClose = GetTextMeshProUGUI(FindDescendant(cgCustomMusic, "Close Button", "Text"));
-        cgCustomMusicClose.text = LanguageManager.CurrentLanguage.devMuseum.museum_chessSettingsclose;
+        cgCustomMusic.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_chessSettingsclose,
+            path: ["Close Button", "Text"]);
 
         //Changes the "Unlocked" string under songs that are unlocked
 
@@ -231,7 +217,7 @@ public static class CyberGrind
             if (child.name == "Song Template(Clone)")
             {
                 TextMeshProUGUI cgMusicSoundtrackTask = GetTextMeshProUGUI(FindDescendant(child.gameObject, "Requirement"));
-                if (cgMusicSoundtrackTask.text == "Unlocked") { cgMusicSoundtrackTask.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicUnlocked; }
+                if (cgMusicSoundtrackTask.text == "Unlocked") cgMusicSoundtrackTask.Localize(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicUnlocked);
             }
         }
         Button[] aas = cgMusicSoundtrack.GetComponentsInChildren<Button>(true);
@@ -242,133 +228,119 @@ public static class CyberGrind
         
         
         //Customize theme
-        GameObject cgCustomTheme = FindDescendant(cgTerminalMainPanel, "Theme Custom","Panel");
-        TextMeshProUGUI cgCustomThemeTitle = GetTextMeshProUGUI(FindDescendant(cgCustomTheme.transform.parent.gameObject, "Title"));
+        GameObject cgCustomTheme = GetObject("FirstRoom", "Room", "Cybergrind Shop", "Canvas", "Background", "Main Panel", "Theme Custom", "Panel");
         //"Custom", replace this later
-        cgCustomThemeTitle.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesModify;
+        cgCustomTheme.transform.parent.gameObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesModify,
+            path: ["Title"]);
 
-        GameObject cgCustomThemeButtons = FindDescendant(cgCustomTheme, "Sidebar");
-        GameObject cgCustomThemeSelectorButtons = FindDescendant(cgCustomThemeButtons, "Selector Buttons");
-        TextMeshProUGUI cgCustomGrid = GetTextMeshProUGUI(FindDescendant(cgCustomThemeSelectorButtons, "Grid Button","Text"));
-        cgCustomGrid.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomGrid;
+        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomGrid,
+            path: ["Sidebar", "Selector Buttons", "Grid Button","Text"]);
 
-        TextMeshProUGUI cgCustomGridGlow = GetTextMeshProUGUI(FindDescendant(cgCustomThemeSelectorButtons, "Glow Button","Text"));
-        cgCustomGridGlow.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomGridGlow;
+        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomGridGlow,
+            path: ["Sidebar", "Selector Buttons", "Glow Button","Text"]);
 
-        TextMeshProUGUI cgCustomSkybox = GetTextMeshProUGUI(FindDescendant(cgCustomThemeSelectorButtons, "Skybox Button","Text"));
-        cgCustomSkybox.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomSkybox;
+        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomSkybox,
+            path: ["Sidebar", "Selector Buttons", "Skybox Button","Text"]);
 
-        TextMeshProUGUI cgCustomFog = GetTextMeshProUGUI(FindDescendant(cgCustomThemeSelectorButtons, "Fog Button","Text"));
-        cgCustomFog.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFog;
+        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFog,
+            path: ["Sidebar", "Selector Buttons", "Fog Button","Text"]);
 
-        TextMeshProUGUI cgCustomThemeBack = GetTextMeshProUGUI(FindDescendant(cgCustomThemeButtons, "Back Button","Text"));
-        cgCustomThemeBack.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomBack;
+        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomBack,
+            path: ["Sidebar", "Back Button","Text"]);
 
         //Leftside Buttons(Custom Theme)
-        GameObject cgCustomAdditionalRows = FindDescendant(cgCustomTheme, "Window");
 
-        TextMeshProUGUI cgCustomRefresh = GetTextMeshProUGUI(FindDescendant(cgCustomAdditionalRows, "Grid Wrapper","Refresh Button","Text"));
-        cgCustomRefresh.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_patternsRefresh;
+        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_patternsRefresh,
+            path: ["Window", "Grid Wrapper","Refresh Button","Text"]);
 
-        GameObject cgCustomGridTypeSelection = FindDescendant(cgCustomAdditionalRows, "Grid Type Selection");
 
-        TextMeshProUGUI cgCustomAdditionalBase = GetTextMeshProUGUI(FindDescendant(cgCustomGridTypeSelection, "Base Button","Text"));
-        cgCustomAdditionalBase.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomBase;
+        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomBase,
+            path: ["Window", "Grid Type Selection", "Base Button","Text"]);
 
-        TextMeshProUGUI cgCustomAdditionalTopRow = GetTextMeshProUGUI(FindDescendant(cgCustomGridTypeSelection, "Top Row Button","Text"));
-        cgCustomAdditionalTopRow.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomTopRow;
+        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomTopRow,
+            path: ["Window", "Grid Type Selection", "Top Row Button","Text"]);
 
-        TextMeshProUGUI cgCustomAdditionalTop = GetTextMeshProUGUI(FindDescendant(cgCustomGridTypeSelection, "Top Button","Text"));
-        cgCustomAdditionalTop.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomTop;
+        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomTop,
+            path: ["Window", "Grid Type Selection", "Top Button","Text"]);
 
-        TextMeshProUGUI cgCustomAdditionalGlowIntensity = GetTextMeshProUGUI(FindDescendant(cgCustomAdditionalRows, "Glow Intensity","Title"));
-        cgCustomAdditionalGlowIntensity.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomGlowIntensity;
-        //Fog Control goes here, add it later
+        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomGlowIntensity,
+            path: ["Window", "Glow Intensity","Title"]);
 
-        GameObject cgCustomFogWindow = FindDescendant(cgCustomAdditionalRows, "Fog Control");
-        GameObject cgCustomFogSlider = FindDescendant(cgCustomFogWindow, "Sliders");
-        GameObject cgCustomFogSliderLayoutGroup = FindDescendant(cgCustomFogSlider, "Layout Group"); //This is the parent of all sliders
-        GameObject cgCustomFogTabs = FindDescendant(cgCustomFogWindow, "Tabs"); //Now this GameObject contains all buttons to switch fog type. "Disable", "Static", "Dynamic"
 
         //Patch Color
-        TextMeshProUGUI cgCustomFogColor = GetTextMeshProUGUI(FindDescendant(cgCustomFogWindow, "Color","Text")); //Color moved to Window in 16d Patch
-        cgCustomFogColor.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFogColor;
+        //Color moved to Window in 16d Patch
+        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFogColor,
+            path: ["Window", "Fog Control", "Color","Text"]);
 
         //Patch Sliders Text and "Disable" Description
-        TextMeshProUGUI cgCustomFogDisableDesc = GetTextMeshProUGUI(FindDescendant(cgCustomFogSlider, "Fog Disabled Text"));
-        cgCustomFogDisableDesc.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFogDisableDesc;
+        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFogDisableDesc,
+            path: ["Window", "Fog Control", "Sliders", "Fog Disabled Text"]);
 
-        TextMeshProUGUI cgCustomFogStart = GetTextMeshProUGUI(FindDescendant(cgCustomFogSliderLayoutGroup, "Start Distance","Text"));
-        cgCustomFogStart.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFogStart;
+        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFogStart,
+            path: ["Window", "Fog Control", "Sliders", "Layout Group", "Start Distance","Text"]);
 
-        TextMeshProUGUI cgCustomFogEnd = GetTextMeshProUGUI(FindDescendant(cgCustomFogSliderLayoutGroup, "End Distance","Text"));
-        cgCustomFogEnd.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFogEnd;
+        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFogEnd,
+            path: ["Window", "Fog Control", "Sliders", "Layout Group", "End Distance","Text"]);
 
         //Patch Buttons in Tabs. "Disable", "Static", "Dynamic"
-        TextMeshProUGUI cgCustomFogDisable = GetTextMeshProUGUI(FindDescendant(cgCustomFogTabs, "Disabled Button","Text"));
-        cgCustomFogDisable.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFogDisable;
+        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFogDisable,
+            path: ["Window", "Fog Control", "Tabs", "Disabled Button","Text"]);
 
-        TextMeshProUGUI cgCustomFogStatic = GetTextMeshProUGUI(FindDescendant(cgCustomFogTabs, "Static Button","Text"));
-        cgCustomFogStatic.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFogStatic;
+        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFogStatic,
+            path: ["Window", "Fog Control", "Tabs", "Static Button","Text"]);
 
-        TextMeshProUGUI cgCustomFogDynamic = GetTextMeshProUGUI(FindDescendant(cgCustomFogTabs, "Dynamic Button","Text"));
-        cgCustomFogDynamic.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFogDynamic;
+        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFogDynamic,
+            path: ["Window", "Fog Control", "Tabs", "Dynamic Button","Text"]);
 
         //"Set to default" button
-        TextMeshProUGUI cgCustomFogDefault = GetTextMeshProUGUI(FindDescendant(cgCustomFogWindow, "Default Button","Text"));
-        cgCustomFogDefault.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFogDefault;
+        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFogDefault,
+            path: ["Window", "Fog Control", "Default Button","Text"]);
 
         //Patterns
-        GameObject cgTerminalPatterns = FindDescendant(cgTerminalMainPanel, "Patterns", "Patterns Window", "Panel");
+        GameObject cgTerminalPatterns = GetObject("FirstRoom", "Room", "Cybergrind Shop", "Canvas", "Background", "Main Panel", "Patterns", "Patterns Window", "Panel");
 
-        TextMeshProUGUI cgTerminalPatternsTitle = GetTextMeshProUGUI(FindDescendant(cgTerminalPatterns.transform.parent.gameObject, "Title"));
-        cgTerminalPatternsTitle.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_patternsTitle;
+        cgTerminalPatterns.transform.parent.gameObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_patternsTitle,
+            path: ["Title"]);
 
-        TextMeshProUGUI cgPatternsWarning = GetTextMeshProUGUI(FindDescendant(cgTerminalPatterns,"Warning Text"));
-        cgPatternsWarning.text = "<color=red>" + LanguageManager.CurrentLanguage.cyberGrind.cybergrind_patternsWarning + "</color>";
+        cgTerminalPatterns.Localize<TextMeshProUGUI>("<color=red>" + LanguageManager.CurrentLanguage.cyberGrind.cybergrind_patternsWarning + "</color>",
+            path: ["Warning Text"]);
 
         bool customPatternMode = MonoSingleton<EndlessGrid>.Instance.customPatternMode;
         TextMeshProUGUI cgPatternsSwitchButton = cgTerminalPatterns.transform.Cast<Transform>().FirstOrDefault(t => t.name == "Enable/Disable Button")?.Find("Text")?.GetComponent<TextMeshProUGUI>();
-        cgPatternsSwitchButton.text = customPatternMode
+        cgPatternsSwitchButton.Localize(customPatternMode
             ? LanguageManager.CurrentLanguage.cyberGrind.cybergrind_patternsSwitchButtonNot
-            : LanguageManager.CurrentLanguage.cyberGrind.cybergrind_patternsSwitchButton;
+            : LanguageManager.CurrentLanguage.cyberGrind.cybergrind_patternsSwitchButton);
 
-        TextMeshProUGUI cgPatternsBack = GetTextMeshProUGUI(FindDescendant(cgTerminalMainPanel, "Patterns", "Back Button", "Text"));
-        cgPatternsBack.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomBack;
+        cgTerminalMainPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomBack,
+            path: ["Patterns", "Back Button", "Text"]);
 
         //TextMeshProUGUI cgCustomStateButton = GetTextMeshProUGUI(FindDescendant(FindDescendant(cgTerminalPatterns, "StateButton"), "Text"));
         //bool customPatternMode = MonoSingleton<EndlessGrid>.Instance.customPatternMode;
         //cgCustomStateButton.text = (customPatternMode ? LanguageManager.CurrentLanguage.misc.state_activated : LanguageManager.CurrentLanguage.misc.state_deactivated);
         //it seems broken vanilla rn, so skipping it
 
-        TextMeshProUGUI cgTerminalPatternsEditor = GetTextMeshProUGUI(FindDescendant(cgTerminalPatterns, "Patterns", "Editor Button", "Text"));
-        cgTerminalPatternsEditor.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_patternsLaunchExternalEditor;
+        cgTerminalPatterns.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_patternsLaunchExternalEditor,
+            path: ["Patterns", "Editor Button", "Text"]);
 
         //Waves
-        GameObject cgTerminalWaves = FindDescendant(cgTerminalMainPanel, "Waves", "Waves Window", "Panel");
+        GameObject cgTerminalWaves = GetObject("FirstRoom", "Room", "Cybergrind Shop", "Canvas", "Background", "Main Panel", "Waves", "Waves Window", "Panel");
 
-        TextMeshProUGUI cgTerminalWavesTitle = GetTextMeshProUGUI(FindDescendant(cgTerminalWaves.transform.parent.gameObject, "Title"));
-        cgTerminalWavesTitle.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_wavesTitle;
+        cgTerminalWaves.transform.parent.gameObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_wavesTitle,
+            path: ["Title"]);
 
-        TextMeshProUGUI cgTerminalWavesText = GetTextMeshProUGUI(FindDescendant(cgTerminalWaves, "Select Wave Text"));
-        cgTerminalWavesText.text =
-            LanguageManager.CurrentLanguage.cyberGrind.cybergrind_wavesDescription1;
-        cgTerminalWavesText.fontSize = 16;
-        TextMeshProUGUI cgTerminalWavesReqText = GetTextMeshProUGUI(FindDescendant(cgTerminalWaves, "Wave Requirement Text"));
-        cgTerminalWavesReqText.text =
-            LanguageManager.CurrentLanguage.cyberGrind.cybergrind_wavesDescription2;
+        cgTerminalWaves.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_wavesDescription1,
+            path: ["Select Wave Text"]).fontSize = 16;
+        cgTerminalWaves.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_wavesDescription2,
+            path: ["Wave Requirement Text"]);
 
-        TextMeshProUGUI cgWavesBack = GetTextMeshProUGUI(FindDescendant(cgTerminalMainPanel, "Waves", "Back Button", "Text"));
-        cgWavesBack.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomBack;
+        cgTerminalMainPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomBack,
+            path: ["Waves", "Back Button", "Text"]);
     }
 
     public async static void PatchTerminalFolder()
     {
         //Changes all folders' own names based on their original name
-        GameObject level = GameObject.Find("FirstRoom");
-        GameObject cgTerminalMainPanel = FindDescendant(level, "Room", "Cybergrind Shop", "Canvas", "Background", "Main Panel");
-        GameObject cgMusicSoundtrack = FindDescendant(cgTerminalMainPanel, "Songs Soundtrack", "Panel");
-        GameObject cgMusicSoundtrackAddMenu = FindDescendant(cgMusicSoundtrack, "Inset", "Songs");
+        GameObject cgMusicSoundtrackAddMenu = GetObject("FirstRoom", "Room", "Cybergrind Shop", "Canvas", "Background", "Main Panel", "Songs Soundtrack", "Panel", "Inset", "Songs");
         await Task.Delay(5);
         foreach (Transform child in cgMusicSoundtrackAddMenu.transform)
         {
@@ -379,15 +351,15 @@ public static class CyberGrind
                 TextMeshProUGUI cgMusicSoundtrackFolderTitle = GetTextMeshProUGUI(FindDescendant(child.gameObject, "Title"));
                 switch (cgMusicSoundtrackFolderTitle.text.ToUpper())
                 {
-                    case "THE CYBER GRIND": { cgMusicSoundtrackFolderTitle.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNameCyberGrind; break; }
-                    case "PRELUDE": { cgMusicSoundtrackFolderTitle.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNamePrelude; break; }
-                    case "ACT 1": { cgMusicSoundtrackFolderTitle.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNameAct1; break; }
-                    case "ACT 2": { cgMusicSoundtrackFolderTitle.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNameAct2; break; }
-                    case "ACT 3": { cgMusicSoundtrackFolderTitle.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNameAct3; break; }
-                    case "SECRET LEVELS": { cgMusicSoundtrackFolderTitle.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNameSecret; break; }
-                    case "PRIME SANCTUMS": { cgMusicSoundtrackFolderTitle.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNamePrime; break; }
-                    case "MISCELLANEOUS TRACKS": { cgMusicSoundtrackFolderTitle.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNameMisc; break; }
-                    case "ENCORES": { cgMusicSoundtrackFolderTitle.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNameEncores; break; }
+                    case "THE CYBER GRIND": { cgMusicSoundtrackFolderTitle.Localize(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNameCyberGrind); break; }
+                    case "PRELUDE": { cgMusicSoundtrackFolderTitle.Localize(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNamePrelude); break; }
+                    case "ACT 1": { cgMusicSoundtrackFolderTitle.Localize(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNameAct1); break; }
+                    case "ACT 2": { cgMusicSoundtrackFolderTitle.Localize(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNameAct2); break; }
+                    case "ACT 3": { cgMusicSoundtrackFolderTitle.Localize(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNameAct3); break; }
+                    case "SECRET LEVELS": { cgMusicSoundtrackFolderTitle.Localize(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNameSecret); break; }
+                    case "PRIME SANCTUMS": { cgMusicSoundtrackFolderTitle.Localize(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNamePrime); break; }
+                    case "MISCELLANEOUS TRACKS": { cgMusicSoundtrackFolderTitle.Localize(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNameMisc); break; }
+                    case "ENCORES": { cgMusicSoundtrackFolderTitle.Localize(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNameEncores); break; }
 
                     default: {Logging.Warn("Missing CG music folder name: " + cgMusicSoundtrackFolderTitle.text); break; }
                 }
@@ -395,7 +367,7 @@ public static class CyberGrind
             if (child.name == "Song Template(Clone)")
             {
                 TextMeshProUGUI cgMusicSoundtrackTask = GetTextMeshProUGUI(FindDescendant(child.gameObject, "Requirement"));
-                if (cgMusicSoundtrackTask.text == "Unlocked") { cgMusicSoundtrackTask.text = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicUnlocked; }
+                if (cgMusicSoundtrackTask.text == "Unlocked") cgMusicSoundtrackTask.Localize(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicUnlocked);
             }
         }
         return;
