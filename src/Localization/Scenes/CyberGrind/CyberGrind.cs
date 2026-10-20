@@ -199,8 +199,6 @@ public static class CyberGrind
         cgMusicSoundtrack.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_chessSettingsclose,
             path: ["Close Button", "Text"]);
 
-        GameObject cgMusicSoundtrackAddMenu = GetObject("FirstRoom", "Room", "Cybergrind Shop", "Canvas", "Background", "Main Panel", "Songs Soundtrack", "Panel", "Inset", "Songs");
-
         //CustomMusic
         GameObject cgCustomMusic = GetObject("FirstRoom", "Room", "Cybergrind Shop", "Canvas", "Background", "Main Panel", "Songs Custom", "Panel");
 
@@ -210,23 +208,12 @@ public static class CyberGrind
         cgCustomMusic.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_chessSettingsclose,
             path: ["Close Button", "Text"]);
 
-        //Changes the "Unlocked" string under songs that are unlocked
-
-        foreach (Transform child in cgMusicSoundtrackAddMenu.transform)
-        {
-            if (child.name == "Song Template(Clone)")
-            {
-                TextMeshProUGUI cgMusicSoundtrackTask = GetTextMeshProUGUI(FindDescendant(child.gameObject, "Requirement"));
-                if (cgMusicSoundtrackTask.text == "Unlocked") cgMusicSoundtrackTask.Localize(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicUnlocked);
-            }
-        }
         Button[] aas = cgMusicSoundtrack.GetComponentsInChildren<Button>(true);
         foreach (Button button in aas)
         {
             button.onClick.AddListener(delegate { PatchTerminalFolder(); });
         }
-        
-        
+
         //Customize theme
         GameObject cgCustomTheme = GetObject("FirstRoom", "Room", "Cybergrind Shop", "Canvas", "Background", "Main Panel", "Theme Custom", "Panel");
         //"Custom", replace this later
