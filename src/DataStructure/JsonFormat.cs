@@ -413,6 +413,13 @@ public class CG
     [DefaultValue("Soundtrack")]
     public string cybergrind_musicSoundtrack;
 
+    [DefaultValue("(MAIN THEME)")]
+    public string cybergrind_musicSuffixMainTheme;
+    [DefaultValue("(SHOP)")]
+    public string cybergrind_musicSuffixShop;
+    [DefaultValue("(HALL OF SHAME)")]
+    public string cybergrind_musicSuffixHallOfShame;
+
     [DefaultValue("The Cyber Grind")]
     public string cybergrind_musicFolderNameCyberGrind;
     [DefaultValue("Prelude")]
