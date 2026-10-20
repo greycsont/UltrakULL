@@ -29,8 +29,11 @@ public static class LocalizeStyleHud
     [HarmonyPatch(nameof(StyleHUD.UpdateFreshnessSlider))] [HarmonyPostfix]
     public static void UpdateFreshnessSlider_MyPatch(StyleHUD __instance)
     {
+        if (LanguageManager.IsEnglish)
+            return;
+
         var freshnessState = __instance.GetFreshnessState(__instance.gc.currentWeapon);
-        __instance.freshnessSliderText.text = StyleBonusStrings.GetWeaponFreshness(freshnessState);
+        __instance.freshnessSliderText.Localize(StyleBonusStrings.GetWeaponFreshness(freshnessState));
     }
 }
 

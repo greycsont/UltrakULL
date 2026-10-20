@@ -316,23 +316,23 @@ public static class StyleBonusStrings
         return colorOpen + styleBonus + colorClose;
     }
 
+    // The style_weaponxxxxx should have a placeholder for formatting
+    //   but not now ahhhhhhhhhh
     public static string GetWeaponFreshness(StyleFreshnessState weaponState)
     {
-
-
         switch ((int)weaponState)
         {
             case 0:
-                return LanguageManager.CurrentLanguage.style.style_weaponFresh + ": 1.50X";
+                return "{0}: 1.50x".FormatWith(LanguageManager.CurrentLanguage.style.style_weaponFresh);
             case 1:
-                return LanguageManager.CurrentLanguage.style.style_weaponUsed + ": 1.00X";
+                return "{0}: 1.00x".FormatWith(LanguageManager.CurrentLanguage.style.style_weaponUsed);
             case 2:
-                return LanguageManager.CurrentLanguage.style.style_weaponStale + ": 0.50X";
+                return "{0}: 0.50x".FormatWith(LanguageManager.CurrentLanguage.style.style_weaponStale);
             case 3:
-                return LanguageManager.CurrentLanguage.style.style_weaponDull + ": 0.00X";
+                return "{0}: 0.00x".FormatWith(LanguageManager.CurrentLanguage.style.style_weaponDull);
             default:
                 Logging.Warn("Missing weapon states detected");
-                return "Unknown state";
+                return null;
         }
     }
 }
