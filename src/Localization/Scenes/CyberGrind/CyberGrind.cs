@@ -1,7 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TMPro;
 using UltrakULL.json;
@@ -16,51 +13,41 @@ public static class CyberGrind
 {
     private static void PatchWaveBoard()
     {
-        //Get the object containing all the wave board strings.
-        //If there's a better way of doing this someone let me know
+        var coreGame = GetObject("Everything");
+        var everythingList = new List<GameObject>();
 
-        GameObject coreGame = GetObject("Everything");
-        List<GameObject> everythingList = new List<GameObject>();
-
-        foreach(Transform child in coreGame.transform)
+        foreach (Transform child in coreGame.transform)
         {
             everythingList.Add(child.gameObject);
         }
 
-        List<GameObject> cubeCanvasList = new List<GameObject>();
-        GameObject cubeCanvas = FindDescendant(everythingList[4],"Canvas");
+        var cubeCanvas = FindDescendant(everythingList[4], "Canvas");
+        var cubeCanvasList = new List<GameObject>();
         foreach (Transform child in cubeCanvas.transform)
         {
             cubeCanvasList.Add(child.gameObject);
         }
-        GameObject cgBoard = cubeCanvasList[1];
+        var cgBoard = cubeCanvasList[1];
 
-        //Patch all the strings here.
         cgBoard.Localize<Text>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_wave,
             path: ["Wave Title"]);
 
         cgBoard.Localize<Text>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_enemiesRemaining,
             path: ["Enemies Left Title"]);
-
     }
 
     private static void PatchResults()
     {
-        GameObject level = GetObject("Player");
+        var level = GetObject("Player");
 
+        var wave = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_wave;
+        var kills = LanguageManager.CurrentLanguage.misc.levelstats_kills;
+        var style = LanguageManager.CurrentLanguage.misc.levelstats_style;
+        var time = LanguageManager.CurrentLanguage.misc.levelstats_time;
 
-        //Both result panels use the same strings, so declare them here to avoid redundancy.
-        string wave = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_wave;
-        string kills = LanguageManager.CurrentLanguage.misc.levelstats_kills;
-        string style = LanguageManager.CurrentLanguage.misc.levelstats_style;
-        string time = LanguageManager.CurrentLanguage.misc.levelstats_time;
-
-
-        //Title
         level.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_cgTitle,
             path: ["FinishCanvas (1)", "Panel", "Title", "Text"]);
 
-        //Last result panel
         level.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_previousRun,
             path: ["FinishCanvas (1)", "Panel", "Panel", "Text"]);
 
@@ -76,33 +63,28 @@ public static class CyberGrind
         level.Localize<TextMeshProUGUI>(time,
             path: ["FinishCanvas (1)", "Panel", "Panel", "Time - Info", "Text"]);
 
-        //Best result panel
         level.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_bestRun,
-            path: ["FinishCanvas (1)", "Panel", "Panel (1)","Filler", "Text (1)"]);
+            path: ["FinishCanvas (1)", "Panel", "Panel (1)", "Filler", "Text (1)"]);
 
         level.Localize<TextMeshProUGUI>(wave,
-            path: ["FinishCanvas (1)", "Panel", "Panel (1)","Filler", "Wave - Info (1)", "Text"]);
+            path: ["FinishCanvas (1)", "Panel", "Panel (1)", "Filler", "Wave - Info (1)", "Text"]);
 
         level.Localize<TextMeshProUGUI>(kills,
-            path: ["FinishCanvas (1)", "Panel", "Panel (1)","Filler", "Kills - Info (1)", "Text"]);
+            path: ["FinishCanvas (1)", "Panel", "Panel (1)", "Filler", "Kills - Info (1)", "Text"]);
 
         level.Localize<TextMeshProUGUI>(style,
-            path: ["FinishCanvas (1)", "Panel", "Panel (1)","Filler", "Style - Info (1)", "Text"]);
+            path: ["FinishCanvas (1)", "Panel", "Panel (1)", "Filler", "Style - Info (1)", "Text"]);
 
         level.Localize<TextMeshProUGUI>(time,
-            path: ["FinishCanvas (1)", "Panel", "Panel (1)","Filler", "Time - Info (1)", "Text"]);
+            path: ["FinishCanvas (1)", "Panel", "Panel (1)", "Filler", "Time - Info (1)", "Text"]);
 
-        //Points panel
         level.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_total,
             path: ["FinishCanvas (1)", "Panel", "Total Points", "Text (1)"]);
 
         level.Localize<TextMeshProUGUI>("+0" + "<color=orange>" + LanguageManager.CurrentLanguage.shop.shop_moneyCount + "</color>",
             path: ["FinishCanvas (1)", "Panel", "Total Points", "Text"]);
 
-        //Leaderboards
-
-        string connecting = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_connectingToSteam;
-
+        var connecting = LanguageManager.CurrentLanguage.cyberGrind.cybergrind_connectingToSteam;
 
         level.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_friendScores,
             path: ["FinishCanvas (1)", "Panel", "Cyber Grind Leaderboards", "Friend High Scores", "Text"]);
@@ -115,256 +97,241 @@ public static class CyberGrind
 
         level.Localize<TextMeshProUGUI>(connecting,
             path: ["FinishCanvas (1)", "Panel", "Cyber Grind Leaderboards", "Global High Scores", "Connecting"]);
-
-
     }
+
 
     private static void PatchTerminal()
     {
+        var shop = GetObject("FirstRoom", "Room", "Cybergrind Shop");
+        var navigator = shop.GetComponent<CyberGrindSettingsNavigator>();
+        var mainPanel = shop.transform.Find("Canvas/Background/Main Panel").gameObject;
 
-        GameObject cgTerminalMainPanel = GetObject("FirstRoom", "Room", "Cybergrind Shop", "Canvas", "Background", "Main Panel");
+        LocalizeSettings(mainPanel);
+        LocalizeThemes(navigator);
+        LocalizeMusic(navigator);
+        LocalizeThemeCustom(navigator);
+        LocalizePatterns(navigator);
+        LocalizeWaves(navigator);
+    }
 
-        //Terminal description(I just ripped off from shop.cs lol)
-        cgTerminalMainPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_settings,
+    private static void LocalizeSettings(GameObject mainPanel)
+    {
+        mainPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_settings,
             path: ["Stats", "Title"]);
 
-        cgTerminalMainPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_settingsDescription,
+        mainPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_settingsDescription,
             path: ["Stats", "Panel", "Text Inset", "Text"]);
 
-        //Main menu
-
-        cgTerminalMainPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themes,
+        mainPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themes,
             path: ["Main Menu", "Buttons", "Themes Button", "Text"]);
 
-        cgTerminalMainPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_music,
+        mainPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_music,
             path: ["Main Menu", "Buttons", "Music Button", "Text"]);
 
-        cgTerminalMainPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_patterns,
+        mainPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_patterns,
             path: ["Main Menu", "Buttons", "Patterns Button", "Text"]);
 
-        cgTerminalMainPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_waves,
+        mainPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_waves,
             path: ["Main Menu", "Buttons", "Waves Button", "Text"]);
+    }
 
-        //Themes
-        GameObject cgTerminalThemes = GetObject("FirstRoom", "Room", "Cybergrind Shop", "Canvas", "Background", "Main Panel", "Themes", "Preset Panel");
+    private static void LocalizeThemes(CyberGrindSettingsNavigator navigator)
+    {
+        var themes = navigator.GetPanel("Themes");
 
-        cgTerminalThemes.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesTitle,
-            path: ["Title"]);
+        themes.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesTitle,
+            path: ["Preset Panel", "Title"]);
 
+        themes.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesDescription,
+            path: ["Preset Panel", "Panel", "Text"]);
 
-        cgTerminalThemes.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesDescription,
-            path: ["Panel", "Text"]);
-        
+        themes.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesLight,
+            path: ["Preset Panel", "Panel", "Buttons", "Light Button", "Text"]);
 
-        cgTerminalThemes.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesLight,
-            path: ["Panel", "Buttons", "Light Button", "Text"]);
+        themes.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesDark,
+            path: ["Preset Panel", "Panel", "Buttons", "Dark Button", "Text"]);
 
-        cgTerminalThemes.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesDark,
-            path: ["Panel", "Buttons", "Dark Button", "Text"]);
+        themes.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustom,
+            path: ["Preset Panel", "Panel", "Buttons", "Custom Button", "Text"]);
 
-        cgTerminalThemes.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustom,
-            path: ["Panel", "Buttons", "Custom Button", "Text"]);
-
-        cgTerminalThemes.transform.parent.gameObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomBack,
+        themes.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomBack,
             path: ["Back Button", "Text"]);
+    }
 
-        //Playlist
-        GameObject cgMusic = GetObject("FirstRoom", "Room", "Cybergrind Shop", "Canvas", "Background", "Main Panel", "Playlist", "Panel");
-        
-        cgMusic.transform.parent.gameObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicTitle,
+    private static void LocalizeMusic(CyberGrindSettingsNavigator navigator)
+    {
+        var close = LanguageManager.CurrentLanguage.devMuseum.museum_chessSettingsclose;
+
+        var playlist = navigator.GetPanel("Playlist");
+        playlist.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicTitle,
             path: ["Title"]);
-        
-        cgMusic.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_chessSettingsclose,
-            path: ["Close Button","Text"]);
+        playlist.Localize<TextMeshProUGUI>(close,
+            path: ["Panel", "Close Button", "Text"]);
 
-        //Songs Type Selection(+ button in playlist will show this up)
-        GameObject cgMusicTypeCanvas = GetObject("FirstRoom", "Room", "Cybergrind Shop", "Canvas", "Background", "Main Panel", "Songs Type Selection", "Panel");
-
-        cgMusicTypeCanvas.transform.parent.gameObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicType,
+        var typeSelection = navigator.GetPanel("Songs Type Selection");
+        typeSelection.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicType,
             path: ["Title"]);
+        typeSelection.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicSoundtrack,
+            path: ["Panel", "Inset", "Type Selection Buttons", "Soundtrack Button", "Text"]);
+        typeSelection.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustom,
+            path: ["Panel", "Inset", "Type Selection Buttons", "Custom Button", "Text"]);
+        typeSelection.Localize<TextMeshProUGUI>(close,
+            path: ["Panel", "Close Button", "Text"]);
 
-        cgMusicTypeCanvas.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicSoundtrack,
-            path: ["Inset", "Type Selection Buttons", "Soundtrack Button", "Text"]);
-
-        cgMusicTypeCanvas.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustom,
-            path: ["Inset", "Type Selection Buttons", "Custom Button", "Text"]);
-
-        cgMusicTypeCanvas.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_chessSettingsclose,
-            path: ["Close Button", "Text"]);
-
-        GameObject cgMusicSoundtrack = GetObject("FirstRoom", "Room", "Cybergrind Shop", "Canvas", "Background", "Main Panel", "Songs Soundtrack", "Panel");
-        cgMusicSoundtrack.transform.parent.gameObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicSoundtrack,
+        var soundtrack = navigator.GetPanel("Songs Soundtrack");
+        soundtrack.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicSoundtrack,
             path: ["Title"]);
+        soundtrack.Localize<TextMeshProUGUI>(close,
+            path: ["Panel", "Close Button", "Text"]);
 
-        cgMusicSoundtrack.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_chessSettingsclose,
-            path: ["Close Button", "Text"]);
-
-        //CustomMusic
-        GameObject cgCustomMusic = GetObject("FirstRoom", "Room", "Cybergrind Shop", "Canvas", "Background", "Main Panel", "Songs Custom", "Panel");
-
-        cgCustomMusic.transform.parent.gameObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustom,
+        var custom = navigator.GetPanel("Songs Custom");
+        custom.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustom,
             path: ["Title"]);
+        custom.Localize<TextMeshProUGUI>(close,
+            path: ["Panel", "Close Button", "Text"]);
 
-        cgCustomMusic.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.devMuseum.museum_chessSettingsclose,
-            path: ["Close Button", "Text"]);
-
-        Button[] aas = cgMusicSoundtrack.GetComponentsInChildren<Button>(true);
-        foreach (Button button in aas)
+        foreach (var button in soundtrack.GetComponentsInChildren<Button>(true))
         {
             button.onClick.AddListener(delegate { PatchTerminalFolder(); });
         }
+    }
 
-        //Customize theme
-        GameObject cgCustomTheme = GetObject("FirstRoom", "Room", "Cybergrind Shop", "Canvas", "Background", "Main Panel", "Theme Custom", "Panel");
-        //"Custom", replace this later
-        cgCustomTheme.transform.parent.gameObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesModify,
+    private static void LocalizeThemeCustom(CyberGrindSettingsNavigator navigator)
+    {
+        var themeCustom = navigator.GetPanel("Theme Custom");
+
+        themeCustom.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesModify,
             path: ["Title"]);
 
-        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomGrid,
-            path: ["Sidebar", "Selector Buttons", "Grid Button","Text"]);
+        themeCustom.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomGrid,
+            path: ["Panel", "Sidebar", "Selector Buttons", "Grid Button", "Text"]);
 
-        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomGridGlow,
-            path: ["Sidebar", "Selector Buttons", "Glow Button","Text"]);
+        themeCustom.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomGridGlow,
+            path: ["Panel", "Sidebar", "Selector Buttons", "Glow Button", "Text"]);
 
-        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomSkybox,
-            path: ["Sidebar", "Selector Buttons", "Skybox Button","Text"]);
+        themeCustom.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomSkybox,
+            path: ["Panel", "Sidebar", "Selector Buttons", "Skybox Button", "Text"]);
 
-        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFog,
-            path: ["Sidebar", "Selector Buttons", "Fog Button","Text"]);
+        themeCustom.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFog,
+            path: ["Panel", "Sidebar", "Selector Buttons", "Fog Button", "Text"]);
 
-        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomBack,
-            path: ["Sidebar", "Back Button","Text"]);
+        themeCustom.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomBack,
+            path: ["Panel", "Sidebar", "Back Button", "Text"]);
 
-        //Leftside Buttons(Custom Theme)
+        themeCustom.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_patternsRefresh,
+            path: ["Panel", "Window", "Grid Wrapper", "Refresh Button", "Text"]);
 
-        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_patternsRefresh,
-            path: ["Window", "Grid Wrapper","Refresh Button","Text"]);
+        themeCustom.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomBase,
+            path: ["Panel", "Window", "Grid Type Selection", "Base Button", "Text"]);
 
+        themeCustom.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomTopRow,
+            path: ["Panel", "Window", "Grid Type Selection", "Top Row Button", "Text"]);
 
-        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomBase,
-            path: ["Window", "Grid Type Selection", "Base Button","Text"]);
+        themeCustom.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomTop,
+            path: ["Panel", "Window", "Grid Type Selection", "Top Button", "Text"]);
 
-        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomTopRow,
-            path: ["Window", "Grid Type Selection", "Top Row Button","Text"]);
+        themeCustom.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomGlowIntensity,
+            path: ["Panel", "Window", "Glow Intensity", "Title"]);
 
-        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomTop,
-            path: ["Window", "Grid Type Selection", "Top Button","Text"]);
+        themeCustom.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFogColor,
+            path: ["Panel", "Window", "Fog Control", "Color", "Text"]);
 
-        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomGlowIntensity,
-            path: ["Window", "Glow Intensity","Title"]);
+        themeCustom.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFogDisableDesc,
+            path: ["Panel", "Window", "Fog Control", "Sliders", "Fog Disabled Text"]);
 
+        themeCustom.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFogStart,
+            path: ["Panel", "Window", "Fog Control", "Sliders", "Layout Group", "Start Distance", "Text"]);
 
-        //Patch Color
-        //Color moved to Window in 16d Patch
-        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFogColor,
-            path: ["Window", "Fog Control", "Color","Text"]);
+        themeCustom.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFogEnd,
+            path: ["Panel", "Window", "Fog Control", "Sliders", "Layout Group", "End Distance", "Text"]);
 
-        //Patch Sliders Text and "Disable" Description
-        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFogDisableDesc,
-            path: ["Window", "Fog Control", "Sliders", "Fog Disabled Text"]);
+        themeCustom.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFogDisable,
+            path: ["Panel", "Window", "Fog Control", "Tabs", "Disabled Button", "Text"]);
 
-        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFogStart,
-            path: ["Window", "Fog Control", "Sliders", "Layout Group", "Start Distance","Text"]);
+        themeCustom.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFogStatic,
+            path: ["Panel", "Window", "Fog Control", "Tabs", "Static Button", "Text"]);
 
-        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFogEnd,
-            path: ["Window", "Fog Control", "Sliders", "Layout Group", "End Distance","Text"]);
+        themeCustom.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFogDynamic,
+            path: ["Panel", "Window", "Fog Control", "Tabs", "Dynamic Button", "Text"]);
 
-        //Patch Buttons in Tabs. "Disable", "Static", "Dynamic"
-        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFogDisable,
-            path: ["Window", "Fog Control", "Tabs", "Disabled Button","Text"]);
+        themeCustom.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFogDefault,
+            path: ["Panel", "Window", "Fog Control", "Default Button", "Text"]);
+    }
 
-        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFogStatic,
-            path: ["Window", "Fog Control", "Tabs", "Static Button","Text"]);
+    private static void LocalizePatterns(CyberGrindSettingsNavigator navigator)
+    {
+        var patterns = navigator.GetPanel("Patterns");
 
-        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFogDynamic,
-            path: ["Window", "Fog Control", "Tabs", "Dynamic Button","Text"]);
+        patterns.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_patternsTitle,
+            path: ["Patterns Window", "Title"]);
 
-        //"Set to default" button
-        cgCustomTheme.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomFogDefault,
-            path: ["Window", "Fog Control", "Default Button","Text"]);
+        patterns.Localize<TextMeshProUGUI>("<color=red>" + LanguageManager.CurrentLanguage.cyberGrind.cybergrind_patternsWarning + "</color>",
+            path: ["Patterns Window", "Panel", "Warning Text"]);
 
-        //Patterns
-        GameObject cgTerminalPatterns = GetObject("FirstRoom", "Room", "Cybergrind Shop", "Canvas", "Background", "Main Panel", "Patterns", "Patterns Window", "Panel");
+        patterns.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_patternsLaunchExternalEditor,
+            path: ["Patterns Window", "Panel", "Patterns", "Editor Button", "Text"]);
 
-        cgTerminalPatterns.transform.parent.gameObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_patternsTitle,
-            path: ["Title"]);
+        patterns.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomBack,
+            path: ["Back Button", "Text"]);
 
-        cgTerminalPatterns.Localize<TextMeshProUGUI>("<color=red>" + LanguageManager.CurrentLanguage.cyberGrind.cybergrind_patternsWarning + "</color>",
-            path: ["Warning Text"]);
-
-        bool customPatternMode = MonoSingleton<EndlessGrid>.Instance.customPatternMode;
-        TextMeshProUGUI cgPatternsSwitchButton = cgTerminalPatterns.transform.Cast<Transform>().FirstOrDefault(t => t.name == "Enable/Disable Button")?.Find("Text")?.GetComponent<TextMeshProUGUI>();
-        cgPatternsSwitchButton.Localize(customPatternMode
+        patterns.Localize<TextMeshProUGUI>(MonoSingleton<EndlessGrid>.Instance.customPatternMode
             ? LanguageManager.CurrentLanguage.cyberGrind.cybergrind_patternsSwitchButtonNot
-            : LanguageManager.CurrentLanguage.cyberGrind.cybergrind_patternsSwitchButton);
+            : LanguageManager.CurrentLanguage.cyberGrind.cybergrind_patternsSwitchButton,
+            path: ["Patterns Window", "Panel", "Enable/Disable Button", "Text"]);
+    }
 
-        cgTerminalMainPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomBack,
-            path: ["Patterns", "Back Button", "Text"]);
+    private static void LocalizeWaves(CyberGrindSettingsNavigator navigator)
+    {
+        var waves = navigator.GetPanel("Waves");
 
-        //TextMeshProUGUI cgCustomStateButton = GetTextMeshProUGUI(FindDescendant(FindDescendant(cgTerminalPatterns, "StateButton"), "Text"));
-        //bool customPatternMode = MonoSingleton<EndlessGrid>.Instance.customPatternMode;
-        //cgCustomStateButton.text = (customPatternMode ? LanguageManager.CurrentLanguage.misc.state_activated : LanguageManager.CurrentLanguage.misc.state_deactivated);
-        //it seems broken vanilla rn, so skipping it
+        waves.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_wavesTitle,
+            path: ["Waves Window", "Title"]);
 
-        cgTerminalPatterns.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_patternsLaunchExternalEditor,
-            path: ["Patterns", "Editor Button", "Text"]);
+        waves.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_wavesDescription1,
+            path: ["Waves Window", "Panel", "Select Wave Text"]).fontSize = 16;
 
-        //Waves
-        GameObject cgTerminalWaves = GetObject("FirstRoom", "Room", "Cybergrind Shop", "Canvas", "Background", "Main Panel", "Waves", "Waves Window", "Panel");
+        waves.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_wavesDescription2,
+            path: ["Waves Window", "Panel", "Wave Requirement Text"]);
 
-        cgTerminalWaves.transform.parent.gameObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_wavesTitle,
-            path: ["Title"]);
-
-        cgTerminalWaves.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_wavesDescription1,
-            path: ["Select Wave Text"]).fontSize = 16;
-        cgTerminalWaves.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_wavesDescription2,
-            path: ["Wave Requirement Text"]);
-
-        cgTerminalMainPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomBack,
-            path: ["Waves", "Back Button", "Text"]);
+        waves.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomBack,
+            path: ["Back Button", "Text"]);
     }
 
     public async static void PatchTerminalFolder()
     {
-        //Changes all folders' own names based on their original name
-        GameObject cgMusicSoundtrackAddMenu = GetObject("FirstRoom", "Room", "Cybergrind Shop", "Canvas", "Background", "Main Panel", "Songs Soundtrack", "Panel", "Inset", "Songs");
+        var songs = GetObject("FirstRoom", "Room", "Cybergrind Shop", "Canvas", "Background", "Main Panel", "Songs Soundtrack", "Panel", "Inset", "Songs");
         await Task.Delay(5);
-        foreach (Transform child in cgMusicSoundtrackAddMenu.transform)
+
+        foreach (Transform child in songs.transform)
         {
             if (child.name == "Folder Template(Clone)")
             {
-                Button a = child.GetComponent<Button>();
-                a.onClick.AddListener(delegate { PatchTerminalFolder(); });
-                TextMeshProUGUI cgMusicSoundtrackFolderTitle = GetTextMeshProUGUI(FindDescendant(child.gameObject, "Title"));
-                switch (cgMusicSoundtrackFolderTitle.text.ToUpper())
-                {
-                    case "THE CYBER GRIND": { cgMusicSoundtrackFolderTitle.Localize(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNameCyberGrind); break; }
-                    case "PRELUDE": { cgMusicSoundtrackFolderTitle.Localize(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNamePrelude); break; }
-                    case "ACT 1": { cgMusicSoundtrackFolderTitle.Localize(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNameAct1); break; }
-                    case "ACT 2": { cgMusicSoundtrackFolderTitle.Localize(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNameAct2); break; }
-                    case "ACT 3": { cgMusicSoundtrackFolderTitle.Localize(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNameAct3); break; }
-                    case "SECRET LEVELS": { cgMusicSoundtrackFolderTitle.Localize(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNameSecret); break; }
-                    case "PRIME SANCTUMS": { cgMusicSoundtrackFolderTitle.Localize(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNamePrime); break; }
-                    case "MISCELLANEOUS TRACKS": { cgMusicSoundtrackFolderTitle.Localize(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNameMisc); break; }
-                    case "ENCORES": { cgMusicSoundtrackFolderTitle.Localize(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNameEncores); break; }
+                var folder = child.GetComponent<Button>();
+                folder.onClick.AddListener(delegate { PatchTerminalFolder(); });
 
-                    default: {Logging.Warn("Missing CG music folder name: " + cgMusicSoundtrackFolderTitle.text); break; }
+                var folderTitle = GetTextMeshProUGUI(FindDescendant(child.gameObject, "Title"));
+                switch (folderTitle.text.ToUpper())
+                {
+                    case "THE CYBER GRIND": { folderTitle.Localize(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNameCyberGrind); break; }
+                    case "PRELUDE": { folderTitle.Localize(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNamePrelude); break; }
+                    case "ACT 1": { folderTitle.Localize(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNameAct1); break; }
+                    case "ACT 2": { folderTitle.Localize(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNameAct2); break; }
+                    case "ACT 3": { folderTitle.Localize(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNameAct3); break; }
+                    case "SECRET LEVELS": { folderTitle.Localize(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNameSecret); break; }
+                    case "PRIME SANCTUMS": { folderTitle.Localize(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNamePrime); break; }
+                    case "MISCELLANEOUS TRACKS": { folderTitle.Localize(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNameMisc); break; }
+                    case "ENCORES": { folderTitle.Localize(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicFolderNameEncores); break; }
+                    default: { Logging.Warn("Missing CG music folder name: " + folderTitle.text); break; }
                 }
             }
-            if (child.name == "Song Template(Clone)")
-            {
-                TextMeshProUGUI cgMusicSoundtrackTask = GetTextMeshProUGUI(FindDescendant(child.gameObject, "Requirement"));
-                if (cgMusicSoundtrackTask.text == "Unlocked") cgMusicSoundtrackTask.Localize(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicUnlocked);
-            }
         }
-        return;
     }
+
     public static void PatchCg()
     {
-        try { PatchWaveBoard(); }catch (Exception e) { Console.WriteLine("Failed to patch CG wave board"); Console.WriteLine(e.ToString());}
-        try { PatchResults(); }catch (Exception e) { Console.WriteLine("Failed to patch CG results"); Console.WriteLine(e.ToString());}
-        try { PatchTerminal(); }catch (Exception e) { Console.WriteLine("Failed to patch CG terminal"); Console.WriteLine(e.ToString());}
-        try { PatchTerminalFolder(); }catch (Exception e) { Console.WriteLine("Failed to patch CG terminal folders"); Console.WriteLine(e.ToString());}
-        
+        SafeRun.Run("CyberGrind: wave board", PatchWaveBoard);
+        SafeRun.Run("CyberGrind: results", PatchResults);
+        SafeRun.Run("CyberGrind: terminal", PatchTerminal);
+        SafeRun.Run("CyberGrind: terminal folders", () => PatchTerminalFolder());
     }
 }
