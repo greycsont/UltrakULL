@@ -15,7 +15,7 @@ public static class SoundtrackSongPatch
         {
             "(MAIN THEME)" => CurrentLanguage.cyberGrind.cybergrind_musicSuffixMainTheme,
             "(SHOP)" => CurrentLanguage.cyberGrind.cybergrind_musicSuffixShop,
-            "(HALL OF SHAME)" => CurrentLanguage.cyberGrind.cybergrind_musicSuffixMuseum,
+            "(HALL OF SHAME)" => CurrentLanguage.cyberGrind.cybergrind_musicSuffixHallOfShame,
             _ => null,
         };
 
