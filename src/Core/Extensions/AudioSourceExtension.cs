@@ -2,9 +2,9 @@ using UnityEngine;
 
 using System.ComponentModel;
 
-namespace GreyAnnouncer.AudioClipLoad;
+namespace UltrakULL;
 
-public static class StringExtension
+public static class AudioSourceExtension
 {
     extension(string value)
     {
