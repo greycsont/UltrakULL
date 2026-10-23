@@ -9,10 +9,7 @@ using UnityEngine;
 namespace UltrakULL.json;
 
 /// <summary>
-/// In the LanguageManager.cs
-/// The json should be the only one in the lang
-/// For the FontAsset, when switching the currentlanguage to it's own
-/// load the FontAsset
+/// What a stupid shit that i've ever write
 /// </summary>
 public sealed class Lang
 {
@@ -38,33 +35,66 @@ public sealed class Lang
     public TMP_FontAsset SecretTerminalAsset { get; set; }
     public TMP_FontAsset MuseumAsset { get; set; }
 
+    public bool IsFontLoaded = false;
+
     // Which fallbacks FontManager pushed into which game fonts while this language was active,
     // so switching away can undo exactly what this language added.
     internal readonly List<(TMP_FontAsset font, TMP_FontAsset fallback)> AppliedFallbacks = new();
 
     public Lang(JsonFormat json, string packageFolder = null, UILayoutProfile layout = null)
     {
-        Json = json;
-        Layout = layout;
-        SpeechFolder = ResolveDirectory(
+        this.Json = json;
+        this.Layout = layout;
+        this.SpeechFolder = ResolveDirectory(
             packageFolder == null ? null : Path.Combine(packageFolder, "audio"),
-            ConfigPaths.GetLegacyAudioDirectory(Name));
-        TextureFolder = ResolveDirectory(
+            ConfigPaths.GetLegacyAudioDirectory(this.Name));
+        this.TextureFolder = ResolveDirectory(
             packageFolder == null ? null : Path.Combine(packageFolder, "textures"),
-            ConfigPaths.GetLegacyTextureDirectory(Name));
-        AngryLevelFolder = ResolveDirectory(
+            ConfigPaths.GetLegacyTextureDirectory(this.Name));
+        this.AngryLevelFolder = ResolveDirectory(
             packageFolder == null ? null : Path.Combine(packageFolder, "angry"),
-            ConfigPaths.GetLegacyAngryDirectory(Name)
+            ConfigPaths.GetLegacyAngryDirectory(this.Name)
         );
-        VideoFolder = ResolveDirectory(
+        this.VideoFolder = ResolveDirectory(
             packageFolder == null ? null : Path.Combine(packageFolder, "video"),
-            ConfigPaths.GetLegacyVideoDirectory(Name)
+            ConfigPaths.GetLegacyVideoDirectory(this.Name)
         );
 
-        LoadAngryUi(AngryLevelFolder);
+        this.IsFontLoaded = LoadFonts();
+        LoadAngryTranslation(AngryLevelFolder);
+
+        // End
+
+        static string ResolveDirectory(params string[] candidates)
+            => candidates.FirstOrDefault(Directory.Exists)
+            ?? candidates.First(path => path != null);
     }
 
-    private void LoadAngryUi(string folder)
+    private bool LoadFonts()
+    {
+        FontManager.TryLoadFontFromBundle(ConfigPaths.GetFontBundlePath(this.Name),
+            out var fontConfig,
+            out var fontBundle
+        );
+
+        if (fontBundle == null || fontConfig == null)
+        {
+            Logging.Warn($"Failed to load language font bundle with languageId: {this.Name}");
+            return false;
+        }
+
+        this.FontBundle = fontBundle;
+        this.UseFontFallback = fontConfig.UseFallback;
+        this.MainFontAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontConfig.MainFont);
+        this.TerminalAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontConfig.TerminalFont);
+        this.MuseumAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontConfig.MuseumFont);
+        this.SecretTerminalAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontConfig.SecretFont);
+
+        return true;
+
+    }
+
+    private void LoadAngryTranslation(string folder)
     {
         string path = Path.Combine(folder, "angry.json");
         if (File.Exists(path))
@@ -80,11 +110,10 @@ public sealed class Lang
                 Logging.Error($"Failed to load angry ui '{path}': {e}");
             }
         }
+        else
+        {
+            Logging.Info($"Angry translation not found of lang {this.Name}");
+        }
 
     }
-
-    private static string ResolveDirectory(params string[] candidates)
-        => candidates.FirstOrDefault(Directory.Exists)
-        ?? candidates.First(path => path != null);
-
 }

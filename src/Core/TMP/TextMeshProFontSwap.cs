@@ -56,23 +56,17 @@ public static class TextMeshProFontSwap
     public static void Apply(TMP_Text text)
     {
         Lang lang = LanguageManager.Current;
-        if (!FontManager.TMPFontReady
-            || LanguageManager.IsEnglish
+        if (LanguageManager.IsEnglish
             || lang == null
-            || lang.UseFontFallback)
-            return;
-
-        if (text.font == lang.MainFontAsset
-            || text.font == lang.TerminalAsset
-            || text.font == lang.MuseumAsset
-            || text.font == lang.SecretTerminalAsset)
+            || lang.UseFontFallback
+            || !lang.IsFontLoaded)
             return;
 
         var font = GetReplacementFont(text);
         if (font == null || font == text.font)
             return;
 
-        Material sourceMaterial = text.fontSharedMaterial ?? text.font.material;
+        var sourceMaterial = text.fontSharedMaterial ?? text.font.material;
         if (sourceMaterial == null || font.material == null)
             return;
 
@@ -115,7 +109,7 @@ public static class TextMeshProFontSwap
                 => LanguageManager.Current?.TerminalAsset,
             "MeseumFont" => LanguageManager.Current?.MuseumAsset,
             "Bittypix Monospace SDF" => LanguageManager.Current?.SecretTerminalAsset,
-            _ => LanguageManager.Current.MainFontAsset
+            _ => LanguageManager.Current?.MainFontAsset,
         };
     }
 }
