@@ -151,44 +151,198 @@ public static class EnemyBios
 	{
 		return originalenemy.ToUpper() switch
 		{
-			"FILTH" => CurrentLanguage.enemyBios.enemyBios_filth_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_filth_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_filth_3 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_filth_4,
-			"STRAY" => CurrentLanguage.enemyBios.enemyBios_stray_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_stray_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_stray_3,
-			"SCHISM" => CurrentLanguage.enemyBios.enemyBios_schism_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_schism_2,
-			"SOLDIER" => CurrentLanguage.enemyBios.enemyBios_soldier_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_soldier_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_soldier_3,
-			"IDOL" => CurrentLanguage.enemyBios.enemyBios_idol_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_idol_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_idol_3 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_idol_4,
-			"THE CORPSE OF KING MINOS" => CurrentLanguage.enemyBios.enemyBios_corpseOfKingMinos_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_corpseOfKingMinos_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_corpseOfKingMinos_3 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_corpseOfKingMinos_4,
-			"STALKER" => CurrentLanguage.enemyBios.enemyBios_stalker_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_stalker_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_stalker_3 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_stalker_4 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_stalker_5,
-			"INSURRECTIONIST" => CurrentLanguage.enemyBios.enemyBios_insurrectionist_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_insurrectionist_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_insurrectionist_3 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_insurrectionist_4 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_insurrectionist_5 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_insurrectionist_6,
-			"FERRYMAN" => CurrentLanguage.enemyBios.enemyBios_ferryman_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_ferryman_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_ferryman_3 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_ferryman_4 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_ferryman_5 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_ferryman_6,
-			"SWORDSMACHINE" => CurrentLanguage.enemyBios.enemyBios_swordsmachine_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_swordsmachine_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_swordsmachine_3,
-			"DRONE" => CurrentLanguage.enemyBios.enemyBios_drone_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_drone_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_drone_3,
-			"STREETCLEANER" => CurrentLanguage.enemyBios.enemyBios_streetcleaner_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_streetcleaner_2,
-			"V2" => CurrentLanguage.enemyBios.enemyBios_v2_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_v2_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_v2_3 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_v2_4 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_v2_5,
-			"MINDFLAYER" => CurrentLanguage.enemyBios.enemyBios_mindflayer_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_mindflayer_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_mindflayer_3 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_mindflayer_4 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_mindflayer_5,
-			"V2 (2ND)" => CurrentLanguage.enemyBios.enemyBios_v2Second_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_v2Second_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_v2Second_3 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_v2Second_4,
-			"SENTRY" => CurrentLanguage.enemyBios.enemyBios_sentry_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_sentry_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_sentry_3 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_sentry_4,
-			"GUTTERMAN" => CurrentLanguage.enemyBios.enemyBios_gutterman_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_gutterman_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_gutterman_3 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_gutterman_4,
-			"GUTTERTANK" => CurrentLanguage.enemyBios.enemyBios_guttertank_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_guttertank_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_guttertank_3 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_guttertank_4 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_guttertank_5 + " " + CurrentLanguage.enemyBios.enemyBios_guttertank_6 + " " + CurrentLanguage.enemyBios.enemyBios_guttertank_7,
-			"EARTHMOVER" => CurrentLanguage.enemyBios.enemyBios_earthmover_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_earthmover_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_earthmover_3 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_earthmover_4 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_earthmover_5 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_earthmover_6,
-			"MALICIOUS FACE" => CurrentLanguage.enemyBios.enemyBios_maliciousFace_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_maliciousFace_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_maliciousFace_3,
-			"CERBERUS" => CurrentLanguage.enemyBios.enemyBios_cerberus_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_cerberus_2,
-			"HIDEOUS MASS" => CurrentLanguage.enemyBios.enemyBios_hideousMass_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_hideousMass_2,
-			"LEVIATHAN" => CurrentLanguage.enemyBios.enemyBios_leviathan_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_leviathan_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_leviathan_3 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_leviathan_4,
-			"MANNEQUIN" => CurrentLanguage.enemyBios.enemyBios_mannequin_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_mannequin_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_mannequin_3 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_mannequin_4 + "\n\n" + CurrentLanguage.enemyBios.enemyBios_mannequin_5,
-			"<S>MINOTAUR" => CurrentLanguage.enemyBios.enemyBios_minotaur_1 + "\n\n\n...\n\n\n...\n\n\n...\n\n\n<s><color=red>" + CurrentLanguage.enemyBios.enemyBios_minotaur_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_minotaur_3 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_minotaur_4 + "</color></s>",
-			"GABRIEL, JUDGE OF HELL" => CurrentLanguage.enemyBios.enemyBios_gabriel_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_gabriel_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_gabriel_3,
-			"GABRIEL, APOSTATE OF HATE" => CurrentLanguage.enemyBios.enemyBios_gabrielSecond_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_gabrielSecond_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_gabrielSecond_3 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_gabrielSecond_4,
-			"VIRTUE" => CurrentLanguage.enemyBios.enemyBios_virtue_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_virtue_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_virtue_3 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_virtue_4 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_virtue_5,
-			"SOMETHING WICKED" => CurrentLanguage.enemyBios.enemyBios_somethingWicked_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_somethingWicked_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_somethingWicked_3 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_somethingWicked_4,
-			"FLESH PRISON" => CurrentLanguage.enemyBios.enemyBios_fleshPrison_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_fleshPrison_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_fleshPrison_3,
-			"MINOS PRIME" => CurrentLanguage.enemyBios.enemyBios_minosPrime_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_minosPrime_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_minosPrime_3 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_minosPrime_4 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_minosPrime_5 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_minosPrime_6 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_minosPrime_7 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_minosPrime_8,
-			"FLESH PANOPTICON" => CurrentLanguage.enemyBios.enemyBios_fleshPanopticon_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_fleshPanopticon_2,
-			"SISYPHUS PRIME" => CurrentLanguage.enemyBios.enemyBios_sisyphusPrime_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_sisyphusPrime_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_sisyphusPrime_3 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_sisyphusPrime_4 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_sisyphusPrime_5 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_sisyphusPrime_6 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_sisyphusPrime_7 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_sisyphusPrime_8,
-			"PROVIDENCE" => CurrentLanguage.enemyBios.enemyBios_providence_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_providence_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_providence_3,
-			"POWER" => CurrentLanguage.enemyBios.enemyBios_power_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_power_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_power_3 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_power_4,
-			"GERYON" => CurrentLanguage.enemyBios.enemyBios_geryon_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_geryon_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_geryon_3 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_geryon_4,
-			"MIRROR REAPER" => CurrentLanguage.enemyBios.enemyBios_mirrorReaper_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_mirrorReaper_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_mirrorReaper_3,
-			"DEATHCATCHER" => CurrentLanguage.enemyBios.enemyBios_deathcatcher_1 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_deathcatcher_2 + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_deathcatcher_3,
+			"FILTH" => CurrentLanguage.enemyBios.enemyBios_filth_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_filth_2
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_filth_3
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_filth_4,
+
+			"STRAY" => CurrentLanguage.enemyBios.enemyBios_stray_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_stray_2
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_stray_3,
+
+			"SCHISM" => CurrentLanguage.enemyBios.enemyBios_schism_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_schism_2,
+
+			"SOLDIER" => CurrentLanguage.enemyBios.enemyBios_soldier_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_soldier_2
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_soldier_3,
+
+			"IDOL" => CurrentLanguage.enemyBios.enemyBios_idol_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_idol_2
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_idol_3
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_idol_4,
+
+			"THE CORPSE OF KING MINOS" => CurrentLanguage.enemyBios.enemyBios_corpseOfKingMinos_1
+                + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_corpseOfKingMinos_2
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_corpseOfKingMinos_3
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_corpseOfKingMinos_4,
+			
+            "STALKER" => CurrentLanguage.enemyBios.enemyBios_stalker_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_stalker_2
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_stalker_3
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_stalker_4
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_stalker_5,
+			
+            "INSURRECTIONIST" => CurrentLanguage.enemyBios.enemyBios_insurrectionist_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_insurrectionist_2
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_insurrectionist_3
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_insurrectionist_4
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_insurrectionist_5
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_insurrectionist_6,
+			
+            "FERRYMAN" => CurrentLanguage.enemyBios.enemyBios_ferryman_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_ferryman_2
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_ferryman_3
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_ferryman_4
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_ferryman_5
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_ferryman_6,
+		
+            "SWORDSMACHINE" => CurrentLanguage.enemyBios.enemyBios_swordsmachine_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_swordsmachine_2
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_swordsmachine_3,
+		
+            "DRONE" => CurrentLanguage.enemyBios.enemyBios_drone_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_drone_2
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_drone_3,
+			
+            "STREETCLEANER" => CurrentLanguage.enemyBios.enemyBios_streetcleaner_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_streetcleaner_2,
+			
+            "V2" => CurrentLanguage.enemyBios.enemyBios_v2_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_v2_2
+                + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_v2_3
+                + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_v2_4
+                + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_v2_5,
+		
+            "MINDFLAYER" => CurrentLanguage.enemyBios.enemyBios_mindflayer_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_mindflayer_2
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_mindflayer_3
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_mindflayer_4
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_mindflayer_5,
+		
+            "V2 (2ND)" => CurrentLanguage.enemyBios.enemyBios_v2Second_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_v2Second_2
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_v2Second_3
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_v2Second_4,
+			
+            "SENTRY" => CurrentLanguage.enemyBios.enemyBios_sentry_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_sentry_2
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_sentry_3
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_sentry_4,
+			
+            "GUTTERMAN" => CurrentLanguage.enemyBios.enemyBios_gutterman_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_gutterman_2
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_gutterman_3
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_gutterman_4,
+			
+            "GUTTERTANK" => CurrentLanguage.enemyBios.enemyBios_guttertank_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_guttertank_2
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_guttertank_3
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_guttertank_4
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_guttertank_5
+                + " " + CurrentLanguage.enemyBios.enemyBios_guttertank_6
+                + " " + CurrentLanguage.enemyBios.enemyBios_guttertank_7,
+		
+            "EARTHMOVER" => CurrentLanguage.enemyBios.enemyBios_earthmover_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_earthmover_2
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_earthmover_3
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_earthmover_4
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_earthmover_5
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_earthmover_6,
+		
+            "MALICIOUS FACE" => CurrentLanguage.enemyBios.enemyBios_maliciousFace_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_maliciousFace_2
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_maliciousFace_3,
+			
+            "CERBERUS" => CurrentLanguage.enemyBios.enemyBios_cerberus_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_cerberus_2,
+			
+            "HIDEOUS MASS" => CurrentLanguage.enemyBios.enemyBios_hideousMass_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_hideousMass_2,
+		
+            "LEVIATHAN" => CurrentLanguage.enemyBios.enemyBios_leviathan_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_leviathan_2
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_leviathan_3
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_leviathan_4,
+		
+            "MANNEQUIN" => CurrentLanguage.enemyBios.enemyBios_mannequin_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_mannequin_2
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_mannequin_3
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_mannequin_4
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_mannequin_5,
+		
+            "<S>MINOTAUR" => CurrentLanguage.enemyBios.enemyBios_minotaur_1
+                + "\n\n...\n\n...\n\n..."
+                + "\n\n<s><color=red>" + CurrentLanguage.enemyBios.enemyBios_minotaur_2
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_minotaur_3
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_minotaur_4 + "</color></s>",
+		
+            "GABRIEL, JUDGE OF HELL" => CurrentLanguage.enemyBios.enemyBios_gabriel_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_gabriel_2
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_gabriel_3,
+		
+            "GABRIEL, APOSTATE OF HATE" => CurrentLanguage.enemyBios.enemyBios_gabrielSecond_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_gabrielSecond_2
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_gabrielSecond_3
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_gabrielSecond_4,
+		
+            "VIRTUE" => CurrentLanguage.enemyBios.enemyBios_virtue_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_virtue_2
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_virtue_3
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_virtue_4
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_virtue_5,
+		
+            "SOMETHING WICKED" => CurrentLanguage.enemyBios.enemyBios_somethingWicked_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_somethingWicked_2
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_somethingWicked_3
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_somethingWicked_4,
+		
+            "FLESH PRISON" => CurrentLanguage.enemyBios.enemyBios_fleshPrison_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_fleshPrison_2
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_fleshPrison_3,
+		
+            "MINOS PRIME" => CurrentLanguage.enemyBios.enemyBios_minosPrime_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_minosPrime_2
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_minosPrime_3
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_minosPrime_4
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_minosPrime_5
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_minosPrime_6
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_minosPrime_7
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_minosPrime_8,
+		
+            "FLESH PANOPTICON" => CurrentLanguage.enemyBios.enemyBios_fleshPanopticon_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_fleshPanopticon_2,
+		
+            "SISYPHUS PRIME" => CurrentLanguage.enemyBios.enemyBios_sisyphusPrime_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_sisyphusPrime_2
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_sisyphusPrime_3
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_sisyphusPrime_4
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_sisyphusPrime_5
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_sisyphusPrime_6
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_sisyphusPrime_7
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_sisyphusPrime_8,
+		
+            "PROVIDENCE" => CurrentLanguage.enemyBios.enemyBios_providence_1
+                + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_providence_2
+                + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_providence_3,
+		
+            "POWER" => CurrentLanguage.enemyBios.enemyBios_power_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_power_2
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_power_3
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_power_4,
+		
+            "GERYON" => CurrentLanguage.enemyBios.enemyBios_geryon_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_geryon_2
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_geryon_3
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_geryon_4,
+		
+            "MIRROR REAPER" => CurrentLanguage.enemyBios.enemyBios_mirrorReaper_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_mirrorReaper_2
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_mirrorReaper_3,
+		
+            "DEATHCATCHER" => CurrentLanguage.enemyBios.enemyBios_deathcatcher_1
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_deathcatcher_2
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_deathcatcher_3,
 			_ => null,
 		};
 	}
