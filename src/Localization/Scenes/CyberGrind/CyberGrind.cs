@@ -117,7 +117,7 @@ public static class CyberGrind
     private static void LocalizeSettings(GameObject mainPanel)
     {
         mainPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_settings,
-            path: ["Stats", "Title"]);
+            path: ["Stats", "Title"]).AddWidthAndHeight(110f, 0f);
 
         mainPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_settingsDescription,
             path: ["Stats", "Panel", "Text Inset", "Text"]);
@@ -140,7 +140,7 @@ public static class CyberGrind
         var themes = navigator.GetPanel("Themes");
 
         themes.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesTitle,
-            path: ["Preset Panel", "Title"]);
+            path: ["Preset Panel", "Title"]).AddWidthAndHeight(110f, 0f);
 
         themes.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesDescription,
             path: ["Preset Panel", "Panel", "Text"]);
@@ -164,7 +164,7 @@ public static class CyberGrind
 
         var playlist = navigator.GetPanel("Playlist");
         playlist.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicTitle,
-            path: ["Title"]);
+            path: ["Title"]).AddWidthAndHeight(110f, 0f);
         playlist.Localize<TextMeshProUGUI>(close,
             path: ["Panel", "Close Button", "Text"]);
 
@@ -180,13 +180,13 @@ public static class CyberGrind
 
         var soundtrack = navigator.GetPanel("Songs Soundtrack");
         soundtrack.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_musicSoundtrack,
-            path: ["Title"]);
+            path: ["Title"]).AddWidthAndHeight(110f, 0f);
         soundtrack.Localize<TextMeshProUGUI>(close,
             path: ["Panel", "Close Button", "Text"]);
 
         var custom = navigator.GetPanel("Songs Custom");
         custom.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustom,
-            path: ["Title"]);
+            path: ["Title"]).AddWidthAndHeight(110f, 0f);
         custom.Localize<TextMeshProUGUI>(close,
             path: ["Panel", "Close Button", "Text"]);
 
@@ -201,7 +201,7 @@ public static class CyberGrind
         var themeCustom = navigator.GetPanel("Theme Custom");
 
         themeCustom.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesModify,
-            path: ["Title"]);
+            path: ["Title"]).AddWidthAndHeight(110f, 0f);
 
         themeCustom.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_themesCustomGrid,
             path: ["Panel", "Sidebar", "Selector Buttons", "Grid Button", "Text"]);
@@ -263,7 +263,7 @@ public static class CyberGrind
         var patterns = navigator.GetPanel("Patterns");
 
         patterns.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_patternsTitle,
-            path: ["Patterns Window", "Title"]);
+            path: ["Patterns Window", "Title"]).AddWidthAndHeight(110f, 0f);
 
         patterns.Localize<TextMeshProUGUI>("<color=red>" + LanguageManager.CurrentLanguage.cyberGrind.cybergrind_patternsWarning + "</color>",
             path: ["Patterns Window", "Panel", "Warning Text"]);
@@ -285,7 +285,7 @@ public static class CyberGrind
         var waves = navigator.GetPanel("Waves");
 
         waves.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_wavesTitle,
-            path: ["Waves Window", "Title"]);
+            path: ["Waves Window", "Title"]).AddWidthAndHeight(110f, 0f);
 
         waves.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cyberGrind.cybergrind_wavesDescription1,
             path: ["Waves Window", "Panel", "Select Wave Text"]).fontSize = 16;
