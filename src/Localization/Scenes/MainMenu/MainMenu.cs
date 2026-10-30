@@ -97,7 +97,7 @@ public static class MainMenu
 	{
 		//Difficulty header text (note: this can't fit much without reducing the default font size.)
 		frontEnd.Localize<TextMeshProUGUI>("--{0}--".FormatWith(CurrentLanguage.frontend.difficulty_title),
-			path: ["Difficulty Select (1)", "Interactables", "Title"]);
+			path: ["Difficulty Select (1)", "Interactables", "Title"]).RemoveWordWrap();
 
 		//Easy header text
 		frontEnd.Localize<TextMeshProUGUI>(CurrentLanguage.frontend.difficulty_easy,
