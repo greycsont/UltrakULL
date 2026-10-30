@@ -911,9 +911,9 @@ public class EnemyBioStrings
     [DefaultValue("Even among Husks, they have the lowest intelligence, driven purely by hunger.")]
     public string enemyBios_filth_4;
 
-    [DefaultValue("Most weapons are easily capable of taking down Filth, but their powerful jaws and sheer numbers can overwhelm a target quickly if underestimated.")]
+    [DefaultValue("- Most weapons are easily capable of taking down Filth, but their powerful jaws and sheer numbers can overwhelm a target quickly if underestimated.")]
     public string enemyBios_filth_strategy1;
-    [DefaultValue("Explosives are the most effective way to take down swarms, but any weapon that can hit more than one target will be efficient.")]
+    [DefaultValue("- Explosives are the most effective way to take down swarms, but any weapon that can hit more than one target will be efficient.")]
     public string enemyBios_filth_strategy2;
 
     [DefaultValue("While their tall stature may seem intimidating, Strays are afraid of most danger and will try to stay at a safe distance, only attacking via projectiles formed with Hell Energy. ")]
@@ -923,9 +923,9 @@ public class EnemyBioStrings
     [DefaultValue("Nevertheless, humans were unable to replicate this level of accuracy and control, particularly the Stray's ability to cause the energy orbs to selectively ignore other Husks.")]
     public string enemyBios_stray_3;
 
-    [DefaultValue("Most weapons will be effective against them, but a Revolver headshot is the quickest and surest way to eliminate a Stray.")]
+    [DefaultValue("- Most weapons will be effective against them, but a Revolver headshot is the quickest and surest way to eliminate a Stray.")]
     public string enemyBios_stray_strategy1;
-    [DefaultValue("Due to their static nature and slow rate of attacking, they are an excellent target for projectile parrying.")]
+    [DefaultValue("- Due to their static nature and slow rate of attacking, they are an excellent target for projectile parrying.")]
     public string enemyBios_stray_strategy2;
 
     [DefaultValue("The result of two souls attempting to manifest in the same space, causing an amalgamation of two physical bodies. ")]
@@ -933,11 +933,11 @@ public class EnemyBioStrings
     [DefaultValue("Due to the doubled body mass, they're quite resilient to damage, but have very poor motor control and thus cannot aim with any degree of accuracy, resorting to barrages of energy orbs in the general direction of their opponent.")]
     public string enemyBios_schism_2;
 
-    [DefaultValue("Piercer revolver's charged headshots are an efficient tool for a quick kill against Schisms, though their displaced head can make aiming difficult for the inexperienced.")]
+    [DefaultValue("- Piercer revolver's charged headshots are an efficient tool for a quick kill against Schisms, though their displaced head can make aiming difficult for the inexperienced.")]
     public string enemyBios_schism_strategy1;
-    [DefaultValue("A point-blank Pump Charge shotgun blast with 2 pumps will be able to take them down in a single shot.")]
+    [DefaultValue("- A point-blank Pump Charge shotgun blast with 2 pumps will be able to take them down in a single shot.")]
     public string enemyBios_schism_strategy2;
-    [DefaultValue("Due to their poor aim, they aren't a priority target, but the sheer amount of projectiles can sometimes make avoiding them tricky in busy encounters.")]
+    [DefaultValue("- Due to their poor aim, they aren't a priority target, but the sheer amount of projectiles can sometimes make avoiding them tricky in busy encounters.")]
     public string enemyBios_schism_strategy3;
 
     [DefaultValue("Soldiers are an augmented version of Strays, whose technological implants have been scavenged from broken machines to channel Hell Energy with greater efficiency.")]
@@ -947,11 +947,11 @@ public class EnemyBioStrings
     [DefaultValue("Despite the enhancements, their intelligence remains low and it has yet to be determined who or what actually augmented them.")]
     public string enemyBios_soldier_3;
 
-    [DefaultValue("The shotgun is an excellent weapon against Soldiers, as long as its use is swift so as to not allow them to protect themselves with melee attacks. ")]
+    [DefaultValue("- The shotgun is an excellent weapon against Soldiers, as long as its use is swift so as to not allow them to protect themselves with melee attacks. ")]
     public string enemyBios_soldier_strategy1;
-    [DefaultValue("Since Soldiers charge their shots in front of them rather than above them, the charge is also easier to interrupt via a precise revolver shot for an explosive kill.")]
+    [DefaultValue("- Since Soldiers charge their shots in front of them rather than above them, the charge is also easier to interrupt via a precise revolver shot for an explosive kill.")]
     public string enemyBios_soldier_strategy2;
-    [DefaultValue("Thanks to their augmentations, Soldiers are able to withstand normal explosions with little to no damage. The more powerful red explosions will go through their guard however, and they are unable to block if not on the ground.")]
+    [DefaultValue("- Thanks to their augmentations, Soldiers are able to withstand normal explosions with little to no damage. The more powerful red explosions will go through their guard however, and they are unable to block if not on the ground.")]
     public string enemyBios_soldier_strategy3;
 
     [DefaultValue("Ferrymen are rare husks whose powerful bodies, trained skills and blind faith have granted them the chance of becoming the transporters of souls between the layers of Hell.")]
@@ -967,13 +967,13 @@ public class EnemyBioStrings
     [DefaultValue("As the influx of souls has ended with the death of mankind, the Ferrymen have lost their purpose and now wander around aimlessly, hoping that the angels would grant them passage into Heaven, despite Gabriel being the only one who cares about their efforts.")]
     public string enemyBios_ferryman_6;
 
-    [DefaultValue("Ferrymen choose their attacks based on their opponent's actions. When approached, they move to safety, and when retreated from, they'll apply pressure via attacks with greater reach.")]
+    [DefaultValue("- Ferrymen choose their attacks based on their opponent's actions. When approached, they move to safety, and when retreated from, they'll apply pressure via attacks with greater reach.")]
     public string enemyBios_ferryman_strategy1;
-    [DefaultValue("Despite its looks, their uppercut is quite dangerous and can be difficult to dodge. It's best not to stay in the air for too long.")]
+    [DefaultValue("- Despite its looks, their uppercut is quite dangerous and can be difficult to dodge. It's best not to stay in the air for too long.")]
     public string enemyBios_ferryman_strategy2;
-    [DefaultValue("Some of their attacks are parryable and some are not. Pay attention to the color of their warning flash to learn which are which.")]
+    [DefaultValue("- Some of their attacks are parryable and some are not. Pay attention to the color of their warning flash to learn which are which.")]
     public string enemyBios_ferryman_strategy3;
-    [DefaultValue("Ferrymen may attempt to cross a retreating opponent up by rolling behind them before attacking. Keep track of their position and if they roll too often, try being more aggressive.")]
+    [DefaultValue("- Ferrymen may attempt to cross a retreating opponent up by rolling behind them before attacking. Keep track of their position and if they roll too often, try being more aggressive.")]
     public string enemyBios_ferryman_strategy4;
 
     [DefaultValue("Although they can easily be mistaken to be of divine origin, Idols were created using the same process as other demons. Unlike their larger kin, their shells were too small to contain a useful amount of Hell Mass, creating life, but leaving it unable to move or act.")]
@@ -985,13 +985,13 @@ public class EnemyBioStrings
     [DefaultValue("It is fortunate for them that Gabriel is the only angel of Heaven's higher order to watch over Hell, since if the Council had found out about such beings, they would have been labelled perversions of the divine form and ordered to be destroyed by the Ferrymen who so lovingly had granted them a chance at life.")]
     public string enemyBios_idol_4;
 
-    [DefaultValue("Although Idols are immune to projectiles, they can be destroyed by a blunt force melee attack such as a punch or a ground slam.")]
+    [DefaultValue("- Although Idols are immune to projectiles, they can be destroyed by a blunt force melee attack such as a punch or a ground slam.")]
     public string enemyBios_idol_strategy1;
-    [DefaultValue("Blessed enemies cannot be damaged by attacks, but will still be pushed by physical forces and can be killed by environmental dangers, such as crushers or fans.")]
+    [DefaultValue("- Blessed enemies cannot be damaged by attacks, but will still be pushed by physical forces and can be killed by environmental dangers, such as crushers or fans.")]
     public string enemyBios_idol_strategy2;
-    [DefaultValue("Blessed enemies do not bleed, but parries can still be used to heal from them.")]
+    [DefaultValue("- Blessed enemies do not bleed, but parries can still be used to heal from them.")]
     public string enemyBios_idol_strategy3;
-    [DefaultValue("Neither Idols nor blessed enemies can be grappled onto with the Whiplash.")]
+    [DefaultValue("- Neither Idols nor blessed enemies can be grappled onto with the Whiplash.")]
     public string enemyBios_idol_strategy4;
 
     [DefaultValue("Unlike most demons, the Leviathan is not formed from generic Hell Mass, but instead from the bodies of the Sullen, a name used for those in the Ocean Styx who have given up fighting for air and instead lay at the bottom of the ocean, drowning eternally.")]
@@ -1003,11 +1003,11 @@ public class EnemyBioStrings
     [DefaultValue("Although the world ended, the Leviathan remains trapped in the Ocean Styx, growing ever longer as more of Wrath's sinners give up and sink to the bottom.")]
     public string enemyBios_leviathan_4;
 
-    [DefaultValue("The Leviathan's heart is exposed on top of its head, making it a clear weakpoint to aim for. Although it's usually not visible, it can be seen after the Leviathan's attacks, opening an opportunity for direct damage, or for landing a magnet.")]
+    [DefaultValue("- The Leviathan's heart is exposed on top of its head, making it a clear weakpoint to aim for. Although it's usually not visible, it can be seen after the Leviathan's attacks, opening an opportunity for direct damage, or for landing a magnet.")]
     public string enemyBios_leviathan_strategy1;
-    [DefaultValue("Although ill-advised, it is possible to ride the Leviathan for a short period of time. A well-timed jump will allow one to dodge the Leviathan's bite attack as well as land on its head near its exposed heart.")]
+    [DefaultValue("- Although ill-advised, it is possible to ride the Leviathan for a short period of time. A well-timed jump will allow one to dodge the Leviathan's bite attack as well as land on its head near its exposed heart.")]
     public string enemyBios_leviathan_strategy2;
-    [DefaultValue("The tail will either swing high or low, and the height of the swing can be determined by the direction in which the swing rotates.")]
+    [DefaultValue("- The tail will either swing high or low, and the height of the swing can be determined by the direction in which the swing rotates.")]
     public string enemyBios_leviathan_strategy3;
 
     [DefaultValue("Once the great and beloved king of the Lust layer, Minos has now been reduced to a shambling corpse.")]
@@ -1019,11 +1019,11 @@ public class EnemyBioStrings
     [DefaultValue("Despite once bringing upon the renaissance of the Lust layer, his corpse now only seeks sinners to punish.")]
     public string enemyBios_corpseOfKingMinos_4;
 
-    [DefaultValue("Due to his large stature, it can be quite difficult to recover blood from him, but his hands are usually holding on to the walls of the arena, which can be used for refueling.")]
+    [DefaultValue("- Due to his large stature, it can be quite difficult to recover blood from him, but his hands are usually holding on to the walls of the arena, which can be used for refueling.")]
     public string enemyBios_corpseOfKingMinos_strategy1;
-    [DefaultValue("Any weapon will work against an enemy this large, but melee and projectile parries make for a quick way to inflict grave damage.")]
+    [DefaultValue("- Any weapon will work against an enemy this large, but melee and projectile parries make for a quick way to inflict grave damage.")]
     public string enemyBios_corpseOfKingMinos_strategy2;
-    [DefaultValue("Although it moves slowly, the Black Hole he summons is extremely dangerous and cannot be destroyed.")]
+    [DefaultValue("- Although it moves slowly, the Black Hole he summons is extremely dangerous and cannot be destroyed.")]
     public string enemyBios_corpseOfKingMinos_strategy3;
 
     [DefaultValue("As the Greed layer's punishment, Stalkers have been forced to carry heavy boulders up the monuments of mankind's greed for all eternity.")]
@@ -1037,13 +1037,13 @@ public class EnemyBioStrings
     [DefaultValue("Research has shown the technology to be very similar to the augmentations of the modified Strays known as Soldiers, so it is likely both modifications come from the same source.")]
     public string enemyBios_stalker_5;
 
-    [DefaultValue("The lights on the canister give information on a Stalker's state. The color shows the state of their explosive and the brightness of the color shows how much health the Stalker has left.")]
+    [DefaultValue("- The lights on the canister give information on a Stalker's state. The color shows the state of their explosive and the brightness of the color shows how much health the Stalker has left.")]
     public string enemyBios_stalker_strategy1;
-    [DefaultValue("It's advisable to forcibly detonate a Stalker rather than allowing one to detonate itself, as the latter explosion will have a larger area of effect.")]
+    [DefaultValue("- It's advisable to forcibly detonate a Stalker rather than allowing one to detonate itself, as the latter explosion will have a larger area of effect.")]
     public string enemyBios_stalker_strategy2;
-    [DefaultValue("If a Stalker gets close to its target and can no longer be pushed away, a ground slam wave can launch them out of range so they can be detonated safely in mid-air, since the explosion is mostly horizontal.")]
+    [DefaultValue("- If a Stalker gets close to its target and can no longer be pushed away, a ground slam wave can launch them out of range so they can be detonated safely in mid-air, since the explosion is mostly horizontal.")]
     public string enemyBios_stalker_strategy3;
-    [DefaultValue("Attaching magnets to a Stalker will reduce the radius of its detonation.")]
+    [DefaultValue("- Attaching magnets to a Stalker will reduce the radius of its detonation.")]
     public string enemyBios_stalker_strategy4;
 
     [DefaultValue("The Sisyphean Insurrectionists were an army of Husks gathered and trained by King Sisyphus for overthrowing Heaven's control of Hell, freeing the sinners from their eternal torment.")]
@@ -1059,13 +1059,13 @@ public class EnemyBioStrings
     [DefaultValue("Although the blood of their enemies still stains their bodies and their grasp still clutches their fallen foes, their will and fierce fury only serve as mental torment in knowing how close they were to freedom.")]
     public string enemyBios_insurrectionist_6;
 
-    [DefaultValue("The Sisyphean Insurrectionists soak their feet in the blood of their enemies to protect them from the heat of Greed's dunes, but the rest of their body is still skin and flesh, which can be set aflame to greatly weaken their defences, increasing the damage of any attack dealt to them.")]
+    [DefaultValue("- The Sisyphean Insurrectionists soak their feet in the blood of their enemies to protect them from the heat of Greed's dunes, but the rest of their body is still skin and flesh, which can be set aflame to greatly weaken their defences, increasing the damage of any attack dealt to them.")]
     public string enemyBios_insurrectionist_strategy1;
-    [DefaultValue("Though they have practically unlimited range, each of the Insurrectionist's swings has strengths and weaknesses. Learning which way to dodge to avoid each attack is vital.")]
+    [DefaultValue("- Though they have practically unlimited range, each of the Insurrectionist's swings has strengths and weaknesses. Learning which way to dodge to avoid each attack is vital.")]
     public string enemyBios_insurrectionist_strategy2;
-    [DefaultValue("The Insurrectionist's stomp is fast and destructive, so it's inadvisable to stay close for long.")]
+    [DefaultValue("- The Insurrectionist's stomp is fast and destructive, so it's inadvisable to stay close for long.")]
     public string enemyBios_insurrectionist_strategy3;
-    [DefaultValue("The Malicious Face they wield as a weapon is not a part of their body, so hitting it will not deal damage to an Insurrectionist, but this also means that it can still be used to heal even if its wielder's blood has been turned to sand.")]
+    [DefaultValue("- The Malicious Face they wield as a weapon is not a part of their body, so hitting it will not deal damage to an Insurrectionist, but this also means that it can still be used to heal even if its wielder's blood has been turned to sand.")]
     public string enemyBios_insurrectionist_strategy4;
 
     [DefaultValue("Its original form is unrecognisable after years of scavenging scrap and rebuilding itself, but among scrapheads, the Swordsmachine is quite famous due to its combat prowess and selfmade form, ugly to most but beautiful to enthusiasts, spawning many copycats. ")]
@@ -1075,11 +1075,11 @@ public class EnemyBioStrings
     [DefaultValue("Due to its possessive hoarding behavior, it's one of the few machines still capable of vocalization -- an ability most have discarded for more efficient resource management.")]
     public string enemyBios_swordsmachine_3;
 
-    [DefaultValue("Despite its excellent performance against Hell's denizens, its design does not take into account extremely mobile opponents, so the best way to avoid its blade is to jump out of its vertical range.")]
+    [DefaultValue("- Despite its excellent performance against Hell's denizens, its design does not take into account extremely mobile opponents, so the best way to avoid its blade is to jump out of its vertical range.")]
     public string enemyBios_swordsmachine_strategy1;
-    [DefaultValue("Its motorized sword makes for predictable attacks, making the Swordsmachine an excellent target for parrying.")]
+    [DefaultValue("- Its motorized sword makes for predictable attacks, making the Swordsmachine an excellent target for parrying.")]
     public string enemyBios_swordsmachine_strategy2;
-    [DefaultValue("Although its use of ranged weapons is primitive at best, its sword throws can be unexpectedly accurate thanks to its mastery of the weapon.")]
+    [DefaultValue("- Although its use of ranged weapons is primitive at best, its sword throws can be unexpectedly accurate thanks to its mastery of the weapon.")]
     public string enemyBios_swordsmachine_strategy3;
 
     [DefaultValue("A mass-produced security device built as both a surveillance camera and a security guard.")]
@@ -1089,13 +1089,13 @@ public class EnemyBioStrings
     [DefaultValue("Curious by nature, but to keep production costs low, their intelligence is very limited.")]
     public string enemyBios_drone_3;
 
-    [DefaultValue("Due to their light weight, physical projectiles such as nails will push them around, making them harder to deal consistent damage to.")]
+    [DefaultValue("- Due to their light weight, physical projectiles such as nails will push them around, making them harder to deal consistent damage to.")]
     public string enemyBios_drone_strategy1;
-    [DefaultValue("On death they will make a last ditch effort to harm their opponent with a self-destruct, but powerful single attacks and explosives will make them explode instantly.")]
+    [DefaultValue("- On death they will make a last ditch effort to harm their opponent with a self-destruct, but powerful single attacks and explosives will make them explode instantly.")]
     public string enemyBios_drone_strategy2;
-    [DefaultValue("Punching a drone will redirect their suicide dive, making them a high-risk offensive opportunity.")]
+    [DefaultValue("- Punching a drone will redirect their suicide dive, making them a high-risk offensive opportunity.")]
     public string enemyBios_drone_strategy3;
-    [DefaultValue("Their scanning mechanism makes a chirping sound, which can be listened for to make them easier to track down, as their flight and small size can lead them to hard to reach places.")]
+    [DefaultValue("- Their scanning mechanism makes a chirping sound, which can be listened for to make them easier to track down, as their flight and small size can lead them to hard to reach places.")]
     public string enemyBios_drone_strategy4;
 
     [DefaultValue("Originally built as a way to purify the tainted air of cities after the climate catastrophe, Streetcleaners were made obsolete during the New Peace, and were repurposed as scouts for Hell expeditions.")]
@@ -1103,11 +1103,11 @@ public class EnemyBioStrings
     [DefaultValue("However, their urge to clean remained, and after the fall of mankind, they began burning any organic matter they came across in an effort to purify the world.")]
     public string enemyBios_streetcleaner_2;
 
-    [DefaultValue("Due to their combat experience, they can be tricky to take down with projectiles or explosives.")]
+    [DefaultValue("- Due to their combat experience, they can be tricky to take down with projectiles or explosives.")]
     public string enemyBios_streetcleaner_strategy1;
-    [DefaultValue("The canister on their back is a major weakpoint that can be shattered with a precision shot, such as a Marksman coin ricochet from behind.")]
+    [DefaultValue("- The canister on their back is a major weakpoint that can be shattered with a precision shot, such as a Marksman coin ricochet from behind.")]
     public string enemyBios_streetcleaner_strategy2;
-    [DefaultValue("Point-blank attacks can also be very efficient, but must be performed quickly to avoid the fire of their flamethrowers.")]
+    [DefaultValue("- Point-blank attacks can also be very efficient, but must be performed quickly to avoid the fire of their flamethrowers.")]
     public string enemyBios_streetcleaner_strategy3;
 
     [DefaultValue("The V model was built for war, with V1 boasting a new kind of exterior plating that allowed refueling through contact with blood rather than through a separate blood refueling process.")]
@@ -1121,13 +1121,13 @@ public class EnemyBioStrings
     [DefaultValue("Neither model ever reached mass production due to the end of wars completely draining any demand, so it's likely only a single prototype build of each model remains in existence.")]
     public string enemyBios_v2_5;
 
-    [DefaultValue("V2 is adept at controlling space and will take advantage of this to change the flow of battle to throw off its opponent. Stay too close and it will run away. Stay far away and it will come close.")]
+    [DefaultValue("- V2 is adept at controlling space and will take advantage of this to change the flow of battle to throw off its opponent. Stay too close and it will run away. Stay far away and it will come close.")]
     public string enemyBios_v2_strategy1;
-    [DefaultValue("V2's high mobility makes it a tricky target to hit, and especially difficult to heal off of. When in need of blood and unable to catch up, it's instead recommended to stay away from it and let it come to you instead.")]
+    [DefaultValue("- V2's high mobility makes it a tricky target to hit, and especially difficult to heal off of. When in need of blood and unable to catch up, it's instead recommended to stay away from it and let it come to you instead.")]
     public string enemyBios_v2_strategy2;
-    [DefaultValue("V2 will switch weapons depending on the distance from its target, so if one of its weapons is difficult to avoid, a change in proximity will close it off.")]
+    [DefaultValue("- V2 will switch weapons depending on the distance from its target, so if one of its weapons is difficult to avoid, a change in proximity will close it off.")]
     public string enemyBios_v2_strategy3;
-    [DefaultValue("Knowledge of the synergies of one's own arsenal can allow one to turn V2's weapons against it.")]
+    [DefaultValue("- Knowledge of the synergies of one's own arsenal can allow one to turn V2's weapons against it.")]
     public string enemyBios_v2_strategy4;
 
     [DefaultValue("Rare but extremely dangerous, the Mindflayer is a machine that has adapted and mastered the use of Hell Energy alongside its own technological prowess.")]
@@ -1141,11 +1141,11 @@ public class EnemyBioStrings
     [DefaultValue("Mindflayers seem to prefer a female form, though very rare occasions of male forms have also been recorded.")]
     public string enemyBios_mindflayer_5;
 
-    [DefaultValue("When encountering a Mindflayer, it's imperative to keep track of their actions either through visuals or audio.")]
+    [DefaultValue("- When encountering a Mindflayer, it's imperative to keep track of their actions either through visuals or audio.")]
     public string enemyBios_mindflayer_strategy1;
-    [DefaultValue("Due to their homing projectiles being fired in a burst, a safe explosive such as a Knuckleblaster blastwave is the most efficient in deflecting them.")]
+    [DefaultValue("- Due to their homing projectiles being fired in a burst, a safe explosive such as a Knuckleblaster blastwave is the most efficient in deflecting them.")]
     public string enemyBios_mindflayer_strategy2;
-    [DefaultValue("Their instant teleportation can make consistent positional advantage quite difficult, but a Screwdriver drill will temporarily stop them from teleporting.")]
+    [DefaultValue("- Their instant teleportation can make consistent positional advantage quite difficult, but a Screwdriver drill will temporarily stop them from teleporting.")]
     public string enemyBios_mindflayer_strategy3;
 
     [DefaultValue("One of the many war machines created during the Final War. Although there were attempts to find new purpose for them during the New Peace, their streamlined design made them unable to be repurposed until the start of the Hell expeditions.")]
@@ -1157,13 +1157,13 @@ public class EnemyBioStrings
     [DefaultValue("Most machines will only render a simplified approximation of their visual surroundings for faster processing speed, but Sentries use full renders instead, giving them perfect accuracy even over extremely long distances.")]
     public string enemyBios_sentry_4;
 
-    [DefaultValue("Due to their powerful legs, once they've dug into the ground to aim, they can no longer move.")]
+    [DefaultValue("- Due to their powerful legs, once they've dug into the ground to aim, they can no longer move.")]
     public string enemyBios_sentry_strategy1;
-    [DefaultValue("Once dug in, the only ways to interrupt their attack are: Shooting them with the Electric Railcannon, hitting their antenna with the Revolver, launching them with the ground slam wave or punching them with the Knuckleblaster.")]
+    [DefaultValue("- Once dug in, the only ways to interrupt their attack are: Shooting them with the Electric Railcannon, hitting their antenna with the Revolver, launching them with the ground slam wave or punching them with the Knuckleblaster.")]
     public string enemyBios_sentry_strategy2;
-    [DefaultValue("As long as they haven't dug in, their light weight makes them easy to launch and keep in the air where they are harmless.")]
+    [DefaultValue("- As long as they haven't dug in, their light weight makes them easy to launch and keep in the air where they are harmless.")]
     public string enemyBios_sentry_strategy3;
-    [DefaultValue("A good way to disable a Sentry for a longer period of time is to shoot nails into them with the Nailgun and then placing a magnet in a nearby wall or ceiling, which will pull them once they've been knocked off balance.")]
+    [DefaultValue("- A good way to disable a Sentry for a longer period of time is to shoot nails into them with the Nailgun and then placing a magnet in a nearby wall or ceiling, which will pull them once they've been knocked off balance.")]
     public string enemyBios_sentry_strategy4;
 
     [DefaultValue("After its defeat and escape, V2 dove deeper into Hell, killing other machines for their blood to help its recovery with the intent of taking revenge on V1 and recovering its original arm.")]
@@ -1175,11 +1175,11 @@ public class EnemyBioStrings
     [DefaultValue("However, despite all its preparation, V2 lost again, and unable to escape this time, was brought to a swift and decisive end by its predecessor.")]
     public string enemyBios_v2Second_4;
 
-    [DefaultValue("Although V2's coins may seem extremely dangerous at first, they are also an excellent opportunity for high damage if shot before V2 can.")]
+    [DefaultValue("- Although V2's coins may seem extremely dangerous at first, they are also an excellent opportunity for high damage if shot before V2 can.")]
     public string enemyBios_v2Second_strategy1;
-    [DefaultValue("V2's nailgun can be circumvented or turned against itself via Magnets.")]
+    [DefaultValue("- V2's nailgun can be circumvented or turned against itself via Magnets.")]
     public string enemyBios_v2Second_strategy2;
-    [DefaultValue("Hitting V2 with its own arm will cause it to enrage instantly.")]
+    [DefaultValue("- Hitting V2 with its own arm will cause it to enrage instantly.")]
     public string enemyBios_v2Second_strategy3;
 
     [DefaultValue("Built in the early days of the Final War, the Guttermen were one of the first successful experiments in using blood as a fuel source, as well as the first automatons to be deployed in wide-scale conflict.")]
@@ -1191,13 +1191,13 @@ public class EnemyBioStrings
     [DefaultValue("Forces from far beyond took notice of the cruelty man was capable of, and the suffering of these human blood supplies served as an inspiration for the creation of the Mannequins.")]
     public string enemyBios_gutterman_4;
 
-    [DefaultValue("The shield is a Gutterman's main defence. Destroying it with the Knuckleblaster will cause them to take increased damage.")]
+    [DefaultValue("- The shield is a Gutterman's main defence. Destroying it with the Knuckleblaster will cause them to take increased damage.")]
     public string enemyBios_gutterman_strategy1;
-    [DefaultValue("Although slow at first, their tracking will improve the longer they maintain line of sight. It's best not to stay out in the open for too long.")]
+    [DefaultValue("- Although slow at first, their tracking will improve the longer they maintain line of sight. It's best not to stay out in the open for too long.")]
     public string enemyBios_gutterman_strategy2;
-    [DefaultValue("Once the shield has been broken, the Gutterman's punches can be parried, which resets their tracking.")]
+    [DefaultValue("- Once the shield has been broken, the Gutterman's punches can be parried, which resets their tracking.")]
     public string enemyBios_gutterman_strategy3;
-    [DefaultValue("A Gutterman's corpse can be ground slammed to cause a large explosion that damages surrounding enemies and launches the attacker high in the air.")]
+    [DefaultValue("- A Gutterman's corpse can be ground slammed to cause a large explosion that damages surrounding enemies and launches the attacker high in the air.")]
     public string enemyBios_gutterman_strategy4;
 
     [DefaultValue("As Guttermen singlehandedly ended the trench warfare era of the Final War, armies scrambled to create countermeasures, leading to the creation of more machines of war.")]
@@ -1215,9 +1215,9 @@ public class EnemyBioStrings
     [DefaultValue("Famine leads to...")]
     public string enemyBios_guttertank_7;
 
-    [DefaultValue("The Guttertank's punch is deceptively fast and powerful. The best way to get close safely is to bait a punch before closing the gap.")]
+    [DefaultValue("- The Guttertank's punch is deceptively fast and powerful. The best way to get close safely is to bait a punch before closing the gap.")]
     public string enemyBios_guttertank_strategy1;
-    [DefaultValue("Due to reused technology, the Freezeframe Rocket Launcher is capable of freezing Guttertank rockets too, making them temporarily incapable of long range combat.")]
+    [DefaultValue("- Due to reused technology, the Freezeframe Rocket Launcher is capable of freezing Guttertank rockets too, making them temporarily incapable of long range combat.")]
     public string enemyBios_guttertank_strategy2;
 
     [DefaultValue("Earthmovers were the pinnacle of the arms race. Often called the horsemen of the apocalypse, it took only one to level an entire city and leave nothing but fire in its wake. The last era of the Final War had begun.")]
@@ -1233,9 +1233,9 @@ public class EnemyBioStrings
     [DefaultValue("At the brink of despair, the planet would slowly learn to breathe once more, and the corpses of these titans would serve as a stark reminder of just how close mankind was to an apocalypse by their own hand.")]
     public string enemyBios_earthmover_6;
 
-    [DefaultValue("Each part of the security system is immobile, making them very vulnerable to attacks that would otherwise easily miss, such as Freeze Frame rockets.")]
+    [DefaultValue("- Each part of the security system is immobile, making them very vulnerable to attacks that would otherwise easily miss, such as Freeze Frame rockets.")]
     public string enemyBios_earthmover_strategy1;
-    [DefaultValue("Some of the gaps in the main computer room's defence grid are too high up for a normal jump, but the elevated edges of the room can be used to get higher. More adept movers may instead jump immediately after a ground slam to gain enough height.")]
+    [DefaultValue("- Some of the gaps in the main computer room's defence grid are too high up for a normal jump, but the elevated edges of the room can be used to get higher. More adept movers may instead jump immediately after a ground slam to gain enough height.")]
     public string enemyBios_earthmover_strategy2;
 
     [DefaultValue("Demons are creatures born from the mass of Hell. They are most easily recognisable by their hard stone-like exterior and slow movement.")]
@@ -1245,9 +1245,9 @@ public class EnemyBioStrings
     [DefaultValue("Malicious Faces are the most common type of demon, but are incredibly dangerous, especially in swarms, due to their mastery of the use of Hell Energy as a weapon.")]
     public string enemyBios_maliciousFace_3;
 
-    [DefaultValue("Due to their burst fire, they can be quite difficult to get close to, so despite the effectiveness of a point blank shotgun shot, nails are the recommended course of action, with magnets enabling long-range combat.")]
+    [DefaultValue("- Due to their burst fire, they can be quite difficult to get close to, so despite the effectiveness of a point blank shotgun shot, nails are the recommended course of action, with magnets enabling long-range combat.")]
     public string enemyBios_maliciousFace_strategy1;
-    [DefaultValue("Due to their invulnerability to explosions, they don't need to hold back the energy of their beam attacks, so staying away from walls and other surfaces is recommended when they begin charging an energy beam.")]
+    [DefaultValue("- Due to their invulnerability to explosions, they don't need to hold back the energy of their beam attacks, so staying away from walls and other surfaces is recommended when they begin charging an energy beam.")]
     public string enemyBios_maliciousFace_strategy2;
 
     [DefaultValue("Although they do not resemble the mythological three-headed dog, this name was chosen due to their nature as protectors of Hell. However, it's not yet known why some stay dormant despite provocation.")]
@@ -1255,11 +1255,11 @@ public class EnemyBioStrings
     [DefaultValue("Despite the fact that keeping an energy orb stable takes a considerable amount of focus and effort, they seem to always keep one in hand, most likely as a display of their power to scare off intruders.")]
     public string enemyBios_cerberus_2;
 
-    [DefaultValue("Due to remaining entirely stationary until awoken, they move quite slowly, so engagement distance is easy to control.")]
+    [DefaultValue("- Due to remaining entirely stationary until awoken, they move quite slowly, so engagement distance is easy to control.")]
     public string enemyBios_cerberus_strategy1;
-    [DefaultValue("They're quite adept at ranged combat by throwing their orb, but in order to avoid damaging themselves, they will not initiate a throw while their target is close, which can be used to manipulate their behavior, though once a throw has started, it cannot be stopped.")]
+    [DefaultValue("- They're quite adept at ranged combat by throwing their orb, but in order to avoid damaging themselves, they will not initiate a throw while their target is close, which can be used to manipulate their behavior, though once a throw has started, it cannot be stopped.")]
     public string enemyBios_cerberus_strategy2;
-    [DefaultValue("Due to the extreme concentration of their energy orbs, thrown ones explode on physical impact, so staying close to surfaces such the floor or any walls will make avoiding ranged attacks more difficult.")]
+    [DefaultValue("- Due to the extreme concentration of their energy orbs, thrown ones explode on physical impact, so staying close to surfaces such the floor or any walls will make avoiding ranged attacks more difficult.")]
     public string enemyBios_cerberus_strategy3;
 
     [DefaultValue("Hideous Masses are a rare occurrence, when an excessive amount of Hell Mass is poured into a single shell, causing it to overflow and burst at the seams.")]
@@ -1267,13 +1267,13 @@ public class EnemyBioStrings
     [DefaultValue("Due to the broken seams allowing for mobility without having to bend the exterior, the stone has hardened more than the shell of most demons, making it completely impervious to all currently known attacks.")]
     public string enemyBios_hideousMass_2;
 
-    [DefaultValue("Although its stone exterior makes for an impenetrable defense, the Hideous Mass' belly and tail remain exposed and vulnerable.")]
+    [DefaultValue("- Although its stone exterior makes for an impenetrable defense, the Hideous Mass' belly and tail remain exposed and vulnerable.")]
     public string enemyBios_hideousMass_strategy1;
-    [DefaultValue("While standing up, a quick burst of close range damage is the most effective way to hurt them, though this will most likely cause it to change formations, so being quick and decisive is the key.")]
+    [DefaultValue("- While standing up, a quick burst of close range damage is the most effective way to hurt them, though this will most likely cause it to change formations, so being quick and decisive is the key.")]
     public string enemyBios_hideousMass_strategy2;
-    [DefaultValue("When in its low formation, keeping a safe distance is recommended due to its melee capabilities and high speed tail harpoon, though the brave or suicidal may attempt to climb on its back to continue dealing close range damage to the tail.")]
+    [DefaultValue("- When in its low formation, keeping a safe distance is recommended due to its melee capabilities and high speed tail harpoon, though the brave or suicidal may attempt to climb on its back to continue dealing close range damage to the tail.")]
     public string enemyBios_hideousMass_strategy3;
-    [DefaultValue("When caught by the harpoon, it's recommendable to either punch the harpoon or damage the tail to remove it.")]
+    [DefaultValue("- When caught by the harpoon, it's recommendable to either punch the harpoon or damage the tail to remove it.")]
     public string enemyBios_hideousMass_strategy4;
 
     [DefaultValue("During the departure of the angels after the Disappearance of God, many sinners attempted to escape the Violence layer, braving the labyrinth that lay at its edges, thinking they could find a way out in the absence of Heaven's wardens.")]
@@ -1287,11 +1287,11 @@ public class EnemyBioStrings
     [DefaultValue("The gift of death is a rare privilege in Hell, so the sinners who attempted to control their fate now lay dormant in eternal agony, unable to control even their own bodies, which now continue to carry on the same punishment to other unfortunate fools.")]
     public string enemyBios_mannequin_5;
 
-    [DefaultValue("Though they are nimble, if a Mannequin is knocked into the air or hit while clinging onto a surface, they lose their balance when landing, granting a small window for an easier hit. Those fast enough may even punch them in the air while they're vulnerable, killing them in a single blow.")]
+    [DefaultValue("- Though they are nimble, if a Mannequin is knocked into the air or hit while clinging onto a surface, they lose their balance when landing, granting a small window for an easier hit. Those fast enough may even punch them in the air while they're vulnerable, killing them in a single blow.")]
     public string enemyBios_mannequin_strategy1;
-    [DefaultValue("Mannequin projectiles can be difficult to avoid due to their homing capabilities, but this makes them even easier to parry with the Feedbacker arm.")]
+    [DefaultValue("- Mannequin projectiles can be difficult to avoid due to their homing capabilities, but this makes them even easier to parry with the Feedbacker arm.")]
     public string enemyBios_mannequin_strategy2;
-    [DefaultValue("Mannequins are easier to hit with the larger radius of explosions, but are more resistant against them than other weaponry.")]
+    [DefaultValue("- Mannequins are easier to hit with the larger radius of explosions, but are more resistant against them than other weaponry.")]
     public string enemyBios_mannequin_strategy3;
 
     [DefaultValue("UNKNOWN. NO DATA.")]
@@ -1303,9 +1303,9 @@ public class EnemyBioStrings
     [DefaultValue("Now the Minotaur is old and its body failing, falling apart, running blind through the labyrinth in a desperate attempt to break out. Its only desire: to see the sky for one last time.")]
     public string enemyBios_minotaur_4;
 
-    [DefaultValue("Although difficult to heal from due to its distance, it is best to be patient. New trams will often arrive, carrying weaker foes for easier healing.")]
+    [DefaultValue("- Although difficult to heal from due to its distance, it is best to be patient. New trams will often arrive, carrying weaker foes for easier healing.")]
     public string enemyBios_minotaur_strategy1;
-    [DefaultValue("Much of its body is protected, but its guts are exposed, making for an easy consistent target.")]
+    [DefaultValue("- Much of its body is protected, but its guts are exposed, making for an easy consistent target.")]
     public string enemyBios_minotaur_strategy2;
 
     [DefaultValue("One of the most respected and feared archangels, Gabriel earned his reputation through power and efficiency.")]
@@ -1315,9 +1315,9 @@ public class EnemyBioStrings
     [DefaultValue("Despite answering to the Council, he is far more popular and beloved among angels due to his radiant personality and active nature, especially compared to the Council that strictly follows and upholds the dogma of the Faith.")]
     public string enemyBios_gabriel_3;
 
-    [DefaultValue("Gabriel's movements are fast and his attacks are deadly, but by observing which weapon he manifests, his attacks can be accurately predicted before he even starts them.")]
+    [DefaultValue("- Gabriel's movements are fast and his attacks are deadly, but by observing which weapon he manifests, his attacks can be accurately predicted before he even starts them.")]
     public string enemyBios_gabriel_strategy1;
-    [DefaultValue("Gabriel's pride stops him from attacking while taunting his opponent, opening up a short window for healing.")]
+    [DefaultValue("- Gabriel's pride stops him from attacking while taunting his opponent, opening up a short window for healing.")]
     public string enemyBios_gabriel_strategy2;
 
     [DefaultValue("Having twice clashed with the machine and lost, Gabriel realized he had been mistaken. The strong fire that burned inside him was not hatred at all, but passion.")]
@@ -1329,11 +1329,11 @@ public class EnemyBioStrings
     [DefaultValue("Still, having come to realize the horrors he had committed in God's name, he felt a great guilt. Though he could not undo what he had done, Gabriel knew he had to make things right, and headed to Hell for the last time.")]
     public string enemyBios_gabrielSecond_4;
 
-    [DefaultValue("While Gabriel's speed has increased, his accuracy has not. Dodging diagonally or to the side will prove more fruitful than trying to run backwards out of the range of his swords.")]
+    [DefaultValue("- While Gabriel's speed has increased, his accuracy has not. Dodging diagonally or to the side will prove more fruitful than trying to run backwards out of the range of his swords.")]
     public string enemyBios_gabrielSecond_strategy1;
-    [DefaultValue("Though his sword throw may seem impossible to dodge, it will prove an excellent weapon if parried instead.")]
+    [DefaultValue("- Though his sword throw may seem impossible to dodge, it will prove an excellent weapon if parried instead.")]
     public string enemyBios_gabrielSecond_strategy2;
-    [DefaultValue("Overcome with emotion, Gabriel will sometimes stop to taunt his opponent, creating a window for healing.")]
+    [DefaultValue("- Overcome with emotion, Gabriel will sometimes stop to taunt his opponent, creating a window for healing.")]
     public string enemyBios_gabrielSecond_strategy3;
 
     [DefaultValue("The basis of a lesser angel's forming are quite similar to that of the Husks', wherein the physical manifestation of the soul is dependant on its value, though unlike for Husks, virtuousness also acts as a factor for angels.")]
@@ -1347,9 +1347,9 @@ public class EnemyBioStrings
     [DefaultValue("Little is known about the specifics of angels, as Heaven is exclusionary and segregated due to wanting little to no direct contact with God's human experiment.")]
     public string enemyBios_virtue_5;
 
-    [DefaultValue("Verticality and cover give little safety against the Virtue's light beams, so constant horizontal movement is encouraged, though retracing one's steps can be dangerous as the beams linger.")]
+    [DefaultValue("- Verticality and cover give little safety against the Virtue's light beams, so constant horizontal movement is encouraged, though retracing one's steps can be dangerous as the beams linger.")]
     public string enemyBios_virtue_strategy1;
-    [DefaultValue("If ignored for too long, Virtues will enrage, making their light beams predict their target's movement. Although it's easy to avoid their attacks with enough space, leaving them unattended can quickly turn the tables in their favor")]
+    [DefaultValue("- If ignored for too long, Virtues will enrage, making their light beams predict their target's movement. Although it's easy to avoid their attacks with enough space, leaving them unattended can quickly turn the tables in their favor")]
     public string enemyBios_virtue_strategy2;
 
     [DefaultValue("Very little is known about this creature. ")]
@@ -1361,9 +1361,9 @@ public class EnemyBioStrings
     [DefaultValue("Only one has ever been observed and it has never been seen leaving the section of the Mouth of Hell in which it currently resides.")]
     public string enemyBios_somethingWicked_4;
 
-    [DefaultValue("Any attack will temporarily cause it to relocate, but there are no known ways to kill it.")]
+    [DefaultValue("- Any attack will temporarily cause it to relocate, but there are no known ways to kill it.")]
     public string enemyBios_somethingWicked_strategy1;
-    [DefaultValue("Its way of attacking is unknown outside of the fact that it happens on physical contact, but no amount of protection has saved any of its victims.")]
+    [DefaultValue("- Its way of attacking is unknown outside of the fact that it happens on physical contact, but no amount of protection has saved any of its victims.")]
     public string enemyBios_somethingWicked_strategy2;
 
     [DefaultValue("Flesh Prison is an uncategorized organism created by the angels to imprison Minos' soul after he was slain by Gabriel.")]
@@ -1373,9 +1373,9 @@ public class EnemyBioStrings
     [DefaultValue("In order to make it as impenetrable as possible, it was given both divine power and hell energy, which makes its attacks erratic and chaotic.")]
     public string enemyBios_fleshPrison_3;
 
-    [DefaultValue("Flesh Prison will use its spawn to heal its own wounds. The more spawn are left, the more likely it is for Flesh Prison to attempt to heal its wounds, so it's advisable to avoid damaging it until the spawn are dead.")]
+    [DefaultValue("- Flesh Prison will use its spawn to heal its own wounds. The more spawn are left, the more likely it is for Flesh Prison to attempt to heal its wounds, so it's advisable to avoid damaging it until the spawn are dead.")]
     public string enemyBios_fleshPrison_strategy1;
-    [DefaultValue("The long window of a delayed split shot timing makes for a great way to clear out multiple spawn at once. Throwing multiple coins high into the air and waiting for them to reach the delayed split shot state before shooting them is a strong opening move after Flesh Prison creates its spawn.")]
+    [DefaultValue("- The long window of a delayed split shot timing makes for a great way to clear out multiple spawn at once. Throwing multiple coins high into the air and waiting for them to reach the delayed split shot state before shooting them is a strong opening move after Flesh Prison creates its spawn.")]
     public string enemyBios_fleshPrison_strategy2;
 
     [DefaultValue("A prime soul is an incredibly rare occurrence in which a soul amasses so much power that it no longer requires a Husk as a vessel to manifest physically.")]
@@ -1395,9 +1395,9 @@ public class EnemyBioStrings
     [DefaultValue("From the prison inside his own body, Minos helplessly watched as his soulless corpse, now controlled by parasites, tore apart everything he had worked so hard to build, cursing his own weakness for failing to protect his people, vowing to take revenge...")]
     public string enemyBios_minosPrime_8;
 
-    [DefaultValue("It's rare for Minos Prime to give a window of opportunity to heal, so it's vital to learn what attacks leave him momentarily vulnerable and how to dodge them in a way that gives an advantageous position during those moments.")]
+    [DefaultValue("- It's rare for Minos Prime to give a window of opportunity to heal, so it's vital to learn what attacks leave him momentarily vulnerable and how to dodge them in a way that gives an advantageous position during those moments.")]
     public string enemyBios_minosPrime_strategy1;
-    [DefaultValue("His snake projectiles can be parried using the Feedbacker for a full heal, even if the projectile doesn't hit Minos Prime.")]
+    [DefaultValue("- His snake projectiles can be parried using the Feedbacker for a full heal, even if the projectile doesn't hit Minos Prime.")]
     public string enemyBios_minosPrime_strategy2;
 
     [DefaultValue("Flesh Panopticon is a superior version of the Flesh Prison, built to not only house the soul of King Sisyphus, but also with the capability to keep a watchful eye over any of his followers that may be imprisoned alongside him.")]
@@ -1405,9 +1405,9 @@ public class EnemyBioStrings
     [DefaultValue("This feature was however never utilized, as Sisyphus' prime soul had already started forming before being imprisoned, leading angels to fear that he may be able to break out of his prison if awakened.")]
     public string enemyBios_fleshPanopticon_2;
 
-    [DefaultValue("Though Flesh Panopticon creates fewer spawn than its predecessor, they're more resilient and their gaze is able to stop all wounds from healing. This may seem just a curse, but it nullifies the Whiplash's primary flaw, allowing it to be used freely to approach and destroy the spawn at close range.")]
+    [DefaultValue("- Though Flesh Panopticon creates fewer spawn than its predecessor, they're more resilient and their gaze is able to stop all wounds from healing. This may seem just a curse, but it nullifies the Whiplash's primary flaw, allowing it to be used freely to approach and destroy the spawn at close range.")]
     public string enemyBios_fleshPanopticon_strategy1;
-    [DefaultValue("Flesh Panopticon's explosives make it dangerous to stay on the ground, but they will phase through the Panopticon to avoid it harming itself, making standing on top of it safer as long as the black hole isn't nearby.")]
+    [DefaultValue("- Flesh Panopticon's explosives make it dangerous to stay on the ground, but they will phase through the Panopticon to avoid it harming itself, making standing on top of it safer as long as the black hole isn't nearby.")]
     public string enemyBios_fleshPanopticon_strategy2;
 
     [DefaultValue("Though Minos was intelligent and persuasive, he was also a gentle and noble man. Such values mattered little to Sisyphus, who would gladly lie, cheat or kill if that's what is needed to protect his comrades.")]
@@ -1427,9 +1427,9 @@ public class EnemyBioStrings
     [DefaultValue("To him, fighting an impossible battle with full knowledge of its futility and taking joy in just the act of resistance itself is the ultimate rebellion against the oppressor. One must imagine Sisyphus happy.")]
     public string enemyBios_sisyphusPrime_8;
 
-    [DefaultValue("Sisyphus' relentless attacks leave little room to recover stamina, but many of them are parryable, allowing for an instant refill.")]
+    [DefaultValue("- Sisyphus' relentless attacks leave little room to recover stamina, but many of them are parryable, allowing for an instant refill.")]
     public string enemyBios_sisyphusPrime_strategy1;
-    [DefaultValue("The radiant power of the sun makes Sisyphus' explosive attacks very difficult to avoid, but since a dash gives temporary invincibility, good timing allows one to avoid the damage of an explosion without actually needing to escape its radius.")]
+    [DefaultValue("- The radiant power of the sun makes Sisyphus' explosive attacks very difficult to avoid, but since a dash gives temporary invincibility, good timing allows one to avoid the damage of an explosion without actually needing to escape its radius.")]
     public string enemyBios_sisyphusPrime_strategy2;
 
     // Providence
@@ -1441,11 +1441,11 @@ public class EnemyBioStrings
     public string enemyBios_providence_3;
     [DefaultValue("")]
     public string enemyBios_providence_4;
-    [DefaultValue("The gifted eye of a Providence allows for energy beam concentration that even the mobility of the V-models cannot dodge through, and thus their beams must be avoided entirely.")]
+    [DefaultValue("- The gifted eye of a Providence allows for energy beam concentration that even the mobility of the V-models cannot dodge through, and thus their beams must be avoided entirely.")]
     public string enemyBios_providence_strategy1;
-    [DefaultValue("Due to their agility, the Whiplash is unable to hit them unless they're attacking, meaning other methods of movement should be used to get closer to them.")]
+    [DefaultValue("- Due to their agility, the Whiplash is unable to hit them unless they're attacking, meaning other methods of movement should be used to get closer to them.")]
     public string enemyBios_providence_strategy2;
-    [DefaultValue("Their open constitution is particularly susceptible to the internal explosions of the Rocket Launcher, and though they can be tricky to hit consistently, the Attractor Nailgun's magnets can home rockets in.\n\nIn particular, the SRS Cannon's cannonball can shatter them in a single hit when fired at full power.")]
+    [DefaultValue("- Their open constitution is particularly susceptible to the internal explosions of the Rocket Launcher, and though they can be tricky to hit consistently, the Attractor Nailgun's magnets can home rockets in.\n\nIn particular, the SRS Cannon's cannonball can shatter them in a single hit when fired at full power.")]
     public string enemyBios_providence_strategy3;
     public string enemyBios_providence_strategy4;
 
@@ -1458,13 +1458,13 @@ public class EnemyBioStrings
     public string enemyBios_power_3;
     [DefaultValue("Although some of their voices may seem distinctly feminine to humans, angels are neither male nor female, as they cannot reproduce, leading to no such biological division. Still, masculine language is used as a sign of respect towards greater angels as a sign of their closeness to the Father.")]
     public string enemyBios_power_4;
-    [DefaultValue("Powers trained under Gabriel, and as such have similar strengths and weaknesses, including the pride that leaves them open while taunting.")]
+    [DefaultValue("- Powers trained under Gabriel, and as such have similar strengths and weaknesses, including the pride that leaves them open while taunting.")]
     public string enemyBios_power_strategy1;
-    [DefaultValue("Lacking Gabriel's extensive first-hand experience in combat, Powers are far more vulnerable to parries, which will momentarily disable them entirely, though they will become more aggressive afterwards out of shame.")]
+    [DefaultValue("- Lacking Gabriel's extensive first-hand experience in combat, Powers are far more vulnerable to parries, which will momentarily disable them entirely, though they will become more aggressive afterwards out of shame.")]
     public string enemyBios_power_strategy2;
-    [DefaultValue("Likewise, due to their lack of practice, they have to vocalize in order to manifest weapons of light correctly, making it easier for an opponent to predict what they are about to do.")]
+    [DefaultValue("- Likewise, due to their lack of practice, they have to vocalize in order to manifest weapons of light correctly, making it easier for an opponent to predict what they are about to do.")]
     public string enemyBios_power_strategy3;
-    [DefaultValue("When fighting in a group against a single target, Powers have been trained to take turns in order to avoid friendly fire and more easily distinguish who gets the glory of victory, so it is best to not attack ones waiting for their turn to avoid additional retaliation.")]
+    [DefaultValue("- When fighting in a group against a single target, Powers have been trained to take turns in order to avoid friendly fire and more easily distinguish who gets the glory of victory, so it is best to not attack ones waiting for their turn to avoid additional retaliation.")]
     public string enemyBios_power_strategy4;
 
     // Geryon
@@ -1476,12 +1476,12 @@ public class EnemyBioStrings
     public string enemyBios_geryon_3;
     [DefaultValue("Although only an unproven fringe theory, some have proposed that part of Geryon's incredible development may be a difference in motivation from other demons: perhaps Geryon hunts not for sport, but to free sinners from their suffering.")]
     public string enemyBios_geryon_4;
-    [DefaultValue("Geryon's multiple consciousnesses give it an incredible ability to perform many complex tasks simultaneously, allowing it to defend itself from close-range threats while still attacking, making it unwise to approach it.")]
+    [DefaultValue("- Geryon's multiple consciousnesses give it an incredible ability to perform many complex tasks simultaneously, allowing it to defend itself from close-range threats while still attacking, making it unwise to approach it.")]
     public string enemyBios_geryon_strategy1;
     
-    [DefaultValue("Extracting blood from its body may seem impossible outside of its momentary lapses, but Providences in the immediate area leave behind small soul orbs which can be rationed by smart fighters for healing during the fight.")]
+    [DefaultValue("- Extracting blood from its body may seem impossible outside of its momentary lapses, but Providences in the immediate area leave behind small soul orbs which can be rationed by smart fighters for healing during the fight.")]
     public string enemyBios_geryon_strategy3;
-    [DefaultValue("Despite it functioning at all being an incredible feat, Geryon's body is unable to properly support its biological and psychological density, causing it to overheat under continued stress, leaving it wide open for a barrage of attacks.")]
+    [DefaultValue("- Despite it functioning at all being an incredible feat, Geryon's body is unable to properly support its biological and psychological density, causing it to overheat under continued stress, leaving it wide open for a barrage of attacks.")]
     public string enemyBios_geryon_strategy2;
 
     // Mirror Reaper
@@ -1493,11 +1493,11 @@ public class EnemyBioStrings
     public string enemyBios_mirrorReaper_3;
     [DefaultValue("Although this example could be used to draw conclusions about the fates of the layer's inhabitants, it's important to keep in mind that this instance is the only of its kind to ever be seen, which may imply that whatever happened to everyone else was far, far worse.")]
     public string enemyBios_mirrorReaper_4;
-    [DefaultValue("The Mirror Reaper's height and speed make it an imposing opponent, but its poor motor control gives shorter opponents an advantage in passing under its swings.")]
+    [DefaultValue("- The Mirror Reaper's height and speed make it an imposing opponent, but its poor motor control gives shorter opponents an advantage in passing under its swings.")]
     public string enemyBios_mirrorReaper_strategy1;
-    [DefaultValue("When the Mirror Reaper escapes, the hands it summons can be followed back to their source to find it.")]
+    [DefaultValue("- When the Mirror Reaper escapes, the hands it summons can be followed back to their source to find it.")]
     public string enemyBios_mirrorReaper_strategy2;
-    [DefaultValue("The summoned hands can be destroyed with projectiles, but explosions do not damage them.\n\n- When in grave danger, the Mirror Reaper can escape into a fold in space, making it only visible through reflections.")]
+    [DefaultValue("- The summoned hands can be destroyed with projectiles, but explosions do not damage them.\n\n- When in grave danger, the Mirror Reaper can escape into a fold in space, making it only visible through reflections.")]
     public string enemyBios_mirrorReaper_strategy3;
     public string enemyBios_mirrorReaper_strategy4;
 
@@ -1510,11 +1510,11 @@ public class EnemyBioStrings
     public string enemyBios_deathcatcher_3;
     [DefaultValue("")]
     public string enemyBios_deathcatcher_4;
-    [DefaultValue("Puppets are slower and only half as durable as the creatures they are mimicking.")]
+    [DefaultValue("- Puppets are slower and only half as durable as the creatures they are mimicking.")]
     public string enemyBios_deathcatcher_strategy1;
-    [DefaultValue("Although puppets do not grant style points, their blood can still be used to heal, making weak puppets an easy source for quick recovery.")]
+    [DefaultValue("- Although puppets do not grant style points, their blood can still be used to heal, making weak puppets an easy source for quick recovery.")]
     public string enemyBios_deathcatcher_strategy2;
-    [DefaultValue("While each pulse will create puppets from every fallen foe nearby, the Deathcatchers require time to ready another pulse, meaning the best time to destroy a troublesome puppet is immediately after a previous pulse to maximize the time they lay dormant.")]
+    [DefaultValue("- While each pulse will create puppets from every fallen foe nearby, the Deathcatchers require time to ready another pulse, meaning the best time to destroy a troublesome puppet is immediately after a previous pulse to maximize the time they lay dormant.")]
     public string enemyBios_deathcatcher_strategy3;
 }
 
