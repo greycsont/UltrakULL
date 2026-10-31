@@ -111,11 +111,12 @@ public static partial class LevelPatcher
 
     private static void PatchLevel7_4()
     {
-        GetObject("Warning").Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.act3.act3_violenceFourth_floodingWarning,
-            path: ["Text (TMP)"]);
+        var canvas = GetObject("Canvas");
+        canvas.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.act3.act3_violenceFourth_floodingWarning,
+            path: ["Warning", "Text (TMP)"]);
         
-        GetObject("Countdown").Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.act3.act3_violenceFourth_countdownTitle,
-            path: ["Text (TMP)"]);
+        canvas.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.act3.act3_violenceFourth_countdownTitle,
+            path: ["Countdown", "Text (TMP)"]);
     }
 
     private static void PatchLevel8_2()

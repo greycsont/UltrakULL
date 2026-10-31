@@ -50,7 +50,7 @@ public static partial class LevelPatcher
 
     private static void PatchLevel4_S()
     {
-        var testamentTerminal = GetObject("4 - Boulder Run", "4 Stuff(Clone)", "FinalRoom SecretExit", "Room", "Testament Shop (1)");
+        var testamentTerminal = GetObject("4 - Boulder Run", "4 Stuff", "FinalRoom SecretExit", "Room", "Testament Shop (1)");
         var testamentText = 
             CurrentLanguage.secretLevels.secretLevels_fourth_testamentTitle + "\n\n" +
             CurrentLanguage.secretLevels.secretLevels_fourth_testament1 + "\n" +
