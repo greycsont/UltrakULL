@@ -105,9 +105,18 @@ public static class SceneObjects
         if (rootPart == null)
             return null;
 
-        return restPath == null
-            ? rootPart
-            : rootPart.transform.Find(restPath).gameObject;
+        if (restPath == null)
+            return rootPart;
+
+        var child = rootPart.transform.Find(restPath);
+
+        if (child == null)
+        {
+            Logging.Warn($"Could not find the object with path: {path}");
+            return null;
+        }
+  
+        return child.gameObject;
     }
 
     public static GameObject GetObject(params string[] path)
