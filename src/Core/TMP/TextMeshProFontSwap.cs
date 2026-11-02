@@ -55,19 +55,19 @@ public static class TextMeshProFontSwap
 
     public static void Apply(TMP_Text text)
     {
-        Lang lang = LanguageManager.Current;
+        var lang = LanguageManager.Current;
         if (LanguageManager.IsEnglish
             || lang == null
             || lang.UseFontFallback
             || !lang.IsFontLoaded)
             return;
 
-        var font = GetReplacementFont(text);
-        if (font == null || font == text.font)
+        var newFontAsset = GetReplacementFont(text);
+        if (newFontAsset == null || newFontAsset == text.font)
             return;
 
         var sourceMaterial = text.fontSharedMaterial ?? text.font.material;
-        if (sourceMaterial == null || font.material == null)
+        if (sourceMaterial == null || newFontAsset.material == null)
             return;
 
         originalFonts.TryAdd(text, new OriginalFont
@@ -76,8 +76,8 @@ public static class TextMeshProFontSwap
             Material = text.fontSharedMaterial
         });
 
-        text.font = font;
-        text.fontSharedMaterial = TMP_MaterialManager.GetFallbackMaterial(sourceMaterial, font.material);
+        text.font = newFontAsset;
+        text.fontSharedMaterial = TMP_MaterialManager.GetFallbackMaterial(sourceMaterial, newFontAsset.material);
     }
 
     private static void OnLanguageChanged(ValueChangedEvent<Lang> change)
@@ -101,7 +101,7 @@ public static class TextMeshProFontSwap
     {
         string fontName = text.font.name;
 
-        return fontName switch
+        var fontAsset = fontName switch
         {
             "VCR_OSD_MONO_1" or "VCR_OSD_MONO_UI" or "vcr-osd-replayed"
                 => LanguageManager.Current?.MainFontAsset,
@@ -109,7 +109,9 @@ public static class TextMeshProFontSwap
                 => LanguageManager.Current?.TerminalAsset,
             "MeseumFont" => LanguageManager.Current?.MuseumAsset,
             "Bittypix Monospace SDF" => LanguageManager.Current?.SecretTerminalAsset,
-            _ => LanguageManager.Current?.MainFontAsset,
+            _ => null,
         };
+
+        return fontAsset;
     }
 }
