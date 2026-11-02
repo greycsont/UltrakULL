@@ -83,6 +83,15 @@ public static class LegacyLanguageMigrator
         CopyDirectoryIfExists(
             Path.Combine(ConfigPaths.RootDirectory, "textures"),
             Path.Combine(backupRoot, "textures"));
+        CopyDirectoryIfExists(
+            Path.Combine(ConfigPaths.RootDirectory, "fonts"),
+            Path.Combine(backupRoot, "fonts"));
+        CopyDirectoryIfExists(
+            Path.Combine(ConfigPaths.RootDirectory, "video"),
+            Path.Combine(backupRoot, "video"));
+        CopyDirectoryIfExists(
+            Path.Combine(ConfigPaths.RootDirectory, "angry"),
+            Path.Combine(backupRoot, "angry"));
     }
 
     // Moves one flat language file (plus its audio/textures) into its package.
@@ -104,10 +113,18 @@ public static class LegacyLanguageMigrator
 
         var packageDirectory = Path.Combine(ConfigPaths.LanguagesDirectory, languageId);
         var languageFile = Path.Combine(packageDirectory, "language.json");
+
         var oldAudio = ConfigPaths.GetLegacyAudioDirectory(languageId);
         var oldTextures = ConfigPaths.GetLegacyTextureDirectory(languageId);
+        var oldAngry = ConfigPaths.GetLegacyAngryDirectory(languageId);
+        var oldFont = ConfigPaths.GetLegacyFontsDirectory(languageId);
+        var oldVideo = ConfigPaths.GetLegacyVideoDirectory(languageId);
+
         var newAudio = Path.Combine(packageDirectory, "audio");
         var newTextures = Path.Combine(packageDirectory, "textures");
+        var newAngry = Path.Combine(packageDirectory, "angry");
+        var newFont = Path.Combine(packageDirectory, "fonts");
+        var newVideo = Path.Combine(packageDirectory, "video");
 
         // Never overwrite an existing package, or a half-migrated one.
         if (File.Exists(languageFile)
@@ -118,6 +135,9 @@ public static class LegacyLanguageMigrator
         Directory.CreateDirectory(packageDirectory);
         MoveDirectoryIfExists(oldAudio, newAudio);
         MoveDirectoryIfExists(oldTextures, newTextures);
+        MoveDirectoryIfExists(oldAngry, newAngry);
+        MoveDirectoryIfExists(oldFont, newFont);
+        MoveDirectoryIfExists(oldVideo, newVideo);
         File.Move(sourceFile, languageFile);
         return true;
     }

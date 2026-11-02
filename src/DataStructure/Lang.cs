@@ -28,6 +28,7 @@ public sealed class Lang
     public string AngryLevelFolder { get; }
     public string VideoFolder { get; }
     public UILayoutProfile Layout { get; }
+    public string FontFolder { get; }
 
     internal AssetBundle FontBundle { get; set; }
     public TMP_FontAsset MainFontAsset { get; set; }
@@ -41,10 +42,9 @@ public sealed class Lang
     // so switching away can undo exactly what this language added.
     internal readonly List<(TMP_FontAsset font, TMP_FontAsset fallback)> AppliedFallbacks = new();
 
-    public Lang(JsonFormat json, string packageFolder = null, UILayoutProfile layout = null)
+    public Lang(JsonFormat json, string packageFolder = null)
     {
         this.Json = json;
-        this.Layout = layout;
         this.SpeechFolder = ResolveDirectory(
             packageFolder == null ? null : Path.Combine(packageFolder, "audio"),
             ConfigPaths.GetLegacyAudioDirectory(this.Name));
@@ -59,9 +59,23 @@ public sealed class Lang
             packageFolder == null ? null : Path.Combine(packageFolder, "video"),
             ConfigPaths.GetLegacyVideoDirectory(this.Name)
         );
+        this.FontFolder = ResolveDirectory(
+            packageFolder == null ? null : Path.Combine(packageFolder, "fonts"),
+            ConfigPaths.GetLegacyFontsDirectory(this.Name)
+        );
 
-        this.IsFontLoaded = LoadFonts();
+        LoadFonts(out bool fontLoaded, out bool isOwnFont);
+        this.IsFontLoaded = fontLoaded;
+
+        if (IsFontLoaded == true)
+        {
+            LoadLayout(out var layout);
+            this.Layout = layout;
+        }
+
         LoadAngryTranslation(AngryLevelFolder);
+
+        Logging.Info($"Loaded language: {this.Name}, author: {this.Json.metadata.langAuthor}, new format: {(packageFolder == null ? "N" : "Y")}, is font loaded: {this.IsFontLoaded}, is its own font: {isOwnFont}");
 
         // End
 
@@ -70,28 +84,51 @@ public sealed class Lang
             ?? candidates.First(path => path != null);
     }
 
-    private bool LoadFonts()
+    private void LoadFonts(out bool fontLoaded, out bool isOwnFont)
     {
-        FontManager.TryLoadFontFromBundle(ConfigPaths.GetFontBundlePath(this.Name),
-            out var fontConfig,
-            out var fontBundle
-        );
+        fontLoaded = false;
+        isOwnFont = false;
 
-        if (fontBundle == null || fontConfig == null)
+        foreach (var path in new[]{this.FontFolder, ConfigPaths.GetFontBundlePath(this.Name)})
         {
-            Logging.Warn($"Failed to load language font bundle with languageId: {this.Name}");
-            return false;
+            FontManager.TryLoadFontFromBundle(path, out var fontConfig, out var fontBundle);
+
+            if (fontBundle == null || fontConfig == null)
+                continue;
+
+            this.FontBundle = fontBundle;
+            this.UseFontFallback = fontConfig.UseFallback;
+            this.MainFontAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontConfig.MainFont);
+            this.TerminalAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontConfig.TerminalFont);
+            this.MuseumAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontConfig.MuseumFont);
+            this.SecretTerminalAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontConfig.SecretFont);
+
+            if (path == this.FontFolder)
+                isOwnFont = true;
+
+            fontLoaded = true;
+            return;
         }
 
-        this.FontBundle = fontBundle;
-        this.UseFontFallback = fontConfig.UseFallback;
-        this.MainFontAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontConfig.MainFont);
-        this.TerminalAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontConfig.TerminalFont);
-        this.MuseumAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontConfig.MuseumFont);
-        this.SecretTerminalAsset = fontBundle.LoadAsset<TMP_FontAsset>(fontConfig.SecretFont);
+        Logging.Warn($"Failed to load language font bundle with languageId: {this.Name}");
+        return;
+    }
 
-        return true;
+    private void LoadLayout(out UILayoutProfile layout)
+    {
+        layout = null;
+        var layoutFile = Path.Combine(this.FontFolder, "layout.json");
+        if (File.Exists(layoutFile))
+            return;
 
+        try
+        {
+            layout = File.ReadAllText(layoutFile).Deserialize<UILayoutProfile>();
+        }
+        catch
+        {
+            Logging.Warn($"Failed to load UI layout override for lang {this.Name}");
+        }
     }
 
     private void LoadAngryTranslation(string folder)

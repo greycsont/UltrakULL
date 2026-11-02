@@ -28,6 +28,9 @@ public static class ConfigPaths
     public static string GetLegacyVideoDirectory(string languageID) =>
         Path.Combine(RootDirectory, "video", languageID);
 
+    public static string GetLegacyFontsDirectory(string languageID) =>
+        Path.Combine(RootDirectory, "fonts", languageID);
+
     /// <summary>
     /// Font bundles ship with the mod itself (BepInEx/plugins/UltrakULL/fonts),
     /// unlike languages/audio/textures which are user data under config/ultrakull.
@@ -35,8 +38,5 @@ public static class ConfigPaths
     /// </summary>
     public static string GetFontBundlePath(string languageId) =>
         Path.Combine(MainPatch.ModFolder, "fonts", languageId);
-
-    public static string GetUIOverridePath(string languageId) =>
-        Path.Combine(MainPatch.ModFolder, "fonts", languageId, "layout.json");
 
 }

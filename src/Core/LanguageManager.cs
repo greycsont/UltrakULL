@@ -117,24 +117,13 @@ public static class LanguageManager
             return;
         }
 
-        UILayoutProfile layout = null;
-        string layoutPath = ConfigPaths.GetUIOverridePath(languageId);
-        if (layoutPath != null && File.Exists(layoutPath))
-            TryLoad(layoutPath, out layout);
-
-        allLanguages.Add(languageId, new Lang(lang, packageFolder, layout));
-        if (Version.Parse(lang.metadata.langVersion) < Version.Parse(MainPatch.GetVersion()))
-        {
-            Logging.Warn($"The language file \"{file}\" maybe outdated. It was made for version {lang.metadata.langVersion} of UltrakULL, but the current version is {modVersion}. This may cause problems.");
-            Logging.Warn($"From what I see is that ClearWater trying to make this mod as a centerized translation mod and you could download translation in a cloud server\n"
-                         + $"But... I just add a short warning anyway");
-        }
+        allLanguages.Add(languageId, new Lang(lang, packageFolder));
     }
 
     private static void LoadSubtitledSourcesConfig()
     {
         using Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("UltrakULL.SubtitledSources.json");
-        SubtitledAudioSourcesReplacer.Config = JsonConvert.DeserializeObject<SubtitledSourcesConfig>(new StreamReader(stream).ReadToEnd());
+        SubtitledAudioSourcesReplacer.Config = new StreamReader(stream).ReadToEnd().Deserialize<SubtitledSourcesConfig>();
     }
 
     private static bool TryLoad<T>(string pathName, out T file)
