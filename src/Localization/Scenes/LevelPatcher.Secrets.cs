@@ -99,7 +99,7 @@ public static partial class LevelPatcher
 
         FindComponent<VideoPlayer>(GetObject("Exit Lobby Interior", "Table top", "TV", "Screen")).ReplaceUrl();
 
-        var testamentTerminal = GetObject("FinalRoom SecretExit", "Room", "Testament Shop (1)", "Canvas", "Text (TMP)");
+        var testamentTerminal = GetObject("FinalRoom SecretExit", "Room", "Testament Shop (1)");
         var testamentText = 
             CurrentLanguage.secretLevels.secretLevels_fifth_testamentTitle + "\n\n" +
             CurrentLanguage.secretLevels.secretLevels_fifth_testament1 + "\n" +
