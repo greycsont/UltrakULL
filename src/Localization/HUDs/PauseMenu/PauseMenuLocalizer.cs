@@ -3,6 +3,7 @@ using UnityEngine;
 using TMPro;
 using UltrakULL.json;
 
+using static UltrakULL.json.LanguageManager;
 using static UltrakULL.SceneObjects;
 
 namespace UltrakULL;
@@ -21,61 +22,62 @@ public static class PauseMenuLocalizer
     public static void LocalizePauseMenu(GameObject pauseMenu)
     {
         //Title
-        TextMeshProUGUI pauseText = GetTextMeshProUGUI(FindDescendant(pauseMenu, "Text"));
-        pauseText.text = "-- " + LanguageManager.CurrentLanguage.pauseMenu.pause_title + " --";
+        pauseMenu.Localize<TextMeshProUGUI>("-- {0} --".FormatWith(CurrentLanguage.pauseMenu.pause_title),
+            path: ["Text"]);
 
         //Resume
-        TextMeshProUGUI continueText = GetTextMeshProUGUI(FindDescendant(pauseMenu, "Resume", "Text"));
-        continueText.text = LanguageManager.CurrentLanguage.pauseMenu.pause_resume;
+        pauseMenu.Localize<TextMeshProUGUI>(CurrentLanguage.pauseMenu.pause_resume,
+            path: ["Resume", "Text"]);
 
         //Checkpoint
-        TextMeshProUGUI checkpointText = GetTextMeshProUGUI(FindDescendant(pauseMenu, "Restart Checkpoint", "Text"));
-        checkpointText.text = LanguageManager.CurrentLanguage.pauseMenu.pause_respawn;
+        pauseMenu.Localize<TextMeshProUGUI>(CurrentLanguage.pauseMenu.pause_respawn,
+            path: ["Restart Checkpoint", "Text"]);
 
         //Restart mission
-        TextMeshProUGUI restartText = GetTextMeshProUGUI(FindDescendant(pauseMenu, "Restart Mission", "Text"));
-        restartText.text = LanguageManager.CurrentLanguage.pauseMenu.pause_restart;
+        pauseMenu.Localize<TextMeshProUGUI>(CurrentLanguage.pauseMenu.pause_restart,
+            path: ["Restart Mission", "Text"]);
 
-        //Options
-        TextMeshProUGUI optionsText = GetTextMeshProUGUI(FindDescendant(pauseMenu, "Options", "Text"));
-        optionsText.text = LanguageManager.CurrentLanguage.pauseMenu.pause_options;
+       //Options
+        pauseMenu.Localize<TextMeshProUGUI>(CurrentLanguage.pauseMenu.pause_options,
+            path: ["Options", "Text"]);
 
         //Quit
-        TextMeshProUGUI quitText = GetTextMeshProUGUI(FindDescendant(pauseMenu, "Quit Mission", "Text"));
-        quitText.text = LanguageManager.CurrentLanguage.pauseMenu.pause_quit;
+        pauseMenu.Localize<TextMeshProUGUI>(CurrentLanguage.pauseMenu.pause_quit,
+            path: ["Quit Mission", "Text"]);
     }
 
     public static void LocalizeQuitDialog(GameObject quitDialog)
     {
-        //Quit
-        GameObject quitPanel = FindDescendant(quitDialog, "Panel");
-        TextMeshProUGUI quitDialogText = GetTextMeshProUGUI(FindDescendant(quitPanel, "Text (2)"));
-        quitDialogText.text = LanguageManager.CurrentLanguage.pauseMenu.pause_quitConfirm;
+        var quitPanel = FindDescendant(quitDialog, "Panel");
 
-        TextMeshProUGUI quitDialogTooltip = GetTextMeshProUGUI(FindDescendant(quitPanel, "Text (1)"));
-        quitDialogTooltip.text = LanguageManager.CurrentLanguage.pauseMenu.pause_disableWindow;
+        quitPanel.Localize<TextMeshProUGUI>(CurrentLanguage.pauseMenu.pause_quitConfirm,
+            path: ["Text (2)"]);
 
-        TextMeshProUGUI quitDialogYes = GetTextMeshProUGUI(FindDescendant(quitPanel, "Confirm", "Text"));
-        quitDialogYes.text = LanguageManager.CurrentLanguage.pauseMenu.pause_quitConfirmYes;
+        quitPanel.Localize<TextMeshProUGUI>(CurrentLanguage.pauseMenu.pause_disableWindow,
+            path: ["Text (1)"]);
 
-        TextMeshProUGUI quitDialogNo = GetTextMeshProUGUI(FindDescendant(quitPanel, "Cancel", "Text"));
-        quitDialogNo.text = LanguageManager.CurrentLanguage.pauseMenu.pause_quitConfirmNo;
+        quitPanel.Localize<TextMeshProUGUI>(CurrentLanguage.pauseMenu.pause_quitConfirmYes,
+            path: ["Confirm", "Text"]);
+
+        quitPanel.Localize<TextMeshProUGUI>(CurrentLanguage.pauseMenu.pause_quitConfirmNo,
+            path: ["Cancel", "Text"]);
     }
 
     public static void LocalizeResetDialoge(GameObject resetDialog)
     {
         //Restart
-        GameObject restartDialog = FindDescendant(resetDialog, "Panel");
+        var resetPanel = FindDescendant(resetDialog, "Panel");
 
-        TextMeshProUGUI restartDialogText = GetTextMeshProUGUI(FindDescendant(restartDialog, "Text"));
-        restartDialogText.text = LanguageManager.CurrentLanguage.pauseMenu.pause_restartConfirm;
+        resetPanel.Localize<TextMeshProUGUI>(CurrentLanguage.pauseMenu.pause_restartConfirm,
+            path: ["Text"]);
 
-        TextMeshProUGUI restartDialogTooltip = GetTextMeshProUGUI(FindDescendant(restartDialog, "Text (1)"));
-        restartDialogTooltip.text = LanguageManager.CurrentLanguage.pauseMenu.pause_disableWindow;
-        TextMeshProUGUI restartDialogYes = GetTextMeshProUGUI(FindDescendant(restartDialog, "Confirm", "Text"));
-        restartDialogYes.text = LanguageManager.CurrentLanguage.pauseMenu.pause_restartConfirmYes;
+        resetPanel.Localize<TextMeshProUGUI>(CurrentLanguage.pauseMenu.pause_disableWindow,
+            path: ["Text (1)"]);
 
-        TextMeshProUGUI restartDialogNo = GetTextMeshProUGUI(FindDescendant(restartDialog, "Cancel", "Text"));
-        restartDialogNo.text = LanguageManager.CurrentLanguage.pauseMenu.pause_restartConfirmNo;
+        resetPanel.Localize<TextMeshProUGUI>(CurrentLanguage.pauseMenu.pause_restartConfirmYes,
+            path: ["Confirm", "Text"]);
+
+        resetPanel.Localize<TextMeshProUGUI>(CurrentLanguage.pauseMenu.pause_restartConfirmNo,
+            path: ["Cancel", "Text"]);
     }
 }
