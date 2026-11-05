@@ -13,6 +13,16 @@ namespace UltrakULL;
 [HarmonyPatch(typeof(TeleportCheat))]
 public static class LocalizeTeleportCheat
 {
+    [HarmonyPatch(nameof(TeleportCheat.Start))] [HarmonyPostfix]
+    private static void LocalizeTitle(TeleportCheat __instance)
+    {
+        if (LanguageManager.IsEnglish)
+            return;
+
+        __instance.gameObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cheats.cheats_teleport,
+            path: ["Title"]);
+    }
+
     [HarmonyPatch(nameof(TeleportCheat.GenerateList))] [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction> GenerateListTranspiler(IEnumerable<CodeInstruction> instructions)
     {

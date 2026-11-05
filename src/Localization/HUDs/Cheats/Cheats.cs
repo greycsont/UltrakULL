@@ -12,12 +12,9 @@ namespace UltrakULL;
 
 public static class Cheats
 {
-    public static void PatchCheatConsentPanel(GameObject canvasObj)
+    public static void LocalizeCheatConsentPanel(GameObject cheatsConsentPanel)
     {
-        GameObject cheatsMenu = FindDescendant(canvasObj, "Cheat Menu");
-        GameObject cheatsConsentObject = FindDescendant(cheatsMenu, "Cheats Consent");
-
-        GameObject cheatsConsentTextObject = FindDescendant(cheatsConsentObject, "Text");
+        GameObject cheatsConsentTextObject = FindDescendant(cheatsConsentPanel, "Text");
 
         //Consent window
         TextMeshProUGUI cheatsConsentText = GetTextMeshProUGUI(cheatsConsentTextObject);
@@ -25,31 +22,25 @@ public static class Cheats
             LanguageManager.CurrentLanguage.cheats.cheats_disclaimer1 + "\n\n"
             + LanguageManager.CurrentLanguage.cheats.cheats_disclaimer2;
 
-        TextMeshProUGUI cheatsConsentYesText = GetTextMeshProUGUI(FindDescendant(cheatsConsentObject, "Yes", "Text"));
-        cheatsConsentYesText.text = LanguageManager.CurrentLanguage.cheats.cheats_disclaimerYes;
-        cheatsConsentYesText.fontSize = 22;
-
-        TextMeshProUGUI cheatsConsentNoText = GetTextMeshProUGUI(FindDescendant(cheatsConsentObject, "No", "Text"));
-        cheatsConsentNoText.text = LanguageManager.CurrentLanguage.cheats.cheats_disclaimerNo;
-
-        GameObject cheatsPanelObject = FindDescendant(cheatsMenu, "Cheats Manager");
-
-        TextMeshProUGUI cheatsPanelObjectTitle = GetTextMeshProUGUI(FindDescendant(cheatsPanelObject, "Title"));
-        cheatsPanelObjectTitle.text = LanguageManager.CurrentLanguage.cheats.cheats_panelTitle;
-
-        //Need to disable the TextOverride component.
         Component[] test = cheatsConsentTextObject.GetComponents(typeof(Component));
         Behaviour bhvr = (Behaviour)test[2];
         bhvr.enabled = false;
-        
 
-        //Cheat confirmation panel
-        GameObject cheatsEnabledConfirmationObject = FindDescendant(canvasObj, "Cheat Menu", "Cheats Overlay", "Cheats Enabled");
+        TextMeshProUGUI cheatsConsentYesText = GetTextMeshProUGUI(FindDescendant(cheatsConsentPanel, "Yes", "Text"));
+        cheatsConsentYesText.text = LanguageManager.CurrentLanguage.cheats.cheats_disclaimerYes;
+        cheatsConsentYesText.fontSize = 22;
 
-        TextMeshProUGUI cheatsEnabledConfirmationTitleText = GetTextMeshProUGUI(FindDescendant(cheatsEnabledConfirmationObject, "Title"));
+        TextMeshProUGUI cheatsConsentNoText = GetTextMeshProUGUI(FindDescendant(cheatsConsentPanel, "No", "Text"));
+        cheatsConsentNoText.text = LanguageManager.CurrentLanguage.cheats.cheats_disclaimerNo;
+    }
+
+
+    public static void LocalizeCheatEnabledPanel(GameObject cheatsEnabledPanel)
+    {
+        TextMeshProUGUI cheatsEnabledConfirmationTitleText = GetTextMeshProUGUI(FindDescendant(cheatsEnabledPanel, "Title"));
         cheatsEnabledConfirmationTitleText.text = LanguageManager.CurrentLanguage.cheats.cheats_cheatsEnabled;
 
-        GameObject cheatsDetailsTipObject = FindDescendant(cheatsEnabledConfirmationObject, "Details Tip");
+        GameObject cheatsDetailsTipObject = FindDescendant(cheatsEnabledPanel, "Details Tip");
         Component[] cheatsDetailsTipComponents = cheatsDetailsTipObject.GetComponents(typeof(Component));
         foreach (Component comp in cheatsDetailsTipComponents)
         {
@@ -68,10 +59,6 @@ public static class Cheats
         //else { cheatsEnabledConfirmationButtonsText.text = LanguageManager.CurrentLanguage.cheats.cheats_cheatsOpenButtons; }
 
         cheatsEnabledConfirmationButtonsText.text = LanguageManager.CurrentLanguage.cheats.cheats_cheatsOpenButtons;
-
-        //Teleport menu title
-        TextMeshProUGUI cheatsTeleportMenuTitle = GetTextMeshProUGUI(FindDescendant(canvasObj, "Cheat Menu", "Cheats Teleport", "Title"));
-        cheatsTeleportMenuTitle.text = LanguageManager.CurrentLanguage.cheats.cheats_teleport;
     }
 
     public static string GetCheatStatus(string cheatStatus)

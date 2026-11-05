@@ -10,9 +10,22 @@ namespace UltrakULL.Harmony_Patches;
 [HarmonyPatch(typeof(CheatsManager))]
 public static class CheatsManagerPatch
 {
+    [HarmonyPatch(nameof(CheatsManager.Start))] [HarmonyPostfix]
+    public static void LocalizeMenuTitle(CheatsManager __instance)
+    {
+        if (LanguageManager.IsEnglish)
+            return;
+
+        __instance.gameObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.cheats.cheats_panelTitle,
+            path: ["Cheats Manager", "Title"]);
+    }
+
     [HarmonyPatch(nameof(CheatsManager.StartRebind))] [HarmonyPostfix]
     public static void StartRebind_Postfix(CheatsManager __instance, ref ICheat cheat) 
     {
+        if (LanguageManager.IsEnglish)
+            return;
+
         __instance.menuItems[cheat].bindButtonText.text = LanguageManager.CurrentLanguage.cheats.cheats_pressAnyKey;
     }
 
@@ -72,6 +85,9 @@ public static class CheatsManagerPatch
     [HarmonyPatch(nameof(CheatsManager.UpdateCheatState),new Type[] { typeof(CheatMenuItem), typeof(ICheat) })] [HarmonyPostfix]
     public static void UpdateCheatState_Postfix(CheatMenuItem item, ICheat cheat)
     {
+        if (LanguageManager.IsEnglish)
+            return;
+
         item.longName.text = Cheats.GetCheatName(cheat.Identifier);
 
         string status = Cheats.GetCheatStatus(
