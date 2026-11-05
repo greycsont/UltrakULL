@@ -10,8 +10,12 @@ public static class PauseMenuPatch
     [HarmonyPatch(nameof(PauseMenu.OnEnable))] [HarmonyPostfix]
     public static void LocalizeSkipButton(PauseMenu __instance)
     {
+        if (LanguageManager.IsEnglish)
+            return;
+
         // Please check this localize only, the rest of the stuff are fallback to OnEnable() f
-        __instance.gameObject.Localize<TMP_Text>(LanguageManager.CurrentLanguage.pauseMenu.pause_skip, path: ["Restart Checkpoint (1)", "Text"]);
+        __instance.gameObject.Localize<TMP_Text>(LanguageManager.CurrentLanguage.pauseMenu.pause_skip,
+            path: ["Restart Checkpoint (1)", "Text"]);
 
         var mapInfo = MapInfoBase.Instance;
         if (mapInfo == null || !mapInfo.replaceCheckpointButtonWithSkip)
