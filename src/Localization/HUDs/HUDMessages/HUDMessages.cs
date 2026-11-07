@@ -10,48 +10,6 @@ namespace UltrakULL;
 
 public static class HUDMessages
 {
-    public static void PatchDeathScreen(GameObject canvasObj)
-    {
-        try
-        {
-            GameObject deathScreen = FindDescendant(canvasObj, "BlackScreen", "YouDiedText");
-            //Need to disable the TextOverride component.
-            Component[] test = deathScreen.GetComponents(typeof(Component));
-            Behaviour bhvr = (Behaviour)test[3];
-            bhvr.enabled = false;
-
-            //why only EarlyAccessEnd?
-            if (GetCurrentSceneName() == "EarlyAccessEnd")
-            {
-                GetTextMeshProUGUI(deathScreen).text = LanguageManager.CurrentLanguage.misc.youDied1 + "\n\n\n\n\n" + LanguageManager.CurrentLanguage.misc.youDied2;
-            }
-            else
-            {
-                try
-                {
-                    Text youDiedText = GetTextfromGameObject(deathScreen);
-                    youDiedText.text = LanguageManager.CurrentLanguage.misc.youDied1 + "\n\n\n\n\n" + LanguageManager.CurrentLanguage.misc.youDied2;
-                }
-                catch
-                {
-                    Logging.Warn("Failed to patch deathScreen");
-                    Logging.Warn("trying to get TextMeshProUGUI component.");
-                    GetTextMeshProUGUI(deathScreen).text = LanguageManager.CurrentLanguage.misc.youDied1 + "\n\n\n\n\n" + LanguageManager.CurrentLanguage.misc.youDied2;
-                }
-            }
-            GameObject deathSequence = FindDescendant(canvasObj, "DeathSequence", "Text (TMP)");
-            TextMeshProUGUI deathSequenceText = GetTextMeshProUGUI(deathSequence);
-            deathSequenceText.text = LanguageManager.CurrentLanguage.misc.DeathSequence;
-        }
-        catch (Exception e)
-        {
-            Logging.Error("Failed to patch death screen");
-            Logging.Error(e.ToString());
-        }
-    }
-
-
-
     public static void PatchMisc(GameObject canvasObj)
     {
         string currentLevel = GetCurrentSceneName();
