@@ -1,6 +1,8 @@
 using HarmonyLib;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
 
 using UltrakULL.json;
 
@@ -48,6 +50,39 @@ public static class LocalizeLevelStatNames
             }
         }
         __instance.levelName.text = LevelNames.GetDiscordLevelName(GetCurrentSceneName());
+    }
+
+    [HarmonyPatch(nameof(LevelStats.Start))] [HarmonyPostfix]
+    public static void LocalizeLevelStatsMiscText(LevelStats __instance)
+    {
+        var levelStatsWindow = __instance.gameObject;
+
+        FindComponent<TextMeshProUGUI>(levelStatsWindow, "Title").ApplyLayout(UILayoutKeys.LevelStatsTitle);
+
+        levelStatsWindow.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.misc.levelstats_time, 
+            path: ["Time Title"]);
+
+        levelStatsWindow.Localize<TextMeshProUGUI>(
+            GetCurrentSceneName() != "Endless" 
+            ? LanguageManager.CurrentLanguage.misc.levelstats_kills : LanguageManager.CurrentLanguage.cyberGrind.cybergrind_wave, 
+            path: ["Kills Title"]);
+        levelStatsWindow.Localize<TextMeshProUGUI>(
+            GetCurrentSceneName() != "Endless" 
+            ? LanguageManager.CurrentLanguage.misc.levelstats_style : LanguageManager.CurrentLanguage.cyberGrind.cybergrind_enemiesRemaining, 
+            path: ["Style Title"]);
+            
+        levelStatsWindow.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.misc.levelstats_secrets, 
+            path: ["Secrets Title"]);
+
+        levelStatsWindow.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.misc.levelstats_challenge, 
+            path: ["Challenge Title"]);
+        levelStatsWindow.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.misc.levelstats_majorAssists, 
+            path: ["Assists Title"]);
+
+        if (GetCurrentSceneName() == "Level 4-S")
+        {
+            levelStatsWindow.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.misc.levelstats_boxes, path: ["Crates Counter"]);
+        }
     }
 
     //@Override
