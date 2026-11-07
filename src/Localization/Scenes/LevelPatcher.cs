@@ -79,7 +79,7 @@ public static partial class LevelPatcher
         ["Intermission2"] = (null, Intermission.Act2Int),
         ["EarlyAccessEnd"] = (null, Intermission.EarlyAccessEnd),
         // ===== Special Scene =====
-        ["uk_construct"] = (null, Sandbox.Patch),
+        ["uk_construct"] = (null, SandboxLocalizer.Patch),
         ["Endless"] = (null, CyberGrind.PatchCg),
         ["CreditsMuseum2"] = (null, DevMuseum.Patch),
     };

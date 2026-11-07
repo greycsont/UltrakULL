@@ -8,7 +8,7 @@ using static UltrakULL.SceneObjects;
 
 namespace UltrakULL;
 
-public static class Sandbox
+public static class SandboxLocalizer
 {
     private static void PatchSandboxDupeMenu(GameObject canvasObj)
     {
@@ -139,11 +139,11 @@ public static class Sandbox
         TextMeshProUGUI sandboxIconsClose = GetTextMeshProUGUI(FindDescendant(sandboxShopCanvas, "Icons", "Back Button", "Text"));
         sandboxIconsClose.text = LanguageManager.CurrentLanguage.shop.shop_back;
     }
-    public static void PatchAlterMenu()
+    public static void PatchAlterMenu(GameObject altermenu)
     {
         // Sandbox enemy modifier menu
 
-        GameObject panel = FindDescendant(GetInactiveRootObject("Canvas"), "Alter Menu Wrapper", "Sandbox Alter Menu", "Spawning Menu");
+        GameObject panel = FindDescendant(altermenu, "Sandbox Alter Menu", "Spawning Menu");
 
         GameObject enemyAlterMenu = FindDescendant(panel, "Scroll View", "Viewport", "Content");
 
@@ -221,7 +221,6 @@ public static class Sandbox
         var canvas = GetObject("Canvas");
         PatchSandboxDupeMenu(canvas);
         PatchMisc(canvas);
-        PatchAlterMenu();
     }
 
 }

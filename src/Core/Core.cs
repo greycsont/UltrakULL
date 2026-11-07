@@ -69,7 +69,6 @@ public static class Core
     private static void PatchingBaseElements(GameObject canvasObj)
     {
         Logging.Message("Attempting to patch base elements");
-        try{Sandbox.PatchAlterMenu();} catch(Exception e){Logging.Error(e.ToString());}
         try{HUDMessages.PatchDeathScreen(canvasObj);} catch(Exception e){Logging.Error(e.ToString());}
         try{LevelStatWindow.PatchStats(canvasObj);} catch(Exception e){Logging.Error(e.ToString());}
         try{HUDMessages.PatchMisc(canvasObj);} catch(Exception e){Logging.Error(e.ToString());}
