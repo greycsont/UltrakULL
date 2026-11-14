@@ -28,6 +28,9 @@ public static class LocalizationExtensions
             case Text text:
                 text.text = translation.Or(text.text).ToUpperIf(uppercase);
                 break;
+            case ScrollingText scrollingText:
+                scrollingText.message = translation.Or(scrollingText.message).ToUpperIf(uppercase);
+                break;
         }
 
         return target;
