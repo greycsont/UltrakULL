@@ -106,12 +106,12 @@ public static partial class LevelPatcher
             path: ["PreActivation", "InteractiveScreenButton", "Text (TMP)"]);
         
         deathMarkBG.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.act3.act3_violenceThird_starOfTheShow,
-            path: ["PreActivation", "Text (TMP) (1)"]);
+            path: ["PostActivation", "Text (TMP) (1)"]);
 
         var feedItMessage = GetObject("Canvas", "Feed It");
         feedItMessage.Localize<TextMeshProUGUI>("<color=red>{0}</color>".FormatWith(LanguageManager.CurrentLanguage.act3.act3_violenceThird_feedIt),
             path: []);
-            
+
         feedItMessage.Localize<ScrollingText>("<color=red>{0}</color>".FormatWith(LanguageManager.CurrentLanguage.act3.act3_violenceThird_feedIt),
             path: []);
     }
