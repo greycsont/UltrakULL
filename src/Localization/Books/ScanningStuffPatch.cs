@@ -11,7 +11,7 @@ namespace UltrakULL.Harmony_Patches;
 //@Override
 //Overrides ScanBook from the ScanningStuff class, for the "scanning" panel and book translations.
 [HarmonyPatch(typeof(ScanningStuff))]
-public static class LocalizeScanningText
+public static class ScanningStuffPatch
 {
     [HarmonyPatch(nameof(ScanningStuff.ScanBook))] [HarmonyPrefix]
     public static void ScanBook_MyPatch(ref string text, ScanningStuff __instance)
