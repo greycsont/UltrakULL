@@ -51,13 +51,5 @@ public static class HUDMessages
         TextMeshProUGUI classicHudColorSpeedometer = GetTextMeshProUGUI(FindDescendant(classicHudColor, "Speedometer", "Title"));
         classicHudBwSpeedometer.text = LanguageManager.CurrentLanguage.misc.classicHud_speed;
         classicHudColorSpeedometer.text = LanguageManager.CurrentLanguage.misc.classicHud_speed;
-
-        if (currentLevel.Contains("7-3")) // Feed It Message
-        {
-            GameObject feedItMessage = FindDescendant(canvasObj, "Feed It");
-            feedItMessage.GetComponent<TextMeshProUGUI>().text = "<color=red>" + LanguageManager.CurrentLanguage.act3.act3_violenceThird_feedIt + "</color>";
-            feedItMessage.GetComponent<ScrollingText>().message = "<color=red>" + LanguageManager.CurrentLanguage.act3.act3_violenceThird_feedIt + "</color>";
-        }
-
     }
 }
