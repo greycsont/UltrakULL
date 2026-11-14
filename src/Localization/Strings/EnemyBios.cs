@@ -173,7 +173,7 @@ public static class EnemyBios
                 + "\n\n" + CurrentLanguage.enemyBios.enemyBios_idol_4,
 
 			"THE CORPSE OF KING MINOS" => CurrentLanguage.enemyBios.enemyBios_corpseOfKingMinos_1
-                + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_corpseOfKingMinos_2
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_corpseOfKingMinos_2
                 + "\n\n" + CurrentLanguage.enemyBios.enemyBios_corpseOfKingMinos_3
                 + "\n\n" + CurrentLanguage.enemyBios.enemyBios_corpseOfKingMinos_4,
 			
@@ -323,8 +323,8 @@ public static class EnemyBios
                 + "\n\n" + CurrentLanguage.enemyBios.enemyBios_sisyphusPrime_8,
 		
             "PROVIDENCE" => CurrentLanguage.enemyBios.enemyBios_providence_1
-                + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_providence_2
-                + "\n\n\n" + CurrentLanguage.enemyBios.enemyBios_providence_3,
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_providence_2
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_providence_3,
 		
             "POWER" => CurrentLanguage.enemyBios.enemyBios_power_1
                 + "\n\n" + CurrentLanguage.enemyBios.enemyBios_power_2
@@ -400,7 +400,7 @@ public static class EnemyBios
 
 			"SWORDSMACHINE" => CurrentLanguage.enemyBios.enemyBios_swordsmachine_strategy1
                 + "\n\n" + CurrentLanguage.enemyBios.enemyBios_swordsmachine_strategy2
-                + "\n\n\n- " + CurrentLanguage.enemyBios.enemyBios_swordsmachine_strategy3,
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_swordsmachine_strategy3,
 
 			"DRONE" => CurrentLanguage.enemyBios.enemyBios_drone_strategy1
                 + "\n\n" + CurrentLanguage.enemyBios.enemyBios_drone_strategy2
@@ -491,7 +491,7 @@ public static class EnemyBios
 
 			"GERYON" => CurrentLanguage.enemyBios.enemyBios_geryon_strategy1
                 + "\n\n" + CurrentLanguage.enemyBios.enemyBios_geryon_strategy2
-                + "\n\n\n- " + CurrentLanguage.enemyBios.enemyBios_geryon_strategy3,
+                + "\n\n" + CurrentLanguage.enemyBios.enemyBios_geryon_strategy3,
 
 			"MIRROR REAPER" => CurrentLanguage.enemyBios.enemyBios_mirrorReaper_strategy1
                 + "\n\n" + CurrentLanguage.enemyBios.enemyBios_mirrorReaper_strategy2
