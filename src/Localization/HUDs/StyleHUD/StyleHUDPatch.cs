@@ -10,7 +10,7 @@ namespace UltrakULL.Harmony_Patches;
 
 [NeedDebugMode]
 [HarmonyPatch(typeof(StyleHUD))]
-public static class LocalizeStyleHud
+public static class StyleHudPatch
 {
     [HarmonyPatch(nameof(StyleHUD.GetLocalizedName))] [HarmonyPrefix]
     public static bool GetLocalizedName_MyPatch(string id, StyleHUD __instance, Dictionary<string, string> ___idNameDict, ref string __result)
