@@ -13,11 +13,6 @@ public static class HUDMessages
     public static void PatchMisc(GameObject canvasObj)
     {
         string currentLevel = GetCurrentSceneName();
-        GameObject player = GameObject.Find("Player");
-        GameObject styleMeter = FindDescendant(player, "Main Camera", "HUD Camera", "HUD", "StyleCanvas", "Panel (1)", "Panel", "Text (1)", "Text");
-        TextMeshProUGUI styleMeterMultiplierText = GetTextMeshProUGUI(styleMeter);
-        styleMeterMultiplierText.text = LanguageManager.CurrentLanguage.style.stylemeter_multiplier;
-
         //Classic HUD
         GameObject classicHudBw = FindDescendant(canvasObj, "Crosshair Filler", "AltHud", "Filler");
         GameObject classicHudColor = FindDescendant(canvasObj, "Crosshair Filler", "AltHud (2)", "Filler");
