@@ -82,18 +82,20 @@ public static partial class LevelPatcher
         bombMechControl.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.act3.act3_violenceSecond_payloadControlTitle,
             path: ["Text (TMP)"]);
         
-        bombMechControl.Localize<TextMeshProUGUI>("{0}<size=12>\n{1}".FormatWith(
-                LanguageManager.CurrentLanguage.act3.act3_violenceSecond_payloadControlError1, 
-                LanguageManager.CurrentLanguage.act3.act3_violenceSecond_payloadControlError2),
-            path: ["UsableButtons", "Error"]);
-        
         bombMechControl.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.act3.act3_violenceSecond_payloadControlHell,
             path: ["Done"]);
         
+        // This bs will localize the error text into `lower` too
         foreach (var tmp in FindDescendant(bombMechControl, "UsableButtons").GetComponentsInChildren<TextMeshProUGUI>(true))
         {
             tmp.Localize(LanguageManager.CurrentLanguage.act3.act3_violenceSecond_payloadControlLower);
         }
+
+        // So we just override that mf
+        bombMechControl.Localize<TextMeshProUGUI>("{0}<size=12>\n{1}".FormatWith(
+            LanguageManager.CurrentLanguage.act3.act3_violenceSecond_payloadControlError1, 
+            LanguageManager.CurrentLanguage.act3.act3_violenceSecond_payloadControlError2),
+            path: ["UsableButtons", "Error"]);
     }
 
     private static void PatchLevel7_3()
