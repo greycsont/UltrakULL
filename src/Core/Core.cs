@@ -69,7 +69,6 @@ public static class Core
     private static void PatchingBaseElements(GameObject canvasObj)
     {
         Logging.Message("Attempting to patch base elements");
-        try{HUDMessages.PatchMisc(canvasObj);} catch(Exception e){Logging.Error(e.ToString());}
         try{Options.Patch(canvasObj);} catch(Exception e){Logging.Error(e.ToString());}
 
         Logging.Message("Base elements patched");
