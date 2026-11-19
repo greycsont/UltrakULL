@@ -1,6 +1,5 @@
 using HarmonyLib;
 using System;
-using SettingsMenu.Components;
 using UnityEngine;
 using TMPro;
 using UltrakULL.json;
@@ -11,57 +10,30 @@ namespace UltrakULL.Harmony_Patches;
 [HarmonyPatch(typeof(SettingsMenu.Components.SettingsPageBuilder))]
 public static class SettingsPageBuilderPatch
 {
-    [HarmonyPatch("BuildPage"), HarmonyPostfix]
-    public static void BuildPagePostfix(SettingsPageBuilder __instance) 
+    [HarmonyPatch(nameof(SettingsMenu.Components.SettingsPageBuilder.BuildPage)), HarmonyPostfix]
+    public static void BuildPagePostfix(SettingsMenu.Components.SettingsPageBuilder __instance) 
     {
+        if (LanguageManager.IsEnglish)
+            return;
+
         try
         {
-            Logging.Debug("Patching Option menu...");
-            GameObject optionsObject = __instance.gameObject;
-            switch (__instance.name.ToUpper())
+            Logging.Debug($"Patching Page: {__instance.name}");
+            var pageObj = __instance.gameObject;
+
+            Action<GameObject> action = __instance.name.ToUpper() switch
             {
-                case "GENERAL":
-                {
-                    Logging.Debug("GENERAL");
-                    Options.PatchGeneralOptions(optionsObject);
-                    break;
-                }
-                case "CONTROLS":
-                {
-                    Logging.Debug("CONTROLS");
-                    Options.PatchControlOptions(optionsObject);
-                    break;
-                }
-                case "GRAPHICS":
-                {
-                    Logging.Debug("GRAPHICS");
-                    Options.PatchGraphicsOptions(optionsObject);
-                    break;
-                }
-                case "AUDIO":
-                {
-                    Logging.Debug("AUDIO");
-                    Options.PatchAudioOptions(optionsObject);
-                    break;
-                }
-                case "ASSIST":
-                {
-                    Logging.Debug("ASSIST");
-                    Options.PatchAssistOptions(optionsObject);
-                    break;
-                }
-                case "HUD":
-                {
-                    Logging.Debug("HUD");
-                    Options.PatchHUDOptions(optionsObject);
-                    break;
-                }
-                default:
-                {
-                    Logging.Warn("Unknown Option page name: " + __instance.name);
-                    break;
-                }
-            }
+                "GENERAL" => Options.PatchGeneralOptions,
+                "CONTROLS" => Options.PatchControlOptions,
+                "GRAPHICS" => Options.PatchGraphicsOptions,
+                "AUDIO" => Options.PatchAudioOptions,
+                "ASSIST" => Options.PatchAssistOptions,
+                "HUD" => Options.PatchHUDOptions,
+                _ => null,
+            };
+
+            action?.Invoke(pageObj);
+
         }
         catch (Exception e)
         {
