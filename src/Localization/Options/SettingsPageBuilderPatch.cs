@@ -9,10 +9,10 @@ namespace UltrakULL.Harmony_Patches;
 
 
 [HarmonyPatch(typeof(SettingsMenu.Components.SettingsPageBuilder))]
-public static class OptionsPatch
+public static class SettingsPageBuilderPatch
 {
     [HarmonyPatch("BuildPage"), HarmonyPostfix]
-    public static void OptionsSetSelectedPostfix(SettingsPageBuilder __instance) 
+    public static void BuildPagePostfix(SettingsPageBuilder __instance) 
     {
         try
         {
