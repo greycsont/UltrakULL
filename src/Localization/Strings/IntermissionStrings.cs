@@ -141,7 +141,7 @@ class IntermissionStrings
         + LanguageManager.CurrentLanguage.intermission.act2_intermission_fourth8 + " \n\n"
 
         + LanguageManager.CurrentLanguage.intermission.act2_intermission_fourth9 + " ▼" + LanguageManager.CurrentLanguage.intermission.act2_intermission_fourth10 + " ▼"
-        + LanguageManager.CurrentLanguage.intermission.act2_intermission_fourth11 + LanguageManager.CurrentLanguage.intermission.act2_intermission_fourth12 + " ▼\n\n"
+        + LanguageManager.CurrentLanguage.intermission.act2_intermission_fourth11 + " ▼" + LanguageManager.CurrentLanguage.intermission.act2_intermission_fourth12 + " ▼\n\n"
 
         + LanguageManager.CurrentLanguage.intermission.act2_intermission_fourth13 + " ▼";
 
