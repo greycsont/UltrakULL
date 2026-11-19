@@ -42,7 +42,6 @@ public static class Core
                 }
 
                 MainMenu.Patch(canvasObj);
-                Options.Patch(canvasObj);
 
                 break;
             }
@@ -58,20 +57,9 @@ public static class Core
                 
                 Logging.Message("Regular scene");
 
-                PatchingBaseElements(canvasObj);
-
                 LevelPatcher.Patch(levelName, canvasObj);
                 break;
             }
         }
     }
-
-    private static void PatchingBaseElements(GameObject canvasObj)
-    {
-        Logging.Message("Attempting to patch base elements");
-        try{Options.Patch(canvasObj);} catch(Exception e){Logging.Error(e.ToString());}
-
-        Logging.Message("Base elements patched");
-    }
-
 }
