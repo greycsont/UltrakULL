@@ -22,7 +22,7 @@ public static class FishLeaderboardPatch
     /// I really seen this in vibe coded mods a lot
     ///   and it's like the second time I'm using it
     /// </summary>
-    /// <returns>The method of MoveNext</returns>
+    /// <returns>MoveNext</returns>
     private static MethodBase TargetMethod()
     {
         var stateMachine = typeof(FishLeaderboard)
