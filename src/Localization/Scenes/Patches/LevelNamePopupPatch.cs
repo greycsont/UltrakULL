@@ -9,10 +9,10 @@ namespace UltrakULL.Harmony_Patches;
 //@Override
 //Overrides the NameAppear function from LevelNamePopup. Used for showing layer and level names at the start of a level.
 [HarmonyPatch(typeof(LevelNamePopup))]
-public static class LocalizeLevelPopup
+public static class LevelNamePopupPatch
 {
     [HarmonyPatch(nameof(LevelNamePopup.NameAppear))] [HarmonyPrefix]
-    public static void NameAppear_MyPatch(LevelNamePopup __instance)
+    public static void NameAppearPrefix(LevelNamePopup __instance)
     {
         if(LanguageManager.IsEnglish)
         {
