@@ -17,15 +17,14 @@ public static class ScanningStuffPatch
     public static void ScanBook_MyPatch(ref string text, ScanningStuff __instance)
     {
         if(LanguageManager.IsEnglish)
-        {
             return;
-        }
+
         __instance.scanningPanel.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.books.books_scanning, path: ["Text"]);
         text = Books.GetBookText(text).Or(text);
 
         //Close prompt when reading book
         var bookPanelBinds = FindComponent<TextBinds>(__instance.gameObject, "ReadingScanned", "Panel", "Text (1)");
-        bookPanelBinds.text1 = LanguageManager.CurrentLanguage.books.books_pressToClose1 + " <color=orange>";
-        bookPanelBinds.text2 = "</color> " + LanguageManager.CurrentLanguage.books.books_pressToClose2;
+        bookPanelBinds.text1 = LanguageManager.CurrentLanguage.books.books_pressToClose1 + "<color=orange>";
+        bookPanelBinds.text2 = "</color>" + LanguageManager.CurrentLanguage.books.books_pressToClose2;
     }
 }
