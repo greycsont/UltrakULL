@@ -5256,6 +5256,11 @@ public class Secret
     public string secretLevels_fifth_testament11;
     [DefaultValue("DEEP, OH SO DEEP")]
     public string secretLevels_fifth_testament12;
+    
+    [DefaultValue("GLOBAL")]
+    public string secretLevels_fifth_leaderboard_global;
+    [DefaultValue("FRIEND")]
+    public string secretLevels_fifth_leaderboard_friend;
 
     [DefaultValue("TESTAMENT V")]
     public string secretLevels_seventh_testamentTitle;
