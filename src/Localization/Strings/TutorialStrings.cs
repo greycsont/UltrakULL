@@ -49,10 +49,11 @@ class TutorialStrings
     // β - Recalibration yes (automatically shows keyboard or controller button depending on what the player is using)
     // δ - Recalibration no (automatically shows keyboard or controller button depending on what the player is using)
 
-    public void PatchCalibrationWindows(GameObject canvasObj)
+    public void PatchCalibrationWindows()
     {
         try
         {
+            var canvasObj = GetObject("Canvas");
             GameObject calibrationIntro = FindDescendant(canvasObj, "Intro");
             GameObject calibrationAudioWindow = FindDescendant(calibrationIntro, "Audio Calibration");
             GameObject calibrationAudioWindowWarning = FindDescendant(calibrationAudioWindow, "Warning");
@@ -261,7 +262,7 @@ class TutorialStrings
         }
     }
 
-    public TutorialStrings(GameObject canvasObj)
+    public TutorialStrings()
     {
         this.IntroFirstPage =
             LanguageManager.CurrentLanguage.tutorial.tutorial_introStartup1 + "#" + LanguageManager.CurrentLanguage.tutorial.tutorial_introStartup2 + "½ \n\n"
@@ -294,7 +295,7 @@ class TutorialStrings
             + "*" + LanguageManager.CurrentLanguage.tutorial.tutorial_introRed2 + "_½½\n"
             + "*" + LanguageManager.CurrentLanguage.tutorial.tutorial_introRed3 + "_½½&";
 
-        PatchCalibrationWindows(canvasObj);
+        PatchCalibrationWindows();
 
     }
 }

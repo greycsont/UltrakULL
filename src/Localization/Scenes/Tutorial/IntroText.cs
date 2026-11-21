@@ -29,10 +29,9 @@ public static class LocalizeIntroText
         {
             return true;
         }
-        GameObject canvasObj = GetInactiveRootObject("Canvas");
         ___txt = __instance.GetComponent<TMP_Text>();
 
-        TutorialStrings tutStrings = new TutorialStrings(canvasObj);
+        TutorialStrings tutStrings = new TutorialStrings();
         ___fullString = ___txt.text;
 
         if (___fullString[0] == 'B') { ___fullString = tutStrings.IntroFirstPage; }
