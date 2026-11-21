@@ -312,6 +312,7 @@ internal static class StaticBatchAtlasSwapper
                 var state = new AtlasState(entry.Texture, pixels);
                 atlases[entry.Texture] = state;
                 found.Add(state);
+
                 Logging.Message(
                     $"Runtime atlas candidate: material " +
                     $"'{material.name}', {entry.Property}, texture '{entry.Texture.name}' " +
@@ -430,7 +431,7 @@ internal static class StaticBatchAtlasSwapper
     {
         foreach (FeaturePoint feature in features) {
             Color32 candidate = source[(y + feature.Y) * sourceWidth + x + feature.X];
-            if (!feature.Color.Equals(candidate))
+            if (!PixelsMatch(feature.Color, candidate))
                 return false;
         }
         return true;
@@ -443,7 +444,7 @@ internal static class StaticBatchAtlasSwapper
             for (int tx = 0; tx < template.Width; tx++) {
                 Color32 expected = template.Pixels[ty * template.Width + tx];
                 Color32 candidate = source[(y + ty) * sourceWidth + x + tx];
-                if (!expected.Equals(candidate))
+                if (!PixelsMatch(expected, candidate))
                     return false;
             }
         }
@@ -502,4 +503,12 @@ internal static class StaticBatchAtlasSwapper
         if (diagnostics.Add(key))
             Logging.Warn(message, true);
     }
+
+    private const int tolerance = 8;
+    private static bool PixelsMatch(Color32 a, Color32 b) =>
+        Math.Abs(a.r - b.r) <= tolerance
+        && Math.Abs(a.g - b.g) <= tolerance
+        && Math.Abs(a.b - b.b) <= tolerance
+        && Math.Abs(a.a - b.a) <= tolerance;
+
 }
