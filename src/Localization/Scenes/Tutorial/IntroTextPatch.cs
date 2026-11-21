@@ -15,15 +15,16 @@ namespace UltrakULL.Harmony_Patches;
 //@Override
 //Overrides the Start function from IntroText. This is needed for patched text to appear on the tutorial.
 [HarmonyPatch(typeof(IntroText))]
-public static class LocalizeIntroText
+public static class IntroTextPatch
 {
     public static MethodInfo LocalizeCalibrationStatusTextMethodInfo = AccessTools.Method(
-        typeof(LocalizeIntroText),
-        nameof(LocalizeIntroText.LocalizeCalibrationStatusText)
+        typeof(IntroTextPatch),
+        nameof(IntroTextPatch.LocalizeCalibrationStatusText)
     );
 
     [HarmonyPatch(nameof(IntroText.Start))] [HarmonyPrefix]
-    public static bool IntroTextStart_MyPatch(IntroText __instance, TMP_Text ___txt, string ___fullString)
+    public static bool IntroTextStart
+    _MyPatch(IntroText __instance, TMP_Text ___txt, string ___fullString)
     {
         if (LanguageManager.IsEnglish)
         {
