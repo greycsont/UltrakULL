@@ -201,17 +201,17 @@ public class MainPatch : BaseUnityPlugin
 	{
 		if (!this.ready || LanguageManager.CurrentLanguage == null)
 		{
+			
 			Logging.Error("UltrakULL has been deactivated to prevent crashing. Check the console for any errors!");
 			return;
 		}
 
 		if (clearObjectCaches)
-			ClearObjectCaches(scene, mode);
+			ClearObjectCaches();
 
-		FontManager.RefreshFallback();                 
-		GameObject canvasObj = GetInactiveRootObject("Canvas");
+		FontManager.RefreshFallback();
 		AngrySceneTracker.ReadCurrentScene();
-		Core.LocalizeScene(canvasObj, sceneEntry);
+		Core.LocalizeScene(sceneEntry);
 		AudioSwapper.OnSceneLoaded(GetCurrentSceneName());
 
 		RunDeferred(scene.handle);

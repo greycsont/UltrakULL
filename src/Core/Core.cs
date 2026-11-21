@@ -14,7 +14,7 @@ public static class Core
     /// True when the scene was freshly loaded. Scene-entry-only tweaks
     /// (like AdjustOptionTextPosition) must not re-run when language change
     /// </param>
-    public static void LocalizeScene(GameObject canvasObj, bool sceneEntry)
+    public static void LocalizeScene(bool sceneEntry)
     {
         string levelName = GetCurrentSceneName();
 
@@ -22,12 +22,6 @@ public static class Core
         if(levelName == "Intro" || levelName == "Bootstrap")
         { 
             //Logging.Warn("In intro, not hooking yet");
-            return;
-        }
-        
-        if (!canvasObj)
-        {
-            Logging.Fatal("UNABLE TO FIND CANVAS IN CURRENT SCENE");
             return;
         }
 
@@ -41,7 +35,7 @@ public static class Core
                     MonoSingleton<HudMessageReceiver>.Instance?.SendHudMessage("<color=orange>The currently set language file could not be loaded.\nLanguage has been reset to English to avoid problems.</color>");
                 }
 
-                MainMenu.Patch(canvasObj);
+                MainMenu.Patch();
 
                 break;
             }
@@ -57,7 +51,7 @@ public static class Core
                 
                 Logging.Message("Regular scene");
 
-                LevelPatcher.Patch(levelName, canvasObj);
+                LevelPatcher.Patch(levelName);
                 break;
             }
         }

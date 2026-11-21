@@ -11,7 +11,7 @@ public static class SceneObjects
 {
     private static readonly Dictionary<(GameObject, string), GameObject> ChildCache = new();
 
-    public static void ClearObjectCaches(Scene scene, LoadSceneMode mode)
+    public static void ClearObjectCaches()
     {
         ChildCache.Clear();
     }

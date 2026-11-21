@@ -84,7 +84,7 @@ public static partial class LevelPatcher
         ["CreditsMuseum2"] = (null, DevMuseum.Patch),
     };
 
-    public static void Patch(string sceneName, GameObject canvasObj)
+    public static void Patch(string sceneName)
     {
         string challenge = LevelStrings.GetLevelChallenge(sceneName);
         bool isSecret = LevelStrings.IsSecretLevel(sceneName);

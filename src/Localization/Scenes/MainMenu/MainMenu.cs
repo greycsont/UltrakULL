@@ -551,8 +551,9 @@ public static class MainMenu
 			path: ["Main Menu (1)", "BackgroundSwapper", "Text (TMP)", "V1Text", "Text (TMP) (4)"]);
 	}
 
-	public static void Patch(GameObject frontEnd)
+	public static void Patch()
 	{
+		var frontEnd = GetObject("Canvas");
 		// currently it's only used in this class, will implement it to other class in future
 		SafeRun.Run("MainMenu: Main Menu", () => PatchMainMenu(frontEnd));
 		SafeRun.Run("MainMenu: V1 text", () => PatchTextArroundV1(frontEnd));
