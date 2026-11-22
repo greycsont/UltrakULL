@@ -49,6 +49,15 @@ public static class LocalizationExtensions
     public static T Localize<T>(this GameObject parent, string translation, string[] path, bool uppercase = false, bool saveToCache = true) where T : Component
         => SceneObjects.FindComponent<T>(parent, path).Localize(translation, uppercase);
 
+    public static T Localize<T>(this GameObject parent, Action<T> method, string[] path, bool uppercase = false, bool saveToCache = true) where T : Component
+    {
+        var component = SceneObjects.FindComponent<T>(parent, path);
+        if (component != null)
+            method(component);
+
+        return component;
+    }
+
     public static string Or(this string translation, string original)
         => StringHelper.IsEmpty(translation) ? original : Penis(original, translation);
 
