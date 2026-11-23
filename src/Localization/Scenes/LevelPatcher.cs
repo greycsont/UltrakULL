@@ -14,6 +14,7 @@ public static partial class LevelPatcher
     private static readonly Dictionary<string, (Action hellmap, Action patch)> Scenes = new()
     {
         // ===== Prelude =====
+        ["Tutorial"] = (null, PatchTutorial),
         ["Level 0-1"] = (null, PatchLevel0_1),
         ["Level 0-2"] = (null, null),
         ["Level 0-3"] = (null, null),

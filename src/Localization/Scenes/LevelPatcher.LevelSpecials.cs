@@ -11,7 +11,6 @@ namespace UltrakULL;
 public static partial class LevelPatcher
 {
     // ===== Level-specific patches =====
-
     private static void PatchLevel0_1()
     {
         var hurtScreen = GetObject("Canvas", "HurtScreen");

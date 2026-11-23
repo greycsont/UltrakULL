@@ -23,9 +23,9 @@ public static class IntroTextPatch
     );
 
     [HarmonyPatch(nameof(IntroText.Start))] [HarmonyPrefix]
-    public static bool IntroTextStart
-    _MyPatch(IntroText __instance, TMP_Text ___txt, string ___fullString)
+    public static void IntroTextStart_MyPatch(IntroText __instance, TMP_Text ___txt, string ___fullString)
     {
+        /*
         if (LanguageManager.IsEnglish)
         {
             return true;
@@ -40,6 +40,7 @@ public static class IntroTextPatch
         ___txt.text = ___fullString;
 
         return true;
+        */
     }
 
     [HarmonyPatch(nameof(IntroText.TextAppear), MethodType.Enumerator)] [HarmonyTranspiler]
