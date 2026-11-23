@@ -4607,6 +4607,14 @@ public class Tutorial
     public string tutorial_introCalibration1;
     [DefaultValue("RECENTLY UPDATED")]
     public string tutorial_introCalibration2;
+    #region these three field are for the first time
+    [DefaultValue("EXPIRED")]
+    public string tutorial_introCalibrationExpired;
+    [DefaultValue("NEW CALIBRATION REQUIRED")]
+    public string tutorial_introCalibrationNewCalibrationRequired;
+    [DefaultValue("BEGINNING CALIBRATION")]
+    public string tutorial_introCalibrationBeginningCalibration;
+    #endregion
     [DefaultValue("PERFORM RECALIBRATION?")]
     public string tutorial_recalibrationPrompt;
     [DefaultValue("AUDIO")]
