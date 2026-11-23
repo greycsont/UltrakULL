@@ -13,7 +13,7 @@ using static UltrakULL.SceneObjects;
 namespace UltrakULL.Harmony_Patches;
 
 //@Override
-//Overrides the Start function from IntroText. This is needed for patched text to appear on the tutorial.
+//This only patches the ERROR and OK in the intro.
 [HarmonyPatch(typeof(IntroText))]
 public static class IntroTextPatch
 {
@@ -21,27 +21,6 @@ public static class IntroTextPatch
         typeof(IntroTextPatch),
         nameof(IntroTextPatch.LocalizeCalibrationStatusText)
     );
-
-    [HarmonyPatch(nameof(IntroText.Start))] [HarmonyPrefix]
-    public static void IntroTextStart_MyPatch(IntroText __instance, TMP_Text ___txt, string ___fullString)
-    {
-        /*
-        if (LanguageManager.IsEnglish)
-        {
-            return true;
-        }
-        ___txt = __instance.GetComponent<TMP_Text>();
-
-        TutorialStrings tutStrings = new TutorialStrings();
-        ___fullString = ___txt.text;
-
-        if (___fullString[0] == 'B') { ___fullString = tutStrings.IntroFirstPage; }
-        else { ___fullString = tutStrings.IntroSecondPage; }
-        ___txt.text = ___fullString;
-
-        return true;
-        */
-    }
 
     [HarmonyPatch(nameof(IntroText.TextAppear), MethodType.Enumerator)] [HarmonyTranspiler]
     public static IEnumerable<CodeInstruction> TextAppearTranspiler(IEnumerable<CodeInstruction> instructions)
