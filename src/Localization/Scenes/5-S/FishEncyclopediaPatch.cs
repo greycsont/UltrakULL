@@ -1,4 +1,5 @@
 using HarmonyLib;
+using TMPro;
 using UltrakULL.json;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,6 +10,16 @@ namespace UltrakULL;
 [HarmonyPatch(typeof(FishEncyclopedia))]
 public class FishEncyclopediaPatch
 {
+    [HarmonyPatch(nameof(FishEncyclopedia.Start))] [HarmonyPostfix]
+    public static void StartPostfix(FishEncyclopedia __instance)
+    {
+        if (LanguageManager.IsEnglish)
+            return;
+
+        __instance.gameObject.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.shop.shop_back,
+            path: ["Canvas", "Background", "Main Window", "Fish Info", "Window", "Back Button", "Text"]);
+    }
+
     [HarmonyPatch(nameof(FishEncyclopedia.SelectFish))] [HarmonyPrefix]
     public static bool SelectFish_Prefix(ref FishObject fish, FishEncyclopedia __instance)
     {
