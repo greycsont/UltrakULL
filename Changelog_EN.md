@@ -15,12 +15,13 @@ Addition:
 
 
 Behaviour change:
-- Change the linebreak in EnemyBios.Discription into two lines
+- Changed the linebreak in EnemyBios.Discription into two lines
 - Add extra width to tmp in cybergrind terminal panel's title 
 - Remove word wrap of difficulty title --DIFFICULTY-- to prevent some language may have extreme long to this
 - Remove extra space of book's close prompt
 - Remove the dep of the hard coded canvas so it's compatible with some custom levels with it's own canvas now
 - Remove the IntroText's text replacement from IntroText patch to Tutorial's own patch so it's compatible with the UT meta custom level?
+- Changed the guid and internal name of the mod
 
 Angry:
 - add bundleStatus.invalidLink
