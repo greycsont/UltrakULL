@@ -1,3 +1,31 @@
+## 1.4.1
+修复：
+- 修复了关于自制敌人的终端信息页面的部分兼容问题
+- 修复了字体致谢在社区cg地图致谢之后的问题
+- 修复了 5-S 的某个终端的返回按钮没有翻译的问题
+- 修复了在 intermission2 (6-2) 的 `fourth11` 和 `fourth12` 之间少个停顿的问题
+
+新增字段：
+- 新增了 `shop.shop_returnToMissionReturn`
+- 新增了 `sandbox.sandbox_shop_close`
+- 新增了 `sandbox.sandbox_shop_loading`
+- 新增了 `secretLevels_fifth_leaderboard_global` 和 `secretLevels_fifth_leaderboard_friend` 用于翻译 5-S 的钓鱼排行榜的类别标题
+- 新增了 `tutorial_introCalibrationExpired`, `tutorial_introCalibrationNewCalibrationRequired` and `tutorial_introCalibrationBeginningCalibration` 用于第一次进入教程时的
+
+行为修改：
+- EnemyBios.Description 两个描述间的空行从三行变成了两行
+- 给电子血宫终端的面板标题多加了一点狂赌
+- 移除了难度标题 --DIFFICULTY-- 的自动换行因为真的出现了写了一大朵导致换行的问题
+- 移除了书本面板关闭提示中的多余空格
+- 移除了所有对硬编码 Canvas 的依赖，所以现在应该会更好的兼容那些有自己 Canvas 还命名成 Canvas 的自制地图（
+- 移除了 IntroText 的文本替换并移到了教程关自己的补丁，应该和那个 UT 自制地图兼容了吧...应该吧
+- 修改了 mod 的 guid 和名称
+
+AngryLevelLoader 相关：
+- 添加了 bundleStatus.invalidLink
+- 添加了 levelUpdateNotification.latestVersion/currentVersion/pastVersion and dateformat 用于翻译关卡的更新日志，dateformat 需要是 MM/dd/yyyy 或者 yyyy/MM/dd 之类的格式
+- 添加了 deleteBundleNotification 用于删除 level bundle 的通知面板（
+
 ## 1.4.0
 - 修复了 MANADEL LEHAHIAN 和 CHAUKIAH 的字幕没有翻译的问题
 - 修复了 Gabriel 二战的 taunt13 没有翻译的问题
