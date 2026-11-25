@@ -4,6 +4,7 @@ Fix:
 - Fixed the font credits are placed in front of community cg pattern instead of after it
 - Fixed the 5-S's fish terminal's back button are not localized
 - Fixed a missing pause in intermission2 (6-2) between `fourth11` and `fourth12`
+- Fixed certain texture will not replace by compression during static batching
 
 Addition:
 - Add shop.shop_returnToMissionReturn
