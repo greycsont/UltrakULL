@@ -6,12 +6,12 @@ Fix:
 - Fixed a missing pause in intermission2 (6-2) between `fourth11` and `fourth12`
 - Fixed certain texture will not replace by compression during static batching
 
-Addition:
-- Add shop.shop_returnToMissionReturn
-- Add sandbox.sandbox_shop_close
-- Add sandbox_shop_loading
-- Add secretLevels_fifth_leaderboard_global and secretLevels_fifth_leaderboard_friend for localizing the fish leaderboards category title
-- Add `tutorial_introCalibrationExpired`, `tutorial_introCalibrationNewCalibrationRequired` and `tutorial_introCalibrationBeginningCalibration`
+New field:
+- Add `shop.shop_returnToMissionReturn`
+- Add `sandbox.sandbox_shop_close`
+- Add `sandbox.sandbox_shop_loading`
+- Add `secretLevels.secretLevels_fifth_leaderboard_global` and `secretLevels.secretLevels_fifth_leaderboard_friend` for localizing the fish leaderboards category title
+- Add `tutorial.tutorial_introCalibrationExpired`, `tutorial.tutorial_introCalibrationNewCalibrationRequired` and `tutorial.tutorial_introCalibrationBeginningCalibration` for entering the tutorial first time
 
 
 Behaviour change:
