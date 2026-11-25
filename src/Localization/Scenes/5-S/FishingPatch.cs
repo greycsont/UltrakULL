@@ -10,7 +10,7 @@ using static UltrakULL.SceneObjects;
 namespace UltrakULL.Harmony_Patches;
 
 [HarmonyPatch(typeof(FishingHUD))]
-public class FishingHUDPatch
+public static class FishingHUDPatch
 {
     [HarmonyPatch(nameof(FishingHUD.ShowHUD))] [HarmonyPostfix]
     public static void FishingHUDPatch_Postfix(FishingHUD __instance)
@@ -64,31 +64,35 @@ public class FishingHUDPatch
     }
 }
 
-[HarmonyPatch(typeof(FishingRodWeapon),"Update")]
-public class DisplayWaterType
+[HarmonyPatch(typeof(FishingRodWeapon))]
+public static class DisplayWaterType
 {
-    [HarmonyPostfix]
-    public static void DisplayWaterType_Postfix(ref FishingRodWeapon __instance, ref FishingRodTarget ___targetingCircle, ref FishDB ___currentFishPool, float ___selectedPower)
+    [HarmonyPatch(nameof(FishingRodWeapon.Update))] [HarmonyPostfix]
+    public static void DisplayWaterType_Postfix(FishingRodWeapon __instance)
     {
         if(LanguageManager.IsEnglish)
-        {
             return;
-        }
-        if(___currentFishPool != null)
+
+        if(__instance.currentFishPool != null)
         {
-            switch(___currentFishPool.fullName)
+            var fishing = LanguageManager.CurrentLanguage.fishing;
+
+            var waterName = __instance.currentFishPool.fullName switch
             {
-                case "The Ocean": {___targetingCircle.waterNameText.text = LanguageManager.CurrentLanguage.fishing.fish_ocean; break;}
-                case "Cave Pool": {___targetingCircle.waterNameText.text  = LanguageManager.CurrentLanguage.fishing.fish_cavePool; break;}
-                case "Stream": {___targetingCircle.waterNameText.text  = LanguageManager.CurrentLanguage.fishing.fish_stream; break;}
-                case "Lake Waters": {___targetingCircle.waterNameText.text  = LanguageManager.CurrentLanguage.fishing.fish_lake; break;}
-                case "Lower Bloods": {___targetingCircle.waterNameText.text = LanguageManager.CurrentLanguage.fishing.fish_lakeBloodLower; break;}
-                case "Lake of Blood": {___targetingCircle.waterNameText.text  = LanguageManager.CurrentLanguage.fishing.fish_lakeBlood; break;}
-                case "Water Well": {___targetingCircle.waterNameText.text  = LanguageManager.CurrentLanguage.fishing.fish_waterWell; break;}
-                case "Pan Oil": {___targetingCircle.waterNameText.text  = LanguageManager.CurrentLanguage.fishing.fish_panOil; break;}
-                case "Holy Lake": {___targetingCircle.waterNameText.text  = LanguageManager.CurrentLanguage.fishing.fish_lakeHoly; break;}
-                case "Deeper Lake Waters": {___targetingCircle.waterNameText.text  = LanguageManager.CurrentLanguage.fishing.fish_lakeDeep; break;}
-            }
+                "The Ocean" => fishing.fish_ocean,
+                "Cave Pool" => fishing.fish_cavePool,
+                "Stream" => fishing.fish_stream,
+                "Lake Waters" => fishing.fish_lake,
+                "Lower Bloods" => fishing.fish_lakeBloodLower,
+                "Lake of Blood" => fishing.fish_lakeBlood,
+                "Water Well" => fishing.fish_waterWell,
+                "Pan Oil" => fishing.fish_panOil,
+                "Holy Lake" => fishing.fish_lakeHoly,
+                "Deeper Lake Waters" => fishing.fish_lakeDeep,
+                _ => null,
+            };
+
+            __instance.targetingCircle.waterNameText.Localize(waterName);
         }
         
     }
