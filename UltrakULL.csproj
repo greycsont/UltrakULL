@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <ULTRAKILLPath Condition="'$(ULTRAKILLPath)' == ''">E:\SteamLibrary\steamapps\common\ULTRAKILL</ULTRAKILLPath>
@@ -53,8 +53,8 @@
     <Reference Include="$(ManagedDir)\Unity.*.dll" />
     <Reference Include="$(ManagedDir)\plog.dll" />
 
-    <Reference Include="AngryLevelLoader.AssetBundleProvider">
-      <HintPath>./libs/AngryLevelLoader/AngryLevelLoader.AssetBundleProvider.dll</HintPath>
+    <Reference Include="AngryLevelLoader.AssetBundleProviders">
+      <HintPath>./libs/AngryLevelLoader/AngryLevelLoader.AssetBundleProviders.dll</HintPath>
     </Reference>
 
     <Reference Include="AngryLevelLoader">
@@ -77,7 +77,7 @@
     </Reference>
 
     <publicize Include="AngryLevelLoader" />
-    <publicize Include="AngryLevelLoader.AssetBundleProvider" />
+    <publicize Include="AngryLevelLoader.AssetBundleProviders" />
     <publicize Include="AngryUiComponents" />
     <publicize Include="RudeLevelScripts.Essentials" />
 
