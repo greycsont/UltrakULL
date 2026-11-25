@@ -6,13 +6,13 @@ using UltrakULL.json;
 namespace UltrakULL.Harmony_Patches;
 
 [HarmonyPatch(typeof(Coin))]
-public static class LocalizeCoin
+public static class CoinPatch
 {
     [HarmonyPatch(nameof(Coin.RicoshotPointsCheck))] [HarmonyTranspiler]
-    public static IEnumerable<CodeInstruction> RicoshotPointsCheck_Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
+    public static IEnumerable<CodeInstruction> RicoshotPointsCheckTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
     {
         var localizeRicoshotText = AccessTools.Method(
-            typeof(LocalizeCoin),
+            typeof(CoinPatch),
             nameof(LocalizeRicoshotText));
 
         return new CodeMatcher(instructions, generator)
@@ -39,10 +39,10 @@ public static class LocalizeCoin
         var result = text switch
         {
             "<color=orange>ULTRA</color>" =>
-                $"<color=orange>{LanguageManager.CurrentLanguage.style.style_ricoshotUltra}</color>",
+                "<color=orange>{0}</color>".FormatWith(LanguageManager.CurrentLanguage.style.style_ricoshotUltra),
             "<color=red>COUNTER</color>" =>
-                $"<color=red>{LanguageManager.CurrentLanguage.style.style_ricoshotCounter}</color>",
-            _ => text
+                "<color=red>{0}</color>".FormatWith(LanguageManager.CurrentLanguage.style.style_ricoshotCounter),
+            _ => null
         };
 
         return result.Or(text);
