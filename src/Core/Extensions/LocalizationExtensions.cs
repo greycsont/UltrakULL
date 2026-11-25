@@ -95,6 +95,14 @@ public static class LocalizationExtensions
         return videoPlayer;
     }
 
+    public static string WithColor(this string input, string color)
+    {
+        if (string.IsNullOrEmpty(input) || string.IsNullOrEmpty(color))
+            return null;
+
+        return "<color={0}>{1}</color>".FormatWith(color, input);
+    }
+
     /// <summary>
     /// Formats a template; empty/tag-only template or parts return null, FormatException is swallowed.
     /// </summary>
