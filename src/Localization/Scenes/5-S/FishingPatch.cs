@@ -1,4 +1,5 @@
 using HarmonyLib;
+using TMPro;
 using UltrakULL.json;
 using UnityEngine;
 using UnityEngine.Animations;
@@ -9,101 +10,56 @@ using static UltrakULL.SceneObjects;
 namespace UltrakULL.Harmony_Patches;
 
 [HarmonyPatch(typeof(FishingHUD))]
-public class LocalizeFishingHUD
+public class FishingHUDPatch
 {
     [HarmonyPatch(nameof(FishingHUD.ShowHUD))] [HarmonyPostfix]
-    public static void FishingHUDPatch_Postfix(ref GameObject ___outOfWaterMessage, ref GameObject ___hookedContainer)
+    public static void FishingHUDPatch_Postfix(FishingHUD __instance)
     {
-        if(!LanguageManager.IsEnglish)
-        {
-            Text outOfWaterText = GetTextfromGameObject(FindDescendant(___outOfWaterMessage,"Text"));
-            outOfWaterText.text = LanguageManager.CurrentLanguage.fishing.fish_outOfWater;
-        
-            Text hookedText = GetTextfromGameObject(FindDescendant(___hookedContainer,"Text"));
-            hookedText.text = LanguageManager.CurrentLanguage.fishing.fish_rodHooked;
-        }
-        
+        if (LanguageManager.IsEnglish)
+            return;
+
+        __instance.outOfWaterMessage.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.fishing.fish_outOfWater,
+            path: ["Text"]);
+
+        __instance.hookedContainer.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.fishing.fish_rodHooked,
+            path: ["Text"]);
     }
 
     [HarmonyPatch(nameof(FishingHUD.ShowFishCaught))] [HarmonyPostfix]
-    public static void ShowFish_Postfix(ref Text ___fishCaughtText,ref GameObject ___fishSizeContainer,bool show = true, FishObject fish = null)
+    public static void ShowFish_Postfix(ref bool show, ref FishObject fish, FishingHUD __instance)
     {
         if(LanguageManager.IsEnglish)
-        {
             return;
-        }
-        if(show && fish != null)
+
+        if (show && fish != null)
         {
-            string fishName = fish.fishName;
-            switch (fish.fishName)
-            { 
-                case "Funny Stupid Fish (Friend)":
-                {
-                    fishName = LanguageManager.CurrentLanguage.fishing.fish_funnyStupidFish;
-                    break;
-                }
-                case "PITR Fish":
-                {
-                    fishName = LanguageManager.CurrentLanguage.fishing.fish_pitrFish;
-                    break;
-                }
-                case "Trout":
-                {
-                    fishName = LanguageManager.CurrentLanguage.fishing.fish_trout;
-                    break;
-                }
-                case "Metal Fish":
-                {
-                    fishName = LanguageManager.CurrentLanguage.fishing.fish_amidEvilFish;
-                    break;
-                }
-                case "Chomper":
-                {
-                    fishName = LanguageManager.CurrentLanguage.fishing.fish_chomper;
-                    break;
-                }
-                case "Bomb Fish":
-                {
-                    fishName = LanguageManager.CurrentLanguage.fishing.fish_bombFish;
-                    break;
-                }
-                case "Eyeball":
-                {
-                    fishName = LanguageManager.CurrentLanguage.fishing.fish_gibeye;
-                    break;
-                }
-                case "Frog (?)":
-                {
-                    fishName = LanguageManager.CurrentLanguage.fishing.fish_ironLungFish;
-                    break;
-                }
-                case "Dope Fish":
-                {
-                    fishName = LanguageManager.CurrentLanguage.fishing.fish_dopeFish;
-                    break;
-                }
-                case "Stickfish":
-                {
-                    fishName = LanguageManager.CurrentLanguage.fishing.fish_stickFish;
-                    break;
-                }
-                case "Cooked Fish":
-                {
-                    fishName = LanguageManager.CurrentLanguage.fishing.fish_cookedFish;
-                    break;
-                }
-                case "Shark":
-                {
-                    fishName = LanguageManager.CurrentLanguage.fishing.fish_shark;
-                    break;
-                }
-            }
-            ___fishCaughtText.text = "<size=56>" + LanguageManager.CurrentLanguage.fishing.fish_fishCaught + "</size> <color=orange><size=80>" + fishName + "</size></color>";
-            ___fishCaughtText.resizeTextForBestFit = true;
-            
-            Text fishSizeText = GetTextfromGameObject(___fishSizeContainer);
-            fishSizeText.text = LanguageManager.CurrentLanguage.fishing.fish_size;
-            fishSizeText.resizeTextForBestFit = true;
+            var fishing = LanguageManager.CurrentLanguage.fishing;
+
+            var fishName = fish.fishName switch
+            {
+                "Funny Stupid Fish (Friend)" => fishing.fish_funnyStupidFish,
+                "PITR Fish" => fishing.fish_pitrFish,
+                "Trout" => fishing.fish_trout,
+                "Metal Fish" => fishing.fish_amidEvilFish,
+                "Chomper" => fishing.fish_chomper,
+                "Bomb Fish" => fishing.fish_bombFish,
+                "Eyeball" => fishing.fish_gibeye,
+                "Frog (?)" => fishing.fish_ironLungFish,
+                "Dope Fish" => fishing.fish_dopeFish,
+                "Stickfish" => fishing.fish_stickFish,
+                "Cooked Fish" => fishing.fish_cookedFish,
+                "Shark" => fishing.fish_shark,
+                _ => fish.fishName,
+            };
+
+            __instance.fishCaughtText.Localize("<size=56>{0}</size> <color=orange><size=80>{1}</size></color>".FormatWith(fishing.fish_fishCaught, fishName))
+                .resizeTextForBestFit = true;
+
+            // Even though this should put in Start or whatever to indicate this does not change during gameplay
+            //   but let us just keep this bs in here.
+            __instance.fishSizeContainer.Localize<Text>(fishing.fish_size,
+                path: [])
+                .resizeTextForBestFit = true;
         }
     }
 }
