@@ -6,7 +6,6 @@ Fix:
 - Fixed a missing pause in intermission2 (6-2) between `fourth11` and `fourth12`
 
 Addition:
-- Add ability to export the template though command `ultrakull gene basegame`
 - Add shop.shop_returnToMissionReturn
 - Add sandbox.sandbox_shop_close
 - Add sandbox_shop_loading
