@@ -12,7 +12,7 @@
 - 新增了 `secretLevels_fifth_leaderboard_global` 和 `secretLevels_fifth_leaderboard_friend` 用于翻译 5-S 的钓鱼排行榜的类别标题
 - 新增了 `tutorial_introCalibrationExpired`, `tutorial_introCalibrationNewCalibrationRequired` and `tutorial_introCalibrationBeginningCalibration` 用于第一次进入教程时的
 
-行为修改：
+修改：
 - EnemyBios.Description 两个描述间的空行从三行变成了两行
 - 给电子血宫终端的面板标题多加了一点狂赌
 - 移除了难度标题 --DIFFICULTY-- 的自动换行因为真的出现了写了一大朵导致换行的问题
@@ -20,6 +20,7 @@
 - 移除了所有对硬编码 Canvas 的依赖，所以现在应该会更好的兼容那些有自己 Canvas 还命名成 Canvas 的自制地图（
 - 移除了 IntroText 的文本替换并移到了教程关自己的补丁，应该和那个 UT 自制地图兼容了吧...应该吧
 - 修改了 mod 的 guid 和名称
+- 现在字体切换等如果当前语言的字体没有加载就不运行
 
 AngryLevelLoader 相关：
 - 添加了 bundleStatus.invalidLink

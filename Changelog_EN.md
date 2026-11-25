@@ -21,6 +21,7 @@ Behaviour change:
 - Remove the dep of the hard coded canvas so it's compatible with some custom levels with it's own canvas now
 - Remove the IntroText's text replacement from IntroText patch to Tutorial's own patch so it's compatible with the UT meta custom level?
 - Changed the guid and internal name of the mod
+- The font swap etc. will not running if the font of the lang are not loaded
 
 Angry:
 - add bundleStatus.invalidLink
