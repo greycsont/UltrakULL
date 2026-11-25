@@ -13,7 +13,6 @@ New field:
 - Add `secretLevels.secretLevels_fifth_leaderboard_global` and `secretLevels.secretLevels_fifth_leaderboard_friend` for localizing the fish leaderboards category title
 - Add `tutorial.tutorial_introCalibrationExpired`, `tutorial.tutorial_introCalibrationNewCalibrationRequired` and `tutorial.tutorial_introCalibrationBeginningCalibration` for entering the tutorial first time
 
-
 Behaviour change:
 - Changed the linebreak in EnemyBios.Discription into two lines
 - Add extra width to tmp in cybergrind terminal panel's title 
