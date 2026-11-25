@@ -137,6 +137,7 @@ public class Notifications
     public ScriptUpdateNotification scriptUpdateNotification = new();
     public LevelUpdateNotification levelUpdateNotification = new();
     public DeleteBundleNotification deleteBundleNotification = new();
+    public LeaderboardNotification leaderboardNotification = new();
 }
 
 public class ScriptUpdateNotification
@@ -189,6 +190,16 @@ public class DeleteBundleNotification
 
     [JsonProperty("deletingBundle")]
     public string b_deletingBundle; // "Deleting bundle..."
+}
+
+public class LeaderboardNotification
+{
+    public string header;
+
+    public string back;
+
+    public string page;
+    public string category;
 }
 
 public class LevelPanel
