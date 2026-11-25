@@ -64,7 +64,7 @@ public class MainPatch : BaseUnityPlugin
 {
 	private const string Guid = "com.greycsont.ultrakull-apodidae-remix";
 	private const string InternalName = "UltrakULL (Apodidae Remix)";
-	internal const string InternalVersion = "1.5.1";
+	internal const string InternalVersion = "1.4.1";
 
 	public static Dictionary<string, string> OptionModuleNames = new()
 	{
