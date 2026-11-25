@@ -18,10 +18,10 @@ public static class FishingHUDPatch
         if (LanguageManager.IsEnglish)
             return;
 
-        __instance.outOfWaterMessage.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.fishing.fish_outOfWater,
+        __instance.outOfWaterMessage.Localize<Text>(LanguageManager.CurrentLanguage.fishing.fish_outOfWater,
             path: ["Text"]);
 
-        __instance.hookedContainer.Localize<TextMeshProUGUI>(LanguageManager.CurrentLanguage.fishing.fish_rodHooked,
+        __instance.hookedContainer.Localize<Text>(LanguageManager.CurrentLanguage.fishing.fish_rodHooked,
             path: ["Text"]);
     }
 
