@@ -62,9 +62,9 @@ namespace UltrakULL;
 [BepInDependency(DependencyGuid.ANGRY_LEVEL_LOADER, BepInDependency.DependencyFlags.SoftDependency)]
 public class MainPatch : BaseUnityPlugin
 {
-	private const string Guid = "clearwater.ultrakill.ultrakull";
-	private const string InternalName = "clearwater.ultrakull.ultrakULL";
-	internal const string InternalVersion = "1.3.0";
+	private const string Guid = "com.greycsont.ultrakull-apodidae-remix";
+	private const string InternalName = "UltrakULL (Apodidae Remix)";
+	internal const string InternalVersion = "1.5.1";
 
 	public static Dictionary<string, string> OptionModuleNames = new()
 	{
